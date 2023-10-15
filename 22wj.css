@@ -460,7 +460,6 @@ font-size: calc(12px + .25vw);
 }
 @media (max-width: 600px) {
 	.verticallogo{
-		display: none;
 	}
 	 .overlay {
     position: absolute;
@@ -474,6 +473,7 @@ font-size: calc(12px + .25vw);
     width: 90vw;
     height: 35vh;
     display: flex;
+    flex-direction: column;
   }
 	.overlaytext{
 		width: 95%;
