@@ -465,6 +465,10 @@ font-size: calc(12px + .25vw);
 	.overlaytext{
 		width: 95%;
 	}
+	.carousel-image{
+		max-width: 250%;
+		height: 100%;
+	}
 
 	}
 
