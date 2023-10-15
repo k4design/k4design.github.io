@@ -458,6 +458,17 @@ font-size: calc(12px + .25vw);
 	width: 15%;
 }
 }
+@media (max-width: 800px) {
+	.verticallogo{
+		display: none;
+	}
+	.overlaytext{
+		width: 95%;
+	}
+
+	}
+
+	/* CHIME OVERRIDES */
 .mg-container {
 	width: 100vw !important;
 }
