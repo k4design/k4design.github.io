@@ -488,11 +488,10 @@ font-size: calc(12px + .25vw);
 	.verticallogo{
 		background-image: url("http://www.kyleforeman.design/22wj/22wj_logo_vertical.png");
 	  background-size: contain;
-	  background-position: center;
+	  background-position: left;
 	  background-repeat: no-repeat;
 	  width: 100%;
-	  margin: 2vh 2vw;
-	  height: 22vh;
+	  height: 15vh;
 	}
 
 	}
