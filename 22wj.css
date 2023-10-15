@@ -458,7 +458,7 @@ font-size: calc(12px + .25vw);
 	width: 15%;
 }
 }
-@media (max-width: 800px) {
+@media (max-width: 1000px) {
 	.verticallogo{
 		display: none;
 	}
