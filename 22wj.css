@@ -517,8 +517,15 @@ img {vertical-align: middle;}
 			border-radius: 10px;
 			margin-bottom: 2vh;
 		}
+		.accordion:active{
+			width: 100%;
+			margin: 0;
+		}
 		.r7 h2 {
 			font-size: calc(2rem + 1.5vw);
+		}
+		.panel{
+			width: 100%;
 		}
 	}
 
