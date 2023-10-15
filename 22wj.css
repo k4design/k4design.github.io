@@ -462,6 +462,19 @@ font-size: calc(12px + .25vw);
 	.verticallogo{
 		display: none;
 	}
+	 .overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    width: 90vw;
+    height: 35vh;
+    display: flex;
+  }
 	.overlaytext{
 		width: 95%;
 	}
