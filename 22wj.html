@@ -6,56 +6,56 @@
 	<title>Seven Div Rows</title>
 	<link rel="stylesheet" type="text/css" href="https://k4design.github.io/22wj.css">
 	<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Alata&family=Montserrat:wght@200&family=Open+Sans:wght@300;700&display=swap" rel="stylesheet">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Alata&family=Montserrat:wght@200&family=Open+Sans:wght@300;700&display=swap" rel="stylesheet">
 
 
 </head>
 <body>
 	<div class="row">
 		<div class="carousel-container">
-    <div class="carousel">
-      <div class="slide">
-        <img class="carousel-image" src="https://k4design.github.io/exterior2.jpg" alt="Image 1">
-        <div class="overlay">
-        	<div class="verticallogo">
-        		
-        	</div>
-        	<div class="overlaytext">
-        		<h3>A Serene Oasis in the Heart of the City</h3>
-					<p>Step outside to our tranquil retreat in the heart of the city. The back of our building offers a peaceful escape where you can unwind, surrounded by nature's beauty. </p>
-        	</div>
-        	
-        </div>
-      </div>
-      <div class="slide">
-        <img class="carousel-image" src="https://k4design.github.io/external.jpg" alt="Image 2">
-        <div class="overlay">
-        	<div class="verticallogo">
-        		
-        	</div>
-        	<div class="overlaytext">
-        		<h3>Luxury Awaits at Your Doorstep</h3>
-					<p>Elegance begins at the entrance. Step into a world of sophistication and style as you arrive at our stunning building. An architectural masterpiece, this is where your luxury journey commences.</p>
-        	</div>
-        	
-        </div>
-      </div>
-      <div class="slide">
-        <img class="carousel-image" src="https://k4design.github.io/interior.jpg" alt="Image 3">
-        <div class="overlay">
-        	<div class="verticallogo">
-        		
-        	</div>
-        	<div class="overlaytext">
-        		<h3>Indulge in Refined Interiors</h3>
-					<p>Every detail, every finish, every corner is meticulously crafted for your comfort and pleasure. Inside, discover a world of opulence that redefines luxury living.</p>
-        	</div>
-        	
-        </div>
-    </div>
-  </div>
+			<div class="carousel">
+				<div class="slide">
+					<img class="carousel-image" src="https://k4design.github.io/exterior2.jpg" alt="Image 1">
+					<div class="overlay">
+						<div class="verticallogo">
+							
+						</div>
+						<div class="overlaytext">
+							<h3>A Serene Oasis in the Heart of the City</h3>
+							<p>Step outside to our tranquil retreat in the heart of the city. The back of our building offers a peaceful escape where you can unwind, surrounded by nature's beauty. </p>
+						</div>
+						
+					</div>
+				</div>
+				<div class="slide">
+					<img class="carousel-image" src="https://k4design.github.io/external.jpg" alt="Image 2">
+					<div class="overlay">
+						<div class="verticallogo">
+							
+						</div>
+						<div class="overlaytext">
+							<h3>Luxury Awaits at Your Doorstep</h3>
+							<p>Elegance begins at the entrance. Step into a world of sophistication and style as you arrive at our stunning building. An architectural masterpiece, this is where your luxury journey commences.</p>
+						</div>
+						
+					</div>
+				</div>
+				<div class="slide">
+					<img class="carousel-image" src="https://k4design.github.io/interior.jpg" alt="Image 3">
+					<div class="overlay">
+						<div class="verticallogo">
+							
+						</div>
+						<div class="overlaytext">
+							<h3>Indulge in Refined Interiors</h3>
+							<p>Every detail, every finish, every corner is meticulously crafted for your comfort and pleasure. Inside, discover a world of opulence that redefines luxury living.</p>
+						</div>
+						
+					</div>
+				</div>
+			</div>
 
 
 
@@ -233,68 +233,68 @@
 		</div>
 	</div>
 	<script>
-let slideIndex = [1,1];
-let slideId = ["mySlides1", "mySlides2"]
-showSlides(1, 0);
-showSlides(1, 1);
+		let slideIndex = [1,1];
+		let slideId = ["mySlides1", "mySlides2"]
+		showSlides(1, 0);
+		showSlides(1, 1);
 
-function plusSlides(n, no) {
-  showSlides(slideIndex[no] += n, no);
-}
+		function plusSlides(n, no) {
+			showSlides(slideIndex[no] += n, no);
+		}
 
-function showSlides(n, no) {
-  let i;
-  let x = document.getElementsByClassName(slideId[no]);
-  if (n > x.length) {slideIndex[no] = 1}    
-  if (n < 1) {slideIndex[no] = x.length}
-  for (i = 0; i < x.length; i++) {
-     x[i].style.display = "none";  
-  }
-  x[slideIndex[no]-1].style.display = "block";  
-}
-</script>
+		function showSlides(n, no) {
+			let i;
+			let x = document.getElementsByClassName(slideId[no]);
+			if (n > x.length) {slideIndex[no] = 1}    
+				if (n < 1) {slideIndex[no] = x.length}
+					for (i = 0; i < x.length; i++) {
+						x[i].style.display = "none";  
+					}
+					x[slideIndex[no]-1].style.display = "block";  
+				}
+			</script>
 
-<script>
-var acc = document.getElementsByClassName("accordion");
-var i;
+			<script>
+				var acc = document.getElementsByClassName("accordion");
+				var i;
 
-for (i = 0; i < acc.length; i++) {
-  acc[i].addEventListener("click", function() {
-    this.classList.toggle("active");
-    var panel = this.nextElementSibling;
-    if (panel.style.display === "block") {
-      panel.style.display = "none";
-    } else {
-      panel.style.display = "block";
-    }
-  });
-}
-</script>
-<script type="text/javascript">
-	const carousel = document.querySelector('.carousel');
-const slides = Array.from(document.querySelectorAll('.slide'));
+				for (i = 0; i < acc.length; i++) {
+					acc[i].addEventListener("click", function() {
+						this.classList.toggle("active");
+						var panel = this.nextElementSibling;
+						if (panel.style.display === "block") {
+							panel.style.display = "none";
+						} else {
+							panel.style.display = "block";
+						}
+					});
+				}
+			</script>
+			<script type="text/javascript">
+				const carousel = document.querySelector('.carousel');
+				const slides = Array.from(document.querySelectorAll('.slide'));
 const interval = 4000; // 2 seconds
 
 let currentIndex = 0;
 
 function updateCarousel() {
-  carousel.style.transform = `translateX(-${currentIndex * 100}%)`;
+	carousel.style.transform = `translateX(-${currentIndex * 100}%)`;
 }
 
 function nextSlide() {
-  currentIndex = (currentIndex + 1) % slides.length;
-  updateCarousel();
+	currentIndex = (currentIndex + 1) % slides.length;
+	updateCarousel();
 }
 
 function startCarousel() {
-  nextSlide();
-  setTimeout(startCarousel, interval);
+	nextSlide();
+	setTimeout(startCarousel, interval);
 }
 
 startCarousel();
 
 </script>
 
-		</body>
+</body>
 
-		</html>
+</html>
