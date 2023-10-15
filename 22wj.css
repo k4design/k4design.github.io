@@ -30,9 +30,9 @@ body {
 .left-6{
 	width: 40%;
 	background-image: url('https://cdn.chime.me/image/fs/cmsbuild/2023814/12/original_a6f771f8-7c9a-44fa-8fcf-c82bcbcbba38.png');
-    background-size: cover;
-    background-position: center;
-    height: 120vh;
+	background-size: cover;
+	background-position: center;
+	height: 120vh;
 }
 
 .right-2, .right-3, .right-4, .right-5{
@@ -73,7 +73,7 @@ body {
 	padding: 5vh 5vw;
 }
 .r7 h2 {
-  font-size: calc(12px + 1.5vw);
+	font-size: calc(12px + 1.5vw);
 }
 .right-7{
 	padding: 0 5vw;
@@ -216,7 +216,7 @@ body {
 	color: #000;
 	font-family: montserrat;
 	font-size: calc(12px + .25vw);
-line-height: 1.5;
+	line-height: 1.5;
 	width: 90%;
 	margin-bottom: 2vh;
 } 
@@ -227,38 +227,38 @@ img {vertical-align: middle;}
 
 /* Slideshow container */
 .slideshow-container {
-  max-width: 1000px;
-  position: relative;
-  margin: auto;
+	max-width: 1000px;
+	position: relative;
+	margin: auto;
 }
 
 /* Next & previous buttons */
 .prev, .next {
-  cursor: pointer;
-  position: absolute;
-  top: 50%;
-  width: auto;
-  padding: 16px;
-  margin-top: -22px;
-  color: #000;
-  font-weight: bold;
-  font-size: 18px;
-  transition: 0.6s ease;
-  border-radius: 0 3px 3px 0;
-  user-select: none;
-  z-index: 1000;
+	cursor: pointer;
+	position: absolute;
+	top: 50%;
+	width: auto;
+	padding: 16px;
+	margin-top: -22px;
+	color: #000;
+	font-weight: bold;
+	font-size: 18px;
+	transition: 0.6s ease;
+	border-radius: 0 3px 3px 0;
+	user-select: none;
+	z-index: 1000;
 }
 
 /* Position the "next button" to the right */
 .next {
-  right: 0;
-  border-radius: 3px 0 0 3px;
+	right: 0;
+	border-radius: 3px 0 0 3px;
 }
 
 /* On hover, add a grey background color */
 .prev:hover, .next:hover {
-  background-color: #f1f1f1;
-  color: black;
+	background-color: #f1f1f1;
+	color: black;
 }
 .area-detail{
 	display: flex;
@@ -282,51 +282,51 @@ img {vertical-align: middle;}
 }
 
 .carousel-container {
-  width: 100%;
-  overflow: hidden;
-  border-bottom: 2vh solid #FF7355;
-  height: 65vh;
-  display: flex;
+	width: 100%;
+	overflow: hidden;
+	border-bottom: 2vh solid #FF7355;
+	height: 65vh;
+	display: flex;
 }
 
 .carousel {
-  display: flex;
-  transition: transform 0.5s ease-in-out;
+	display: flex;
+	transition: transform 0.5s ease-in-out;
 }
 
 .slide {
-  position: relative;
-  flex: 0 0 100%;
+	position: relative;
+	flex: 0 0 100%;
 }
 
 .carousel-image {
-  max-width: 100%;
-  height: auto;
+	max-width: 100%;
+	height: auto;
 }
 
 .overlay {
-    position: absolute;
-  top: 50%;
-  left: 65%;
-  transform: translate(-50%, -50%);
-  background-color: rgba(0, 0, 0, 0.55);
-  color: white;
-  padding: 10px 20px;
-  border-radius: 5px;
-  width: 70vw;
-height: 35vh;
-display: flex;
+	position: absolute;
+	top: 50%;
+	left: 65%;
+	transform: translate(-50%, -50%);
+	background-color: rgba(0, 0, 0, 0.55);
+	color: white;
+	padding: 10px 20px;
+	border-radius: 5px;
+	width: 70vw;
+	height: 35vh;
+	display: flex;
 }
 .overlay img{;
 	width: 40%;
-  margin: 2vh 0;
-  height: auto;
+	margin: 2vh 0;
+	height: auto;
 }
 .overlaytext{
 	width: 50%;
-display: flex;
-flex-direction: column;
-justify-content: center;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
 }
 .overlaytext h3{
 	margin: 0;
@@ -334,8 +334,8 @@ justify-content: center;
 }
 .overlaytext p{
 	line-height: 1.75;
-font-family: montserrat;
-font-size: calc(12px + .25vw);
+	font-family: montserrat;
+	font-size: calc(12px + .25vw);
 }
 .verticallogo{
 	background-image: url("http://www.kyleforeman.design/22wj/22wj_logo_vertical.png");
@@ -347,186 +347,182 @@ font-size: calc(12px + .25vw);
 }
 @media (max-width: 1200px) {
 	.overlay{
-	position: absolute;
-  top: 50%;
-  left: 55%;
-  transform: translate(-50%, -50%);
-  background-color: rgba(0, 0, 0, 0.7);
-  color: white;
-  padding: 10px 20px;
-  border-radius: 5px;
-  width: 95vw;
-  height: 35vh;
-  display: flex;}
+		position: absolute;
+		top: 50%;
+		left: 55%;
+		transform: translate(-50%, -50%);
+		background-color: rgba(0, 0, 0, 0.7);
+		color: white;
+		padding: 10px 20px;
+		border-radius: 5px;
+		width: 95vw;
+		height: 35vh;
+		display: flex;}
 	}
-@media (max-width: 1079px) {
+	@media (max-width: 1079px) {
 
-	.row {
-		flex-direction: column;
-		align-items: flex-start;
+		.row {
+			flex-direction: column;
+			align-items: flex-start;
+		}
+		.right-2, .right-3, .right-4, .right-5, .right-7 {
+			padding: 0 5vw;
+		}
+		.left-2 {
+			padding: 5vh 0 0 5vw;
+		}
+		.left-2 h3{
+			font-size: calc(4vw + 4vh + 2vmin);
+		}
+		.left-2 h2 {
+			font-size: calc(12px + 6vw);
+		}
+		.right-d1 p {
+			width: auto;
+			font-size: calc(12px + 1.25vw);
+		}
+		.right-d2{
+			flex-direction: column;
+		}
+		.right-box-2 p {
+			padding: 0;
+			margin: 0;
+			font-size: calc(12px + 4.3vw);
+			color: #293C5B;
+			font-family: montserrat;
+			font-size: ;
+		}
+		.right-box-2 span {
+			font-family: Alata;
+			font-size: calc(12px + 25vw);
+			padding-right: .5vw;
+			color: #FF7355;
+		}
+		.left-3 {
+			order: 2;
+		}
+		.right-3 h2 {
+			font-size: calc(12px + 5.5vw);
+			font-weight: 400;
+			margin: 0;
+		}
+		.right-3 h3 {
+			font-size: calc(12px + 3vw);
+			margin: 0 0 2vh 0;
+			color: #FF7355;
+		}
+		.right-3 p {
+			font-weight: 400;
+			font-family: montserrat;
+			font-size: calc(12px + 2vw);
+			line-height: 1.5;
+			width: auto;
+		}
+		.right-5 h2 {
+			font-size: calc(12px + 9.5vw);
+			line-height: .75;
+			font-family: Alata;
+			font-weight: 400;
+		}
+		.right-5 span {
+			font-size: calc(12px + 4vw);
+			font-family: montserrat;
+		}
+		.right-5 p {
+			width: auto;
+		}
+		.right-6 {
+			width: 100vw;
+		}
+		.left-6 {
+			width: 100vw;
+			background-image: url('https://cdn.chime.me/image/fs/cmsbuild/2023814/12/original_a6f771f8-7c9a-44fa-8fcf-c82bcbcbba38.png');
+			background-size: cover;
+			background-position: top;
+			height: 50vh;
+		}
+		.area-detail{
+			width: 100vw;
+		}
+		.detail {
+			width: 80%;
+		}
+		.area-detail p {
+			width: auto;
+			margin-left: 5%;
+			font-family: montserrat;
+			line-height: 1.5;
+			font-weight: 400;
+		}
+		.area-detail img {
+			width: 100%;
+		}
+		.detail-image {
+			width: 15%;
+		}
 	}
-	.right-2, .right-3, .right-4, .right-5, .right-7 {
-		padding: 0 5vw;
-	}
-	.left-2 {
-	  padding: 5vh 0 0 5vw;
-	}
-	.left-2 h3{
-		font-size: calc(4vw + 4vh + 2vmin);
-	}
-	.left-2 h2 {
-		font-size: calc(12px + 6vw);
-	}
-	.right-d1 p {
-	  width: auto;
-	  font-size: calc(12px + 1.25vw);
-	}
-	.right-d2{
-		flex-direction: column;
-	}
-	.right-box-2 p {
-	  padding: 0;
-	  margin: 0;
-	  font-size: calc(12px + 4.3vw);
-	  color: #293C5B;
-	  font-family: montserrat;
-	  font-size: ;
-	}
-	.right-box-2 span {
-	  font-family: Alata;
-	  font-size: calc(12px + 25vw);
-	  padding-right: .5vw;
-	  color: #FF7355;
-	}
-	.left-3 {
-		order: 2;
-	}
-	.right-3 h2 {
-  font-size: calc(12px + 5.5vw);
-  font-weight: 400;
-  margin: 0;
-}
-.right-3 h3 {
-  font-size: calc(12px + 3vw);
-  margin: 0 0 2vh 0;
-  color: #FF7355;
-}
-.right-3 p {
-  font-weight: 400;
-  font-family: montserrat;
-  font-size: calc(12px + 2vw);
-  line-height: 1.5;
-  width: auto;
-}
-.right-5 h2 {
-  font-size: calc(12px + 9.5vw);
-  line-height: .75;
-  font-family: Alata;
-  font-weight: 400;
-}
-.right-5 span {
-  font-size: calc(12px + 4vw);
-  font-family: montserrat;
-}
-.right-5 p {
-	width: auto;
-}
-.right-6 {
-	width: 100vw;
-}
-.left-6 {
-  width: 100vw;
-  background-image: url('https://cdn.chime.me/image/fs/cmsbuild/2023814/12/original_a6f771f8-7c9a-44fa-8fcf-c82bcbcbba38.png');
-  background-size: cover;
-  background-position: top;
-  height: 50vh;
-}
-.area-detail{
-	width: 100vw;
-}
-.detail {
-  width: 80%;
-}
-.area-detail p {
-  width: auto;
-  margin-left: 5%;
-  font-family: montserrat;
-  line-height: 1.5;
-  font-weight: 400;
-}
-.area-detail img {
-  width: 100%;
-}
-.detail-image {
-	width: 15%;
-}
-}
-@media (max-width: 600px) {
-	 .overlay {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: rgba(0, 0, 0, 0.55;
-    color: white;
-    padding: 10px 20px;
-    border-radius: 5px;
-    width: 90vw;
-    height: auto;
-    display: flex;
-    flex-direction: column;
-    padding: 5%;
-  }
-	.overlaytext{
-		width: 95%;
-	}
-	.carousel-image{
-		max-width: 250%;
-		height: 100%;
-	}
-	.overlaytext h3 {
-  	margin: 0;
-  	font-size: calc(2rem + 1vw);
-	}
-	.verticallogo{
-		background-image: url("http://www.kyleforeman.design/22wj/22wj_logo_vertical.png");
-	  background-size: contain;
-	  background-position: left;
-	  background-repeat: no-repeat;
-	  width: 100%;
-	  height: 15vh;
-	}
-	.area-detail h3 {
-  font-size: 10vw;
-  margin: 0 0 0 4vw;
-  line-height: 1;
-  font-weight: lighter;
-}
-.accordion {
-  color: #293C5B;
-  cursor: pointer;
-  padding: 2vh 2vw;
-  width: 100%;
-  text-align: left;
-  transition: 0.4s;
-  color: #000;
-  font-family: Alata;
-  font-size: calc(1.25rem + .5vw);
-  font-weight: lighter;
-  background-color: #fff;
-  border-radius: 10px;
-  margin-bottom: 2vh;
-}
-.accordion:active{
-	width: 100%;
-}
-.r7 h2 {
-  font-size: calc(2rem + 1.5vw);
-}
+	@media (max-width: 600px) {
+		.overlay {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			background-color: rgba(0, 0, 0, 0.55;
+				color: white;
+				padding: 10px 20px;
+				border-radius: 5px;
+				width: 90vw;
+				height: auto;
+				display: flex;
+				flex-direction: column;
+				padding: 5%;
+			}
+			.overlaytext{
+				width: 95%;
+			}
+			.carousel-image{
+				max-width: 250%;
+				height: 100%;
+			}
+			.overlaytext h3 {
+				margin: 0;
+				font-size: calc(2rem + 1vw);
+			}
+			.verticallogo{
+				background-image: url("http://www.kyleforeman.design/22wj/22wj_logo_vertical.png");
+				background-size: contain;
+				background-position: left;
+				background-repeat: no-repeat;
+				width: 100%;
+				height: 15vh;
+			}
+			.area-detail h3 {
+				font-size: 10vw;
+				margin: 0 0 0 4vw;
+				line-height: 1;
+				font-weight: lighter;
+			}
+			.accordion {
+				color: #293C5B;
+				cursor: pointer;
+				padding: 2vh 2vw;
+				width: 100%;
+				text-align: left;
+				transition: 0.4s;
+				color: #000;
+				font-family: Alata;
+				font-size: calc(1.25rem + .5vw);
+				font-weight: lighter;
+				background-color: #fff;
+				border-radius: 10px;
+				margin-bottom: 2vh;
+			}
+			.r7 h2 {
+				font-size: calc(2rem + 1.5vw);
+			}
+		}
 
-	}
-
-	/* CHIME OVERRIDES */
-.mg-container {
-	width: 100vw !important;
-}
+		/* CHIME OVERRIDES */
+		.mg-container {
+			width: 100vw !important;
+		}
