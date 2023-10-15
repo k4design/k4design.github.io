@@ -499,6 +499,27 @@ font-size: calc(12px + .25vw);
   line-height: 1;
   font-weight: lighter;
 }
+.accordion {
+  color: #293C5B;
+  cursor: pointer;
+  padding: 2vh 2vw;
+  width: 100%;
+  text-align: left;
+  transition: 0.4s;
+  color: #000;
+  font-family: Alata;
+  font-size: calc(1.25rem + .5vw);
+  font-weight: lighter;
+  background-color: #fff;
+  border-radius: 10px;
+  margin-bottom: 2vh;
+}
+.accordion:active{
+	width: 100%;
+}
+.r7 h2 {
+  font-size: calc(2rem + 1.5vw);
+}
 
 	}
 
