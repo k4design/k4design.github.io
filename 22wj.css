@@ -444,6 +444,6 @@ font-size: calc(12px + .25vw);
 	width: 15%;
 }
 }
-..mg-container {
+.mg-container {
 	width: 100vw;
 }
