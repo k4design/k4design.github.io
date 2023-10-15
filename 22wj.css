@@ -445,5 +445,5 @@ font-size: calc(12px + .25vw);
 }
 }
 .mg-container {
-	width: 100vw;
+	width: 100vw !important;
 }
