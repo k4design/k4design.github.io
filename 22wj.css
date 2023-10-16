@@ -93,6 +93,8 @@ h3{
 .r5{
 	background-color: #293C5B;
 	color: #fff;
+	background-image: url('https://k4design.github.io/blue.png');
+  background-size: cover;
 }
 .right-3{
 	padding: 5vh 5vw;
