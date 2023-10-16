@@ -457,7 +457,8 @@ img {vertical-align: middle;}
 			height: 50vh;
 		}
 		.area-detail{
-			width: 90vw;
+			width: 40vw;
+			overflow: hidden;
 		}
 		.detail {
 			width: 80%;
