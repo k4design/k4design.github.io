@@ -274,7 +274,7 @@ img {vertical-align: middle;}
 	overflow: hidden;
 }
 .icon {
-	width: 170%
+	width: 5vw;
 }
 
 .area-detail h3{
@@ -355,7 +355,7 @@ img {vertical-align: middle;}
 	margin: 2vh 2vw;
 }
 .dash{
-	width: 20%;
+	width: .1vw;
 }
 .detail-image{
 	display: flex;
