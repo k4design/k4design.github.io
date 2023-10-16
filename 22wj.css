@@ -319,7 +319,7 @@ img {vertical-align: middle;}
 	top: 50%;
 	left: 65%;
 	transform: translate(-50%, -50%);
-	background-color: rgba(44, 57, 87, 0.55);
+	background-color: rgba(44, 57, 87, 0.85);
 	color: white;
 	padding: 10px 20px;
 	border-radius: 5px;
@@ -327,6 +327,7 @@ img {vertical-align: middle;}
 	height: 35vh;
 	display: flex;
 	background-image: url('https://k4design.github.io/waves.png');
+	background-size: contain;
 }
 .overlay img{;
 	width: 40%;
