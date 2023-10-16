@@ -472,12 +472,6 @@ img {vertical-align: middle;}
 			line-height: 1.5;
 			font-weight: 400;
 		}
-		.area-detail img {
-			width: 100%;
-		}
-		.detail-image {
-			width: 15%;
-		}
 	}
 	@media (max-width: 600px) {
 		.overlay {
