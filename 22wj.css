@@ -522,11 +522,12 @@ img {vertical-align: middle;}
 			font-weight: lighter;
 			background-color: #fff;
 			border-radius: 10px;
-			margin-bottom: 2vh;
 		}
 		.accordion:active{
 			width: 100%;
 			margin: 0;
+			background-color: #293C5B;
+			color: #fff;
 		}
 		.r7 h2 {
 			font-size: calc(2rem + 1.5vw);
