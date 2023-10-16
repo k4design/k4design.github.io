@@ -327,6 +327,7 @@ img {vertical-align: middle;}
 	width: 70vw;
 	height: 35vh;
 	display: flex;
+	background-image: url('https://k4design.github.io/waves.png');
 }
 .overlay img{;
 	width: 40%;
