@@ -270,6 +270,8 @@ img {vertical-align: middle;}
 .area-detail{
 	display: flex;
 	margin-left: 5vw;
+	height: 45vh;
+	overflow: hidden;
 }
 .icon {
 	width: 170%
