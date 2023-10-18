@@ -149,6 +149,7 @@ h3{
 	padding-right: 5vw;
 	display: flex;
 	align-items: center;
+	margin-top:2vh;
 }
 .right-box-2 span{
 	font-family: Alata;
@@ -162,6 +163,7 @@ h3{
 	font-size:calc(12px + .3vw);
 	color:#293C5B ;
 	font-family: montserrat;
+	line-height: 1;
 }
 .left-5 img{
 	width: 100%;
