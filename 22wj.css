@@ -11,22 +11,22 @@ body {
 
 
 /* CHIME OVERRIDES */
-	.mg-container {
-		width: 100vw !important;
-	}
-	.md-footer.standard .footer-container{
-		padding: 0 5vw !important;
-	}
-	.md-sell-banner.fashion .media-content{
-		width: 80vw !important;
-	}
-	.md-sell-banner.fashion .media-content .title-text .media-title{
-		width: 50vw !important;
-	}
-	.md-footer.broker .md-footer__logos {
-  font-size: 40px;
-  display: flex !important;
-  justify-content: center !important;
+.mg-container {
+	width: 100vw !important;
+}
+.md-footer.standard .footer-container{
+	padding: 0 5vw !important;
+}
+.md-sell-banner.fashion .media-content{
+	width: 80vw !important;
+}
+.md-sell-banner.fashion .media-content .title-text .media-title{
+	width: 50vw !important;
+}
+.md-footer.broker .md-footer__logos {
+	font-size: 40px;
+	display: flex !important;
+	justify-content: center !important;
 }
 /* CHIME OVERRIDES */
 
@@ -117,7 +117,7 @@ h3{
 	background-color: #293C5B;
 	color: #fff;
 	background-image: url('https://k4design.github.io/blue.png');
-  background-size: cover;
+	background-size: cover;
 }
 .right-3{
 	padding: 5vh 5vw;
@@ -591,17 +591,17 @@ img {vertical-align: middle;}
 			width: 75%;
 		}
 		.md-footer.broker .md-footer__logos {
-  display: block !important;
-}
-.md-footer__logos .logo-item{
-	display: block !important;
-	margin: 2vh auto !important;
-}
-.md-sell-banner.fashion .media-content .title-text .media-title {
-  width: 60vw !important;
-  font-size: 2rem;
-  line-height: 0;
-}
+			display: block !important;
+		}
+		.md-footer__logos .logo-item{
+			display: block !important;
+			margin: 2vh auto !important;
+		}
+		.md-sell-banner.fashion .media-content .title-text .media-title {
+			width: 60vw !important;
+			font-size: 2rem;
+			line-height: 0;
+		}
 
 	}
 
