@@ -591,9 +591,9 @@ img {vertical-align: middle;}
 			width: 75%;
 		}
 		.md-footer.broker .md-footer__logos {
-  display: block;
+  display: block !important;
 }
-.md-footer__logos{
+.md-footer__logos .logo-item{
 	display: block !important;
 	margin: 2vh auto !important;
 }
