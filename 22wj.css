@@ -581,3 +581,8 @@ img {vertical-align: middle;}
 	.md-sell-banner.fashion .media-content .title-text .media-title{
 		width: 50vw !important;
 	}
+	.md-footer.broker .md-footer__logos {
+  font-size: 40px;
+  display: flex !important;
+  justify-content: center !important;
+}
