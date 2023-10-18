@@ -384,7 +384,7 @@ img {vertical-align: middle;}
 	margin: 2vh 2vw;
 }
 .dash{
-	width: .1vw;
+	width: .1vw; 
 }
 .detail-image{
 	display: flex;
