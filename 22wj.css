@@ -478,6 +478,9 @@ img {vertical-align: middle;}
 		}
 	}
 	@media (max-width: 600px) {
+		.right-5{
+			padding: 5vh 5vw;
+		}
 		.overlay {
 			position: absolute;
 			top: 50%;
