@@ -597,6 +597,12 @@ img {vertical-align: middle;}
 	display: block !important;
 	margin: 2vh auto !important;
 }
+.md-sell-banner.fashion .media-content .title-text .media-title {
+  width: 60vw !important;
+  font-size: 2rem;
+  line-height: 0;
+}
+
 	}
 
 	
