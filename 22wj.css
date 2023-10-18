@@ -484,7 +484,6 @@ img {vertical-align: middle;}
 			top: 50%;
 			left: 50%;
 			transform: translate(-50%, -50%);
-			background-color: rgba(0, 0, 0, 0.55);
 			color: white;
 			padding: 10px 20px;
 			border-radius: 5px;
@@ -504,6 +503,8 @@ img {vertical-align: middle;}
 		.overlaytext h3 {
 			margin: 0;
 			font-size: calc(2rem + 1vw);
+			line-height: 1;
+			margin-bottom: 2vh;
 		}
 		.verticallogo{
 			background-image: url("http://www.kyleforeman.design/22wj/22wj_logo_vertical.png");
