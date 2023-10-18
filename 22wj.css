@@ -558,6 +558,9 @@ img {vertical-align: middle;}
 		.icon{
 			width: 15vw;
 		}
+		.detail {
+			width: 75%;
+		}
 	}
 
 	/* CHIME OVERRIDES */
