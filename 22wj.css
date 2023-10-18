@@ -555,3 +555,9 @@ img {vertical-align: middle;}
 	.md-footer.standard .footer-container{
 		padding: 0 5vw !important;
 	}
+	.md-sell-banner.fashion .media-content{
+		width: 80vw !important;
+	}
+	.md-sell-banner.fashion .media-content .title-text .media-title{
+		width: 50vw !important;
+	}
