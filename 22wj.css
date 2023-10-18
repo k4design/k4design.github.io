@@ -552,3 +552,6 @@ img {vertical-align: middle;}
 	.mg-container {
 		width: 100vw !important;
 	}
+	.md-footer.standard .footer-container{
+		padding: 0 5vw !important;
+	}
