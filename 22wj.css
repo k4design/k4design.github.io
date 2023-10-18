@@ -481,6 +481,9 @@ img {vertical-align: middle;}
 		.right-5{
 			padding: 5vh 5vw;
 		}
+		.right-5 p{
+			margin-top: 5vh;
+		}
 		.overlay {
 			position: absolute;
 			top: 50%;
