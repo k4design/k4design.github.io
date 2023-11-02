@@ -393,10 +393,11 @@ img {vertical-align: middle;}
 }
 .logos{
 	background-color: #2D3B59;
-	padding: 10vh auto;
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
+  padding: 10vh 10vw;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  color: white;
 }
 .logos img{
 	width: 30%;
