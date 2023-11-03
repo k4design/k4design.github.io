@@ -431,6 +431,13 @@ img {vertical-align: middle;}
   text-align: center;
   margin: 3vh 0;
  }
+
+
+.md-header.template6 .header-container .menu-container{
+	display: none !important;
+}
+
+
 @media (max-width: 1200px) {
 	.overlay{
 		position: absolute;
@@ -508,6 +515,7 @@ img {vertical-align: middle;}
 			line-height: .75;
 			font-family: Alata;
 			font-weight: 400;
+			margin-bottom: 3vh;
 		}
 		.right-5 span {
 			font-size: calc(12px + 4vw);
