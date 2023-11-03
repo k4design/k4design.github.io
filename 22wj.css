@@ -452,7 +452,9 @@ img {vertical-align: middle;}
 		display: flex;}
 	}
 	@media (max-width: 1079px) {
-
+		.dash{
+			display: none;
+		}
 		.row {
 			flex-direction: column;
 			align-items: flex-start;
@@ -535,11 +537,14 @@ img {vertical-align: middle;}
 			height: 50vh;
 		}
 		.area-detail{
-			width: 40vw;
+			width: 80%;
 			overflow: hidden;
 		}
 		.detail {
 			width: 80%;
+		}
+		.detail h3{
+			padding-bottom: 3vh;
 		}
 		.area-detail p {
 			width: auto;
@@ -547,6 +552,8 @@ img {vertical-align: middle;}
 			font-family: montserrat;
 			line-height: 1.5;
 			font-weight: 400;
+			font-size: 1.5em;
+
 		}
 	}
 	@media (max-width: 600px) {
@@ -599,6 +606,7 @@ img {vertical-align: middle;}
 			margin: 0 0 0 4vw;
 			line-height: 1;
 			font-weight: lighter;
+			padding-bottom: 2vh;
 		}
 		.accordion {
 			color: #293C5B;
