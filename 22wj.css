@@ -198,7 +198,7 @@ h3{
 	font-family: alata;
 }
 .left-2 h2{
-	font-size: calc(12px + 2vw);
+	font-size: calc(12px + 4vw);
 	margin: 0;
 	line-height: 1.25;
 	color: #293C5B;
@@ -207,7 +207,7 @@ h3{
 	font-family: montserrat;
 	margin: 0;
 	color: #FF7355;
-
+	font-size: 3vw;
 }
 
 /* Style the buttons that are used to open and close the accordion panel */
