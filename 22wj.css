@@ -424,6 +424,13 @@ img {vertical-align: middle;}
   flex-shrink: 0;
   width: 40%;
  }
+ .button-orange{
+ 	border: solid 1px orange;
+  padding: 1vh 2vw;
+  width: 40%;
+  text-align: center;
+  margin: 3vh 0;
+ }
 @media (max-width: 1200px) {
 	.overlay{
 		position: absolute;
