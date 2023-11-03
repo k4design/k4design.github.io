@@ -412,6 +412,13 @@ img {vertical-align: middle;}
   font-size: 2em;
   padding: 2vh 0;
 }
+.md-form.get-more-info-v1 .form-container {
+  display: flex;
+  position: relative;
+  background-color: #f5f6fa;
+  width: 80%;
+  margin: auto;
+}
 @media (max-width: 1200px) {
 	.overlay{
 		position: absolute;
