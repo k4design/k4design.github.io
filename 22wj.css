@@ -405,6 +405,13 @@ img {vertical-align: middle;}
 .md-form.get-more-info-v1 .form-container .info-right .privacyText{
 	order: 2 !important;
 }
+.md-form.get-more-info-v1 .mg-title p {
+  overflow: hidden;
+  line-height: inherit;
+  font-family: alata !important;
+  font-size: 2em;
+  padding: 2vh 0;
+}
 @media (max-width: 1200px) {
 	.overlay{
 		position: absolute;
