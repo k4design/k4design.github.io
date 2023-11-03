@@ -177,7 +177,7 @@ h3{
 }
 .right-box-2 span{
 	font-family: Alata;
-	font-size:calc(12px + 1.75vw);
+	font-size:calc(12px + 3.75vw);
 	padding-right:.5vw ;
 	color: #FF7355;
 }
