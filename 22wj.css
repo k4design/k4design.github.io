@@ -452,7 +452,7 @@ img {vertical-align: middle;}
 .md-header.template6 .header-placeholder{
 	display: none !important;
 }
-.md-cta-sc.row .media-content{
+.md-cta-sc.row .banner{
 	width: 100vw !important;
 }
 @media (max-width: 1200px) {
