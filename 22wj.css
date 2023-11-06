@@ -59,7 +59,7 @@ h3{
 }
 
 .left-6{
-	width: 40%;
+	width: 30%;
 	background-image: url('https://cdn.chime.me/image/fs/cmsbuild/2023814/12/original_a6f771f8-7c9a-44fa-8fcf-c82bcbcbba38.png');
 	background-size: cover;
 	background-position: center;
@@ -81,7 +81,7 @@ h3{
 .right-6{
 	padding: 0;
 	width: 60%;
-	flex: 0 0 60%;
+	flex: 0 0 70%;
 	display: flex;
 	flex-direction: column;
 	justify-content: ;
@@ -543,6 +543,7 @@ img {vertical-align: middle;}
 		}
 		.right-6 {
 			width: 100vw;
+
 		}
 		.left-6 {
 			width: 100vw;
