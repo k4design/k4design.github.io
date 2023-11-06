@@ -455,6 +455,16 @@ img {vertical-align: middle;}
 .md-cta-sc.row .banner{
 	width: 100vw !important;
 }
+.md-cta-sc.row .media-content {
+  flex: 1;
+  position: relative;
+  width: 1000px;
+  max-width: calc(100% - 40px);
+  padding: 0;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
 @media (max-width: 1200px) {
 	.overlay{
 		position: absolute;
