@@ -99,6 +99,7 @@ h3{
 }
 .r2{
 	min-height: 40vh;
+	margin: 5vh 0;
 }
 .r7{
 	background-color: #FF7355;
@@ -126,10 +127,10 @@ h3{
 	padding: 5vh 5vw;
 }
 .right-3 p{
-	width: 75%;
+	width: 85%;
   font-size: 1.25em;
   line-height: 1.75;
-	
+
 }
 .right-3 h3, .right-3 p{
 	font-weight: 400;
@@ -434,14 +435,14 @@ img {vertical-align: middle;}
   flex-shrink: 0;
   width: 40%;
  }
-.button-orange{
+.button-orange {
   border: solid .2vw orange;
   padding: 1vh 2vw;
   width: 40%;
   text-align: center;
   margin: 3vh 0;
-
- }
+  font-size: 1.5em;
+}
 
 
 .md-header.template6 .header-container .menu-container{
