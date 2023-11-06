@@ -89,9 +89,9 @@ h3{
 }
 .right-d1 p{
 	width: 75%;
-	line-height: 1.75;
-	font-family: montserrat;
-	font-size:calc(12px + .25vw);
+  line-height: 1.75;
+  font-family: montserrat;
+  font-size: calc(12px + .3vw);
 
 }
 .right-d2 {
