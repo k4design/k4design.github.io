@@ -378,9 +378,9 @@ img {vertical-align: middle;}
 	justify-content: center;
 }
 .overlaytext h3{
-	margin: 0;
-  font-size: calc(12px + 2vw);
-  line-height: calc(12px + 2vw);
+	margin: 2vh 0;
+	font-size: calc(12px + 2vw);
+ 	line-height: calc(12px + 2vw);
 }
 .overlaytext p{
 	line-height: 1.75;
@@ -477,11 +477,16 @@ img {vertical-align: middle;}
 		width: 95vw;
 		height: 35vh;
 		display: flex;}
-	.area-detail h3{
-		font-size: 5vw;
-	}
+
 	}
 	@media (max-width: 1079px) {
+		.area-detail h3{
+		font-size: 5vw;
+	}
+	.icon{
+		width: 10vw;
+	}
+
 		.dash{
 			display: none;
 		}
