@@ -385,7 +385,7 @@ img {vertical-align: middle;}
 .overlaytext p{
 	line-height: 1.75;
 	font-family: montserrat;
-	font-size: calc(12px + .25vw);
+	font-size: calc(12px + .5vw);
 }
 .verticallogo{
 	background-image: url("http://www.kyleforeman.design/22wj/22wj_logo_vertical.png");
