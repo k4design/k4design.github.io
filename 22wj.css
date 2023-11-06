@@ -470,6 +470,7 @@ img {vertical-align: middle;}
 	background-color: #2D3B59;
 	font-size: 1.25vw;
   text-align: center;
+  padding: 5vh 0;
 }
 @media (max-width: 1200px) {
 	.overlay{
