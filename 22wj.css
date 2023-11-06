@@ -332,7 +332,7 @@ img {vertical-align: middle;}
 	width: 100%;
 	overflow: hidden;
 	border-bottom: 2vh solid #FF7355;
-	height: 65vh;
+	max-height: 65vh;
 	display: flex;
 }
 
