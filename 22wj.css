@@ -693,7 +693,7 @@ img {vertical-align: middle;}
 			margin: 2vh auto;
 		}
 		.privacyText {
-			order: 0;
+			order: 0 !important;
 		}
 		.logos{
 			flex-direction: column;
