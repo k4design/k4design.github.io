@@ -65,7 +65,9 @@ h3{
 	background-position: center;
 	height: 140vh;
 }
-
+.left-7 p{
+	font-size: 1.25em;
+}
 .right-2, .right-3, .right-4, .right-5{
 	flex: 0 0 55%;
 	padding: 20px;
@@ -105,6 +107,7 @@ h3{
 }
 .r7 h2 {
 	font-size: calc(12px + 1.5vw);
+	margin: 2vh 0;
 }
 .right-7{
 	padding: 0 5vw;
