@@ -672,6 +672,10 @@ img {vertical-align: middle;}
 			font-size: 2rem;
 			line-height: 0;
 		}
+		.left-7 p{
+			font-size: 5vw;
+		} 
+
 		  .area-detail {
     width: 90%;
     margin: 5vh auto;
