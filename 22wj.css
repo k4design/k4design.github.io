@@ -147,6 +147,7 @@ h3{
 	line-height: .75;
 	font-family: Alata;
 	font-weight: 400;
+	margin: 5vh 0;
 }
 .right-5 span{
 	font-size:calc(12px + 1vw);
@@ -683,7 +684,7 @@ img {vertical-align: middle;}
 		.privacyText {
 			order: 0;
 		}
-		
+
 
 		  .area-detail {
     width: 90%;
