@@ -448,7 +448,9 @@ img {vertical-align: middle;}
 .md-header.template6 .header-container .menu-container{
 	display: none !important;
 }
-
+.md-header.template6 .header-placeholder{
+	display: none !important;
+}
 
 @media (max-width: 1200px) {
 	.overlay{
