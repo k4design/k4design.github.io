@@ -379,7 +379,8 @@ img {vertical-align: middle;}
 }
 .overlaytext h3{
 	margin: 0;
-	font-size: calc(12px + 1vw);
+  font-size: calc(12px + 2vw);
+  line-height: calc(12px + 2vw);
 }
 .overlaytext p{
 	line-height: 1.75;
