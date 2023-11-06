@@ -477,6 +477,9 @@ img {vertical-align: middle;}
 		width: 95vw;
 		height: 35vh;
 		display: flex;}
+	.area-detail h3{
+		font-size: 5vw;
+	}
 	}
 	@media (max-width: 1079px) {
 		.dash{
