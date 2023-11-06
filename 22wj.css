@@ -695,7 +695,12 @@ img {vertical-align: middle;}
 		.privacyText {
 			order: 0;
 		}
-
+		.logos{
+			flex-direction: column;
+		}
+		.logos img{
+			margin: 0 0 10vh 0;
+		}
 
 		  .area-detail {
     width: 90%;
