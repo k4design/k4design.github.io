@@ -127,6 +127,9 @@ h3{
 }
 .right-3 p{
 	width: 75%;
+  font-size: 1.25em;
+  line-height: 1.75;
+	
 }
 .right-3 h3, .right-3 p{
 	font-weight: 400;
@@ -158,10 +161,10 @@ h3{
 }
 .right-5 p{
 	font-family: montserrat;
-	line-height: 2;
-	width: 80%;
-	margin: 0;
-	font-size: 1.25em;
+  line-height: 2;
+  width: 80%;
+  margin: 0;
+  font-size: 1.25em;
 }
 .right-6 {
 	display: flex;
