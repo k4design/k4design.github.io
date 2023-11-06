@@ -468,6 +468,8 @@ img {vertical-align: middle;}
 .brokerage{
 	color: white;
 	background-color: #2D3B59;
+	font-size: 1.25vw;
+  text-align: center;
 }
 @media (max-width: 1200px) {
 	.overlay{
