@@ -102,7 +102,7 @@ h3{
 	margin: 5vh 0;
 }
 .r7{
-	background-color: #FF7355;
+	background-color: #FF7355 !important;
 	color: #fff;
 	padding: 5vh 5vw;
 }
