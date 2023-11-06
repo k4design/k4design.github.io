@@ -451,7 +451,9 @@ img {vertical-align: middle;}
 .md-header.template6 .header-placeholder{
 	display: none !important;
 }
-
+.md-cta-sc.row .media-content{
+	width: 100vw !important;
+}
 @media (max-width: 1200px) {
 	.overlay{
 		position: absolute;
