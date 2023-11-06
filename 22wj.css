@@ -309,12 +309,14 @@ img {vertical-align: middle;}
 	margin: 0 0 0 4vw;
 }
 
-.area-detail p{
-	width: 75%;
-	margin-left: 4vw;
-	font-family: montserrat;
-	line-height: 1.5;
-	font-weight: 400;
+.area-detail p {
+  width: 75%;
+  margin-left: 4vw;
+  font-family: montserrat;
+  line-height: 1.75;
+  font-weight: 400;
+  font-size: 1.25em;
+  padding: 1vh 0;
 }
 
 .carousel-container {
@@ -681,6 +683,7 @@ img {vertical-align: middle;}
 		.privacyText {
 			order: 0;
 		}
+		
 
 		  .area-detail {
     width: 90%;
