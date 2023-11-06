@@ -675,10 +675,17 @@ img {vertical-align: middle;}
 		.left-7 p{
 			font-size: 5vw;
 		} 
+		.left-7 h2{
+			margin: 2vh auto;
+		}
+		.privacyText {
+			order: 0;
+		}
 
 		  .area-detail {
     width: 90%;
     margin: 5vh auto;
+    height: unset;
   }
 
 	}
