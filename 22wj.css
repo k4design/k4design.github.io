@@ -501,7 +501,9 @@ img {vertical-align: middle;}
 	.icon{
 		width: 10vw;
 	}
-
+		.md-cta-sc.row .media-content{
+			flex-direction: column !important;
+		}
 		.dash{
 			display: none;
 		}
