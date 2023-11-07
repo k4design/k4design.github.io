@@ -865,6 +865,10 @@ img {vertical-align: middle;}
 		}
 		.logos img{
 			margin: 0 0 10vh 0;
+			width: 80%;
+		}
+		.toplogo img{
+			width: 50%;
 		}
 
 		  .area-detail {
