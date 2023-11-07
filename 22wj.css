@@ -8,7 +8,12 @@ body {
 	overflow-x: hidden !important;
 }
 
-
+@font-face {
+    font-family: 'Alata';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Alata'), url('https://fonts.cdnfonts.com/s/46627/Alata-Regular.woff') format('woff');
+}
 
 /* CHIME OVERRIDES */
 .mg-container {
