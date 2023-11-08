@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", function () {
         xhr.onreadystatechange = function () {
             if (xhr.readyState === 4 && xhr.status === 200) {
                 var externalHTML = xhr.responseText;
-                var elementToReplace = document.querySelector('.md-hero.template4 .media-content .media-info.md-hero.template4 .media-content .media-info');
+                var elementToReplace = document.querySelector('.mg-title');
                 elementToReplace.innerHTML = externalHTML;
             }
         };
