@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // This code runs after the page has finished loading
 
     // Trigger the content replacement here (e.g., after a delay)
-    setTimeout(replaceContent, 20); // Replace content after 2 seconds
+    setTimeout(replaceContent, 0); // Replace content after 0 seconds
 
     function replaceContent() {
         var url = 'https://k4design.github.io/message.html';
