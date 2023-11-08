@@ -1,15 +1,7 @@
-// Function to replace image src attributes in the CMS content
-function replaceImageSrcs() {
-  // Select the CMS content container (you may need to adjust this selector)
-  const cmsContent = document.querySelector('body');
-
-  if (!cmsContent) {
-    console.error('CMS content container not found.');
-    return;
-  }
-
-  // Find all img elements within the CMS content
-  const imgElements = cmsContent.querySelectorAll('img');
+// Function to replace image src attributes in the entire document
+function replaceImagePaths() {
+  // Find all img elements within the entire document
+  const imgElements = document.querySelectorAll('img');
 
   // Loop through the img elements and replace src attributes
   imgElements.forEach((imgElement) => {
@@ -20,7 +12,31 @@ function replaceImageSrcs() {
       imgElement.setAttribute('src', currentSrc.replace('https://cdn.chime.me/', 'https://k4design.github.io/'));
     }
   });
+
+  // Find all CSS stylesheets in the entire document
+  const stylesheets = document.querySelectorAll('link[rel="stylesheet"]');
+
+  // Loop through the stylesheets and update their content
+  stylesheets.forEach((stylesheet) => {
+    fetch(stylesheet.href)
+      .then((response) => response.text())
+      .then((cssText) => {
+        // Replace image paths in the CSS text
+        const updatedCssText = cssText.replace(/https:\/\/cdn\.chime\.me\//g, 'https://k4design.github.io/');
+
+        // Create a new stylesheet with the updated content
+        const updatedStylesheet = document.createElement('style');
+        updatedStylesheet.textContent = updatedCssText;
+
+        // Replace the old stylesheet with the new one
+        document.head.appendChild(updatedStylesheet);
+        document.head.removeChild(stylesheet);
+      })
+      .catch((error) => {
+        console.error(`Failed to fetch CSS: ${error}`);
+      });
+  });
 }
 
-// Call the function to replace image src attributes
-replaceImageSrcs();
+// Call the function to replace image paths in the entire document
+replaceImagePaths();
