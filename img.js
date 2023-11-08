@@ -1,12 +1,26 @@
-function replaceImagePaths(inputString) {
-  // Use a regular expression with the `replace` method to replace all instances
-  // of "https://cdn.chime.me/" with "https://k4design.github.io/"
-  const replacedString = inputString.replace(/https:\/\/cdn\.chime\.me\//g, 'https://k4design.github.io/');
-  return replacedString;
+// Function to replace image src attributes in the CMS content
+function replaceImageSrcs() {
+  // Select the CMS content container (you may need to adjust this selector)
+  const cmsContent = document.querySelector('body');
+
+  if (!cmsContent) {
+    console.error('CMS content container not found.');
+    return;
+  }
+
+  // Find all img elements within the CMS content
+  const imgElements = cmsContent.querySelectorAll('img');
+
+  // Loop through the img elements and replace src attributes
+  imgElements.forEach((imgElement) => {
+    const currentSrc = imgElement.getAttribute('src');
+
+    if (currentSrc && currentSrc.includes('https://cdn.chime.me/')) {
+      // Replace the src attribute with the new URL
+      imgElement.setAttribute('src', currentSrc.replace('https://cdn.chime.me/', 'https://k4design.github.io/'));
+    }
+  });
 }
 
-// Example usage:
-const inputString = "This is an example image URL: https://cdn.chime.me/image1.jpg. And here is another: https://cdn.chime.me/image2.jpg.";
-const replacedString = replaceImagePaths(inputString);
-console.log(replacedString);
-
+// Call the function to replace image src attributes
+replaceImageSrcs();
