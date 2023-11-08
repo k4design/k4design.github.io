@@ -3,7 +3,7 @@ const header = document.getElementById('header');
 const actionButton = document.getElementById('action-button');
 
 // Fetch external HTML content
-fetch('message.html')
+fetch('https://k4design.github.io/message.html')
   .then((response) => response.text())
   .then((html) => {
     // Parse the fetched HTML content

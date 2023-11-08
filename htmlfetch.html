@@ -4,12 +4,46 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title></title>
+	<style type="text/css">
+		.flex-container {
+  display: flex;
+  width: 100vw;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+  background-color: #f0f0f0;
+  padding: 20px;
+}
+
+h1 {
+  margin: 0;
+}
+
+a {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #007bff;
+  color: #fff;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+a:hover {
+  background-color: #0056b3;
+}
+
+	</style>
 </head>
 <body>
 	<script type="https://k4design.github.io/htmlfetch.js"></script>
 <div id="content-container" class="flex-container">
-  <h1 id="header">Looooading...</h1>
-  <button id="action-button">Click Me</button>
+  <h1 id="header">Loading...</h1>
+  <a id="action-button" href="https://external-website.com" target="_blank">Visit External Website</a>
 </div>
+
+
 </body>
 </html>
