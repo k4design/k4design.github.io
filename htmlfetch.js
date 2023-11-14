@@ -1,23 +1,22 @@
-const contentContainer = document.getElementById('content-container');
-const header = document.getElementById('header');
+document.addEventListener("DOMContentLoaded", function () {
+    // This code runs after the page has finished loading
 
-// Fetch external HTML content
-fetch('https://k4design.github.io/message.html')
-  .then((response) => response.text())
-  .then((html) => {
-    // Parse the fetched HTML content
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(html, 'text/html');
+    // Trigger the content replacement here (e.g., after a delay)
+    setTimeout(replaceContent, 0); // Replace content after 2 seconds
 
-    // Extract the content from the fetched HTML
-    const message = doc.querySelector('#message').textContent;
+    function replaceContent() {
+        var url = 'https://k4design.github.io/message.html';
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', url, true);
 
-    // Update the header with the extracted content
-    header.textContent = message;
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                var externalHTML = xhr.responseText;
+                var elementToReplace = document.querySelector('.content-placeholder');
+                elementToReplace.innerHTML = externalHTML;
+            }
+        };
 
-    // Show the content container
-    contentContainer.style.display = 'block';
-  })
-  .catch((error) => {
-    console.error('Failed to fetch external content: ' + error);
-  });
+        xhr.send();
+    }
+});
