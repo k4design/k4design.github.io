@@ -147,6 +147,9 @@ body {
 .md-footer.broker .md-footer__menus{
 	display: none !important;
 }
+.md-footer.broker .md-footer__logos{
+	display: none !important;
+}
 /* CHIME OVERRIDES */
 
 
