@@ -144,6 +144,9 @@ body {
 	display: flex !important;
 	justify-content: center !important;
 }
+.md-footer.broker .md-footer__menus{
+	display: none !important;
+}
 /* CHIME OVERRIDES */
 
 
