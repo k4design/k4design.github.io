@@ -1,5 +1,5 @@
 .media-content .title-image{
-  margin-bottom: 0;
+  margin-bottom: 0 !important;
 }
 
 .child-1 h2{line-height:5vw !important;font-size:5vw;margin:0 0 5vh 0}
