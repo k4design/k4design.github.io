@@ -53,7 +53,7 @@
 }
 .house-grid-item.template4 .mask .house-detail .house-price:first-of-type,
 .house-grid-item.template4 .mask .house-detail .hide-price:first-of-type {
-  font-size: 6vw !important;
+  font-size: 5vw !important;
   line-height: 5vw !important;
 }
 .house-grid-item.template4 .mask .house-detail .house-basic {
@@ -70,7 +70,7 @@ h3 {
   .house-grid-item.template4 .mask .house-detail .house-price {
     font-size: 15vw !important;
   }
-.house-grid-item.template4 .mask .house-detail{padding:0 !important}
+  .house-grid-item.template4 .mask .house-detail{padding:0 !important}
   .destinations {
     flex-direction: column !important;
   }
@@ -96,10 +96,10 @@ h3 {
   }
   .child-2 h2 {
     font-size: 15vw !important;
-padding: 2vh 0;
-position: inherit !important;
-font-weight: 300;
-line-height: 15vw !important;
+    padding: 2vh 0;
+    position: inherit !important;
+    font-weight: 300;
+    line-height: 15vw !important;
   }
   .media-scroll-text {
     font-size: 2em;
@@ -170,7 +170,7 @@ line-height: 15vw !important;
     position: inherit !important;
     width: 95% !important;
     margin: auto;
-line-height: 10vw !important;
+    line-height: 10vw !important;
   }
 
   .bg-blk {
@@ -195,13 +195,13 @@ line-height: 10vw !important;
   }
   .house-address{height: inherit !important;white-space: pre-wrap !important;font-size: 5vw !important;overflow: visible !important;text-align: center !important;line-height: 5vw !important}
   .house-grid-item.template4 .mask .house-detail .house-price, .house-grid-item.template4 .mask .house-detail .hide-price{font-size:15vw !important}
-.video {min-height:0px !important;}
-.house-grid-item.template4 .mask .house-detail .house-price {
-  font: 500 15vw/2vh "TT Livret Display Trl",sans-serif !important;}
-}
-.video-box.auto-height {
-  position: fixed !important;
-}
-.md-house.template4{
-box-shadow: 0px 0vh 5vh black;
-}
+  .video {min-height:0px !important;}
+  .house-grid-item.template4 .mask .house-detail .house-price {
+    font: 500 15vw/2vh "TT Livret Display Trl",sans-serif !important;}
+  }
+  .video-box.auto-height {
+    position: fixed !important;
+  }
+  .md-house.template4{
+    box-shadow: 0px 0vh 5vh black;
+  }
