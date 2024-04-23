@@ -205,3 +205,6 @@ h3 {
   .md-house.template4{
     box-shadow: 0px 0vh 5vh black;
   }
+  .house-grid-item.template4 .mask .house-detail .house-footer .read-more {
+    margin: 1vh auto;
+}
