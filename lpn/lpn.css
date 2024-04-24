@@ -63,8 +63,8 @@
 .house-grid-item.template4 .mask .house-detail {
   padding: 15vh 0 !important;background-image: linear-gradient(to bottom, rgba(8,17,38,0), rgba(0, 0, 0, 0.88))!important;
 }
-.house-grid-item.template4 .mask .house-detail .house-price:first-of-type,
-.house-grid-item.template4 .mask .house-detail .hide-price:first-of-type {
+.house-grid-item.template4 .mask .house-detail .house-price: first-of-type,
+.house-grid-item.template4 .mask .house-detail .hide-price: first-of-type {
   font-size: 5vw !important;
   line-height: 5vw !important;
 }
