@@ -67,7 +67,10 @@
 .house-grid-item.template4 .mask .house-detail .hide-price: first-of-type {
   font-size: 5vw !important;
   line-height: 5vw !important;
-  font-family:TT Livret Display Trl;
+  font-family:'TT Livret Display Trl';
+}
+.house-grid-item.template4 .mask .house-detail .house-price, .house-grid-item.template4 .mask .house-detail .hide-price{
+  font-family:'TT Livret Display Trl';
 }
 .house-grid-item.template4 .mask .house-detail .house-basic {
   display: flex;
