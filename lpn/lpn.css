@@ -1,3 +1,15 @@
+
+@import url('https://fonts.cdnfonts.com/css/tt-livret-display-trl');
+@font-face{font-family: 'TT Livret Display Trl';font-style: normal;font-weight: 400;src: local('TT Livret Display Trl'), url('https://fonts.cdnfonts.com/s/97023/TT Livret Display Trial Regular.woff') format('woff')}
+@font-face{font-family: 'TT Livret Display Trl';font-style: normal;font-weight: 300;src: local('TT Livret Display Trl'), url('https://fonts.cdnfonts.com/s/97023/TT Livret Display Trial Light.woff') format('woff')}
+@font-face{font-family: 'TT Livret Display Trl';font-style: normal;font-weight: 500;src: local('TT Livret Display Trl'), url('https://fonts.cdnfonts.com/s/97023/TT Livret Display Trial Medium.woff') format('woff')}
+@font-face{font-family: 'TT Livret Trial Roman Variable';font-style: normal;font-weight: 400;src: local('TT Livret Trial Roman Variable'), url('https://fonts.cdnfonts.com/s/97023/TT Livret Trial Roman Variable.woff') format('woff')}
+@import url(https://fonts.cdnfonts.com/css/qafientola);
+@import url(https://fonts.cdnfonts.com/css/aguero-serif-free);
+@import url(https://fonts.cdnfonts.com/css/quivira);.img-swiper-wrapper .slot-wraper .swiper-box .swiper-slide .img-box{display:block !important}
+@font-face{font-family: 'Qafientola';font-style: normal;font-weight: 400;src: local('Qafientola'), url('https://fonts.cdnfonts.com/s/96857/Qafientola-z8nv1.woff') format('woff')}
+@font-face{font-family: 'Aguero Serif Free';font-style: normal;font-weight: 400;src: local('Aguero Serif Free'), url('https://fonts.cdnfonts.com/s/16649/Aguero Serif.woff') format('woff')}
+
 .media-content .title-image{
   margin-bottom: 0 !important;
 }
