@@ -34,3 +34,8 @@
 .md-search-more-center.template4 .search-by-section{
 	display: none;
 }
+
+.map-box canvas{
+	width: auto !important;
+  height: 100% !important;
+}
