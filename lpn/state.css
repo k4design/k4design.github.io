@@ -12,6 +12,9 @@
 	background-color: #000;
 	display: flex;
 }
+.statebody img{
+	width: 50%;
+}
 .statebody p{
 	width: 50%;
 	color: white;
