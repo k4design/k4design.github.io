@@ -53,6 +53,7 @@
 }
 .house-list-item.brief-house-list.template4 .house-detail{
 	border-bottom: #d3bf75 !important;
+	text-align: left !important;
 }
 
 .house-list-item.brief-house-list.template4 .house-detail .house-price, .house-list-item.brief-house-list.template4 .house-detail .hide-price,
