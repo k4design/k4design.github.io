@@ -64,4 +64,7 @@
 .md-search-result.template4 .search-result-container .search-result-header .search-choose .search-switch .switch-item{
 	display: none;
 }
+.search-seo-template4 .seo-module-box{
+	display: none !important;
+}
 
