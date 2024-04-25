@@ -23,7 +23,9 @@
 .statebody h2{
 	color:white;t
 	ext-align:center;
-	margin: 5vh 0;
+	margin: 5vh auto;
+  	font-size: 3vh;
+  	text-align: center;
 }
 .md-search-more-center.template4{
 	background-color: black;
