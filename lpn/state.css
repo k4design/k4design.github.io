@@ -29,12 +29,10 @@
 }
 .md-search-more-center.template4{
 	background-color: black;
+	padding: 0 !important;
 }
 .md-search-more-center.template4 .search-more .search-detail-wrap .search-detail-item{
 	background-color: none;
-}
-.md-search-more-center.template4{
-	padding: 0;
 }
 .md-search-more-center.template4 .search-by-section{
 	display: none !important;
