@@ -4,5 +4,5 @@
 	border-bottom: 0px;
 }
 .video-box.auto-height{
-	position: relative;
+	position: relative !important;
 }
