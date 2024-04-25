@@ -34,7 +34,7 @@
 	background-color: none;
 }
 .md-search-more-center.template4 .search-by-section{
-	display: none;
+	display: none !important;
 }
 
 .map-box canvas{
