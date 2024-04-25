@@ -6,6 +6,12 @@
 .video-box.auto-height{
 	position: relative !important;
 }
+.statebody-white{
+	height: auto;
+	padding: 5vh 0;
+	background-color: #fff;
+	color: #000;
+}
 .statebody{
 	height: auto;
 	padding: 5vh 0;
