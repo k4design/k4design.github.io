@@ -10,7 +10,7 @@
 	height: auto;
 	padding: 5vh 0;
 	background-color: #000;
-
+	display: flex;
 }
 .statebody p{
 	width: 50%;
