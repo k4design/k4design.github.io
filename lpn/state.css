@@ -63,4 +63,7 @@
   text-align: left !important;
 }
 
+.md-search-result.template4 .search-result-container .search-result-header .search-choose .search-switch .switch-item{
+	display: none;
+}
 
