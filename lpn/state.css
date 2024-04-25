@@ -44,3 +44,23 @@
 	width: auto !important;
   height: 100% !important;
 }
+.md-search-result.template4 .search-result-container.right {
+  height: 100%;
+  width: 700px;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  background: #2f2f2f !important;
+  color: white;
+}
+.house-list-item.brief-house-list.template4 .house-detail{
+	border-bottom: #d3bf75 !important;
+}
+
+.house-list-item.brief-house-list.template4 .house-detail .house-price, .house-list-item.brief-house-list.template4 .house-detail .hide-price,
+.house-list-item.brief-house-list.template4 .house-detail .house-address, .house-list-item.brief-house-list.template4 .house-detail .house-info {
+ 
+  text-align: left !important;
+}
+
+
