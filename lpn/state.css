@@ -12,6 +12,22 @@
 	background-color: #fff;
 	color: #000;
 }
+.statebody-white img{
+	width: 50%;
+}
+.statebody-white p{
+	width: 50%;
+	color: white;
+	margin: auto;
+	text-align: center;
+}
+.statebody-white h2{
+	color:white;t
+	ext-align:center;
+	margin: 5vh auto;
+  	font-size: 3vh;
+  	text-align: center;
+}
 .statebody{
 	height: auto;
 	padding: 5vh 0;
