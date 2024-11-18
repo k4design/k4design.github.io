@@ -10,6 +10,12 @@
     font-weight: 400;
     src: local('Netron'), url('https://fonts.cdnfonts.com/s/31386/Netron.woff') format('woff');
 }
+@font-face {
+    font-family: 'Michroma';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Michroma'), url('https://fonts.cdnfonts.com/s/107280/Michroma-Regular.woff') format('woff');
+}
 @import url(https://fonts.cdnfonts.com/css/qafientola);
 @import url(https://fonts.cdnfonts.com/css/aguero-serif-free);
 @import url(https://fonts.cdnfonts.com/css/quivira);.img-swiper-wrapper .slot-wraper .swiper-box .swiper-slide .img-box{display:block !important}
