@@ -38,8 +38,12 @@
 }
 .eliteview h3{
 	font-size: 2vw;
+	color: #00A2FF;
 }
-
+.eliteview p{
+	color: white;
+	font-size: 1vw;
+}
 .house-address{
   height: inherit !important;
   white-space: pre-wrap !important;
