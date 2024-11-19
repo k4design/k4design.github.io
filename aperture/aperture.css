@@ -76,6 +76,7 @@
 .eliteview p{
 	color: white;
 	font-size: 1vw;
+	margin:0 auto;
 }
 .eliteview img{
 	width: 50%;
