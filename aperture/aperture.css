@@ -36,11 +36,20 @@
   font-size:3vw;
   margin:0 0 5vh 0
 }
+.eliteview .child-1{
+	width: 50% !important;
+}
+.eliteview .child-2{
+	width: 50% !important;
+}
+.eliteview{
+	margin-left:10vw;
+}
 .eliteview h3{
 	color: #00A2FF;
 	padding: 5vh 0 0 0;
   font-weight: 300 !important;
-  margin: 1vw 0;
+  margin: 1vw 0 !important;
   font-size: 2vw;
   line-height: 2vw;
 }
