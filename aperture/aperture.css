@@ -45,6 +45,9 @@
 	background-color: #00A2FF;
 
 }
+.about .child-1 h2{
+	margin: 0;
+}
 .child-1 h2{
   line-height:3vw !important;
   font-size:3vw;
