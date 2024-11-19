@@ -30,7 +30,14 @@
 .media-content .title-image{
   margin-bottom: 0 !important;
 }
-
+.about{  }
+.about .child-1{
+	text-align: center;
+}
+.about{  }
+.about .child-1 p{
+	margin:2vh auto;
+}
 .child-1 h2{
   line-height:3vw !important;
   font-size:3vw;
@@ -39,8 +46,14 @@
 .eliteview .child-1{
 	width: 50% !important;
 }
+.eliteview .child-1 img{
+	width: 50%;
+}
 .eliteview .child-2{
 	width: 50% !important;
+}
+.eliteview .child-2 img{
+	width: 75%;
 }
 .eliteview{
 	margin-left:10vw;
@@ -52,6 +65,7 @@
   margin: 1vw 0 !important;
   font-size: 2vw;
   line-height: 2vw;
+  font-weight: 500;
 }
 .eliteview p{
 	color: white;
