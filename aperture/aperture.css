@@ -34,9 +34,11 @@
 .about .child-1{
 	text-align: center;
 }
-.about{  }
 .about .child-1 p{
 	margin:2vh auto;
+}
+.about .child-1 a{
+	margin:0 auto;
 }
 .child-1 h2{
   line-height:3vw !important;
