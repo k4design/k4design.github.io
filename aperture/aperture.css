@@ -40,6 +40,11 @@
 .about .child-1 a{
 	margin:0 auto;
 }
+.about .child-1 a:hover{
+	margin:0 auto;
+	background-color: #00A2FF;
+
+}
 .child-1 h2{
   line-height:3vw !important;
   font-size:3vw;
