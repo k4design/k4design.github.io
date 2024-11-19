@@ -37,8 +37,12 @@
   margin:0 0 5vh 0
 }
 .eliteview h3{
-	font-size: 2vw;
 	color: #00A2FF;
+	padding: 5vh 0 0 0;
+  font-weight: 300 !important;
+  margin: 1vw 0;
+  font-size: 2vw;
+  line-height: 2vw;
 }
 .eliteview p{
 	color: white;
