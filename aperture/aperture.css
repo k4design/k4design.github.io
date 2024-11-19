@@ -47,12 +47,15 @@
 }
 .eliteview .child-1{
 	width: 50% !important;
+	text-align: center;
 }
 .eliteview .child-1 img{
 	width: 50%;
+	margin: 0 auto;
 }
 .eliteview .child-2{
 	width: 50% !important;
+	justify-content: left;
 }
 .eliteview .child-2 img{
 	width: 75%;
@@ -73,6 +76,9 @@
 .eliteview p{
 	color: white;
 	font-size: 1vw;
+}
+.eliteview img{
+	width: 50%;
 }
 .house-address{
   height: inherit !important;
