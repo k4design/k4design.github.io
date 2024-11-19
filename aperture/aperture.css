@@ -46,8 +46,9 @@
   margin:0 0 5vh 0
 }
 .eliteview .child-1{
-	width: 50% !important;
+	width: 40% !important;
 	text-align: center;
+	margin-left: 10%;
 }
 .eliteview .child-1 img{
 	width: 50%;
@@ -67,8 +68,8 @@
 	color: #00A2FF;
 	padding: 5vh 0 0 0;
   font-weight: 300 !important;
-  margin: 1vw 0 !important;
-  font-size: 2vw;
+  margin: 0 !important;
+  font-size: 1.5vw;
   line-height: 2vw;
   font-weight: 500;
   font-family: var(--font-normal);
@@ -76,7 +77,7 @@
 .eliteview p{
 	color: white;
 	font-size: 1vw;
-	margin:0 auto;
+	margin:1vh auto;
 }
 .eliteview img{
 	width: 50%;
