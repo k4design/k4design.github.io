@@ -31,8 +31,8 @@
 }
 
 .child-1 h2{
-  line-height:5vw !important;
-  font-size:5vw;
+  line-height:3vw !important;
+  font-size:3vw;
   margin:0 0 5vh 0
 }
 
@@ -50,7 +50,7 @@
   width: 100% !important;
 }
 .media-scroll-overlay:hover {
-  background: rgba(211, 191, 117, 0.9);
+  background: rgba(0, 162, 255, 0.9);
   cursor: pointer;
 }
 
@@ -178,7 +178,7 @@ h3 {
   }
   .blk h3,
   .child-1 h2 {
-    font-size: 10vw !important;
+    font-size: 5vw !important;
     line-height: 1;
     margin: 0;
     font-family: "TT Livret Display Trl", sans-serif;

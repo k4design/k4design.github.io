@@ -1,0 +1,120 @@
+<script>
+function cssEngine(rule) {
+  var css = document.createElement('style'); // Creates <style></style>
+  css.type = 'text/css'; // Specifies the type
+  if (css.styleSheet) css.styleSheet.cssText = rule; // Support for IE
+  else css.appendChild(document.createTextNode(rule)); // Support for the rest
+  document.getElementsByTagName("head")[0].appendChild(css);
+}
+
+var rule = '.house-grid-item.template4 .mask .house-detail .hide-price,.house-grid-item.template4 .mask .house-detail .house-price{font:500 5vw/2vh "TT Livret Display Trl",sans-serif !important;height:auto!important;color:#fff;margin:4vh 0!important;}';
+rule += '.bg-blk h3{padding: 5vh 0 0 0;font-family: "TT Livret Display Trl", sans-serif !important;font-weight: 300 !important;margin: 5vh auto;}';
+rule += '.img-container h2 {font-family: "TT Livret Display Trl", sans-serif !important;font-weight: 300 !important;}';
+rule += '.whitebg {background: #fff;}';
+rule += '.house-grid-item.standard .house-price {font-family: "TT Livret Display Trl", sans-serif !important;font-weight: 300 !important;}';
+rule += '.title {font-family: "Noto Serif", sans-serif !important;}';
+rule += '.destinations {display: flex;justify-content: center;align-items: center;margin: 5vh auto;}';
+rule += '.flexchild {width: 33.333%;}';
+rule += '.parent-1 {display: flex;justify-content: space-between;width: 90vw;}';
+rule += '.child-1 {width: 40%;padding: 2vh 5vw;display: flex;flex-direction: column;justify-content: center;}';
+rule += '.child-1 p {font-size: 1.2em;width: 80%;}';
+rule += '.child-1 a {display: inline-block;padding: 10px 20px;background-color: #000000;color: #ffffff;text-decoration: none;margin: 5vh 0;border-bottom: #ffffff 1px solid !important;width: 70% !important;text-align: center;}';
+rule += '.child-2 {width: 60%;display: flex;align-items: center;justify-content:center;}';
+rule += '.container {width: 100%;overflow: auto;}';
+rule += '.parent {display: flex;flex-wrap: nowrap;justify-content: space-between;width: 100%;margin: auto;overflow: hidden;}';
+rule += '.child {position: relative;width: 33.33%;padding-bottom: 56.25%;margin: 0;height: 20vh;}';
+rule += '.child video {position: absolute;top: 0;left: 0;width: 100%;height: 100%;object-fit: cover;}';
+rule += '.child a {position: absolute;top: 0;left: 0;width: 100%;height: 100%;display: flex;align-items: center;justify-content: center;text-align: center;text-decoration: none;font-family: "TT Livret Display Trl", sans-serif;}';
+rule += '.centered-word {font-size: 24px;width: 50%;color: #fff;text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);text-align: center;}';
+rule += '.img-container h2 {font-weight: 300 !important;}';
+rule += '.whitebg {background: #fff;}';
+rule += '.house-grid-item.standard .house-price {font-family: "TT Livret Display Trl", sans-serif !important;font-weight: 300 !important;}';
+rule += '.destinations {display: flex;justify-content: center;align-items: center;margin: 5vh auto;}';
+rule += '.flexchild {width: 33.333%;}';
+rule += '.parent-1 {display: flex;justify-content: space-between;width: 90vw;}';
+rule += '.house-grid.standard {margin-left: 0px !important;}';
+rule += '.child-1 {width: 40%;padding: 2vh 5vw;display: flex;flex-direction: column;justify-content: center;}';
+rule += '.child-1 p {font-size: 1.2em;width: 80%;}';
+rule += '.child-1 a {display: inline-block;padding: 10px 20px;background-color: #000000;color: #ffffff;text-decoration: none;margin: 5vh 0;border-bottom: #ffffff 1px solid !important;width: 30%;text-align: center;}';
+rule += '.child-2 img {width: 100%;height: auto;margin: 0;}';
+rule += '.container {width: 100%;overflow: auto;}';
+rule += '.child {position: relative;width: 33.33%;padding-bottom: 56.25%;margin: 0;height: 20vh;}';
+rule += '.child video {position: absolute;top: 0;left: 0;width: 100%;height: 100%;object-fit: cover;}';
+rule += '.child a {position: absolute;top: 0;left: 0;width: 100%;height: 100%;display: flex;align-items: center;justify-content: center;text-align: center;text-decoration: none;}';
+rule += '.overlay {position: absolute;top: 0;left: 0;width: 100%;height: 100%;background-color: #000;opacity: 0.4;}';
+rule += '.media-scroll {width: 100%;height: 70vh;overflow-x: auto;overflow-y: hidden;white-space: nowrap;background-color: #000000;padding: 0 5vw 5vh 5vw;}';
+rule += '.media-scroll-item {display: inline-block;width: 20vw;height: 75vh;margin: 1vw;position: relative;}';
+rule += '.bg-blk h3 {padding: 5vh 0 0 0;font-weight: 300 !important;margin: 5vh auto;}';
+rule += '.media-scroll-item:last-child {margin-right: 0;}';
+rule += '.media-scroll-item video {width: 100%;height: 100%;object-fit: cover;}';
+rule += '.media-scroll-overlay {position: absolute;top: 0;left: 0;width: 100%;height: 100%;background-color: rgba(0, 0, 0, 0.3);display: flex;align-items: center;justify-content: center;}';
+rule += '.media-scroll-overlay h4 {color: #fff;font-weight: bold;font-size: 2rem;margin-bottom: 0;}';
+rule += '.media-scroll-overlay p {color: #fff;margin-top: 0;}';
+rule += '.media-scroll-overlay a {display: inline-block;padding: 10px 20px;background-color: #000000;color: #ffffff;text-decoration: none;margin-top: 1rem;}';
+
+cssEngine(rule);
+</script>
+
+
+<div class="parent" style="background-image: url('https://cdn.chime.me/image/fs/cmsbuild/2023620/1/original_20bfe593-2386-4925-bfd4-3362b0488130.png');
+background-size: cover;">
+  <div class="child-1">
+    <h2 style="color:black;font-family: 'Michroma', sans-serif;font-weight: 300;">About Aperture Luxury Real Estate</h2>
+    <p>Lorem</p>
+    <a style="padding:2vh 4vw;background:#000;color:#fff;" href="about">Learn more</a>
+  </div>
+  <div class="child-2 ">
+    <img  id="aboutpic" src="https://k4design.github.io/aperture/aperture_event_slide.png" alt="Image">
+  </div>
+</div>
+<div class="bg-blk" style="display: flex;
+flex-direction: column;background-image: url('https://cdn.chime.me/image/fs/cmsbuild/2023620/1/original_afba0059-8a50-4642-8cb2-02db88ef1d65.png');
+background-size: cover;">
+  
+
+
+
+<h3 style="color:white;background-size:cover;font-family: 'Michroma', sans-serif;font-size: 6vw;font-weight: 300;text-align:center">Luxury Lifestyle Specialists
+</h3>
+<div class="destinations">
+  <div class="media-scroll-item">
+    <div class="media-scroll-overlay">
+      <a href="golf"><span class="media-scroll-text">Golf</span></a>
+    </div>
+    <a href="golf"><video src="https://cdn.chime.me/doc/fs/upload/2023530/12/81ec8ab5-c63b-4e82-b745-aabab27311ab/golfl.mp4" autoplay loop muted webkit-playsinline playsinline></video></a>
+  </div>
+   <div class="media-scroll-item">
+    <div class="media-scroll-overlay">
+      <a href="beach"><span class="media-scroll-text">Beach</span></a>
+    </div>
+    <a href="beach"><video src="https://cdn.chime.me/doc/fs/upload/2023530/11/45c610bc-a4b3-4acd-84a9-17b453e8a341/beachy.mp4" autoplay loop muted webkit-playsinline playsinline></video></a>
+  </div>
+  <div class="media-scroll-item">
+    <div class="media-scroll-overlay">
+      <a href="lake"><span class="media-scroll-text">Lake</span></a>
+    </div>
+    <a href="lake"><video src="https://cdn.chime.me/doc/fs/upload/2023530/12/bd90fcb3-9501-4cbc-8b26-600d3df8240d/lakel.mp4" autoplay loop muted webkit-playsinline playsinline></video></a>
+  </div>
+  <div class="media-scroll-item">
+    <div class="media-scroll-overlay">
+      <a href="equestrian"><span class="media-scroll-text">Equestrian</span></a>
+    </div>
+    <a href="equestrian"><video src="https://cdn.chime.me/doc/fs/upload/2023530/11/b81dbbec-8c54-4823-bd93-361336ef4400/equestrianl.mp4" autoplay loop muted webkit-playsinline playsinline></video></a>
+  </div>
+
+</div>
+  
+  
+<div class="parent" style="overflow:hidden;">
+   <div class="child-2  whitebg" style="overflow:visible !important;">
+    <img  id="aboutpic" src="https://cdn.chime.me/image/fs/cmsbuild/2023619/16/original_6a9af7fe-1fc3-4b32-bc56-69daf899cb67.png" alt="Image">
+  </div>
+  <div class="child-1" style="background-image: url('https://cdn.chime.me/image/fs/cmsbuild/2023620/1/original_20bfe593-2386-4925-bfd4-3362b0488130.png');
+background-size: cover;">
+    <h2 style="color:black;font-family: 'TT Livret Display Trl', sans-serif;font-weight: 300;
+background-size: cover;">Market Insights</h2>
+    <p>With Aperture your home will benefit from our deep market insights and expertise. Our dedicated team is equipped with comprehensive knowledge of the luxury real estate market, allowing us to provide you with valuable insights into current trends, pricing strategies, and buyer preferences. Through meticulous analysis and extensive research, we will offer you a clear understanding of the market dynamics, empowering you to make informed decisions about your property. With our guidance, you can navigate the ever-changing real estate landscape with confidence, ensuring that your home is positioned strategically to attract the most qualified buyers and achieve optimal results.</p>
+    <a class="lb" href="evaluation">Discover your property's true value</a>
+  </div>
+ 
+</div></div>
