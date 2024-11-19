@@ -42,7 +42,7 @@
 }
 .about .child-1 a:hover{
 	margin:0 auto;
-	background: #00A2FF;
+	background-color: #00A2FF;
 
 }
 .about .child-1 h2{
@@ -59,8 +59,10 @@
 	margin-left: 10%;
 }
 .eliteview .child-1 img{
-	width: 50%;
-	margin: 0 auto;
+	width: 70%;
+  margin: 0 auto;
+  border-bottom: solid #3D7BE6;
+  padding: 0 2vw;
 }
 .eliteview .child-2{
 	width: 50% !important;
