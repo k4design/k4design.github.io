@@ -116,6 +116,9 @@
   text-align: center;
   width: 80%;
 }
+.media-scroll-text:hover{
+	text-decoration: underline;
+}
 .media-scroll-overlay a {
   background: rgba(0, 0, 0, 0) !important;
 }
