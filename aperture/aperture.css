@@ -321,13 +321,14 @@ h3 {
 	width: 100% !important;
 	justify-content: left;
 	overflow:hidden;
-	background-image: url('https://k4design.github.io/aperture/aperture_tvscreens.png');
+	background-image: url('');
 	background-size: contain;
   	background-repeat: no-repeat;
   	background-position: right;
 }
 .eliteview .child-2 img{
 	width: 75%;
+	margin:0 auto;
 }
 .eliteview{
 	margin-left:10vw;
