@@ -338,8 +338,8 @@ h3 {
 	padding: 5vh 0 0 0;
   font-weight: 300 !important;
   margin: 0 !important;
-  font-size: 10vw;
-  line-height: 2vw;
+  font-size: 8vw !important;
+  line-height: 10vw;
   font-weight: 500;
   font-family: var(--font-normal);
 }
