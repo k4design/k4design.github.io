@@ -178,50 +178,6 @@ h3 {
 }
 @media only screen and (max-device-width: 428px) {
 
-	.eliteview .child-1{
-	width: 100% !important;
-	text-align: center;
-	margin-left: 10%;
-}
-.eliteview .child-1 img{
-	width: 70%;
-  margin: 0 auto;
-  border-bottom: solid #3D7BE6;
-  padding: 0 2vw;
-}
-.eliteview .child-2{
-	width: 100% !important;
-	justify-content: left;
-	overflow:hidden;
-	background-image: url('https://k4design.github.io/aperture/aperture_tvscreens.png');
-	background-size: contain;
-  	background-repeat: no-repeat;
-  	background-position: right;
-}
-.eliteview .child-2 img{
-	width: 75%;
-}
-.eliteview{
-	margin-left:10vw;
-}
-.eliteview h3{
-	color: #00A2FF;
-	padding: 5vh 0 0 0;
-  font-weight: 300 !important;
-  margin: 0 !important;
-  font-size: 1.5vw;
-  line-height: 2vw;
-  font-weight: 500;
-  font-family: var(--font-normal);
-}
-.eliteview p{
-	color: white;
-	font-size: 1vw;
-	margin:1vh auto;
-}
-.eliteview img{
-	width: 50%;
-}
   .house-grid-item.template4 .mask .house-detail .hide-price,
   .house-grid-item.template4 .mask .house-detail .house-price {
     font-size: 15vw !important;
@@ -349,6 +305,50 @@ h3 {
   .bg-blk h3 {
     font-size: 10vw !important;
   }
+  
+	.eliteview .child-1{
+	width: 100% !important;
+	text-align: center;
+}
+.eliteview .child-1 img{
+	width: 70%;
+  margin: 0 auto;
+  border-bottom: solid #3D7BE6;
+  padding: 0 2vw;
+}
+.eliteview .child-2{
+	width: 100% !important;
+	justify-content: left;
+	overflow:hidden;
+	background-image: url('https://k4design.github.io/aperture/aperture_tvscreens.png');
+	background-size: contain;
+  	background-repeat: no-repeat;
+  	background-position: right;
+}
+.eliteview .child-2 img{
+	width: 75%;
+}
+.eliteview{
+	margin-left:10vw;
+}
+.eliteview h3{
+	color: #00A2FF;
+	padding: 5vh 0 0 0;
+  font-weight: 300 !important;
+  margin: 0 !important;
+  font-size: 1.5vw;
+  line-height: 2vw;
+  font-weight: 500;
+  font-family: var(--font-normal);
+}
+.eliteview p{
+	color: white;
+	font-size: 1vw;
+	margin:1vh auto;
+}
+.eliteview img{
+	width: 50%;
+}
   .house-address {
     height: inherit !important;
     white-space: pre-wrap !important;
