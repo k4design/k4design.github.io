@@ -77,7 +77,7 @@
 	width: 75%;
 }
 .eliteview{
-	margin: 10vh 0 10vh 10vw;
+	margin: 10vh 0 10vh 10vw !important;
 }
 .eliteview h3{
 	color: #00A2FF;
