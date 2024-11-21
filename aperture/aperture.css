@@ -338,10 +338,13 @@ h3 {
 	padding: 5vh 0 0 0;
   font-weight: 300 !important;
   margin: 0 !important;
-  font-size: 1.5vw;
+  font-size: 10vw;
   line-height: 2vw;
   font-weight: 500;
   font-family: var(--font-normal);
+}
+.eliteview h3 span{
+	font-size: 6vw !important;
 }
 .eliteview p{
 	color: white;
