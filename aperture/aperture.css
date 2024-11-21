@@ -305,10 +305,11 @@ h3 {
   .bg-blk h3 {
     font-size: 10vw !important;
   }
-  
+
 	.eliteview .child-1{
 	width: 100% !important;
 	text-align: center;
+	margin-left: 0;
 }
 .eliteview .child-1 img{
 	width: 70%;
