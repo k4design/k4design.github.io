@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transparent Navbar</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.js"></script>
+    <script src="script.js"></script>
+
+    <!-- LOADING FONTS AND ICONS -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400&display=swap" rel="stylesheet" property="stylesheet" media="all" type="text/css" >
+
+
+    <link rel="stylesheet" type="text/css" href="fonts/pe-icon-7-stroke/css/pe-icon-7-stroke.css">
+    <link rel="stylesheet" type="text/css" href="fonts/font-awesome/css/font-awesome.css">
+
+    <!-- REVOLUTION STYLE SHEETS -->
+    <link rel="stylesheet" type="text/css" href="css/rs6.css">
+    <!-- REVOLUTION LAYERS STYLES -->
+    <script>
+        window.RS_MODULES = window.RS_MODULES || {};
+        window.RS_MODULES.modules = window.RS_MODULES.modules || {};
+        window.RS_MODULES.waiting = window.RS_MODULES.waiting || [];
+        window.RS_MODULES.defered = true;
+        window.RS_MODULES.moduleWaiting = window.RS_MODULES.moduleWaiting || {};
+        window.RS_MODULES.type = 'compiled';
+    </script>
+    <script src="js/rbtools.min.js"></script>
+    <script src="js/rs6.min.js"></script>
+
+    <script>function setREVStartSize(e){
+            //window.requestAnimationFrame(function() {
+                window.RSIW = window.RSIW===undefined ? window.innerWidth : window.RSIW;
+                window.RSIH = window.RSIH===undefined ? window.innerHeight : window.RSIH;
+                try {
+                    var pw = document.getElementById(e.c).parentNode.offsetWidth,
+                    newh;
+                    pw = pw===0 || isNaN(pw) || (e.l=="fullwidth" || e.layout=="fullwidth") ? window.RSIW : pw;
+                    e.tabw = e.tabw===undefined ? 0 : parseInt(e.tabw);
+                    e.thumbw = e.thumbw===undefined ? 0 : parseInt(e.thumbw);
+                    e.tabh = e.tabh===undefined ? 0 : parseInt(e.tabh);
+                    e.thumbh = e.thumbh===undefined ? 0 : parseInt(e.thumbh);
+                    e.tabhide = e.tabhide===undefined ? 0 : parseInt(e.tabhide);
+                    e.thumbhide = e.thumbhide===undefined ? 0 : parseInt(e.thumbhide);
+                    e.mh = e.mh===undefined || e.mh=="" || e.mh==="auto" ? 0 : parseInt(e.mh,0);
+                    if(e.layout==="fullscreen" || e.l==="fullscreen")
+                        newh = Math.max(e.mh,window.RSIH);
+                    else{
+                        e.gw = Array.isArray(e.gw) ? e.gw : [e.gw];
+                        for (var i in e.rl) if (e.gw[i]===undefined || e.gw[i]===0) e.gw[i] = e.gw[i-1];
+                            e.gh = e.el===undefined || e.el==="" || (Array.isArray(e.el) && e.el.length==0)? e.gh : e.el;
+                        e.gh = Array.isArray(e.gh) ? e.gh : [e.gh];
+                        for (var i in e.rl) if (e.gh[i]===undefined || e.gh[i]===0) e.gh[i] = e.gh[i-1];
+
+                            var nl = new Array(e.rl.length),
+                        ix = 0,
+                        sl;
+                        e.tabw = e.tabhide>=pw ? 0 : e.tabw;
+                        e.thumbw = e.thumbhide>=pw ? 0 : e.thumbw;
+                        e.tabh = e.tabhide>=pw ? 0 : e.tabh;
+                        e.thumbh = e.thumbhide>=pw ? 0 : e.thumbh;
+                        for (var i in e.rl) nl[i] = e.rl[i]<window.RSIW ? 0 : e.rl[i];
+                            sl = nl[0];
+                        for (var i in nl) if (sl>nl[i] && nl[i]>0) { sl = nl[i]; ix=i;}
+                            var m = pw>(e.gw[ix]+e.tabw+e.thumbw) ? 1 : (pw-(e.tabw+e.thumbw)) / (e.gw[ix]);
+                        newh =  (e.gh[ix] * m) + (e.tabh + e.thumbh);
+                    }
+                    var el = document.getElementById(e.c);
+                    if (el!==null && el) el.style.height = newh+"px";
+                    el = document.getElementById(e.c+"_wrapper");
+                    if (el!==null && el) {
+                        el.style.height = newh+"px";
+                        el.style.display = "block";
+                    }
+                } catch(e){
+                    console.log("Failure at Presize of Slider:" + e)
+                }
+            //});
+        };</script>
+    </head>
+    <body>
+
+        <div class="navbar" id="navbar">
+            <div class="navbar-left">
+                <img src="img/aquareserve_logo-horizontal-white.svg">
+            </div>
+            <div class="navbar-right">
+                <a href="#">Amenities</a>
+                <a href="#">Community</a>
+                <a href="#">Unit Details</a>
+                <a class="cta-button">Contact Us</a>
+            </div>
+        </div>
+
+
+        <!-- START Main Home REVOLUTION SLIDER 6.6.11 --><p class="rs-p-wp-fix"></p>
+        <rs-module-wrap id="rev_slider_3_1_wrapper" data-alias="main-home" data-source="gallery" style="visibility:hidden;background:transparent;padding:0;">
+            <rs-module id="rev_slider_3_1" style="" data-version="6.6.11">
+                <rs-slides style="overflow: hidden; position: absolute;">
+                    <rs-slide style="position: absolute;" data-key="rs-33" data-title="Slide" data-thumb="assets/c01-2_lbxl-1-50x100.jpg" data-in="o:0;" data-out="a:false;">
+                        <img src="assets/c01-2_lbxl-1.jpg" alt="" title="c01-2_lb+xl" width="2000" height="1414" class="rev-slidebg tp-rs-img" data-no-retina>
+<!--
+--><rs-layer
+id="slider-3-slide-33-layer-0" 
+data-type="text"
+data-xy="x:c;y:m;yo:-20px,3px,3px,3px;"
+data-text="w:normal;s:130,100,100,50;l:130,100,100,64;a:center;"
+data-dim="w:744px;"
+data-basealign="slide"
+data-rsp_o="off"
+data-rsp_bd="off"
+data-frame_0="y:100%;"
+data-frame_0_mask="u:t;"
+data-frame_1="e:power3.out;st:100;sp:1200;"
+data-frame_1_mask="u:t;"
+data-frame_999="o:0;st:w;"
+style="z-index:5;font-family:'Marcellus';text-transform:uppercase;"
+>Panoramic 
+                            </rs-layer><!--
+
+                        --><rs-layer
+                        id="slider-3-slide-33-layer-1" 
+                        data-type="text"
+                        data-xy="x:c;y:m;yo:87px,97px,97px,76px;"
+                        data-text="w:normal;s:22,22,22,20;l:20,20,20,26;ls:1px;fw:500;a:center;"
+                        data-dim="w:443px,443px,443px,362px;"
+                        data-basealign="slide"
+                        data-rsp_o="off"
+                        data-rsp_bd="off"
+                        data-frame_0="y:100%;"
+                        data-frame_0_mask="u:t;"
+                        data-frame_1="e:power3.out;st:250;sp:1200;"
+                        data-frame_1_mask="u:t;"
+                        data-frame_999="o:0;st:w;"
+                        style="z-index:6;font-family:'Muli';text-transform:uppercase;"
+                        >Next level of living 
+                            </rs-layer><!--
+                        -->                     </rs-slide>
+                        <rs-slide style="position: absolute;" data-key="rs-10" data-title="Slide" data-thumb="assets/big-game-fishing-reels-and-rods-reels-and-rods-SBV-301465565-HD_10-50x100.jpeg" data-in="o:0;" data-out="a:false;">
+                            <img src="assets/big-game-fishing-reels-and-rods-reels-and-rods-SBV-301465565-HD_10.jpeg" alt="" title="big-game-fishing-reels-and-rods-reels-and-rods-SBV-301465565-HD_10.jpeg" width="1920" height="1080" class="rev-slidebg tp-rs-img" data-no-retina>
+                            <rs-bgvideo 
+                            data-video="w:100%;h:100%;nse:false;l:true;ptimer:false;vfc:true;"
+                            data-mp4="assets/big-game-fishing-reels-and-rods-reels-and-rods-SBV-301465565-HD.mp4"
+                            ></rs-bgvideo>
+<!--
+--><rs-layer
+id="slider-3-slide-10-layer-0" 
+data-type="text"
+data-xy="x:c;y:m;yo:-20px,3px,3px,3px;"
+data-text="w:normal;s:130,100,100,50;l:130,100,100,64;a:center;"
+data-dim="w:900px;"
+data-basealign="slide"
+data-rsp_o="off"
+data-rsp_bd="off"
+data-frame_0="y:100%;"
+data-frame_0_mask="u:t;"
+data-frame_1="e:power3.out;st:100;sp:1200;"
+data-frame_1_mask="u:t;"
+data-frame_999="o:0;st:w;"
+style="z-index:5;font-family:'Marcellus';text-transform:uppercase;"
+>WATER FRONT 
+                            </rs-layer><!--
+
+                        --><rs-layer
+                        id="slider-3-slide-10-layer-1" 
+                        data-type="text"
+                        data-xy="x:c;y:m;yo:87px,97px,97px,76px;"
+                        data-text="w:normal;s:22,22,22,20;l:20,20,20,26;ls:1px;fw:500;a:center;"
+                        data-dim="w:443px,443px,443px,362px;"
+                        data-basealign="slide"
+                        data-rsp_o="off"
+                        data-rsp_bd="off"
+                        data-frame_0="y:100%;"
+                        data-frame_0_mask="u:t;"
+                        data-frame_1="e:power3.out;st:250;sp:1200;"
+                        data-frame_1_mask="u:t;"
+                        data-frame_999="o:0;st:w;"
+                        style="z-index:6;font-family:'Muli';text-transform:uppercase;"
+                        >Next level of living 
+                            </rs-layer><!--
+                        -->                     </rs-slide>
+                        <rs-slide style="position: absolute;" data-key="rs-9" data-title="Slide" data-thumb="assets/happy-couple-relaxing-together-on-yacht-romantic-dating-on-lake-at-sunset-love-coup-SBV-324493796-HD-1_9-50x100.jpeg" data-in="o:0;" data-out="a:false;">
+                            <img src="assets/happy-couple-relaxing-together-on-yacht-romantic-dating-on-lake-at-sunset-love-coup-SBV-324493796-HD-1_9.jpeg" alt="" title="happy-couple-relaxing-together-on-yacht-romantic-dating-on-lake-at-sunset-love-coup-SBV-324493796-HD-1_9.jpeg" width="1920" height="1080" class="rev-slidebg tp-rs-img" data-no-retina>
+                            <rs-bgvideo 
+                            data-video="w:100%;h:100%;nse:false;l:true;ptimer:false;vfc:true;"
+                            data-mp4="assets/happy-couple-relaxing-together-on-yacht-romantic-dating-on-lake-at-sunset-love-coup-SBV-324493796-HD-1.mp4"
+                            ></rs-bgvideo>
+<!--
+--><rs-layer
+id="slider-3-slide-9-layer-0" 
+data-type="text"
+data-xy="x:c;y:m;yo:-20px,3px,3px,3px;"
+data-text="w:normal;s:130,100,100,50;l:130,100,100,64;a:center;"
+data-dim="w:744px;"
+data-basealign="slide"
+data-rsp_o="off"
+data-rsp_bd="off"
+data-frame_0="y:100%;"
+data-frame_0_mask="u:t;"
+data-frame_1="e:power3.out;st:100;sp:1200;"
+data-frame_1_mask="u:t;"
+data-frame_999="o:0;st:w;"
+style="z-index:5;font-family:'Marcellus';text-transform:uppercase;"
+>Panoramic 
+                            </rs-layer><!--
+
+                        --><rs-layer
+                        id="slider-3-slide-9-layer-1" 
+                        data-type="text"
+                        data-xy="x:c;y:m;yo:87px,97px,97px,76px;"
+                        data-text="w:normal;s:22,22,22,20;l:20,20,20,26;ls:1px;fw:500;a:center;"
+                        data-dim="w:443px,443px,443px,362px;"
+                        data-basealign="slide"
+                        data-rsp_o="off"
+                        data-rsp_bd="off"
+                        data-frame_0="y:100%;"
+                        data-frame_0_mask="u:t;"
+                        data-frame_1="e:power3.out;st:250;sp:1200;"
+                        data-frame_1_mask="u:t;"
+                        data-frame_999="o:0;st:w;"
+                        style="z-index:6;font-family:'Muli';text-transform:uppercase;"
+                        >Next level of living 
+                            </rs-layer><!--
+                        -->                     </rs-slide>
+                        <rs-slide style="position: absolute;" data-key="rs-8" data-title="Slide" data-thumb="assets/female-legs-hanging-from-the-yacht-the-yacht-moves-along-the-waves-girl-enjoys-the-SBV-337874838-HD_8-50x100.jpeg" data-in="o:0;" data-out="a:false;">
+                            <img src="assets/female-legs-hanging-from-the-yacht-the-yacht-moves-along-the-waves-girl-enjoys-the-SBV-337874838-HD_8.jpeg" alt="" title="female-legs-hanging-from-the-yacht-the-yacht-moves-along-the-waves-girl-enjoys-the-SBV-337874838-HD_8.jpeg" width="1920" height="1080" class="rev-slidebg tp-rs-img" data-no-retina>
+                            <rs-bgvideo 
+                            data-video="w:100%;h:100%;nse:false;l:true;ptimer:false;vfc:true;"
+                            data-mp4="assets/female-legs-hanging-from-the-yacht-the-yacht-moves-along-the-waves-girl-enjoys-the-SBV-337874838-HD.mp4"
+                            ></rs-bgvideo>
+<!--
+--><rs-layer
+id="slider-3-slide-8-layer-2" 
+data-type="image"
+data-xy="x:c;y:m;"
+data-text="w:normal;"
+data-dim="w:614px,614px,447px,265px;h:387px,387px,282px,167px;"
+data-rsp_o="off"
+data-rsp_bd="off"
+data-frame_999="o:0;st:w;"
+style="z-index:7;"
+><img src="assets/logo-1.png" alt="" class="tp-rs-img" width="639" height="403" data-no-retina> 
+                            </rs-layer><!--
+                        -->                     </rs-slide>
+                    </rs-slides>
+                </rs-module>
+                <script>
+
+                </script>
+                <script>
+                    if(typeof revslider_showDoubleJqueryError === "undefined") {function revslider_showDoubleJqueryError(sliderID) {console.log("You have some jquery.js library include that comes after the Slider Revolution files js inclusion.");console.log("To fix this, you can:");console.log("1. Set 'Module General Options' -> 'Advanced' -> 'jQuery & OutPut Filters' -> 'Put JS to Body' to on");console.log("2. Find the double jQuery.js inclusion and remove it");return "Double Included jQuery Library";}}
+                </script>
+            </rs-module-wrap>
+            <!-- END REVOLUTION SLIDER -->
+
+            <script>
+                var tpj = jQuery;
+                if(window.RS_MODULES === undefined) window.RS_MODULES = {};
+                if(RS_MODULES.modules === undefined) RS_MODULES.modules = {};
+                RS_MODULES.modules["revslider31"] = {once: RS_MODULES.modules["revslider31"]!==undefined ? RS_MODULES.modules["revslider31"].once : undefined, init:function() {
+                    window.revapi3 = window.revapi3===undefined || window.revapi3===null || window.revapi3.length===0  ? document.getElementById("rev_slider_3_1") : window.revapi3;
+                    if(window.revapi3 === null || window.revapi3 === undefined || window.revapi3.length==0) { window.revapi3initTry = window.revapi3initTry ===undefined ? 0 : window.revapi3initTry+1; if (window.revapi3initTry<20) requestAnimationFrame(function() {RS_MODULES.modules["revslider31"].init()}); return;}
+                    window.revapi3 = jQuery(window.revapi3);
+                    if(window.revapi3.revolution==undefined){ revslider_showDoubleJqueryError("rev_slider_3_1"); return;}
+                    revapi3.revolutionInit({
+                        revapi:"revapi3",
+                        DPR:"dpr",
+                        sliderLayout:"fullscreen",
+                        duration:"3500ms",
+                        visibilityLevels:"1240,1024,778,480",
+                        gridwidth:"1300,1100,600,300",
+                        gridheight:"900,640,800,500",
+                        perspective:600,
+                        perspectiveType:"global",
+                        editorheight:"900,640,800,500",
+                        responsiveLevels:"1240,1024,778,480",
+                        overlay: {
+                            type: 16,
+                            colora: "rgba(90,200,250,0.24)",
+                            colorb: "rgba(0,122,255,0.38)",
+
+                        },
+                        progressBar:{disableProgressBar:true},
+                        navigation: {
+                            wheelCallDelay:1000,
+                            onHoverStop:false,
+                            arrows: {
+                                enable:true,
+                                tmp:"<div class=\"property-nav-left\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"42.828\" height=\"82.828\" viewBox=\"0 0 42.828 82.828\">  <path d=\"M-11206.491-18603.43l-40,41.078,40,38.922\" transform=\"translate(11247.905 18604.844)\" fill=\"none\" stroke=\"#fff\" stroke-linecap=\"round\" stroke-width=\"2\"/></svg></div><div class=\"property-nav-right\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"42.828\" height=\"82.828\" viewBox=\"0 0 42.828 82.828\">  <path d=\"M40,0,0,41.073,40,80\" transform=\"translate(41.414 81.414) rotate(180)\" fill=\"none\" stroke=\"#fff\" stroke-linecap=\"round\" stroke-width=\"2\"/></svg></div>",
+                                style:"property-nav",
+                                hide_onmobile:true,
+                                hide_under:"1025px",
+                                left: {
+                                    h_offset:60
+                                },
+                                right: {
+                                    h_offset:60
+                                }
+                            }
+                        },
+                        viewPort: {
+                            global:false,
+                            globalDist:"-200px",
+                            enable:false
+                        },
+                        fallbacks: {
+                            allowHTML5AutoPlayOnAndroid:true
+                        },
+                    });
+
+                    }} // End of RevInitScript
+                    if (window.RS_MODULES.checkMinimal!==undefined) { window.RS_MODULES.checkMinimal();};
+                </script>
+
+
+
+                <style>.property-nav.tp-leftarrow .property-nav-right{display:none}.property-nav.tp-rightarrow .property-nav-left{display:none}.tparrows{background:transparent;text-align:center}.tparrows.rs-touchhover{background-color:transparent}.tparrows span{transition:.2s}.tp-leftarrow:before{display:none}.tp-rightarrow:before{display:none}.tp-leftarrow .property-nav-left,.tp-rightarrow .property-nav-right{font-size:36px;color:#fff; -webkit-transition:.3s cubic-bezier(.37,-.05,0,.79); -moz-transition:.3s cubic-bezier(.37,-.05,0,.79);-o-transition:.3s cubic-bezier(.37,-.05,0,.79); transition:.3s cubic-bezier(.37,-.05,0,.79)}.tp-leftarrow.rs-touchhover .property-nav-left{transform:translateX(-3px)}.tp-rightarrow.rs-touchhover .property-nav-right{transform:translateX(3px)}</style>
+
+                <div class="content">
+                    <div class="section section-1">
+                        <div class="maptext">
+                            <h2>New Port Richey, FL</h2>
+                            <p>
+                                In the heart of New Port Richey, Florida, lies an exclusive retreat spanning 150 acres of pristine natural beauty. Offering stunning views and direct access to the Gulf Coast, its shoreline features over 1,200 meters of soft, inviting sands. This thoughtfully designed community blends eco-conscious living with a low-density, resort-style ambiance, delivering the ultimate in modern luxury. Conveniently located yet tucked away within a secure, gated enclave, it provides residents and guests with seamless access to the area’s vibrant attractions while preserving a peaceful and private atmosphere.
+                            </p>
+                            <a href="">Learn More</a>
+                        </div>
+                        <div class="map">
+                            <img src="map.png">
+                        </div>
+
+                    </div>
+                    <div class="section section-2">
+                        <div class="stats">
+                            <div class="stat">
+                                <h3>30</h3>
+                                <p>units listed</p>
+                            </div>
+                            <div class="stat">
+                                <h3>$2.5 million</h3>
+                                <p>average listing price</p>
+                            </div>
+                            <div class="stat">
+                                <h3>15,875 sq ft</h3>
+                                <p>Community lorem ip</p>
+                            </div>
+                            <div class="stat2">
+                                <h3>30</h3>
+                                <p>units listed</p>
+                            </div>
+                        </div>
+                        <div class="community">
+
+                            <img src="ar_entrance.png">
+
+                            <div class="details3">
+                                <h3>
+                                    LOREM IPSUM ABOUT THE EXTERIOR/COMMUNITY
+                                </h3>
+                                <p>
+                                    In the architectural design, a seamless blend of modern minimalism and timeless luxury is showcased. Each detail is meticulously crafted to integrate indoor and outdoor spaces, embodying the essence of ELIE SAAB’s signature DNA. Crafted with high quality materials and precise artistry, 
+                                </p>
+                                <a href="">Learn More</a>
+                            </div>
+
+                        </div>
+                        <div class="interior">
+                            <div class="details3">
+                                <h3>
+                                    LOREM IPSUM ABOUT THE EXTERIOR/COMMUNITY
+                                </h3>
+                                <p>
+                                    In the architectural design, a seamless blend of modern minimalism and timeless luxury is showcased. Each detail is meticulously crafted to integrate indoor and outdoor spaces, embodying the essence of ELIE SAAB’s signature DNA. Crafted with high quality materials and precise artistry, 
+                                </p>
+                                <a href="">Learn More</a>
+                            </div>
+                            <img src="img/livingroom.png">
+
+                        </div>
+                        <div class="aminities">
+                            <img src="img/dock.jpg">
+                            <div class="details3">
+                                <h3>
+                                    LOREM IPSUM ABOUT THE EXTERIOR/COMMUNITY
+                                </h3>
+                                <p>
+                                    In the architectural design, a seamless blend of modern minimalism and timeless luxury is showcased. Each detail is meticulously crafted to integrate indoor and outdoor spaces, embodying the essence of ELIE SAAB’s signature DNA. Crafted with high quality materials and precise artistry, 
+                                </p>
+                                <a href="">Learn More</a>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <video autoplay muted loop>
+                        <source src="fishing.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+
+                        <div class="section section-3">
+                            <h3>COMMUNITY FEATURES</h3>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim  veniam.</p>
+                            <div class="featurelist">
+                                <ul>
+                                    <li>Collection Of 32 Bespoke Residences</li>
+                                    <li>Curated Interiors And Amenities Galore</li>
+                                    <li>Beautifully Designed Exteriors</li>
+                                    <li>Panoramic Views Of The Intercoastal</li>
+                                    <li>Tropical Lush Landscaping</li>
+                                    <li>Outdoor Kitchen</li>
+                                    <li>Resort-Inspired Private Rooftops With Glass Railing</li>
+                                    <li>Impressive Double-Height Lobby</li>
+                                    <li>Package Room</li>
+                                    <li>Epoxy On All Flooring And Decks</li>
+                                </ul>
+                                <ul>
+                                    <li>Block And Soundproof Demising Walls</li>
+                                    <li>4-Stop Elevator</li>
+                                    <li>Shaker Wood Cabinets With Soft Closers</li>
+                                    <li>Calcutta Quartz Countertops With Waterfall</li>
+                                    <li>Commercial Kitchen Appliances</li>
+                                    <li>Wet Bar With Beverage Cooler And Wine Cooler</li>
+                                    <li>16' Sliding Door In Living Room</li>
+                                    <li>Outdoor Kitchen</li>
+                                    <li>2-Car Garage</li>
+                                    <li>Tankless Water Heaters</li>
+                                    <li>Impact Windows And Doors</li>
+                                </ul>
+                            </div>
+
+                        </div>
+                        <div class="section section-4">
+                            <div class="developer">
+                                <div class="details3">
+                                    <h3>
+                                        PROJECT DEVELOPER
+                                    </h3>
+                                    <p>
+                                        With assets spanning top markets and prime  locations across North America, HBC owns or controls—either entirely or  with joint venture partners—approximately 40 million square feet of  gross leasable area. HBC Properties and Investments, the company’s real  estate and investments portfolio business, manages these assets along  with additional real estate offerings, including Streetworks  Development, its property development division.
+
+                                        Founded in 1670, HBC is North America’s longest continually operating company and is headquartered in New York and Toronto.
+                                    </p>
+                                    <a href="">Learn More</a>
+                                </div>
+                                <img src="developer.png">
+                            </div>
+                        </div>
+                        <div class="section section-5">
+                            <h3>MEET SOME OF OUR LOYAL PARTNERS AND SPONSORS</h3>
+                            <div class="sponsers">
+                                <img src="lc_logo.png">
+                                <img src="wf_logo.png">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="contact-form">
+                        <h3>
+                            Get in touch with us. <br>
+                            We're here to assist you.
+                        </h3>
+                        <form action="#" method="POST">
+                            <!-- Row 1: Name, Email, Phone -->
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="name">Name</label>
+                                    <input type="text" id="name" name="name" placeholder="Enter your name" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="email">Email Address</label>
+                                    <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="phone">Phone Number</label>
+                                    <input type="tel" id="phone" name="phone" placeholder="Enter your phone number">
+                                </div>
+                            </div>
+
+                            <!-- Row 2: Message -->
+                            <div class="form-row">
+                                <div class="form-group full-width">
+                                    <label for="message">Message</label>
+                                    <textarea id="message" name="message" placeholder="Type your message here" rows="5" required></textarea>
+                                </div>
+                            </div>
+
+                            <!-- Row 3: Submit Button -->
+                            <div class="form-row">
+                                <button type="submit" class="submit-button">Send Message</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="contact-section">
+                        <div class="contact-container">
+                            <div class="contact-text">
+                                <h1>We are always<br> happy to assist you</h1>
+                            </div>
+                            <div class="contact-details">
+                                <div class="contact-item">
+                                    <p class="detail-title">Email Address</p>
+                                    <hr class="divider">
+                                    <p class="detail-info">help@info.com</p>
+                                    <p class="assistance-hours">Assistance hours:<br> Monday - Friday 6 am to 8 pm EST</p>
+                                </div>
+                                <div class="contact-item">
+                                    <p class="detail-title">Number</p>
+                                    <hr class="divider">
+                                    <p class="detail-info">(808) 998-34256</p>
+                                    <p class="assistance-hours">Assistance hours:<br> Monday - Friday 6 am to 8 pm EST</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <footer class="footer">
+                        <div class="footer-social-icons">
+
+                            <a href="#"><img src="img/youtube-icon.png" alt="YouTube"></a>
+                            <a href="#"><img src="img/instagram-icon.webp" alt="Instagram"></a>
+                            <a href="#"><img src="img/google-icon.png" alt="Google+"></a>
+                        </div>
+                        <div class="footer-info">
+                            <p class="location">We're based in Plymouth, Massachusetts.<br>We work with clients from all over. Get in touch with us!</p>
+                            <div class="contact-details">
+                                <p><span class="contact-icon">📧</span> <a href="mailto:info@alanterealestate.com">info@alanterealestate.com</a></p>
+                                <p><span class="contact-icon">📞</span> (508) 746-0033</p>
+                                <p><span class="contact-icon">🏠</span> Plymouth Real Estate<br>25 Sandwich Street, Plymouth, 02360</p>
+                            </div>
+                        </div>
+                        <div class="footer-credits">
+                            <p>&copy; 2013 Susana Murphy. All Rights Reserved | Real Estate Advertising by <a href="#">Placester</a></p>
+                        </div>
+                        <
+                    </body>
+                    </html>
