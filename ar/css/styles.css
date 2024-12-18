@@ -73,6 +73,7 @@ body {
 }
 video {
     width: 100%;
+    overflow: hidden;
 }
 
 
@@ -108,7 +109,7 @@ video {
     color: #333;
     padding: 2% 10%;
     font-size: 1rem;
-    font-weight: bold;
+    font-weight: 400;
     cursor: pointer;
     transition: background 0.3s ease, color 0.3s ease;
     text-decoration: none;
@@ -187,6 +188,7 @@ video {
     font-weight: 300;
     line-height: 1.25em;
     color: #0c314c;
+    text-transform: capitalize;
 }
 .details3 p{
     font-size: .75em;
@@ -248,17 +250,37 @@ video {
     font-weight: 200;
     width: 50%;
     margin: 1% auto 0 auto;
+    max-width: 1000px;
+}
+.section-3 a {
+    border: 1.5px solid #0094F7;
+    border-radius: 30px;
+    background: transparent;
+    color: #333;
+    padding: .75% 3%;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.3s ease, color 0.3s ease;
+    text-decoration: none;
+}
+.section-3 a:hover {
+    background: #0c314c;
+    color: #fff !important;
+    text-decoration: none;
 }
 .featurelist{
     display: flex;
     justify-content: center;
+    margin-left: 6%;
 }
 .featurelist ul{
-    margin: 4% 0 0 0;
+    margin: 2% 0 2% 0;
     font-size: .75em;
     font-weight: 200;
     text-align: left;
     width: 25%;
+    padding: 0 3%;
 }
 .featurelist li{
     margin: 4% 0;
@@ -377,7 +399,7 @@ textarea {
     color: #333;
     padding: 1% 5%;
     font-size: 1rem;
-    font-weight: bold;
+    font-weight: 500;
     cursor: pointer;
     transition: background 0.3s ease, color 0.3s ease;
     text-decoration: none;
@@ -592,6 +614,9 @@ textarea {
     .section-3 p{
         width: 90%;
     }
+    .section-3 a{
+        text-align:left;
+    }
     .featurelist{
         flex-direction: column;
         width: 100%;
@@ -614,6 +639,9 @@ textarea {
     }
     .section-5 img{
         width: 40%;
+    }
+    .section-5 h3{
+        width: 90%;
     }
 }
 
