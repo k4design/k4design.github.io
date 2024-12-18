@@ -314,8 +314,37 @@ video {
     justify-content: center;
 }
 .sponsers img{
+    width: 55%;
+    margin: 5% 2% 0 2%;
+}
+.section-6{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.section-6 h3{
+    font-size: 2vw;
+    font-weight: 300;
+}
+.pois{
+    width: 90%;
+    display: flex;
+    justify-content: center;
+}
+.poi {
     width: 15%;
-    margin: 2% 2% 0 2%;
+    margin: 5% 2%;
+    text-align: center;
+}
+.poi img{
+    width:100%;
+}
+.poi h3{
+    font-size: 1.5vw;
+}
+.poi p{
+    font-weight: 200;
 }
 
 
