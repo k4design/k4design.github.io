@@ -641,6 +641,7 @@ textarea {
     background-image: linear-gradient(0deg, rgba(23, 48, 74, 0.8), rgba(23, 48, 74, 0.5)),url("../img/livingroom.png");
     background-size: cover;
     background-position: center;
+    background-attachment: fixed;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -661,6 +662,7 @@ textarea {
     background-image: linear-gradient(0deg, rgba(23, 48, 74, 0.8), rgba(23, 48, 74, 0.5)),url("../ar_entrance.png");
     background-size: cover;
     background-position: center;
+    background-attachment: fixed;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -673,6 +675,17 @@ textarea {
     font-weight: 400;
     color: #fff;
     font-family: qafientola;
+}
+.lmap{
+    width: 100vw;
+    height:50vh;
+    overflow-y: hidden;
+    background-image:url("../img/lmap.png");
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .floorplans{
     display: flex;
