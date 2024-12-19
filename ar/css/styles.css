@@ -97,7 +97,7 @@ body {
 
 
 video {
-    width: 100%;
+    width: 100vw;
     overflow: hidden;
 }
 
@@ -659,7 +659,7 @@ textarea {
     width: 100vw;
     height:80vh;
     overflow-y: hidden;
-    background-image: linear-gradient(0deg, rgba(23, 48, 74, 0.8), rgba(23, 48, 74, 0.5)),url("../ar_entrance.png");
+    background-image: linear-gradient(0deg, rgba(23, 48, 74, 0.8), rgba(23, 48, 74, 0.5)),url("../img/aerial.jpg");
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -721,6 +721,9 @@ textarea {
   transform: scale(2);
   background-color: white;
   padding:5%;
+}
+.section2-amenities{
+    padding-bottom: 0% !important;
 }
 /*
   Sub-page css ends here
