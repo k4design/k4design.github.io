@@ -15,7 +15,9 @@ body {
 img {
     max-width: 100vw;
 }
-
+.overflow{
+    overflow-x: none;
+}
 .navbar {
     position: fixed;
     top: 0;
