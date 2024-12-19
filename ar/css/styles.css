@@ -837,6 +837,9 @@ textarea {
     .section-5 h3{
         width: 90%;
     }
+    .section-6-intro{
+        width: 90%;
+    }
     .pois{
         flex-direction: column;
         align-items: center;
@@ -864,5 +867,6 @@ textarea {
         flex-direction: column;
   align-items: center;
     }
+
 }
 
