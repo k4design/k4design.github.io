@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
     <title>Transparent Navbar</title>
     <link rel="stylesheet" href="css/styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -11,6 +11,7 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.js"></script>
     <script src="script.js"></script>
+    <script src="js/hamburger.js"></script>
 
     <!-- LOADING FONTS AND ICONS -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:400&display=swap" rel="stylesheet" property="stylesheet" media="all" type="text/css" >
@@ -87,13 +88,20 @@
 
         <div class="navbar" id="navbar">
             <div class="navbar-left">
-                <img src="img/aquareserve_logo-horizontal-white.svg">
+                <img src="img/aquareserve_logo-horizontal-white.svg" alt="Logo">
             </div>
-            <div class="navbar-right">
-                <a href="#">Amenities</a>
-                <a href="#">Community</a>
-                <a href="#">Unit Details</a>
-                <a class="cta-button">Contact Us</a>
+            <div class="navbar-toggle" id="navbar-toggle">
+                <!-- Hamburger Icon -->
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <div class="navbar-right" id="navbar-menu">
+                <a href="index.html">Home</a>
+                <a href="units.html">Unit Details</a>
+                <a href="amenities.html">Amenities</a>
+                <a href="community.html">Community</a>
+                <a href="#contact-form" class="cta-button">Contact Us</a>
             </div>
         </div>
 
@@ -372,7 +380,7 @@ style="z-index:7;"
                         <div class="interior">
                             <div class="details3">
                                 <h3>
-                                    Each residence is designed for comfort and privacy
+                                    Each residence is designed<br> for comfort and privacy
                                 </h3>
                                 <p>
                                     Step into your dream home with state-of-the-art amenities like commercial-grade kitchen appliances, a wet bar equipped with beverage and wine coolers, and modern shaker wood cabinets with soft-close technology. Calcutta quartz countertops with a waterfall edge and sleek epoxy flooring set the tone for a stylish living experience. Enjoy seamless indoor-outdoor flow through a 16' sliding door leading to your private outdoor space.
@@ -386,7 +394,7 @@ style="z-index:7;"
                             <img src="img/dock.jpg">
                             <div class="details3">
                                 <h3>
-                                    Deeded Boat Slips at Aqua Reserve
+                                    Deeded Boat Slips <br>at Aqua Reserve
                                 </h3>
                                 <p>
                                     Enjoy exclusive Gulf access with Aqua Reserve’s private deeded boat slips. Designed for convenience and security, these slips accommodate various vessels and are steps from your luxury residence. Perfect for fishing, cruising, or watersports, they elevate your waterfront lifestyle to a whole new level.
@@ -445,25 +453,31 @@ style="z-index:7;"
                     </div>
                     <div class="section section-6">
                         <h3>SALES TEAM</h3>
+                        <p class="section-6-intro">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
                         <div class="pois">
                             <div class="poi">
-                                <img src="img/mhodge.png">
-                                <h3>Matt Hodge</h3>
-                                <p>EVP of LPT Realty</p>
+                                <img src="img/smcnaire.png">
+                                <h3>Shawn McNair</h3>
+                                <p class="title">Sales Consultant</p>
+                                <p class="title2">New Construction Expert</p>
+                            </div>
+                            <div class="poi">
+                                <img src="img/jdemas.png">
+                                <h3>Jennie Demas</h3>
+                                <p class="title">Sales Consultant</p>
+                                <p class="title2">Waterfront Specialist</p>
                             </div>
                             <div class="poi">
                                 <img src="img/mhodge.png">
                                 <h3>Matt Hodge</h3>
-                                <p>EVP of LPT Realty</p>
-                            </div>
-                            <div class="poi">
-                                <img src="img/mhodge.png">
-                                <h3>Matt Hodge</h3>
-                                <p>EVP of LPT Realty</p>
+                                <p class="title">Broker</p>
+                                <p class="title2">Head of New Development and Construction</p>
+
                             </div>
                         </div>
                     </div>
-                    <div class="contact-form">
+
+                    <div class="contact-form" id="contact-form">
                         <h3>
                             Get in touch with us. <br>
                             We're here to assist you.

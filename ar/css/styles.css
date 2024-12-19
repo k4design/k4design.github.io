@@ -3,10 +3,13 @@
     padding: 0;
     box-sizing: border-box;
 }
-
+html {
+  scroll-behavior: smooth;
+}
 body {
     font-family: poppins, sans-serif;
     line-height: 1.6;
+    overflow-x: hidden;
 }
 
 .navbar {
@@ -71,6 +74,28 @@ body {
 .cta-button:focus{
     color: #fff;
 }
+#contact-form{
+    scroll-margin-top: 100px;
+}
+/* Hamburger Menu */
+.navbar-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 24px;
+    cursor: pointer;
+}
+
+.navbar-toggle span {
+    display: block;
+    width: 30px;
+    height: 3px;
+    background: #fff;
+    border-radius: 3px;
+    transition: all 0.3s ease;
+}
+
+
 video {
     width: 100%;
     overflow: hidden;
@@ -123,14 +148,14 @@ video {
     width: 40%;
     padding: 7%;
 }
-.maptext h2{
+.maptext h2, .sub-intro h2{
     font-size: 2rem;
     color: #0c314c;
     font-weight: 400;
 }
-.maptext p{
+.maptext p, .sub-intro p{
     font-size: 1rem;
-    padding: 2% 0 7% 0;
+    padding: 2% 0;
     font-weight: 200;
     letter-spacing: 5%;
 }
@@ -177,7 +202,11 @@ video {
     font-size: 1.25vw;
     letter-spacing: 10%;
 }
-.section-2 img{width: 50%}
+.section-2 img{
+    width: 50%;
+    height: 50%;
+    margin:auto;
+}
 .details3{
     width: 40%;
     margin: 0 5%;
@@ -220,9 +249,7 @@ video {
     justify-content: center;
     margin:2% auto 0 auto;
 }
-.community img{
-    width: 50%;
-}
+
 .community 
 .interior{
     display: flex;
@@ -323,6 +350,14 @@ video {
     align-items: center;
     flex-direction: column;
 }
+.section-6-intro{
+    font-size: .75em;
+    font-weight: 200;
+    width: 50%;
+    margin: 1% auto 0 auto;
+    max-width: 1000px;
+    text-align: center;
+}
 .section-6 h3{
     font-size: 2vw;
     font-weight: 300;
@@ -344,9 +379,16 @@ video {
     font-size: 1.5vw;
 }
 .poi p{
-    font-weight: 200;
+    
 }
-
+.title{
+    font-weight: 200;
+    font-size: 1.25vw;
+}
+.title2{
+    font-weight: 200;
+    font-size:1vw;
+}
 
 .contact-form {
     width: 100%;
@@ -586,11 +628,118 @@ textarea {
 .footer-credits a:hover {
     text-decoration: underline;
 }
+/*
+  Global css ends here
+*/
+/*
+  Sub-page css begins here
+*/
+.topimg1{
+    width: 100vw;
+    height:80vh;
+    overflow-y: hidden;
+    background-image: linear-gradient(0deg, rgba(23, 48, 74, 0.8), rgba(23, 48, 74, 0.5)),url("../img/livingroom.png");
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.topimg1 h1{
+    font-size: 7vw;
+    letter-spacing: 10%;
+    margin: auto;
+    text-align: center;
+    font-weight: 400;
+    color: #fff;
+    font-family: qafientola;
+}
+.topimg2{
+    width: 100vw;
+    height:80vh;
+    overflow-y: hidden;
+    background-image: linear-gradient(0deg, rgba(23, 48, 74, 0.8), rgba(23, 48, 74, 0.5)),url("../ar_entrance.png");
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.topimg2 h1{
+    font-size: 7vw;
+    letter-spacing: 10%;
+    margin: auto;
+    text-align: center;
+    font-weight: 400;
+    color: #fff;
+    font-family: qafientola;
+}
+.floorplans{
+    display: flex;
+}
+.floorplans img{
+    margin:0 2vw !important;
+}
+.sub-intro{
+    text-align: center;
+    width: 60%;
+    padding: 5% 0;
+}
+.sub-intro img{
+    width: 75%;
+    margin:2% auto;
+}
+.interior-shots{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+.interior-shots img{
+    width: 20%;
+    margin:0 1% 4%;
+}
+.full {
+    width: 100vw;
+}
+.zoom-img{
+    transition: all .3s ease;
+}
+.zoom-img:hover {
+  transform: scale(2);
+  background-color: white;
+  padding:5%;
+}
+/*
+  Sub-page css ends here
+*/
 
 /*
   START OF MOBILE BREAKPOINT
 */
 @media only screen and (max-width: 750px) {
+    .navbar-right {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        right: 0;
+        background: rgba(12, 49, 76, 0.9);
+        width: 100%;
+        padding: 20px;
+        text-align: center;
+    }
+
+    .navbar-right.active {
+        display: flex;
+    }
+    .navbar a{
+        margin: 2vh 0;
+    }
+
+    .navbar-toggle {
+        display: flex;
+    }
+
     .section-1 {
         width: 100%;
         flex-direction: column-reverse;
@@ -671,6 +820,33 @@ textarea {
     }
     .section-5 h3{
         width: 90%;
+    }
+    .pois{
+        flex-direction: column;
+        align-items: center;
+    }
+    .poi{
+        width: 80%;
+    }
+    .section-6 h3{
+        font-size: 6vw;
+    }
+    .title{
+        font-size: 4vw;
+    }
+    .title2{
+        font-size: 3vw;
+    }
+    .interior-shots{
+        flex-direction: column;
+        align-items: center;
+    }
+    .interior-shots img{
+        width: 90%;
+    }
+    .floorplans{
+        flex-direction: column;
+  align-items: center;
     }
 }
 
