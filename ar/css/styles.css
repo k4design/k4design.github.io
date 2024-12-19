@@ -733,6 +733,9 @@ textarea {
   START OF MOBILE BREAKPOINT
 */
 @media only screen and (max-width: 750px) {
+    video{
+        width: 90%;
+    }
     .navbar-right {
         display: none;
         flex-direction: column;
