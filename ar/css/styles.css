@@ -12,6 +12,7 @@ body {
     line-height: 1.6;
     overflow-x: none;
 }
+@page {size: portrait}
 img {
     max-width: 100vw;
 }
@@ -693,23 +694,21 @@ textarea {
     justify-content: center;
     align-items: center;
 }
+.floorplans{
+    display: flex;
+}
+.floorplans img{
+    margin:0 2 !important;
+}
 .sub-intro{
     text-align: center;
     width: 60%;
     padding: 5% 0;
 }
 .sub-intro img{
-    width: 75%;
+    width: 20%;
     margin:2% auto;
 }
-.floorplans{
-    display: flex;
-}
-.floorplans img{
-    margin:0 2% !important;
-    width: 20%;
-}
-
 .interior-shots{
     width: 100%;
     display: flex;
@@ -726,9 +725,14 @@ textarea {
     transition: all .3s ease;
 }
 .zoom-img:hover {
+  -webkit-transform: scale(2); /* android, safari, chrome */
+     -moz-transform: scale(2); /* old firefox */
+     -o-transform: scale(2); /* old opera */
+     -ms-transform: scale(2,2); /* old IE */
   transform: scale(2);
   background-color: white;
   padding:5%;
+  width: 50%;
 }
 .section2-amenities{
     padding-bottom: 0% !important;
