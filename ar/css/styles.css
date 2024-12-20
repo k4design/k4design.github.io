@@ -693,12 +693,6 @@ textarea {
     justify-content: center;
     align-items: center;
 }
-.floorplans{
-    display: flex;
-}
-.floorplans img{
-    margin:0 2vw !important;
-}
 .sub-intro{
     text-align: center;
     width: 60%;
@@ -708,6 +702,14 @@ textarea {
     width: 75%;
     margin:2% auto;
 }
+.floorplans{
+    display: flex;
+}
+.floorplans img{
+    margin:0 2% !important;
+    width: 20%;
+}
+
 .interior-shots{
     width: 100%;
     display: flex;
