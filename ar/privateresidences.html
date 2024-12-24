@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <title>Transparent Navbar</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.cdnfonts.com/css/qafientola" rel="stylesheet">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.js"></script>
+    <script src="script.js"></script>
+
+    <!-- LOADING FONTS AND ICONS -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400&display=swap" rel="stylesheet" property="stylesheet" media="all" type="text/css" >
+
+
+    <link rel="stylesheet" type="text/css" href="fonts/pe-icon-7-stroke/css/pe-icon-7-stroke.css">
+    <link rel="stylesheet" type="text/css" href="fonts/font-awesome/css/font-awesome.css">
+
+    <!-- REVOLUTION STYLE SHEETS -->
+    <link rel="stylesheet" type="text/css" href="css/rs6.css">
+    <!-- REVOLUTION LAYERS STYLES -->
+    <script>
+        window.RS_MODULES = window.RS_MODULES || {};
+        window.RS_MODULES.modules = window.RS_MODULES.modules || {};
+        window.RS_MODULES.waiting = window.RS_MODULES.waiting || [];
+        window.RS_MODULES.defered = true;
+        window.RS_MODULES.moduleWaiting = window.RS_MODULES.moduleWaiting || {};
+        window.RS_MODULES.type = 'compiled';
+    </script>
+    <script src="js/rbtools.min.js"></script>
+    <script src="js/rs6.min.js"></script>
+    <script src="js/hamburger.js"></script>
+
+    <script>function setREVStartSize(e){
+            //window.requestAnimationFrame(function() {
+                window.RSIW = window.RSIW===undefined ? window.innerWidth : window.RSIW;
+                window.RSIH = window.RSIH===undefined ? window.innerHeight : window.RSIH;
+                try {
+                    var pw = document.getElementById(e.c).parentNode.offsetWidth,
+                    newh;
+                    pw = pw===0 || isNaN(pw) || (e.l=="fullwidth" || e.layout=="fullwidth") ? window.RSIW : pw;
+                    e.tabw = e.tabw===undefined ? 0 : parseInt(e.tabw);
+                    e.thumbw = e.thumbw===undefined ? 0 : parseInt(e.thumbw);
+                    e.tabh = e.tabh===undefined ? 0 : parseInt(e.tabh);
+                    e.thumbh = e.thumbh===undefined ? 0 : parseInt(e.thumbh);
+                    e.tabhide = e.tabhide===undefined ? 0 : parseInt(e.tabhide);
+                    e.thumbhide = e.thumbhide===undefined ? 0 : parseInt(e.thumbhide);
+                    e.mh = e.mh===undefined || e.mh=="" || e.mh==="auto" ? 0 : parseInt(e.mh,0);
+                    if(e.layout==="fullscreen" || e.l==="fullscreen")
+                        newh = Math.max(e.mh,window.RSIH);
+                    else{
+                        e.gw = Array.isArray(e.gw) ? e.gw : [e.gw];
+                        for (var i in e.rl) if (e.gw[i]===undefined || e.gw[i]===0) e.gw[i] = e.gw[i-1];
+                            e.gh = e.el===undefined || e.el==="" || (Array.isArray(e.el) && e.el.length==0)? e.gh : e.el;
+                        e.gh = Array.isArray(e.gh) ? e.gh : [e.gh];
+                        for (var i in e.rl) if (e.gh[i]===undefined || e.gh[i]===0) e.gh[i] = e.gh[i-1];
+
+                            var nl = new Array(e.rl.length),
+                        ix = 0,
+                        sl;
+                        e.tabw = e.tabhide>=pw ? 0 : e.tabw;
+                        e.thumbw = e.thumbhide>=pw ? 0 : e.thumbw;
+                        e.tabh = e.tabhide>=pw ? 0 : e.tabh;
+                        e.thumbh = e.thumbhide>=pw ? 0 : e.thumbh;
+                        for (var i in e.rl) nl[i] = e.rl[i]<window.RSIW ? 0 : e.rl[i];
+                            sl = nl[0];
+                        for (var i in nl) if (sl>nl[i] && nl[i]>0) { sl = nl[i]; ix=i;}
+                            var m = pw>(e.gw[ix]+e.tabw+e.thumbw) ? 1 : (pw-(e.tabw+e.thumbw)) / (e.gw[ix]);
+                        newh =  (e.gh[ix] * m) + (e.tabh + e.thumbh);
+                    }
+                    var el = document.getElementById(e.c);
+                    if (el!==null && el) el.style.height = newh+"px";
+                    el = document.getElementById(e.c+"_wrapper");
+                    if (el!==null && el) {
+                        el.style.height = newh+"px";
+                        el.style.display = "block";
+                    }
+                } catch(e){
+                    console.log("Failure at Presize of Slider:" + e)
+                }
+            //});
+        };</script>
+    </head>
+    <body>
+
+        <div class="navbar" id="navbar">
+            <div class="navbar-left">
+                <img src="img/aquareserve_logo-horizontal-white.svg" alt="Logo">
+            </div>
+            <div class="navbar-toggle" id="navbar-toggle">
+                <!-- Hamburger Icon -->
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <div class="navbar-right" id="navbar-menu">
+                <a href="index.html">Home</a>
+                <a href="privateresidences.html">Private Residences</a>
+                <a href="amenities.html">Amenities</a>
+                <a href="community.html">Community</a>
+                <a href="#contact-form" class="cta-button">Contact Us</a>
+            </div>
+        </div>
+
+
+        <div class="topimg1">
+            <h1>Private Residences</h1>
+        </div>
+
+        <div class="content">
+            <div class="section section-1">
+                <div class="sub-intro">
+                    <h2>Comfort & Privacy</h2>
+                    <p>
+                        Every residence at Aqua Reserve is a masterpiece of thoughtful design and craftsmanship, offering unparalleled comfort and privacy. Step into your dream home and experience:
+                    </p>
+                    <div class="floorplans">
+                        <img class="zoom-img" src="img/floorplan1.svg">
+                        <img class="zoom-img" src="img/floorplan2.svg">
+                        <img class="zoom-img" src="img/floorplan3.svg">
+                        <img class="zoom-img" src="img/floorplan4.svg">
+                    </div>
+
+                    <p>(Hover over image to enlarge)</p>
+                </div>
+
+
+            </div>
+
+            <div class="section section-3" style="padding-bottom: 0;">
+                <div class="interior-shots">
+                    <img src="img/livingroom.png">
+                    <img src="img/livingroom.png">
+                    <img src="img/livingroom.png">
+                </div>
+                <div>
+                    <h3>Unit Features</h3>
+                    <p>Every residence at Aqua Reserve is a masterpiece of thoughtful design and craftsmanship, offering unparalleled comfort and privacy. Step into your dream home and experience:</p>
+                    <div class="featurelist">
+                        <ul>
+                            <li>Collection Of 32 Bespoke Residences</li>
+                            <li>Curated Interiors And Amenities Galore</li>
+                            <li>Beautifully Designed Exteriors</li>
+                            <li>Panoramic Views Of The Intercoastal</li>
+                            <li>Tropical Lush Landscaping</li>
+                            <li>Outdoor Kitchen</li>
+                            <li>Resort-Inspired Private Rooftops With Glass Railing</li>
+                            <li>Impressive Double-Height Lobby</li>
+                            <li>Package Room</li>
+                            <li>Epoxy On All Flooring And Decks</li>
+                        </ul>
+                        <ul>
+                            <li>Block And Soundproof Demising Walls</li>
+                            <li>4-Stop Elevator</li>
+                            <li>Shaker Wood Cabinets With Soft Closers</li>
+                            <li>Calcutta Quartz Countertops With Waterfall</li>
+                            <li>Commercial Kitchen Appliances</li>
+                            <li>Wet Bar With Beverage Cooler And Wine Cooler</li>
+                            <li>16' Sliding Door In Living Room</li>
+                            <li>Outdoor Kitchen</li>
+                            <li>2-Car Garage</li>
+                            <li>Tankless Water Heaters</li>
+                            <li>Impact Windows And Doors</li>
+                        </ul>
+                    </div>
+                </div>
+                <img class="full" src="img/moodboard.png"> <div id="contact-form"></div>
+            </div>
+
+            <div class="contact-form">
+                <h3>
+                    Get in touch with us. <br>
+                    We're here to assist you.
+                </h3>
+                <form action="#" method="POST">
+                    <!-- Row 1: Name, Email, Phone -->
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" id="name" name="name" placeholder="Enter your name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" id="phone" name="phone" placeholder="Enter your phone number">
+                        </div>
+                    </div>
+
+                    <!-- Row 2: Message -->
+                    <div class="form-row">
+                        <div class="form-group full-width">
+                            <label for="message">Message</label>
+                            <textarea id="message" name="message" placeholder="Type your message here" rows="5" required></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Row 3: Submit Button -->
+                    <div class="form-row">
+                        <button type="submit" class="submit-button">Send Message</button>
+                    </div>
+                </form>
+            </div>
+            <div class="contact-section">
+                <div class="contact-container">
+                    <div class="contact-text">
+                        <h1>We are always<br> happy to assist you</h1>
+                    </div>
+                    <div class="contact-details">
+                        <div class="contact-item">
+                            <p class="detail-title">Email Address</p>
+                            <hr class="divider">
+                            <p class="detail-info">help@info.com</p>
+                            <p class="assistance-hours">Assistance hours:<br> Monday - Friday 6 am to 8 pm EST</p>
+                        </div>
+                        <div class="contact-item">
+                            <p class="detail-title">Number</p>
+                            <hr class="divider">
+                            <p class="detail-info">(808) 998-34256</p>
+                            <p class="assistance-hours">Assistance hours:<br> Monday - Friday 6 am to 8 pm EST</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <footer class="footer">
+                        <div class="footer-social-icons">
+                            <a href="#"><img src="img/youtube-icon.png" alt="YouTube"></a>
+                            <a href="#"><img src="img/instagram-icon.webp" alt="Instagram"></a>
+                            <a href="#"><img src="img/google-icon.png" alt="Google+"></a>
+                        </div>
+                        <div class="footer-info">
+                            <p class="location">Aqua Reserve is more than a community;<br>it’s a lifestyle destination.</p>
+                        </div>
+                        
+                        </div>
+                    </footer>
+            </body>
+            </html>
