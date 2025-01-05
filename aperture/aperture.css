@@ -171,7 +171,7 @@
   justify-content: center;
 }
 h3 {
-  font-size: 5vw;
+  font-size: rem;
   line-height: 5vw;
   margin: 0;
 }
@@ -375,6 +375,9 @@ h3 {
   }
   .house-grid-item.template4 .mask .house-detail .house-footer .read-more {
     margin: 1vh auto;
+}
+.md-form.broker .form-container .info-right .title{
+	font-size: 3.65vw !important;
 }
 
 
