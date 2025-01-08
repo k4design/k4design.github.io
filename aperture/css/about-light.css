@@ -21,6 +21,8 @@ body{
     font-size: 2vw !important;
     font-weight: 200 !important;
     text-align: center !important;
+    color: #000 !important;
+    width: auto !important;
 }
 #about-intro{
     width: 100vw;
