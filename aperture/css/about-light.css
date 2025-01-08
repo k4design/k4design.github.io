@@ -213,7 +213,7 @@ body{
 	background-size: cover;
 	color: #fff;
 	padding:5% 0%;
-	margin: 10% auto;
+	margin: 0 auto 10% auto;
 	border-radius: 40px;
 }
 #the-box-description{
