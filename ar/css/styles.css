@@ -17,6 +17,7 @@ body {
 h2{
   width: auto;
   margin: 5vh 0;
+  color: #000;
 }
 img {
     max-width: 100vw;
