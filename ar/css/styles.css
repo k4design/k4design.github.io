@@ -11,6 +11,7 @@ body {
     font-family: poppins, sans-serif;
     line-height: 1.6;
     overflow-x: none;
+    letter-spacing: 5%;
 }
 @page {size: portrait}
 img {
@@ -31,20 +32,23 @@ img {
     justify-content: space-between;
     align-items: center;
     padding: 15px 40px;
-    background: rgba(12, 49, 76, 0.5);
+    background: rgba(12, 49, 76, 0);
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
     z-index: 1000;
 }
 .navbar img{
     width: 100%;
+    max-height: 40px;
 }
 .navbar.scrolled {
-    background: #0c314c;
+    background: rgba(0, 170, 255, 0.8);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .navbar-left {
     width: 25%;
+    display: flex;
+  align-content: center;;
 }
 .navbar-right{
     width: 75%;
@@ -55,8 +59,11 @@ img {
 .navbar-right a {
     text-decoration: none;
     color: #fff;
-    margin: 0 15px;
-    font-weight: 400;
+    margin: 0 2vw;
+    font-weight: 300;
+    letter-spacing: 20%;
+    text-align: center;
+    font-size: 1vw;
 }
 
 .navbar-right a:hover {
@@ -180,19 +187,19 @@ video {
     background: #fff; /* Fully opaque medium gray */
     display: block;
     height: auto;
-    padding-bottom: 10%;
 }
 .stats {
     display: flex;
     justify-content: center;
+    margin: 10vh 0 0 0;
 }
 .stat {
     display: flex;
     flex-direction: column;
-    padding:0% 5%;
+    padding:0% 2%;
     margin: 5% 0;
     text-align: center;
-    border-right: 3px solid #999;
+    border-right: 1px solid #ccc;
 }
 .stat2{
     display: flex;
@@ -203,9 +210,10 @@ video {
     margin: 5% 0;
 }
 .stat h3, .stat2 h3{
-    font-size: 2.5vw;
+    font-size: 3vw;
     color: #00AAFF;
-    font-weight:300;
+    font-weight:200;
+    font-family: poppins;
 }
 .stat p, .stat2 p{
     font-weight:200;
@@ -228,6 +236,7 @@ video {
     line-height: 1.25em;
     color: #0c314c;
     text-transform: capitalize;
+    margin:3vh 0;
 }
 .details3 p{
     font-size: .75em;
@@ -252,12 +261,12 @@ video {
     background: #0c314c;
     color: #fff;
 }
-.community, .aminities, .interior, .developer{
+.community, .interior, .developer{
     display: flex;
     flex-direction: row;
     width: 85%;
     justify-content: center;
-    margin:2% auto 0 auto;
+    margin:20vh auto ;
 }
 
 .community 
@@ -266,8 +275,14 @@ video {
     flex-direction: row;
 }
 .aminities{
+    margin:0 auto;
     display: flex;
     flex-direction: row;
+    width: 85%;
+    justify-content: center;
+}
+#deepsea{
+    margin:20vh 0 10vh 0;
 }
 .section-3 {
     background: #fff; /* Fully opaque dark gray */
@@ -309,7 +324,7 @@ video {
 .featurelist{
     display: flex;
     justify-content: center;
-    margin-left: 6%;
+    margin: 0 0 5vh 6%;
 }
 .featurelist ul{
     margin: 2% 0 2% 0;
@@ -336,7 +351,6 @@ video {
     flex-direction: column;
     align-content: center;
     justify-content: center;
-    padding: 8% 0;
 }
 .section-5 h3{
     font-size: 1.5em;
@@ -359,11 +373,12 @@ video {
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    padding: 20vh 0 0;
 }
 .section-6-intro{
     font-size: .75em;
     font-weight: 200;
-    width: 50%;
+    width: 70%;
     margin: 1% auto 0 auto;
     max-width: 1000px;
     text-align: center;
@@ -644,11 +659,10 @@ textarea {
 /*
   Sub-page css begins here
   */
-  .topimg1{
+  .topimg1, .topimg2, .topimg3{
     width: 100vw;
     height:80vh;
     overflow-y: hidden;
-    background-image: linear-gradient(0deg, rgba(23, 48, 74, 0.8), rgba(23, 48, 74, 0.5)),url("../img/livingroom.png");
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -656,29 +670,17 @@ textarea {
     justify-content: center;
     align-items: center;
 }
-.topimg1 h1{
-    font-size: 7vw;
-    letter-spacing: 10%;
-    margin: auto;
-    text-align: center;
-    font-weight: 400;
-    color: #fff;
-    font-family: qafientola;
+.topimg1{
+    background-image: linear-gradient(0deg, rgba(0, 170, 255, 0.6), rgba(0, 40, 255, 0.2),rgba(0, 40, 255, 0.1), rgba(0, 170, 255, 0.6)),url("../img/livingroom.png");
 }
 .topimg2{
-    width: 100vw;
-    height:80vh;
-    overflow-y: hidden;
-    background-image: linear-gradient(0deg, rgba(23, 48, 74, 0.8), rgba(23, 48, 74, 0.5)),url("../img/npr.jpeg");
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    background-image: linear-gradient(0deg, rgba(0, 170, 255, 0.6), rgba(0, 40, 255, 0.2),rgba(0, 40, 255, 0.1), rgba(0, 170, 255, 0.6)),url("../img/npr.jpg");
 }
-.topimg2 h1{
-    font-size: 7vw;
+.topimg3{
+    background-image: linear-gradient(0deg, rgba(0, 170, 255, 0.6), rgba(0, 190, 255, 0.1), rgba(23, 48, 74, 0.8)),url("../img/grounds.jpg");
+}
+.topimg1 h1, .topimg2 h1, .topimg3 h1{
+    font-size: 4vw;
     letter-spacing: 10%;
     margin: auto;
     text-align: center;
@@ -690,12 +692,7 @@ textarea {
     width: 100vw;
     height:50vh;
     overflow-y: hidden;
-    background-image:url("../img/lmap.png");
-    background-size: cover;
-    background-position: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    margin-bottom: 15vh;
 }
 .floorplans{
     display: flex;
@@ -737,10 +734,33 @@ textarea {
   padding:5%;
   width: 50%;
 }
+.zoom-img2{
+    transition: all .3s ease;
+}
+.zoom-img2:hover {
+  -webkit-transform: scale(1.25); /* android, safari, chrome */
+     -moz-transform: scale(1.25); /* old firefox */
+     -o-transform: scale(1.25); /* old opera */
+     -ms-transform: scale(1.25,1.25); /* old IE */
+  transform: scale(2);
+  background-color: white;
+  padding:5%;
+  width: 50%;
+}
 .section2-amenities{
     padding-bottom: 0% !important;
 }
-
+.aerial{
+    background-image: url("../img/grounds.jpg");
+    height: 65vh;
+    background-position: center;
+    background-attachment: ;
+    background-size: cover;
+    margin:20vh 0 10vh 0;
+}
+.section-cta{
+    margin: 0 auto 10vh;
+}
 /*
   Sub-page css ends here
   */
@@ -794,7 +814,7 @@ textarea {
         padding:5% 0%;
         margin: 0% auto;
         text-align: center;
-        border-bottom: 3px solid #999;
+        border-bottom: 1px solid #999;
         border-right:none;
         width: 50%;
     }
