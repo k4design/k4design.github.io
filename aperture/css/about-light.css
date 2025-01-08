@@ -18,8 +18,8 @@ body{
 
 }
 .cta h2{
-    font-size: 2vw;
-    font-weight: 200;
+    font-size: 2vw !important;
+    font-weight: 200 !important;
     text-align: center !important;
 }
 #about-intro{
@@ -29,9 +29,9 @@ body{
     background-color: #000;
 }
 #about-intro h2{
-    font-family: poppins;
-    font-weight: 200;
-    font-size: 3vw;
+    font-family: poppins !important;
+    font-weight: 200 !important;
+    font-size: 3vw !important;
 }
 #about-intro span{
 	color: #0094F7;
