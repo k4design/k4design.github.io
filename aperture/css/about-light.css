@@ -7,7 +7,7 @@ body{
 	margin: 0;
 }
 .halfblack{
-    background: linear-gradient(#000 50%, #F7F7F7 50%);
+    background: linear-gradient( #F7F7F7 50%, #000 50%);
 }
 .center{
     text-align: center;
