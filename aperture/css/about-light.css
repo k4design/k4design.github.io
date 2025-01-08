@@ -15,7 +15,7 @@ body{
     align-self: center;
 }
 .cta{
-
+    margin-bottom: 10vh;
 }
 .cta h2{
     font-size: 2vw !important;
@@ -23,6 +23,7 @@ body{
     text-align: center !important;
     color: #000 !important;
     width: auto !important;
+    margin: 10vh auto 5vh !important;
 }
 #about-intro{
     width: 100vw;
@@ -225,17 +226,19 @@ body{
 	margin: 5% 0;
 }
 #the-box-description h2{
-	font-size: 2vw;
-	font-weight: 300;
-	line-height: 2vw;
+	font-size: 2vw !important;
+    font-weight: 300;
+    line-height: 2vw !important;
+    margin: 0 !important;
 }
 #the-box-description h2 span{
 	color: #0094F7;
 }
 #the-box-description p{
 	font-size: 1rem;
-	font-weight: 300;
-	width: 85%;
+    font-weight: 300;
+    width: 85%;
+    margin: 2vh 0;
 }
 #the-box-img{
 	flex-basis: 50%;
@@ -431,14 +434,18 @@ body{
 	margin: 5% auto 2%;
 }
 #casestudy-intro h2{
-	font-weight: 300;
-	font-size: 3rem;
-	margin-bottom: 2%;
+	font-weight: 300 !important;
+	font-size: 3rem !important;
+	margin-bottom: 2% !important;
+    line-height: 3rem !important;
+    color: #000 !important;
+    width: 100% !important;
 }
 #casestudy-intro p{
 	font-weight: 300;
-	width: 90%;
-	margin: 2% auto 5%;
+  width: 90%;
+  margin: 2vh auto 5vh;
+  font-size: 1.25vw;
 }
 .studies{
     width: 80%;
