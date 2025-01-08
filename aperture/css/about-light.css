@@ -250,14 +250,14 @@ body{
 	width: 60%;
 	margin: auto;
 }
-#carousel-text h2{
+#carousel-text h3{
 	font-size: 3rem;
 	font-weight: 300;
 }
 #carousel-text p{
 	font-weight: 200;
 	}
-#carousel-text h3{
+#carousel-text h4{
 	font-weight: 300;
 	font-size: 1.5vw;
 }
