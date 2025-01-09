@@ -37,7 +37,7 @@ img {
     justify-content: space-between;
     align-items: center;
     padding: 15px 40px;
-    background: rgba(12, 49, 76, 0);
+    background-color: #ddd;
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
     z-index: 1000;
 }

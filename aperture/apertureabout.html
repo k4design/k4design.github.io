@@ -1,12 +1,32 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<link rel="stylesheet" type="text/css" href="css/about-light.css">
+		<link rel="stylesheet" type="text/css" href="css/about-global.css">
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 		<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.js"></script>
+ 		<script src="js/hamburger.js"></script>
 	</head>
 	<body>
+		<div class="navbar" id="navbar">
+            <div class="navbar-left">
+                <img src="img/aperture_lre_logo_horizontalwhite.svg" alt="Logo">
+            </div>
+            <div class="navbar-toggle" id="navbar-toggle">
+                <!-- Hamburger Icon -->
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <div class="navbar-right" id="navbar-menu">
+                <a href="">Home</a>
+                <a href="">Locations</a>
+                <a href="">About Aperture</a>
+                <a href="">Lifestyle</a>
+                <a href="" class="cta-button">Contact Us</a>
+            </div>
+        </div>
 		<!--This is the start of the intro section-->
 		<div id="about-intro">
 			<h2>Your vision, your focus, your exposure — <br>You are <span>Aperture.</span></h2>
@@ -16,10 +36,60 @@
 		<!--This is the start of the video section-->
 		<div id="about-video">
 			<video controls >>
-				<source src="https://k4design.github.io/aperture/about/about.mp4" type="video/mp4" >
+				<source src="about.mp4" type="video/mp4" >
 			</video>
 		</div>
 		<!--This is the end of the video section-->
+		<!--This is the start of the map section-->
+	<div id="map">
+		<div id="map-img">
+			<img src="https://k4design.github.io/aperture/about/map.png">
+		</div>
+		<div class="map-container">
+        <h1>International Presence</h1>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.</p>
+        <div class="map-locations">
+            <div class="map-column">
+                <h3>North America</h3>
+                <ul>
+                    <li>Los Angeles</li>
+                    <li>New York</li>
+                    <li>Miami</li>
+                    <li>Scottsdale</li>
+                    <li>St Barth’s</li>
+                    <br>
+                    <li><a href="">view all</a></li>
+                </ul>
+            </div>
+            <div class="map-column">
+                <h3>Europe</h3>
+                <ul>
+                    <li>London</li>
+                    <li>Paris</li>
+                    <li>St Tropez</li>
+                    <li>Monaco</li>
+                    <li>Zurich</li>
+                    <br>
+                    <li><a href="">view all</a></li>
+                </ul>
+            </div>
+            <div class="map-column">
+                <h3>Other</h3>
+                <ul>
+                    <li>Tokyo</li>
+                    <li>Singapore</li>
+                    <li>Dubai</li>
+                    <li>Sydney</li>
+                    <br>
+                    <li><a href="">view all</a></li>
+                </ul>
+            </div>
+        </div>
+        <p class="disclaimer">*Location coming soon</p>
+    </div>
+	</div>
+
+<!--This is the end of the map section-->
 		<!--This is the start of the stats section-->
 		<div id="about-stat">
 			<div id="about-stat-p">
@@ -46,56 +116,21 @@
 		</div>
 		
 		<!--This is the end of the stats section-->
-		<!--This is the start of the leadership section-->
-		<div id="leadership">
-            <div class="pois">
-                <div class="poi">
-                    <img src="about/rp.png">
-                    <h3>Robert Palmer</h3>
-                    <p class="title">Founder/CEO</p>
-                    <p class="title2">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim  veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea  commodo consequat. Duis aute ir</p>
-                </div>
-                <div class="poi">
-                    <img src="about/valdes.png">
-                    <h3>Michael Valdes</h3>
-                    <p class="title">Global President</p>
-                    <p class="title2">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim  veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea  commodo consequat. Duis aute ir</p>
-                </div>
-                <div class="poi">
-                    <img src="about/hodge.png">
-                    <h3>Matt Hodge</h3>
-                    <p class="title">EVP of LPT Realty</p>
-                    <p class="title2">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim  veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea  commodo consequat. Duis aute ir</p>
-
-                </div>
-            </div>
-            <div class="center cta">
-		        	<h2>Join the Pinnacle of Luxury Real Estate</h2>
-					<a href="#about-video" class="cta-button">Inquire today!</a>
-				</div>
+		
+		<div class="vid">
+			
+			<video class="viddiv" autoplay loop>
+				<source src="penthouse.mp4" type="">
+			</video>
 		</div>
-		<!--This is the end of the leadership section-->
-		<!--This is the start of the box section-->
-		<div class="">
-			<div id="the-box">
-				<div id="the-box-description">
-					<h2>Lorem ipsum <br> dolor amet <span>consec</span></h2>
-					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim  veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea  commodo consequat. Duis aute irure dolor in reprehenderit in voluptate  velit esse cillum dolore eu fugiat nulla pariatur. </p>
-					<a href="#about-video" class="dark-button">Learn More</a>
-				</div>
-				<div id="the-box-img">
-					<img src="about/the-box.png">
-				</div>
-			</div>
-
-		</div>
-		<!--This is the end of the box section-->
 		<!--This is the start of the products section-->
+	<div id="products">
 		<div id="carousel-text" class="">
 			<div>
-				<h3>Lorem ipsum dolor amet,<br>consectetur <span>best marketing</span></h3>
+				<h2>Lorem ipsum dolor amet,<br>consectetur <span>best marketing</span></h2>
+
 				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim  veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea  commodo consequat. Duis aute irure dolor in reprehenderit in voluptate </p>
-				<h4>Listing Marketing Packages&nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;Technology Packages  &nbsp;&nbsp;&nbsp; |  &nbsp;&nbsp;&nbsp;EliteView Media</h4>
+				<h3>Listing Marketing Packages&nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;Technology Packages  &nbsp;&nbsp;&nbsp; |  &nbsp;&nbsp;&nbsp;EliteView Media</h3>
 			</div>
 			<div>
 				
@@ -142,57 +177,57 @@
 		            </div>
 		            
 		        </div>
-		        <div class="center cta">
-		        	<h2>Lorem ipsum </h2>
-					<a href="#about-video" class="cta-button">Inquire about Membership</a>
-				</div>
+		        
 	        </div>
     </div>
-
+</div>
 <!--This is the end of the prodcuts section-->
-<!--This is the start of the map section-->
-	<div id="map">
-		<div id="map-img">
-			<img src="https://k4design.github.io/aperture/about/map.png">
-		</div>
-		<div class="map-container">
-        <h1>International Presence</h1>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.</p>
-        <div class="map-locations">
-            <div class="map-column">
-                <h3>North America</h3>
-                <ul>
-                    <li>Los Angeles</li>
-                    <li>New York</li>
-                    <li>Miami</li>
-                    <li>Scottsdale</li>
-                    <li>St Barth’s</li>
-                </ul>
-            </div>
-            <div class="map-column">
-                <h3>Europe</h3>
-                <ul>
-                    <li>London</li>
-                    <li>Paris</li>
-                    <li>St Tropez</li>
-                    <li>Monaco</li>
-                    <li>Zurich</li>
-                </ul>
-            </div>
-            <div class="map-column">
-                <h3>Other</h3>
-                <ul>
-                    <li>Tokyo</li>
-                    <li>Singapore</li>
-                    <li>Dubai</li>
-                    <li>Sydney</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-	</div>
+<!--This is the start of the leadership section-->
+		<div class="center cta">
+			<img src="img/aperture_icon.svg">
+		        	<h2>Join the Pinnacle of Luxury Real Estate</h2>
+					<a href="#about-video" class="cta-button">Inquire today!</a>
+				</div>
+		<div id="leadership">
+            <div class="pois">
+                <div class="poi">
+                    <img src="about/rp.png">
+                    <h3>Robert Palmer</h3>
+                    <p class="title">Founder/CEO</p>
+                    <p class="title2">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim  veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea  commodo consequat. Duis aute ir</p>
+                </div>
+                <div class="poi">
+                    <img src="about/valdes.png">
+                    <h3>Michael Valdes</h3>
+                    <p class="title">Global President</p>
+                    <p class="title2">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim  veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea  commodo consequat. Duis aute ir</p>
+                </div>
+                <div class="poi">
+                    <img src="about/hodge.png">
+                    <h3>Matt Hodge</h3>
+                    <p class="title">EVP of LPT Realty</p>
+                    <p class="title2">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim  veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea  commodo consequat. Duis aute ir</p>
 
-<!--This is the end of the map section-->
+                </div>
+            </div>
+            
+		</div>
+		<!--This is the end of the leadership section-->
+		<!--This is the start of the box section-->
+		<div class="">
+			<div id="the-box">
+				<div id="the-box-description">
+					<h2>Lorem ipsum <br> dolor amet <span>consec</span></h2>
+					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim  veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea  commodo consequat. Duis aute irure dolor in reprehenderit in voluptate  velit esse cillum dolore eu fugiat nulla pariatur. </p>
+					<a href="#about-video" class="dark-button">Learn More</a>
+				</div>
+				<div id="the-box-img">
+					<img src="about/the-box.png">
+				</div>
+			</div>
+
+		</div>
+		<!--This is the end of the box section-->
 <!--This is the start of the case study section-->
 	<div class="greybg">
 		<div id="casestudy">
@@ -230,7 +265,9 @@
 
 <!--This is the end of the case study section-->
 <!--This is the start of the case study section-->
-
+	<footer>
+		<img style="width: 100vw;" src="footer.png">
+	</footer>
 	<script src="https://k4design.github.io/aperture/about/script.js"></script>
 	</body>
 
