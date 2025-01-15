@@ -8,9 +8,7 @@ body{
     color: #373739;
     letter-spacing: 5%;
 }
-img{
 
-}
 .viddiv{
     height: 60vh;
     object-fit: cover;
@@ -635,26 +633,39 @@ footer img{
 
 @media only screen and (max-width: 750px) {
     
-    .navbar-right {
-        display: none;
+    .navbar-left img{
+        height: 15vw;
+        max-height: 20vh;
+    }
+    #about-intro{
+        padding:20vh 0 10vh 0 ;
+    }
+    #about-intro h2{
+        font-size: 10vw;
+        line-height: 11vw;
+    }
+    #about-intro p{
+        font-size: 4vw;
+    }
+    #map {
         flex-direction: column;
-        position: absolute;
-        top: 100%;
-        right: 0;
-        background: rgba(12, 49, 76, 0.9);
-        width: 100%;
-        padding: 20px;
-        text-align: center;
+        padding: 10vh 0 0;
     }
+    .map-container{
+        margin: 2vh auto
+    }
+    .cta h2{
+        font-size: 8vw;
+        line-height: 12vw;
+    }
+    .learn-more-button{
+        font-size: 5vw;
+        padding: 1vw 5vh;
+        font-weight: 200;
+    }
+    .cta-button{
+        font-size: 5vw;
+        padding: 1vw 5vh;
 
-    .navbar-right .active {
-        display: flex;
-    }
-    .navbar a{
-        margin: 2vh 0;
-    }
-
-    .navbar-toggle {
-        display: flex;
     }
 }
