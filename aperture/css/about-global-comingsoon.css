@@ -31,7 +31,8 @@ img{
 }
 .navbar img{
     width: 100%;
-    max-height: 40px;
+    max-height: 60px;
+    height: 5vw;
 }
 .navbar .scrolled {
     background: rgba(0, 170, 255, 0.8);
