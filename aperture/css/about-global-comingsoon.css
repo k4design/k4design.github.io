@@ -633,7 +633,9 @@ footer img{
 }
 
 @media only screen and (max-width: 750px) {
-    
+    footer{
+        text-align: center;
+    }
     .navbar-left img{
         height: 15vw;
         max-height: 20vh;
@@ -654,6 +656,9 @@ footer img{
     }
     .map-container{
         margin: 2vh auto
+    }
+    .map-container p{
+        width: 100%;
     }
     .cta h2{
         font-size: 8vw;
