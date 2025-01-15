@@ -7,6 +7,7 @@ body{
 	margin: 0;
     color: #373739;
     letter-spacing: 5%;
+    background-color: #F7F7F7;
 }
 
 .viddiv{
@@ -123,10 +124,10 @@ body{
     background-color: #F7F7F7;
 }
 .cta h2{
-    font-size: 2vw;
+    font-size: 2.75rem;
     font-weight: 200;
     text-align: center !important;
-    line-height: 2vw;
+    line-height: 2.75rem;
 }
 #about-intro{
     width: 100vw;
@@ -172,7 +173,7 @@ body{
 .cta-button {
         display: inline-block;
         padding: .5vw 2vw;
-        font-size: 1vw;
+        font-size: 1.25rem;
         font-family: Poppins, sans-serif;
         font-weight: 200;
         color: #000;
@@ -657,6 +658,9 @@ footer img{
     .cta h2{
         font-size: 8vw;
         line-height: 12vw;
+    }
+    .cta img{
+        height: 10vh;
     }
     .learn-more-button{
         font-size: 5vw;
