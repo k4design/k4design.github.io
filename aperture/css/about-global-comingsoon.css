@@ -663,6 +663,9 @@ footer img{
     .map-column{
         flex:unset;
     }
+    .map-column h3{
+        font-size: 4vw;
+    }
     .cta h2{
         font-size: 8vw;
         line-height: 12vw;
