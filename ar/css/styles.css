@@ -347,6 +347,7 @@ video {
 .section-4 {
     background: ; /* Fully opaque darker gray */
     justify-content: center;
+    display: none;
 }
 .section-4 img{
     width: 40%;
@@ -357,6 +358,7 @@ video {
     flex-direction: column;
     align-content: center;
     justify-content: center;
+    margin: 10vh auto 0;
 }
 .section-5 h3{
     font-size: 1.5em;
@@ -876,6 +878,9 @@ textarea {
   @media only screen and (max-width: 750px) {
     video{
         width: 90%;
+    }
+    .mobile-hidden{
+        display: none;
     }
     .navbar{
         padding: 3vh 5vw;

@@ -26,9 +26,11 @@ $(document).ready(function() {
 
     // Modal Functionality
     $('.pop').click(function() {
-        const imgSrc = $(this).find('img').attr('src');
-        $('#modalImg').attr('src', imgSrc);
-        $('#carouselModal').fadeIn();
+        if ($(window).width() >= 768) {
+            const imgSrc = $(this).find('img').attr('src');
+            $('#modalImg').attr('src', imgSrc);
+            $('#carouselModal').fadeIn();
+        }
     });
 
     $('.close-modal').click(function() {
