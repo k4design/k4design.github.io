@@ -37,7 +37,7 @@ img {
     justify-content: space-between;
     align-items: center;
     padding: 15px 40px;
-    background-color: #ddd;
+    background-color: rgba(0,0,0,0);
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
     z-index: 1000;
 }
@@ -72,7 +72,7 @@ img {
 }
 
 .navbar-right a:hover {
-    color: #00AAFF;
+    color: #11325b;
 }
 
 .cta-button {
@@ -205,6 +205,7 @@ video {
     margin: 5% 0;
     text-align: center;
     border-right: 1px solid #ccc;
+    width: 30%;
 }
 .stat2{
     display: flex;
@@ -309,7 +310,7 @@ video {
     margin: 1% auto 0 auto;
     max-width: 1000px;
 }
-.section-3 a {
+.section-3a {
     border: 1.5px solid #0094F7;
     border-radius: 30px;
     background: transparent;
@@ -614,7 +615,14 @@ textarea {
 .footer-social-icons img:hover {
     transform: scale(1.2);
 }
-
+.footer-info{
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    font-weight: 200;
+}
 .footer-info .location {
     font-size: 1.1rem;
     margin-bottom: 20px;
@@ -643,7 +651,10 @@ textarea {
     font-weight: 400;
 
 }
-
+.footer-info img{
+    height: 4vh;
+    margin-bottom: 2vh;
+}
 .footer-credits {
     margin-top: 20px;
     font-size: 0.8rem;
@@ -719,8 +730,12 @@ textarea {
     display: flex;
     justify-content: center;
 }
-.interior-shots img{
+.pop{
     width: 20%;
+    margin: 2vw;
+}
+.interior-shots img{
+    width: 100%;
     margin:0 1% 4%;
 }
 .full {
@@ -765,6 +780,91 @@ textarea {
 }
 .section-cta{
     margin: 0 auto 10vh;
+    display: flex;
+}
+.section-cta a {
+  border: 1.5px solid #0094F7;
+  border-radius: 30px;
+  background: transparent;
+  color: #333;
+  padding: .75% 3%;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.3s ease, color 0.3s ease;
+  text-decoration: none;
+  margin: auto;
+  text-align: center;
+}
+.custom-carousel {
+    position: relative;
+    width: 60vw;
+    margin: 5vh auto;
+    overflow: hidden;
+}
+
+.carousel-track {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+
+.carousel-slide {
+    min-width: 100%;
+    transition: transform 0.5s ease-in-out;
+}
+
+.carousel-img {
+    width: 100%;
+    cursor: pointer;
+}
+
+.carousel-controls {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+}
+
+.carousel-btn {
+    background-color: rgba(0, 0, 0, 0.5);
+    border: none;
+    color: white;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 50%;
+    font-size: 1.5rem;
+}
+
+/* Modal Styles */
+.carousel-modal {
+    display: none;
+    position: fixed;
+    z-index: 1050;
+    padding-top: 5vh;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.9);
+}
+
+.modal-content {
+    margin: auto;
+    display: block;
+    width: 70%;
+}
+
+.close-modal {
+    position: absolute;
+    top: 20px;
+    right: 35px;
+    color: #fff;
+    font-size: 40px;
+    font-weight: 300;
+    cursor: pointer;
+    z-index: 1050;
 }
 /*
   Sub-page css ends here
@@ -776,6 +876,9 @@ textarea {
   @media only screen and (max-width: 750px) {
     video{
         width: 90%;
+    }
+    .navbar{
+        padding: 3vh 5vw;
     }
     .navbar-right {
         display: none;
@@ -794,8 +897,12 @@ textarea {
     }
     .navbar a{
         margin: 2vh 0;
+        font-size: 4vw;
     }
+    .navbar-left{
+        width: unset;
 
+    }
     .navbar-toggle {
         display: flex;
     }
@@ -910,6 +1017,24 @@ textarea {
     .floorplans{
         flex-direction: column;
         align-items: center;
+    }
+    .pop{
+        width: 100%;
+    }
+    .floorplans img{
+        width: 100%;
+    }
+    .zoom-img:hover {
+      -webkit-transform: unset; /* android, safari, chrome */
+         -moz-transform: unset; /* old firefox */
+         -o-transform: unset; /* old opera */
+         -ms-transform: unset; /* old IE */
+      transform: none;
+      background-color: white;
+      padding:5%;
+    }
+    .zoom-img{
+        transition: none;
     }
 
 }

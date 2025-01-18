@@ -12,6 +12,7 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.js"></script>
     <script src="script.js"></script>
+    <script src="js/carousel.js"></script>
 
     <!-- LOADING FONTS AND ICONS -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:400&display=swap" rel="stylesheet" property="stylesheet" media="all" type="text/css" >
@@ -86,7 +87,11 @@
         };</script>
     </head>
     <body>
-
+        <!-- Modal for Enlarged Image -->
+                <div class="carousel-modal" id="carouselModal">
+                    <span class="close-modal">&times;</span>
+                    <img class="modal-content" id="modalImg">
+                </div>
         <div class="navbar" id="navbar">
             <div class="navbar-left">
                 <img src="img/aquareserve_logo-horizontal-white.svg" alt="Logo">
@@ -133,11 +138,20 @@
             
             <div class="section section-3" style="padding-bottom: 0;">
                 <div class="interior-shots">
-                    <img class="" src="img/livingroom.png">
-                    <img class="" src="img/bath.jpg">
-                    <img class="" src="img/livingroom.png">
+                    <div class="pop">
+                        <img  src="img/livingroom.png"> 
+                    </div>
+                    <div class="pop">
+                        <img  src="img/pbath.jpg"> 
+                    </div>
+                    <div class="pop">
+                        <img  src="img/sbath.jpg"> 
+                    </div>
+                    
                 </div>
-                <div>
+                
+
+                
                     <h3>Unit Features</h3>
                     <p>Every residence at Aqua Reserve is a masterpiece of thoughtful design and craftsmanship, offering unparalleled comfort and privacy. Step into your dream home and experience:</p>
                     <div class="featurelist">
@@ -146,16 +160,13 @@
                             <li>Curated Interiors And Amenities Galore</li>
                             <li>Beautifully Designed Exteriors</li>
                             <li>Panoramic Views Of The Intercoastal</li>
-                            <li>Tropical Lush Landscaping</li>
                             <li>Outdoor Kitchen</li>
                             <li>Resort-Inspired Private Rooftops With Glass Railing</li>
-                            <li>Impressive Double-Height Lobby</li>
-                            <li>Package Room</li>
                             <li>Epoxy On All Flooring And Decks</li>
-                        </ul>
-                        <ul>
                             <li>Block And Soundproof Demising Walls</li>
                             <li>4-Stop Elevator</li>
+                        </ul>
+                        <ul>
                             <li>Shaker Wood Cabinets With Soft Closers</li>
                             <li>Calcutta Quartz Countertops With Waterfall</li>
                             <li>Commercial Kitchen Appliances</li>
@@ -235,13 +246,12 @@
             <footer class="footer">
                         <div class="footer-social-icons">
                             <a href="#"><img src="img/youtube-icon.png" alt="YouTube"></a>
-                            <a href="#"><img src="img/instagram-icon.webp" alt="Instagram"></a>
-                            <a href="#"><img src="img/google-icon.png" alt="Google+"></a>
+                            <a href="https://www.instagram.com/liveaquareserve/"><img src="img/instagram-icon.webp" alt="Instagram"></a>
                         </div>
                         <div class="footer-info">
+                            <img src="img/aquareserve_logo-horizontal-white.svg" alt="Logo">
                             <p class="location">Aqua Reserve is more than a community;<br>it’s a lifestyle destination.</p>
-                        </div>
-                        
+
                         </div>
                     </footer>
             </body>
