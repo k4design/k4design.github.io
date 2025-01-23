@@ -51,11 +51,12 @@ try {
 
     // Create the email
     $email = (new Email())
-        ->from('your_email@example.com')
+        ->from('leads@liveaquareserve.com')
         ->to('fub31@followupboss.me')
-        ->subject('New Lead')
+        ->addTo('kyleforeman.design@gmail.com')
+        ->subject('New lead activity notification')
         ->text(
-            "You have a new lead:\n\n" .
+            "New lead activity notification\n\n" .
             "Name: {$data['name']}\n" .
             "Email: {$data['email']}\n" .
             "Phone: {$data['phone']}\n" .
