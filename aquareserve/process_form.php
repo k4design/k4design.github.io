@@ -27,7 +27,7 @@ $data = [
 $rules = [
     'name' => 'required|string|max:255',
     'email' => 'required|email|max:255',
-    'phone' => 'nullable|regex:/^(\+?[0-9]{10,15}|[0-9]{3}-[0-9]{3}-[0-9]{4})$/',
+    'phone' => ['nullable', 'regex:/^(\+?[0-9]{10,15}|[0-9]{3}-[0-9]{3}-[0-9]{4})$/'],
     'message' => 'required|string|max:5000',
 ];
 
