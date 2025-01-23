@@ -51,7 +51,7 @@ try {
 
     // Create the email
     $email = (new Email())
-        ->from('leads@liveaquareserve.com')
+        ->from('contact@liveaquareserve.com')
         ->to('fub31@followupboss.me')
         ->addTo('kyleforeman.design@gmail.com')
         ->subject('New lead activity notification')
