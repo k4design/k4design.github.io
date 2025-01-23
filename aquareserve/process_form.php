@@ -27,13 +27,22 @@ $data = [
 $rules = [
     'name' => 'required|string|max:255',
     'email' => 'required|email|max:255',
-    'phone' => 'nullable|regex:/^\+?[0-9\s\-]+$/',
+    'phone' => 'nullable|regex:/^(\+?[0-9]{10,15}|[0-9]{3}-[0-9]{3}-[0-9]{4})$/',
     'message' => 'required|string|max:5000',
+];
+
+// Define custom error messages
+$messages = [
+    'name.required' => 'The name field is required.',
+    'email.required' => 'The email field is required.',
+    'email.email' => 'Please provide a valid email address.',
+    'phone.regex' => 'Please provide a valid phone number in the format ###-###-#### or ##########.',
+    'message.required' => 'The message field is required.',
 ];
 
 try {
     // Validate the data
-    $validator = $validatorFactory->make($data, $rules);
+    $validator = $validatorFactory->make($data, $rules, $messages);
     $validator->validate();
 
     // Use PHP's built-in mail transport
@@ -42,7 +51,7 @@ try {
 
     // Create the email
     $email = (new Email())
-        ->from('your_email@example.com') 
+        ->from('your_email@example.com')
         ->to('fub31@followupboss.me')
         ->subject('New Lead')
         ->text(
@@ -62,5 +71,5 @@ try {
     echo json_encode(['status' => 'error', 'errors' => $e->errors()]);
 } catch (Exception $e) {
     http_response_code(500);
-    echo json_encode(['status' => 'error', 'message' => 'An error occurred while sending the message.']);
+    echo json_encode(['status' => 'error', 'message' => 'An error occurred while sending the message.', 'errors' => [$e->getMessage()]]);
 }
