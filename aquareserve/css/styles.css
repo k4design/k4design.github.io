@@ -687,6 +687,9 @@ textarea {
     display: flex;
     justify-content: center;
     align-items: center;
+    -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
 }
 .topimg1{
     background-image: linear-gradient(0deg, rgba(0, 170, 255, 0.6), rgba(0, 40, 255, 0.2),rgba(0, 40, 255, 0.1), rgba(0, 170, 255, 0.6)),url("../img/interior1.jpg");
@@ -894,6 +897,10 @@ textarea {
   START OF MOBILE BREAKPOINT
   */
   @media only screen and (max-width: 750px) {
+    body {
+      height: 100vh;
+    }
+
     video{
         width: 90%;
     }
@@ -1060,6 +1067,17 @@ textarea {
     .zoom-img{
         transition: none;
     }
-
+    .topimg1 h1, .topimg2 h1, .topimg3 h1{
+    font-size: 10vw;
+    letter-spacing: 10%;
+    margin: auto;
+    text-align: center;
+    font-weight: 400;
+    color: #fff;
+    font-family: qafientola;
 }
 
+}
+.hidden{
+    display: none;
+}
