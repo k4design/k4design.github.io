@@ -688,14 +688,13 @@ img{
 .apertureHScroll-card {
   flex: 0 0 calc(100vw / 4.5);
   border-radius: 12px;
-  height: 100%;
   display: flex;
   justify-content: flex-start;
-  align-items: center;
+  align-items: flex-start;
   font-size: 2rem;
   color: white;
   flex-direction: column;
-  padding-top: 20vh;
+  padding-top: 15vh;
 }
 
 
@@ -715,12 +714,12 @@ img{
 }
 #leadership{
     width: 100%;
-    text-align: center;
+    text-align: left;
     background-color: #F7F7F7;
     padding: 20vh 0;
 }
 #leadership h2{
-    text-align: center;
+    text-align: left;
     font-size: 3vw;
     font-weight: 200;
     margin:0 auto 5vh;
