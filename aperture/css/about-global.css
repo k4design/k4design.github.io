@@ -28,8 +28,9 @@ img{
 .carousel-vip {
       position: relative;
       width: 100vw;
-      height: 100vh;
+      height: 100vw;
       overflow: hidden;
+      max-height: 100vh;
     }
 
    .carousel-vip .slide {
@@ -40,7 +41,7 @@ img{
       background-position: center;
       opacity: 0;
       transition: opacity 1s ease-in-out;
-      background-color: #555;
+      background-color: #072a57a1;
       background-blend-mode: multiply;
     }
 
@@ -60,23 +61,31 @@ img{
     }
     .text-overlay h3{
         font-family: fm;
-        font-size: 3vw;
+        font-size:calc(12px + 2.5vw);
         margin-bottom: 0;
         font-weight: 200;
 
     }
     .text-overlay p {
       font-family: poppins;
-      font-size: 1.75vw;
+      font-size:calc(12px + 1.25vw);
       letter-spacing: 3px;
       font-weight: 200;
-      margin: 0 0 3vh;
+      margin: 1vh 0 3vh;
     }
     .text-overlay a {
       font-family: poppins;
-      font-weight: 400;
+      font-weight: 300;
+      letter-spacing: .5rem;
+      color: white;
+      font-size:calc(12px + .75vw);
+      text-decoration: none;
+      padding-bottom: 2vh;
+      border-bottom: solid #0094f7 2px;
     }
-
+    .text-overlay a:hover {
+      color: #0094F7;
+    }
     .indicators {
       position: absolute;
       bottom: 5vh;
@@ -95,6 +104,7 @@ img{
       transition: background-color 0.3s ease;
     }
 
+
     .indicator.active {
       background-color: white;
     }
@@ -106,6 +116,7 @@ img{
     height: auto;
     object-fit: cover;
     width: 80vw;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
 }
 .navbar {
     position: fixed;
@@ -139,6 +150,7 @@ img{
     display: flex;
     justify-content: flex-end;
     align-items: center;
+    padding-right: 5vw;
 }
 .navbar-right a {
     text-decoration: none;
@@ -221,8 +233,7 @@ img{
 }
 
 #about-intro{
-    width: 100vw;
-    padding: 10vh 10vw 5vh;
+    padding: 13vh 10vw 5vh;
     color: #fff;
     background-color: #0A0D10;
     background-image: url("../img/aperture_bg_darker.png");
@@ -231,11 +242,12 @@ img{
   border-bottom: 5px solid #0094F7;
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
 }
 #about-intro h2{
     font-family: poppins;
     font-weight: 200;
-    font-size: 2vw;
+    font-size: 2rem;
     padding-right: 5vw;
 }
 #about-intro span{
@@ -244,9 +256,8 @@ img{
     font-weight: 300;
 }
 .learn-more-button {
-        display: inline-block;
-        padding: .5vw 2vw;
-        font-size: 1.25vw;
+        padding: 10px 30px;
+        font-size: 1.25rem;
         font-family: Poppins, sans-serif;
         color: #fff;
         text-decoration: none;
@@ -366,7 +377,7 @@ img{
 }
 
 #the-box{
-	width: 100%;
+	max-width: 1200px;
 	display: flex;
 	flex-wrap: wrap;
 	flex-direction: row;
@@ -378,7 +389,7 @@ img{
     background-blend-mode: multiply;
 	color: #fff;
 	padding:5% 0%;
-	margin: 10% auto;
+	margin: 0% auto 10%;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
     background-attachment: fixed;
 }
@@ -475,6 +486,8 @@ img{
   color: white;
   padding: 5vh 2vw 20vh 2vw;
   z-index: 10;
+  font-weight: 100;
+  line-height: 1.85;
 }
 .carousel-description h3 {
     margin: 5% 0 5% 5%;
@@ -488,7 +501,6 @@ img{
 .carousel-description p {
     margin: 5% 0 5% 5%;
     font-size: 14px;
-    font-weight: 300;
     }
 
 .examples{
@@ -510,8 +522,8 @@ img{
     border: #0094F7 solid 1px;
     color: #fff;
     font-size: 3vh;
- 	height: 60px;
-  	width: 60px;
+ 	height: 3vw;
+  	width: 3vw;
   	border-radius: 50%;
   	cursor: pointer;
     transition: background 0.3s;
@@ -532,7 +544,8 @@ img{
 #map {
 	display: flex;
 	justify-content: center;
-	width: 90%;
+	max-width: ;
+    max-width: 1200px;
 	margin: auto;
 	align-content: center;
     padding: 5vh 0 10vh 0;
@@ -540,9 +553,11 @@ img{
     background-image: url("../img/dotmap.svg");
     background-repeat: no-repeat;
     background-position: right;
+    background-size: contain;
 }
 #map .icon{
     height: 10vh;
+
 }
 #map-img{
 	flex-basis: 40%;
@@ -550,6 +565,7 @@ img{
 }
 #map-img img{
 	width: 80%;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
 }
 .map-container {
     margin: 50px auto;
@@ -609,10 +625,11 @@ img{
 }
 #casestudy{
 	text-align: center;
-	margin: 10%;
+	margin: 10% auto;
+    max-width: 1200px;
 }
 #casestudy-intro{
-	width: 60%;
+	max-width: ;
 	margin: 5% auto;
 }
 #casestudy-intro h2{
@@ -655,7 +672,6 @@ img{
     margin: auto;
     font-family: fm;
     font-weight: 200;
-    font-size: 2rem;
     border-left:solid 5px #0094F7;
     display: flex;
     align-items: center;
@@ -666,7 +682,7 @@ img{
     margin: 0;
     padding-bottom: 2vh;
     padding-left: 2vw;
-
+    font-size: calc(12px + 2.5vw);
 }
 .apertureHScroll-wrapper {
   position: relative;
@@ -702,6 +718,8 @@ img{
 .apertureHScroll-card img{
     margin-bottom: 7%;
     width: 75%;
+    max-width: 290px;
+    box-shadow: rgba(30, 30, 93, 0.55) 0px 50px 100px -20px, rgba(0, 0, 0, 0.4) 0px 30px 20px -30px;
 }
 .apertureHScroll-card h3{
     font-size: 1.5rem;
@@ -735,10 +753,16 @@ img{
     font-weight: 100;
     font-size:.85rem;
     width: 80%;
+    max-width: 290px;
 }
-
-
-@media only screen and (max-width: 750px) {
+.nav-hidden {
+  transform: translateY(-100%);
+  transition: transform 0.3s ease-in-out;
+}
+@media only screen and (max-width: 1100px) {
+     
+}
+@media only screen and (max-width: 850px) {
     
     .navbar-right {
         display: none;
@@ -748,6 +772,7 @@ img{
         right: 0;
         background: rgba(12, 49, 76, 0.9);
         width: 100%;
+        max-width: unset;
         padding: 20px;
         text-align: center;
     }
@@ -761,5 +786,66 @@ img{
 
     .navbar-toggle {
         display: flex;
+    }
+    #casestudy-intro h2{
+        line-height: 1.2;
+        padding: 10%;
+    }
+    #map{
+        flex-direction: column;
+        width: 90%;
+        background-position: top;
+    }
+    #map-img{
+        display: none;
+    }
+    #the-box{
+        flex-direction: column;
+
+        justify-content: center;
+    }
+    #the-box-img{
+        display: flex;
+        justify-content: center;
+    }
+    #the-box-img img{
+        width: 80%;
+    }
+    #the-box-description{
+        width: 90%;
+        margin: auto;
+        text-align: center;
+        padding: 10% 0;
+    }
+    #the-box-description h2{
+        font-size: 2rem;
+    }
+    #the-box-description p{
+        margin: auto;
+        line-height: 2;
+        padding: 2% 0;
+    }
+    #leadershiptitle h2{
+        font-size: 2rem;
+    }
+    .apertureHScroll-card {
+        flex: 0 0 calc(100vw / 2.5);
+    }
+
+    .studies{
+        flex-direction: column;
+
+    }
+    .study{
+        width: 100%;
+        padding: 10% 0;
+        text-align: center;
+    }
+    .study img{
+        width: 65%;
+    }
+    .study p{
+        margin: auto;
+        width: 80%;
     }
 }
