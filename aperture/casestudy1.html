@@ -1,35 +1,66 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<link rel="stylesheet" type="text/css" href="css/about-global-comingsoon.css">
+		<link rel="stylesheet" type="text/css" href="css/about-global-casestudy.css">
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 		<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.js"></script>
 		<script src="https://kit.fontawesome.com/54b9150ca5.js" crossorigin="anonymous"></script>
-		 		<script src="js/hamburger.js"></script>
- 		
+ 		<script src="js/carousel.js"></script>
 	</head>
 	<body>
 		<div class="navbar" id="navbar">
-		<div class="navbar-left">
-			<img src="img/aperture_lre_logo_horizontalwhite.svg" alt="Logo">
-		</div>
-
-	</div>
+            <div class="navbar-left">
+                <img src="img/apertureglobalrealestate.svg" alt="Logo">
+            </div>
+            <div class="navbar-toggle" id="navbar-toggle">
+                <!-- Hamburger Icon -->
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <div class="navbar-right" id="navbar-menu">
+                <a href="index.html">Home</a>
+                <div class="dropdown">
+			    <button class="dropbtn">Exclusive Properties 
+			      <i class="fa fa-caret-down"></i>
+			    </button>
+			    <div class="dropdown-content">
+			      <a href="casestudy3.html">Infinity Villas – St. Maarteen</a>
+			      <a href="casestudy1.html">Stuart, FL</a>
+			      <a href="casestudy2.html">Reunion, FL</a>
+			    </div>
+			  </div> 
+                <a href="locations.html">Locations</a>
+                <a href="https://aperture.lpages.co/aperture-application/">Join Aperture</a>
+                <a href="" class="cta-button">Contact Us</a>
+            </div>
+        </div>
 		<!--This is the start of the intro section-->
-		<div id="about-intro">
-			<h2>Opulent Waterfront Escape <br><span> — Stuart, FL</span></h2>
-			<h3>3066 SE Island Point Ln, Stuart, FL</h3>
-			<a href="#about-video" class="learn-more-button">Learn More</a>
+		<div class="about-intro" >
+			<h2>Opulent Waterfront Escape <span> — Stuart, FL</span></h2>
+				<a href="#about-video" class="learn-more-button">Learn More</a>
+			
 		</div>
 		<!--This is the end of the intro section-->
 		<!--This is the start of the video section-->
 		<div class="househero">
-			<br>
+			<img src="img/casestudy1/casestudy1_1.png">
 
 		</div>
-		
+		<div class="section section-1">
+                <div class="maptext">
+                    <h2>3066 SE Island Pointe Ln, <br>Stuart, FL 34996</h2>
+                    <p>
+                        Within the confines of Sint Maarten lies Indigo Bay, an exclusive retreat spanning 150 acres of pristine landscapes. Offering breathtaking views of the Caribbean Sea, its coastline stretches over 1200 meters of soft, white sands. This eco-conscious community embodies luxury living with its low-density design and resortstyle ambiance. Centrally located yet secluded within a secured gated area, it provides residents and guests with easy access to the island’s attractions while ensuring a serene and private atmosphere.
+                    </p>
+                </div>
+                <div class="map">
+                    <img src="img/casestudy3/map.png">
+                </div>
+
+            </div>
         <div class="section section-2">
                 <div class="stats">
                     <div class="stat">
@@ -49,13 +80,10 @@
                         <p>Asking Price</p>
                     </div>
                 </div>
-                <div class="section section-1">
-                <iframe src="https://snazzymaps.com/embed/690532" width="100%" height="600px" style="border:none;"></iframe>
-
-            </div>
+                
                 <div class="community">
 
-                    <img src="img/casestudy1/house_stuart2.png">
+                    <img src="img/casestudy1/casestudy1_2.png">
 
                     <div class="details3 animate__animated animate__fadeInRight">
                         <h3>
@@ -76,11 +104,11 @@
                             Each residence is designed with meticulous attention to detail to ensure ultimate comfort and privacy. Enjoy state-of-the-art features, including commercial-grade kitchen appliances, a wet bar with beverage and wine coolers, and modern shaker-style wood cabinets with soft-close technology. Calacatta quartz countertops with waterfall edges and sleek epoxy flooring provide a stylish foundation. Seamlessly transition to the outdoors through 16' sliding doors leading to private outdoor spaces.
                         </p>
                     </div>
-                    <img src="img/casestudy1/house_stuart3.png">
+                    <img src="img/casestudy1/casestudy1_3.png">
 
                 </div>
                 <div class="aminities">
-                    <img src="img/casestudy1/house_stuart4.png">
+                    <img src="img/casestudy1/casestudy1_4.png">
                     <div class="details3">
                         <h3>
                             Deeded Boat Slips <br>at Aqua Reserve
@@ -92,38 +120,102 @@
 
                 </div>
                 
-
+			
             </div>
-            	<div class="casestudy-hero cs5">
-					<br>	
-				</div>
-				<div class="casestudy-hero cs6">
-						<br>
-				</div>
-				<div class="casestudy-hero cs7">
-						<br>
-				</div>
-				<div class="casestudy-hero cs8">
-						<br>
-				</div>
-				<div class="casestudy-hero cs9">
-						<br>
-				</div>
-				<div class="casestudy-hero cs10">
-						<br>
-				</div>
-				<div class="casestudy-hero cs11">
-						<br>
-				</div>
+				<div class="carousel-vip">
+				    <!-- Slide 1 -->
+<div class="slide active" style="background-image: url('img/casestudy1/casestudy1_5.jpg');"></div>
+
+<!-- Slide 2 -->
+<div class="slide" style="background-image: url('img/casestudy1/casestudy1_6.jpg');"></div>
+
+<!-- Slide 3 -->
+<div class="slide" style="background-image: url('img/casestudy1/casestudy1_7.jpg');"></div>
+
+<!-- Slide 4 -->
+<div class="slide" style="background-image: url('img/casestudy1/casestudy1_8.jpg');"></div>
+
+<!-- Slide 5 -->
+<div class="slide" style="background-image: url('img/casestudy1/casestudy1_9.jpg');"></div>
+
+<!-- Slide 6 -->
+<div class="slide" style="background-image: url('img/casestudy1/casestudy1_10.jpg');"></div>
+
+<!-- Slide 7 -->
+<div class="slide" style="background-image: url('img/casestudy1/casestudy1_11.jpg');"></div>
+
+<!-- Slide 8 -->
+<div class="slide" style="background-image: url('img/casestudy1/casestudy1_12.jpg');"></div>
+
+<!-- Slide 9 -->
+<div class="slide" style="background-image: url('img/casestudy1/casestudy1_13.jpg');"></div>
+
+<!-- Slide 10 -->
+<div class="slide" style="background-image: url('img/casestudy1/casestudy1_14.jpg');"></div>
+
+<!-- Slide 11 -->
+<div class="slide" style="background-image: url('img/casestudy1/casestudy1_15.jpg');"></div>
+
+<!-- Slide 12 -->
+<div class="slide" style="background-image: url('img/casestudy1/casestudy1_16.jpg');"></div>
+
+<!-- Slide 13 -->
+<div class="slide" style="background-image: url('img/casestudy1/casestudy1_17.jpg');"></div>
+
+
+				    <!-- Shared Indicators -->
+				    <div class="indicators">
+				      <div class="indicator active" data-index="0"></div>
+<div class="indicator" data-index="1"></div>
+<div class="indicator" data-index="2"></div>
+<div class="indicator" data-index="3"></div>
+<div class="indicator" data-index="4"></div>
+<div class="indicator" data-index="5"></div>
+<div class="indicator" data-index="6"></div>
+<div class="indicator" data-index="7"></div>
+<div class="indicator" data-index="8"></div>
+<div class="indicator" data-index="9"></div>
+<div class="indicator" data-index="10"></div>
+<div class="indicator" data-index="11"></div>
+
+				    </div>
+			  </div>
+			  <div class="section section-3">
+                <h3>Property Features</h3>
+                <p>Discover a community designed to enhance your lifestyle, offering a perfect blend of luxury, leisure, and active living. From resort-style pools and outdoor dining to state-of-the-art fitness facilities and serene natural surroundings, every detail is crafted for your enjoyment.</p>
+                <div class="featurelist">
+                    <ul>
+                                <li>Heated Pool</li>
+                                <li>Cabanas</li>
+                                <li>Lounging Nook</li>
+                                <li>Day Beds/Chaise Lounges</li>
+                                <li>Summer Kitchen & BBQ’s</li>
+                                <li>Outdoor Dining Areas</li>
+                                <li>Tropical Modern Poolside Lounge</li>
+                                <li>Ample Lounge Seating</li>
+                                <li>Gated Community</li>
+                                <li>Approximately 1 Mile Walking Trail</li>
+                            </ul>
+                            <ul>
+                                <li>Fully equiped fishing pier (cleaning tables and showers)</li>
+                                <li>Private Boat Docks</li>
+                                <li>Luxury Pool</li>
+                                <li>Pickle Ball Court</li>
+                                <li>Fully Equipped Fitness Center</li>
+                                <li>On-Demand Fitness Technology</li>
+                                <li>Cardio and Strength Training Equipment</li>
+                                <li>Yoga Studio</li>
+                                <li>Close To Preserves and Parks</li>
+                            </ul>
+                </div>
+            </div>
             <div class="profile-section">
 				    <div class="profile-content">
 				        <p>Represented by:</p>
-				        <h2>Cynde Velez, <span><br>Realtor License #2013910</span></h2>
-				        <p>For over a dozen years, Cynde Velez has been a top-producing REALTOR® specializing in Seminole County and the Volusia County beaches. With over 100 million in sales and over 200 properties sold, it's no wonder these achievements resonate with the buyers and sellers who entrust Cynde to assist them in today's challenging real estate market.
-Prior to obtaining her Florida real estate license, Cynde worked in the mortgage industry for over 30 years. Her decades of experience in both residential sales and as a loan officer provide Cynde's customers with a unique perspective as she guides them through a smooth transaction. Additionally, her status as a long-time resident of Seminole County makes her a valuable resource for her customers, especially those new to the area.
-As a real estate professional, Cynde's goal is to be a trusted advisor assisting her customers how to leverage the power of investments. When working with Cynde, her customers learn techniques to help them buy, sell, and build wealth through real estate, all while receiving exceptional service and unparalleled attention to detail.
-Cynde is a member of the Orlando Regional REALTOR® Association and the New Smyrna Beach Board of REALTORS® and has received the prestigious Graduate, REALTOR® Institute designation. She still holds an active mortgage loan officer license and continues to train and educate other mortgage officers on a national level.
-When she's not working with customers, Cynde, a Longwood resident, enjoys playing tennis, traveling, and spending time with her family. Cynde is also an active volunteer and has served on numerous industry and community boards for over 20 years.</p>
+				        <h2>Matt Hodge, <span><br>Realtor License #2013910</span></h2>
+				        <p>Matthew Hodge, a Licensed Real Estate Broker in Florida, obtained his real estate license in 2012. Matthew is a savvy Broker/Realtor with a passion for helping residential, and investor clients buy and sell luxury properties. He specializes in high-end homes, condominiums, as well as investment and income properties. He draws on his background in finance to analyze on and off-market opportunities, and negotiate seamless deals for his discerning clients.
+<br><br>
+Matthew's market knowledge, economic insights, and deep industry connections complement his excellent reputation for providing attentive, personalized service. He conducts business with the highest degree of integrity and dedication. He is exceptionally detailed from beginning to end to ensure the smoothest transactions for his clients, whether you are buying/selling a home, or acquiring a new property for your portfolio.</p>
 				        <div class="profile-icons">
 				            <a href="#"><i class="fab fa-facebook"></i></a>
 				            <a href="#"><i class="fab fa-instagram"></i></a>
@@ -132,7 +224,7 @@ When she's not working with customers, Cynde, a Longwood resident, enjoys playin
 				        </div>
 				    </div>
 				    <div class="profile-image-container">
-				        <img class="profile-image" src="img/cyndevelez.jpg" alt="Cynde Velez">
+				        <img class="profile-image" src="about/hodge.png" alt="Matthew Hodge">
 				    </div>
 			</div>
             
@@ -142,7 +234,7 @@ When she's not working with customers, Cynde, a Longwood resident, enjoys playin
 
 
 <!--This is the start of the case study section-->
-	<div class="greybg">
+	<div class="">
 		<div id="casestudy">
 			<div id="casestudy-intro">
 				<h2>Exclusive Properties</h2>
@@ -174,21 +266,58 @@ When she's not working with customers, Cynde, a Longwood resident, enjoys playin
 	            
 			</div>
 		</div>
+		
 	</div>
-	<div class="center cta">
-			<img src="img/aperture_icon.svg">
-			<h2>Join the Pinnacle of Luxury Real Estate</h2>
-			<a href="mailto:info@apertureglobal.com?subject=Tell me more about Aperture" class="cta-button">Inquire today!</a>
-		</div>
+	
 		<footer>
 
-			<img src="img/aperture_lre_logo_horizontalwhite.svg" alt="Logo">
+			<img src="img/apertureglobalrealestate.svg" alt="Logo">
 			<p>Copyright © 2025 Aperture Lifestyle Real Estate – All Rights Reserved</p>
 
 		</footer>
 		<script src="https://k4design.github.io/aperture/about/script.js"></script>
 <!--This is the end of the case study section-->
 	<script src="https://k4design.github.io/aperture/about/script.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+	<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    let prevScrollPos = window.scrollY;
+    const navbar = document.getElementById("navbar");
+
+    window.addEventListener("scroll", function () {
+      const currentScrollPos = window.scrollY;
+
+      if (currentScrollPos > prevScrollPos && currentScrollPos > 100) {
+        // Scrolling down
+        navbar.classList.add("nav-hidden");
+      } else {
+        // Scrolling up
+        navbar.classList.remove("nav-hidden");
+      }
+
+      prevScrollPos = currentScrollPos;
+    });
+  });
+</script>
+	<script>
+	  gsap.registerPlugin(ScrollTrigger);
+
+	  const apertureTrack = document.getElementById("apertureHScroll-track");
+
+	  ScrollTrigger.create({
+	    trigger: ".apertureHScroll-wrapper",
+	    start: "top top",
+	    end: () => "+=" + (apertureTrack.scrollWidth - window.innerWidth),
+	    pin: true,
+	    scrub: true,
+	    animation: gsap.to(apertureTrack, {
+	      x: () => -(apertureTrack.scrollWidth - window.innerWidth),
+	      ease: "none"
+	    })
+	  });
+	</script>
+
 	</body>
 
 </html>

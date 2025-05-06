@@ -158,13 +158,14 @@ body{
 }
 #about-intro h3{
     font-weight: 200;
-    font-size: 1.5vw
+    font-size: 2vw;
     letter-spacing:10%;
 }
 #about-intro span{
 	color: #0094F7;
 	font-style: italic;
     font-weight: 300;
+    font-size: 2.5vw;
 }
 #about-intro p{
     font-size: 1.5rem;

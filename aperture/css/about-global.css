@@ -24,7 +24,30 @@ img{
     font-style: normal;
     font-weight: 200;
 }
+#loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #0a0a12; /* or your brand color */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  transition: opacity 0.5s ease;
+}
 
+#loader img {
+  width: 80px;
+  height: auto;
+  animation: spin 1.5s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
 .carousel-vip {
       position: relative;
       width: 100vw;
@@ -41,7 +64,7 @@ img{
       background-position: center;
       opacity: 0;
       transition: opacity 1s ease-in-out;
-      background-color: #072a57a1;
+      background-color: #072a5766;
       background-blend-mode: multiply;
     }
 
@@ -127,7 +150,7 @@ img{
     justify-content: space-between;
     align-items: center;
     padding: 15px 0vw;
-    background: rgba(0,0,0,.3);
+    background: rgba(0,0,0,.5);
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
     z-index: 1000;
 }
@@ -159,13 +182,58 @@ img{
     font-weight: 300;
     letter-spacing: 20%;
     text-align: center;
-    font-size: 1vw;
+    font-size: calc(12px + .1vw);
 }
 
 .navbar-right a:hover {
     color: #00AAFF;
 }
+.dropdown {
+  float: left;
+  overflow: hidden;
+}
 
+.dropdown .dropbtn {
+text-decoration: none;
+    color: #fff;
+    margin: 0 2vw;
+    font-weight: 300;
+    letter-spacing: 20%;
+    text-align: center;
+    font-size: calc(12px + .1vw);  
+  border: none;
+  outline: none;
+  color: white;
+  padding: 14px 16px;
+  background-color: inherit;
+  font-family: inherit;
+  margin: 0;
+}
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  float: none;
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+.dropdown-content a:hover {
+  background-color: #ddd;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
 .cta-button {
     border: 1.5px solid #fff;
     border-radius: 30px;
@@ -377,12 +445,11 @@ img{
 }
 
 #the-box{
-	max-width: 1200px;
+	max-width: 1400px;
 	display: flex;
 	flex-wrap: wrap;
 	flex-direction: row;
 	justify-content: center;
-    
 	background-image: url("../about/box_bg.jpg");
 	background-size: cover;
     background-color: #555;
@@ -402,9 +469,9 @@ img{
 	margin: 5% 0;
 }
 #the-box-description h2{
-	font-size: 2vw;
+	font-size: 2.5vw;
 	font-weight: 300;
-	line-height: 2vw;
+	line-height: 1.25;
 }
 #the-box-description h2 span{
 	color: #0094F7;
@@ -429,6 +496,7 @@ img{
 	text-align: center;
 	width: 60%;
 	margin: auto;
+    padding: 5vh 0 10vh;
 }
 #carousel-text h2{
 	font-size: 3rem;
@@ -442,7 +510,7 @@ img{
 	}
 #carousel-text h3{
 	font-weight: 200;
-	font-size: 1.25vw;
+	font-size: 1.55rem;
     letter-spacing: 5%;
 }
 #carousel-text h2 span{
@@ -655,6 +723,12 @@ img{
     font-family: poppins;
     padding: 0 4%;
 }
+.study a{
+  color: white;
+}
+.study a:hover{
+  color: #0094F7;
+}
 .study img{
     width:100%;
     margin-bottom: 7%;
@@ -752,12 +826,29 @@ img{
 .title2{
     font-weight: 100;
     font-size:.85rem;
-    width: 80%;
+    width: 100%;
     max-width: 290px;
 }
 .nav-hidden {
   transform: translateY(-100%);
   transition: transform 0.3s ease-in-out;
+}
+footer{
+    display: flex;
+    background-color: #000;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+footer p{
+    padding: 0 2vw;
+    color: #fff;
+    font-weight: 200;
+    font-size: .75rem;
+}
+footer img{
+    max-height: 5vh;
+    padding: 2vh; 
 }
 @media only screen and (max-width: 1100px) {
      
