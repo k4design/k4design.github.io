@@ -84,7 +84,7 @@ img{
     }
     .text-overlay h3{
         font-family: fm;
-        font-size:calc(12px + 2.5vw);
+        font-size:calc(12px + 2vw);
         margin-bottom: 0;
         font-weight: 200;
 
