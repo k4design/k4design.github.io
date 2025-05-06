@@ -1190,6 +1190,21 @@ footer img{
     .indicator.active {
       background-color: white;
     }
+    .rep-disclosure{
+        width: 100vw;
+        text-align: center;
+        font-weight: 200;
+    }
+    .rep-disclosure p{
+        width: 80vw;
+        margin: auto;
+        line-height: 1;
+        padding: 5vh 0 0;
+    }
+    .rep-disclosure h3{
+        font-weight: 200;
+        font-size: 3vh;
+    }
 @media only screen and (max-width: 750px) {
     footer{
         text-align: center;
