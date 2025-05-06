@@ -713,7 +713,7 @@ text-decoration: none;
 	margin: 2% auto 5%;
 }
 .studies{
-    width: 80%;
+    width: 100%;
     display: flex;
     justify-content: space-around;
     align-items:center;
