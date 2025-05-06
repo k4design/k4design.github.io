@@ -24,6 +24,7 @@ img{
     font-style: normal;
     font-weight: 200;
 }
+
 #loader {
   position: fixed;
   top: 0;
@@ -833,6 +834,61 @@ text-decoration: none;
   transform: translateY(-100%);
   transition: transform 0.3s ease-in-out;
 }
+/* ===== COMMUNITY, INTERIOR, AMINITIES ===== */
+.community,
+.interior,
+.aminities {
+    display: flex;
+    flex-direction: row;
+    width: 85%;
+    justify-content: center;
+    margin: 10vh auto;
+}
+.community img,
+.interior img,
+.aminities img{
+    width: 40vw;
+}
+.aminities {
+    padding-bottom: 10vh;
+}
+
+/* ===== DETAILS BLOCK ===== */
+.details3 {
+    width: 40%;
+    margin: 0 5%;
+    align-content: center;
+}
+.details3 h3 {
+    font-size: 1.5em;
+    font-weight: 200;
+    line-height: 1.25em;
+    color: #fff;
+    text-transform: capitalize;
+    margin: 3vh 0;
+}
+.details3 p {
+    font-size: 1em;
+    font-weight: 200;
+    margin: 2% 0 7% 0;
+}
+.details3 a {
+    border: 1.5px solid #0094F7;
+    margin: 10vh 0;
+    border-radius: 30px;
+    background: transparent;
+    color: #333;
+    padding: 2% 10%;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.3s ease, color 0.3s ease;
+    text-decoration: none;
+}
+.details3 a:hover {
+    background: #0c314c;
+    color: #fff;
+}
 footer{
     display: flex;
     background-color: #000;
@@ -938,5 +994,29 @@ footer img{
     .study p{
         margin: auto;
         width: 80%;
+    }
+    .community,
+    .aminities,
+    .interior {
+        flex-direction: column;
+        width: 90%;
+        margin: auto;
+        justify-content: center;
+        align-items: center;
+    }
+    .community img,
+    .aminities img,
+    .interior img {
+        width: 90%;
+    }
+    .community {
+        padding-top: 5vh;
+    }
+    .details3 {
+        width: 90%;
+        margin: 5% 0 10% 0;
+    }
+    .interior .details3 {
+        order: 2;
     }
 }
