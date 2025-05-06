@@ -847,7 +847,8 @@ text-decoration: none;
 .community img,
 .interior img,
 .aminities img{
-    width: 40vw;
+    width: 30vw;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
 }
 .aminities {
     padding-bottom: 10vh;
@@ -866,6 +867,8 @@ text-decoration: none;
     color: #fff;
     text-transform: capitalize;
     margin: 3vh 0;
+    border-left:solid 5px #0094F7;
+    padding-left: 1vw;
 }
 .details3 p {
     font-size: 1em;
@@ -933,6 +936,12 @@ footer img{
 
     .navbar-toggle {
         display: flex;
+    }
+    #carousel-text {
+      width: 90%;
+    }
+    #carousel-text h3 {
+      display: none;
     }
     #casestudy-intro h2{
         line-height: 1.2;
