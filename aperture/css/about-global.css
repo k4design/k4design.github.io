@@ -927,15 +927,18 @@ footer img{
         text-align: center;
     }
 
-    .navbar-right .active {
-        display: flex;
+    .navbar-right.active {
+        display: flex ;
     }
     .navbar a{
         margin: 2vh 0;
     }
-
+    .navbar-left{
+      margin: 0 5vw;
+    }
     .navbar-toggle {
         display: flex;
+        margin: 0 5vw;
     }
     #carousel-text {
       width: 90%;

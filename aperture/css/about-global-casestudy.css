@@ -1194,9 +1194,31 @@ footer img{
     footer{
         text-align: center;
     }
-    .navbar-left img{
-        height: 15vw;
-        max-height: 20vh;
+     .navbar-right {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        right: 0;
+        background: rgba(12, 49, 76, 0.9);
+        width: 100%;
+        max-width: unset;
+        padding: 20px;
+        text-align: center;
+    }
+
+    .navbar-right.active {
+        display: flex ;
+    }
+    .navbar a{
+        margin: 2vh 0;
+    }
+    .navbar-left{
+      margin: 0 5vw;
+    }
+    .navbar-toggle {
+        display: flex;
+        margin: 0 5vw;
     }
     #about-intro{
         padding:20vh 0 10vh 0 ;
