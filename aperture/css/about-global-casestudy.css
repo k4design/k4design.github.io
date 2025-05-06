@@ -396,7 +396,23 @@ text-decoration: none;
 .map img{
     width: 90%;
 }
-
+.intro-text{
+    width: 70%;
+    padding: 7%;
+    text-align: center;
+}
+.intro-text h2, .sub-intro h2{
+    font-size: 2rem;
+    color: #0c314c;
+    font-weight: 200;
+}
+.intro-text p{
+    font-size: 1rem;
+    padding: 2% 0;
+    font-weight: 200;
+    line-height: 2;
+    letter-spacing: 5%;
+}
 .section-2 {
     background: #fff; /* Fully opaque medium gray */
     display: block;
