@@ -1,9 +1,0 @@
-{
-    "require": {
-        "illuminate/validation": "^11.38",
-        "illuminate/mail": "^11.38",
-        "illuminate/filesystem": "^11.38",
-        "illuminate/translation": "^11.38",
-        "symfony/mailer": "^7.2"
-    }
-}
