@@ -252,7 +252,7 @@ text-decoration: none;
 	color: #0094F7;
 	font-style: italic;
     font-weight: 300;
-    font-size: calc(16pt + 1.25vw);
+    font-size: calc(16pt + .25vw);
 }
 .about-intro p{
     font-size: 1.5rem;
