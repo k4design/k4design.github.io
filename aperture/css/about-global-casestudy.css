@@ -1171,12 +1171,15 @@ footer img{
       z-index: 1;
     }
 .indicators {
-      position: absolute;
-      bottom: 5vh;
-      left: 40vw;
+      position: absolute; 
+     left: 0; 
+    right: 0; 
+    margin-inline: auto; 
+    width: fit-content;
       display: flex;
       gap: 0.5rem;
       z-index: 20;
+      bottom: 2vh;
     }
 
     .indicator {
