@@ -1201,6 +1201,9 @@ footer img{
     #about-intro{
         padding:20vh 0 10vh 0 ;
     }
+    #about-intro img{
+        display: hidden;
+    }
     #about-intro h2{
         font-size: 10vw;
         line-height: 11vw;
