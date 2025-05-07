@@ -1074,4 +1074,47 @@ footer img{
     .interior .details3 {
         order: 2;
     }
+    .outro{
+  display: flex;
+  justify-content: space-around;
+  flex-direction: column;
+  margin: auto;
+  width: 80vw;
+  padding: 10vh 0;
+}
+.outro-intro{
+  flex-basis: 25%;
+}
+.outro h3{
+  font-weight: 400;
+  font-size: calc(12px + 2.75vw)
+}
+.outro p{
+  font-weight: 200;
+}
+.outro a{
+  font-size: 1rem;
+}
+.outro-cta-group{
+  display: flex;
+  flex-basis: 50%;
+  justify-content: center;
+}
+.outro-cta{
+  flex-basis: 45%;
+  padding: 0 2vw;
+  display: flex;
+  flex-direction: column;
+  justify-content:space-between;
+}
+.outro-cta h3{
+  border-left:solid 5px #0094F7;
+  padding-left: .5vw;
+}
+.outro-border{
+  border-top: 1px grey solid;
+}
+.outro-cta a{
+  align-self: flex-start;
+}
 }
