@@ -1121,4 +1121,16 @@ footer img{
 .outro-cta a{
   align-self: flex-start;
 }
+.learn-more-button {
+  padding: 10px 0px;
+  font-size: 1.25rem;
+  font-family: Poppins, sans-serif;
+  color: #fff;
+  text-decoration: none;
+  border:unset;
+  border-bottom: 2px solid #0094F7;
+  border-radius: 0px;
+  text-align: center;
+  transition: all 0.3s ease;
+}
 }
