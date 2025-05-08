@@ -1035,7 +1035,7 @@ footer img{
         font-size: 2rem;
     }
     .apertureHScroll-card {
-        flex: 0 0 calc(100vw / 2.5);
+        flex: 0 0 calc(100vw / 1.5);
     }
 
     .studies{
