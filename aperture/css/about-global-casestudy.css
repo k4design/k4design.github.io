@@ -1309,6 +1309,9 @@ footer img{
         border-right:none;
         width: 50%;
     }
+    .stat2{
+        width: unset;
+    }
     .stat h3, .stat2 h3{
         font-size: 7vw;
     }
