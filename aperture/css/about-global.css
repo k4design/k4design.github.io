@@ -1036,6 +1036,7 @@ footer img{
     }
     .apertureHScroll-card {
         flex: 0 0 calc(100vw / 1.5);
+        padding-top: 10vh;
     }
 
     .studies{
