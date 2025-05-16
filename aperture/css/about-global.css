@@ -717,7 +717,7 @@ text-decoration: none;
     width: 100%;
     display: flex;
     justify-content: space-around;
-    align-items:center;
+    align-items:flex-start;
     margin: 0 auto;
 }
 .study {
@@ -827,6 +827,7 @@ text-decoration: none;
     color: #0094F7;
     margin:0;
     letter-spacing: 2%;
+    line-height: 1.25;
 }
 .title2{
     font-weight: 100;

@@ -1,0 +1,50 @@
+<script>
+function cssEngine(rule) {
+  var css = document.createElement('style'); // Creates <style></style>
+  css.type = 'text/css'; // Specifies the type
+  if (css.styleSheet) css.styleSheet.cssText = rule; // Support for IE
+  else css.appendChild(document.createTextNode(rule)); // Support for the rest
+  document.getElementsByTagName("head")[0].appendChild(css);
+}
+
+var rule = '.house-grid-item.template4 .mask .house-detail .hide-price,.house-grid-item.template4 .mask .house-detail .house-price{font:500 5vw/2vh "Michroma",sans-serif !important;height:auto!important;color:#fff;margin:4vh 0!important;}';
+rule += '.mg-container{width:100vw !important;max-width:100vw !important;}';
+
+cssEngine(rule);
+</script>
+
+<div id="about-intro">
+		<p>Unlock a New Era of Luxury Real Estate — <br><span style="color: #0094F7;">Global Launch is Coming Soon.</span></p>
+		<h2>Your vision, your focus, your exposure — <br>You are <span>Aperture.</span></h2>
+		<a href="#about-video" class="learn-more-button">Learn More</a>
+
+	</div>
+	<!--This is the end of the intro section-->
+	<!--This is the start of the video section-->
+	<div id="about-video">
+		<script src="https://fast.wistia.com/player.js" async></script><script src="https://fast.wistia.com/embed/h1bh7meime.js" async type="module"></script><style>wistia-player[media-id='h1bh7meime']:not(:defined) { background: center / contain no-repeat url('https://fast.wistia.com/embed/medias/h1bh7meime/swatch'); display: block; filter: blur(5px); }</style> <wistia-player media-id="h1bh7meime" aspect="1.7777777777777777" style="width: 100vw;height: 70vh;"></wistia-player>
+		</div>
+		<!--This is the end of the video section-->
+		<!--This is the start of the map section-->
+		<div id="merce">
+			<div id="mercetext">
+				<h2 >
+					A New Era Begins: <br>Join Us in Welcoming Our SVP of Operations: <br><span id="mercename">Mercedes Saewitz</span> 
+				</h2>
+				<p>
+					A Miami native with over 20 years of industry experience, Mercedes Saewitz is a recognized leader in real estate. During her decade at Compass, she led regional brokerage operations, managed top-producing teams, and drove national initiatives, fostering innovation and excellence. Passionate about agent growth and innovation, she specializes in streamlining processes, implementing strategic solutions, and empowering agents to excel in the luxury market 
+				</p>
+			</div>
+			<script src="https://fast.wistia.com/player.js" async></script><script src="https://fast.wistia.com/embed/ynd59bve69.js" async type="module"></script><style>wistia-player[media-id='ynd59bve69']:not(:defined) { background: center / contain no-repeat url('https://fast.wistia.com/embed/medias/ynd59bve69/swatch'); display: block; filter: blur(5px); }</style> <wistia-player media-id="ynd59bve69" aspect="1.7777777777777777" id="mercevid"></wistia-player>
+		</div>
+		<!--This is the end of the video section-->
+		<!--This is the start of the map section-->
+		
+
+		<!--This is the end of the map section-->
+		
+		<div class="center cta">
+			<img src="img/aperture_icon.svg">
+			<h2>Join the Pinnacle of Luxury Real Estate</h2>
+			<a href="mailto:info@apertureglobal.com?subject=Tell me more about Aperture" class="cta-button">Inquire today!</a>
+		</div>
