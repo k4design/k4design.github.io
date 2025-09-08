@@ -1,0 +1,1225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Aperture Global</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* About Page Specific Styles */
+        .about-hero {
+            height: 70vh;
+            position: relative;
+            overflow: hidden;
+            background: var(--primary-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Animation Classes */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .slide-in-left {
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: all 0.8s ease;
+        }
+
+        .slide-in-left.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .slide-in-right {
+            opacity: 0;
+            transform: translateX(50px);
+            transition: all 0.8s ease;
+        }
+
+        .slide-in-right.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .scale-in {
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.8s ease;
+        }
+
+        .scale-in.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .about-hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .about-hero-bg img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.4);
+        }
+
+        .about-hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.4) 50%, rgba(0, 0, 0, 0.8) 100%);
+            z-index: 2;
+        }
+
+        .about-hero-content {
+            position: relative;
+            z-index: 3;
+            text-align: center;
+            max-width: 800px;
+            padding: 0 40px;
+        }
+
+        .about-hero h1 {
+            color: var(--text-primary);
+            font-size: 3.5rem;
+            font-weight: 300;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .about-hero p {
+            color: var(--text-secondary);
+            font-size: 1.3rem;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+
+        .about-hero .hero-badge {
+            display: inline-block;
+            background: var(--accent-blue);
+            color: var(--primary-bg);
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 2rem;
+        }
+
+        /* Mission Section */
+        .mission-section {
+            padding: 120px 0;
+            background: var(--secondary-bg);
+        }
+
+        .mission-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 40px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .mission-content h2 {
+            color: var(--text-primary);
+            font-size: 2.5rem;
+            font-weight: 300;
+            margin-bottom: 2rem;
+        }
+
+        .mission-content p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .mission-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 2rem;
+            background: var(--card-bg);
+            border-radius: 15px;
+            border: 1px solid var(--border-color);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: var(--accent-blue);
+            margin-bottom: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .stat-item:hover .stat-number {
+            transform: scale(1.1);
+        }
+
+        .counter {
+            display: inline-block;
+        }
+
+        .stat-label {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .mission-image {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .mission-image img {
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
+        }
+
+        /* Values Section */
+        .values-section {
+            padding: 120px 0;
+            background: var(--primary-bg);
+        }
+
+        .values-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+
+        .values-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .values-header h2 {
+            color: var(--text-primary);
+            font-size: 2.5rem;
+            font-weight: 300;
+            margin-bottom: 1rem;
+        }
+
+        .values-header p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 3rem;
+        }
+
+        .value-card {
+            text-align: center;
+            padding: 3rem 2rem;
+            background: var(--card-bg);
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+            transition: transform 0.3s ease;
+        }
+
+        .value-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .value-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-blue-dark) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 2rem;
+        }
+
+        .value-icon i {
+            font-size: 2rem;
+            color: var(--primary-bg);
+        }
+
+        .value-card h3 {
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            font-weight: 400;
+            margin-bottom: 1rem;
+        }
+
+        .value-card p {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        /* Team Section */
+        .team-section {
+            padding: 120px 0;
+            background: var(--tertiary-bg);
+        }
+
+        .team-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+
+        .team-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .team-header h2 {
+            color: var(--text-primary);
+            font-size: 2.5rem;
+            font-weight: 300;
+            margin-bottom: 1rem;
+        }
+
+        .team-header p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 3rem;
+        }
+
+        .team-member {
+            text-align: center;
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 2.5rem;
+            border: 1px solid var(--border-color);
+            transition: transform 0.3s ease;
+        }
+
+        .team-member:hover {
+            transform: translateY(-5px);
+        }
+
+        .member-photo {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin: 0 auto 1.5rem;
+            background: var(--accent-blue);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: var(--primary-bg);
+        }
+
+        .member-name {
+            color: var(--text-primary);
+            font-size: 1.3rem;
+            font-weight: 400;
+            margin-bottom: 0.5rem;
+        }
+
+        .member-title {
+            color: var(--accent-blue);
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .member-bio {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        /* Story Section */
+        .story-section {
+            padding: 120px 0;
+            background: var(--secondary-bg);
+        }
+
+        .story-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 40px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .story-content h2 {
+            color: var(--text-primary);
+            font-size: 2.5rem;
+            font-weight: 300;
+            margin-bottom: 2rem;
+        }
+
+        .story-content p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .story-timeline {
+            margin-top: 3rem;
+        }
+
+        .timeline-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: var(--card-bg);
+            border-radius: 15px;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .timeline-item:hover {
+            transform: translateX(10px);
+            border-color: var(--accent-blue);
+            box-shadow: 0 10px 30px rgba(0, 123, 255, 0.1);
+        }
+
+        .timeline-year {
+            background: var(--accent-blue);
+            color: var(--primary-bg);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-right: 1.5rem;
+            min-width: 80px;
+            text-align: center;
+        }
+
+        .timeline-content {
+            flex: 1;
+        }
+
+        .timeline-content h4 {
+            color: var(--text-primary);
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-content p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin: 0;
+        }
+
+        .story-image {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .story-image img {
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
+        }
+
+        /* CTA Section */
+        .about-cta {
+            padding: 120px 0;
+            background: var(--primary-bg);
+            text-align: center;
+        }
+
+        .cta-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+
+        .cta-content h2 {
+            color: var(--text-primary);
+            font-size: 2.5rem;
+            font-weight: 300;
+            margin-bottom: 1.5rem;
+        }
+
+        .cta-content p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 3rem;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .cta-btn {
+            padding: 16px 32px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: none;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .cta-btn.primary {
+            background: var(--accent-blue);
+            color: var(--primary-bg);
+        }
+
+        .cta-btn.primary:hover {
+            background: var(--accent-blue-dark);
+            transform: translateY(-2px);
+        }
+
+        .cta-btn.secondary {
+            background: transparent;
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        .cta-btn.secondary:hover {
+            border-color: var(--accent-blue);
+            color: var(--accent-blue);
+            transform: translateY(-2px);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .mission-container,
+            .story-container {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .values-grid,
+            .team-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 2rem;
+            }
+
+            .mission-stats {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .about-hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .about-hero p {
+                font-size: 1.1rem;
+            }
+
+            .values-grid,
+            .team-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .mission-container,
+            .story-container,
+            .values-container,
+            .team-container,
+            .cta-container {
+                padding: 0 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h2>Aperture Global</h2>
+                <span class="nav-tagline">Global Luxury Real Estate</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#properties">Properties</a></li>
+                <li><a href="about.html" class="active">About</a></li>
+                <li><a href="index.html#leadership">Leadership</a></li>
+                <li><a href="index.html#news">News</a></li>
+                <li><a href="index.html#contact">Contact</a></li>
+            </ul>
+            <div class="nav-actions">
+                <div class="nav-contact">
+                    <a href="mailto:info@apertureglobal.com">
+                        <i class="fas fa-envelope"></i>
+                        info@apertureglobal.com
+                    </a>
+                    <a href="tel:+15551234567">
+                        <i class="fas fa-phone"></i>
+                        +1 (555) 123-4567
+                    </a>
+                </div>
+                <a href="#contact" class="nav-cta">Get Started</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- About Hero Section -->
+    <section class="about-hero">
+        <div class="about-hero-bg">
+            <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=1920&h=1080&fit=crop" alt="Luxury Real Estate">
+        </div>
+        <div class="about-hero-overlay"></div>
+        <div class="about-hero-content">
+            <div class="hero-badge fade-in">About Aperture Global</div>
+            <h1 class="fade-in">Crafting Extraordinary Real Estate Experiences</h1>
+            <p class="fade-in">At Aperture Global, we believe that luxury real estate is more than just property—it's about creating extraordinary experiences and lasting relationships. We are dedicated to connecting discerning clients with the world's most exceptional properties through unparalleled service and expertise.</p>
+        </div>
+    </section>
+
+    <!-- Mission Section -->
+    <section class="mission-section">
+        <div class="mission-container">
+            <div class="mission-content slide-in-left">
+                <h2>Our Mission</h2>
+                <p>We are passionate about redefining what luxury real estate means in today's world. Our mission is to create meaningful connections between exceptional properties and extraordinary people, ensuring every transaction is not just a sale, but the beginning of a new chapter.</p>
+                <p>Through our global network and local expertise, we provide our clients with access to the world's most coveted properties while maintaining the highest standards of service, discretion, and professionalism that define true luxury.</p>
+                
+                <div class="mission-stats">
+                    <div class="stat-item">
+                        <div class="stat-number counter" data-target="500">0</div>
+                        <div class="stat-label">Properties Sold</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number counter" data-target="25">0</div>
+                        <div class="stat-label">Countries</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number counter" data-target="2">0</div>
+                        <div class="stat-label">Billion+ Total Sales</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number counter" data-target="15">0</div>
+                        <div class="stat-label">Years Experience</div>
+                    </div>
+                </div>
+            </div>
+            <div class="mission-image slide-in-right">
+                <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=600&h=500&fit=crop" alt="Luxury Property">
+            </div>
+        </div>
+    </section>
+
+    <!-- Values Section -->
+    <section class="values-section">
+        <div class="values-container">
+            <div class="values-header fade-in">
+                <h2>Our Values</h2>
+                <p>The core principles that shape our approach to luxury real estate and guide every interaction</p>
+            </div>
+            
+            <div class="values-grid">
+                <div class="value-card scale-in">
+                    <div class="value-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <h3>Passion</h3>
+                    <p>We are driven by a genuine passion for exceptional properties and the stories they tell. Every transaction is approached with enthusiasm and dedication.</p>
+                </div>
+                
+                <div class="value-card scale-in">
+                    <div class="value-icon">
+                        <i class="fas fa-handshake"></i>
+                    </div>
+                    <h3>Authenticity</h3>
+                    <p>We believe in genuine relationships built on trust, transparency, and mutual respect. Our approach is always honest and straightforward.</p>
+                </div>
+                
+                <div class="value-card scale-in">
+                    <div class="value-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h3>Excellence</h3>
+                    <p>We set the highest standards for ourselves and our work, ensuring every detail is perfect and every experience is extraordinary.</p>
+                </div>
+                
+                <div class="value-card scale-in">
+                    <div class="value-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Connection</h3>
+                    <p>We understand that luxury real estate is about more than properties—it's about connecting people with their dreams and aspirations.</p>
+                </div>
+                
+                <div class="value-card scale-in">
+                    <div class="value-icon">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <h3>Innovation</h3>
+                    <p>We embrace new ideas and technologies to enhance the real estate experience while respecting the timeless values of luxury.</p>
+                </div>
+                
+                <div class="value-card scale-in">
+                    <div class="value-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Discretion</h3>
+                    <p>We understand the importance of privacy in luxury real estate and maintain the highest level of confidentiality for all our clients.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section class="team-section">
+        <div class="team-container">
+            <div class="team-header fade-in">
+                <h2>Meet Our Team</h2>
+                <p>The passionate individuals who bring Aperture Global's vision to life</p>
+            </div>
+            
+            <div class="team-grid">
+                <div class="team-member scale-in">
+                    <div class="member-photo">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="member-name">Sarah Mitchell</div>
+                    <div class="member-title">Founder & Creative Director</div>
+                    <div class="member-bio">Sarah founded Aperture Global with a vision to transform how people experience luxury real estate. Her passion for exceptional properties and genuine client relationships drives everything we do.</div>
+                </div>
+                
+                <div class="team-member scale-in">
+                    <div class="member-photo">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="member-name">James Chen</div>
+                    <div class="member-title">Head of Global Operations</div>
+                    <div class="member-bio">James brings a unique perspective to luxury real estate, combining deep market knowledge with a genuine appreciation for the lifestyle that exceptional properties represent.</div>
+                </div>
+                
+                <div class="team-member scale-in">
+                    <div class="member-photo">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="member-name">Elena Rodriguez</div>
+                    <div class="member-title">Client Experience Director</div>
+                    <div class="member-bio">Elena ensures that every client interaction reflects our commitment to excellence and authenticity. She believes that the best real estate experiences are built on genuine connections.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Story Section -->
+    <section class="story-section">
+        <div class="story-container">
+            <div class="story-content slide-in-left">
+                <h2>Our Story</h2>
+                <p>Aperture Global was born from a simple yet powerful belief: that luxury real estate should be about more than just transactions—it should be about creating meaningful connections and extraordinary experiences.</p>
+                <p>What started as a passion for exceptional properties has evolved into a global movement that celebrates the art of living well. We believe that every property has a story, and every client deserves to find their perfect chapter.</p>
+                
+                <div class="story-timeline">
+                    <div class="timeline-item fade-in">
+                        <div class="timeline-year">2015</div>
+                        <div class="timeline-content">
+                            <h4>The Beginning</h4>
+                            <p>Founded with a vision to redefine luxury real estate through authentic relationships and exceptional service.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item fade-in">
+                        <div class="timeline-year">2018</div>
+                        <div class="timeline-content">
+                            <h4>Growing Our Vision</h4>
+                            <p>Expanded our reach to connect clients with extraordinary properties across the globe while maintaining our personal touch.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item fade-in">
+                        <div class="timeline-year">2021</div>
+                        <div class="timeline-content">
+                            <h4>Embracing Innovation</h4>
+                            <p>Integrated cutting-edge technology to enhance the real estate experience while preserving the human connection that defines luxury.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item fade-in">
+                        <div class="timeline-year">2024</div>
+                        <div class="timeline-content">
+                            <h4>Leading the Future</h4>
+                            <p>Today, we continue to set new standards in luxury real estate, creating experiences that go beyond expectations.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="story-image slide-in-right">
+                <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=600&h=500&fit=crop" alt="Company History">
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="about-cta">
+        <div class="cta-container">
+            <div class="cta-content fade-in">
+                <h2>Ready to Discover Your Perfect Property?</h2>
+                <p>Let us help you find the extraordinary property that matches your lifestyle and aspirations. Every great story begins with the right setting.</p>
+                <div class="cta-buttons">
+                    <a href="#contact" class="cta-btn primary">Start Your Journey</a>
+                    <a href="#properties" class="cta-btn secondary">Explore Properties</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Aperture Global</h3>
+                    <p>Creating extraordinary real estate experiences that celebrate the art of living well. We believe every property has a story worth telling.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Services</h4>
+                    <ul>
+                        <li><a href="#">Luxury Sales</a></li>
+                        <li><a href="#">Property Management</a></li>
+                        <li><a href="#">Investment Advisory</a></li>
+                        <li><a href="#">Market Analysis</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Markets</h4>
+                    <ul>
+                        <li><a href="#">New York</a></li>
+                        <li><a href="#">London</a></li>
+                        <li><a href="#">Hong Kong</a></li>
+                        <li><a href="#">Monaco</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <div class="contact-info">
+                        <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
+                        <p><i class="fas fa-envelope"></i> info@apertureglobal.com</p>
+                        <p><i class="fas fa-map-marker-alt"></i> Global Offices</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 Aperture Global. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // About Page Functionality
+        class AboutPage {
+            constructor() {
+                this.init();
+            }
+
+            init() {
+                this.initScrollAnimations();
+                this.initCounters();
+                this.initSmoothScrolling();
+                this.initTimelineInteractions();
+                this.initTeamInteractions();
+            }
+
+            // Scroll-triggered animations
+            initScrollAnimations() {
+                const observerOptions = {
+                    threshold: 0.1,
+                    rootMargin: '0px 0px -50px 0px'
+                };
+
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('visible');
+                        }
+                    });
+                }, observerOptions);
+
+                // Observe all animated elements
+                const animatedElements = document.querySelectorAll('.fade-in, .slide-in-left, .slide-in-right, .scale-in');
+                animatedElements.forEach(el => observer.observe(el));
+            }
+
+            // Animated counters
+            initCounters() {
+                const counters = document.querySelectorAll('.counter');
+                const counterObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            this.animateCounter(entry.target);
+                            counterObserver.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.5 });
+
+                counters.forEach(counter => counterObserver.observe(counter));
+            }
+
+            animateCounter(element) {
+                const target = parseInt(element.getAttribute('data-target'));
+                const duration = 2000; // 2 seconds
+                const increment = target / (duration / 16); // 60fps
+                let current = 0;
+
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= target) {
+                        current = target;
+                        clearInterval(timer);
+                    }
+                    
+                    // Format the number based on target
+                    if (target >= 100) {
+                        element.textContent = Math.floor(current) + '+';
+                    } else if (target >= 10) {
+                        element.textContent = Math.floor(current) + '+';
+                    } else {
+                        element.textContent = Math.floor(current);
+                    }
+                }, 16);
+            }
+
+            // Smooth scrolling for navigation links
+            initSmoothScrolling() {
+                const links = document.querySelectorAll('a[href^="#"]');
+                links.forEach(link => {
+                    link.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        const targetId = link.getAttribute('href');
+                        const targetElement = document.querySelector(targetId);
+                        
+                        if (targetElement) {
+                            targetElement.scrollIntoView({
+                                behavior: 'smooth',
+                                block: 'start'
+                            });
+                        }
+                    });
+                });
+            }
+
+            // Timeline interactions
+            initTimelineInteractions() {
+                const timelineItems = document.querySelectorAll('.timeline-item');
+                
+                timelineItems.forEach((item, index) => {
+                    // Add click functionality
+                    item.addEventListener('click', () => {
+                        this.showTimelineDetails(item, index);
+                    });
+
+                    // Add keyboard accessibility
+                    item.setAttribute('tabindex', '0');
+                    item.addEventListener('keypress', (e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            this.showTimelineDetails(item, index);
+                        }
+                    });
+                });
+            }
+
+            showTimelineDetails(item, index) {
+                // Remove active class from all items
+                document.querySelectorAll('.timeline-item').forEach(el => {
+                    el.classList.remove('active');
+                });
+
+                // Add active class to clicked item
+                item.classList.add('active');
+
+                // Create a simple modal or tooltip effect
+                const content = item.querySelector('.timeline-content');
+                const title = content.querySelector('h4').textContent;
+                const description = content.querySelector('p').textContent;
+
+                // Show a brief highlight effect
+                item.style.transform = 'translateX(15px) scale(1.02)';
+                setTimeout(() => {
+                    item.style.transform = 'translateX(10px)';
+                }, 200);
+
+                // Log to console for demonstration
+                console.log(`Timeline Item ${index + 1}: ${title} - ${description}`);
+            }
+
+            // Team member interactions
+            initTeamInteractions() {
+                const teamMembers = document.querySelectorAll('.team-member');
+                
+                teamMembers.forEach(member => {
+                    member.addEventListener('mouseenter', () => {
+                        this.showMemberDetails(member);
+                    });
+
+                    member.addEventListener('mouseleave', () => {
+                        this.hideMemberDetails(member);
+                    });
+                });
+            }
+
+            showMemberDetails(member) {
+                const photo = member.querySelector('.member-photo');
+                const name = member.querySelector('.member-name').textContent;
+                const title = member.querySelector('.member-title').textContent;
+
+                // Add a subtle glow effect
+                photo.style.boxShadow = '0 0 20px rgba(0, 123, 255, 0.3)';
+                photo.style.transform = 'scale(1.05)';
+
+                // Log member details
+                console.log(`Team Member: ${name} - ${title}`);
+            }
+
+            hideMemberDetails(member) {
+                const photo = member.querySelector('.member-photo');
+                photo.style.boxShadow = '';
+                photo.style.transform = '';
+            }
+        }
+
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            new AboutPage();
+        });
+
+        // Add some additional interactive features
+        document.addEventListener('DOMContentLoaded', () => {
+            // Add parallax effect to hero background
+            const heroBg = document.querySelector('.about-hero-bg img');
+            if (heroBg) {
+                window.addEventListener('scroll', () => {
+                    const scrolled = window.pageYOffset;
+                    const rate = scrolled * -0.5;
+                    heroBg.style.transform = `translateY(${rate}px)`;
+                });
+            }
+
+            // Add typing effect to hero title
+            const heroTitle = document.querySelector('.about-hero h1');
+            if (heroTitle) {
+                const text = heroTitle.textContent;
+                heroTitle.textContent = '';
+                let i = 0;
+                
+                const typeWriter = () => {
+                    if (i < text.length) {
+                        heroTitle.textContent += text.charAt(i);
+                        i++;
+                        setTimeout(typeWriter, 100);
+                    }
+                };
+
+                // Start typing effect after a delay
+                setTimeout(typeWriter, 1000);
+            }
+
+            // Add floating animation to value icons
+            const valueIcons = document.querySelectorAll('.value-icon');
+            valueIcons.forEach((icon, index) => {
+                icon.style.animationDelay = `${index * 0.2}s`;
+                icon.style.animation = 'float 3s ease-in-out infinite';
+            });
+        });
+
+        // Add CSS for floating animation and navbar effects
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes float {
+                0%, 100% { transform: translateY(0px); }
+                50% { transform: translateY(-10px); }
+            }
+            
+            .timeline-item.active {
+                border-color: var(--accent-blue) !important;
+                box-shadow: 0 15px 40px rgba(0, 123, 255, 0.2) !important;
+                transform: translateX(15px) !important;
+            }
+            
+            .value-icon {
+                animation: float 3s ease-in-out infinite;
+            }
+
+            .navbar {
+                transition: all 0.3s ease;
+            }
+
+            .navbar.scrolled {
+                background: rgba(10, 10, 10, 0.8);
+                opacity: 0.9;
+                backdrop-filter: blur(15px);
+                box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            }
+
+            .navbar.hidden {
+                opacity: 0.7;
+                transform: translateY(-100%);
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+    <script>
+        // Enhanced About Page Functionality
+        class AboutPageEnhanced {
+            constructor() {
+                this.init();
+            }
+
+            init() {
+                this.initMobileNavigation();
+                this.initSmoothScrolling();
+                this.initScrollEffects();
+            }
+
+            // Mobile Navigation
+            initMobileNavigation() {
+                const mobileMenuBtn = document.createElement('button');
+                mobileMenuBtn.className = 'mobile-menu-btn';
+                mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+                
+                const navContainer = document.querySelector('.nav-container');
+                navContainer.appendChild(mobileMenuBtn);
+
+                const navMenu = document.querySelector('.nav-menu');
+                
+                mobileMenuBtn.addEventListener('click', () => {
+                    navMenu.classList.toggle('active');
+                    mobileMenuBtn.classList.toggle('active');
+                });
+
+                // Close menu when clicking on links
+                const navLinks = document.querySelectorAll('.nav-menu a');
+                navLinks.forEach(link => {
+                    link.addEventListener('click', () => {
+                        navMenu.classList.remove('active');
+                        mobileMenuBtn.classList.remove('active');
+                    });
+                });
+
+                // Close menu when clicking outside
+                document.addEventListener('click', (e) => {
+                    if (!navContainer.contains(e.target)) {
+                        navMenu.classList.remove('active');
+                        mobileMenuBtn.classList.remove('active');
+                    }
+                });
+            }
+
+            // Smooth Scrolling
+            initSmoothScrolling() {
+                const links = document.querySelectorAll('a[href^="#"]');
+                links.forEach(link => {
+                    link.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        const targetId = link.getAttribute('href');
+                        const targetElement = document.querySelector(targetId);
+                        
+                        if (targetElement) {
+                            const offsetTop = targetElement.offsetTop - 80;
+                            window.scrollTo({
+                                top: offsetTop,
+                                behavior: 'smooth'
+                            });
+                        }
+                    });
+                });
+            }
+
+            // Scroll Effects
+            initScrollEffects() {
+                let lastScrollTop = 0;
+                const navbar = document.querySelector('.navbar');
+
+                window.addEventListener('scroll', () => {
+                    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                    
+                    // Add/remove scrolled class for opacity changes
+                    if (scrollTop > 50) {
+                        navbar.classList.add('scrolled');
+                    } else {
+                        navbar.classList.remove('scrolled');
+                    }
+
+                    // Hide/show navbar on scroll with opacity changes
+                    if (scrollTop > lastScrollTop && scrollTop > 200) {
+                        navbar.classList.add('hidden');
+                        navbar.classList.remove('scrolled');
+                    } else {
+                        navbar.classList.remove('hidden');
+                    }
+                    
+                    lastScrollTop = scrollTop;
+                });
+            }
+        }
+
+        // Initialize enhanced functionality
+        document.addEventListener('DOMContentLoaded', () => {
+            new AboutPageEnhanced();
+        });
+    </script>
+</body>
+</html>

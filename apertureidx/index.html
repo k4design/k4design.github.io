@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aperture Global - Luxury Real Estate</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h2>APERTURE</h2>
+                <span class="nav-tagline">Global Luxury Real Estate</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#properties">Properties</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="#leadership">Leadership</a></li>
+                <li><a href="#news">News</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div class="nav-actions">
+                <div class="nav-contact">
+                    <a href="mailto:info@apertureglobal.com" class="contact-link">
+                        <i class="fas fa-envelope"></i>
+                        <span>info@apertureglobal.com</span>
+                    </a>
+                    <a href="tel:18889039611" class="contact-link">
+                        <i class="fas fa-phone"></i>
+                        <span>1.888.903.9611</span>
+                    </a>
+                </div>
+                <button class="nav-cta">Get Started</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Luxury Property Carousel -->
+    <section id="home" class="luxury-carousel">
+        <!-- Parallax Background Layers -->
+        <div class="parallax-layer parallax-bg-1"></div>
+        <div class="parallax-layer parallax-bg-2"></div>
+        <div class="parallax-layer parallax-bg-3"></div>
+        
+        <!-- Floating Elements -->
+        <div class="floating-elements">
+            <div class="floating-shape shape-1"></div>
+            <div class="floating-shape shape-2"></div>
+            <div class="floating-shape shape-3"></div>
+            <div class="floating-shape shape-4"></div>
+        </div>
+        
+        <!-- Carousel Container -->
+        <div class="carousel-container">
+            <div class="carousel-wrapper">
+                <div class="carousel-slides" id="carousel-slides">
+                    <!-- Slide 1 -->
+                    <div class="carousel-slide active">
+                        <div class="slide-background">
+                            <img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=1920&h=1080&fit=crop" alt="Manhattan Penthouse">
+                        </div>
+                        <div class="slide-content">
+                            <div class="slide-badge">Exclusive</div>
+                            <div class="slide-location">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>Manhattan, New York</span>
+                            </div>
+                            <h1 class="slide-title">Manhattan Skyline Penthouse</h1>
+                            <p class="slide-description">Spectacular triplex penthouse with 360-degree city views, private elevator, and rooftop terrace overlooking Central Park.</p>
+                            <div class="slide-details">
+                                <span class="detail">6 Bedrooms</span>
+                                <span class="detail">8 Bathrooms</span>
+                                <span class="detail">8,500 sq ft</span>
+                            </div>
+                            <div class="slide-price">$45,000,000</div>
+                            <div class="slide-actions">
+                                <a href="property-manhattan-penthouse.html" class="carousel-btn primary">View Details</a>
+                                <button class="carousel-btn secondary">Schedule Tour</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Slide 2 -->
+                    <div class="carousel-slide">
+                        <div class="slide-background">
+                            <img src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=1920&h=1080&fit=crop" alt="Beverly Hills Mansion">
+                        </div>
+                        <div class="slide-content">
+                            <div class="slide-badge">Featured</div>
+                            <div class="slide-location">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>Beverly Hills, California</span>
+                            </div>
+                            <h1 class="slide-title">Beverly Hills Estate</h1>
+                            <p class="slide-description">Magnificent Mediterranean-style estate with tennis court, infinity pool, and panoramic city views in the heart of Beverly Hills.</p>
+                            <div class="slide-details">
+                                <span class="detail">12 Bedrooms</span>
+                                <span class="detail">15 Bathrooms</span>
+                                <span class="detail">25,000 sq ft</span>
+                            </div>
+                            <div class="slide-price">$85,000,000</div>
+                            <div class="slide-actions">
+                                <a href="property-beverly-hills-estate.html" class="carousel-btn primary">View Details</a>
+                                <button class="carousel-btn secondary">Schedule Tour</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Slide 3 -->
+                    <div class="carousel-slide">
+                        <div class="slide-background">
+                            <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1920&h=1080&fit=crop" alt="Monaco Villa">
+                        </div>
+                        <div class="slide-content">
+                            <div class="slide-badge">Luxury</div>
+                            <div class="slide-location">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>Monaco, French Riviera</span>
+                            </div>
+                            <h1 class="slide-title">Monaco Villa Estate</h1>
+                            <p class="slide-description">Exclusive waterfront villa with private marina, helipad, and direct access to the Mediterranean Sea in the heart of Monaco.</p>
+                            <div class="slide-details">
+                                <span class="detail">10 Bedrooms</span>
+                                <span class="detail">12 Bathrooms</span>
+                                <span class="detail">18,000 sq ft</span>
+                            </div>
+                            <div class="slide-price">$125,000,000</div>
+                            <div class="slide-actions">
+                                <button class="carousel-btn primary">View Details</button>
+                                <button class="carousel-btn secondary">Schedule Tour</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Slide 4 -->
+                    <div class="carousel-slide">
+                        <div class="slide-background">
+                            <img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=1920&h=1080&fit=crop" alt="London Mansion">
+                        </div>
+                        <div class="slide-content">
+                            <div class="slide-badge">Historic</div>
+                            <div class="slide-location">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>Mayfair, London</span>
+                            </div>
+                            <h1 class="slide-title">Historic Mayfair Mansion</h1>
+                            <p class="slide-description">Stunning Georgian mansion with original period features, private garden, and views of Hyde Park in prestigious Mayfair.</p>
+                            <div class="slide-details">
+                                <span class="detail">8 Bedrooms</span>
+                                <span class="detail">10 Bathrooms</span>
+                                <span class="detail">12,000 sq ft</span>
+                            </div>
+                            <div class="slide-price">$65,000,000</div>
+                            <div class="slide-actions">
+                                <button class="carousel-btn primary">View Details</button>
+                                <button class="carousel-btn secondary">Schedule Tour</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Carousel Navigation -->
+                <div class="carousel-nav">
+                    <button class="nav-btn prev" id="prev-btn">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="nav-btn next" id="next-btn">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+                
+                <!-- Carousel Indicators -->
+                <div class="carousel-indicators">
+                    <button class="indicator active" data-slide="0"></button>
+                    <button class="indicator" data-slide="1"></button>
+                    <button class="indicator" data-slide="2"></button>
+                    <button class="indicator" data-slide="3"></button>
+                </div>
+                
+                <!-- Carousel Info -->
+                <div class="carousel-info">
+                    <div class="carousel-counter">
+                        <span id="current-slide">1</span> / <span id="total-slides">4</span>
+                    </div>
+                    <div class="carousel-autoplay">
+                        <button id="autoplay-btn" class="autoplay-toggle">
+                            <i class="fas fa-pause"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <!-- Parallax Background -->
+        <div class="parallax-layer about-bg"></div>
+        
+        <div class="container">
+            <h2>International Luxury Real Estate Brokerage</h2>
+            <p>Aperture Global is pioneering a new era in the international real estate market as the first of its kind in the global luxury space. With a vision to become the premier name in high-end real estate, Aperture Global operates with a presence concentrated on the greatest luxury cities around the world, spanning 6 continents and 20+ countries.</p>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-home"></i>
+                    </div>
+                    <h3>Curated Luxury Listings</h3>
+                    <p>Our bespoke marketing packages are meticulously designed to present your luxury property with unparalleled sophistication and precision.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Maximize Your Property Results</h3>
+                    <p>We craft high-impact marketing strategies tailored to each residence we represent–strategically maximizing visibility and elevating desirability.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-tv"></i>
+                    </div>
+                    <h3>Exclusive Media Platform</h3>
+                    <p>Elite View Media is the best-in-class platform that exclusively targets high-net-worth and ultra-high-net-worth households.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- IDX MLS Feed Section -->
+    <section id="properties" class="mls-section">
+        <div class="container">
+            <h2>Global Luxury Properties</h2>
+            <p>Discover our curated selection of exceptional properties from our international MLS feed spanning the world's most prestigious markets</p>
+            
+            <!-- Advanced Search Filters -->
+            <div class="search-filters">
+                <div class="search-header">
+                    <h3>Find Your Perfect Property</h3>
+                    <p>Use our advanced filters to discover luxury properties worldwide</p>
+                </div>
+                <div class="filters-grid">
+                    <div class="filter-group">
+                        <label>Country/Region</label>
+                        <select id="country-filter">
+                            <option value="">All Countries</option>
+                            <option value="usa">United States</option>
+                            <option value="caribbean">Caribbean</option>
+                            <option value="europe">Europe</option>
+                            <option value="asia">Asia</option>
+                            <option value="middle-east">Middle East</option>
+                            <option value="south-america">South America</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Location</label>
+                        <select id="location-filter">
+                            <option value="">All Locations</option>
+                            <optgroup label="United States">
+                                <option value="miami">Miami, FL</option>
+                                <option value="new-york">New York, NY</option>
+                                <option value="los-angeles">Los Angeles, CA</option>
+                                <option value="hutchinson">Hutchinson Island, FL</option>
+                                <option value="reunion">Reunion, FL</option>
+                                <option value="hamptons">The Hamptons, NY</option>
+                                <option value="beverly-hills">Beverly Hills, CA</option>
+                            </optgroup>
+                            <optgroup label="Caribbean">
+                                <option value="sint-maarten">Sint Maarten</option>
+                                <option value="st-barts">St. Barts</option>
+                                <option value="barbados">Barbados</option>
+                                <option value="cayman-islands">Cayman Islands</option>
+                                <option value="turks-caicos">Turks & Caicos</option>
+                            </optgroup>
+                            <optgroup label="Europe">
+                                <option value="london">London, UK</option>
+                                <option value="paris">Paris, France</option>
+                                <option value="monaco">Monaco</option>
+                                <option value="switzerland">Switzerland</option>
+                                <option value="lisbon">Lisbon, Portugal</option>
+                                <option value="cannes">Cannes, France</option>
+                            </optgroup>
+                            <optgroup label="Asia">
+                                <option value="singapore">Singapore</option>
+                                <option value="hong-kong">Hong Kong</option>
+                                <option value="tokyo">Tokyo, Japan</option>
+                                <option value="dubai">Dubai, UAE</option>
+                            </optgroup>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Price Range</label>
+                        <select id="price-filter">
+                            <option value="">Any Price</option>
+                            <option value="0-5000000">Under $5M</option>
+                            <option value="5000000-10000000">$5M - $10M</option>
+                            <option value="10000000-20000000">$10M - $20M</option>
+                            <option value="20000000-50000000">$20M - $50M</option>
+                            <option value="50000000+">$50M+</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Property Type</label>
+                        <select id="type-filter">
+                            <option value="">All Types</option>
+                            <option value="single-family">Single Family</option>
+                            <option value="condo">Condo/Apartment</option>
+                            <option value="townhouse">Townhouse</option>
+                            <option value="villa">Villa</option>
+                            <option value="penthouse">Penthouse</option>
+                            <option value="estate">Estate</option>
+                            <option value="mansion">Mansion</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Bedrooms</label>
+                        <select id="bedrooms-filter">
+                            <option value="">Any</option>
+                            <option value="1">1+</option>
+                            <option value="2">2+</option>
+                            <option value="3">3+</option>
+                            <option value="4">4+</option>
+                            <option value="5">5+</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Features</label>
+                        <select id="features-filter">
+                            <option value="">All Features</option>
+                            <option value="pool">Pool</option>
+                            <option value="oceanfront">Oceanfront</option>
+                            <option value="penthouse">Penthouse</option>
+                            <option value="garden">Garden</option>
+                            <option value="garage">Garage</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="search-actions">
+                    <button id="search-btn" class="search-button">
+                        <i class="fas fa-search"></i>
+                        Search Properties
+                    </button>
+                    <button id="clear-filters" class="clear-button">
+                        <i class="fas fa-times"></i>
+                        Clear Filters
+                    </button>
+                </div>
+            </div>
+
+            <!-- MLS Properties Grid -->
+            <div id="mls-properties" class="mls-properties-grid">
+                <!-- Properties will be loaded dynamically -->
+            </div>
+
+            <!-- Load More Button -->
+            <div class="load-more-container">
+                <button id="load-more" class="load-more-btn">Load More Properties</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Leadership Section -->
+    <section id="leadership" class="leadership">
+        <div class="container">
+            <h2>Aperture Leadership</h2>
+            <div class="leadership-grid">
+                <div class="leader-card">
+                    <div class="leader-image">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=300&fit=crop&crop=face" alt="Robert Palmer">
+                    </div>
+                    <h3>Robert Palmer</h3>
+                    <p class="title">Founder/CEO</p>
+                    <p>Robert Palmer is a serial entrepreneur, business leader and marketing guru who has built an impressive portfolio of brands and businesses through innovation, hard work, and a relentless passion for success.</p>
+                </div>
+                <div class="leader-card">
+                    <div class="leader-image">
+                        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=300&h=300&fit=crop&crop=face" alt="Michael Valdes">
+                    </div>
+                    <h3>Michael Valdes</h3>
+                    <p class="title">Global President</p>
+                    <p>Michael Valdes is a leader in luxury real estate, serving as Global President of Aperture and CEO of LPT International. Prior to this role, he served as Chief Growth Officer of exp Realty.</p>
+                </div>
+                <div class="leader-card">
+                    <div class="leader-image">
+                        <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=300&h=300&fit=crop&crop=face" alt="Mercedes Saewitz">
+                    </div>
+                    <h3>Mercedes Saewitz</h3>
+                    <p class="title">SVP of Operations</p>
+                    <p>A Miami native with over 20 years of industry experience, Mercedes Saewitz is a recognized leader in real estate. During her decade at Compass, she led regional brokerage operations.</p>
+                </div>
+                <div class="leader-card">
+                    <div class="leader-image">
+                        <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=300&h=300&fit=crop&crop=face" alt="Matt Hodge">
+                    </div>
+                    <h3>Matt Hodge</h3>
+                    <p class="title">Executive VP</p>
+                    <p>Matthew Hodge's real estate journey began with a deep passion for helping individuals build wealth through real estate. This commitment to client success paved the way for a seamless transition into luxury sales.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- News Section -->
+    <section id="news" class="news">
+        <div class="container">
+            <h2>Aperture News</h2>
+            <p>Get a curated glimpse into the brand's global expansion, marquee listings, elite agent achievements, and the latest innovations redefining luxury real estate.</p>
+            
+            <div class="news-grid">
+                <div class="news-card">
+                    <div class="news-image">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=250&fit=crop" alt="News">
+                    </div>
+                    <div class="news-content">
+                        <h3>LPT Holdings launches luxury firm Aperture Global Real Estate</h3>
+                        <p>Robert Palmer, Michael Valdes and Mercedes Saewitz are leading the firm, which is launching with about 100 agents across the US, Toronto, London, Lisbon...</p>
+                        <a href="#" class="read-more">Read More</a>
+                    </div>
+                </div>
+                <div class="news-card">
+                    <div class="news-image">
+                        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=250&fit=crop" alt="News">
+                    </div>
+                    <div class="news-content">
+                        <h3>LPT launches international luxury brand Aperture Global</h3>
+                        <p>Aperture Global is the latest offering from multi-model firm LPT Realty. The luxury brand is up and running in 15 states and four international locations...</p>
+                        <a href="#" class="read-more">Read More</a>
+                    </div>
+                </div>
+                <div class="news-card">
+                    <div class="news-image">
+                        <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=400&h=250&fit=crop" alt="News">
+                    </div>
+                    <div class="news-content">
+                        <h3>LPT Realty Announces Launch of Independent International Luxury Brokerage</h3>
+                        <p>New lifestyle brand kicks off with over 100 agents with more than $1B in listings in 15 states and four countries with plans for an IPO in Q1 2026...</p>
+                        <a href="#" class="read-more">Read More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <h2>Step Into a Smarter Era of Luxury Real Estate</h2>
+            <p>Aperture is where exceptional properties meet exceptional representation. Whether you're entering the market or redefining your career, we offer a path built on discretion, reach, and results.</p>
+            
+            <div class="cta-buttons">
+                <button class="cta-button primary">Buyers & Sellers</button>
+                <button class="cta-button secondary">Join as Agent</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact" class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>APERTURE</h3>
+                    <p>Global Luxury Real Estate Brokerage</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <p>info@apertureglobal.com</p>
+                    <p>1.888.903.9611</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Services</h4>
+                    <ul>
+                        <li><a href="#">Luxury Listings</a></li>
+                        <li><a href="#">Property Marketing</a></li>
+                        <li><a href="#">EliteView Media</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Follow Us</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Aperture Global. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Enhanced Index Page Functionality
+        class IndexPage {
+            constructor() {
+                this.init();
+            }
+
+            init() {
+                this.initMobileNavigation();
+                this.initSmoothScrolling();
+                this.initScrollEffects();
+                this.initPropertyFilters();
+                this.initNewsletterSignup();
+                this.initContactForm();
+            }
+
+            // Mobile Navigation
+            initMobileNavigation() {
+                const mobileMenuBtn = document.createElement('button');
+                mobileMenuBtn.className = 'mobile-menu-btn';
+                mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+                
+                const navContainer = document.querySelector('.nav-container');
+                navContainer.appendChild(mobileMenuBtn);
+
+                const navMenu = document.querySelector('.nav-menu');
+                
+                mobileMenuBtn.addEventListener('click', () => {
+                    navMenu.classList.toggle('active');
+                    mobileMenuBtn.classList.toggle('active');
+                });
+
+                // Close menu when clicking on links
+                const navLinks = document.querySelectorAll('.nav-menu a');
+                navLinks.forEach(link => {
+                    link.addEventListener('click', () => {
+                        navMenu.classList.remove('active');
+                        mobileMenuBtn.classList.remove('active');
+                    });
+                });
+
+                // Close menu when clicking outside
+                document.addEventListener('click', (e) => {
+                    if (!navContainer.contains(e.target)) {
+                        navMenu.classList.remove('active');
+                        mobileMenuBtn.classList.remove('active');
+                    }
+                });
+            }
+
+            // Smooth Scrolling
+            initSmoothScrolling() {
+                const links = document.querySelectorAll('a[href^="#"]');
+                links.forEach(link => {
+                    link.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        const targetId = link.getAttribute('href');
+                        const targetElement = document.querySelector(targetId);
+                        
+                        if (targetElement) {
+                            const offsetTop = targetElement.offsetTop - 80; // Account for fixed navbar
+                            window.scrollTo({
+                                top: offsetTop,
+                                behavior: 'smooth'
+                            });
+                        }
+                    });
+                });
+            }
+
+            // Scroll Effects
+            initScrollEffects() {
+                let lastScrollTop = 0;
+                const navbar = document.querySelector('.navbar');
+
+                window.addEventListener('scroll', () => {
+                    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                    
+                    // Add/remove scrolled class for opacity changes
+                    if (scrollTop > 50) {
+                        navbar.classList.add('scrolled');
+                    } else {
+                        navbar.classList.remove('scrolled');
+                    }
+
+                    // Hide/show navbar on scroll with opacity changes
+                    if (scrollTop > lastScrollTop && scrollTop > 200) {
+                        navbar.classList.add('hidden');
+                        navbar.classList.remove('scrolled');
+                    } else {
+                        navbar.classList.remove('hidden');
+                    }
+                    
+                    lastScrollTop = scrollTop;
+                });
+
+                // Parallax effect for hero background
+                const heroBg = document.querySelector('.luxury-carousel');
+                if (heroBg) {
+                    window.addEventListener('scroll', () => {
+                        const scrolled = window.pageYOffset;
+                        const rate = scrolled * -0.5;
+                        heroBg.style.transform = `translateY(${rate}px)`;
+                    });
+                }
+            }
+
+            // Enhanced Property Filters
+            initPropertyFilters() {
+                const filterButtons = document.querySelectorAll('.filter-btn');
+                const propertyCards = document.querySelectorAll('.property-card');
+
+                filterButtons.forEach(button => {
+                    button.addEventListener('click', () => {
+                        // Remove active class from all buttons
+                        filterButtons.forEach(btn => btn.classList.remove('active'));
+                        // Add active class to clicked button
+                        button.classList.add('active');
+
+                        const filter = button.getAttribute('data-filter');
+                        
+                        propertyCards.forEach(card => {
+                            if (filter === 'all' || card.classList.contains(filter)) {
+                                card.style.display = 'block';
+                                card.style.animation = 'fadeInUp 0.5s ease';
+                            } else {
+                                card.style.display = 'none';
+                            }
+                        });
+                    });
+                });
+            }
+
+            // Newsletter Signup
+            initNewsletterSignup() {
+                const newsletterForm = document.querySelector('.newsletter-form');
+                if (newsletterForm) {
+                    newsletterForm.addEventListener('submit', (e) => {
+                        e.preventDefault();
+                        const email = newsletterForm.querySelector('input[type="email"]').value;
+                        
+                        // Simulate newsletter signup
+                        const submitBtn = newsletterForm.querySelector('button');
+                        const originalText = submitBtn.textContent;
+                        
+                        submitBtn.textContent = 'Subscribing...';
+                        submitBtn.disabled = true;
+                        
+                        setTimeout(() => {
+                            submitBtn.textContent = 'Subscribed!';
+                            submitBtn.style.background = '#28a745';
+                            
+                            setTimeout(() => {
+                                submitBtn.textContent = originalText;
+                                submitBtn.disabled = false;
+                                submitBtn.style.background = '';
+                                newsletterForm.reset();
+                            }, 2000);
+                        }, 1500);
+                    });
+                }
+            }
+
+            // Contact Form Enhancement
+            initContactForm() {
+                const contactForm = document.querySelector('.contact-form');
+                if (contactForm) {
+                    contactForm.addEventListener('submit', (e) => {
+                        e.preventDefault();
+                        
+                        const submitBtn = contactForm.querySelector('button[type="submit"]');
+                        const originalText = submitBtn.textContent;
+                        
+                        submitBtn.textContent = 'Sending...';
+                        submitBtn.disabled = true;
+                        
+                        // Simulate form submission
+                        setTimeout(() => {
+                            submitBtn.textContent = 'Message Sent!';
+                            submitBtn.style.background = '#28a745';
+                            
+                            setTimeout(() => {
+                                submitBtn.textContent = originalText;
+                                submitBtn.disabled = false;
+                                submitBtn.style.background = '';
+                                contactForm.reset();
+                            }, 2000);
+                        }, 1500);
+                    });
+                }
+            }
+        }
+
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            new IndexPage();
+        });
+
+        // Add CSS for mobile navigation and scroll effects
+        const style = document.createElement('style');
+        style.textContent = `
+            .mobile-menu-btn {
+                display: none;
+                background: none;
+                border: none;
+                color: var(--text-primary);
+                font-size: 1.5rem;
+                cursor: pointer;
+                padding: 0.5rem;
+                transition: color 0.3s ease;
+            }
+
+            .mobile-menu-btn:hover {
+                color: var(--accent-blue);
+            }
+
+            .navbar {
+                transition: all 0.3s ease;
+            }
+
+            .navbar.scrolled {
+                background: rgba(10, 10, 10, 0.8);
+                opacity: 0.9;
+                backdrop-filter: blur(15px);
+                box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            }
+
+            .navbar.hidden {
+                opacity: 0.7;
+                transform: translateY(-100%);
+            }
+
+            @keyframes fadeInUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(30px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            @media (max-width: 768px) {
+                .mobile-menu-btn {
+                    display: block;
+                }
+
+                .nav-menu {
+                    position: fixed;
+                    top: 100%;
+                    left: 0;
+                    width: 100%;
+                    background: var(--primary-bg);
+                    flex-direction: column;
+                    padding: 2rem;
+                    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+                    transform: translateY(-100%);
+                    opacity: 0;
+                    visibility: hidden;
+                    transition: all 0.3s ease;
+                    z-index: 1000;
+                }
+
+                .nav-menu.active {
+                    transform: translateY(0);
+                    opacity: 1;
+                    visibility: visible;
+                }
+
+                .nav-menu li {
+                    margin: 1rem 0;
+                }
+
+                .nav-menu a {
+                    font-size: 1.2rem;
+                    padding: 1rem;
+                    display: block;
+                    text-align: center;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
