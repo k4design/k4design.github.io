@@ -1396,6 +1396,10 @@ p {
     text-align: center;
     position: relative;
     z-index: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 3rem 0;
 }
 
 .load-more-btn {
