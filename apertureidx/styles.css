@@ -2002,8 +2002,9 @@ html {
     gap: 0.5rem;
     padding: 12px 24px;
     background: transparent;
-    border: 2px solid rgba(255, 255, 255, 0.2);
-    border-radius: 50px;
+    border: none;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 0;
     color: rgba(255, 255, 255, 0.7);
     font-size: 0.9rem;
     font-weight: 400;
@@ -2014,16 +2015,16 @@ html {
 }
 
 .search-option:hover {
-    border-color: rgba(255, 255, 255, 0.5);
+    border-bottom-color: rgba(255, 255, 255, 0.5);
     color: rgba(255, 255, 255, 0.9);
     transform: translateY(-2px);
 }
 
 .search-option.active {
-    background: white;
-    border-color: var(--accent-blue);
-    color: var(--primary-bg);
-    box-shadow: 0 5px 15px var(--shadow);
+    background: transparent;
+    border-bottom-color: white;
+    color: white;
+    box-shadow: none;
 }
 
 .search-option i {
