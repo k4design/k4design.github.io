@@ -13,8 +13,7 @@
     <nav class="navbar">
         <div class="nav-container">
             <div class="nav-logo">
-                <h2>APERTURE</h2>
-                <span class="nav-tagline">Global Luxury Real Estate</span>
+                <img src="img/apertureglobal_logo-white.png" alt="Aperture Global" class="logo-image">
             </div>
             <ul class="nav-menu">
                 <li><a href="#home">Home</a></li>
@@ -25,16 +24,6 @@
                 <li><a href="#contact">Contact</a></li>
             </ul>
             <div class="nav-actions">
-                <div class="nav-contact">
-                    <a href="mailto:info@apertureglobal.com" class="contact-link">
-                        <i class="fas fa-envelope"></i>
-                        <span>info@apertureglobal.com</span>
-                    </a>
-                    <a href="tel:18889039611" class="contact-link">
-                        <i class="fas fa-phone"></i>
-                        <span>1.888.903.9611</span>
-                    </a>
-                </div>
                 <button class="nav-cta">Get Started</button>
             </div>
         </div>
@@ -42,18 +31,6 @@
 
     <!-- Luxury Property Carousel -->
     <section id="home" class="luxury-carousel">
-        <!-- Parallax Background Layers -->
-        <div class="parallax-layer parallax-bg-1"></div>
-        <div class="parallax-layer parallax-bg-2"></div>
-        <div class="parallax-layer parallax-bg-3"></div>
-        
-        <!-- Floating Elements -->
-        <div class="floating-elements">
-            <div class="floating-shape shape-1"></div>
-            <div class="floating-shape shape-2"></div>
-            <div class="floating-shape shape-3"></div>
-            <div class="floating-shape shape-4"></div>
-        </div>
         
         <!-- Carousel Container -->
         <div class="carousel-container">
@@ -65,7 +42,7 @@
                             <img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=1920&h=1080&fit=crop" alt="Manhattan Penthouse">
                         </div>
                         <div class="slide-content">
-                            <div class="slide-badge">Exclusive</div>
+                            <div class="slide-badge">Premiere Listing</div>
                             <div class="slide-location">
                                 <i class="fas fa-map-marker-alt"></i>
                                 <span>Manhattan, New York</span>
@@ -91,7 +68,7 @@
                             <img src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=1920&h=1080&fit=crop" alt="Beverly Hills Mansion">
                         </div>
                         <div class="slide-content">
-                            <div class="slide-badge">Featured</div>
+                            <div class="slide-badge">Premiere Listing</div>
                             <div class="slide-location">
                                 <i class="fas fa-map-marker-alt"></i>
                                 <span>Beverly Hills, California</span>
@@ -117,7 +94,7 @@
                             <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1920&h=1080&fit=crop" alt="Monaco Villa">
                         </div>
                         <div class="slide-content">
-                            <div class="slide-badge">Luxury</div>
+                            <div class="slide-badge">Premiere Listing</div>
                             <div class="slide-location">
                                 <i class="fas fa-map-marker-alt"></i>
                                 <span>Monaco, French Riviera</span>
@@ -143,7 +120,7 @@
                             <img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=1920&h=1080&fit=crop" alt="London Mansion">
                         </div>
                         <div class="slide-content">
-                            <div class="slide-badge">Historic</div>
+                            <div class="slide-badge">Premiere Listing</div>
                             <div class="slide-location">
                                 <i class="fas fa-map-marker-alt"></i>
                                 <span>Mayfair, London</span>
@@ -197,10 +174,45 @@
         </div>
     </section>
 
+    <!-- Property Search Bar -->
+    <section class="property-search-section">
+        <div class="container">
+            <div class="search-bar-container">
+                <!-- Search Options -->
+                <div class="search-options">
+                    <button class="search-option active" data-type="buying">
+                        <i class="fas fa-home"></i>
+                        <span>Buying</span>
+                    </button>
+                    <button class="search-option" data-type="selling">
+                        <i class="fas fa-dollar-sign"></i>
+                        <span>Selling</span>
+                    </button>
+                    <button class="search-option" data-type="agent">
+                        <i class="fas fa-user-tie"></i>
+                        <span>Agent</span>
+                    </button>
+                </div>
+                
+                <div class="search-form">
+                    <div class="search-inputs">
+                        <div class="search-field">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <input type="text" id="search-location" placeholder="Detecting your location..." autocomplete="off">
+                            <div class="search-suggestions" id="search-suggestions"></div>
+                        </div>
+                        <button class="search-btn" id="main-search-btn">
+                            <i class="fas fa-search"></i>
+                            <span>Search</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- About Section -->
     <section id="about" class="about">
-        <!-- Parallax Background -->
-        <div class="parallax-layer about-bg"></div>
         
         <div class="container">
             <h2>International Luxury Real Estate Brokerage</h2>
@@ -258,9 +270,9 @@
                         </select>
                     </div>
                     <div class="filter-group">
-                        <label>Location</label>
+                        <label>City</label>
                         <select id="location-filter">
-                            <option value="">All Locations</option>
+                            <option value="">All Cities</option>
                             <optgroup label="United States">
                                 <option value="miami">Miami, FL</option>
                                 <option value="new-york">New York, NY</option>
@@ -464,7 +476,7 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
-                    <h3>APERTURE</h3>
+                    <img src="img/apertureglobal_logo-white.png" alt="Aperture Global" class="footer-logo">
                     <p>Global Luxury Real Estate Brokerage</p>
                 </div>
                 <div class="footer-section">
@@ -509,6 +521,7 @@
                 this.initSmoothScrolling();
                 this.initScrollEffects();
                 this.initPropertyFilters();
+                this.initSearchBar();
                 this.initNewsletterSignup();
                 this.initContactForm();
             }
@@ -628,6 +641,510 @@
                         });
                     });
                 });
+
+                // Dynamic city filtering based on country selection
+                this.initCountryLocationFiltering();
+            }
+
+            // Country-City Filtering
+            initCountryLocationFiltering() {
+                const countryFilter = document.getElementById('country-filter');
+                const locationFilter = document.getElementById('location-filter');
+
+                if (countryFilter && locationFilter) {
+                    // Store original city options
+                    const originalLocationOptions = locationFilter.innerHTML;
+
+                    countryFilter.addEventListener('change', () => {
+                        const selectedCountry = countryFilter.value;
+                        
+                        // Reset city filter
+                        locationFilter.value = '';
+                        
+                        if (selectedCountry === '') {
+                            // Show all cities
+                            locationFilter.innerHTML = originalLocationOptions;
+                        } else {
+                            // Filter cities based on selected country
+                            this.filterLocationOptions(locationFilter, selectedCountry, originalLocationOptions);
+                        }
+                    });
+                }
+            }
+
+            // Filter city options based on country
+            filterLocationOptions(locationFilter, selectedCountry, originalOptions) {
+                // Define country to city mapping
+                const countryLocationMap = {
+                    'usa': ['miami', 'new-york', 'los-angeles', 'hutchinson', 'reunion', 'hamptons', 'beverly-hills'],
+                    'caribbean': ['sint-maarten', 'st-barts', 'barbados', 'cayman-islands', 'turks-caicos'],
+                    'europe': ['london', 'paris', 'monaco', 'switzerland', 'lisbon', 'cannes'],
+                    'asia': ['singapore', 'hong-kong', 'tokyo', 'dubai'],
+                    'middle-east': ['dubai'],
+                    'south-america': []
+                };
+
+                const allowedLocations = countryLocationMap[selectedCountry] || [];
+                
+                // Create new options HTML
+                let newOptionsHTML = '<option value="">All Cities</option>';
+                
+                // Add optgroup for the selected country
+                const countryNames = {
+                    'usa': 'United States',
+                    'caribbean': 'Caribbean',
+                    'europe': 'Europe',
+                    'asia': 'Asia',
+                    'middle-east': 'Middle East',
+                    'south-america': 'South America'
+                };
+
+                if (allowedLocations.length > 0) {
+                    newOptionsHTML += `<optgroup label="${countryNames[selectedCountry]}">`;
+                    
+                    // Add city options for the selected country
+                    const locationNames = {
+                        'miami': 'Miami, FL',
+                        'new-york': 'New York, NY',
+                        'los-angeles': 'Los Angeles, CA',
+                        'hutchinson': 'Hutchinson Island, FL',
+                        'reunion': 'Reunion, FL',
+                        'hamptons': 'The Hamptons, NY',
+                        'beverly-hills': 'Beverly Hills, CA',
+                        'sint-maarten': 'Sint Maarten',
+                        'st-barts': 'St. Barts',
+                        'barbados': 'Barbados',
+                        'cayman-islands': 'Cayman Islands',
+                        'turks-caicos': 'Turks & Caicos',
+                        'london': 'London, UK',
+                        'paris': 'Paris, France',
+                        'monaco': 'Monaco',
+                        'switzerland': 'Switzerland',
+                        'lisbon': 'Lisbon, Portugal',
+                        'cannes': 'Cannes, France',
+                        'singapore': 'Singapore',
+                        'hong-kong': 'Hong Kong',
+                        'tokyo': 'Tokyo, Japan',
+                        'dubai': 'Dubai, UAE'
+                    };
+
+                    allowedLocations.forEach(location => {
+                        const locationName = locationNames[location] || location;
+                        newOptionsHTML += `<option value="${location}">${locationName}</option>`;
+                    });
+                    
+                    newOptionsHTML += '</optgroup>';
+                } else {
+                    // No cities available for this country
+                    newOptionsHTML += `<optgroup label="${countryNames[selectedCountry]}"><option value="" disabled>No cities available</option></optgroup>`;
+                }
+
+                locationFilter.innerHTML = newOptionsHTML;
+            }
+
+            // Search Bar Functionality
+            initSearchBar() {
+                const searchOptions = document.querySelectorAll('.search-option');
+                const searchBtn = document.getElementById('main-search-btn');
+                const locationInput = document.getElementById('search-location');
+
+                // Initialize geolocation
+                this.initGeolocation();
+
+                // Handle search option selection
+                searchOptions.forEach(option => {
+                    option.addEventListener('click', () => {
+                        // Remove active class from all options
+                        searchOptions.forEach(opt => opt.classList.remove('active'));
+                        // Add active class to clicked option
+                        option.classList.add('active');
+                    });
+                });
+
+                // Handle search button click
+                if (searchBtn) {
+                    searchBtn.addEventListener('click', () => {
+                        this.performSearch();
+                    });
+                }
+
+                // Handle input events for suggestions
+                if (locationInput) {
+                    let debounceTimer;
+                    
+                    locationInput.addEventListener('input', (e) => {
+                        clearTimeout(debounceTimer);
+                        const query = e.target.value.trim();
+                        
+                        if (query.length >= 2) {
+                            debounceTimer = setTimeout(() => {
+                                this.fetchAddressSuggestions(query);
+                            }, 300);
+                        } else {
+                            this.hideSuggestions();
+                        }
+                    });
+
+                    // Handle Enter key
+                    locationInput.addEventListener('keypress', (e) => {
+                        if (e.key === 'Enter') {
+                            this.hideSuggestions();
+                            this.performSearch();
+                        }
+                    });
+
+                    // Handle focus
+                    locationInput.addEventListener('focus', () => {
+                        if (locationInput.value.trim().length >= 2) {
+                            this.fetchAddressSuggestions(locationInput.value.trim());
+                        }
+                    });
+
+                    // Handle blur (hide suggestions after a delay)
+                    locationInput.addEventListener('blur', () => {
+                        setTimeout(() => {
+                            this.hideSuggestions();
+                        }, 200);
+                    });
+                }
+            }
+
+            // Geolocation functionality
+            initGeolocation() {
+                const locationInput = document.getElementById('search-location');
+                
+                if (!locationInput) return;
+
+                // Check if geolocation is supported
+                if (navigator.geolocation) {
+                    // Get user's current position
+                    navigator.geolocation.getCurrentPosition(
+                        (position) => {
+                            this.getLocationFromCoordinates(position.coords.latitude, position.coords.longitude);
+                        },
+                        (error) => {
+                            console.log('Geolocation error:', error);
+                            this.handleGeolocationError(error);
+                        },
+                        {
+                            enableHighAccuracy: true,
+                            timeout: 10000,
+                            maximumAge: 300000 // 5 minutes
+                        }
+                    );
+                } else {
+                    // Geolocation not supported
+                    locationInput.placeholder = 'Enter city, state, or country';
+                }
+            }
+
+            // Get location name from coordinates using reverse geocoding
+            async getLocationFromCoordinates(lat, lng) {
+                const locationInput = document.getElementById('search-location');
+                
+                try {
+                    // Using a free reverse geocoding service
+                    const response = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lng}&localityLanguage=en`);
+                    const data = await response.json();
+                    
+                    // Format country name
+                    let countryName = data.countryName;
+                    if (countryName === 'United States of America' || countryName === 'USA' || countryName === 'US') {
+                        countryName = 'United States';
+                    }
+                    
+                    if (data && data.city && data.principalSubdivision && countryName) {
+                        const locationString = `${data.city}, ${data.principalSubdivision}, ${countryName}`;
+                        locationInput.value = locationString;
+                        locationInput.placeholder = locationString;
+                    } else if (data && data.locality && countryName) {
+                        const locationString = `${data.locality}, ${countryName}`;
+                        locationInput.value = locationString;
+                        locationInput.placeholder = locationString;
+                    } else {
+                        locationInput.placeholder = 'Enter city, state, or country';
+                    }
+                } catch (error) {
+                    console.log('Reverse geocoding error:', error);
+                    locationInput.placeholder = 'Enter city, state, or country';
+                }
+            }
+
+            // Handle geolocation errors
+            handleGeolocationError(error) {
+                const locationInput = document.getElementById('search-location');
+                
+                switch (error.code) {
+                    case error.PERMISSION_DENIED:
+                        locationInput.placeholder = 'Enter city, state, or country';
+                        break;
+                    case error.POSITION_UNAVAILABLE:
+                        locationInput.placeholder = 'Enter city, state, or country';
+                        break;
+                    case error.TIMEOUT:
+                        locationInput.placeholder = 'Enter city, state, or country';
+                        break;
+                    default:
+                        locationInput.placeholder = 'Enter city, state, or country';
+                        break;
+                }
+            }
+
+            // Address suggestions functionality
+            async fetchAddressSuggestions(query) {
+                const suggestionsContainer = document.getElementById('search-suggestions');
+                
+                if (!suggestionsContainer) return;
+
+                try {
+                    // Using a free geocoding service for suggestions
+                    const response = await fetch(`https://api.bigdatacloud.net/data/forward-geocode-client?query=${encodeURIComponent(query)}&localityLanguage=en&limit=8`);
+                    const data = await response.json();
+                    
+                    if (data && data.results && data.results.length > 0) {
+                        this.displaySuggestions(data.results);
+                    } else {
+                        this.hideSuggestions();
+                    }
+                } catch (error) {
+                    console.log('Address suggestions error:', error);
+                    this.hideSuggestions();
+                }
+            }
+
+            displaySuggestions(results) {
+                const suggestionsContainer = document.getElementById('search-suggestions');
+                
+                if (!suggestionsContainer) return;
+
+                // Clear existing suggestions
+                suggestionsContainer.innerHTML = '';
+
+                // Add suggestions
+                results.forEach((result, index) => {
+                    const suggestionItem = document.createElement('div');
+                    suggestionItem.className = 'suggestion-item';
+                    suggestionItem.setAttribute('data-index', index);
+                    
+                    // Format the display text
+                    const displayText = this.formatSuggestionText(result);
+                    const suggestionType = this.getSuggestionType(result);
+                    
+                    suggestionItem.innerHTML = `
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span class="suggestion-text">${displayText}</span>
+                        <span class="suggestion-type">${suggestionType}</span>
+                    `;
+                    
+                    // Add click handler
+                    suggestionItem.addEventListener('click', () => {
+                        this.selectSuggestion(result);
+                    });
+                    
+                    suggestionsContainer.appendChild(suggestionItem);
+                });
+
+                // Show suggestions
+                suggestionsContainer.classList.add('show');
+            }
+
+            formatSuggestionText(result) {
+                const components = [];
+                
+                if (result.locality) {
+                    components.push(result.locality);
+                }
+                if (result.principalSubdivision) {
+                    components.push(result.principalSubdivision);
+                }
+                if (result.countryName) {
+                    let countryName = result.countryName;
+                    if (countryName === 'United States of America' || countryName === 'USA' || countryName === 'US') {
+                        countryName = 'United States';
+                    }
+                    components.push(countryName);
+                }
+                
+                return components.join(', ');
+            }
+
+            getSuggestionType(result) {
+                if (result.locality && result.principalSubdivision) {
+                    return 'City';
+                } else if (result.principalSubdivision) {
+                    return 'State/Province';
+                } else if (result.countryName) {
+                    return 'Country';
+                }
+                return 'Location';
+            }
+
+            selectSuggestion(result) {
+                const locationInput = document.getElementById('search-location');
+                const displayText = this.formatSuggestionText(result);
+                
+                if (locationInput) {
+                    locationInput.value = displayText;
+                    this.hideSuggestions();
+                }
+            }
+
+            hideSuggestions() {
+                const suggestionsContainer = document.getElementById('search-suggestions');
+                if (suggestionsContainer) {
+                    suggestionsContainer.classList.remove('show');
+                }
+            }
+
+            // Perform search based on selected options and inputs
+            performSearch() {
+                const activeOption = document.querySelector('.search-option.active');
+                const searchType = activeOption ? activeOption.getAttribute('data-type') : 'buying';
+                const location = document.getElementById('search-location').value.trim();
+
+                // Create search parameters object
+                const searchParams = {
+                    type: searchType,
+                    location: location
+                };
+
+                // Log search parameters (in a real app, this would make an API call)
+                console.log('Search performed:', searchParams);
+
+                // Show search results or redirect based on search type
+                this.handleSearchResults(searchParams);
+            }
+
+            // Handle search results based on search type
+            handleSearchResults(params) {
+                const { type, location, keywords } = params;
+
+                switch (type) {
+                    case 'buying':
+                        this.handlePropertySearch('buy', location, keywords);
+                        break;
+                    case 'selling':
+                        this.handleSellSearch(location, keywords);
+                        break;
+                    case 'agent':
+                        this.handleAgentSearch(location, keywords);
+                        break;
+                }
+            }
+
+            // Handle property search (buy/rent)
+            handlePropertySearch(searchType, location, keywords) {
+                // Scroll to properties section
+                const propertiesSection = document.getElementById('properties');
+                if (propertiesSection) {
+                    propertiesSection.scrollIntoView({ behavior: 'smooth' });
+                }
+
+                // Update the existing filters if they exist
+                const countryFilter = document.getElementById('country-filter');
+                const locationFilter = document.getElementById('location-filter');
+                const priceFilter = document.getElementById('price-filter');
+                const typeFilter = document.getElementById('type-filter');
+
+                // Set search type filter
+                if (typeFilter) {
+                    typeFilter.value = searchType;
+                }
+
+                // Set location filter if location is provided
+                if (location && locationFilter) {
+                    // Try to match location with existing options
+                    const locationOptions = locationFilter.querySelectorAll('option');
+                    let matchedLocation = '';
+                    
+                    locationOptions.forEach(option => {
+                        if (option.value && option.textContent.toLowerCase().includes(location.toLowerCase())) {
+                            matchedLocation = option.value;
+                        }
+                    });
+
+                    if (matchedLocation) {
+                        locationFilter.value = matchedLocation;
+                    }
+                }
+
+                // Trigger search in the existing property system
+                if (window.apertureWebsite && window.apertureWebsite.handleSearch) {
+                    window.apertureWebsite.handleSearch();
+                }
+
+                // Show success message
+                this.showSearchMessage(`Searching for ${searchType} properties${location ? ` in ${location}` : ''}${keywords ? ` matching "${keywords}"` : ''}`);
+            }
+
+            // Handle sell search
+            handleSellSearch(location, keywords) {
+                // Redirect to contact page or show sell form
+                this.showSearchMessage(`Connecting you with our luxury property specialists${location ? ` in ${location}` : ''} to help you sell your property.`);
+                
+                // In a real app, this would open a contact form or redirect to a sell page
+                setTimeout(() => {
+                    const contactSection = document.getElementById('contact');
+                    if (contactSection) {
+                        contactSection.scrollIntoView({ behavior: 'smooth' });
+                    }
+                }, 2000);
+            }
+
+            // Handle agent search
+            handleAgentSearch(location, keywords) {
+                // Redirect to leadership/agents section
+                this.showSearchMessage(`Finding luxury real estate agents${location ? ` in ${location}` : ''}${keywords ? ` specializing in ${keywords}` : ''}.`);
+                
+                setTimeout(() => {
+                    const leadershipSection = document.getElementById('leadership');
+                    if (leadershipSection) {
+                        leadershipSection.scrollIntoView({ behavior: 'smooth' });
+                    }
+                }, 2000);
+            }
+
+            // Show search message
+            showSearchMessage(message) {
+                // Create and show a temporary message
+                const messageDiv = document.createElement('div');
+                messageDiv.className = 'search-message';
+                messageDiv.textContent = message;
+                messageDiv.style.cssText = `
+                    position: fixed;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    background: var(--accent-blue);
+                    color: var(--primary-bg);
+                    padding: 20px 30px;
+                    border-radius: 10px;
+                    font-weight: 500;
+                    z-index: 10000;
+                    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+                    animation: fadeInOut 3s ease-in-out;
+                `;
+
+                // Add animation CSS
+                const style = document.createElement('style');
+                style.textContent = `
+                    @keyframes fadeInOut {
+                        0% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+                        20% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+                        80% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+                        100% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+                    }
+                `;
+                document.head.appendChild(style);
+
+                document.body.appendChild(messageDiv);
+
+                // Remove message after 3 seconds
+                setTimeout(() => {
+                    if (messageDiv.parentNode) {
+                        messageDiv.parentNode.removeChild(messageDiv);
+                    }
+                }, 3000);
             }
 
             // Newsletter Signup

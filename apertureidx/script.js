@@ -17,7 +17,6 @@ class ApertureWebsite {
         this.loadInitialProperties();
         this.setupSmoothScrolling();
         this.setupMobileMenu();
-        this.initParallax();
         this.initCarousel();
     }
 
@@ -543,7 +542,6 @@ class ApertureWebsite {
             </div>
             <div class="mls-property-info">
                 <h3>${property.address}</h3>
-                <p class="property-address">${property.description}</p>
                 <div class="property-details">
                     <div class="property-detail">
                         <i class="fas fa-bed"></i>
@@ -782,61 +780,6 @@ class ApertureWebsite {
         }
     }
 
-    // Parallax Effects
-    initParallax() {
-        this.parallaxElements = document.querySelectorAll('.parallax-layer');
-        this.isParallaxEnabled = true;
-        
-        // Throttle scroll events for better performance
-        this.scrollHandler = this.throttle(() => this.updateParallax(), 16);
-        window.addEventListener('scroll', this.scrollHandler);
-        
-        // Initial parallax update
-        this.updateParallax();
-    }
-
-    updateParallax() {
-        if (!this.isParallaxEnabled) return;
-        
-        const scrollTop = window.pageYOffset;
-        const windowHeight = window.innerHeight;
-        
-        this.parallaxElements.forEach(element => {
-            const rect = element.getBoundingClientRect();
-            const speed = parseFloat(element.dataset.speed) || 0.5;
-            const isInViewport = rect.top < windowHeight && rect.bottom > 0;
-            
-            if (isInViewport) {
-                const yPos = -(scrollTop * speed);
-                element.style.transform = `translate3d(0, ${yPos}px, 0)`;
-            }
-        });
-    }
-
-    throttle(func, limit) {
-        let inThrottle;
-        return function() {
-            const args = arguments;
-            const context = this;
-            if (!inThrottle) {
-                func.apply(context, args);
-                inThrottle = true;
-                setTimeout(() => inThrottle = false, limit);
-            }
-        }
-    }
-
-    // Disable parallax on mobile for performance
-    disableParallaxOnMobile() {
-        if (window.innerWidth <= 768) {
-            this.isParallaxEnabled = false;
-            this.parallaxElements.forEach(element => {
-                element.style.transform = 'none';
-            });
-        } else {
-            this.isParallaxEnabled = true;
-        }
-    }
 
     // Carousel Functionality
     initCarousel() {
