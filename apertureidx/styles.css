@@ -217,7 +217,7 @@ p {
 
 /* Luxury Carousel Section */
 .luxury-carousel {
-    height: 80vh;
+    height: 100vh;
     position: relative;
     overflow: hidden;
     background: var(--primary-bg);
@@ -589,30 +589,51 @@ p {
 /* Responsive Design */
 @media (max-width: 768px) {
     .luxury-carousel {
-        height: 70vh;
+        height: 100vh;
     }
     
     .slide-content {
         padding: 0 20px;
         text-align: center;
-        margin-left: 100px;
-        max-width: 600px;
+        margin-left: 0;
+        max-width: 100%;
+        width: 100%;
     }
     
     .slide-title {
-        font-size: 2.5rem;
+        font-size: 2.2rem;
+        margin-bottom: 1rem;
     }
     
     .slide-description {
-        font-size: 1.1rem;
+        font-size: 1rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .slide-details {
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .slide-details .detail {
+        font-size: 0.8rem;
+        padding: 6px 12px;
     }
     
     .slide-price {
-        font-size: 2rem;
+        font-size: 1.8rem;
+        margin-bottom: 1.5rem;
     }
     
     .slide-actions {
         justify-content: center;
+        gap: 1rem;
+    }
+    
+    .carousel-btn {
+        padding: 12px 24px;
+        font-size: 0.9rem;
+        min-width: 140px;
     }
     
     .carousel-nav {
@@ -638,14 +659,46 @@ p {
 
 @media (max-width: 480px) {
     .luxury-carousel {
-        height: 60vh;
+        height: 100vh;
     }
     
     .slide-content {
         padding: 0 15px;
         text-align: center;
-        margin-left: 60px;
-        max-width: 400px;
+        margin-left: 0;
+        max-width: 100%;
+        width: 100%;
+    }
+    
+    .slide-title {
+        font-size: 1.8rem;
+        margin-bottom: 0.8rem;
+    }
+    
+    .slide-description {
+        font-size: 0.9rem;
+        margin-bottom: 1rem;
+    }
+    
+    .slide-details {
+        gap: 0.8rem;
+        margin-bottom: 1rem;
+    }
+    
+    .slide-details .detail {
+        font-size: 0.75rem;
+        padding: 5px 10px;
+    }
+    
+    .slide-price {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+    }
+    
+    .carousel-btn {
+        padding: 10px 20px;
+        font-size: 0.8rem;
+        min-width: 120px;
     }
     
     .carousel-nav {
@@ -1979,6 +2032,8 @@ html {
     padding: 80px 0;
     background: var(--secondary-bg);
     border-bottom: 1px solid var(--border-color);
+    position: relative;
+    z-index: 1;
 }
 
 .search-bar-container {
@@ -2015,14 +2070,14 @@ html {
 }
 
 .search-option:hover {
-    border-bottom-color: rgba(255, 255, 255, 0.5);
-    color: rgba(255, 255, 255, 0.9);
+    border-bottom-color: var(--accent-blue);
+    color: var(--accent-blue);
     transform: translateY(-2px);
 }
 
 .search-option.active {
     background: transparent;
-    border-bottom-color: white;
+    border-bottom-color: var(--accent-blue);
     color: white;
     box-shadow: none;
 }
