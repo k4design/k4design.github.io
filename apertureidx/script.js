@@ -1121,8 +1121,308 @@ class ApertureWebsite {
 }
 
 // Initialize the website when DOM is loaded
+// Properties Page Class
+class PropertiesPage {
+    constructor() {
+        this.properties = [];
+        this.filteredProperties = [];
+        this.currentFilters = {
+            search: '',
+            location: '',
+            price: '',
+            bedrooms: ''
+        };
+        this.init();
+    }
+
+    init() {
+        this.loadProperties();
+        this.setupEventListeners();
+        this.setupMapControls();
+    }
+
+    loadProperties() {
+        // Get all property cards and convert to data objects
+        const propertyCards = document.querySelectorAll('.property-card');
+        this.properties = Array.from(propertyCards).map(card => ({
+            element: card,
+            title: card.querySelector('.property-title').textContent,
+            location: card.querySelector('.property-location span').textContent,
+            price: parseInt(card.dataset.price),
+            bedrooms: parseInt(card.dataset.bedrooms),
+            locationType: card.dataset.location
+        }));
+        this.filteredProperties = [...this.properties];
+    }
+
+    setupEventListeners() {
+        // Search functionality
+        const searchInput = document.getElementById('property-search');
+        if (searchInput) {
+            searchInput.addEventListener('input', (e) => {
+                this.currentFilters.search = e.target.value.toLowerCase();
+                this.applyFilters();
+            });
+        }
+
+        // Filter controls
+        const locationFilter = document.getElementById('location-filter');
+        const priceFilter = document.getElementById('price-filter');
+        const bedroomsFilter = document.getElementById('bedrooms-filter');
+
+        if (locationFilter) {
+            locationFilter.addEventListener('change', (e) => {
+                this.currentFilters.location = e.target.value;
+                this.applyFilters();
+            });
+        }
+
+        if (priceFilter) {
+            priceFilter.addEventListener('change', (e) => {
+                this.currentFilters.price = e.target.value;
+                this.applyFilters();
+            });
+        }
+
+        if (bedroomsFilter) {
+            bedroomsFilter.addEventListener('change', (e) => {
+                this.currentFilters.bedrooms = e.target.value;
+                this.applyFilters();
+            });
+        }
+
+        // Sort functionality
+        const sortFilter = document.getElementById('sort-filter');
+        if (sortFilter) {
+            sortFilter.addEventListener('change', (e) => {
+                this.sortProperties(e.target.value);
+            });
+        }
+
+        // Filter toggle
+        const filterToggle = document.getElementById('filter-toggle');
+        const filtersPanel = document.getElementById('filters-panel');
+        if (filterToggle && filtersPanel) {
+            filterToggle.addEventListener('click', () => {
+                filtersPanel.classList.toggle('active');
+            });
+        }
+
+        // Clear filters
+        const clearFilters = document.getElementById('clear-filters');
+        if (clearFilters) {
+            clearFilters.addEventListener('click', () => {
+                this.clearFilters();
+            });
+        }
+
+        // Apply filters
+        const applyFilters = document.getElementById('apply-filters');
+        if (applyFilters) {
+            applyFilters.addEventListener('click', () => {
+                this.applyFilters();
+                filtersPanel.classList.remove('active');
+            });
+        }
+
+        // Load more button
+        const loadMoreBtn = document.getElementById('load-more');
+        if (loadMoreBtn) {
+            loadMoreBtn.addEventListener('click', () => {
+                this.loadMoreProperties();
+            });
+        }
+
+        // Property action buttons
+        this.setupPropertyActions();
+    }
+
+    setupMapControls() {
+        const mapControls = document.querySelectorAll('.map-control-btn');
+        mapControls.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                // Remove active class from all buttons
+                mapControls.forEach(b => b.classList.remove('active'));
+                // Add active class to clicked button
+                e.target.closest('.map-control-btn').classList.add('active');
+                
+                // Handle view switching
+                const view = e.target.closest('.map-control-btn').dataset.view;
+                this.switchView(view);
+            });
+        });
+    }
+
+    switchView(view) {
+        const propertiesGrid = document.getElementById('properties-grid');
+        if (view === 'list') {
+            propertiesGrid.style.gridTemplateColumns = '1fr';
+            propertiesGrid.classList.add('list-view');
+        } else if (view === 'gallery') {
+            propertiesGrid.style.gridTemplateColumns = 'repeat(auto-fill, minmax(220px, 1fr))';
+            propertiesGrid.classList.remove('list-view');
+        }
+    }
+
+    applyFilters() {
+        this.filteredProperties = this.properties.filter(property => {
+            // Search filter
+            if (this.currentFilters.search) {
+                const searchMatch = property.title.toLowerCase().includes(this.currentFilters.search) ||
+                                 property.location.toLowerCase().includes(this.currentFilters.search);
+                if (!searchMatch) return false;
+            }
+
+            // Location filter
+            if (this.currentFilters.location) {
+                if (property.locationType !== this.currentFilters.location) return false;
+            }
+
+            // Price filter
+            if (this.currentFilters.price) {
+                const [min, max] = this.parsePriceRange(this.currentFilters.price);
+                if (property.price < min || (max && property.price > max)) return false;
+            }
+
+            // Bedrooms filter
+            if (this.currentFilters.bedrooms) {
+                if (property.bedrooms < parseInt(this.currentFilters.bedrooms)) return false;
+            }
+
+            return true;
+        });
+
+        this.displayProperties();
+    }
+
+    parsePriceRange(priceRange) {
+        if (priceRange === '50000000+') {
+            return [50000000, null];
+        }
+        const [min, max] = priceRange.split('-').map(p => parseInt(p));
+        return [min, max];
+    }
+
+    sortProperties(sortBy) {
+        this.filteredProperties.sort((a, b) => {
+            switch (sortBy) {
+                case 'price-desc':
+                    return b.price - a.price;
+                case 'price-asc':
+                    return a.price - b.price;
+                case 'newest':
+                    // For demo purposes, randomize
+                    return Math.random() - 0.5;
+                case 'bedrooms':
+                    return b.bedrooms - a.bedrooms;
+                default:
+                    return 0;
+            }
+        });
+        this.displayProperties();
+    }
+
+    displayProperties() {
+        const propertiesGrid = document.getElementById('properties-grid');
+        if (!propertiesGrid) return;
+
+        // Hide all properties
+        this.properties.forEach(property => {
+            property.element.style.display = 'none';
+        });
+
+        // Show filtered properties
+        this.filteredProperties.forEach(property => {
+            property.element.style.display = 'block';
+        });
+
+        // Update results count or show no results message
+        this.updateResultsCount();
+    }
+
+    updateResultsCount() {
+        // You could add a results counter here
+        console.log(`Showing ${this.filteredProperties.length} properties`);
+    }
+
+    clearFilters() {
+        this.currentFilters = {
+            search: '',
+            location: '',
+            price: '',
+            bedrooms: ''
+        };
+
+        // Reset form inputs
+        const searchInput = document.getElementById('property-search');
+        const locationFilter = document.getElementById('location-filter');
+        const priceFilter = document.getElementById('price-filter');
+        const bedroomsFilter = document.getElementById('bedrooms-filter');
+
+        if (searchInput) searchInput.value = '';
+        if (locationFilter) locationFilter.value = '';
+        if (priceFilter) priceFilter.value = '';
+        if (bedroomsFilter) bedroomsFilter.value = '';
+
+        this.applyFilters();
+    }
+
+    loadMoreProperties() {
+        // This would typically load more properties from an API
+        console.log('Loading more properties...');
+        // For demo purposes, we'll just show an alert
+        alert('Loading more properties... (This would typically load from an API)');
+    }
+
+    setupPropertyActions() {
+        // Save/favorite functionality
+        const saveButtons = document.querySelectorAll('.action-btn[title="Save"]');
+        saveButtons.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const icon = btn.querySelector('i');
+                if (icon.classList.contains('far')) {
+                    icon.classList.remove('far');
+                    icon.classList.add('fas');
+                    btn.style.color = '#e74c3c';
+                } else {
+                    icon.classList.remove('fas');
+                    icon.classList.add('far');
+                    btn.style.color = '#2c3e50';
+                }
+            });
+        });
+
+        // Share functionality
+        const shareButtons = document.querySelectorAll('.action-btn[title="Share"]');
+        shareButtons.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                // Simple share functionality
+                if (navigator.share) {
+                    navigator.share({
+                        title: 'Luxury Property',
+                        text: 'Check out this amazing luxury property!',
+                        url: window.location.href
+                    });
+                } else {
+                    // Fallback: copy to clipboard
+                    navigator.clipboard.writeText(window.location.href).then(() => {
+                        alert('Link copied to clipboard!');
+                    });
+                }
+            });
+        });
+    }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     window.apertureWebsite = new ApertureWebsite();
+    
+    // Initialize properties page if we're on the properties page
+    if (document.body.dataset.page === 'properties') {
+        new PropertiesPage();
+    }
 });
 
 // Handle window resize for mobile menu and parallax

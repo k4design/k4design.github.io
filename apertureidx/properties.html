@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luxury Properties - Aperture Global</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="includes/load-includes.js"></script>
+</head>
+<body data-page="properties">
+    <!-- Navigation Placeholder -->
+    <div id="nav-placeholder"></div>
+
+    <!-- Properties Hero Section -->
+    <section class="properties-hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Luxury Properties Worldwide</h1>
+                <p>Discover exceptional properties in the world's most prestigious locations</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Properties Main Content -->
+    <section class="properties-main">
+        <div class="container">
+            <!-- Search and Filter Bar -->
+            <div class="properties-toolbar">
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search properties, locations, or keywords..." id="property-search">
+                </div>
+                <div class="filter-controls">
+                    <select id="sort-filter">
+                        <option value="price-desc">Price: High to Low</option>
+                        <option value="price-asc">Price: Low to High</option>
+                        <option value="newest">Newest First</option>
+                        <option value="bedrooms">Most Bedrooms</option>
+                    </select>
+                    <button class="filter-btn" id="filter-toggle">
+                        <i class="fas fa-filter"></i>
+                        Filters
+                    </button>
+                </div>
+            </div>
+
+            <!-- Advanced Filters Panel -->
+            <div class="filters-panel" id="filters-panel">
+                <div class="filters-content">
+                    <div class="filter-group">
+                        <label>Location</label>
+                        <select id="location-filter">
+                            <option value="">All Locations</option>
+                            <option value="usa">United States</option>
+                            <option value="caribbean">Caribbean</option>
+                            <option value="europe">Europe</option>
+                            <option value="asia">Asia</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Price Range</label>
+                        <select id="price-filter">
+                            <option value="">Any Price</option>
+                            <option value="0-5000000">Under $5M</option>
+                            <option value="5000000-10000000">$5M - $10M</option>
+                            <option value="10000000-20000000">$10M - $20M</option>
+                            <option value="20000000-50000000">$20M - $50M</option>
+                            <option value="50000000+">$50M+</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Bedrooms</label>
+                        <select id="bedrooms-filter">
+                            <option value="">Any</option>
+                            <option value="1">1+</option>
+                            <option value="2">2+</option>
+                            <option value="3">3+</option>
+                            <option value="4">4+</option>
+                            <option value="5">5+</option>
+                        </select>
+                    </div>
+                    <div class="filter-actions">
+                        <button class="btn-secondary" id="clear-filters">Clear All</button>
+                        <button class="btn-primary" id="apply-filters">Apply Filters</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="properties-layout">
+                <!-- Map Section -->
+                <div class="map-section">
+                    <div class="map-container">
+                        <div class="map-header">
+                            <h3>Property Locations</h3>
+                            <div class="map-controls">
+                                <button class="map-control-btn active" data-view="gallery">
+                                    <i class="fas fa-th"></i>
+                                    Gallery
+                                </button>
+                                <button class="map-control-btn" data-view="list">
+                                    <i class="fas fa-list"></i>
+                                    List
+                                </button>
+                            </div>
+                        </div>
+                        <div class="map-placeholder">
+                            <div class="map-content">
+                                <i class="fas fa-map-marked-alt"></i>
+                                <h4>Interactive Map</h4>
+                                <p>Property locations will be displayed here</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Properties Grid Section -->
+                <div class="properties-section">
+
+                    <!-- Properties Grid -->
+                    <div class="properties-grid" id="properties-grid">
+                        <!-- Property Card 1 -->
+                        <div class="property-card" data-price="45000000" data-bedrooms="6" data-location="usa">
+                            <div class="property-image">
+                                <img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=600&h=400&fit=crop" alt="Manhattan Penthouse">
+                                <div class="property-badge">Premiere</div>
+                                <div class="property-actions">
+                                    <button class="action-btn" title="Save">
+                                        <i class="far fa-heart"></i>
+                                    </button>
+                                    <button class="action-btn" title="Share">
+                                        <i class="fas fa-share-alt"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="property-content">
+                                <div class="property-location">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <span>Manhattan, New York</span>
+                                </div>
+                                <h3 class="property-title">Manhattan Skyline Penthouse</h3>
+                                <div class="property-details">
+                                    <span class="detail">6 Bedrooms</span>
+                                    <span class="detail">8 Bathrooms</span>
+                                    <span class="detail">8,500 sq ft</span>
+                                </div>
+                                <div class="property-price">$45,000,000</div>
+                                <div class="property-actions-bottom">
+                                    <a href="property-manhattan-penthouse.html" class="property-btn primary">View Details</a>
+                                    <button class="property-btn secondary">Schedule Tour</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Property Card 2 -->
+                        <div class="property-card" data-price="25000000" data-bedrooms="5" data-location="caribbean">
+                            <div class="property-image">
+                                <img src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=600&h=400&fit=crop" alt="Monaco Villa">
+                                <div class="property-badge">Luxury</div>
+                                <div class="property-actions">
+                                    <button class="action-btn" title="Save">
+                                        <i class="far fa-heart"></i>
+                                    </button>
+                                    <button class="action-btn" title="Share">
+                                        <i class="fas fa-share-alt"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="property-content">
+                                <div class="property-location">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <span>Monaco, Monaco</span>
+                                </div>
+                                <h3 class="property-title">Villa Azure</h3>
+                                <div class="property-details">
+                                    <span class="detail">5 Bedrooms</span>
+                                    <span class="detail">6 Bathrooms</span>
+                                    <span class="detail">6,200 sq ft</span>
+                                </div>
+                                <div class="property-price">$25,000,000</div>
+                                <div class="property-actions-bottom">
+                                    <a href="property-monaco-villa.html" class="property-btn primary">View Details</a>
+                                    <button class="property-btn secondary">Schedule Tour</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Property Card 3 -->
+                        <div class="property-card" data-price="35000000" data-bedrooms="7" data-location="usa">
+                            <div class="property-image">
+                                <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&h=400&fit=crop" alt="Beverly Hills Estate">
+                                <div class="property-badge">Estate</div>
+                                <div class="property-actions">
+                                    <button class="action-btn" title="Save">
+                                        <i class="far fa-heart"></i>
+                                    </button>
+                                    <button class="action-btn" title="Share">
+                                        <i class="fas fa-share-alt"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="property-content">
+                                <div class="property-location">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <span>Beverly Hills, California</span>
+                                </div>
+                                <h3 class="property-title">Beverly Hills Estate</h3>
+                                <div class="property-details">
+                                    <span class="detail">7 Bedrooms</span>
+                                    <span class="detail">9 Bathrooms</span>
+                                    <span class="detail">12,000 sq ft</span>
+                                </div>
+                                <div class="property-price">$35,000,000</div>
+                                <div class="property-actions-bottom">
+                                    <a href="property-beverly-hills-estate.html" class="property-btn primary">View Details</a>
+                                    <button class="property-btn secondary">Schedule Tour</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Property Card 4 -->
+                        <div class="property-card" data-price="18000000" data-bedrooms="4" data-location="europe">
+                            <div class="property-image">
+                                <img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=600&h=400&fit=crop" alt="London Penthouse">
+                                <div class="property-badge">Penthouse</div>
+                                <div class="property-actions">
+                                    <button class="action-btn" title="Save">
+                                        <i class="far fa-heart"></i>
+                                    </button>
+                                    <button class="action-btn" title="Share">
+                                        <i class="fas fa-share-alt"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="property-content">
+                                <div class="property-location">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <span>London, United Kingdom</span>
+                                </div>
+                                <h3 class="property-title">Thames View Penthouse</h3>
+                                <div class="property-details">
+                                    <span class="detail">4 Bedrooms</span>
+                                    <span class="detail">5 Bathrooms</span>
+                                    <span class="detail">4,800 sq ft</span>
+                                </div>
+                                <div class="property-price">$18,000,000</div>
+                                <div class="property-actions-bottom">
+                                    <a href="#" class="property-btn primary">View Details</a>
+                                    <button class="property-btn secondary">Schedule Tour</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Property Card 5 -->
+                        <div class="property-card" data-price="22000000" data-bedrooms="5" data-location="asia">
+                            <div class="property-image">
+                                <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&h=400&fit=crop" alt="Singapore Penthouse">
+                                <div class="property-badge">Skyline</div>
+                                <div class="property-actions">
+                                    <button class="action-btn" title="Save">
+                                        <i class="far fa-heart"></i>
+                                    </button>
+                                    <button class="action-btn" title="Share">
+                                        <i class="fas fa-share-alt"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="property-content">
+                                <div class="property-location">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <span>Singapore</span>
+                                </div>
+                                <h3 class="property-title">Marina Bay Penthouse</h3>
+                                <div class="property-details">
+                                    <span class="detail">5 Bedrooms</span>
+                                    <span class="detail">6 Bathrooms</span>
+                                    <span class="detail">5,500 sq ft</span>
+                                </div>
+                                <div class="property-price">$22,000,000</div>
+                                <div class="property-actions-bottom">
+                                    <a href="#" class="property-btn primary">View Details</a>
+                                    <button class="property-btn secondary">Schedule Tour</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Property Card 6 -->
+                        <div class="property-card" data-price="30000000" data-bedrooms="6" data-location="caribbean">
+                            <div class="property-image">
+                                <img src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=600&h=400&fit=crop" alt="Caribbean Villa">
+                                <div class="property-badge">Oceanfront</div>
+                                <div class="property-actions">
+                                    <button class="action-btn" title="Save">
+                                        <i class="far fa-heart"></i>
+                                    </button>
+                                    <button class="action-btn" title="Share">
+                                        <i class="fas fa-share-alt"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="property-content">
+                                <div class="property-location">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <span>St. Barts, Caribbean</span>
+                                </div>
+                                <h3 class="property-title">Villa Paradiso</h3>
+                                <div class="property-details">
+                                    <span class="detail">6 Bedrooms</span>
+                                    <span class="detail">7 Bathrooms</span>
+                                    <span class="detail">7,200 sq ft</span>
+                                </div>
+                                <div class="property-price">$30,000,000</div>
+                                <div class="property-actions-bottom">
+                                    <a href="#" class="property-btn primary">View Details</a>
+                                    <button class="property-btn secondary">Schedule Tour</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Load More Button -->
+                    <div class="load-more-container">
+                        <button class="load-more-btn" id="load-more">Load More Properties</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Placeholder -->
+    <div id="footer-placeholder"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
