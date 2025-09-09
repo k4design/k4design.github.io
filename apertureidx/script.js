@@ -34,7 +34,7 @@ class ApertureWebsite {
         }
 
         // Filter change events
-        const filters = ['country-filter', 'location-filter', 'price-filter', 'type-filter'];
+        const filters = ['country-filter', 'location-filter', 'price-filter', 'type-filter', 'bedrooms-filter', 'features-filter'];
         filters.forEach(filterId => {
             const filter = document.getElementById(filterId);
             if (filter) {
@@ -42,11 +42,20 @@ class ApertureWebsite {
             }
         });
 
+        // Clear filters button
+        const clearFiltersBtn = document.getElementById('clear-filters');
+        if (clearFiltersBtn) {
+            clearFiltersBtn.addEventListener('click', () => this.clearFilters());
+        }
+
         // CTA button interactions
         const ctaButtons = document.querySelectorAll('.cta-button');
         ctaButtons.forEach(button => {
             button.addEventListener('click', (e) => this.handleCTAClick(e));
         });
+
+        // Parallax effect for property pages
+        this.setupParallaxEffect();
     }
 
     setupSmoothScrolling() {
@@ -456,6 +465,8 @@ class ApertureWebsite {
         const locationFilter = document.getElementById('location-filter').value;
         const priceFilter = document.getElementById('price-filter').value;
         const typeFilter = document.getElementById('type-filter').value;
+        const bedroomsFilter = document.getElementById('bedrooms-filter').value;
+        const featuresFilter = document.getElementById('features-filter').value;
 
         this.filteredProperties = this.allProperties.filter(property => {
             let matches = true;
@@ -485,9 +496,52 @@ class ApertureWebsite {
                 matches = false;
             }
 
+            // Bedrooms filter
+            if (bedroomsFilter && matches) {
+                const minBedrooms = parseInt(bedroomsFilter);
+                if (property.bedrooms < minBedrooms) {
+                    matches = false;
+                }
+            }
+
+            // Features filter (basic implementation - you can expand this based on your property data structure)
+            if (featuresFilter && matches) {
+                // This is a basic implementation - you might want to add feature properties to your property objects
+                // For now, we'll just check if the feature matches the property type or other criteria
+                if (featuresFilter === 'penthouse' && property.propertyType !== 'penthouse') {
+                    matches = false;
+                } else if (featuresFilter === 'oceanfront' && !property.description.toLowerCase().includes('ocean')) {
+                    matches = false;
+                } else if (featuresFilter === 'pool' && !property.description.toLowerCase().includes('pool')) {
+                    matches = false;
+                }
+            }
+
             return matches;
         });
 
+        this.currentPage = 1;
+        this.displayProperties();
+    }
+
+    clearFilters() {
+        // Reset all filter dropdowns to their default values
+        const countryFilter = document.getElementById('country-filter');
+        const locationFilter = document.getElementById('location-filter');
+        const priceFilter = document.getElementById('price-filter');
+        const typeFilter = document.getElementById('type-filter');
+        const bedroomsFilter = document.getElementById('bedrooms-filter');
+        const featuresFilter = document.getElementById('features-filter');
+
+        if (countryFilter) countryFilter.value = '';
+        if (locationFilter) locationFilter.value = '';
+        if (priceFilter) priceFilter.value = '';
+        if (typeFilter) typeFilter.value = '';
+        if (bedroomsFilter) bedroomsFilter.value = '';
+        if (featuresFilter) featuresFilter.value = '';
+
+        // Reset filtered properties to show all properties
+        this.filteredProperties = [...this.allProperties];
         this.currentPage = 1;
         this.displayProperties();
     }
@@ -543,13 +597,15 @@ class ApertureWebsite {
             <div class="mls-property-info">
                 <h3>${property.address}</h3>
                 <div class="property-details">
-                    <div class="property-detail">
-                        <i class="fas fa-bed"></i>
-                        <span>${property.bedrooms} beds</span>
-                    </div>
-                    <div class="property-detail">
-                        <i class="fas fa-bath"></i>
-                        <span>${property.bathrooms} baths</span>
+                    <div class="property-details-row">
+                        <div class="property-detail">
+                            <i class="fas fa-bed"></i>
+                            <span>${property.bedrooms} beds</span>
+                        </div>
+                        <div class="property-detail">
+                            <i class="fas fa-bath"></i>
+                            <span>${property.bathrooms} baths</span>
+                        </div>
                     </div>
                     <div class="property-detail">
                         <i class="fas fa-ruler-combined"></i>
@@ -582,13 +638,36 @@ class ApertureWebsite {
 
     updateLoadMoreButton() {
         const loadMoreBtn = document.getElementById('load-more');
+        const loadMoreContainer = document.querySelector('.load-more-container');
         const totalShown = this.currentPage * this.propertiesPerPage;
         
-        if (loadMoreBtn) {
+        if (loadMoreBtn && loadMoreContainer) {
             if (totalShown >= this.filteredProperties.length) {
+                // Hide the "Load More" button and show "All Properties" button
                 loadMoreBtn.style.display = 'none';
+                
+                // Check if "All Properties" button already exists
+                if (!document.getElementById('all-properties-btn')) {
+                    const allPropertiesBtn = document.createElement('button');
+                    allPropertiesBtn.id = 'all-properties-btn';
+                    allPropertiesBtn.className = 'all-properties-btn';
+                    allPropertiesBtn.innerHTML = `
+                        <i class="fas fa-globe"></i>
+                        <span>View All Properties</span>
+                    `;
+                    allPropertiesBtn.addEventListener('click', () => {
+                        window.location.href = 'all-properties.html';
+                    });
+                    
+                    loadMoreContainer.appendChild(allPropertiesBtn);
+                }
             } else {
+                // Show "Load More" button and hide "All Properties" button
                 loadMoreBtn.style.display = 'block';
+                const allPropertiesBtn = document.getElementById('all-properties-btn');
+                if (allPropertiesBtn) {
+                    allPropertiesBtn.remove();
+                }
             }
         }
     }
@@ -982,6 +1061,61 @@ class ApertureWebsite {
                     this.startAutoplay();
                 }
             });
+        }
+    }
+
+    setupParallaxEffect() {
+        // Only apply parallax on property pages
+        const heroBg = document.querySelector('.property-hero-bg');
+        if (!heroBg) {
+            console.log('No hero background found for parallax');
+            return;
+        }
+
+        console.log('Setting up parallax effect');
+
+        let ticking = false;
+
+        const updateParallax = () => {
+            const scrolled = window.pageYOffset;
+            const heroSection = document.querySelector('.property-hero');
+            if (!heroSection) return;
+
+            const heroHeight = heroSection.offsetHeight;
+            const heroTop = heroSection.offsetTop;
+            
+            // Apply parallax effect
+            const parallaxSpeed = 0.3; // Slower speed for more noticeable effect
+            const yPos = scrolled * parallaxSpeed;
+            heroBg.style.transform = `translate3d(0, ${yPos}px, 0)`;
+            
+            ticking = false;
+        };
+
+        const requestTick = () => {
+            if (!ticking) {
+                requestAnimationFrame(updateParallax);
+                ticking = true;
+            }
+        };
+
+        // Use passive event listener for better performance
+        window.addEventListener('scroll', requestTick, { passive: true });
+        
+        // Initial call
+        updateParallax();
+    }
+
+    disableParallaxOnMobile() {
+        // Disable parallax on mobile devices for better performance
+        const heroBg = document.querySelector('.property-hero-bg');
+        if (!heroBg) return;
+
+        if (window.innerWidth <= 768) {
+            heroBg.style.transform = 'none';
+            heroBg.style.willChange = 'auto';
+        } else {
+            heroBg.style.willChange = 'transform';
         }
     }
 }

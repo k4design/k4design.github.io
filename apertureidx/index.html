@@ -7,30 +7,12 @@
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="includes/load-includes.js"></script>
 </head>
-<body>
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="nav-logo">
-                <img src="img/apertureglobal_logo-white.png" alt="Aperture Global" class="logo-image">
-            </div>
-            <ul class="nav-menu">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#properties">Properties</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="agents.html">Agents</a></li>
-                <li><a href="#leadership">Leadership</a></li>
-                <li><a href="#news">News</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-            <div class="nav-actions">
-            </div>
-            <button class="mobile-menu-btn">
-                <i class="fas fa-bars"></i>
-            </button>
-        </div>
-    </nav>
+<body data-page="home">
+    <!-- Navigation Placeholder -->
+    <div id="nav-placeholder"></div>
+
 
     <!-- Luxury Property Carousel -->
     <section id="home" class="luxury-carousel">
@@ -402,7 +384,7 @@
                 </div>
                 <div class="leader-card">
                     <div class="leader-image">
-                        <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=300&h=300&fit=crop&crop=face" alt="Mercedes Saewitz">
+                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300&h=300&fit=crop&crop=face" alt="Mercedes Saewitz">
                     </div>
                     <h3>Mercedes Saewitz</h3>
                     <p class="title">SVP of Operations</p>
@@ -474,42 +456,8 @@
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer id="contact" class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <img src="img/apertureglobal_logo-white.png" alt="Aperture Global" class="footer-logo">
-                    <p>Global Luxury Real Estate Brokerage</p>
-                </div>
-                <div class="footer-section">
-                    <h4>Contact</h4>
-                    <p>info@apertureglobal.com</p>
-                    <p>1.888.903.9611</p>
-                </div>
-                <div class="footer-section">
-                    <h4>Services</h4>
-                    <ul>
-                        <li><a href="#">Luxury Listings</a></li>
-                        <li><a href="#">Property Marketing</a></li>
-                        <li><a href="#">EliteView Media</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h4>Follow Us</h4>
-                    <div class="social-links">
-                        <a href="#"><i class="fab fa-facebook"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-linkedin"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2024 Aperture Global. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
+    <!-- Footer Placeholder -->
+    <div id="footer-placeholder"></div>
 
     <script src="script.js"></script>
     <script>
@@ -1195,6 +1143,7 @@
                     });
                 }
             }
+
         }
 
         // Initialize when DOM is loaded
