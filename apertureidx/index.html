@@ -1155,5 +1155,64 @@
         `;
         document.head.appendChild(style);
     </script>
+
+    <!-- Schedule Tour Modal -->
+    <div id="schedule-modal" class="schedule-modal">
+        <div class="schedule-modal-content">
+            <div class="schedule-modal-header">
+                <h3>Schedule a Property Tour</h3>
+                <button class="schedule-modal-close">&times;</button>
+            </div>
+            <div class="schedule-modal-body">
+                <div class="property-info">
+                    <h4 id="modal-property-title">Property Title</h4>
+                    <p id="modal-property-location">Property Location</p>
+                </div>
+                
+                <div class="calendar-section">
+                    <h4>Select Date & Time</h4>
+                    <div class="calendar-container">
+                        <div class="calendar-header">
+                            <button id="prev-month">&lt;</button>
+                            <h5 id="current-month"></h5>
+                            <button id="next-month">&gt;</button>
+                        </div>
+                        <div class="calendar-grid" id="calendar-grid"></div>
+                    </div>
+                    
+                    <div class="time-selection">
+                        <h5>Available Times</h5>
+                        <div class="time-slots" id="time-slots">
+                            <button class="time-slot" data-time="09:00">9:00 AM</button>
+                            <button class="time-slot" data-time="10:00">10:00 AM</button>
+                            <button class="time-slot" data-time="11:00">11:00 AM</button>
+                            <button class="time-slot" data-time="14:00">2:00 PM</button>
+                            <button class="time-slot" data-time="15:00">3:00 PM</button>
+                            <button class="time-slot" data-time="16:00">4:00 PM</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="contact-form">
+                    <h4>Your Information</h4>
+                    <form id="schedule-form">
+                        <div class="form-group">
+                            <input type="text" id="visitor-name" placeholder="Full Name" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" id="visitor-email" placeholder="Email Address" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="tel" id="visitor-phone" placeholder="Phone Number" required>
+                        </div>
+                        <div class="form-group">
+                            <textarea id="visitor-message" placeholder="Additional Notes (Optional)" rows="3"></textarea>
+                        </div>
+                        <button type="submit" class="schedule-submit-btn">Schedule Tour</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

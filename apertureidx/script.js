@@ -1,6 +1,243 @@
 // Aperture Global Website JavaScript
 // IDX MLS Feed Integration and Interactive Features
 
+class ScheduleModal {
+    constructor() {
+        this.modal = null;
+        this.currentDate = new Date();
+        this.selectedDate = null;
+        this.selectedTime = null;
+        this.init();
+    }
+
+    init() {
+        this.modal = document.getElementById('schedule-modal');
+        if (!this.modal) {
+            console.error('Schedule modal element not found');
+            return;
+        }
+        
+        console.log('Schedule modal initialized successfully');
+        this.setupEventListeners();
+        this.generateCalendar();
+    }
+
+    setupEventListeners() {
+        // Close modal events
+        const closeBtn = this.modal.querySelector('.schedule-modal-close');
+        if (closeBtn) {
+            closeBtn.addEventListener('click', () => this.closeModal());
+        }
+
+        // Close on backdrop click
+        this.modal.addEventListener('click', (e) => {
+            if (e.target === this.modal) {
+                this.closeModal();
+            }
+        });
+
+        // Calendar navigation
+        const prevBtn = this.modal.querySelector('#prev-month');
+        const nextBtn = this.modal.querySelector('#next-month');
+        
+        if (prevBtn) {
+            prevBtn.addEventListener('click', () => this.previousMonth());
+        }
+        if (nextBtn) {
+            nextBtn.addEventListener('click', () => this.nextMonth());
+        }
+
+        // Time slot selection
+        const timeSlots = this.modal.querySelectorAll('.time-slot');
+        timeSlots.forEach(slot => {
+            slot.addEventListener('click', (e) => this.selectTime(e.target));
+        });
+
+        // Form submission
+        const form = this.modal.querySelector('#schedule-form');
+        if (form) {
+            form.addEventListener('submit', (e) => this.handleSubmit(e));
+        }
+    }
+
+    openModal(propertyTitle = '', propertyLocation = '') {
+        if (!this.modal) return;
+        
+        // Update property info
+        const titleEl = this.modal.querySelector('#modal-property-title');
+        const locationEl = this.modal.querySelector('#modal-property-location');
+        
+        if (titleEl) titleEl.textContent = propertyTitle || 'Property Tour';
+        if (locationEl) locationEl.textContent = propertyLocation || 'Location TBD';
+        
+        // Reset selections
+        this.selectedDate = null;
+        this.selectedTime = null;
+        this.resetSelections();
+        
+        // Show modal
+        this.modal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+    }
+
+    closeModal() {
+        if (!this.modal) return;
+        
+        this.modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+    }
+
+    generateCalendar() {
+        const calendarGrid = this.modal.querySelector('#calendar-grid');
+        const currentMonthEl = this.modal.querySelector('#current-month');
+        
+        if (!calendarGrid || !currentMonthEl) return;
+
+        const year = this.currentDate.getFullYear();
+        const month = this.currentDate.getMonth();
+        
+        currentMonthEl.textContent = this.currentDate.toLocaleDateString('en-US', { 
+            month: 'long', 
+            year: 'numeric' 
+        });
+
+        // Clear previous calendar
+        calendarGrid.innerHTML = '';
+
+        // Get first day of month and number of days
+        const firstDay = new Date(year, month, 1);
+        const lastDay = new Date(year, month + 1, 0);
+        const daysInMonth = lastDay.getDate();
+        const startingDayOfWeek = firstDay.getDay();
+
+        // Add day headers
+        const dayHeaders = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+        dayHeaders.forEach(day => {
+            const dayHeader = document.createElement('div');
+            dayHeader.className = 'calendar-day-header';
+            dayHeader.textContent = day;
+            calendarGrid.appendChild(dayHeader);
+        });
+
+        // Add empty cells for days before month starts
+        for (let i = 0; i < startingDayOfWeek; i++) {
+            const emptyDay = document.createElement('div');
+            emptyDay.className = 'calendar-day empty';
+            calendarGrid.appendChild(emptyDay);
+        }
+
+        // Add days of the month
+        for (let day = 1; day <= daysInMonth; day++) {
+            const dayElement = document.createElement('div');
+            dayElement.className = 'calendar-day';
+            dayElement.textContent = day;
+            dayElement.dataset.day = day;
+            dayElement.dataset.date = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+            
+            // Disable past dates
+            const today = new Date();
+            const cellDate = new Date(year, month, day);
+            if (cellDate < today.setHours(0, 0, 0, 0)) {
+                dayElement.classList.add('disabled');
+            } else {
+                dayElement.addEventListener('click', () => this.selectDate(dayElement));
+            }
+            
+            calendarGrid.appendChild(dayElement);
+        }
+    }
+
+    selectDate(dayElement) {
+        // Remove previous selection
+        const previousSelected = this.modal.querySelector('.calendar-day.selected');
+        if (previousSelected) {
+            previousSelected.classList.remove('selected');
+        }
+
+        // Add selection to clicked day
+        dayElement.classList.add('selected');
+        this.selectedDate = dayElement.dataset.date;
+        
+        // Enable time slots
+        const timeSlots = this.modal.querySelectorAll('.time-slot');
+        timeSlots.forEach(slot => {
+            slot.disabled = false;
+            slot.classList.remove('disabled');
+        });
+    }
+
+    selectTime(timeElement) {
+        // Remove previous selection
+        const previousSelected = this.modal.querySelector('.time-slot.selected');
+        if (previousSelected) {
+            previousSelected.classList.remove('selected');
+        }
+
+        // Add selection to clicked time
+        timeElement.classList.add('selected');
+        this.selectedTime = timeElement.dataset.time;
+    }
+
+    resetSelections() {
+        // Reset calendar selection
+        const selectedDay = this.modal.querySelector('.calendar-day.selected');
+        if (selectedDay) {
+            selectedDay.classList.remove('selected');
+        }
+
+        // Reset time selection
+        const selectedTime = this.modal.querySelector('.time-slot.selected');
+        if (selectedTime) {
+            selectedTime.classList.remove('selected');
+        }
+
+        // Disable time slots
+        const timeSlots = this.modal.querySelectorAll('.time-slot');
+        timeSlots.forEach(slot => {
+            slot.disabled = true;
+            slot.classList.add('disabled');
+        });
+    }
+
+    previousMonth() {
+        this.currentDate.setMonth(this.currentDate.getMonth() - 1);
+        this.generateCalendar();
+    }
+
+    nextMonth() {
+        this.currentDate.setMonth(this.currentDate.getMonth() + 1);
+        this.generateCalendar();
+    }
+
+    handleSubmit(e) {
+        e.preventDefault();
+        
+        if (!this.selectedDate || !this.selectedTime) {
+            alert('Please select a date and time for your tour.');
+            return;
+        }
+
+        const formData = {
+            name: document.getElementById('visitor-name').value,
+            email: document.getElementById('visitor-email').value,
+            phone: document.getElementById('visitor-phone').value,
+            message: document.getElementById('visitor-message').value,
+            date: this.selectedDate,
+            time: this.selectedTime
+        };
+
+        // Here you would typically send the data to a server
+        console.log('Tour scheduled:', formData);
+        
+        // Show success message
+        alert('Tour scheduled successfully! We will contact you to confirm the details.');
+        
+        // Close modal and reset form
+        this.closeModal();
+        document.getElementById('schedule-form').reset();
+    }
+}
+
 class ApertureWebsite {
     constructor() {
         this.currentPage = 1;
@@ -1413,17 +1650,86 @@ class PropertiesPage {
                 }
             });
         });
+
     }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+    console.log('DOM Content Loaded');
     window.apertureWebsite = new ApertureWebsite();
+    
+    // Initialize schedule modal on all pages
+    console.log('Initializing schedule modal...');
+    window.scheduleModal = new ScheduleModal();
     
     // Initialize properties page if we're on the properties page
     if (document.body.dataset.page === 'properties') {
+        console.log('Initializing properties page...');
         new PropertiesPage();
     }
+    
+    // Initialize schedule tour functionality on all pages
+    setupScheduleTourOnAllPages();
 });
+
+function setupScheduleTourOnAllPages() {
+    // Handle all "Schedule Tour" buttons on any page
+    document.addEventListener('click', (e) => {
+        if (e.target.textContent.includes('Schedule Tour')) {
+            e.preventDefault();
+            openScheduleModal(e.target);
+        }
+    });
+}
+
+function openScheduleModal(button) {
+    console.log('Schedule Tour button clicked!');
+    
+    // Try to find property information from the page
+    let propertyTitle = 'Property Tour';
+    let propertyLocation = 'Location TBD';
+    
+    // Check if we're on a property page
+    const propertyCard = button.closest('.property-card');
+    if (propertyCard) {
+        // We're on the properties page
+        const titleElement = propertyCard.querySelector('.property-title');
+        const locationElement = propertyCard.querySelector('.property-location span');
+        
+        propertyTitle = titleElement ? titleElement.textContent : 'Property Tour';
+        propertyLocation = locationElement ? locationElement.textContent : 'Location TBD';
+    } else if (button.closest('.carousel-slide')) {
+        // We're on the index page carousel
+        const slide = button.closest('.carousel-slide');
+        const titleElement = slide.querySelector('.slide-title');
+        const locationElement = slide.querySelector('.slide-location span');
+        
+        propertyTitle = titleElement ? titleElement.textContent : 'Property Tour';
+        propertyLocation = locationElement ? locationElement.textContent : 'Location TBD';
+    } else {
+        // We're on a single property page - try to get title from page
+        const pageTitle = document.querySelector('h1');
+        if (pageTitle) {
+            propertyTitle = pageTitle.textContent;
+        }
+        
+        // Try to get location from various elements
+        const locationElement = document.querySelector('.property-location span, .location, .address');
+        if (locationElement) {
+            propertyLocation = locationElement.textContent;
+        }
+    }
+
+    console.log('Property info:', propertyTitle, propertyLocation);
+    console.log('Schedule modal available:', !!window.scheduleModal);
+
+    // Open the schedule modal
+    if (window.scheduleModal) {
+        window.scheduleModal.openModal(propertyTitle, propertyLocation);
+    } else {
+        console.error('Schedule modal not initialized');
+    }
+}
 
 // Handle window resize for mobile menu and parallax
 window.addEventListener('resize', () => {
