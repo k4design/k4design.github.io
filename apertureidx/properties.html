@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Properties - Aperture Global</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="includes/load-includes.js"></script>
+</head>
+<body data-page="properties">
+    <!-- Navigation Placeholder -->
+    <div id="nav-placeholder"></div>
+
+    <!-- Properties Page Hero -->
+    <section class="properties-hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>All Properties</h1>
+                <p>Discover our complete portfolio of luxury properties worldwide</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Properties Main Content -->
+    <section class="properties-main">
+        <div class="properties-container">
+            <div class="properties-layout">
+                <!-- Map Section -->
+                <div class="properties-map">
+                    <div class="map-header">
+                        <button class="map-draw-btn">
+                            <i class="fas fa-pencil-alt"></i>
+                            Draw on Map
+                        </button>
+                    </div>
+                    <div class="map-container">
+                        <iframe 
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3024.2219901290355!2d-74.00369368459418!3d40.74844097932681!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c259a9b3117469%3A0xd134e199a405a163!2sEmpire%20State%20Building!5e0!3m2!1sen!2sus!4v1635789123456!5m2!1sen!2sus" 
+                            width="100%" 
+                            height="100%" 
+                            style="border:0;" 
+                            allowfullscreen="" 
+                            loading="lazy" 
+                            referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                    </div>
+                    <div class="map-controls">
+                        <button class="map-clear-btn">
+                            <i class="fas fa-times"></i>
+                            Clear Map Boundary
+                        </button>
+                        <div class="map-zoom-controls">
+                            <button class="zoom-btn"><i class="fas fa-plus"></i></button>
+                            <button class="zoom-btn"><i class="fas fa-minus"></i></button>
+                            <button class="map-type-btn"><i class="fas fa-satellite"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Properties List Section -->
+                <div class="properties-list-section">
+                    <div class="properties-header">
+                        <div class="header-left">
+                            <h2>Luxury Properties for Sale</h2>
+                            <p class="properties-count">1-6 of 6 Properties</p>
+                        </div>
+                        <div class="header-right">
+                            <button class="save-search-btn">
+                                <i class="fas fa-bookmark"></i>
+                                Save Search
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="properties-filters-bar">
+                        <div class="price-filters">
+                            <input type="text" class="price-input" placeholder="$ No Min" id="price-min">
+                            <span class="price-separator">to</span>
+                            <input type="text" class="price-input" placeholder="$ No Max" id="price-max">
+                        </div>
+                        <button class="filters-btn">
+                            <i class="fas fa-sliders-h"></i>
+                            Filters
+                        </button>
+                    </div>
+
+                    <div class="properties-sort">
+                        <span class="sort-label">Sort by</span>
+                        <select class="sort-select">
+                            <option>Recommended</option>
+                            <option>Price: Low to High</option>
+                            <option>Price: High to Low</option>
+                            <option>Newest</option>
+                            <option>Square Feet</option>
+                        </select>
+                    </div>
+
+                    <div class="properties-grid" id="properties-grid">
+                        <!-- Properties will be loaded dynamically -->
+                    </div>
+
+                    <div class="properties-pagination">
+                        <button class="pagination-btn" id="prev-btn" disabled>
+                            <i class="fas fa-chevron-left"></i> Previous
+                        </button>
+                        <span class="pagination-info">
+                            <span id="current-page">1</span> of <span id="total-pages">1</span>
+                        </span>
+                        <button class="pagination-btn" id="next-btn" disabled>
+                            Next <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Placeholder -->
+    <div id="footer-placeholder"></div>
+
+    <script src="script.js"></script>
+    <script>
+        // Properties Page Functionality
+        class PropertiesPage {
+            constructor() {
+                this.currentPage = 1;
+                this.itemsPerPage = 6;
+                this.filteredProperties = [];
+                this.allProperties = this.getPropertiesData();
+                this.init();
+            }
+
+            init() {
+                this.setupFilters();
+                this.setupPagination();
+                this.setupMapControls();
+                this.loadProperties();
+            }
+
+            getPropertiesData() {
+                return [
+                    {
+                        id: 1,
+                        title: "Manhattan Penthouse",
+                        location: "Manhattan, NY",
+                        price: "$8,500,000",
+                        type: "penthouse",
+                        area: "manhattan",
+                        beds: 4,
+                        baths: 3,
+                        sqft: "3,200",
+                        image: "img/property-manhattan.jpg",
+                        description: "Stunning penthouse with panoramic city views",
+                        coordinates: { lat: 40.7589, lng: -73.9851 }
+                    },
+                    {
+                        id: 2,
+                        title: "Beverly Hills Estate",
+                        location: "Beverly Hills, CA",
+                        price: "$12,500,000",
+                        type: "estate",
+                        area: "beverly-hills",
+                        beds: 6,
+                        baths: 8,
+                        sqft: "8,500",
+                        image: "img/property-beverly-hills.jpg",
+                        description: "Luxurious estate with private pool and gardens",
+                        coordinates: { lat: 34.0736, lng: -118.4004 }
+                    },
+                    {
+                        id: 3,
+                        title: "Monaco Villa",
+                        location: "Monte Carlo, Monaco",
+                        price: "$15,000,000",
+                        type: "villa",
+                        area: "monaco",
+                        beds: 5,
+                        baths: 6,
+                        sqft: "6,800",
+                        image: "img/property-monaco.jpg",
+                        description: "Exclusive waterfront villa with marina access",
+                        coordinates: { lat: 43.7384, lng: 7.4246 }
+                    },
+                    {
+                        id: 4,
+                        title: "Upper East Side Apartment",
+                        location: "Manhattan, NY",
+                        price: "$4,200,000",
+                        type: "penthouse",
+                        area: "manhattan",
+                        beds: 3,
+                        baths: 2,
+                        sqft: "2,100",
+                        image: "img/property-ues.jpg",
+                        description: "Elegant apartment in prestigious building",
+                        coordinates: { lat: 40.7736, lng: -73.9566 }
+                    },
+                    {
+                        id: 5,
+                        title: "Malibu Beach House",
+                        location: "Malibu, CA",
+                        price: "$9,800,000",
+                        type: "estate",
+                        area: "beverly-hills",
+                        beds: 4,
+                        baths: 5,
+                        sqft: "4,200",
+                        image: "img/property-malibu.jpg",
+                        description: "Beachfront property with ocean views",
+                        coordinates: { lat: 34.0259, lng: -118.7798 }
+                    },
+                    {
+                        id: 6,
+                        title: "Monaco Penthouse",
+                        location: "Monte Carlo, Monaco",
+                        price: "$18,500,000",
+                        type: "penthouse",
+                        area: "monaco",
+                        beds: 6,
+                        baths: 7,
+                        sqft: "7,500",
+                        image: "img/property-monaco-penthouse.jpg",
+                        description: "Ultra-luxury penthouse with panoramic views",
+                        coordinates: { lat: 43.7405, lng: 7.4278 }
+                    }
+                ];
+            }
+
+            setupFilters() {
+                const priceFilter = document.getElementById('price-filter');
+                const typeFilter = document.getElementById('type-filter');
+                const locationFilter = document.getElementById('location-filter');
+
+                [priceFilter, typeFilter, locationFilter].forEach(filter => {
+                    filter.addEventListener('change', () => {
+                        this.applyFilters();
+                    });
+                });
+            }
+
+            setupMapControls() {
+                const mapControls = document.querySelectorAll('.map-control-btn');
+                mapControls.forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        mapControls.forEach(b => b.classList.remove('active'));
+                        btn.classList.add('active');
+                        this.filterByLocation(btn.dataset.filter);
+                    });
+                });
+            }
+
+            setupPagination() {
+                const prevBtn = document.getElementById('prev-btn');
+                const nextBtn = document.getElementById('next-btn');
+
+                prevBtn.addEventListener('click', () => {
+                    if (this.currentPage > 1) {
+                        this.currentPage--;
+                        this.loadProperties();
+                    }
+                });
+
+                nextBtn.addEventListener('click', () => {
+                    const totalPages = Math.ceil(this.filteredProperties.length / this.itemsPerPage);
+                    if (this.currentPage < totalPages) {
+                        this.currentPage++;
+                        this.loadProperties();
+                    }
+                });
+            }
+
+            applyFilters() {
+                const priceFilter = document.getElementById('price-filter').value;
+                const typeFilter = document.getElementById('type-filter').value;
+                const locationFilter = document.getElementById('location-filter').value;
+
+                this.filteredProperties = this.allProperties.filter(property => {
+                    let matches = true;
+
+                    if (priceFilter) {
+                        const price = this.extractPrice(property.price);
+                        matches = matches && this.matchesPriceRange(price, priceFilter);
+                    }
+
+                    if (typeFilter) {
+                        matches = matches && property.type === typeFilter;
+                    }
+
+                    if (locationFilter) {
+                        matches = matches && property.area === locationFilter;
+                    }
+
+                    return matches;
+                });
+
+                this.currentPage = 1;
+                this.loadProperties();
+            }
+
+            filterByLocation(location) {
+                if (location === 'all') {
+                    this.filteredProperties = this.allProperties;
+                } else {
+                    this.filteredProperties = this.allProperties.filter(property => 
+                        property.area === location
+                    );
+                }
+                this.currentPage = 1;
+                this.loadProperties();
+            }
+
+            extractPrice(priceString) {
+                return parseFloat(priceString.replace(/[$,]/g, ''));
+            }
+
+            matchesPriceRange(price, range) {
+                switch (range) {
+                    case '0-2': return price < 2000000;
+                    case '2-5': return price >= 2000000 && price < 5000000;
+                    case '5-10': return price >= 5000000 && price < 10000000;
+                    case '10+': return price >= 10000000;
+                    default: return true;
+                }
+            }
+
+            loadProperties() {
+                const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+                const endIndex = startIndex + this.itemsPerPage;
+                const propertiesToShow = this.filteredProperties.slice(startIndex, endIndex);
+
+                const grid = document.getElementById('properties-grid');
+                grid.innerHTML = '';
+
+                propertiesToShow.forEach((property, index) => {
+                    const propertyCard = this.createPropertyCard(property);
+                    grid.appendChild(propertyCard);
+                    
+                    // Add Private Exclusives block after first two cards
+                    if (index === 1) {
+                        const exclusivesBlock = this.createPrivateExclusivesBlock();
+                        grid.appendChild(exclusivesBlock);
+                    }
+                });
+
+                this.updatePagination();
+            }
+
+            createPrivateExclusivesBlock() {
+                const block = document.createElement('div');
+                block.className = 'private-exclusives-block';
+                block.innerHTML = `
+                    <div class="exclusives-content">
+                        <h3>APERTURE PRIVATE EXCLUSIVES</h3>
+                        <p>15 more listings match your search</p>
+                        <button class="learn-more-btn">Learn More</button>
+                    </div>
+                `;
+                return block;
+            }
+
+            createPropertyCard(property) {
+                const card = document.createElement('div');
+                card.className = 'property-card-listing';
+                
+                // Create special cards for first two properties (Private Exclusive style)
+                if (property.id <= 2) {
+                    card.innerHTML = `
+                        <div class="property-image">
+                            <img src="${property.image}" alt="${property.title}" onerror="this.src='img/placeholder.jpg'">
+                            <div class="property-badge private-exclusive">Private Exclusive</div>
+                            <button class="save-property-btn">
+                                <i class="fas fa-star"></i>
+                            </button>
+                        </div>
+                        <div class="property-info">
+                            <div class="property-price">${property.price}</div>
+                            <div class="property-details-compact">
+                                <span>${property.beds} beds</span>
+                                <span>${property.baths} baths</span>
+                                <span>${property.sqft} sqft</span>
+                            </div>
+                            <div class="property-address">${property.location}</div>
+                        </div>
+                    `;
+                } else {
+                    // Regular property card
+                    card.innerHTML = `
+                        <div class="property-image">
+                            <img src="${property.image}" alt="${property.title}" onerror="this.src='img/placeholder.jpg'">
+                            <div class="property-badge listed">Listed by Aperture</div>
+                            <button class="save-property-btn">
+                                <i class="fas fa-star"></i>
+                            </button>
+                        </div>
+                        <div class="property-info">
+                            <div class="property-price">${property.price}</div>
+                            <div class="property-details-compact">
+                                <span>${property.beds} beds</span>
+                                <span>${property.baths} baths</span>
+                                <span>${property.sqft} sqft</span>
+                            </div>
+                            <div class="property-address">${property.location}</div>
+                        </div>
+                    `;
+                }
+                
+                return card;
+            }
+
+            updatePagination() {
+                const totalPages = Math.ceil(this.filteredProperties.length / this.itemsPerPage);
+                const prevBtn = document.getElementById('prev-btn');
+                const nextBtn = document.getElementById('next-btn');
+                const currentPageSpan = document.getElementById('current-page');
+                const totalPagesSpan = document.getElementById('total-pages');
+
+                prevBtn.disabled = this.currentPage === 1;
+                nextBtn.disabled = this.currentPage === totalPages;
+                currentPageSpan.textContent = this.currentPage;
+                totalPagesSpan.textContent = totalPages;
+            }
+        }
+
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            new PropertiesPage();
+        });
+    </script>
+</body>
+</html>

@@ -105,7 +105,7 @@ function setNavigationPaths(isRootPage) {
     if (navHome) navHome.href = homePath;
     
     const navProperties = document.getElementById('nav-properties');
-    if (navProperties) navProperties.href = homePath + '#properties';
+    if (navProperties) navProperties.href = isRootPage ? 'properties.html' : '../properties.html';
     
     const navAbout = document.getElementById('nav-about');
     if (navAbout) navAbout.href = aboutPath;

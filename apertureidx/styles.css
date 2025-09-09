@@ -2382,6 +2382,74 @@ html {
     .footer-logo {
         max-height: 40px;
     }
+    
+    /* Properties Page Responsive */
+    .properties-hero h1 {
+        font-size: 2rem;
+    }
+    
+    .properties-layout {
+        grid-template-columns: 1fr;
+        min-height: auto;
+    }
+    
+    .properties-map {
+        order: 2;
+        min-height: 400px;
+    }
+    
+    .properties-list-section {
+        order: 1;
+    }
+    
+    .properties-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+    
+    .properties-filters-bar {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 1rem;
+    }
+    
+    .price-filters {
+        justify-content: center;
+    }
+    
+    .price-input {
+        width: 80px;
+    }
+    
+    .map-controls {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: stretch;
+    }
+    
+    .map-zoom-controls {
+        justify-content: center;
+    }
+    
+    /* Property Agents Responsive */
+    .agents-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .agent-card {
+        padding: 1.5rem;
+    }
+    
+    .agent-photo {
+        width: 100px;
+        height: 100px;
+    }
+    
+    .property-agents h3 {
+        font-size: 1.5rem;
+    }
 }
 
 /* Property Page Specific Styles */
@@ -2868,6 +2936,681 @@ html {
 .gallery-nav-btn:hover {
     border-color: var(--accent-blue);
     color: var(--accent-blue);
+}
+
+/* Developments Section */
+.developments-section {
+    padding: 6rem 0;
+    background: var(--primary-bg);
+    color: white;
+}
+
+.developments-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+    margin: 3rem 0;
+}
+
+.development-card {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+.development-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    border-color: var(--accent-color);
+}
+
+.development-image {
+    position: relative;
+    height: 250px;
+    overflow: hidden;
+}
+
+.development-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.development-card:hover .development-image img {
+    transform: scale(1.05);
+}
+
+.development-status {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background: var(--accent-color);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.development-price {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    backdrop-filter: blur(10px);
+}
+
+.development-info {
+    padding: 2rem;
+}
+
+.development-info h3 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: white;
+    font-weight: 600;
+}
+
+.development-location {
+    color: var(--accent-color);
+    font-weight: 500;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+}
+
+.development-description {
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    font-size: 0.95rem;
+}
+
+.development-details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.development-details span {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.development-details i {
+    color: var(--accent-color);
+    width: 16px;
+}
+
+.development-btn {
+    background: var(--accent-color);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+.development-btn:hover {
+    background: var(--accent-hover);
+    transform: translateY(-2px);
+}
+
+.developments-cta {
+    text-align: center;
+    margin-top: 3rem;
+}
+
+/* Properties Page - Dark Theme */
+.properties-hero {
+    padding: 6rem 0 2rem;
+    background: var(--primary-bg);
+    color: white;
+    text-align: center;
+}
+
+.properties-hero h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: white;
+}
+
+.properties-hero p {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.properties-main {
+    background: var(--primary-bg);
+    min-height: calc(100vh - 200px);
+}
+
+.properties-container {
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.properties-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: calc(100vh - 200px);
+}
+
+/* Map Section */
+.properties-map {
+    background: var(--primary-bg);
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.map-header {
+    padding: 1rem 1.5rem;
+    background: var(--primary-bg);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.map-draw-btn {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.map-draw-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.map-container {
+    flex: 1;
+    position: relative;
+}
+
+.map-controls {
+    padding: 1rem 1.5rem;
+    background: var(--primary-bg);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.map-clear-btn {
+    background: transparent;
+    color: var(--text-muted);
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: color 0.3s ease;
+}
+
+.map-clear-btn:hover {
+    color: white;
+}
+
+.map-zoom-controls {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.zoom-btn,
+.map-type-btn {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    width: 36px;
+    height: 36px;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.zoom-btn:hover,
+.map-type-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* Properties List Section */
+.properties-list-section {
+    background: var(--primary-bg);
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+.properties-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.header-left h2 {
+    font-size: 1.5rem;
+    color: white;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.properties-count {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.save-search-btn {
+    background: var(--accent-color);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.save-search-btn:hover {
+    background: var(--accent-hover);
+}
+
+.properties-filters-bar {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+}
+
+.price-filters {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.price-input {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    width: 100px;
+}
+
+.price-input::placeholder {
+    color: var(--text-muted);
+}
+
+.price-separator {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.filters-btn {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.filters-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.properties-sort {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.sort-label {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.sort-select {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.sort-select option {
+    background: var(--primary-bg);
+    color: white;
+}
+
+/* Properties Grid */
+.properties-grid {
+    flex: 1;
+    padding: 1rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.property-card-listing {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.property-card-listing:hover {
+    border-color: var(--accent-color);
+    transform: translateY(-2px);
+}
+
+.property-image {
+    position: relative;
+    height: 200px;
+    overflow: hidden;
+}
+
+.property-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.property-card-listing:hover .property-image img {
+    transform: scale(1.05);
+}
+
+.property-badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.property-badge.private-exclusive {
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+}
+
+.property-badge.listed {
+    background: var(--accent-color);
+    color: white;
+}
+
+.save-property-btn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.save-property-btn:hover {
+    background: rgba(0, 0, 0, 0.8);
+    color: var(--accent-color);
+}
+
+.property-info {
+    padding: 1rem;
+}
+
+.property-price {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 0.5rem;
+}
+
+.property-details-compact {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.property-details-compact span {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.property-address {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+/* Private Exclusives Block */
+.private-exclusives-block {
+    background: rgba(0, 0, 0, 0.8);
+    border-radius: 8px;
+    padding: 2rem;
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.exclusives-content h3 {
+    color: white;
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    letter-spacing: 1px;
+}
+
+.exclusives-content p {
+    color: var(--text-muted);
+    margin-bottom: 1.5rem;
+    font-size: 0.9rem;
+}
+
+.learn-more-btn {
+    background: var(--accent-color);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.learn-more-btn:hover {
+    background: var(--accent-hover);
+}
+
+/* Pagination */
+.properties-pagination {
+    padding: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+}
+
+.pagination-btn {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.pagination-btn:hover:not(:disabled) {
+    background: var(--accent-color);
+    border-color: var(--accent-color);
+}
+
+.pagination-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.pagination-info {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+/* Property Agents Section */
+.property-agents {
+    margin-bottom: 3rem;
+    text-align: center;
+}
+
+.property-agents h3 {
+    font-size: 1.8rem;
+    color: white;
+    margin-bottom: 2rem;
+    font-weight: 600;
+}
+
+.agents-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.agent-card {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    padding: 2rem;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.agent-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    border-color: var(--accent-color);
+}
+
+.agent-photo {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 1.5rem;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid var(--accent-color);
+    position: relative;
+}
+
+.agent-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.agent-card:hover .agent-photo img {
+    transform: scale(1.1);
+}
+
+.agent-info h4 {
+    font-size: 1.3rem;
+    color: white;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+.agent-title {
+    color: var(--accent-color);
+    font-weight: 500;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+}
+
+.agent-phone,
+.agent-email {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.agent-phone::before {
+    content: "📞";
+    font-size: 0.8rem;
+}
+
+.agent-email::before {
+    content: "✉️";
+    font-size: 0.8rem;
 }
 
 /* Contact Section */
