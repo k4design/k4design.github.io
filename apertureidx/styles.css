@@ -2477,10 +2477,11 @@ p {
 .project-location {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
     color: var(--text-secondary);
-    font-size: 0.9rem;
-    margin-bottom: 1rem;
+    font-size: 0.85rem;
+    margin-bottom: 0.5rem;
+    background: none;
 }
 
 .project-location i {

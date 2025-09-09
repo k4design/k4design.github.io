@@ -10,29 +10,10 @@
     <style>
         /* Agent Profile Specific Styles */
         .agent-hero {
-            padding: 40px 0;
-            background: #000000;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 35vw;
-            height: 100vh;
+            padding: 120px 0 60px;
+            background: linear-gradient(135deg, var(--primary-bg) 0%, var(--secondary-bg) 100%);
+            position: relative;
             overflow: hidden;
-            display: flex;
-            align-items: center;
-            z-index: 100;
-            animation: fadeInUp 1s ease-out;
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
         }
 
         .agent-hero::before {
@@ -42,427 +23,41 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: 
-                radial-gradient(circle at 20% 20%, rgba(0, 146, 255, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(0, 146, 255, 0.05) 0%, transparent 50%);
-            opacity: 0.3;
+            background: url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1920&h=1080&fit=crop') center/cover;
+            opacity: 0.05;
             z-index: 1;
-            animation: backgroundShift 20s ease-in-out infinite;
-        }
-
-        .agent-hero::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(45deg, transparent 0%, rgba(0, 146, 255, 0.02) 50%, transparent 100%);
-            z-index: 2;
-            animation: shimmer 3s ease-in-out infinite;
-        }
-
-        .topographic-lines {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            z-index: 1;
-            pointer-events: none;
-            opacity: 0.6;
-        }
-
-        .topographic-line {
-            position: absolute;
-            border: 1px solid rgba(0, 146, 255, 0.3);
-            border-radius: 50%;
-            animation: topographicMove 15s linear infinite;
-        }
-
-        .topographic-line:nth-child(1) {
-            width: 200px;
-            height: 200px;
-            top: 10%;
-            left: 10%;
-            animation-duration: 20s;
-            animation-delay: 0s;
-        }
-
-        .topographic-line:nth-child(2) {
-            width: 300px;
-            height: 300px;
-            top: 20%;
-            right: 15%;
-            animation-duration: 25s;
-            animation-delay: 3s;
-        }
-
-        .topographic-line:nth-child(3) {
-            width: 150px;
-            height: 150px;
-            bottom: 20%;
-            left: 20%;
-            animation-duration: 18s;
-            animation-delay: 6s;
-        }
-
-        .topographic-line:nth-child(4) {
-            width: 250px;
-            height: 250px;
-            bottom: 30%;
-            right: 25%;
-            animation-duration: 22s;
-            animation-delay: 9s;
-        }
-
-        .topographic-line:nth-child(5) {
-            width: 180px;
-            height: 180px;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            animation-duration: 30s;
-            animation-delay: 12s;
-        }
-
-        .topographic-line:nth-child(6) {
-            width: 120px;
-            height: 120px;
-            top: 60%;
-            left: 15%;
-            animation-duration: 16s;
-            animation-delay: 15s;
-        }
-
-        .topographic-line:nth-child(7) {
-            width: 220px;
-            height: 220px;
-            top: 40%;
-            right: 40%;
-            animation-duration: 24s;
-            animation-delay: 18s;
-        }
-
-        .topographic-line:nth-child(8) {
-            width: 160px;
-            height: 160px;
-            bottom: 10%;
-            right: 10%;
-            animation-duration: 19s;
-            animation-delay: 21s;
-        }
-
-        /* Add more topographic lines for complexity */
-        .topographic-line:nth-child(9) {
-            width: 100px;
-            height: 100px;
-            top: 70%;
-            left: 60%;
-            animation-duration: 14s;
-            animation-delay: 24s;
-            border-radius: 0;
-            transform: rotate(45deg);
-        }
-
-        .topographic-line:nth-child(10) {
-            width: 80px;
-            height: 80px;
-            top: 15%;
-            left: 70%;
-            animation-duration: 12s;
-            animation-delay: 27s;
-            border-radius: 0;
-            transform: rotate(30deg);
-        }
-
-        .topographic-line:nth-child(11) {
-            width: 140px;
-            height: 140px;
-            bottom: 40%;
-            left: 5%;
-            animation-duration: 17s;
-            animation-delay: 30s;
-            border-radius: 0;
-            transform: rotate(60deg);
-        }
-
-        .topographic-line:nth-child(12) {
-            width: 90px;
-            height: 90px;
-            top: 80%;
-            right: 5%;
-            animation-duration: 13s;
-            animation-delay: 33s;
-            border-radius: 0;
-            transform: rotate(120deg);
-        }
-
-        @keyframes topographicMove {
-            0% {
-                transform: translate(0, 0) rotate(0deg) scale(1);
-                opacity: 0.2;
-            }
-            12.5% {
-                transform: translate(40px, -30px) rotate(45deg) scale(1.15);
-                opacity: 0.5;
-            }
-            25% {
-                transform: translate(60px, 20px) rotate(90deg) scale(0.95);
-                opacity: 0.3;
-            }
-            37.5% {
-                transform: translate(20px, 50px) rotate(135deg) scale(1.1);
-                opacity: 0.6;
-            }
-            50% {
-                transform: translate(-30px, 30px) rotate(180deg) scale(0.85);
-                opacity: 0.4;
-            }
-            62.5% {
-                transform: translate(-50px, -10px) rotate(225deg) scale(1.05);
-                opacity: 0.7;
-            }
-            75% {
-                transform: translate(-20px, -40px) rotate(270deg) scale(1.2);
-                opacity: 0.5;
-            }
-            87.5% {
-                transform: translate(10px, -20px) rotate(315deg) scale(0.9);
-                opacity: 0.6;
-            }
-            100% {
-                transform: translate(0, 0) rotate(360deg) scale(1);
-                opacity: 0.2;
-            }
-        }
-
-        /* Additional topographic line variations */
-        .topographic-line:nth-child(odd) {
-            border-style: dashed;
-            border-width: 2px;
-        }
-
-        .topographic-line:nth-child(even) {
-            border-style: solid;
-            border-width: 1px;
-        }
-
-        /* Add some lines that move in reverse */
-        .topographic-line:nth-child(3),
-        .topographic-line:nth-child(5),
-        .topographic-line:nth-child(7) {
-            animation-direction: reverse;
-        }
-
-        /* Add pulsing effect to some lines */
-        .topographic-line:nth-child(2),
-        .topographic-line:nth-child(6) {
-            animation: topographicMove 15s linear infinite, topographicPulse 4s ease-in-out infinite;
-        }
-
-        @keyframes topographicPulse {
-            0%, 100% {
-                border-color: rgba(0, 146, 255, 0.3);
-                box-shadow: 0 0 0 0 rgba(0, 146, 255, 0.3);
-            }
-            50% {
-                border-color: rgba(0, 146, 255, 0.6);
-                box-shadow: 0 0 20px rgba(0, 146, 255, 0.3);
-            }
-        }
-
-        /* Add connecting lines between topographic elements */
-        .topographic-lines::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: 
-                linear-gradient(45deg, transparent 48%, rgba(0, 146, 255, 0.1) 49%, rgba(0, 146, 255, 0.1) 51%, transparent 52%),
-                linear-gradient(-45deg, transparent 48%, rgba(0, 146, 255, 0.1) 49%, rgba(0, 146, 255, 0.1) 51%, transparent 52%);
-            background-size: 100px 100px;
-            animation: topographicGrid 20s linear infinite;
-            opacity: 0.3;
-        }
-
-        @keyframes topographicGrid {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(100px, 100px); }
-        }
-
-        /* Add some lines that create intersecting patterns */
-        .topographic-line:nth-child(1)::after,
-        .topographic-line:nth-child(3)::after,
-        .topographic-line:nth-child(5)::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 2px;
-            height: 2px;
-            background: rgba(0, 146, 255, 0.8);
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-            animation: topographicDot 3s ease-in-out infinite;
-        }
-
-        @keyframes topographicDot {
-            0%, 100% { 
-                transform: translate(-50%, -50%) scale(1);
-                opacity: 0.8;
-            }
-            50% { 
-                transform: translate(-50%, -50%) scale(2);
-                opacity: 0.3;
-            }
-        }
-
-        /* Add some lines with different border styles */
-        .topographic-line:nth-child(4),
-        .topographic-line:nth-child(8),
-        .topographic-line:nth-child(12) {
-            border-style: dotted;
-            border-width: 2px;
-        }
-
-        /* Add glow effect to some lines */
-        .topographic-line:nth-child(1),
-        .topographic-line:nth-child(4),
-        .topographic-line:nth-child(7),
-        .topographic-line:nth-child(10) {
-            filter: drop-shadow(0 0 5px rgba(0, 146, 255, 0.3));
-        }
-
-        .floating-elements {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            z-index: 1;
-            pointer-events: none;
-        }
-
-        .floating-element {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background: var(--accent-blue);
-            border-radius: 50%;
-            opacity: 0.6;
-            animation: float 8s ease-in-out infinite;
-        }
-
-        .floating-element:nth-child(1) {
-            top: 20%;
-            left: 10%;
-            animation-delay: 0s;
-        }
-
-        .floating-element:nth-child(2) {
-            top: 60%;
-            right: 15%;
-            animation-delay: 2s;
-        }
-
-        .floating-element:nth-child(3) {
-            bottom: 30%;
-            left: 20%;
-            animation-delay: 4s;
-        }
-
-        .floating-element:nth-child(4) {
-            top: 40%;
-            right: 30%;
-            animation-delay: 6s;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px) scale(1); opacity: 0.6; }
-            50% { transform: translateY(-20px) scale(1.2); opacity: 1; }
-        }
-
-        @keyframes backgroundShift {
-            0%, 100% { transform: scale(1) rotate(0deg); }
-            50% { transform: scale(1.05) rotate(1deg); }
-        }
-
-        @keyframes shimmer {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 0.6; }
         }
 
         .agent-hero-content {
             position: relative;
-            z-index: 3;
-            width: 100%;
-            height: 100%;
-            padding: 0 20px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
+            z-index: 2;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 40px;
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 4rem;
             align-items: center;
-            text-align: center;
-        }
-
-        .agent-hero-top {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            margin-top: 2rem;
-        }
-
-        .agent-hero-bottom {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            margin-bottom: 2rem;
-            width: 100%;
         }
 
         .agent-photo-section {
             text-align: center;
-            position: relative;
         }
 
         .agent-photo {
-            width: 140px;
-            height: 140px;
+            width: 300px;
+            height: 300px;
             border-radius: 50%;
-            background: linear-gradient(135deg, var(--accent-blue) 0%, #0056b3 100%);
+            background: var(--accent-blue);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 3rem;
+            font-size: 6rem;
             color: var(--primary-bg);
-            margin: 0 auto 1rem;
+            margin: 0 auto 2rem;
             position: relative;
             overflow: hidden;
-            border: 3px solid rgba(0, 146, 255, 0.3);
-            box-shadow: 
-                0 0 0 1px rgba(255, 255, 255, 0.1),
-                0 10px 30px rgba(0, 146, 255, 0.2),
-                inset 0 0 0 1px rgba(255, 255, 255, 0.1);
-            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-            animation: photoFloat 6s ease-in-out infinite;
-        }
-
-        .agent-photo:hover {
-            transform: scale(1.05) rotate(2deg);
-            box-shadow: 
-                0 0 0 1px rgba(255, 255, 255, 0.2),
-                0 30px 80px rgba(0, 146, 255, 0.4),
-                inset 0 0 0 1px rgba(255, 255, 255, 0.2);
-        }
-
-        @keyframes photoFloat {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-10px) rotate(1deg); }
+            border: 4px solid var(--accent-blue-light);
         }
 
         .agent-photo img {
@@ -472,503 +67,174 @@
             border-radius: 50%;
         }
 
-        .agent-photo-badge {
-            position: absolute;
-            bottom: 20px;
-            right: 20px;
-            background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
-            color: white;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
-            animation: badgePulse 2s infinite, badgeGlow 3s infinite;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        @keyframes badgePulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-
-        @keyframes badgeGlow {
-            0%, 100% { box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3); }
-            50% { box-shadow: 0 4px 25px rgba(255, 107, 53, 0.6); }
-        }
-
         .agent-basic-info {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(20px);
-            border-radius: 25px;
+            background: var(--card-bg);
+            border-radius: 20px;
             padding: 2rem;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--border-color);
             margin-top: 2rem;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-            width: 100%;
         }
 
         .agent-info h1 {
-            font-size: 1.6rem;
-            font-weight: 200;
-            margin-bottom: 0.6rem;
+            font-size: 3.5rem;
+            font-weight: 300;
+            margin-bottom: 1rem;
             color: var(--text-primary);
-            background: linear-gradient(135deg, #ffffff 0%, #e0e0e0 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            letter-spacing: -0.02em;
         }
 
         .agent-title {
-            font-size: 0.95rem;
+            font-size: 1.3rem;
             color: var(--accent-blue);
-            margin-bottom: 1rem;
-            font-weight: 300;
-            letter-spacing: 0.5px;
+            margin-bottom: 1.5rem;
+            font-weight: 400;
         }
 
         .agent-location {
             display: flex;
             align-items: center;
-            gap: 6px;
-            margin-bottom: 1.5rem;
+            gap: 10px;
+            margin-bottom: 2rem;
             color: var(--text-secondary);
-            font-size: 0.9rem;
-            font-weight: 300;
+            font-size: 1.1rem;
         }
 
         .agent-location i {
             color: var(--accent-blue);
-            font-size: 1.1rem;
         }
 
         .agent-stats {
             display: grid;
-            grid-template-columns: 1fr;
-            gap: 0.8rem;
-            margin-bottom: 1.5rem;
-            width: 100%;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-bottom: 2rem;
         }
 
         .stat-item {
             text-align: center;
-            padding: 1rem 0.8rem;
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(10px);
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-            animation: statSlideIn 0.8s ease-out;
-            animation-fill-mode: both;
-        }
-
-        .stat-item:nth-child(1) { animation-delay: 0.1s; }
-        .stat-item:nth-child(2) { animation-delay: 0.2s; }
-        .stat-item:nth-child(3) { animation-delay: 0.3s; }
-
-        .stat-item::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, var(--accent-blue) 0%, transparent 100%);
-            opacity: 0;
-            transition: all 0.4s ease;
-        }
-
-        .stat-item::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-            transition: left 0.6s ease;
-        }
-
-        .stat-item:hover {
-            transform: translateY(-8px) scale(1.02);
-            background: rgba(255, 255, 255, 0.05);
-            border-color: rgba(0, 146, 255, 0.3);
-            box-shadow: 0 20px 40px rgba(0, 146, 255, 0.1);
-        }
-
-        .stat-item:hover::before {
-            opacity: 1;
-        }
-
-        .stat-item:hover::after {
-            left: 100%;
-        }
-
-        @keyframes statSlideIn {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            padding: 1.5rem;
+            background: var(--tertiary-bg);
+            border-radius: 15px;
+            border: 1px solid var(--border-color);
         }
 
         .stat-number {
-            font-size: 1.5rem;
-            font-weight: 700;
+            font-size: 2rem;
+            font-weight: 600;
             color: var(--accent-blue);
-            margin-bottom: 0.2rem;
-            background: linear-gradient(135deg, var(--accent-blue) 0%, #0056b3 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            margin-bottom: 0.5rem;
         }
 
         .stat-label {
-            font-size: 0.7rem;
+            font-size: 0.9rem;
             color: var(--text-muted);
             text-transform: uppercase;
-            letter-spacing: 0.8px;
-            font-weight: 500;
+            letter-spacing: 1px;
         }
 
         .agent-contact-actions {
             display: flex;
-            flex-direction: column;
-            gap: 0.6rem;
-            margin-top: 1.5rem;
-            width: 100%;
+            gap: 1rem;
+            margin-top: 2rem;
         }
 
         .contact-btn {
             flex: 1;
-            padding: 12px 16px;
+            padding: 15px 25px;
             border-radius: 8px;
-            font-size: 0.85rem;
-            font-weight: 500;
+            font-size: 1rem;
+            font-weight: 400;
             cursor: pointer;
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.3s ease;
             text-decoration: none;
             text-align: center;
             border: none;
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            animation: buttonSlideIn 0.8s ease-out;
-            animation-fill-mode: both;
-        }
-
-        .contact-btn:nth-child(1) { animation-delay: 0.4s; }
-        .contact-btn:nth-child(2) { animation-delay: 0.5s; }
-
-        .contact-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.6s ease;
-        }
-
-        .contact-btn::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-            transition: all 0.6s ease;
-        }
-
-        .contact-btn:hover::before {
-            left: 100%;
-        }
-
-        .contact-btn:hover::after {
-            width: 300px;
-            height: 300px;
         }
 
         .contact-btn.primary {
-            background: linear-gradient(135deg, var(--accent-blue) 0%, #0056b3 100%);
+            background: var(--accent-blue);
             color: var(--primary-bg);
-            box-shadow: 0 8px 25px rgba(0, 146, 255, 0.3);
         }
 
         .contact-btn.primary:hover {
-            transform: translateY(-5px) scale(1.02);
-            box-shadow: 0 20px 40px rgba(0, 146, 255, 0.4);
+            background: var(--accent-blue-dark);
+            transform: translateY(-2px);
         }
 
         .contact-btn.secondary {
-            background: rgba(255, 255, 255, 0.05);
+            background: transparent;
             color: var(--text-primary);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-color);
         }
 
         .contact-btn.secondary:hover {
             border-color: var(--accent-blue);
             color: var(--accent-blue);
-            background: rgba(0, 146, 255, 0.1);
-            transform: translateY(-5px) scale(1.02);
-        }
-
-        @keyframes buttonSlideIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Main Content Wrapper */
-        .main-content {
-            margin-left: 35vw;
-            background: var(--primary-bg);
-            min-height: 100vh;
-        }
-
-        /* Ensure body doesn't have horizontal scroll */
-        body {
-            overflow-x: hidden;
         }
 
         /* Agent Details Section */
         .agent-details {
-            padding: 60px 0;
-            background: linear-gradient(135deg, var(--secondary-bg) 0%, #1a1a1a 100%);
-            position: relative;
-        }
-
-        .agent-details::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: 
-                radial-gradient(circle at 70% 30%, rgba(0, 146, 255, 0.03) 0%, transparent 50%),
-                radial-gradient(circle at 30% 70%, rgba(0, 146, 255, 0.02) 0%, transparent 50%);
-            z-index: 1;
+            padding: 80px 0;
+            background: var(--secondary-bg);
         }
 
         .details-container {
-            position: relative;
-            z-index: 2;
-            max-width: 1400px;
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 0 30px;
+            padding: 0 40px;
             display: grid;
             grid-template-columns: 2fr 1fr;
-            gap: 3rem;
+            gap: 4rem;
         }
 
         .details-main {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(20px);
+            background: var(--card-bg);
             border-radius: 20px;
-            padding: 2.5rem;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
-            position: relative;
-            overflow: hidden;
-            animation: slideInFromLeft 1s ease-out;
-        }
-
-        @keyframes slideInFromLeft {
-            from {
-                opacity: 0;
-                transform: translateX(-50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        .details-main::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, var(--accent-blue) 0%, #0056b3 50%, var(--accent-blue) 100%);
-        }
-
-        .details-main h2 {
-            font-size: 2.5rem;
-            font-weight: 300;
-            margin-bottom: 2rem;
-            color: var(--text-primary);
-            background: linear-gradient(135deg, #ffffff 0%, #e0e0e0 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .details-main h3 {
-            font-size: 1.8rem;
-            font-weight: 400;
-            margin: 3rem 0 1.5rem 0;
-            color: var(--accent-blue);
-            position: relative;
-            padding-left: 20px;
-        }
-
-        .details-main h3::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 4px;
-            height: 30px;
-            background: linear-gradient(135deg, var(--accent-blue) 0%, #0056b3 100%);
-            border-radius: 2px;
-        }
-
-        .details-main p {
-            font-size: 1.1rem;
-            line-height: 1.8;
-            color: var(--text-secondary);
-            margin-bottom: 1.5rem;
-            font-weight: 300;
+            padding: 3rem;
+            border: 1px solid var(--border-color);
         }
 
         .details-sidebar {
             display: flex;
             flex-direction: column;
-            gap: 2.5rem;
+            gap: 2rem;
         }
 
         .sidebar-card {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(20px);
-            border-radius: 25px;
-            padding: 2.5rem;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            animation: slideInFromRight 1s ease-out;
-            animation-fill-mode: both;
-        }
-
-        .sidebar-card:nth-child(1) { animation-delay: 0.1s; }
-        .sidebar-card:nth-child(2) { animation-delay: 0.2s; }
-        .sidebar-card:nth-child(3) { animation-delay: 0.3s; }
-        .sidebar-card:nth-child(4) { animation-delay: 0.4s; }
-
-        @keyframes slideInFromRight {
-            from {
-                opacity: 0;
-                transform: translateX(50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        .sidebar-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, var(--accent-blue) 0%, transparent 100%);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .sidebar-card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(0, 146, 255, 0.3);
-        }
-
-        .sidebar-card:hover::before {
-            opacity: 1;
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid var(--border-color);
         }
 
         .sidebar-card h3 {
             color: var(--text-primary);
-            margin-bottom: 2rem;
-            font-size: 1.4rem;
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
             font-weight: 400;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .sidebar-card h3::before {
-            content: '';
-            width: 6px;
-            height: 6px;
-            background: var(--accent-blue);
-            border-radius: 50%;
         }
 
         .contact-info {
             display: flex;
             flex-direction: column;
-            gap: 1.5rem;
+            gap: 1rem;
         }
 
         .contact-item {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 12px;
             color: var(--text-secondary);
             font-size: 1rem;
-            padding: 12px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            transition: all 0.3s ease;
-        }
-
-        .contact-item:last-child {
-            border-bottom: none;
-        }
-
-        .contact-item:hover {
-            color: var(--text-primary);
-            transform: translateX(5px);
         }
 
         .contact-item i {
             color: var(--accent-blue);
             width: 20px;
             font-size: 1.1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
 
         .contact-item a {
-            color: inherit;
+            color: var(--text-secondary);
             text-decoration: none;
             transition: color 0.3s ease;
         }
@@ -980,233 +246,116 @@
         .languages-list {
             display: flex;
             flex-wrap: wrap;
-            gap: 0.8rem;
+            gap: 0.5rem;
         }
 
         .language-tag {
-            background: linear-gradient(135deg, rgba(0, 146, 255, 0.1) 0%, rgba(0, 146, 255, 0.05) 100%);
-            color: var(--accent-blue);
-            padding: 8px 16px;
-            border-radius: 20px;
+            background: var(--tertiary-bg);
+            color: var(--text-secondary);
+            padding: 6px 12px;
+            border-radius: 15px;
             font-size: 0.9rem;
-            border: 1px solid rgba(0, 146, 255, 0.2);
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
-
-        .language-tag:hover {
-            background: linear-gradient(135deg, rgba(0, 146, 255, 0.2) 0%, rgba(0, 146, 255, 0.1) 100%);
-            transform: translateY(-2px);
+            border: 1px solid var(--border-color);
         }
 
         .specialties-list {
             display: flex;
             flex-direction: column;
-            gap: 1rem;
+            gap: 0.8rem;
         }
 
         .specialty-item {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
             color: var(--text-secondary);
-            padding: 8px 0;
-            transition: all 0.3s ease;
-        }
-
-        .specialty-item:hover {
-            color: var(--text-primary);
-            transform: translateX(5px);
         }
 
         .specialty-item i {
             color: var(--accent-blue);
-            width: 18px;
-            font-size: 0.9rem;
+            width: 16px;
         }
 
         .awards-list {
             display: flex;
             flex-direction: column;
-            gap: 1.5rem;
+            gap: 1rem;
         }
 
         .award-item {
-            padding: 1.5rem;
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .award-item::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 3px;
-            height: 100%;
-            background: linear-gradient(135deg, var(--accent-blue) 0%, #0056b3 100%);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .award-item:hover {
-            background: rgba(255, 255, 255, 0.05);
-            transform: translateX(5px);
-        }
-
-        .award-item:hover::before {
-            opacity: 1;
+            padding: 1rem;
+            background: var(--tertiary-bg);
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
         }
 
         .award-year {
             color: var(--accent-blue);
             font-weight: 600;
             margin-bottom: 0.5rem;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
         }
 
         .award-title {
             color: var(--text-primary);
-            font-weight: 500;
-            margin-bottom: 0.5rem;
-            font-size: 1rem;
+            font-weight: 400;
+            margin-bottom: 0.3rem;
         }
 
         .award-organization {
             color: var(--text-muted);
             font-size: 0.9rem;
-            font-weight: 300;
         }
 
         /* Current Listings Section */
         .current-listings {
-            padding: 60px 0;
-            background: linear-gradient(135deg, var(--primary-bg) 0%, #0a0a0a 100%);
-            position: relative;
-        }
-
-        .current-listings::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: 
-                radial-gradient(circle at 20% 80%, rgba(0, 146, 255, 0.05) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(0, 146, 255, 0.03) 0%, transparent 50%);
-            z-index: 1;
+            padding: 80px 0;
+            background: var(--primary-bg);
         }
 
         .listings-container {
-            position: relative;
-            z-index: 2;
-            max-width: 1400px;
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 0 30px;
+            padding: 0 40px;
         }
 
         .listings-header {
             text-align: center;
-            margin-bottom: 2.5rem;
+            margin-bottom: 3rem;
         }
 
         .listings-header h2 {
             font-size: 2.5rem;
-            font-weight: 200;
+            font-weight: 300;
             margin-bottom: 1rem;
             color: var(--text-primary);
-            background: linear-gradient(135deg, #ffffff 0%, #e0e0e0 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
         }
 
         .listings-header p {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             color: var(--text-muted);
-            font-weight: 300;
         }
 
         .listings-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
-            gap: 3rem;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
         }
 
         .listing-card {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(20px);
-            border-radius: 25px;
+            background: var(--card-bg);
+            border-radius: 20px;
             overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
-            animation: cardSlideIn 0.8s ease-out;
-            animation-fill-mode: both;
-        }
-
-        .listing-card:nth-child(1) { animation-delay: 0.1s; }
-        .listing-card:nth-child(2) { animation-delay: 0.2s; }
-        .listing-card:nth-child(3) { animation-delay: 0.3s; }
-
-        .listing-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, var(--accent-blue) 0%, #0056b3 50%, var(--accent-blue) 100%);
-            opacity: 0;
-            transition: all 0.4s ease;
-        }
-
-        .listing-card::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
-            transition: left 0.8s ease;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
         }
 
         .listing-card:hover {
-            transform: translateY(-15px) scale(1.02);
-            box-shadow: 0 30px 80px rgba(0, 146, 255, 0.3);
-            border-color: rgba(0, 146, 255, 0.4);
-        }
-
-        .listing-card:hover::before {
-            opacity: 1;
-        }
-
-        .listing-card:hover::after {
-            left: 100%;
-        }
-
-        @keyframes cardSlideIn {
-            from {
-                opacity: 0;
-                transform: translateY(40px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
         }
 
         .listing-image {
-            height: 280px;
+            height: 250px;
             background: var(--tertiary-bg);
             position: relative;
             overflow: hidden;
@@ -1216,274 +365,128 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 0.4s ease;
-        }
-
-        .listing-card:hover .listing-image img {
-            transform: scale(1.05);
-        }
-
-        .listing-badge {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
-            color: white;
-            padding: 6px 12px;
-            border-radius: 15px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
         }
 
         .listing-content {
-            padding: 2.5rem;
+            padding: 2rem;
         }
 
         .listing-price {
-            font-size: 2.2rem;
-            font-weight: 700;
+            font-size: 1.8rem;
+            font-weight: 600;
             color: var(--accent-blue);
-            margin-bottom: 0.8rem;
-            background: linear-gradient(135deg, var(--accent-blue) 0%, #0056b3 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            margin-bottom: 0.5rem;
         }
 
         .listing-address {
             color: var(--text-primary);
-            font-size: 1.2rem;
-            margin-bottom: 1.5rem;
-            font-weight: 400;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
         }
 
         .listing-details {
             display: flex;
-            gap: 1.5rem;
-            margin-bottom: 2rem;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
             color: var(--text-secondary);
-            font-size: 0.95rem;
-            flex-wrap: wrap;
+            font-size: 0.9rem;
         }
 
         .listing-detail {
             display: flex;
             align-items: center;
-            gap: 8px;
-            padding: 6px 12px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            gap: 5px;
         }
 
         .listing-detail i {
             color: var(--accent-blue);
-            font-size: 0.9rem;
+            font-size: 0.8rem;
         }
 
         .listing-btn {
             width: 100%;
-            padding: 15px 25px;
-            background: linear-gradient(135deg, var(--accent-blue) 0%, #0056b3 100%);
+            padding: 12px 20px;
+            background: var(--accent-blue);
             color: var(--primary-bg);
             border: none;
-            border-radius: 12px;
-            font-size: 1rem;
-            font-weight: 500;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 400;
             cursor: pointer;
-            transition: all 0.4s ease;
+            transition: all 0.3s ease;
             text-decoration: none;
             text-align: center;
             display: block;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .listing-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.5s ease;
-        }
-
-        .listing-btn:hover::before {
-            left: 100%;
         }
 
         .listing-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 35px rgba(0, 146, 255, 0.4);
+            background: var(--accent-blue-dark);
+            transform: translateY(-2px);
         }
 
         /* Testimonials Section */
         .testimonials {
-            padding: 60px 0;
-            background: linear-gradient(135deg, var(--secondary-bg) 0%, #1a1a1a 100%);
-            position: relative;
-        }
-
-        .testimonials::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: 
-                radial-gradient(circle at 30% 20%, rgba(0, 146, 255, 0.04) 0%, transparent 50%),
-                radial-gradient(circle at 70% 80%, rgba(0, 146, 255, 0.02) 0%, transparent 50%);
-            z-index: 1;
+            padding: 80px 0;
+            background: var(--secondary-bg);
         }
 
         .testimonials-container {
-            position: relative;
-            z-index: 2;
-            max-width: 1400px;
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 0 30px;
+            padding: 0 40px;
         }
 
         .testimonials-header {
             text-align: center;
-            margin-bottom: 4rem;
+            margin-bottom: 3rem;
         }
 
         .testimonials-header h2 {
-            font-size: 3rem;
-            font-weight: 200;
-            margin-bottom: 1.5rem;
-            color: var(--text-primary);
-            background: linear-gradient(135deg, #ffffff 0%, #e0e0e0 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .testimonials-header p {
-            font-size: 1.2rem;
-            color: var(--text-muted);
+            font-size: 2.5rem;
             font-weight: 300;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
         }
 
         .testimonials-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
-            gap: 3rem;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
         }
 
         .testimonial-card {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(20px);
-            border-radius: 25px;
-            padding: 3rem;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 2.5rem;
+            border: 1px solid var(--border-color);
             position: relative;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
-            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-            overflow: hidden;
-            animation: testimonialSlideIn 0.8s ease-out;
-            animation-fill-mode: both;
-        }
-
-        .testimonial-card:nth-child(1) { animation-delay: 0.1s; }
-        .testimonial-card:nth-child(2) { animation-delay: 0.2s; }
-        .testimonial-card:nth-child(3) { animation-delay: 0.3s; }
-
-        .testimonial-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, var(--accent-blue) 0%, #0056b3 50%, var(--accent-blue) 100%);
-            opacity: 0;
-            transition: all 0.4s ease;
-        }
-
-        .testimonial-card::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
-            transition: left 0.8s ease;
-        }
-
-        .testimonial-card:hover {
-            transform: translateY(-10px) scale(1.02);
-            border-color: rgba(0, 146, 255, 0.3);
-            box-shadow: 0 25px 60px rgba(0, 146, 255, 0.2);
-        }
-
-        .testimonial-card:hover::before {
-            opacity: 1;
-        }
-
-        .testimonial-card:hover::after {
-            left: 100%;
-        }
-
-        @keyframes testimonialSlideIn {
-            from {
-                opacity: 0;
-                transform: translateY(40px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
         }
 
         .testimonial-quote {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             color: var(--text-secondary);
-            line-height: 1.7;
-            margin-bottom: 2.5rem;
+            line-height: 1.6;
+            margin-bottom: 2rem;
             font-style: italic;
-            position: relative;
-            padding-left: 30px;
-        }
-
-        .testimonial-quote::before {
-            content: '"';
-            position: absolute;
-            left: 0;
-            top: -10px;
-            font-size: 4rem;
-            color: var(--accent-blue);
-            opacity: 0.3;
-            font-family: serif;
         }
 
         .testimonial-author {
             display: flex;
             align-items: center;
-            gap: 1.5rem;
+            gap: 1rem;
         }
 
         .author-photo {
-            width: 60px;
-            height: 60px;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
-            background: linear-gradient(135deg, var(--accent-blue) 0%, #0056b3 100%);
+            background: var(--accent-blue);
             display: flex;
             align-items: center;
             justify-content: center;
             color: var(--primary-bg);
-            font-size: 1.4rem;
+            font-size: 1.2rem;
             overflow: hidden;
-            border: 3px solid rgba(0, 146, 255, 0.2);
-            box-shadow: 0 8px 25px rgba(0, 146, 255, 0.2);
         }
 
         .author-photo img {
@@ -1495,39 +498,21 @@
 
         .author-info h4 {
             color: var(--text-primary);
-            font-size: 1.1rem;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
+            font-size: 1rem;
+            margin-bottom: 0.3rem;
         }
 
         .author-info p {
             color: var(--text-muted);
-            font-size: 0.95rem;
-            font-weight: 300;
+            font-size: 0.9rem;
         }
 
         /* Responsive Design */
         @media (max-width: 1024px) {
-            .agent-hero {
-                position: relative;
-                width: 100%;
-                height: auto;
-                min-height: 100vh;
-            }
-            
-            .main-content {
-                margin-left: 0;
-            }
-            
             .agent-hero-content {
-                flex-direction: column;
+                grid-template-columns: 1fr;
                 gap: 2rem;
                 text-align: center;
-            }
-            
-            .agent-hero-top,
-            .agent-hero-bottom {
-                margin: 1rem 0;
             }
             
             .details-container {
@@ -1543,13 +528,6 @@
         @media (max-width: 768px) {
             .agent-hero {
                 padding: 100px 0 40px;
-                position: relative;
-                width: 100%;
-                height: auto;
-            }
-            
-            .main-content {
-                margin-left: 0;
             }
             
             .agent-hero-content {
@@ -1557,13 +535,13 @@
             }
             
             .agent-photo {
-                width: 200px;
-                height: 200px;
-                font-size: 4rem;
+                width: 250px;
+                height: 250px;
+                font-size: 5rem;
             }
             
             .agent-info h1 {
-                font-size: 2rem;
+                font-size: 2.5rem;
             }
             
             .agent-stats {
@@ -1631,45 +609,25 @@
 
     <!-- Agent Hero Section -->
     <section class="agent-hero">
-        <div class="topographic-lines">
-            <div class="topographic-line"></div>
-            <div class="topographic-line"></div>
-            <div class="topographic-line"></div>
-            <div class="topographic-line"></div>
-            <div class="topographic-line"></div>
-            <div class="topographic-line"></div>
-            <div class="topographic-line"></div>
-            <div class="topographic-line"></div>
-            <div class="topographic-line"></div>
-            <div class="topographic-line"></div>
-            <div class="topographic-line"></div>
-            <div class="topographic-line"></div>
-        </div>
-        <div class="floating-elements">
-            <div class="floating-element"></div>
-            <div class="floating-element"></div>
-            <div class="floating-element"></div>
-            <div class="floating-element"></div>
-        </div>
         <div class="agent-hero-content">
-            <div class="agent-hero-top">
-                <div class="agent-photo-section">
-                    <div class="agent-photo">
-                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=face" alt="Michael Rodriguez">
-                        <div class="agent-photo-badge">Top 1%</div>
-                    </div>
+            <div class="agent-photo-section">
+                <div class="agent-photo">
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=face" alt="Michael Rodriguez">
                 </div>
-                <div class="agent-info">
-                    <h1>Michael Rodriguez</h1>
-                    <div class="agent-title">Senior Luxury Real Estate Specialist</div>
-                    <div class="agent-location">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <span>Beverly Hills, California</span>
+                <div class="agent-basic-info">
+                    <div class="stat-item">
+                        <div class="stat-number">12+</div>
+                        <div class="stat-label">Years Experience</div>
                     </div>
                 </div>
             </div>
-            
-            <div class="agent-hero-bottom">
+            <div class="agent-info">
+                <h1>Michael Rodriguez</h1>
+                <div class="agent-title">Senior Luxury Real Estate Specialist</div>
+                <div class="agent-location">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Beverly Hills, California</span>
+                </div>
                 <div class="agent-stats">
                     <div class="stat-item">
                         <div class="stat-number">$1.8B</div>
@@ -1680,12 +638,12 @@
                         <div class="stat-label">Properties Sold</div>
                     </div>
                     <div class="stat-item">
-                        <div class="stat-number">99%</div>
+                        <div class="stat-number">97%</div>
                         <div class="stat-label">Client Satisfaction</div>
                     </div>
                 </div>
                 <div class="agent-contact-actions">
-                    <a href="tel:+15559876543" class="contact-btn primary">
+                    <a href="tel:+15551234568" class="contact-btn primary">
                         <i class="fas fa-phone"></i> Call Now
                     </a>
                     <a href="mailto:michael@apertureglobal.com" class="contact-btn secondary">
@@ -1696,24 +654,22 @@
         </div>
     </section>
 
-    <!-- Main Content -->
-    <div class="main-content">
-        <!-- Agent Details Section -->
+    <!-- Agent Details Section -->
     <section class="agent-details">
         <div class="details-container">
             <div class="details-main">
                 <h2>About Michael Rodriguez</h2>
-                <p>Michael Rodriguez is a distinguished Senior Luxury Real Estate Specialist with over 12 years of experience in Beverly Hills' most prestigious neighborhoods. His unparalleled expertise in estate properties, celebrity homes, and new development has earned him recognition as one of Los Angeles' top-performing agents.</p>
+                <p>Michael Rodriguez is a distinguished Senior Luxury Real Estate Specialist with over 12 years of experience in Beverly Hills' most prestigious neighborhoods. His unparalleled expertise in luxury estates, celebrity properties, and high-end developments has earned him recognition as one of Los Angeles' top-performing agents.</p>
                 
                 <p>Michael's deep understanding of the Beverly Hills luxury market, combined with his exceptional negotiation skills and attention to detail, has resulted in over $1.8 billion in total sales volume. He specializes in representing both domestic and international clients seeking the finest properties in Beverly Hills, from historic estates to cutting-edge new developments.</p>
 
                 <p>His approach is characterized by discretion, professionalism, and an unwavering commitment to achieving his clients' goals. Michael's extensive network of industry professionals, including architects, designers, and financial advisors, ensures that his clients receive comprehensive support throughout their real estate journey.</p>
 
                 <h3>Professional Philosophy</h3>
-                <p>"Luxury real estate in Beverly Hills is about more than just the property—it's about understanding the lifestyle and aspirations of each client. I believe in building lasting relationships based on trust, integrity, and exceptional service. Every transaction is an opportunity to exceed expectations and create extraordinary experiences."</p>
+                <p>"Luxury real estate is not just about the property—it's about understanding the lifestyle and aspirations of each client. I believe in building lasting relationships based on trust, integrity, and exceptional service. Every transaction is an opportunity to exceed expectations and create extraordinary experiences."</p>
 
                 <h3>Market Expertise</h3>
-                <p>Michael has extensive experience in Beverly Hills' most coveted neighborhoods, including the Flats, Trousdale Estates, and the Bird Streets. He has successfully represented clients in landmark properties and has been involved in some of the most significant transactions in the area's history.</p>
+                <p>Michael has extensive experience in Beverly Hills' most coveted neighborhoods, including the Flats, Trousdale Estates, and Beverly Hills Post Office. He has successfully represented clients in landmark properties and has been involved in some of the most significant luxury real estate transactions in the area.</p>
             </div>
             
             <div class="details-sidebar">
@@ -1722,7 +678,7 @@
                     <div class="contact-info">
                         <div class="contact-item">
                             <i class="fas fa-phone"></i>
-                            <a href="tel:+15559876543">+1 (555) 987-6543</a>
+                            <a href="tel:+15551234568">+1 (555) 123-4568</a>
                         </div>
                         <div class="contact-item">
                             <i class="fas fa-envelope"></i>
@@ -1744,6 +700,7 @@
                     <div class="languages-list">
                         <span class="language-tag">English</span>
                         <span class="language-tag">Spanish</span>
+                        <span class="language-tag">Portuguese</span>
                     </div>
                 </div>
 
@@ -1752,11 +709,11 @@
                     <div class="specialties-list">
                         <div class="specialty-item">
                             <i class="fas fa-check"></i>
-                            <span>Estate Properties</span>
+                            <span>Luxury Estates</span>
                         </div>
                         <div class="specialty-item">
                             <i class="fas fa-check"></i>
-                            <span>Celebrity Homes</span>
+                            <span>Celebrity Properties</span>
                         </div>
                         <div class="specialty-item">
                             <i class="fas fa-check"></i>
@@ -1783,13 +740,13 @@
                         </div>
                         <div class="award-item">
                             <div class="award-year">2022</div>
-                            <div class="award-title">Estate Specialist of the Year</div>
+                            <div class="award-title">Luxury Specialist of the Year</div>
                             <div class="award-organization">Aperture Global</div>
                         </div>
                         <div class="award-item">
                             <div class="award-year">2021</div>
                             <div class="award-title">Platinum Circle Member</div>
-                            <div class="award-organization">California Association of Realtors</div>
+                            <div class="award-organization">Beverly Hills Association of Realtors</div>
                         </div>
                     </div>
                 </div>
@@ -1808,36 +765,11 @@
             <div class="listings-grid">
                 <div class="listing-card">
                     <div class="listing-image">
-                        <img src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=400&h=250&fit=crop" alt="Beverly Hills Estate">
+                        <img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=400&h=250&fit=crop" alt="Beverly Hills Estate">
                     </div>
                     <div class="listing-content">
-                        <div class="listing-price">$85,000,000</div>
+                        <div class="listing-price">$35,000,000</div>
                         <div class="listing-address">Beverly Hills Estate</div>
-                        <div class="listing-details">
-                            <div class="listing-detail">
-                                <i class="fas fa-bed"></i>
-                                <span>12 Bedrooms</span>
-                            </div>
-                            <div class="listing-detail">
-                                <i class="fas fa-bath"></i>
-                                <span>15 Bathrooms</span>
-                            </div>
-                            <div class="listing-detail">
-                                <i class="fas fa-ruler-combined"></i>
-                                <span>25,000 sq ft</span>
-                            </div>
-                        </div>
-                        <a href="property-beverly-hills-estate.html" class="listing-btn">View Details</a>
-                    </div>
-                </div>
-
-                <div class="listing-card">
-                    <div class="listing-image">
-                        <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=400&h=250&fit=crop" alt="Trousdale Estate">
-                    </div>
-                    <div class="listing-content">
-                        <div class="listing-price">$35,500,000</div>
-                        <div class="listing-address">Trousdale Estate</div>
                         <div class="listing-details">
                             <div class="listing-detail">
                                 <i class="fas fa-bed"></i>
@@ -1852,17 +784,17 @@
                                 <span>12,500 sq ft</span>
                             </div>
                         </div>
-                        <a href="#" class="listing-btn">View Details</a>
+                        <a href="property-beverly-hills-estate.html" class="listing-btn">View Details</a>
                     </div>
                 </div>
 
                 <div class="listing-card">
                     <div class="listing-image">
-                        <img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=400&h=250&fit=crop" alt="Bird Streets Villa">
+                        <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=400&h=250&fit=crop" alt="Modern Beverly Hills Villa">
                     </div>
                     <div class="listing-content">
-                        <div class="listing-price">$22,750,000</div>
-                        <div class="listing-address">Bird Streets Villa</div>
+                        <div class="listing-price">$18,500,000</div>
+                        <div class="listing-address">Modern Beverly Hills Villa</div>
                         <div class="listing-details">
                             <div class="listing-detail">
                                 <i class="fas fa-bed"></i>
@@ -1870,11 +802,36 @@
                             </div>
                             <div class="listing-detail">
                                 <i class="fas fa-bath"></i>
-                                <span>8 Bathrooms</span>
+                                <span>7 Bathrooms</span>
                             </div>
                             <div class="listing-detail">
                                 <i class="fas fa-ruler-combined"></i>
-                                <span>9,200 sq ft</span>
+                                <span>8,200 sq ft</span>
+                            </div>
+                        </div>
+                        <a href="#" class="listing-btn">View Details</a>
+                    </div>
+                </div>
+
+                <div class="listing-card">
+                    <div class="listing-image">
+                        <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=400&h=250&fit=crop" alt="Trousdale Estates Mansion">
+                    </div>
+                    <div class="listing-content">
+                        <div class="listing-price">$42,750,000</div>
+                        <div class="listing-address">Trousdale Estates Mansion</div>
+                        <div class="listing-details">
+                            <div class="listing-detail">
+                                <i class="fas fa-bed"></i>
+                                <span>9 Bedrooms</span>
+                            </div>
+                            <div class="listing-detail">
+                                <i class="fas fa-bath"></i>
+                                <span>11 Bathrooms</span>
+                            </div>
+                            <div class="listing-detail">
+                                <i class="fas fa-ruler-combined"></i>
+                                <span>15,000 sq ft</span>
                             </div>
                         </div>
                         <a href="#" class="listing-btn">View Details</a>
@@ -1895,30 +852,30 @@
             <div class="testimonials-grid">
                 <div class="testimonial-card">
                     <div class="testimonial-quote">
-                        "Michael's expertise in Beverly Hills real estate is unmatched. He guided us through the entire process with professionalism and made our estate purchase seamless. His knowledge of the market and negotiation skills are exceptional."
+                        "Michael's expertise and attention to detail made our estate purchase seamless. His knowledge of the Beverly Hills market is unmatched, and his negotiation skills saved us significantly on our dream home."
                     </div>
                     <div class="testimonial-author">
                         <div class="author-photo">
-                            <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=100&h=100&fit=crop&crop=face" alt="Jennifer Williams">
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face" alt="James Wilson">
                         </div>
                         <div class="author-info">
-                            <h4>Jennifer & Robert Williams</h4>
-                            <p>Estate Buyers, Trousdale Estates</p>
+                            <h4>James & Sarah Wilson</h4>
+                            <p>Estate Buyers, Beverly Hills</p>
                         </div>
                     </div>
                 </div>
 
                 <div class="testimonial-card">
                     <div class="testimonial-quote">
-                        "Working with Michael was an absolute pleasure. He understood our needs perfectly and found us the ideal property in Beverly Hills. His attention to detail and market expertise made all the difference."
+                        "Working with Michael was an absolute pleasure. He understood our vision from day one and guided us through every step of the process. His professionalism and market insight are truly exceptional."
                     </div>
                     <div class="testimonial-author">
                         <div class="author-photo">
-                            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face" alt="David Martinez">
+                            <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop&crop=face" alt="Elena Martinez">
                         </div>
                         <div class="author-info">
-                            <h4>David Martinez</h4>
-                            <p>Celebrity Client, Bird Streets</p>
+                            <h4>Elena Martinez</h4>
+                            <p>Luxury Property Seller, Beverly Hills</p>
                         </div>
                     </div>
                 </div>
@@ -1929,10 +886,10 @@
                     </div>
                     <div class="testimonial-author">
                         <div class="author-photo">
-                            <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop&crop=face" alt="Lisa Thompson">
+                            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face" alt="Alexander Chen">
                         </div>
                         <div class="author-info">
-                            <h4>Lisa & James Thompson</h4>
+                            <h4>Alexander & Maria Chen</h4>
                             <p>International Investors</p>
                         </div>
                     </div>
@@ -1940,7 +897,6 @@
             </div>
         </div>
     </section>
-    </div>
 
     <script>
         // Mobile Navigation
@@ -2006,81 +962,10 @@
                 lastScrollTop = scrollTop;
             });
         }
-
-        // Premium scroll-triggered animations
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }
-            });
-        }, observerOptions);
-
-        // Observe elements for scroll animations
-        document.addEventListener('DOMContentLoaded', () => {
-            const animatedElements = document.querySelectorAll('.stat-item, .sidebar-card, .listing-card, .testimonial-card');
-            
-            animatedElements.forEach(el => {
-                el.style.opacity = '0';
-                el.style.transform = 'translateY(30px)';
-                el.style.transition = 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
-                observer.observe(el);
-            });
-
-            // Add premium hover effects to contact buttons
-            const contactButtons = document.querySelectorAll('.contact-btn');
-            contactButtons.forEach(btn => {
-                btn.addEventListener('mouseenter', () => {
-                    btn.style.transform = 'translateY(-5px) scale(1.02)';
-                });
-                
-                btn.addEventListener('mouseleave', () => {
-                    btn.style.transform = 'translateY(0) scale(1)';
-                });
-            });
-
-            // Add floating animation to agent photo
-            const agentPhoto = document.querySelector('.agent-photo');
-            if (agentPhoto) {
-                let mouseX = 0;
-                let mouseY = 0;
-                let photoX = 0;
-                let photoY = 0;
-
-                document.addEventListener('mousemove', (e) => {
-                    mouseX = e.clientX;
-                    mouseY = e.clientY;
-                });
-
-                function animatePhoto() {
-                    const rect = agentPhoto.getBoundingClientRect();
-                    const centerX = rect.left + rect.width / 2;
-                    const centerY = rect.top + rect.height / 2;
-                    
-                    const deltaX = (mouseX - centerX) * 0.02;
-                    const deltaY = (mouseY - centerY) * 0.02;
-                    
-                    photoX += (deltaX - photoX) * 0.1;
-                    photoY += (deltaY - photoY) * 0.1;
-                    
-                    agentPhoto.style.transform = `translate(${photoX}px, ${photoY}px) scale(1.05)`;
-                    
-                    requestAnimationFrame(animatePhoto);
-                }
-                
-                animatePhoto();
-            }
-        });
     </script>
 
     <script>
-        // Add CSS for navbar effects and premium enhancements
+        // Add CSS for navbar effects
         const style = document.createElement('style');
         style.textContent = `
             .navbar {
@@ -2097,69 +982,6 @@
             .navbar.hidden {
                 opacity: 0.7;
                 transform: translateY(-100%);
-            }
-
-            /* Premium scroll behavior */
-            html {
-                scroll-behavior: smooth;
-            }
-
-            /* Enhanced focus states */
-            .contact-btn:focus,
-            .listing-btn:focus {
-                outline: 2px solid var(--accent-blue);
-                outline-offset: 2px;
-            }
-
-            /* Premium selection styling */
-            ::selection {
-                background: rgba(0, 146, 255, 0.3);
-                color: white;
-            }
-
-            /* Smooth transitions for all interactive elements */
-            * {
-                transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-            }
-
-            /* Premium loading states */
-            .loading {
-                position: relative;
-                overflow: hidden;
-            }
-
-            .loading::after {
-                content: '';
-                position: absolute;
-                top: 0;
-                left: -100%;
-                width: 100%;
-                height: 100%;
-                background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-                animation: loading 1.5s infinite;
-            }
-
-            @keyframes loading {
-                0% { left: -100%; }
-                100% { left: 100%; }
-            }
-
-            /* Enhanced glass morphism */
-            .glass-effect {
-                background: rgba(255, 255, 255, 0.05);
-                backdrop-filter: blur(20px);
-                border: 1px solid rgba(255, 255, 255, 0.1);
-                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            }
-
-            /* Premium hover effects */
-            .premium-hover {
-                transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            }
-
-            .premium-hover:hover {
-                transform: translateY(-5px) scale(1.02);
-                box-shadow: 0 20px 40px rgba(0, 146, 255, 0.2);
             }
         `;
         document.head.appendChild(style);
