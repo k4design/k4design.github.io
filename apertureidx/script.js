@@ -1,243 +1,6 @@
 // Aperture Global Website JavaScript
 // IDX MLS Feed Integration and Interactive Features
 
-class ScheduleModal {
-    constructor() {
-        this.modal = null;
-        this.currentDate = new Date();
-        this.selectedDate = null;
-        this.selectedTime = null;
-        this.init();
-    }
-
-    init() {
-        this.modal = document.getElementById('schedule-modal');
-        if (!this.modal) {
-            console.error('Schedule modal element not found');
-            return;
-        }
-        
-        console.log('Schedule modal initialized successfully');
-        this.setupEventListeners();
-        this.generateCalendar();
-    }
-
-    setupEventListeners() {
-        // Close modal events
-        const closeBtn = this.modal.querySelector('.schedule-modal-close');
-        if (closeBtn) {
-            closeBtn.addEventListener('click', () => this.closeModal());
-        }
-
-        // Close on backdrop click
-        this.modal.addEventListener('click', (e) => {
-            if (e.target === this.modal) {
-                this.closeModal();
-            }
-        });
-
-        // Calendar navigation
-        const prevBtn = this.modal.querySelector('#prev-month');
-        const nextBtn = this.modal.querySelector('#next-month');
-        
-        if (prevBtn) {
-            prevBtn.addEventListener('click', () => this.previousMonth());
-        }
-        if (nextBtn) {
-            nextBtn.addEventListener('click', () => this.nextMonth());
-        }
-
-        // Time slot selection
-        const timeSlots = this.modal.querySelectorAll('.time-slot');
-        timeSlots.forEach(slot => {
-            slot.addEventListener('click', (e) => this.selectTime(e.target));
-        });
-
-        // Form submission
-        const form = this.modal.querySelector('#schedule-form');
-        if (form) {
-            form.addEventListener('submit', (e) => this.handleSubmit(e));
-        }
-    }
-
-    openModal(propertyTitle = '', propertyLocation = '') {
-        if (!this.modal) return;
-        
-        // Update property info
-        const titleEl = this.modal.querySelector('#modal-property-title');
-        const locationEl = this.modal.querySelector('#modal-property-location');
-        
-        if (titleEl) titleEl.textContent = propertyTitle || 'Property Tour';
-        if (locationEl) locationEl.textContent = propertyLocation || 'Location TBD';
-        
-        // Reset selections
-        this.selectedDate = null;
-        this.selectedTime = null;
-        this.resetSelections();
-        
-        // Show modal
-        this.modal.style.display = 'flex';
-        document.body.style.overflow = 'hidden';
-    }
-
-    closeModal() {
-        if (!this.modal) return;
-        
-        this.modal.style.display = 'none';
-        document.body.style.overflow = 'auto';
-    }
-
-    generateCalendar() {
-        const calendarGrid = this.modal.querySelector('#calendar-grid');
-        const currentMonthEl = this.modal.querySelector('#current-month');
-        
-        if (!calendarGrid || !currentMonthEl) return;
-
-        const year = this.currentDate.getFullYear();
-        const month = this.currentDate.getMonth();
-        
-        currentMonthEl.textContent = this.currentDate.toLocaleDateString('en-US', { 
-            month: 'long', 
-            year: 'numeric' 
-        });
-
-        // Clear previous calendar
-        calendarGrid.innerHTML = '';
-
-        // Get first day of month and number of days
-        const firstDay = new Date(year, month, 1);
-        const lastDay = new Date(year, month + 1, 0);
-        const daysInMonth = lastDay.getDate();
-        const startingDayOfWeek = firstDay.getDay();
-
-        // Add day headers
-        const dayHeaders = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-        dayHeaders.forEach(day => {
-            const dayHeader = document.createElement('div');
-            dayHeader.className = 'calendar-day-header';
-            dayHeader.textContent = day;
-            calendarGrid.appendChild(dayHeader);
-        });
-
-        // Add empty cells for days before month starts
-        for (let i = 0; i < startingDayOfWeek; i++) {
-            const emptyDay = document.createElement('div');
-            emptyDay.className = 'calendar-day empty';
-            calendarGrid.appendChild(emptyDay);
-        }
-
-        // Add days of the month
-        for (let day = 1; day <= daysInMonth; day++) {
-            const dayElement = document.createElement('div');
-            dayElement.className = 'calendar-day';
-            dayElement.textContent = day;
-            dayElement.dataset.day = day;
-            dayElement.dataset.date = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-            
-            // Disable past dates
-            const today = new Date();
-            const cellDate = new Date(year, month, day);
-            if (cellDate < today.setHours(0, 0, 0, 0)) {
-                dayElement.classList.add('disabled');
-            } else {
-                dayElement.addEventListener('click', () => this.selectDate(dayElement));
-            }
-            
-            calendarGrid.appendChild(dayElement);
-        }
-    }
-
-    selectDate(dayElement) {
-        // Remove previous selection
-        const previousSelected = this.modal.querySelector('.calendar-day.selected');
-        if (previousSelected) {
-            previousSelected.classList.remove('selected');
-        }
-
-        // Add selection to clicked day
-        dayElement.classList.add('selected');
-        this.selectedDate = dayElement.dataset.date;
-        
-        // Enable time slots
-        const timeSlots = this.modal.querySelectorAll('.time-slot');
-        timeSlots.forEach(slot => {
-            slot.disabled = false;
-            slot.classList.remove('disabled');
-        });
-    }
-
-    selectTime(timeElement) {
-        // Remove previous selection
-        const previousSelected = this.modal.querySelector('.time-slot.selected');
-        if (previousSelected) {
-            previousSelected.classList.remove('selected');
-        }
-
-        // Add selection to clicked time
-        timeElement.classList.add('selected');
-        this.selectedTime = timeElement.dataset.time;
-    }
-
-    resetSelections() {
-        // Reset calendar selection
-        const selectedDay = this.modal.querySelector('.calendar-day.selected');
-        if (selectedDay) {
-            selectedDay.classList.remove('selected');
-        }
-
-        // Reset time selection
-        const selectedTime = this.modal.querySelector('.time-slot.selected');
-        if (selectedTime) {
-            selectedTime.classList.remove('selected');
-        }
-
-        // Disable time slots
-        const timeSlots = this.modal.querySelectorAll('.time-slot');
-        timeSlots.forEach(slot => {
-            slot.disabled = true;
-            slot.classList.add('disabled');
-        });
-    }
-
-    previousMonth() {
-        this.currentDate.setMonth(this.currentDate.getMonth() - 1);
-        this.generateCalendar();
-    }
-
-    nextMonth() {
-        this.currentDate.setMonth(this.currentDate.getMonth() + 1);
-        this.generateCalendar();
-    }
-
-    handleSubmit(e) {
-        e.preventDefault();
-        
-        if (!this.selectedDate || !this.selectedTime) {
-            alert('Please select a date and time for your tour.');
-            return;
-        }
-
-        const formData = {
-            name: document.getElementById('visitor-name').value,
-            email: document.getElementById('visitor-email').value,
-            phone: document.getElementById('visitor-phone').value,
-            message: document.getElementById('visitor-message').value,
-            date: this.selectedDate,
-            time: this.selectedTime
-        };
-
-        // Here you would typically send the data to a server
-        console.log('Tour scheduled:', formData);
-        
-        // Show success message
-        alert('Tour scheduled successfully! We will contact you to confirm the details.');
-        
-        // Close modal and reset form
-        this.closeModal();
-        document.getElementById('schedule-form').reset();
-    }
-}
-
 class ApertureWebsite {
     constructor() {
         this.currentPage = 1;
@@ -1357,379 +1120,330 @@ class ApertureWebsite {
     }
 }
 
-// Initialize the website when DOM is loaded
 // Properties Page Class
 class PropertiesPage {
     constructor() {
-        this.properties = [];
-        this.filteredProperties = [];
-        this.currentFilters = {
-            search: '',
-            location: '',
-            price: '',
-            bedrooms: ''
-        };
+        this.currentView = 'gallery';
         this.init();
     }
 
     init() {
-        this.loadProperties();
-        this.setupEventListeners();
-        this.setupMapControls();
-    }
-
-    loadProperties() {
-        // Get all property cards and convert to data objects
-        const propertyCards = document.querySelectorAll('.property-card');
-        this.properties = Array.from(propertyCards).map(card => ({
-            element: card,
-            title: card.querySelector('.property-title').textContent,
-            location: card.querySelector('.property-location span').textContent,
-            price: parseInt(card.dataset.price),
-            bedrooms: parseInt(card.dataset.bedrooms),
-            locationType: card.dataset.location
-        }));
-        this.filteredProperties = [...this.properties];
-    }
-
-    setupEventListeners() {
-        // Search functionality
-        const searchInput = document.getElementById('property-search');
-        if (searchInput) {
-            searchInput.addEventListener('input', (e) => {
-                this.currentFilters.search = e.target.value.toLowerCase();
-                this.applyFilters();
-            });
-        }
-
-        // Filter controls
-        const locationFilter = document.getElementById('location-filter');
-        const priceFilter = document.getElementById('price-filter');
-        const bedroomsFilter = document.getElementById('bedrooms-filter');
-
-        if (locationFilter) {
-            locationFilter.addEventListener('change', (e) => {
-                this.currentFilters.location = e.target.value;
-                this.applyFilters();
-            });
-        }
-
-        if (priceFilter) {
-            priceFilter.addEventListener('change', (e) => {
-                this.currentFilters.price = e.target.value;
-                this.applyFilters();
-            });
-        }
-
-        if (bedroomsFilter) {
-            bedroomsFilter.addEventListener('change', (e) => {
-                this.currentFilters.bedrooms = e.target.value;
-                this.applyFilters();
-            });
-        }
-
-        // Sort functionality
-        const sortFilter = document.getElementById('sort-filter');
-        if (sortFilter) {
-            sortFilter.addEventListener('change', (e) => {
-                this.sortProperties(e.target.value);
-            });
-        }
-
-        // Filter toggle
-        const filterToggle = document.getElementById('filter-toggle');
-        const filtersPanel = document.getElementById('filters-panel');
-        if (filterToggle && filtersPanel) {
-            filterToggle.addEventListener('click', () => {
-                filtersPanel.classList.toggle('active');
-            });
-        }
-
-        // Clear filters
-        const clearFilters = document.getElementById('clear-filters');
-        if (clearFilters) {
-            clearFilters.addEventListener('click', () => {
-                this.clearFilters();
-            });
-        }
-
-        // Apply filters
-        const applyFilters = document.getElementById('apply-filters');
-        if (applyFilters) {
-            applyFilters.addEventListener('click', () => {
-                this.applyFilters();
-                filtersPanel.classList.remove('active');
-            });
-        }
-
-        // Load more button
-        const loadMoreBtn = document.getElementById('load-more');
-        if (loadMoreBtn) {
-            loadMoreBtn.addEventListener('click', () => {
-                this.loadMoreProperties();
-            });
-        }
-
-        // Property action buttons
+        this.setupViewControls();
         this.setupPropertyActions();
     }
 
-    setupMapControls() {
-        const mapControls = document.querySelectorAll('.map-control-btn');
-        mapControls.forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                // Remove active class from all buttons
-                mapControls.forEach(b => b.classList.remove('active'));
-                // Add active class to clicked button
-                e.target.closest('.map-control-btn').classList.add('active');
-                
-                // Handle view switching
-                const view = e.target.closest('.map-control-btn').dataset.view;
+    setupViewControls() {
+        const viewButtons = document.querySelectorAll('.map-control-btn');
+        viewButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                const view = e.currentTarget.dataset.view;
                 this.switchView(view);
             });
         });
     }
 
     switchView(view) {
-        const propertiesGrid = document.getElementById('properties-grid');
-        if (view === 'list') {
-            propertiesGrid.style.gridTemplateColumns = '1fr';
-            propertiesGrid.classList.add('list-view');
-        } else if (view === 'gallery') {
+        this.currentView = view;
+        const propertiesGrid = document.querySelector('.properties-grid');
+        const viewButtons = document.querySelectorAll('.map-control-btn');
+        
+        // Update active button
+        viewButtons.forEach(button => {
+            button.classList.toggle('active', button.dataset.view === view);
+        });
+
+        // Update grid layout
+        if (view === 'gallery') {
             propertiesGrid.style.gridTemplateColumns = 'repeat(auto-fill, minmax(220px, 1fr))';
-            propertiesGrid.classList.remove('list-view');
+        } else if (view === 'list') {
+            propertiesGrid.style.gridTemplateColumns = '1fr';
         }
-    }
-
-    applyFilters() {
-        this.filteredProperties = this.properties.filter(property => {
-            // Search filter
-            if (this.currentFilters.search) {
-                const searchMatch = property.title.toLowerCase().includes(this.currentFilters.search) ||
-                                 property.location.toLowerCase().includes(this.currentFilters.search);
-                if (!searchMatch) return false;
-            }
-
-            // Location filter
-            if (this.currentFilters.location) {
-                if (property.locationType !== this.currentFilters.location) return false;
-            }
-
-            // Price filter
-            if (this.currentFilters.price) {
-                const [min, max] = this.parsePriceRange(this.currentFilters.price);
-                if (property.price < min || (max && property.price > max)) return false;
-            }
-
-            // Bedrooms filter
-            if (this.currentFilters.bedrooms) {
-                if (property.bedrooms < parseInt(this.currentFilters.bedrooms)) return false;
-            }
-
-            return true;
-        });
-
-        this.displayProperties();
-    }
-
-    parsePriceRange(priceRange) {
-        if (priceRange === '50000000+') {
-            return [50000000, null];
-        }
-        const [min, max] = priceRange.split('-').map(p => parseInt(p));
-        return [min, max];
-    }
-
-    sortProperties(sortBy) {
-        this.filteredProperties.sort((a, b) => {
-            switch (sortBy) {
-                case 'price-desc':
-                    return b.price - a.price;
-                case 'price-asc':
-                    return a.price - b.price;
-                case 'newest':
-                    // For demo purposes, randomize
-                    return Math.random() - 0.5;
-                case 'bedrooms':
-                    return b.bedrooms - a.bedrooms;
-                default:
-                    return 0;
-            }
-        });
-        this.displayProperties();
-    }
-
-    displayProperties() {
-        const propertiesGrid = document.getElementById('properties-grid');
-        if (!propertiesGrid) return;
-
-        // Hide all properties
-        this.properties.forEach(property => {
-            property.element.style.display = 'none';
-        });
-
-        // Show filtered properties
-        this.filteredProperties.forEach(property => {
-            property.element.style.display = 'block';
-        });
-
-        // Update results count or show no results message
-        this.updateResultsCount();
-    }
-
-    updateResultsCount() {
-        // You could add a results counter here
-        console.log(`Showing ${this.filteredProperties.length} properties`);
-    }
-
-    clearFilters() {
-        this.currentFilters = {
-            search: '',
-            location: '',
-            price: '',
-            bedrooms: ''
-        };
-
-        // Reset form inputs
-        const searchInput = document.getElementById('property-search');
-        const locationFilter = document.getElementById('location-filter');
-        const priceFilter = document.getElementById('price-filter');
-        const bedroomsFilter = document.getElementById('bedrooms-filter');
-
-        if (searchInput) searchInput.value = '';
-        if (locationFilter) locationFilter.value = '';
-        if (priceFilter) priceFilter.value = '';
-        if (bedroomsFilter) bedroomsFilter.value = '';
-
-        this.applyFilters();
-    }
-
-    loadMoreProperties() {
-        // This would typically load more properties from an API
-        console.log('Loading more properties...');
-        // For demo purposes, we'll just show an alert
-        alert('Loading more properties... (This would typically load from an API)');
     }
 
     setupPropertyActions() {
-        // Save/favorite functionality
-        const saveButtons = document.querySelectorAll('.action-btn[title="Save"]');
-        saveButtons.forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                e.preventDefault();
-                const icon = btn.querySelector('i');
-                if (icon.classList.contains('far')) {
-                    icon.classList.remove('far');
-                    icon.classList.add('fas');
-                    btn.style.color = '#e74c3c';
-                } else {
-                    icon.classList.remove('fas');
-                    icon.classList.add('far');
-                    btn.style.color = '#2c3e50';
-                }
-            });
+        // Handle property card interactions
+        const propertyCards = document.querySelectorAll('.property-card');
+        propertyCards.forEach(card => {
+            const viewDetailsBtn = card.querySelector('.property-btn.primary');
+            const scheduleTourBtn = card.querySelector('.property-btn.secondary');
+            
+            if (viewDetailsBtn) {
+                viewDetailsBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    // Handle view details - could open modal or navigate to detail page
+                    console.log('View details clicked');
+                });
+            }
+            
+            if (scheduleTourBtn) {
+                scheduleTourBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    openScheduleModal(scheduleTourBtn);
+                });
+            }
         });
-
-        // Share functionality
-        const shareButtons = document.querySelectorAll('.action-btn[title="Share"]');
-        shareButtons.forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                e.preventDefault();
-                // Simple share functionality
-                if (navigator.share) {
-                    navigator.share({
-                        title: 'Luxury Property',
-                        text: 'Check out this amazing luxury property!',
-                        url: window.location.href
-                    });
-                } else {
-                    // Fallback: copy to clipboard
-                    navigator.clipboard.writeText(window.location.href).then(() => {
-                        alert('Link copied to clipboard!');
-                    });
-                }
-            });
-        });
-
     }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    console.log('DOM Content Loaded');
-    window.apertureWebsite = new ApertureWebsite();
-    
-    // Initialize schedule modal on all pages
-    console.log('Initializing schedule modal...');
-    window.scheduleModal = new ScheduleModal();
-    
-    // Initialize properties page if we're on the properties page
-    if (document.body.dataset.page === 'properties') {
-        console.log('Initializing properties page...');
-        new PropertiesPage();
+// Schedule Tour Modal Class
+class ScheduleModal {
+    constructor() {
+        this.modal = null;
+        this.selectedDate = null;
+        this.selectedTime = null;
+        this.currentMonth = new Date().getMonth();
+        this.currentYear = new Date().getFullYear();
+        this.init();
     }
-    
-    // Initialize schedule tour functionality on all pages
-    setupScheduleTourOnAllPages();
-});
 
+    init() {
+        this.modal = document.getElementById('schedule-modal');
+        if (this.modal) {
+            this.setupEventListeners();
+        }
+    }
+
+    setupEventListeners() {
+        const closeBtn = this.modal.querySelector('.schedule-modal-close');
+        const prevMonthBtn = this.modal.querySelector('#prev-month');
+        const nextMonthBtn = this.modal.querySelector('#next-month');
+        const submitBtn = this.modal.querySelector('.schedule-submit-btn');
+
+        if (closeBtn) {
+            closeBtn.addEventListener('click', () => this.closeModal());
+        }
+
+        if (prevMonthBtn) {
+            prevMonthBtn.addEventListener('click', () => this.previousMonth());
+        }
+
+        if (nextMonthBtn) {
+            nextMonthBtn.addEventListener('click', () => this.nextMonth());
+        }
+
+        if (submitBtn) {
+            submitBtn.addEventListener('click', () => this.handleSubmit());
+        }
+
+        // Close modal when clicking outside
+        this.modal.addEventListener('click', (e) => {
+            if (e.target === this.modal) {
+                this.closeModal();
+            }
+        });
+    }
+
+    openModal(propertyTitle = 'Property', propertyLocation = 'Location') {
+        this.updatePropertyInfo(propertyTitle, propertyLocation);
+        this.generateCalendar();
+        this.resetSelections();
+        this.modal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+    }
+
+    closeModal() {
+        this.modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+    }
+
+    updatePropertyInfo(title, location) {
+        const titleElement = this.modal.querySelector('#modal-property-title');
+        const locationElement = this.modal.querySelector('#modal-property-location');
+        
+        if (titleElement) titleElement.textContent = title;
+        if (locationElement) locationElement.textContent = location;
+    }
+
+    generateCalendar() {
+        const calendarGrid = this.modal.querySelector('#calendar-grid');
+        const monthYear = this.modal.querySelector('#current-month');
+        
+        if (!calendarGrid || !monthYear) return;
+
+        // Update month/year display
+        const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
+                           'July', 'August', 'September', 'October', 'November', 'December'];
+        monthYear.textContent = `${monthNames[this.currentMonth]} ${this.currentYear}`;
+
+        // Clear existing calendar
+        calendarGrid.innerHTML = '';
+
+        // Add day headers
+        const dayHeaders = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+        dayHeaders.forEach(day => {
+            const dayHeader = document.createElement('div');
+            dayHeader.className = 'calendar-day-header';
+            dayHeader.textContent = day;
+            calendarGrid.appendChild(dayHeader);
+        });
+
+        // Get first day of month and number of days
+        const firstDay = new Date(this.currentYear, this.currentMonth, 1).getDay();
+        const daysInMonth = new Date(this.currentYear, this.currentMonth + 1, 0).getDate();
+        const today = new Date();
+
+        // Add empty cells for days before month starts
+        for (let i = 0; i < firstDay; i++) {
+            const emptyDay = document.createElement('div');
+            emptyDay.className = 'calendar-day empty';
+            calendarGrid.appendChild(emptyDay);
+        }
+
+        // Add days of month
+        for (let day = 1; day <= daysInMonth; day++) {
+            const dayElement = document.createElement('div');
+            dayElement.className = 'calendar-day';
+            dayElement.textContent = day;
+            
+            const currentDate = new Date(this.currentYear, this.currentMonth, day);
+            
+            // Disable past dates
+            if (currentDate < today) {
+                dayElement.classList.add('disabled');
+            } else {
+                dayElement.addEventListener('click', () => this.selectDate(dayElement, day));
+            }
+            
+            calendarGrid.appendChild(dayElement);
+        }
+    }
+
+    selectDate(dayElement, day) {
+        // Remove previous selection
+        const previousSelected = this.modal.querySelector('.calendar-day.selected');
+        if (previousSelected) {
+            previousSelected.classList.remove('selected');
+        }
+
+        // Select new date
+        dayElement.classList.add('selected');
+        this.selectedDate = new Date(this.currentYear, this.currentMonth, day);
+        
+        // Update time slots
+        this.updateTimeSlots();
+    }
+
+    selectTime(timeElement, time) {
+        // Remove previous selection
+        const previousSelected = this.modal.querySelector('.time-slot.selected');
+        if (previousSelected) {
+            previousSelected.classList.remove('selected');
+        }
+
+        // Select new time
+        timeElement.classList.add('selected');
+        this.selectedTime = time;
+    }
+
+    updateTimeSlots() {
+        const timeSlots = this.modal.querySelectorAll('.time-slot');
+        timeSlots.forEach(slot => {
+            slot.addEventListener('click', () => {
+                const time = slot.dataset.time;
+                this.selectTime(slot, time);
+            });
+        });
+    }
+
+    previousMonth() {
+        this.currentMonth--;
+        if (this.currentMonth < 0) {
+            this.currentMonth = 11;
+            this.currentYear--;
+        }
+        this.generateCalendar();
+    }
+
+    nextMonth() {
+        this.currentMonth++;
+        if (this.currentMonth > 11) {
+            this.currentMonth = 0;
+            this.currentYear++;
+        }
+        this.generateCalendar();
+    }
+
+    resetSelections() {
+        this.selectedDate = null;
+        this.selectedTime = null;
+        
+        const selectedDate = this.modal.querySelector('.calendar-day.selected');
+        const selectedTime = this.modal.querySelector('.time-slot.selected');
+        
+        if (selectedDate) selectedDate.classList.remove('selected');
+        if (selectedTime) selectedTime.classList.remove('selected');
+    }
+
+    handleSubmit() {
+        if (!this.selectedDate || !this.selectedTime) {
+            alert('Please select both a date and time for your tour.');
+            return;
+        }
+
+        const name = this.modal.querySelector('#contact-name').value;
+        const email = this.modal.querySelector('#contact-email').value;
+        const phone = this.modal.querySelector('#contact-phone').value;
+        const message = this.modal.querySelector('#contact-message').value;
+
+        if (!name || !email || !phone) {
+            alert('Please fill in all required fields.');
+            return;
+        }
+
+        // Here you would typically send the data to your server
+        console.log('Tour scheduled:', {
+            property: this.modal.querySelector('#modal-property-title').textContent,
+            location: this.modal.querySelector('#modal-property-location').textContent,
+            date: this.selectedDate.toLocaleDateString(),
+            time: this.selectedTime,
+            contact: { name, email, phone, message }
+        });
+
+        alert('Tour request submitted successfully! We will contact you soon to confirm.');
+        this.closeModal();
+    }
+}
+
+// Global function to open schedule modal
+function openScheduleModal(button) {
+    if (window.scheduleModal) {
+        // Extract property info from button context
+        const propertyCard = button.closest('.property-card');
+        let propertyTitle = 'Property';
+        let propertyLocation = 'Location';
+
+        if (propertyCard) {
+            const titleElement = propertyCard.querySelector('.property-title');
+            const locationElement = propertyCard.querySelector('.property-location span');
+            
+            if (titleElement) propertyTitle = titleElement.textContent;
+            if (locationElement) propertyLocation = locationElement.textContent;
+        }
+
+        window.scheduleModal.openModal(propertyTitle, propertyLocation);
+    }
+}
+
+// Setup schedule tour functionality on all pages
 function setupScheduleTourOnAllPages() {
-    // Handle all "Schedule Tour" buttons on any page
     document.addEventListener('click', (e) => {
         if (e.target.textContent.includes('Schedule Tour')) {
-            e.preventDefault();
             openScheduleModal(e.target);
         }
     });
 }
 
-function openScheduleModal(button) {
-    console.log('Schedule Tour button clicked!');
+// Initialize the website when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    window.apertureWebsite = new ApertureWebsite();
+    window.scheduleModal = new ScheduleModal();
+    setupScheduleTourOnAllPages();
     
-    // Try to find property information from the page
-    let propertyTitle = 'Property Tour';
-    let propertyLocation = 'Location TBD';
-    
-    // Check if we're on a property page
-    const propertyCard = button.closest('.property-card');
-    if (propertyCard) {
-        // We're on the properties page
-        const titleElement = propertyCard.querySelector('.property-title');
-        const locationElement = propertyCard.querySelector('.property-location span');
-        
-        propertyTitle = titleElement ? titleElement.textContent : 'Property Tour';
-        propertyLocation = locationElement ? locationElement.textContent : 'Location TBD';
-    } else if (button.closest('.carousel-slide')) {
-        // We're on the index page carousel
-        const slide = button.closest('.carousel-slide');
-        const titleElement = slide.querySelector('.slide-title');
-        const locationElement = slide.querySelector('.slide-location span');
-        
-        propertyTitle = titleElement ? titleElement.textContent : 'Property Tour';
-        propertyLocation = locationElement ? locationElement.textContent : 'Location TBD';
-    } else {
-        // We're on a single property page - try to get title from page
-        const pageTitle = document.querySelector('h1');
-        if (pageTitle) {
-            propertyTitle = pageTitle.textContent;
-        }
-        
-        // Try to get location from various elements
-        const locationElement = document.querySelector('.property-location span, .location, .address');
-        if (locationElement) {
-            propertyLocation = locationElement.textContent;
-        }
+    // Initialize PropertiesPage only on properties page
+    if (document.body.dataset.page === 'properties') {
+        new PropertiesPage();
     }
-
-    console.log('Property info:', propertyTitle, propertyLocation);
-    console.log('Schedule modal available:', !!window.scheduleModal);
-
-    // Open the schedule modal
-    if (window.scheduleModal) {
-        window.scheduleModal.openModal(propertyTitle, propertyLocation);
-    } else {
-        console.error('Schedule modal not initialized');
-    }
-}
+});
 
 // Handle window resize for mobile menu and parallax
 window.addEventListener('resize', () => {

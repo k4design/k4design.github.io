@@ -236,6 +236,10 @@
             
             <!-- Advanced Search Filters -->
             <div class="search-filters">
+                <div class="search-header">
+                    <h3>Find Your Perfect Property</h3>
+                    <p>Use our advanced filters to discover luxury properties worldwide</p>
+                </div>
                 <div class="filters-grid">
                     <div class="filter-group">
                         <label>Country/Region</label>
@@ -297,6 +301,19 @@
                         </select>
                     </div>
                     <div class="filter-group">
+                        <label>Property Type</label>
+                        <select id="type-filter">
+                            <option value="">All Types</option>
+                            <option value="single-family">Single Family</option>
+                            <option value="condo">Condo/Apartment</option>
+                            <option value="townhouse">Townhouse</option>
+                            <option value="villa">Villa</option>
+                            <option value="penthouse">Penthouse</option>
+                            <option value="estate">Estate</option>
+                            <option value="mansion">Mansion</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
                         <label>Bedrooms</label>
                         <select id="bedrooms-filter">
                             <option value="">Any</option>
@@ -305,6 +322,17 @@
                             <option value="3">3+</option>
                             <option value="4">4+</option>
                             <option value="5">5+</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Features</label>
+                        <select id="features-filter">
+                            <option value="">All Features</option>
+                            <option value="pool">Pool</option>
+                            <option value="oceanfront">Oceanfront</option>
+                            <option value="penthouse">Penthouse</option>
+                            <option value="garden">Garden</option>
+                            <option value="garage">Garage</option>
                         </select>
                     </div>
                 </div>
@@ -328,6 +356,162 @@
             <!-- Load More Button -->
             <div class="load-more-container">
                 <button id="load-more" class="load-more-btn">Load More Properties</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- New Development Section -->
+    <section id="new-development" class="new-development">
+        <div class="container">
+            <div class="section-header">
+                <h2>New Development</h2>
+                <p class="section-subtitle">Exclusive Pre-Construction Opportunities</p>
+                <p class="section-description">Discover the world's most prestigious new developments, where architectural innovation meets uncompromising luxury. Our curated portfolio features groundbreaking projects from renowned developers, offering unparalleled investment opportunities and lifestyle experiences.</p>
+            </div>
+            
+            <div class="development-grid">
+                <div class="development-card featured">
+                    <div class="development-image">
+                        <img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=600&h=400&fit=crop" alt="The Residences at One Manhattan Square">
+                        <div class="development-badge">Coming Soon</div>
+                        <div class="development-overlay">
+                            <div class="overlay-content">
+                                <h3>The Residences at One Manhattan Square</h3>
+                                <p>Manhattan, New York</p>
+                                <div class="overlay-details">
+                                    <span>From $2.5M</span>
+                                    <span>1-4 Bedrooms</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="development-content">
+                        <div class="development-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Manhattan, New York</span>
+                        </div>
+                        <h3>The Residences at One Manhattan Square</h3>
+                        <p class="development-description">A revolutionary residential tower featuring cutting-edge design, world-class amenities, and panoramic city views. This landmark development redefines luxury living in the heart of Manhattan.</p>
+                        <div class="development-specs">
+                            <div class="spec-item">
+                                <i class="fas fa-building"></i>
+                                <span>80 Stories</span>
+                            </div>
+                            <div class="spec-item">
+                                <i class="fas fa-home"></i>
+                                <span>815 Units</span>
+                            </div>
+                            <div class="spec-item">
+                                <i class="fas fa-calendar"></i>
+                                <span>Q4 2024</span>
+                            </div>
+                        </div>
+                        <div class="development-price">From $2,500,000</div>
+                        <div class="development-actions">
+                            <a href="new-development-one-manhattan-square.html" class="dev-btn primary">View Project</a>
+                            <button class="dev-btn secondary">Request Brochure</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="development-card">
+                    <div class="development-image">
+                        <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=600&h=400&fit=crop" alt="Beverly Hills Estates">
+                        <div class="development-badge">Pre-Construction</div>
+                        <div class="development-overlay">
+                            <div class="overlay-content">
+                                <h3>Beverly Hills Estates</h3>
+                                <p>Beverly Hills, California</p>
+                                <div class="overlay-details">
+                                    <span>From $8.5M</span>
+                                    <span>4-7 Bedrooms</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="development-content">
+                        <div class="development-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Beverly Hills, California</span>
+                        </div>
+                        <h3>Beverly Hills Estates</h3>
+                        <p class="development-description">Ultra-luxury single-family estates featuring contemporary architecture, private grounds, and resort-style amenities in the most coveted neighborhood of Beverly Hills.</p>
+                        <div class="development-specs">
+                            <div class="spec-item">
+                                <i class="fas fa-home"></i>
+                                <span>12 Estates</span>
+                            </div>
+                            <div class="spec-item">
+                                <i class="fas fa-ruler-combined"></i>
+                                <span>8,000-15,000 sq ft</span>
+                            </div>
+                            <div class="spec-item">
+                                <i class="fas fa-calendar"></i>
+                                <span>Q2 2025</span>
+                            </div>
+                        </div>
+                        <div class="development-price">From $8,500,000</div>
+                        <div class="development-actions">
+                            <a href="new-development-beverly-hills-estates.html" class="dev-btn primary">View Project</a>
+                            <button class="dev-btn secondary">Request Brochure</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="development-card">
+                    <div class="development-image">
+                        <img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=600&h=400&fit=crop" alt="Monaco Riviera Residences">
+                        <div class="development-badge">Limited Release</div>
+                        <div class="development-overlay">
+                            <div class="overlay-content">
+                                <h3>Monaco Riviera Residences</h3>
+                                <p>Monaco, French Riviera</p>
+                                <div class="overlay-details">
+                                    <span>From €12M</span>
+                                    <span>2-5 Bedrooms</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="development-content">
+                        <div class="development-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Monaco, French Riviera</span>
+                        </div>
+                        <h3>Monaco Riviera Residences</h3>
+                        <p class="development-description">Exclusive waterfront residences offering breathtaking Mediterranean views, private yacht berths, and access to Monaco's most prestigious lifestyle amenities.</p>
+                        <div class="development-specs">
+                            <div class="spec-item">
+                                <i class="fas fa-building"></i>
+                                <span>25 Stories</span>
+                            </div>
+                            <div class="spec-item">
+                                <i class="fas fa-home"></i>
+                                <span>45 Residences</span>
+                            </div>
+                            <div class="spec-item">
+                                <i class="fas fa-calendar"></i>
+                                <span>Q3 2025</span>
+                            </div>
+                        </div>
+                        <div class="development-price">From €12,000,000</div>
+                        <div class="development-actions">
+                            <a href="new-development-monaco-riviera.html" class="dev-btn primary">View Project</a>
+                            <button class="dev-btn secondary">Request Brochure</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="development-cta">
+                <div class="cta-content">
+                    <h3>Exclusive Access to Pre-Construction Opportunities</h3>
+                    <p>Join our VIP list to receive early access to the world's most prestigious new developments, exclusive pricing, and priority selection.</p>
+                    <div class="cta-actions">
+                        <button class="cta-btn primary">Join VIP List</button>
+                        <a href="new-developments.html" class="cta-btn secondary">View All Projects</a>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -1155,64 +1339,5 @@
         `;
         document.head.appendChild(style);
     </script>
-
-    <!-- Schedule Tour Modal -->
-    <div id="schedule-modal" class="schedule-modal">
-        <div class="schedule-modal-content">
-            <div class="schedule-modal-header">
-                <h3>Schedule a Property Tour</h3>
-                <button class="schedule-modal-close">&times;</button>
-            </div>
-            <div class="schedule-modal-body">
-                <div class="property-info">
-                    <h4 id="modal-property-title">Property Title</h4>
-                    <p id="modal-property-location">Property Location</p>
-                </div>
-                
-                <div class="calendar-section">
-                    <h4>Select Date & Time</h4>
-                    <div class="calendar-container">
-                        <div class="calendar-header">
-                            <button id="prev-month">&lt;</button>
-                            <h5 id="current-month"></h5>
-                            <button id="next-month">&gt;</button>
-                        </div>
-                        <div class="calendar-grid" id="calendar-grid"></div>
-                    </div>
-                    
-                    <div class="time-selection">
-                        <h5>Available Times</h5>
-                        <div class="time-slots" id="time-slots">
-                            <button class="time-slot" data-time="09:00">9:00 AM</button>
-                            <button class="time-slot" data-time="10:00">10:00 AM</button>
-                            <button class="time-slot" data-time="11:00">11:00 AM</button>
-                            <button class="time-slot" data-time="14:00">2:00 PM</button>
-                            <button class="time-slot" data-time="15:00">3:00 PM</button>
-                            <button class="time-slot" data-time="16:00">4:00 PM</button>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="contact-form">
-                    <h4>Your Information</h4>
-                    <form id="schedule-form">
-                        <div class="form-group">
-                            <input type="text" id="visitor-name" placeholder="Full Name" required>
-                        </div>
-                        <div class="form-group">
-                            <input type="email" id="visitor-email" placeholder="Email Address" required>
-                        </div>
-                        <div class="form-group">
-                            <input type="tel" id="visitor-phone" placeholder="Phone Number" required>
-                        </div>
-                        <div class="form-group">
-                            <textarea id="visitor-message" placeholder="Additional Notes (Optional)" rows="3"></textarea>
-                        </div>
-                        <button type="submit" class="schedule-submit-btn">Schedule Tour</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
 </body>
 </html>
