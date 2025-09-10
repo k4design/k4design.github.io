@@ -5,9 +5,459 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>New Developments - Aperture Global</title>
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="includes/load-includes.js"></script>
+    <style>
+        /* Ultra-Premium New Developments Page - Luxury Real Estate Design */
+        :root {
+            --primary-black: #000000;
+            --secondary-black: #0f0f0f;
+            --tertiary-black: #1a1a1a;
+            --accent-blue: #0092ff;
+            --accent-blue-light: #4db8ff;
+            --accent-blue-dark: #007acc;
+            --text-primary: #ffffff;
+            --text-secondary: #b8b8b8;
+            --text-muted: #888888;
+            --text-accent: #0092ff;
+            --border-subtle: rgba(0, 146, 255, 0.15);
+            --border-blue: rgba(0, 146, 255, 0.3);
+            --gradient-primary: linear-gradient(135deg, #000000 0%, #0f0f0f 50%, #1a1a1a 100%);
+            --gradient-accent: linear-gradient(135deg, #0092ff 0%, #4db8ff 50%, #007acc 100%);
+            --gradient-text: linear-gradient(135deg, #0092ff 0%, #ffffff 50%, #0092ff 100%);
+            --shadow-soft: 0 30px 80px rgba(0, 0, 0, 0.4);
+            --shadow-glow: 0 0 60px rgba(0, 146, 255, 0.15);
+            --shadow-premium: 0 40px 100px rgba(0, 0, 0, 0.5);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--primary-black);
+            color: var(--text-primary);
+            line-height: 1.7;
+            overflow-x: hidden;
+            font-weight: 200;
+        }
+
+        /* Ultra-Premium Typography */
+        .display-font {
+            font-family: 'Playfair Display', serif;
+            font-weight: 300;
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+        }
+
+        .text-gradient {
+            background: var(--gradient-text);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            background-size: 200% 200%;
+            animation: gradientShift 8s ease-in-out infinite;
+        }
+
+        .text-luxury {
+            font-family: 'Playfair Display', serif;
+            font-weight: 300;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--accent-blue);
+        }
+
+        .text-bold {
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        .text-elegant {
+            font-weight: 200;
+            letter-spacing: 0.02em;
+            line-height: 1.8;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        /* Premium Hero Section */
+        .new-dev-hero {
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+        }
+
+        .hero-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .hero-background::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.3) 50%, rgba(0, 0, 0, 0.7) 100%);
+            z-index: 2;
+        }
+
+        .hero-background img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(20%) contrast(1.1);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 3;
+            width: 100%;
+        }
+
+        .hero-text {
+            max-width: 1000px;
+            margin: 0 auto;
+            text-align: center;
+            padding: 0 2rem;
+        }
+
+        .hero-text h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 200;
+            line-height: 0.95;
+            margin-bottom: 2rem;
+            color: var(--text-primary);
+            letter-spacing: -0.04em;
+        }
+
+        .hero-subtitle {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.25rem, 3vw, 1.75rem);
+            font-weight: 300;
+            color: var(--accent-blue);
+            margin-bottom: 2rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .hero-description {
+            font-size: clamp(1.125rem, 2.5vw, 1.5rem);
+            font-weight: 200;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto 4rem;
+            line-height: 1.6;
+            letter-spacing: 0.01em;
+        }
+
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 4rem;
+            margin-top: 4rem;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            display: block;
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 300;
+            color: var(--accent-blue);
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            font-weight: 300;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        /* Premium Projects Section */
+        .dev-projects-section {
+            padding: 8rem 0;
+            background: var(--secondary-black);
+            position: relative;
+        }
+
+        .dev-projects-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent-blue), transparent);
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 3rem;
+            margin-top: 4rem;
+        }
+
+        .project-card {
+            background: rgba(0, 146, 255, 0.02);
+            border: 1px solid var(--border-subtle);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: relative;
+            backdrop-filter: blur(20px);
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--border-blue);
+            box-shadow: var(--shadow-premium);
+        }
+
+        .project-card.featured {
+            grid-column: span 2;
+            background: rgba(0, 146, 255, 0.05);
+        }
+
+        .project-image {
+            position: relative;
+            height: 300px;
+            overflow: hidden;
+        }
+
+        .project-card.featured .project-image {
+            height: 400px;
+        }
+
+        .project-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(20%) contrast(1.1);
+            transition: transform 0.5s ease;
+        }
+
+        .project-card:hover .project-image img {
+            transform: scale(1.05);
+        }
+
+        .project-badge {
+            position: absolute;
+            top: 1.5rem;
+            left: 1.5rem;
+            padding: 0.5rem 1.5rem;
+            background: rgba(0, 146, 255, 0.9);
+            color: var(--primary-black);
+            border-radius: 50px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            z-index: 2;
+        }
+
+        .project-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.3) 50%, rgba(0, 0, 0, 0.8) 100%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1;
+        }
+
+        .project-card:hover .project-overlay {
+            opacity: 1;
+        }
+
+        .overlay-content {
+            text-align: center;
+            color: var(--text-primary);
+            padding: 2rem;
+        }
+
+        .overlay-content h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.75rem;
+            font-weight: 300;
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+        }
+
+        .overlay-content p {
+            font-size: 1rem;
+            color: var(--accent-blue);
+            margin-bottom: 1.5rem;
+            font-weight: 300;
+        }
+
+        .overlay-details {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+        }
+
+        .overlay-details span {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            font-weight: 300;
+        }
+
+        .project-content {
+            padding: 2.5rem;
+        }
+
+        .project-location {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            font-size: 0.875rem;
+            color: var(--accent-blue);
+            font-weight: 300;
+        }
+
+        .project-location i {
+            font-size: 1rem;
+        }
+
+        .project-content h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.75rem;
+            font-weight: 300;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+            line-height: 1.3;
+            letter-spacing: -0.02em;
+        }
+
+        .project-description {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            font-weight: 200;
+            letter-spacing: 0.01em;
+        }
+
+        .project-specs {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .spec-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            font-weight: 300;
+        }
+
+        .spec-item i {
+            color: var(--accent-blue);
+            font-size: 1rem;
+        }
+
+        .project-price {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.75rem;
+            font-weight: 300;
+            color: var(--accent-blue);
+            margin-bottom: 2rem;
+            letter-spacing: -0.01em;
+        }
+
+        .project-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .project-btn {
+            flex: 1;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            text-align: center;
+            border: none;
+        }
+
+        .project-btn.primary {
+            background: var(--gradient-accent);
+            color: var(--primary-black);
+        }
+
+        .project-btn.secondary {
+            background: transparent;
+            color: var(--text-primary);
+            border: 1px solid var(--border-subtle);
+        }
+
+        .project-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .project-btn.primary:hover {
+            box-shadow: var(--shadow-glow);
+        }
+
+        .project-btn.secondary:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: var(--border-blue);
+            color: var(--accent-blue);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero-stats {
+                flex-direction: column;
+                gap: 2rem;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .project-card.featured {
+                grid-column: span 1;
+            }
+
+            .project-specs {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .project-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
 </head>
 <body>
     <!-- Navigation Placeholder -->
@@ -22,9 +472,9 @@
         <div class="hero-content">
             <div class="container">
                 <div class="hero-text">
-                    <h1>New Development</h1>
-                    <p class="hero-subtitle">Exclusive Pre-Construction Opportunities</p>
-                    <p class="hero-description">Discover the world's most prestigious new developments, where architectural innovation meets uncompromising luxury. Our curated portfolio features groundbreaking projects from renowned developers, offering unparalleled investment opportunities and lifestyle experiences.</p>
+                    <h1 class="display-font">New Development</h1>
+                    <p class="hero-subtitle text-luxury">Exclusive Pre-Construction Opportunities</p>
+                    <p class="hero-description text-elegant">Discover the world's most prestigious new developments, where architectural innovation meets uncompromising luxury. Our curated portfolio features groundbreaking projects from renowned developers, offering unparalleled investment opportunities and lifestyle experiences.</p>
                     <div class="hero-stats">
                         <div class="stat">
                             <span class="stat-number">50+</span>
@@ -44,56 +494,6 @@
         </div>
     </section>
 
-    <!-- Filter Section -->
-    <section class="dev-filter-section">
-        <div class="container">
-            <div class="filter-container">
-                <div class="filter-group">
-                    <label>Location</label>
-                    <select id="location-filter">
-                        <option value="">All Locations</option>
-                        <option value="manhattan">Manhattan, NY</option>
-                        <option value="beverly-hills">Beverly Hills, CA</option>
-                        <option value="monaco">Monaco</option>
-                        <option value="london">London, UK</option>
-                        <option value="dubai">Dubai, UAE</option>
-                    </select>
-                </div>
-                <div class="filter-group">
-                    <label>Price Range</label>
-                    <select id="price-filter">
-                        <option value="">All Prices</option>
-                        <option value="under-5m">Under $5M</option>
-                        <option value="5m-10m">$5M - $10M</option>
-                        <option value="10m-25m">$10M - $25M</option>
-                        <option value="over-25m">Over $25M</option>
-                    </select>
-                </div>
-                <div class="filter-group">
-                    <label>Status</label>
-                    <select id="status-filter">
-                        <option value="">All Status</option>
-                        <option value="pre-construction">Pre-Construction</option>
-                        <option value="coming-soon">Coming Soon</option>
-                        <option value="limited-release">Limited Release</option>
-                        <option value="sold-out">Sold Out</option>
-                    </select>
-                </div>
-                <div class="filter-group">
-                    <label>Property Type</label>
-                    <select id="type-filter">
-                        <option value="">All Types</option>
-                        <option value="condo">Condominium</option>
-                        <option value="penthouse">Penthouse</option>
-                        <option value="estate">Estate</option>
-                        <option value="villa">Villa</option>
-                    </select>
-                </div>
-                <button class="filter-btn" id="apply-filters">Apply Filters</button>
-                <button class="filter-btn secondary" id="clear-filters">Clear All</button>
-            </div>
-        </div>
-    </section>
 
     <!-- Projects Grid -->
     <section class="dev-projects-section">
@@ -120,8 +520,8 @@
                             <i class="fas fa-map-marker-alt"></i>
                             <span>Manhattan, New York</span>
                         </div>
-                        <h3>The Residences at One Manhattan Square</h3>
-                        <p class="project-description">A revolutionary residential tower featuring cutting-edge design, world-class amenities, and panoramic city views. This landmark development redefines luxury living in the heart of Manhattan.</p>
+                        <h3 class="display-font">The Residences at One Manhattan Square</h3>
+                        <p class="project-description text-elegant">A revolutionary residential tower featuring cutting-edge design, world-class amenities, and panoramic city views. This landmark development redefines luxury living in the heart of Manhattan.</p>
                         <div class="project-specs">
                             <div class="spec-item">
                                 <i class="fas fa-building"></i>
@@ -165,8 +565,8 @@
                             <i class="fas fa-map-marker-alt"></i>
                             <span>Beverly Hills, California</span>
                         </div>
-                        <h3>Beverly Hills Estates</h3>
-                        <p class="project-description">Ultra-luxury single-family estates featuring contemporary architecture, private grounds, and resort-style amenities in the most coveted neighborhood of Beverly Hills.</p>
+                        <h3 class="display-font">Beverly Hills Estates</h3>
+                        <p class="project-description text-elegant">Ultra-luxury single-family estates featuring contemporary architecture, private grounds, and resort-style amenities in the most coveted neighborhood of Beverly Hills.</p>
                         <div class="project-specs">
                             <div class="spec-item">
                                 <i class="fas fa-home"></i>
@@ -210,8 +610,8 @@
                             <i class="fas fa-map-marker-alt"></i>
                             <span>Monaco, French Riviera</span>
                         </div>
-                        <h3>Monaco Riviera Residences</h3>
-                        <p class="project-description">Exclusive waterfront residences offering breathtaking Mediterranean views, private yacht berths, and access to Monaco's most prestigious lifestyle amenities.</p>
+                        <h3 class="display-font">Monaco Riviera Residences</h3>
+                        <p class="project-description text-elegant">Exclusive waterfront residences offering breathtaking Mediterranean views, private yacht berths, and access to Monaco's most prestigious lifestyle amenities.</p>
                         <div class="project-specs">
                             <div class="spec-item">
                                 <i class="fas fa-building"></i>
@@ -255,8 +655,8 @@
                             <i class="fas fa-map-marker-alt"></i>
                             <span>London, United Kingdom</span>
                         </div>
-                        <h3>London Sky Gardens</h3>
-                        <p class="project-description">Iconic residential towers featuring private sky gardens, panoramic Thames views, and world-class amenities in the heart of London's financial district.</p>
+                        <h3 class="display-font">London Sky Gardens</h3>
+                        <p class="project-description text-elegant">Iconic residential towers featuring private sky gardens, panoramic Thames views, and world-class amenities in the heart of London's financial district.</p>
                         <div class="project-specs">
                             <div class="spec-item">
                                 <i class="fas fa-building"></i>
@@ -395,54 +795,8 @@
     <div id="footer-placeholder"></div>
 
     <script>
-        // Filter functionality
+        // Load more functionality
         document.addEventListener('DOMContentLoaded', function() {
-            const applyFiltersBtn = document.getElementById('apply-filters');
-            const clearFiltersBtn = document.getElementById('clear-filters');
-            const projectsGrid = document.getElementById('projects-grid');
-            const projectCards = document.querySelectorAll('.project-card');
-
-            applyFiltersBtn.addEventListener('click', function() {
-                const locationFilter = document.getElementById('location-filter').value;
-                const priceFilter = document.getElementById('price-filter').value;
-                const statusFilter = document.getElementById('status-filter').value;
-                const typeFilter = document.getElementById('type-filter').value;
-
-                projectCards.forEach(card => {
-                    let show = true;
-
-                    if (locationFilter && card.dataset.location !== locationFilter) {
-                        show = false;
-                    }
-
-                    if (priceFilter && card.dataset.price !== priceFilter) {
-                        show = false;
-                    }
-
-                    if (statusFilter && card.dataset.status !== statusFilter) {
-                        show = false;
-                    }
-
-                    if (typeFilter && card.dataset.type !== typeFilter) {
-                        show = false;
-                    }
-
-                    card.style.display = show ? 'block' : 'none';
-                });
-            });
-
-            clearFiltersBtn.addEventListener('click', function() {
-                document.getElementById('location-filter').value = '';
-                document.getElementById('price-filter').value = '';
-                document.getElementById('status-filter').value = '';
-                document.getElementById('type-filter').value = '';
-
-                projectCards.forEach(card => {
-                    card.style.display = 'block';
-                });
-            });
-
-            // Load more functionality
             const loadMoreBtn = document.getElementById('load-more-projects');
             loadMoreBtn.addEventListener('click', function() {
                 // This would typically load more projects via AJAX

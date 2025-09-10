@@ -34,7 +34,7 @@ class ApertureWebsite {
         }
 
         // Filter change events
-        const filters = ['country-filter', 'location-filter', 'price-filter', 'type-filter', 'bedrooms-filter', 'features-filter'];
+        const filters = ['country-filter', 'location-filter', 'price-filter', 'type-filter'];
         filters.forEach(filterId => {
             const filter = document.getElementById(filterId);
             if (filter) {
@@ -465,8 +465,6 @@ class ApertureWebsite {
         const locationFilter = document.getElementById('location-filter').value;
         const priceFilter = document.getElementById('price-filter').value;
         const typeFilter = document.getElementById('type-filter').value;
-        const bedroomsFilter = document.getElementById('bedrooms-filter').value;
-        const featuresFilter = document.getElementById('features-filter').value;
 
         this.filteredProperties = this.allProperties.filter(property => {
             let matches = true;
@@ -496,26 +494,6 @@ class ApertureWebsite {
                 matches = false;
             }
 
-            // Bedrooms filter
-            if (bedroomsFilter && matches) {
-                const minBedrooms = parseInt(bedroomsFilter);
-                if (property.bedrooms < minBedrooms) {
-                    matches = false;
-                }
-            }
-
-            // Features filter (basic implementation - you can expand this based on your property data structure)
-            if (featuresFilter && matches) {
-                // This is a basic implementation - you might want to add feature properties to your property objects
-                // For now, we'll just check if the feature matches the property type or other criteria
-                if (featuresFilter === 'penthouse' && property.propertyType !== 'penthouse') {
-                    matches = false;
-                } else if (featuresFilter === 'oceanfront' && !property.description.toLowerCase().includes('ocean')) {
-                    matches = false;
-                } else if (featuresFilter === 'pool' && !property.description.toLowerCase().includes('pool')) {
-                    matches = false;
-                }
-            }
 
             return matches;
         });
@@ -530,15 +508,11 @@ class ApertureWebsite {
         const locationFilter = document.getElementById('location-filter');
         const priceFilter = document.getElementById('price-filter');
         const typeFilter = document.getElementById('type-filter');
-        const bedroomsFilter = document.getElementById('bedrooms-filter');
-        const featuresFilter = document.getElementById('features-filter');
 
         if (countryFilter) countryFilter.value = '';
         if (locationFilter) locationFilter.value = '';
         if (priceFilter) priceFilter.value = '';
         if (typeFilter) typeFilter.value = '';
-        if (bedroomsFilter) bedroomsFilter.value = '';
-        if (featuresFilter) featuresFilter.value = '';
 
         // Reset filtered properties to show all properties
         this.filteredProperties = [...this.allProperties];

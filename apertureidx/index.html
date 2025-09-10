@@ -5,9 +5,429 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aperture Global - Luxury Real Estate</title>
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="includes/load-includes.js"></script>
+    <style>
+        /* Ultra-Premium Index Page - Luxury Real Estate Design */
+        :root {
+            --primary-black: #000000;
+            --secondary-black: #0f0f0f;
+            --tertiary-black: #1a1a1a;
+            --accent-blue: #0092ff;
+            --accent-blue-light: #4db8ff;
+            --accent-blue-dark: #007acc;
+            --text-primary: #ffffff;
+            --text-secondary: #b8b8b8;
+            --text-muted: #888888;
+            --text-accent: #0092ff;
+            --border-subtle: rgba(0, 146, 255, 0.15);
+            --border-blue: rgba(0, 146, 255, 0.3);
+            --gradient-primary: linear-gradient(135deg, #000000 0%, #0f0f0f 50%, #1a1a1a 100%);
+            --gradient-accent: linear-gradient(135deg, #0092ff 0%, #4db8ff 50%, #007acc 100%);
+            --gradient-text: linear-gradient(135deg, #0092ff 0%, #ffffff 50%, #0092ff 100%);
+            --shadow-soft: 0 30px 80px rgba(0, 0, 0, 0.4);
+            --shadow-glow: 0 0 60px rgba(0, 146, 255, 0.15);
+            --shadow-premium: 0 40px 100px rgba(0, 0, 0, 0.5);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--primary-black);
+            color: var(--text-primary);
+            line-height: 1.7;
+            overflow-x: hidden;
+            font-weight: 200;
+        }
+
+        /* Ultra-Premium Typography */
+        .display-font {
+            font-family: 'Playfair Display', serif;
+            font-weight: 300;
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+        }
+
+        .text-gradient {
+            background: var(--gradient-text);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            background-size: 200% 200%;
+            animation: gradientShift 8s ease-in-out infinite;
+        }
+
+        .text-luxury {
+            font-family: 'Playfair Display', serif;
+            font-weight: 300;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--accent-blue);
+        }
+
+        .text-bold {
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        .text-elegant {
+            font-weight: 200;
+            letter-spacing: 0.02em;
+            line-height: 1.8;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        /* Premium Hero Carousel */
+        .luxury-carousel {
+            min-height: 100vh;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .carousel-container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+        }
+
+        .carousel-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .carousel-slide.active {
+            opacity: 1;
+        }
+
+        .slide-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .slide-background::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.2) 50%, rgba(0, 0, 0, 0.6) 100%);
+            z-index: 2;
+        }
+
+        .slide-background img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(20%) contrast(1.1);
+        }
+
+        .slide-content {
+            position: relative;
+            z-index: 3;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            height: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 4rem;
+        }
+
+        .slide-badge {
+            display: inline-block;
+            padding: 0.75rem 2rem;
+            background: rgba(0, 146, 255, 0.1);
+            border: 1px solid var(--border-blue);
+            border-radius: 50px;
+            font-size: 0.875rem;
+            font-weight: 400;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--accent-blue);
+            margin-bottom: 2rem;
+            backdrop-filter: blur(20px);
+            transition: all 0.4s ease;
+        }
+
+        .slide-location {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+            font-size: 1rem;
+            color: var(--text-secondary);
+            font-weight: 300;
+        }
+
+        .slide-location i {
+            color: var(--accent-blue);
+        }
+
+        .slide-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 200;
+            line-height: 0.95;
+            margin-bottom: 2rem;
+            color: #ffffff;
+            letter-spacing: -0.04em;
+        }
+
+        .slide-description {
+            font-size: clamp(1.125rem, 2.5vw, 1.5rem);
+            font-weight: 200;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+            letter-spacing: 0.01em;
+        }
+
+        .slide-details {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .detail {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            font-weight: 300;
+            letter-spacing: 0.01em;
+        }
+
+        .slide-price {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 300;
+            color: #ffffff;
+            margin-bottom: 3rem;
+            letter-spacing: -0.02em;
+        }
+
+        .slide-actions {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .carousel-btn {
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            text-decoration: none;
+            display: inline-block;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .carousel-btn.primary {
+            background: var(--gradient-accent);
+            color: var(--primary-black);
+            border: none;
+        }
+
+        .carousel-btn.primary:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .carousel-btn.secondary {
+            background: transparent;
+            color: var(--text-primary);
+            border: 1px solid var(--accent-blue);
+        }
+
+        .carousel-btn.secondary:hover {
+            background: var(--accent-blue);
+            color: var(--primary-black);
+            transform: translateY(-3px);
+        }
+
+        /* Search Section - Reverted to Original */
+        .property-search-section {
+            padding: 4rem 0;
+            background: var(--secondary-black);
+        }
+
+        /* Premium About Section */
+        .about {
+            padding: 8rem 0;
+            background: var(--primary-black);
+            position: relative;
+        }
+
+        .about .container {
+            max-width: 1400px;
+            text-align: center;
+        }
+
+        .about h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 200;
+            margin-bottom: 3rem;
+            color: var(--text-primary);
+            letter-spacing: -0.02em;
+        }
+
+        .about p {
+            font-size: 1.25rem;
+            font-weight: 200;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto 4rem;
+            line-height: 1.8;
+            letter-spacing: 0.01em;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 3rem;
+            margin-top: 4rem;
+        }
+
+        .feature-card {
+            text-align: center;
+            padding: 3rem 2rem;
+            background: rgba(0, 146, 255, 0.02);
+            border: 1px solid var(--border-subtle);
+            border-radius: 20px;
+            backdrop-filter: blur(20px);
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-accent);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .feature-card:hover::before {
+            opacity: 0.05;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--border-blue);
+            box-shadow: var(--shadow-premium);
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 146, 255, 0.1);
+            border-radius: 50%;
+            transition: all 0.4s ease;
+            position: relative;
+            z-index: 1;
+        }
+
+        .feature-card:hover .feature-icon {
+            background: rgba(0, 146, 255, 0.2);
+            transform: scale(1.1);
+        }
+
+        .feature-icon i {
+            font-size: 2rem;
+            color: var(--accent-blue);
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            font-weight: 400;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+            font-family: 'Playfair Display', serif;
+            position: relative;
+            z-index: 1;
+        }
+
+        .feature-card p {
+            font-size: 1rem;
+            line-height: 1.7;
+            color: var(--text-secondary);
+            margin: 0;
+            font-weight: 200;
+            letter-spacing: 0.01em;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* MLS Section - Reverted to Original */
+        .mls-section {
+            padding: 4rem 0;
+            background: var(--secondary-black);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .slide-content {
+                padding: 0 2rem;
+            }
+
+            .slide-actions {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .search-inputs {
+                flex-direction: column;
+            }
+
+            .search-options {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .filters-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .search-actions {
+                flex-direction: column;
+            }
+
+            .mls-properties-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
     <!-- Navigation Placeholder -->
@@ -26,19 +446,19 @@
                             <img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=1920&h=1080&fit=crop" alt="Manhattan Penthouse">
                         </div>
                         <div class="slide-content">
-                            <div class="slide-badge">Premiere Listing</div>
+                            <div class="slide-badge text-luxury">Premiere Listing</div>
                             <div class="slide-location">
                                 <i class="fas fa-map-marker-alt"></i>
                                 <span>Manhattan, New York</span>
                             </div>
-                            <h1 class="slide-title">Manhattan Skyline Penthouse</h1>
-                            <p class="slide-description">Spectacular triplex penthouse with 360-degree city views, private elevator, and rooftop terrace overlooking Central Park.</p>
+                            <h1 class="slide-title display-font">Manhattan Skyline Penthouse</h1>
+                            <p class="slide-description text-elegant">Spectacular triplex penthouse with 360-degree city views, private elevator, and rooftop terrace overlooking Central Park.</p>
                             <div class="slide-details">
                                 <span class="detail">6 Bedrooms</span>
                                 <span class="detail">8 Bathrooms</span>
                                 <span class="detail">8,500 sq ft</span>
                             </div>
-                            <div class="slide-price">$45,000,000</div>
+                            <div class="slide-price display-font">$45,000,000</div>
                             <div class="slide-actions">
                                 <a href="property-manhattan-penthouse.html" class="carousel-btn primary">View Details</a>
                                 <button class="carousel-btn secondary">Schedule Tour</button>
@@ -52,19 +472,19 @@
                             <img src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=1920&h=1080&fit=crop" alt="Beverly Hills Mansion">
                         </div>
                         <div class="slide-content">
-                            <div class="slide-badge">Premiere Listing</div>
+                            <div class="slide-badge text-luxury">Premiere Listing</div>
                             <div class="slide-location">
                                 <i class="fas fa-map-marker-alt"></i>
                                 <span>Beverly Hills, California</span>
                             </div>
-                            <h1 class="slide-title">Beverly Hills Estate</h1>
-                            <p class="slide-description">Magnificent Mediterranean-style estate with tennis court, infinity pool, and panoramic city views in the heart of Beverly Hills.</p>
+                            <h1 class="slide-title display-font">Beverly Hills Estate</h1>
+                            <p class="slide-description text-elegant">Magnificent Mediterranean-style estate with tennis court, infinity pool, and panoramic city views in the heart of Beverly Hills.</p>
                             <div class="slide-details">
                                 <span class="detail">12 Bedrooms</span>
                                 <span class="detail">15 Bathrooms</span>
                                 <span class="detail">25,000 sq ft</span>
                             </div>
-                            <div class="slide-price">$85,000,000</div>
+                            <div class="slide-price display-font">$85,000,000</div>
                             <div class="slide-actions">
                                 <a href="property-beverly-hills-estate.html" class="carousel-btn primary">View Details</a>
                                 <button class="carousel-btn secondary">Schedule Tour</button>
@@ -78,19 +498,19 @@
                             <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1920&h=1080&fit=crop" alt="Monaco Villa">
                         </div>
                         <div class="slide-content">
-                            <div class="slide-badge">Premiere Listing</div>
+                            <div class="slide-badge text-luxury">Premiere Listing</div>
                             <div class="slide-location">
                                 <i class="fas fa-map-marker-alt"></i>
                                 <span>Monaco, French Riviera</span>
                             </div>
-                            <h1 class="slide-title">Monaco Villa Estate</h1>
-                            <p class="slide-description">Exclusive waterfront villa with private marina, helipad, and direct access to the Mediterranean Sea in the heart of Monaco.</p>
+                            <h1 class="slide-title display-font">Monaco Villa Estate</h1>
+                            <p class="slide-description text-elegant">Exclusive waterfront villa with private marina, helipad, and direct access to the Mediterranean Sea in the heart of Monaco.</p>
                             <div class="slide-details">
                                 <span class="detail">10 Bedrooms</span>
                                 <span class="detail">12 Bathrooms</span>
                                 <span class="detail">18,000 sq ft</span>
                             </div>
-                            <div class="slide-price">$125,000,000</div>
+                            <div class="slide-price display-font">$125,000,000</div>
                             <div class="slide-actions">
                                 <button class="carousel-btn primary">View Details</button>
                                 <button class="carousel-btn secondary">Schedule Tour</button>
@@ -104,19 +524,19 @@
                             <img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=1920&h=1080&fit=crop" alt="London Mansion">
                         </div>
                         <div class="slide-content">
-                            <div class="slide-badge">Premiere Listing</div>
+                            <div class="slide-badge text-luxury">Premiere Listing</div>
                             <div class="slide-location">
                                 <i class="fas fa-map-marker-alt"></i>
                                 <span>Mayfair, London</span>
                             </div>
-                            <h1 class="slide-title">Historic Mayfair Mansion</h1>
-                            <p class="slide-description">Stunning Georgian mansion with original period features, private garden, and views of Hyde Park in prestigious Mayfair.</p>
+                            <h1 class="slide-title display-font">Historic Mayfair Mansion</h1>
+                            <p class="slide-description text-elegant">Stunning Georgian mansion with original period features, private garden, and views of Hyde Park in prestigious Mayfair.</p>
                             <div class="slide-details">
                                 <span class="detail">8 Bedrooms</span>
                                 <span class="detail">10 Bathrooms</span>
                                 <span class="detail">12,000 sq ft</span>
                             </div>
-                            <div class="slide-price">$65,000,000</div>
+                            <div class="slide-price display-font">$65,000,000</div>
                             <div class="slide-actions">
                                 <button class="carousel-btn primary">View Details</button>
                                 <button class="carousel-btn secondary">Schedule Tour</button>
@@ -199,30 +619,30 @@
     <section id="about" class="about">
         
         <div class="container">
-            <h2>International Luxury Real Estate Brokerage</h2>
-            <p>Aperture Global is pioneering a new era in the international real estate market as the first of its kind in the global luxury space. With a vision to become the premier name in high-end real estate, Aperture Global operates with a presence concentrated on the greatest luxury cities around the world, spanning 6 continents and 20+ countries.</p>
+            <h2 class="display-font">International Luxury Real Estate Brokerage</h2>
+            <p class="text-elegant">Aperture Global is pioneering a new era in the international real estate market as the first of its kind in the global luxury space. With a vision to become the premier name in high-end real estate, Aperture Global operates with a presence concentrated on the greatest luxury cities around the world, spanning 6 continents and 20+ countries.</p>
             
             <div class="features-grid">
                 <div class="feature-card">
                     <div class="feature-icon">
                         <i class="fas fa-home"></i>
                     </div>
-                    <h3>Curated Luxury Listings</h3>
-                    <p>Our bespoke marketing packages are meticulously designed to present your luxury property with unparalleled sophistication and precision.</p>
+                    <h3 class="display-font">Curated Luxury Listings</h3>
+                    <p class="text-elegant">Our bespoke marketing packages are meticulously designed to present your luxury property with unparalleled sophistication and precision.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">
                         <i class="fas fa-chart-line"></i>
                     </div>
-                    <h3>Maximize Your Property Results</h3>
-                    <p>We craft high-impact marketing strategies tailored to each residence we represent–strategically maximizing visibility and elevating desirability.</p>
+                    <h3 class="display-font">Maximize Your Property Results</h3>
+                    <p class="text-elegant">We craft high-impact marketing strategies tailored to each residence we represent–strategically maximizing visibility and elevating desirability.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">
                         <i class="fas fa-tv"></i>
                     </div>
-                    <h3>Exclusive Media Platform</h3>
-                    <p>Elite View Media is the best-in-class platform that exclusively targets high-net-worth and ultra-high-net-worth households.</p>
+                    <h3 class="display-font">Exclusive Media Platform</h3>
+                    <p class="text-elegant">Elite View Media is the best-in-class platform that exclusively targets high-net-worth and ultra-high-net-worth households.</p>
                 </div>
             </div>
         </div>
@@ -231,14 +651,14 @@
     <!-- IDX MLS Feed Section -->
     <section id="properties" class="mls-section">
         <div class="container">
-            <h2>Global Luxury Properties</h2>
-            <p>Discover our curated selection of exceptional properties from our international MLS feed spanning the world's most prestigious markets</p>
+            <h2 class="display-font">Global Luxury Properties</h2>
+            <p class="text-elegant">Discover our curated selection of exceptional properties from our international MLS feed spanning the world's most prestigious markets</p>
             
             <!-- Advanced Search Filters -->
             <div class="search-filters">
                 <div class="search-header">
-                    <h3>Find Your Perfect Property</h3>
-                    <p>Use our advanced filters to discover luxury properties worldwide</p>
+                    <h3 class="display-font">Find Your Perfect Property</h3>
+                    <p class="text-elegant">Use our advanced filters to discover luxury properties worldwide</p>
                 </div>
                 <div class="filters-grid">
                     <div class="filter-group">
@@ -313,28 +733,6 @@
                             <option value="mansion">Mansion</option>
                         </select>
                     </div>
-                    <div class="filter-group">
-                        <label>Bedrooms</label>
-                        <select id="bedrooms-filter">
-                            <option value="">Any</option>
-                            <option value="1">1+</option>
-                            <option value="2">2+</option>
-                            <option value="3">3+</option>
-                            <option value="4">4+</option>
-                            <option value="5">5+</option>
-                        </select>
-                    </div>
-                    <div class="filter-group">
-                        <label>Features</label>
-                        <select id="features-filter">
-                            <option value="">All Features</option>
-                            <option value="pool">Pool</option>
-                            <option value="oceanfront">Oceanfront</option>
-                            <option value="penthouse">Penthouse</option>
-                            <option value="garden">Garden</option>
-                            <option value="garage">Garage</option>
-                        </select>
-                    </div>
                 </div>
                 <div class="search-actions">
                     <button id="search-btn" class="search-button">
@@ -364,23 +762,23 @@
     <section id="new-development" class="new-development">
         <div class="container">
             <div class="section-header">
-                <h2>New Development</h2>
-                <p class="section-subtitle">Exclusive Pre-Construction Opportunities</p>
-                <p class="section-description">Discover the world's most prestigious new developments, where architectural innovation meets uncompromising luxury. Our curated portfolio features groundbreaking projects from renowned developers, offering unparalleled investment opportunities and lifestyle experiences.</p>
+                <h2 class="display-font">New Development</h2>
+                <p class="section-subtitle text-luxury">Exclusive Pre-Construction Opportunities</p>
+                <p class="section-description text-elegant">Discover the world's most prestigious new developments, where architectural innovation meets uncompromising luxury. Our curated portfolio features groundbreaking projects from renowned developers, offering unparalleled investment opportunities and lifestyle experiences.</p>
             </div>
             
             <div class="development-grid">
                 <div class="development-card featured">
                     <div class="development-image">
-                        <img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=600&h=400&fit=crop" alt="The Residences at One Manhattan Square">
-                        <div class="development-badge">Coming Soon</div>
+                        <img src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=600&h=400&fit=crop" alt="The Residences at 1428 Brickell - Ultra-Luxury Penthouses">
+                        <div class="development-badge">Exclusive Penthouses</div>
                         <div class="development-overlay">
                             <div class="overlay-content">
-                                <h3>The Residences at One Manhattan Square</h3>
-                                <p>Manhattan, New York</p>
+                                <h3>The Residences at 1428 Brickell</h3>
+                                <p>Miami, Florida</p>
                                 <div class="overlay-details">
-                                    <span>From $2.5M</span>
-                                    <span>1-4 Bedrooms</span>
+                                    <span>2 Ultra-Luxury Penthouses</span>
+                                    <span>Private Elevator Access</span>
                                 </div>
                             </div>
                         </div>
@@ -388,27 +786,32 @@
                     <div class="development-content">
                         <div class="development-location">
                             <i class="fas fa-map-marker-alt"></i>
-                            <span>Manhattan, New York</span>
+                            <span>1428 Brickell Avenue, Miami, FL</span>
                         </div>
-                        <h3>The Residences at One Manhattan Square</h3>
-                        <p class="development-description">A revolutionary residential tower featuring cutting-edge design, world-class amenities, and panoramic city views. This landmark development redefines luxury living in the heart of Manhattan.</p>
+                        <h3>The Residences at 1428 Brickell</h3>
+                        <p class="development-description">Two extraordinary penthouses at the pinnacle of luxury living in Miami. These exclusive residences occupy the highest floors of this 70-story architectural masterpiece, offering unparalleled panoramic views of Biscayne Bay and the Miami skyline. Designed by Antonio Citterio Patricia Viel, each penthouse features private elevator access, expansive terraces, and the ultimate in sophisticated urban living.</p>
                         <div class="development-specs">
                             <div class="spec-item">
-                                <i class="fas fa-building"></i>
-                                <span>80 Stories</span>
+                                <i class="fas fa-crown"></i>
+                                <span>2 Penthouses</span>
                             </div>
                             <div class="spec-item">
-                                <i class="fas fa-home"></i>
-                                <span>815 Units</span>
+                                <i class="fas fa-elevator"></i>
+                                <span>Private Elevator</span>
                             </div>
                             <div class="spec-item">
-                                <i class="fas fa-calendar"></i>
-                                <span>Q4 2024</span>
+                                <i class="fas fa-star"></i>
+                                <span>80,000 SF Amenities</span>
                             </div>
                         </div>
-                        <div class="development-price">From $2,500,000</div>
+                        <div class="development-features">
+                            <div class="feature-tag">Rooftop Observatory</div>
+                            <div class="feature-tag">Private Wellness Club</div>
+                            <div class="feature-tag">Botanical Oasis</div>
+                            <div class="feature-tag">Bay Views</div>
+                        </div>
                         <div class="development-actions">
-                            <a href="new-development-one-manhattan-square.html" class="dev-btn primary">View Project</a>
+                            <a href="https://1428brickell.com/" target="_blank" class="dev-btn primary">Schedule Private Tour</a>
                             <button class="dev-btn secondary">Request Brochure</button>
                         </div>
                     </div>
@@ -516,52 +919,12 @@
         </div>
     </section>
 
-    <!-- Leadership Section -->
-    <section id="leadership" class="leadership">
-        <div class="container">
-            <h2>Aperture Leadership</h2>
-            <div class="leadership-grid">
-                <div class="leader-card">
-                    <div class="leader-image">
-                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=300&fit=crop&crop=face" alt="Robert Palmer">
-                    </div>
-                    <h3>Robert Palmer</h3>
-                    <p class="title">Founder/CEO</p>
-                    <p>Robert Palmer is a serial entrepreneur, business leader and marketing guru who has built an impressive portfolio of brands and businesses through innovation, hard work, and a relentless passion for success.</p>
-                </div>
-                <div class="leader-card">
-                    <div class="leader-image">
-                        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=300&h=300&fit=crop&crop=face" alt="Michael Valdes">
-                    </div>
-                    <h3>Michael Valdes</h3>
-                    <p class="title">Global President</p>
-                    <p>Michael Valdes is a leader in luxury real estate, serving as Global President of Aperture and CEO of LPT International. Prior to this role, he served as Chief Growth Officer of exp Realty.</p>
-                </div>
-                <div class="leader-card">
-                    <div class="leader-image">
-                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300&h=300&fit=crop&crop=face" alt="Mercedes Saewitz">
-                    </div>
-                    <h3>Mercedes Saewitz</h3>
-                    <p class="title">SVP of Operations</p>
-                    <p>A Miami native with over 20 years of industry experience, Mercedes Saewitz is a recognized leader in real estate. During her decade at Compass, she led regional brokerage operations.</p>
-                </div>
-                <div class="leader-card">
-                    <div class="leader-image">
-                        <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=300&h=300&fit=crop&crop=face" alt="Matt Hodge">
-                    </div>
-                    <h3>Matt Hodge</h3>
-                    <p class="title">Executive VP</p>
-                    <p>Matthew Hodge's real estate journey began with a deep passion for helping individuals build wealth through real estate. This commitment to client success paved the way for a seamless transition into luxury sales.</p>
-                </div>
-            </div>
-        </div>
-    </section>
 
     <!-- News Section -->
     <section id="news" class="news">
         <div class="container">
-            <h2>Aperture News</h2>
-            <p>Get a curated glimpse into the brand's global expansion, marquee listings, elite agent achievements, and the latest innovations redefining luxury real estate.</p>
+            <h2 class="display-font">Aperture News</h2>
+            <p class="text-elegant">Get a curated glimpse into the brand's global expansion, marquee listings, elite agent achievements, and the latest innovations redefining luxury real estate.</p>
             
             <div class="news-grid">
                 <div class="news-card">
@@ -601,8 +964,8 @@
     <!-- CTA Section -->
     <section class="cta-section">
         <div class="container">
-            <h2>Step Into a Smarter Era of Luxury Real Estate</h2>
-            <p>Aperture is where exceptional properties meet exceptional representation. Whether you're entering the market or redefining your career, we offer a path built on discretion, reach, and results.</p>
+            <h2 class="display-font">Step Into a Smarter Era of Luxury Real Estate</h2>
+            <p class="text-elegant">Aperture is where exceptional properties meet exceptional representation. Whether you're entering the market or redefining your career, we offer a path built on discretion, reach, and results.</p>
             
             <div class="cta-buttons">
                 <button class="cta-button primary">Buyers & Sellers</button>
@@ -1186,14 +1549,11 @@
 
             // Handle agent search
             handleAgentSearch(location, keywords) {
-                // Redirect to leadership/agents section
+                // Redirect to agents page
                 this.showSearchMessage(`Finding luxury real estate agents${location ? ` in ${location}` : ''}${keywords ? ` specializing in ${keywords}` : ''}.`);
                 
                 setTimeout(() => {
-                    const leadershipSection = document.getElementById('leadership');
-                    if (leadershipSection) {
-                        leadershipSection.scrollIntoView({ behavior: 'smooth' });
-                    }
+                    window.location.href = 'agents.html';
                 }, 2000);
             }
 
@@ -1341,3 +1701,4 @@
     </script>
 </body>
 </html>
+
