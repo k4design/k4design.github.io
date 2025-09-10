@@ -1411,6 +1411,12 @@ function setupScheduleTourOnAllPages() {
 document.addEventListener('DOMContentLoaded', () => {
     window.apertureWebsite = new ApertureWebsite();
     window.scheduleModal = new ScheduleModal();
+    
+    // Expose carousel methods globally for touch events
+    if (window.apertureWebsite) {
+        window.apertureWebsite.nextSlide = window.apertureWebsite.nextSlide.bind(window.apertureWebsite);
+        window.apertureWebsite.previousSlide = window.apertureWebsite.previousSlide.bind(window.apertureWebsite);
+    }
     setupScheduleTourOnAllPages();
     
     // Initialize PropertiesPage only on properties page
