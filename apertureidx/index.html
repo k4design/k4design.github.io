@@ -92,6 +92,8 @@
             position: relative;
             width: 100%;
             height: 100vh;
+            -webkit-overflow-scrolling: touch; /* Safari smooth scrolling */
+            overflow: hidden;
         }
 
         .carousel-slide {
@@ -102,10 +104,14 @@
             height: 100%;
             opacity: 0;
             transition: opacity 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            -webkit-transform: translateZ(0); /* Force hardware acceleration for Safari */
+            transform: translateZ(0);
         }
 
         .carousel-slide.active {
             opacity: 1;
+            -webkit-transform: translateZ(0);
+            transform: translateZ(0);
         }
 
         .slide-background {
@@ -133,6 +139,10 @@
             height: 100%;
             object-fit: cover;
             filter: grayscale(20%) contrast(1.1);
+            -webkit-backface-visibility: hidden; /* Safari fix */
+            backface-visibility: hidden;
+            -webkit-transform: translateZ(0);
+            transform: translateZ(0);
         }
 
         .slide-content {
@@ -236,6 +246,9 @@
             display: inline-block;
             position: relative;
             overflow: hidden;
+            -webkit-tap-highlight-color: transparent; /* Safari tap highlight fix */
+            -webkit-user-select: none;
+            user-select: none;
         }
 
         .carousel-btn.primary {
@@ -425,6 +438,23 @@
 
             .mls-properties-grid {
                 grid-template-columns: 1fr;
+            }
+        }
+        /* Safari iOS specific fixes */
+        @supports (-webkit-touch-callout: none) {
+            .carousel-slide {
+                -webkit-transform: translate3d(0, 0, 0);
+                transform: translate3d(0, 0, 0);
+            }
+            
+            .carousel-container {
+                -webkit-transform: translate3d(0, 0, 0);
+                transform: translate3d(0, 0, 0);
+            }
+            
+            .slide-background img {
+                -webkit-transform: translate3d(0, 0, 0);
+                transform: translate3d(0, 0, 0);
             }
         }
     </style>
@@ -1698,6 +1728,40 @@
 
         `;
         document.head.appendChild(style);
+    </script>
+    <script>
+        // Safari iOS carousel fix
+        document.addEventListener('DOMContentLoaded', function() {
+            // Force reflow for Safari iOS
+            const carousel = document.querySelector('.carousel-container');
+            if (carousel) {
+                carousel.style.display = 'none';
+                carousel.offsetHeight; // Trigger reflow
+                carousel.style.display = '';
+            }
+            
+            // Add touch event listeners with passive: false for better Safari support
+            const slides = document.querySelectorAll('.carousel-slide');
+            slides.forEach(slide => {
+                slide.addEventListener('touchstart', function(e) {
+                    e.preventDefault();
+                }, { passive: false });
+                
+                slide.addEventListener('touchmove', function(e) {
+                    e.preventDefault();
+                }, { passive: false });
+            });
+        });
+        
+        // Additional Safari iOS viewport fix
+        function setViewportHeight() {
+            const vh = window.innerHeight * 0.01;
+            document.documentElement.style.setProperty('--vh', `${vh}px`);
+        }
+        
+        setViewportHeight();
+        window.addEventListener('resize', setViewportHeight);
+        window.addEventListener('orientationchange', setViewportHeight);
     </script>
 </body>
 </html>
