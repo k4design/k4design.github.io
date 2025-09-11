@@ -360,7 +360,6 @@
             transform: translate(-50%, -50%);
             width: 600px;
             height: 600px;
-            animation: rotateGlobe 20s linear infinite;
         }
 
         .sphere-ring {
@@ -429,14 +428,6 @@
                 0 0 100px rgba(0, 204, 255, 0.7);
         }
 
-        @keyframes rotateGlobe {
-            from {
-                transform: translate(-50%, -50%) rotateY(0deg) rotateX(15deg);
-            }
-            to {
-                transform: translate(-50%, -50%) rotateY(360deg) rotateX(15deg);
-            }
-        }
 
         @keyframes rotateSphere {
             from {
@@ -1052,78 +1043,144 @@
                     <!-- Equator Ring -->
                     <div class="sphere-ring equator">
                         <div class="dot" style="--delay: 0s; --angle: 0deg; --elevation: 0deg;"></div>
-                        <div class="dot" style="--delay: 0.1s; --angle: 30deg; --elevation: 0deg;"></div>
-                        <div class="dot" style="--delay: 0.2s; --angle: 60deg; --elevation: 0deg;"></div>
-                        <div class="dot" style="--delay: 0.3s; --angle: 90deg; --elevation: 0deg;"></div>
-                        <div class="dot" style="--delay: 0.4s; --angle: 120deg; --elevation: 0deg;"></div>
-                        <div class="dot" style="--delay: 0.5s; --angle: 150deg; --elevation: 0deg;"></div>
-                        <div class="dot" style="--delay: 0.6s; --angle: 180deg; --elevation: 0deg;"></div>
-                        <div class="dot" style="--delay: 0.7s; --angle: 210deg; --elevation: 0deg;"></div>
-                        <div class="dot" style="--delay: 0.8s; --angle: 240deg; --elevation: 0deg;"></div>
-                        <div class="dot" style="--delay: 0.9s; --angle: 270deg; --elevation: 0deg;"></div>
-                        <div class="dot" style="--delay: 1s; --angle: 300deg; --elevation: 0deg;"></div>
-                        <div class="dot" style="--delay: 1.1s; --angle: 330deg; --elevation: 0deg;"></div>
+                        <div class="dot" style="--delay: 0.1s; --angle: 20deg; --elevation: 0deg;"></div>
+                        <div class="dot" style="--delay: 0.2s; --angle: 40deg; --elevation: 0deg;"></div>
+                        <div class="dot" style="--delay: 0.3s; --angle: 60deg; --elevation: 0deg;"></div>
+                        <div class="dot" style="--delay: 0.4s; --angle: 80deg; --elevation: 0deg;"></div>
+                        <div class="dot" style="--delay: 0.5s; --angle: 100deg; --elevation: 0deg;"></div>
+                        <div class="dot" style="--delay: 0.6s; --angle: 120deg; --elevation: 0deg;"></div>
+                        <div class="dot" style="--delay: 0.7s; --angle: 140deg; --elevation: 0deg;"></div>
+                        <div class="dot" style="--delay: 0.8s; --angle: 160deg; --elevation: 0deg;"></div>
+                        <div class="dot" style="--delay: 0.9s; --angle: 180deg; --elevation: 0deg;"></div>
+                        <div class="dot" style="--delay: 1s; --angle: 200deg; --elevation: 0deg;"></div>
+                        <div class="dot" style="--delay: 1.1s; --angle: 220deg; --elevation: 0deg;"></div>
+                        <div class="dot" style="--delay: 1.2s; --angle: 240deg; --elevation: 0deg;"></div>
+                        <div class="dot" style="--delay: 1.3s; --angle: 260deg; --elevation: 0deg;"></div>
+                        <div class="dot" style="--delay: 1.4s; --angle: 280deg; --elevation: 0deg;"></div>
+                        <div class="dot" style="--delay: 1.5s; --angle: 300deg; --elevation: 0deg;"></div>
+                        <div class="dot" style="--delay: 1.6s; --angle: 320deg; --elevation: 0deg;"></div>
+                        <div class="dot" style="--delay: 1.7s; --angle: 340deg; --elevation: 0deg;"></div>
                     </div>
                     
                     <!-- Northern Ring 1 -->
                     <div class="sphere-ring northern-1">
-                        <div class="dot" style="--delay: 0.2s; --angle: 0deg; --elevation: 30deg;"></div>
-                        <div class="dot" style="--delay: 0.3s; --angle: 45deg; --elevation: 30deg;"></div>
-                        <div class="dot" style="--delay: 0.4s; --angle: 90deg; --elevation: 30deg;"></div>
-                        <div class="dot" style="--delay: 0.5s; --angle: 135deg; --elevation: 30deg;"></div>
-                        <div class="dot" style="--delay: 0.6s; --angle: 180deg; --elevation: 30deg;"></div>
-                        <div class="dot" style="--delay: 0.7s; --angle: 225deg; --elevation: 30deg;"></div>
-                        <div class="dot" style="--delay: 0.8s; --angle: 270deg; --elevation: 30deg;"></div>
-                        <div class="dot" style="--delay: 0.9s; --angle: 315deg; --elevation: 30deg;"></div>
+                        <div class="dot" style="--delay: 0.2s; --angle: 0deg; --elevation: 15deg;"></div>
+                        <div class="dot" style="--delay: 0.3s; --angle: 30deg; --elevation: 15deg;"></div>
+                        <div class="dot" style="--delay: 0.4s; --angle: 60deg; --elevation: 15deg;"></div>
+                        <div class="dot" style="--delay: 0.5s; --angle: 90deg; --elevation: 15deg;"></div>
+                        <div class="dot" style="--delay: 0.6s; --angle: 120deg; --elevation: 15deg;"></div>
+                        <div class="dot" style="--delay: 0.7s; --angle: 150deg; --elevation: 15deg;"></div>
+                        <div class="dot" style="--delay: 0.8s; --angle: 180deg; --elevation: 15deg;"></div>
+                        <div class="dot" style="--delay: 0.9s; --angle: 210deg; --elevation: 15deg;"></div>
+                        <div class="dot" style="--delay: 1s; --angle: 240deg; --elevation: 15deg;"></div>
+                        <div class="dot" style="--delay: 1.1s; --angle: 270deg; --elevation: 15deg;"></div>
+                        <div class="dot" style="--delay: 1.2s; --angle: 300deg; --elevation: 15deg;"></div>
+                        <div class="dot" style="--delay: 1.3s; --angle: 330deg; --elevation: 15deg;"></div>
                     </div>
                     
                     <!-- Northern Ring 2 -->
                     <div class="sphere-ring northern-2">
-                        <div class="dot" style="--delay: 0.4s; --angle: 0deg; --elevation: 60deg;"></div>
-                        <div class="dot" style="--delay: 0.5s; --angle: 60deg; --elevation: 60deg;"></div>
-                        <div class="dot" style="--delay: 0.6s; --angle: 120deg; --elevation: 60deg;"></div>
-                        <div class="dot" style="--delay: 0.7s; --angle: 180deg; --elevation: 60deg;"></div>
-                        <div class="dot" style="--delay: 0.8s; --angle: 240deg; --elevation: 60deg;"></div>
-                        <div class="dot" style="--delay: 0.9s; --angle: 300deg; --elevation: 60deg;"></div>
+                        <div class="dot" style="--delay: 0.4s; --angle: 0deg; --elevation: 30deg;"></div>
+                        <div class="dot" style="--delay: 0.5s; --angle: 45deg; --elevation: 30deg;"></div>
+                        <div class="dot" style="--delay: 0.6s; --angle: 90deg; --elevation: 30deg;"></div>
+                        <div class="dot" style="--delay: 0.7s; --angle: 135deg; --elevation: 30deg;"></div>
+                        <div class="dot" style="--delay: 0.8s; --angle: 180deg; --elevation: 30deg;"></div>
+                        <div class="dot" style="--delay: 0.9s; --angle: 225deg; --elevation: 30deg;"></div>
+                        <div class="dot" style="--delay: 1s; --angle: 270deg; --elevation: 30deg;"></div>
+                        <div class="dot" style="--delay: 1.1s; --angle: 315deg; --elevation: 30deg;"></div>
+                    </div>
+                    
+                    <!-- Northern Ring 3 -->
+                    <div class="sphere-ring northern-3">
+                        <div class="dot" style="--delay: 0.6s; --angle: 0deg; --elevation: 45deg;"></div>
+                        <div class="dot" style="--delay: 0.7s; --angle: 60deg; --elevation: 45deg;"></div>
+                        <div class="dot" style="--delay: 0.8s; --angle: 120deg; --elevation: 45deg;"></div>
+                        <div class="dot" style="--delay: 0.9s; --angle: 180deg; --elevation: 45deg;"></div>
+                        <div class="dot" style="--delay: 1s; --angle: 240deg; --elevation: 45deg;"></div>
+                        <div class="dot" style="--delay: 1.1s; --angle: 300deg; --elevation: 45deg;"></div>
+                    </div>
+                    
+                    <!-- Northern Ring 4 -->
+                    <div class="sphere-ring northern-4">
+                        <div class="dot" style="--delay: 0.8s; --angle: 0deg; --elevation: 60deg;"></div>
+                        <div class="dot" style="--delay: 0.9s; --angle: 90deg; --elevation: 60deg;"></div>
+                        <div class="dot" style="--delay: 1s; --angle: 180deg; --elevation: 60deg;"></div>
+                        <div class="dot" style="--delay: 1.1s; --angle: 270deg; --elevation: 60deg;"></div>
+                    </div>
+                    
+                    <!-- Northern Ring 5 -->
+                    <div class="sphere-ring northern-5">
+                        <div class="dot" style="--delay: 1s; --angle: 0deg; --elevation: 75deg;"></div>
+                        <div class="dot" style="--delay: 1.1s; --angle: 180deg; --elevation: 75deg;"></div>
                     </div>
                     
                     <!-- North Pole -->
                     <div class="sphere-ring north-pole">
-                        <div class="dot" style="--delay: 0.6s; --angle: 0deg; --elevation: 90deg;"></div>
+                        <div class="dot" style="--delay: 1.2s; --angle: 0deg; --elevation: 90deg;"></div>
                     </div>
                     
                     <!-- Southern Ring 1 -->
                     <div class="sphere-ring southern-1">
-                        <div class="dot" style="--delay: 0.2s; --angle: 0deg; --elevation: -30deg;"></div>
-                        <div class="dot" style="--delay: 0.3s; --angle: 45deg; --elevation: -30deg;"></div>
-                        <div class="dot" style="--delay: 0.4s; --angle: 90deg; --elevation: -30deg;"></div>
-                        <div class="dot" style="--delay: 0.5s; --angle: 135deg; --elevation: -30deg;"></div>
-                        <div class="dot" style="--delay: 0.6s; --angle: 180deg; --elevation: -30deg;"></div>
-                        <div class="dot" style="--delay: 0.7s; --angle: 225deg; --elevation: -30deg;"></div>
-                        <div class="dot" style="--delay: 0.8s; --angle: 270deg; --elevation: -30deg;"></div>
-                        <div class="dot" style="--delay: 0.9s; --angle: 315deg; --elevation: -30deg;"></div>
+                        <div class="dot" style="--delay: 0.2s; --angle: 0deg; --elevation: -15deg;"></div>
+                        <div class="dot" style="--delay: 0.3s; --angle: 30deg; --elevation: -15deg;"></div>
+                        <div class="dot" style="--delay: 0.4s; --angle: 60deg; --elevation: -15deg;"></div>
+                        <div class="dot" style="--delay: 0.5s; --angle: 90deg; --elevation: -15deg;"></div>
+                        <div class="dot" style="--delay: 0.6s; --angle: 120deg; --elevation: -15deg;"></div>
+                        <div class="dot" style="--delay: 0.7s; --angle: 150deg; --elevation: -15deg;"></div>
+                        <div class="dot" style="--delay: 0.8s; --angle: 180deg; --elevation: -15deg;"></div>
+                        <div class="dot" style="--delay: 0.9s; --angle: 210deg; --elevation: -15deg;"></div>
+                        <div class="dot" style="--delay: 1s; --angle: 240deg; --elevation: -15deg;"></div>
+                        <div class="dot" style="--delay: 1.1s; --angle: 270deg; --elevation: -15deg;"></div>
+                        <div class="dot" style="--delay: 1.2s; --angle: 300deg; --elevation: -15deg;"></div>
+                        <div class="dot" style="--delay: 1.3s; --angle: 330deg; --elevation: -15deg;"></div>
                     </div>
                     
                     <!-- Southern Ring 2 -->
                     <div class="sphere-ring southern-2">
-                        <div class="dot" style="--delay: 0.4s; --angle: 0deg; --elevation: -60deg;"></div>
-                        <div class="dot" style="--delay: 0.5s; --angle: 60deg; --elevation: -60deg;"></div>
-                        <div class="dot" style="--delay: 0.6s; --angle: 120deg; --elevation: -60deg;"></div>
-                        <div class="dot" style="--delay: 0.7s; --angle: 180deg; --elevation: -60deg;"></div>
-                        <div class="dot" style="--delay: 0.8s; --angle: 240deg; --elevation: -60deg;"></div>
-                        <div class="dot" style="--delay: 0.9s; --angle: 300deg; --elevation: -60deg;"></div>
+                        <div class="dot" style="--delay: 0.4s; --angle: 0deg; --elevation: -30deg;"></div>
+                        <div class="dot" style="--delay: 0.5s; --angle: 45deg; --elevation: -30deg;"></div>
+                        <div class="dot" style="--delay: 0.6s; --angle: 90deg; --elevation: -30deg;"></div>
+                        <div class="dot" style="--delay: 0.7s; --angle: 135deg; --elevation: -30deg;"></div>
+                        <div class="dot" style="--delay: 0.8s; --angle: 180deg; --elevation: -30deg;"></div>
+                        <div class="dot" style="--delay: 0.9s; --angle: 225deg; --elevation: -30deg;"></div>
+                        <div class="dot" style="--delay: 1s; --angle: 270deg; --elevation: -30deg;"></div>
+                        <div class="dot" style="--delay: 1.1s; --angle: 315deg; --elevation: -30deg;"></div>
+                    </div>
+                    
+                    <!-- Southern Ring 3 -->
+                    <div class="sphere-ring southern-3">
+                        <div class="dot" style="--delay: 0.6s; --angle: 0deg; --elevation: -45deg;"></div>
+                        <div class="dot" style="--delay: 0.7s; --angle: 60deg; --elevation: -45deg;"></div>
+                        <div class="dot" style="--delay: 0.8s; --angle: 120deg; --elevation: -45deg;"></div>
+                        <div class="dot" style="--delay: 0.9s; --angle: 180deg; --elevation: -45deg;"></div>
+                        <div class="dot" style="--delay: 1s; --angle: 240deg; --elevation: -45deg;"></div>
+                        <div class="dot" style="--delay: 1.1s; --angle: 300deg; --elevation: -45deg;"></div>
+                    </div>
+                    
+                    <!-- Southern Ring 4 -->
+                    <div class="sphere-ring southern-4">
+                        <div class="dot" style="--delay: 0.8s; --angle: 0deg; --elevation: -60deg;"></div>
+                        <div class="dot" style="--delay: 0.9s; --angle: 90deg; --elevation: -60deg;"></div>
+                        <div class="dot" style="--delay: 1s; --angle: 180deg; --elevation: -60deg;"></div>
+                        <div class="dot" style="--delay: 1.1s; --angle: 270deg; --elevation: -60deg;"></div>
+                    </div>
+                    
+                    <!-- Southern Ring 5 -->
+                    <div class="sphere-ring southern-5">
+                        <div class="dot" style="--delay: 1s; --angle: 0deg; --elevation: -75deg;"></div>
+                        <div class="dot" style="--delay: 1.1s; --angle: 180deg; --elevation: -75deg;"></div>
                     </div>
                     
                     <!-- South Pole -->
                     <div class="sphere-ring south-pole">
-                        <div class="dot" style="--delay: 0.6s; --angle: 0deg; --elevation: -90deg;"></div>
+                        <div class="dot" style="--delay: 1.2s; --angle: 0deg; --elevation: -90deg;"></div>
                     </div>
                 </div>
             </div>
         </div>
         
         <div class="container">
-            <h2 class="display-font">International Luxury Real Estate Brokerage</h2>
+            <h2 class="display-font">International Luxury</br> Real Estate Brokerage</h2>
             <p class="text-elegant">Aperture Global is pioneering a new era in the international real estate market as the first of its kind in the global luxury space. With a vision to become the premier name in high-end real estate, Aperture Global operates with a presence concentrated on the greatest luxury cities around the world, spanning 6 continents and 20+ countries.</p>
             
             <div class="features-grid">
