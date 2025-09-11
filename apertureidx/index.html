@@ -97,6 +97,7 @@
             -webkit-overflow-scrolling: touch; /* Safari smooth scrolling */
             overflow: hidden;
             touch-action: pan-y; /* Allow vertical scrolling, prevent horizontal */
+            pointer-events: auto; /* Ensure container allows pointer events */
         }
 
         .carousel-slide {
@@ -124,6 +125,7 @@
             width: 100%;
             height: 100%;
             z-index: 1;
+            pointer-events: auto; /* Allow touch events for swiping */
         }
 
         .slide-background::before {
@@ -150,7 +152,7 @@
 
         .slide-content {
             position: relative;
-            z-index: 3;
+            z-index: 15; /* Higher than navigation */
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -159,6 +161,7 @@
             max-width: 1400px;
             margin: 0 auto;
             padding: 0 4rem;
+            pointer-events: auto; /* Ensure content is clickable */
         }
 
         .slide-badge {
@@ -236,47 +239,84 @@
         .slide-actions {
             display: flex;
             gap: 1.5rem;
+            pointer-events: auto; /* Ensure actions are clickable */
+            z-index: 20; /* Ensure actions are above all other elements */
+            position: relative;
         }
 
         .carousel-btn {
-            padding: 1rem 2.5rem;
-            border-radius: 50px;
-            font-size: 1rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            text-decoration: none;
-            display: inline-block;
-            position: relative;
-            overflow: hidden;
-            -webkit-tap-highlight-color: transparent; /* Safari tap highlight fix */
-            -webkit-user-select: none;
-            user-select: none;
-            min-height: 44px; /* iOS minimum touch target */
-            min-width: 44px;
+            padding: 1rem 2.5rem !important;
+            border-radius: 50px !important;
+            font-size: 1rem !important;
+            font-weight: 500 !important;
+            cursor: pointer !important;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+            text-decoration: none !important;
+            display: inline-block !important;
+            position: relative !important;
+            overflow: hidden !important;
+            -webkit-tap-highlight-color: transparent !important; /* Safari tap highlight fix */
+            -webkit-user-select: none !important;
+            user-select: none !important;
+            min-height: 44px !important; /* iOS minimum touch target */
+            min-width: 44px !important;
+            pointer-events: auto !important; /* Ensure buttons are clickable */
+            z-index: 25 !important; /* Ensure buttons are above all other elements */
+            text-transform: none !important;
+            letter-spacing: normal !important;
         }
 
         .carousel-btn.primary {
-            background: var(--gradient-accent);
-            color: var(--primary-black);
-            border: none;
+            background: var(--gradient-accent) !important;
+            color: var(--primary-black) !important;
+            border: none !important;
         }
 
         .carousel-btn.primary:hover {
-            transform: translateY(-3px);
-            box-shadow: var(--shadow-glow);
+            transform: translateY(-3px) !important;
+            box-shadow: var(--shadow-glow) !important;
         }
 
         .carousel-btn.secondary {
-            background: transparent;
-            color: var(--text-primary);
-            border: 1px solid var(--accent-blue);
+            background: transparent !important;
+            color: var(--text-primary) !important;
+            border: 1px solid var(--accent-blue) !important;
         }
 
         .carousel-btn.secondary:hover {
-            background: var(--accent-blue);
-            color: var(--primary-black);
-            transform: translateY(-3px);
+            background: var(--accent-blue) !important;
+            color: var(--primary-black) !important;
+            transform: translateY(-3px) !important;
+            box-shadow: var(--shadow-glow) !important;
+        }
+
+        /* Ensure buttons are always clickable */
+        .carousel-btn:active {
+            transform: translateY(-1px) !important;
+        }
+
+        .carousel-btn:focus {
+            outline: 2px solid var(--accent-blue) !important;
+            outline-offset: 2px !important;
+        }
+
+        /* Debug styles to ensure buttons are visible and clickable */
+        .carousel-btn {
+            background-color: red !important; /* Temporary debug color */
+            border: 2px solid yellow !important; /* Temporary debug border */
+            opacity: 1 !important;
+            visibility: visible !important;
+            display: inline-block !important;
+        }
+
+        .carousel-btn.primary {
+            background: var(--gradient-accent) !important;
+            border: 2px solid var(--accent-blue) !important;
+        }
+
+        .carousel-btn.secondary {
+            background: transparent !important;
+            border: 2px solid var(--accent-blue) !important;
         }
 
         /* Search Section - Reverted to Original */
@@ -1876,61 +1916,109 @@
             let isScrolling = false;
             
             if (carouselContainer) {
-                carouselContainer.addEventListener('touchstart', function(e) {
-                    touchStartX = e.touches[0].clientX;
-                    touchStartY = e.touches[0].clientY;
-                    isScrolling = false;
-                }, { passive: true });
+                // Only add touch events to the slide background areas, not buttons
+                const slideBackgrounds = carouselContainer.querySelectorAll('.slide-background');
                 
-                carouselContainer.addEventListener('touchmove', function(e) {
-                    if (!touchStartX || !touchStartY) return;
-                    
-                    const touchCurrentX = e.touches[0].clientX;
-                    const touchCurrentY = e.touches[0].clientY;
-                    
-                    const diffX = Math.abs(touchStartX - touchCurrentX);
-                    const diffY = Math.abs(touchStartY - touchCurrentY);
-                    
-                    // Determine if this is a horizontal swipe (carousel) or vertical scroll
-                    if (diffX > diffY) {
-                        // Horizontal swipe - prevent default to allow carousel navigation
-                        e.preventDefault();
+                slideBackgrounds.forEach(background => {
+                    background.addEventListener('touchstart', function(e) {
+                        touchStartX = e.touches[0].clientX;
+                        touchStartY = e.touches[0].clientY;
                         isScrolling = false;
-                    } else {
-                        // Vertical scroll - allow default behavior
-                        isScrolling = true;
-                    }
-                }, { passive: false });
-                
-                carouselContainer.addEventListener('touchend', function(e) {
-                    if (!touchStartX || !touchStartY || isScrolling) return;
+                    }, { passive: true });
                     
-                    const touchEndX = e.changedTouches[0].clientX;
-                    const touchEndY = e.changedTouches[0].clientY;
-                    
-                    const diffX = touchStartX - touchEndX;
-                    const diffY = touchStartY - touchEndY;
-                    
-                    // Only handle horizontal swipes
-                    if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
-                        if (diffX > 0) {
-                            // Swipe left - next slide
-                            if (window.apertureWebsite && window.apertureWebsite.nextSlide) {
-                                window.apertureWebsite.nextSlide();
-                            }
+                    background.addEventListener('touchmove', function(e) {
+                        if (!touchStartX || !touchStartY) return;
+                        
+                        const touchCurrentX = e.touches[0].clientX;
+                        const touchCurrentY = e.touches[0].clientY;
+                        
+                        const diffX = Math.abs(touchStartX - touchCurrentX);
+                        const diffY = Math.abs(touchStartY - touchCurrentY);
+                        
+                        // Determine if this is a horizontal swipe (carousel) or vertical scroll
+                        if (diffX > diffY) {
+                            // Horizontal swipe - prevent default to allow carousel navigation
+                            e.preventDefault();
+                            isScrolling = false;
                         } else {
-                            // Swipe right - previous slide
-                            if (window.apertureWebsite && window.apertureWebsite.previousSlide) {
-                                window.apertureWebsite.previousSlide();
+                            // Vertical scroll - allow default behavior
+                            isScrolling = true;
+                        }
+                    }, { passive: false });
+                    
+                    background.addEventListener('touchend', function(e) {
+                        if (!touchStartX || !touchStartY || isScrolling) return;
+                        
+                        const touchEndX = e.changedTouches[0].clientX;
+                        const touchEndY = e.changedTouches[0].clientY;
+                        
+                        const diffX = touchStartX - touchEndX;
+                        const diffY = touchStartY - touchEndY;
+                        
+                        // Only handle horizontal swipes
+                        if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
+                            if (diffX > 0) {
+                                // Swipe left - next slide
+                                if (window.apertureWebsite && window.apertureWebsite.nextSlide) {
+                                    window.apertureWebsite.nextSlide();
+                                }
+                            } else {
+                                // Swipe right - previous slide
+                                if (window.apertureWebsite && window.apertureWebsite.previousSlide) {
+                                    window.apertureWebsite.previousSlide();
+                                }
                             }
                         }
-                    }
-                    
-                    touchStartX = 0;
-                    touchStartY = 0;
-                    isScrolling = false;
-                }, { passive: true });
+                        
+                        touchStartX = 0;
+                        touchStartY = 0;
+                        isScrolling = false;
+                    }, { passive: true });
+                });
             }
+            
+            // Ensure carousel buttons work properly
+            const carouselButtons = document.querySelectorAll('.carousel-btn');
+            console.log('Found carousel buttons:', carouselButtons.length);
+            
+            carouselButtons.forEach((button, index) => {
+                console.log(`Button ${index}:`, button.textContent, button);
+                
+                // Remove any existing event listeners
+                button.replaceWith(button.cloneNode(true));
+                
+                // Re-select the button after cloning
+                const newButton = document.querySelectorAll('.carousel-btn')[index];
+                
+                newButton.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    console.log('Button clicked:', newButton.textContent);
+                    
+                    // Handle different button types
+                    if (newButton.textContent.includes('View Details')) {
+                        const href = newButton.getAttribute('href');
+                        if (href) {
+                            window.location.href = href;
+                        }
+                    } else if (newButton.textContent.includes('Schedule Tour')) {
+                        // Open schedule modal
+                        if (window.openScheduleModal) {
+                            window.openScheduleModal(newButton);
+                        } else {
+                            console.log('Schedule tour clicked - modal not available');
+                        }
+                    }
+                });
+                
+                newButton.addEventListener('mouseenter', function() {
+                    console.log('Button hover:', newButton.textContent);
+                });
+                
+                newButton.addEventListener('mouseleave', function() {
+                    console.log('Button leave:', newButton.textContent);
+                });
+            });
             
             // Mobile breakpoint carousel fix
             function handleMobileCarousel() {

@@ -425,61 +425,9 @@ p {
     flex-wrap: wrap;
 }
 
-.carousel-btn {
-    padding: 16px 32px;
-    border-radius: 8px;
-    font-size: 1rem;
-    font-weight: 400;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    border: none;
-    min-width: 180px;
-    text-decoration: none;
-    display: inline-block;
-    text-align: center;
-}
+/* Carousel button styles moved to inline styles in index.html for better control */
 
-.carousel-btn.primary {
-    background: transparent;
-    color: white;
-    border: 1px solid white;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-    /* Updated: White border, no fill, white text */
-}
-
-.carousel-btn.primary:hover {
-    background: rgba(255, 255, 255, 0.25);
-    border-color: white;
-    color: white;
-    transform: translateY(-2px);
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-}
-
-.carousel-btn.secondary {
-    background: transparent;
-    color: white;
-    border: 1px solid white;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-    /* Updated: White border, no fill, white text */
-}
-
-.carousel-btn.secondary:hover {
-    background: rgba(255, 255, 255, 0.1);
-    border-color: white;
-    color: white;
-    transform: translateY(-2px);
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-}
+/* Carousel button primary and secondary styles moved to inline styles in index.html */
 
 /* Carousel Navigation */
 .carousel-nav {
@@ -648,11 +596,7 @@ p {
         gap: 1rem;
     }
     
-    .carousel-btn {
-        padding: 12px 24px;
-        font-size: 0.9rem;
-        min-width: 140px;
-    }
+    /* Carousel button responsive styles moved to inline styles in index.html */
     
     .carousel-nav {
         padding: 0 20px;
@@ -713,11 +657,7 @@ p {
         margin-bottom: 1rem;
     }
     
-    .carousel-btn {
-        padding: 10px 20px;
-        font-size: 0.8rem;
-        min-width: 120px;
-    }
+    /* Carousel button mobile styles moved to inline styles in index.html */
     
     .carousel-nav {
         padding: 0 15px;
@@ -3353,10 +3293,6 @@ p {
     font-size: 1.2rem;
     width: 20px;
     text-align: center;
-}
-
-.project-location {
-  
 }
 
 .location-content {
