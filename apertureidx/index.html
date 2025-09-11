@@ -330,11 +330,240 @@
             padding: 8rem 0;
             background: var(--primary-black);
             position: relative;
+            overflow: hidden;
+        }
+
+        /* 3D Rotating Earth Globe */
+        .earth-globe {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .globe-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            perspective: 1000px;
+            perspective-origin: center center;
+        }
+
+        .globe {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 600px;
+            height: 600px;
+            animation: rotateGlobe 20s linear infinite;
+        }
+
+        .sphere-ring {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            transform-style: preserve-3d;
+        }
+
+        .dot {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: #00aaff;
+            border-radius: 50%;
+            box-shadow: 
+                0 0 15px #00aaff,
+                0 0 30px #00aaff,
+                0 0 45px #00aaff,
+                0 0 60px rgba(0, 170, 255, 0.5);
+            animation: 
+                pulseDot 2s ease-in-out infinite,
+                rotateSphere 20s linear infinite;
+            animation-delay: var(--delay);
+            top: 50%;
+            left: 50%;
+            transform-origin: 0 0;
+            transform: 
+                translate(-50%, -50%) 
+                rotateY(var(--angle)) 
+                rotateX(var(--elevation))
+                translateZ(300px);
+        }
+
+        .dot:nth-child(odd) {
+            width: 10px;
+            height: 10px;
+            background: #0088ff;
+            box-shadow: 
+                0 0 20px #0088ff,
+                0 0 40px #0088ff,
+                0 0 60px #0088ff,
+                0 0 80px rgba(0, 136, 255, 0.6);
+        }
+
+        .dot:nth-child(3n) {
+            width: 6px;
+            height: 6px;
+            background: #0066ff;
+            box-shadow: 
+                0 0 12px #0066ff,
+                0 0 24px #0066ff,
+                0 0 36px #0066ff,
+                0 0 48px rgba(0, 102, 255, 0.4);
+        }
+
+        .dot:nth-child(5n) {
+            width: 12px;
+            height: 12px;
+            background: #00ccff;
+            box-shadow: 
+                0 0 25px #00ccff,
+                0 0 50px #00ccff,
+                0 0 75px #00ccff,
+                0 0 100px rgba(0, 204, 255, 0.7);
+        }
+
+        @keyframes rotateGlobe {
+            from {
+                transform: translate(-50%, -50%) rotateY(0deg) rotateX(15deg);
+            }
+            to {
+                transform: translate(-50%, -50%) rotateY(360deg) rotateX(15deg);
+            }
+        }
+
+        @keyframes rotateSphere {
+            from {
+                transform: 
+                    translate(-50%, -50%) 
+                    rotateY(var(--angle)) 
+                    rotateX(var(--elevation))
+                    translateZ(300px);
+            }
+            to {
+                transform: 
+                    translate(-50%, -50%) 
+                    rotateY(calc(var(--angle) + 360deg)) 
+                    rotateX(var(--elevation))
+                    translateZ(300px);
+            }
+        }
+
+        @keyframes pulseDot {
+            0%, 100% {
+                opacity: 0.8;
+                transform: 
+                    translate(-50%, -50%) 
+                    rotateY(var(--angle)) 
+                    rotateX(var(--elevation))
+                    translateZ(300px) 
+                    scale(1);
+            }
+            25% {
+                opacity: 1;
+                transform: 
+                    translate(-50%, -50%) 
+                    rotateY(var(--angle)) 
+                    rotateX(var(--elevation))
+                    translateZ(300px) 
+                    scale(1.3);
+            }
+            50% {
+                opacity: 0.9;
+                transform: 
+                    translate(-50%, -50%) 
+                    rotateY(var(--angle)) 
+                    rotateX(var(--elevation))
+                    translateZ(300px) 
+                    scale(1.1);
+            }
+            75% {
+                opacity: 1;
+                transform: 
+                    translate(-50%, -50%) 
+                    rotateY(var(--angle)) 
+                    rotateX(var(--elevation))
+                    translateZ(300px) 
+                    scale(1.4);
+            }
+        }
+
+        /* Mobile Responsive Globe */
+        @media (max-width: 768px) {
+            .globe {
+                width: 500px;
+                height: 500px;
+            }
+            
+            .dot {
+                width: 6px;
+                height: 6px;
+                transform: 
+                    translate(-50%, -50%) 
+                    rotateY(var(--angle)) 
+                    rotateX(var(--elevation))
+                    translateZ(250px);
+            }
+            
+            .dot:nth-child(odd) {
+                width: 8px;
+                height: 8px;
+            }
+            
+            .dot:nth-child(3n) {
+                width: 5px;
+                height: 5px;
+            }
+            
+            .dot:nth-child(5n) {
+                width: 10px;
+                height: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .globe {
+                width: 400px;
+                height: 400px;
+            }
+            
+            .dot {
+                width: 5px;
+                height: 5px;
+                transform: 
+                    translate(-50%, -50%) 
+                    rotateY(var(--angle)) 
+                    rotateX(var(--elevation))
+                    translateZ(200px);
+            }
+            
+            .dot:nth-child(odd) {
+                width: 7px;
+                height: 7px;
+            }
+            
+            .dot:nth-child(3n) {
+                width: 4px;
+                height: 4px;
+            }
+            
+            .dot:nth-child(5n) {
+                width: 8px;
+                height: 8px;
+            }
         }
 
         .about .container {
             max-width: 1400px;
             text-align: center;
+            position: relative;
+            z-index: 2;
         }
 
         .about h2 {
@@ -816,6 +1045,82 @@
 
     <!-- About Section -->
     <section id="about" class="about">
+        <!-- 3D Rotating Earth Globe -->
+        <div class="earth-globe">
+            <div class="globe-container">
+                <div class="globe">
+                    <!-- Equator Ring -->
+                    <div class="sphere-ring equator">
+                        <div class="dot" style="--delay: 0s; --angle: 0deg; --elevation: 0deg;"></div>
+                        <div class="dot" style="--delay: 0.1s; --angle: 30deg; --elevation: 0deg;"></div>
+                        <div class="dot" style="--delay: 0.2s; --angle: 60deg; --elevation: 0deg;"></div>
+                        <div class="dot" style="--delay: 0.3s; --angle: 90deg; --elevation: 0deg;"></div>
+                        <div class="dot" style="--delay: 0.4s; --angle: 120deg; --elevation: 0deg;"></div>
+                        <div class="dot" style="--delay: 0.5s; --angle: 150deg; --elevation: 0deg;"></div>
+                        <div class="dot" style="--delay: 0.6s; --angle: 180deg; --elevation: 0deg;"></div>
+                        <div class="dot" style="--delay: 0.7s; --angle: 210deg; --elevation: 0deg;"></div>
+                        <div class="dot" style="--delay: 0.8s; --angle: 240deg; --elevation: 0deg;"></div>
+                        <div class="dot" style="--delay: 0.9s; --angle: 270deg; --elevation: 0deg;"></div>
+                        <div class="dot" style="--delay: 1s; --angle: 300deg; --elevation: 0deg;"></div>
+                        <div class="dot" style="--delay: 1.1s; --angle: 330deg; --elevation: 0deg;"></div>
+                    </div>
+                    
+                    <!-- Northern Ring 1 -->
+                    <div class="sphere-ring northern-1">
+                        <div class="dot" style="--delay: 0.2s; --angle: 0deg; --elevation: 30deg;"></div>
+                        <div class="dot" style="--delay: 0.3s; --angle: 45deg; --elevation: 30deg;"></div>
+                        <div class="dot" style="--delay: 0.4s; --angle: 90deg; --elevation: 30deg;"></div>
+                        <div class="dot" style="--delay: 0.5s; --angle: 135deg; --elevation: 30deg;"></div>
+                        <div class="dot" style="--delay: 0.6s; --angle: 180deg; --elevation: 30deg;"></div>
+                        <div class="dot" style="--delay: 0.7s; --angle: 225deg; --elevation: 30deg;"></div>
+                        <div class="dot" style="--delay: 0.8s; --angle: 270deg; --elevation: 30deg;"></div>
+                        <div class="dot" style="--delay: 0.9s; --angle: 315deg; --elevation: 30deg;"></div>
+                    </div>
+                    
+                    <!-- Northern Ring 2 -->
+                    <div class="sphere-ring northern-2">
+                        <div class="dot" style="--delay: 0.4s; --angle: 0deg; --elevation: 60deg;"></div>
+                        <div class="dot" style="--delay: 0.5s; --angle: 60deg; --elevation: 60deg;"></div>
+                        <div class="dot" style="--delay: 0.6s; --angle: 120deg; --elevation: 60deg;"></div>
+                        <div class="dot" style="--delay: 0.7s; --angle: 180deg; --elevation: 60deg;"></div>
+                        <div class="dot" style="--delay: 0.8s; --angle: 240deg; --elevation: 60deg;"></div>
+                        <div class="dot" style="--delay: 0.9s; --angle: 300deg; --elevation: 60deg;"></div>
+                    </div>
+                    
+                    <!-- North Pole -->
+                    <div class="sphere-ring north-pole">
+                        <div class="dot" style="--delay: 0.6s; --angle: 0deg; --elevation: 90deg;"></div>
+                    </div>
+                    
+                    <!-- Southern Ring 1 -->
+                    <div class="sphere-ring southern-1">
+                        <div class="dot" style="--delay: 0.2s; --angle: 0deg; --elevation: -30deg;"></div>
+                        <div class="dot" style="--delay: 0.3s; --angle: 45deg; --elevation: -30deg;"></div>
+                        <div class="dot" style="--delay: 0.4s; --angle: 90deg; --elevation: -30deg;"></div>
+                        <div class="dot" style="--delay: 0.5s; --angle: 135deg; --elevation: -30deg;"></div>
+                        <div class="dot" style="--delay: 0.6s; --angle: 180deg; --elevation: -30deg;"></div>
+                        <div class="dot" style="--delay: 0.7s; --angle: 225deg; --elevation: -30deg;"></div>
+                        <div class="dot" style="--delay: 0.8s; --angle: 270deg; --elevation: -30deg;"></div>
+                        <div class="dot" style="--delay: 0.9s; --angle: 315deg; --elevation: -30deg;"></div>
+                    </div>
+                    
+                    <!-- Southern Ring 2 -->
+                    <div class="sphere-ring southern-2">
+                        <div class="dot" style="--delay: 0.4s; --angle: 0deg; --elevation: -60deg;"></div>
+                        <div class="dot" style="--delay: 0.5s; --angle: 60deg; --elevation: -60deg;"></div>
+                        <div class="dot" style="--delay: 0.6s; --angle: 120deg; --elevation: -60deg;"></div>
+                        <div class="dot" style="--delay: 0.7s; --angle: 180deg; --elevation: -60deg;"></div>
+                        <div class="dot" style="--delay: 0.8s; --angle: 240deg; --elevation: -60deg;"></div>
+                        <div class="dot" style="--delay: 0.9s; --angle: 300deg; --elevation: -60deg;"></div>
+                    </div>
+                    
+                    <!-- South Pole -->
+                    <div class="sphere-ring south-pole">
+                        <div class="dot" style="--delay: 0.6s; --angle: 0deg; --elevation: -90deg;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
         
         <div class="container">
             <h2 class="display-font">International Luxury Real Estate Brokerage</h2>
@@ -1127,33 +1432,79 @@
             
             <div class="news-grid">
                 <div class="news-card">
-                    <div class="news-image">
-                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=250&fit=crop" alt="News">
+                    <div class="news-image" style="background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem; font-weight: 600;">
+                        <div style="text-align: center;">
+                            <div style="font-size: 2rem; margin-bottom: 0.5rem;">🏠</div>
+                            <div>HousingWire</div>
+                        </div>
                     </div>
                     <div class="news-content">
-                        <h3>LPT Holdings launches luxury firm Aperture Global Real Estate</h3>
-                        <p>Robert Palmer, Michael Valdes and Mercedes Saewitz are leading the firm, which is launching with about 100 agents across the US, Toronto, London, Lisbon...</p>
-                        <a href="#" class="read-more">Read More</a>
+                        <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem; font-size: 0.9rem; color: #888;">
+                            <i class="fas fa-newspaper"></i>
+                            <span>HousingWire</span>
+                            <span style="color: #666;">•</span>
+                            <span>May 8, 2025</span>
+                        </div>
+                        <h3>LPT Launches International Luxury Brand Aperture Global</h3>
+                        <p>LPT Holdings announces the launch of Aperture Global Real Estate, LPT's new independent global luxury brand. The brokerage currently operates in 15 states and four international locations with over 100 top brokers representing $1 billion in annual sales.</p>
+                        <a href="https://www.housingwire.com/articles/lpt-realty-launches-international-luxury-brand-aperture-global/" class="read-more" target="_blank">Read More</a>
                     </div>
                 </div>
                 <div class="news-card">
-                    <div class="news-image">
-                        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=250&fit=crop" alt="News">
+                    <div class="news-image" style="background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem; font-weight: 600;">
+                        <div style="text-align: center;">
+                            <div style="font-size: 2rem; margin-bottom: 0.5rem;">📰</div>
+                            <div>RISMedia</div>
+                        </div>
                     </div>
                     <div class="news-content">
-                        <h3>LPT launches international luxury brand Aperture Global</h3>
-                        <p>Aperture Global is the latest offering from multi-model firm LPT Realty. The luxury brand is up and running in 15 states and four international locations...</p>
-                        <a href="#" class="read-more">Read More</a>
+                        <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem; font-size: 0.9rem; color: #888;">
+                            <i class="fas fa-newspaper"></i>
+                            <span>RISMedia</span>
+                            <span style="color: #666;">•</span>
+                            <span>May 8, 2025</span>
+                        </div>
+                        <h3>LPT Realty Launches Independent International Luxury Brokerage</h3>
+                        <p>Aperture Global Real Estate kicks off with over 100 agents with more than $1B in listings in 15 states and four countries, with plans for an IPO in Q1 2026. Led by former Sotheby's executive Michael Valdes and Compass founding agent Mercedes Saewitz.</p>
+                        <a href="https://www.rismedia.com/2025/05/08/lpt-realty-announces-launch-aperture-global-luxury-real-estate/" class="read-more" target="_blank">Read More</a>
                     </div>
                 </div>
                 <div class="news-card">
-                    <div class="news-image">
-                        <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=400&h=250&fit=crop" alt="News">
+                    <div class="news-image" style="background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem; font-weight: 600;">
+                        <div style="text-align: center;">
+                            <div style="font-size: 2rem; margin-bottom: 0.5rem;">📈</div>
+                            <div>Inman</div>
+                        </div>
                     </div>
                     <div class="news-content">
-                        <h3>LPT Realty Announces Launch of Independent International Luxury Brokerage</h3>
-                        <p>New lifestyle brand kicks off with over 100 agents with more than $1B in listings in 15 states and four countries with plans for an IPO in Q1 2026...</p>
-                        <a href="#" class="read-more">Read More</a>
+                        <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem; font-size: 0.9rem; color: #888;">
+                            <i class="fas fa-newspaper"></i>
+                            <span>Inman</span>
+                            <span style="color: #666;">•</span>
+                            <span>May 8, 2025</span>
+                        </div>
+                        <h3>LPT Holdings Launches Luxury Firm Aperture Global Real Estate</h3>
+                        <p>The new luxury brand is designed to meet agents where they are in their careers, offering a stronger brand with more rigorous guidelines and standards. Aperture Global represents a new vision for exceptional marketing and seamless client experiences worldwide.</p>
+                        <a href="https://www.inman.com/2025/05/08/lpt-holdings-launches-luxury-firm-aperture-global-real-estate/" class="read-more" target="_blank">Read More</a>
+                    </div>
+                </div>
+                <div class="news-card">
+                    <div class="news-image" style="background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem; font-weight: 600;">
+                        <div style="text-align: center;">
+                            <div style="font-size: 2rem; margin-bottom: 0.5rem;">🏢</div>
+                            <div>Real Estate News</div>
+                        </div>
+                    </div>
+                    <div class="news-content">
+                        <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem; font-size: 0.9rem; color: #888;">
+                            <i class="fas fa-newspaper"></i>
+                            <span>Real Estate News</span>
+                            <span style="color: #666;">•</span>
+                            <span>May 8, 2025</span>
+                        </div>
+                        <h3>LPT Realty Launches Luxury Offshoot Aperture Global</h3>
+                        <p>Aperture Global represents the first independent luxury brokerage to have a global launch at its inception. The company is built on a battle-tested, performance-driven platform, giving it the ability to scale and maintain operational efficiencies from day one.</p>
+                        <a href="https://www.realestatenews.com/2025/05/08/lpt-realty-launches-luxury-offshoot-aperture-global" class="read-more" target="_blank">Read More</a>
                     </div>
                 </div>
             </div>

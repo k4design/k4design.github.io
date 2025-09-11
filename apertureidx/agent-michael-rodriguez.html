@@ -446,6 +446,292 @@
             background: #f8f9fa;
         }
 
+        /* News Section */
+        .news-section {
+            padding: 80px 0;
+            background: var(--primary-bg);
+        }
+
+        .news-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .news-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .news-header h2 {
+            font-size: 2.5rem;
+            font-weight: 300;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+
+        .news-header p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .news-card {
+            background: var(--secondary-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-subtle);
+        }
+
+        .news-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .news-image {
+            position: relative;
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .news-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .news-card:hover .news-image img {
+            transform: scale(1.05);
+        }
+
+        .news-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: var(--accent-blue);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .news-content {
+            padding: 1.5rem;
+        }
+
+        .news-meta {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .news-date {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .news-source {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .news-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.75rem;
+            line-height: 1.4;
+        }
+
+        .news-excerpt {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .news-link {
+            color: var(--accent-blue);
+            text-decoration: none;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .news-link:hover {
+            color: var(--accent-blue-dark);
+        }
+
+        .news-link i {
+            transition: transform 0.3s ease;
+        }
+
+        .news-link:hover i {
+            transform: translateX(3px);
+        }
+
+        /* Social Media Section */
+        .social-media {
+            padding: 60px 0;
+            background: var(--secondary-bg);
+        }
+
+        .social-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .social-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .social-header h2 {
+            font-size: 2.5rem;
+            font-weight: 300;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+
+        .social-header p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--primary-bg);
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+            border: 2px solid var(--border-subtle);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .social-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-accent);
+            transition: left 0.3s ease;
+            z-index: -1;
+        }
+
+        .social-link:hover::before {
+            left: 0;
+        }
+
+        .social-link:hover {
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 146, 255, 0.3);
+            border-color: var(--accent-blue);
+        }
+
+        .social-link.linkedin:hover {
+            background: #0077b5;
+        }
+
+        .social-link.twitter:hover {
+            background: #1da1f2;
+        }
+
+        .social-link.instagram:hover {
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+        }
+
+        .social-link.facebook:hover {
+            background: #1877f2;
+        }
+
+        .social-link.youtube:hover {
+            background: #ff0000;
+        }
+
+        .social-link.tiktok:hover {
+            background: #000000;
+        }
+
+        /* Social Media in Contact Info */
+        .contact-social {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        .contact-social h4 {
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .contact-social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .contact-social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary-bg);
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-subtle);
+        }
+
+        .contact-social-link:hover {
+            background: var(--accent-blue);
+            color: white;
+            transform: translateY(-2px);
+        }
+
         .testimonials-container {
             max-width: 1200px;
             margin: 0 auto;
@@ -864,6 +1150,27 @@
                             <a href="https://apertureglobal.com">apertureglobal.com</a>
                         </div>
                     </div>
+                    
+                    <div class="contact-social">
+                        <h4>Follow Michael</h4>
+                        <div class="contact-social-links">
+                            <a href="https://linkedin.com/in/michaelrodriguez" class="contact-social-link" target="_blank" title="LinkedIn">
+                                <i class="fab fa-linkedin-in"></i>
+                            </a>
+                            <a href="https://twitter.com/michaelrodriguez" class="contact-social-link" target="_blank" title="Twitter">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            <a href="https://instagram.com/michaelrodriguez" class="contact-social-link" target="_blank" title="Instagram">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                            <a href="https://facebook.com/michaelrodriguez" class="contact-social-link" target="_blank" title="Facebook">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                            <a href="https://youtube.com/@michaelrodriguez" class="contact-social-link" target="_blank" title="YouTube">
+                                <i class="fab fa-youtube"></i>
+                            </a>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="sidebar-card slide-in-right">
@@ -1065,6 +1372,137 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- News Section -->
+    <section class="news-section">
+        <div class="news-container">
+            <div class="news-header">
+                <h2>Recent News & Features</h2>
+                <p>Stay updated with Michael's latest achievements and media coverage</p>
+            </div>
+            
+            <div class="news-grid">
+                <div class="news-card">
+                    <div class="news-image">
+                        <img src="https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=600&h=400&fit=crop" alt="Aperture Global Launch">
+                        <div class="news-badge">Launch</div>
+                    </div>
+                    <div class="news-content">
+                        <div class="news-meta">
+                            <div class="news-date">
+                                <i class="fas fa-calendar"></i>
+                                <span>May 8, 2025</span>
+                            </div>
+                            <div class="news-source">
+                                <i class="fas fa-newspaper"></i>
+                                <span>HousingWire</span>
+                            </div>
+                        </div>
+                        <h3 class="news-title">LPT Launches International Luxury Brand Aperture Global</h3>
+                        <p class="news-excerpt">LPT Holdings announces the launch of Aperture Global Real Estate, LPT's new independent global luxury brand. The brokerage currently operates in 15 states and four international locations with over 100 top brokers representing $1 billion in annual sales.</p>
+                        <a href="https://www.housingwire.com/articles/lpt-realty-launches-international-luxury-brand-aperture-global/" class="news-link" target="_blank">Read Full Article <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+
+                <div class="news-card">
+                    <div class="news-image">
+                        <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=600&h=400&fit=crop" alt="Aperture Global Leadership">
+                        <div class="news-badge">Leadership</div>
+                    </div>
+                    <div class="news-content">
+                        <div class="news-meta">
+                            <div class="news-date">
+                                <i class="fas fa-calendar"></i>
+                                <span>May 8, 2025</span>
+                            </div>
+                            <div class="news-source">
+                                <i class="fas fa-newspaper"></i>
+                                <span>RISMedia</span>
+                            </div>
+                        </div>
+                        <h3 class="news-title">LPT Realty Launches Independent International Luxury Brokerage</h3>
+                        <p class="news-excerpt">Aperture Global Real Estate kicks off with over 100 agents with more than $1B in listings in 15 states and four countries, with plans for an IPO in Q1 2026. Led by former Sotheby's executive Michael Valdes and Compass founding agent Mercedes Saewitz.</p>
+                        <a href="https://www.rismedia.com/2025/05/08/lpt-realty-announces-launch-aperture-global-luxury-real-estate/" class="news-link" target="_blank">Read Full Article <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+
+                <div class="news-card">
+                    <div class="news-image">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=400&fit=crop" alt="Global Expansion">
+                        <div class="news-badge">Global</div>
+                    </div>
+                    <div class="news-content">
+                        <div class="news-meta">
+                            <div class="news-date">
+                                <i class="fas fa-calendar"></i>
+                                <span>May 8, 2025</span>
+                            </div>
+                            <div class="news-source">
+                                <i class="fas fa-newspaper"></i>
+                                <span>Inman</span>
+                            </div>
+                        </div>
+                        <h3 class="news-title">LPT Holdings Launches Luxury Firm Aperture Global Real Estate</h3>
+                        <p class="news-excerpt">The new luxury brand is designed to meet agents where they are in their careers, offering a stronger brand with more rigorous guidelines and standards. Aperture Global represents a new vision for exceptional marketing and seamless client experiences worldwide.</p>
+                        <a href="https://www.inman.com/2025/05/08/lpt-holdings-launches-luxury-firm-aperture-global-real-estate/" class="news-link" target="_blank">Read Full Article <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+
+                <div class="news-card">
+                    <div class="news-image">
+                        <img src="https://images.unsplash.com/photo-1556157382-97eda2d62296?w=600&h=400&fit=crop" alt="Industry Innovation">
+                        <div class="news-badge">Innovation</div>
+                    </div>
+                    <div class="news-content">
+                        <div class="news-meta">
+                            <div class="news-date">
+                                <i class="fas fa-calendar"></i>
+                                <span>May 8, 2025</span>
+                            </div>
+                            <div class="news-source">
+                                <i class="fas fa-newspaper"></i>
+                                <span>Real Estate News</span>
+                            </div>
+                        </div>
+                        <h3 class="news-title">LPT Realty Launches Luxury Offshoot Aperture Global</h3>
+                        <p class="news-excerpt">Aperture Global represents the first independent luxury brokerage to have a global launch at its inception. The company is built on a battle-tested, performance-driven platform, giving it the ability to scale and maintain operational efficiencies from day one.</p>
+                        <a href="https://www.realestatenews.com/2025/05/08/lpt-realty-launches-luxury-offshoot-aperture-global" class="news-link" target="_blank">Read Full Article <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Social Media Section -->
+    <section class="social-media">
+        <div class="social-container">
+            <div class="social-header">
+                <h2>Connect with Michael</h2>
+                <p>Follow Michael on social media for the latest market insights, property updates, and luxury real estate news</p>
+            </div>
+            
+            <div class="social-links">
+                <a href="https://linkedin.com/in/michaelrodriguez" class="social-link linkedin" target="_blank" title="LinkedIn">
+                    <i class="fab fa-linkedin-in"></i>
+                </a>
+                <a href="https://twitter.com/michaelrodriguez" class="social-link twitter" target="_blank" title="Twitter">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a href="https://instagram.com/michaelrodriguez" class="social-link instagram" target="_blank" title="Instagram">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="https://facebook.com/michaelrodriguez" class="social-link facebook" target="_blank" title="Facebook">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="https://youtube.com/@michaelrodriguez" class="social-link youtube" target="_blank" title="YouTube">
+                    <i class="fab fa-youtube"></i>
+                </a>
+                <a href="https://tiktok.com/@michaelrodriguez" class="social-link tiktok" target="_blank" title="TikTok">
+                    <i class="fab fa-tiktok"></i>
+                </a>
             </div>
         </div>
     </section>
