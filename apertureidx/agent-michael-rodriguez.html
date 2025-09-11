@@ -588,6 +588,73 @@
             transform: translateX(3px);
         }
 
+        .news-actions {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        .news-share {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-top: 0.75rem;
+        }
+
+        .share-label {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            font-weight: 500;
+            margin-right: 0.25rem;
+        }
+
+        .share-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border: 1px solid var(--border-subtle);
+            border-radius: 50%;
+            background: var(--secondary-bg);
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .share-btn:hover {
+            background: var(--accent-blue);
+            color: white;
+            border-color: var(--accent-blue);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 170, 255, 0.3);
+        }
+
+        .share-btn.facebook:hover {
+            background: #1877f2;
+            border-color: #1877f2;
+            box-shadow: 0 4px 12px rgba(24, 119, 242, 0.3);
+        }
+
+        .share-btn.twitter:hover {
+            background: #1da1f2;
+            border-color: #1da1f2;
+            box-shadow: 0 4px 12px rgba(29, 161, 242, 0.3);
+        }
+
+        .share-btn.linkedin:hover {
+            background: #0077b5;
+            border-color: #0077b5;
+            box-shadow: 0 4px 12px rgba(0, 119, 181, 0.3);
+        }
+
+        .share-btn.email:hover {
+            background: #ea4335;
+            border-color: #ea4335;
+            box-shadow: 0 4px 12px rgba(234, 67, 53, 0.3);
+        }
+
         /* Social Media Section */
         .social-media {
             padding: 60px 0;
@@ -1403,7 +1470,16 @@
                         </div>
                         <h3 class="news-title">LPT Launches International Luxury Brand Aperture Global</h3>
                         <p class="news-excerpt">LPT Holdings announces the launch of Aperture Global Real Estate, LPT's new independent global luxury brand. The brokerage currently operates in 15 states and four international locations with over 100 top brokers representing $1 billion in annual sales.</p>
-                        <a href="https://www.housingwire.com/articles/lpt-realty-launches-international-luxury-brand-aperture-global/" class="news-link" target="_blank">Read Full Article <i class="fas fa-arrow-right"></i></a>
+                        <div class="news-actions">
+                            <a href="https://www.housingwire.com/articles/lpt-realty-launches-international-luxury-brand-aperture-global/" class="news-link" target="_blank">Read Full Article <i class="fas fa-arrow-right"></i></a>
+                            <div class="news-share">
+                                <span class="share-label">Share:</span>
+                                <a href="#" class="share-btn facebook" onclick="shareArticle('https://www.housingwire.com/articles/lpt-realty-launches-international-luxury-brand-aperture-global/', 'LPT Launches International Luxury Brand Aperture Global', 'facebook')" title="Share on Facebook"><i class="fab fa-facebook-f"></i></a>
+                                <a href="#" class="share-btn twitter" onclick="shareArticle('https://www.housingwire.com/articles/lpt-realty-launches-international-luxury-brand-aperture-global/', 'LPT Launches International Luxury Brand Aperture Global', 'twitter')" title="Share on Twitter"><i class="fab fa-twitter"></i></a>
+                                <a href="#" class="share-btn linkedin" onclick="shareArticle('https://www.housingwire.com/articles/lpt-realty-launches-international-luxury-brand-aperture-global/', 'LPT Launches International Luxury Brand Aperture Global', 'linkedin')" title="Share on LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                                <a href="#" class="share-btn email" onclick="shareArticle('https://www.housingwire.com/articles/lpt-realty-launches-international-luxury-brand-aperture-global/', 'LPT Launches International Luxury Brand Aperture Global', 'email')" title="Share via Email"><i class="fas fa-envelope"></i></a>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -1425,7 +1501,16 @@
                         </div>
                         <h3 class="news-title">LPT Realty Launches Independent International Luxury Brokerage</h3>
                         <p class="news-excerpt">Aperture Global Real Estate kicks off with over 100 agents with more than $1B in listings in 15 states and four countries, with plans for an IPO in Q1 2026. Led by former Sotheby's executive Michael Valdes and Compass founding agent Mercedes Saewitz.</p>
-                        <a href="https://www.rismedia.com/2025/05/08/lpt-realty-announces-launch-aperture-global-luxury-real-estate/" class="news-link" target="_blank">Read Full Article <i class="fas fa-arrow-right"></i></a>
+                        <div class="news-actions">
+                            <a href="https://www.rismedia.com/2025/05/08/lpt-realty-announces-launch-aperture-global-luxury-real-estate/" class="news-link" target="_blank">Read Full Article <i class="fas fa-arrow-right"></i></a>
+                            <div class="news-share">
+                                <span class="share-label">Share:</span>
+                                <a href="#" class="share-btn facebook" onclick="shareArticle('https://www.rismedia.com/2025/05/08/lpt-realty-announces-launch-aperture-global-luxury-real-estate/', 'LPT Realty Launches Independent International Luxury Brokerage', 'facebook')" title="Share on Facebook"><i class="fab fa-facebook-f"></i></a>
+                                <a href="#" class="share-btn twitter" onclick="shareArticle('https://www.rismedia.com/2025/05/08/lpt-realty-announces-launch-aperture-global-luxury-real-estate/', 'LPT Realty Launches Independent International Luxury Brokerage', 'twitter')" title="Share on Twitter"><i class="fab fa-twitter"></i></a>
+                                <a href="#" class="share-btn linkedin" onclick="shareArticle('https://www.rismedia.com/2025/05/08/lpt-realty-announces-launch-aperture-global-luxury-real-estate/', 'LPT Realty Launches Independent International Luxury Brokerage', 'linkedin')" title="Share on LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                                <a href="#" class="share-btn email" onclick="shareArticle('https://www.rismedia.com/2025/05/08/lpt-realty-announces-launch-aperture-global-luxury-real-estate/', 'LPT Realty Launches Independent International Luxury Brokerage', 'email')" title="Share via Email"><i class="fas fa-envelope"></i></a>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -1447,7 +1532,16 @@
                         </div>
                         <h3 class="news-title">LPT Holdings Launches Luxury Firm Aperture Global Real Estate</h3>
                         <p class="news-excerpt">The new luxury brand is designed to meet agents where they are in their careers, offering a stronger brand with more rigorous guidelines and standards. Aperture Global represents a new vision for exceptional marketing and seamless client experiences worldwide.</p>
-                        <a href="https://www.inman.com/2025/05/08/lpt-holdings-launches-luxury-firm-aperture-global-real-estate/" class="news-link" target="_blank">Read Full Article <i class="fas fa-arrow-right"></i></a>
+                        <div class="news-actions">
+                            <a href="https://www.inman.com/2025/05/08/lpt-holdings-launches-luxury-firm-aperture-global-real-estate/" class="news-link" target="_blank">Read Full Article <i class="fas fa-arrow-right"></i></a>
+                            <div class="news-share">
+                                <span class="share-label">Share:</span>
+                                <a href="#" class="share-btn facebook" onclick="shareArticle('https://www.inman.com/2025/05/08/lpt-holdings-launches-luxury-firm-aperture-global-real-estate/', 'LPT Holdings Launches Luxury Firm Aperture Global Real Estate', 'facebook')" title="Share on Facebook"><i class="fab fa-facebook-f"></i></a>
+                                <a href="#" class="share-btn twitter" onclick="shareArticle('https://www.inman.com/2025/05/08/lpt-holdings-launches-luxury-firm-aperture-global-real-estate/', 'LPT Holdings Launches Luxury Firm Aperture Global Real Estate', 'twitter')" title="Share on Twitter"><i class="fab fa-twitter"></i></a>
+                                <a href="#" class="share-btn linkedin" onclick="shareArticle('https://www.inman.com/2025/05/08/lpt-holdings-launches-luxury-firm-aperture-global-real-estate/', 'LPT Holdings Launches Luxury Firm Aperture Global Real Estate', 'linkedin')" title="Share on LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                                <a href="#" class="share-btn email" onclick="shareArticle('https://www.inman.com/2025/05/08/lpt-holdings-launches-luxury-firm-aperture-global-real-estate/', 'LPT Holdings Launches Luxury Firm Aperture Global Real Estate', 'email')" title="Share via Email"><i class="fas fa-envelope"></i></a>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -1469,7 +1563,16 @@
                         </div>
                         <h3 class="news-title">LPT Realty Launches Luxury Offshoot Aperture Global</h3>
                         <p class="news-excerpt">Aperture Global represents the first independent luxury brokerage to have a global launch at its inception. The company is built on a battle-tested, performance-driven platform, giving it the ability to scale and maintain operational efficiencies from day one.</p>
-                        <a href="https://www.realestatenews.com/2025/05/08/lpt-realty-launches-luxury-offshoot-aperture-global" class="news-link" target="_blank">Read Full Article <i class="fas fa-arrow-right"></i></a>
+                        <div class="news-actions">
+                            <a href="https://www.realestatenews.com/2025/05/08/lpt-realty-launches-luxury-offshoot-aperture-global" class="news-link" target="_blank">Read Full Article <i class="fas fa-arrow-right"></i></a>
+                            <div class="news-share">
+                                <span class="share-label">Share:</span>
+                                <a href="#" class="share-btn facebook" onclick="shareArticle('https://www.realestatenews.com/2025/05/08/lpt-realty-launches-luxury-offshoot-aperture-global', 'LPT Realty Launches Luxury Offshoot Aperture Global', 'facebook')" title="Share on Facebook"><i class="fab fa-facebook-f"></i></a>
+                                <a href="#" class="share-btn twitter" onclick="shareArticle('https://www.realestatenews.com/2025/05/08/lpt-realty-launches-luxury-offshoot-aperture-global', 'LPT Realty Launches Luxury Offshoot Aperture Global', 'twitter')" title="Share on Twitter"><i class="fab fa-twitter"></i></a>
+                                <a href="#" class="share-btn linkedin" onclick="shareArticle('https://www.realestatenews.com/2025/05/08/lpt-realty-launches-luxury-offshoot-aperture-global', 'LPT Realty Launches Luxury Offshoot Aperture Global', 'linkedin')" title="Share on LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                                <a href="#" class="share-btn email" onclick="shareArticle('https://www.realestatenews.com/2025/05/08/lpt-realty-launches-luxury-offshoot-aperture-global', 'LPT Realty Launches Luxury Offshoot Aperture Global', 'email')" title="Share via Email"><i class="fas fa-envelope"></i></a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1708,5 +1811,37 @@
         `;
         document.head.appendChild(style);
     </script>
-</body>
+    <script>
+        function shareArticle(url, title, platform) {
+            const encodedUrl = encodeURIComponent(url);
+            const encodedTitle = encodeURIComponent(title);
+            const encodedText = encodeURIComponent(`${title} - Read more about Aperture Global's latest news`);
+            
+            let shareUrl = '';
+            
+            switch(platform) {
+                case 'facebook':
+                    shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`;
+                    break;
+                case 'twitter':
+                    shareUrl = `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedText}`;
+                    break;
+                case 'linkedin':
+                    shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`;
+                    break;
+                case 'email':
+                    shareUrl = `mailto:?subject=${encodedTitle}&body=${encodedText}%20${encodedUrl}`;
+                    break;
+                default:
+                    return;
+            }
+            
+            if (platform === 'email') {
+                window.location.href = shareUrl;
+            } else {
+                window.open(shareUrl, '_blank', 'width=600,height=400,scrollbars=yes,resizable=yes');
+            }
+        }
+    </script>
+    </body>
 </html>
