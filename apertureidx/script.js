@@ -48,6 +48,9 @@ class ApertureWebsite {
             clearFiltersBtn.addEventListener('click', () => this.clearFilters());
         }
 
+        // Navigation scroll behavior
+        this.setupNavScrollBehavior();
+
         // CTA button interactions
         const ctaButtons = document.querySelectorAll('.cta-button');
         ctaButtons.forEach(button => {
@@ -76,6 +79,47 @@ class ApertureWebsite {
                 }
             });
         });
+    }
+
+    setupNavScrollBehavior() {
+        let lastScrollTop = 0;
+        let ticking = false;
+        const nav = document.querySelector('nav');
+        
+        if (!nav) return;
+
+        // Add CSS for smooth transition
+        nav.style.transition = 'transform 0.3s ease-in-out';
+        nav.style.position = 'fixed';
+        nav.style.top = '0';
+        nav.style.left = '0';
+        nav.style.right = '0';
+        nav.style.zIndex = '1000';
+
+        function updateNavVisibility() {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            
+            if (scrollTop > lastScrollTop && scrollTop > 100) {
+                // Scrolling down - hide nav
+                nav.style.transform = 'translateY(-100%)';
+            } else {
+                // Scrolling up - show nav
+                nav.style.transform = 'translateY(0)';
+            }
+            
+            lastScrollTop = scrollTop;
+            ticking = false;
+        }
+
+        function requestTick() {
+            if (!ticking) {
+                requestAnimationFrame(updateNavVisibility);
+                ticking = true;
+            }
+        }
+
+        // Throttled scroll event listener
+        window.addEventListener('scroll', requestTick, { passive: true });
     }
 
     setupMobileMenu() {

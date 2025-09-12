@@ -522,6 +522,10 @@
 
         /* Mobile Responsive Globe */
         @media (max-width: 768px) {
+            .earth-globe {
+                top: 20%;
+            }
+            
             .globe {
                 width: 500px;
                 height: 500px;
@@ -554,6 +558,10 @@
         }
 
         @media (max-width: 480px) {
+            .earth-globe {
+                top: 15%;
+            }
+            
             .globe {
                 width: 400px;
                 height: 400px;
@@ -879,6 +887,234 @@
             .slide-background img {
                 -webkit-transform: translate3d(0, 0, 0);
                 transform: translate3d(0, 0, 0);
+            }
+        }
+
+        /* Luxury Lifestyle Section */
+        .lifestyle-section {
+            padding: 8rem 0;
+            background: linear-gradient(135deg, var(--primary-black) 0%, var(--secondary-black) 50%, var(--tertiary-black) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .lifestyle-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 20%, rgba(0, 146, 255, 0.05) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(0, 146, 255, 0.03) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .lifestyle-header {
+            text-align: center;
+            margin-bottom: 5rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .lifestyle-header h2 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            margin-bottom: 2rem;
+            background: var(--gradient-text);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .lifestyle-header p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+            color: var(--text-secondary);
+        }
+
+        .lifestyle-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            grid-template-rows: 1fr 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 5rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .lifestyle-card {
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            cursor: pointer;
+        }
+
+        .lifestyle-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: var(--shadow-premium);
+        }
+
+        .lifestyle-card.featured {
+            grid-row: 1 / 4;
+        }
+
+        .lifestyle-image {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            min-height: 300px;
+            overflow: hidden;
+        }
+
+        .lifestyle-card.featured .lifestyle-image {
+            min-height: 500px;
+        }
+
+        .lifestyle-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .lifestyle-card:hover .lifestyle-image img {
+            transform: scale(1.1);
+        }
+
+        .lifestyle-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 146, 255, 0.2) 100%);
+            display: flex;
+            align-items: flex-end;
+            padding: 2rem;
+            opacity: 1;
+            transition: all 0.4s ease;
+        }
+
+        .lifestyle-card:hover .lifestyle-overlay {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 146, 255, 0.4) 100%);
+        }
+
+        .lifestyle-content h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: white;
+        }
+
+        .lifestyle-card.featured .lifestyle-content h3 {
+            font-size: 2rem;
+        }
+
+        .lifestyle-content p {
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+        }
+
+        .lifestyle-card.featured .lifestyle-content p {
+            font-size: 1.1rem;
+        }
+
+        .lifestyle-link {
+            color: var(--accent-blue);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            transition: color 0.3s ease;
+        }
+
+        .lifestyle-link:hover {
+            color: var(--accent-blue-light);
+        }
+
+        .lifestyle-cta {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-subtle);
+            border-radius: 20px;
+            padding: 4rem 3rem;
+            backdrop-filter: blur(20px);
+            position: relative;
+            z-index: 2;
+        }
+
+        .lifestyle-cta h3 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            margin-bottom: 1.5rem;
+            background: var(--gradient-text);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .lifestyle-cta p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 2.5rem;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .lifestyle-button {
+            display: inline-block;
+            background: var(--gradient-accent);
+            color: white;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0, 146, 255, 0.3);
+        }
+
+        .lifestyle-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0, 146, 255, 0.4);
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .lifestyle-section {
+                padding: 5rem 0;
+            }
+
+            .lifestyle-grid {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto;
+                gap: 1.5rem;
+            }
+
+            .lifestyle-card.featured {
+                grid-row: auto;
+            }
+
+            .lifestyle-image {
+                min-height: 250px;
+            }
+
+            .lifestyle-card.featured .lifestyle-image {
+                min-height: 300px;
+            }
+
+            .lifestyle-cta {
+                padding: 3rem 2rem;
+            }
+
+            .lifestyle-overlay {
+                padding: 1.5rem;
             }
         }
     </style>
@@ -1567,6 +1803,97 @@
                         <a href="https://www.realestatenews.com/2025/05/08/lpt-realty-launches-luxury-offshoot-aperture-global" class="read-more" target="_blank">Read More</a>
                     </div>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Luxury Lifestyle Section -->
+    <section id="lifestyle" class="lifestyle-section">
+        <div class="container">
+            <div class="lifestyle-header">
+                <h2 class="display-font">The Aperture Lifestyle</h2>
+                <p class="text-elegant">Beyond exceptional properties lies a world of curated experiences, exclusive access, and the refined lifestyle that defines true luxury living.</p>
+            </div>
+            
+            <div class="lifestyle-grid">
+                <div class="lifestyle-card featured">
+                    <div class="lifestyle-image">
+                        <img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=600&h=400&fit=crop" alt="Waterfront Estates">
+                        <div class="lifestyle-overlay">
+                            <div class="lifestyle-content">
+                                <h3>Waterfront Estates</h3>
+                                <p>Private oceanfront villas, lakeside compounds, and yacht-ready residences designed for seafaring lifestyles and horizon views.</p>
+                                <a href="#" class="lifestyle-link">Explore Estates</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="lifestyle-card">
+                    <div class="lifestyle-image">
+                        <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=400&h=300&fit=crop" alt="Skyline Living">
+                        <div class="lifestyle-overlay">
+                            <div class="lifestyle-content">
+                                <h3>Skyline Living</h3>
+                                <p>Iconic penthouses and designer high-rises that immerse you in world-class dining, culture, and sweeping city panoramas.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="lifestyle-card">
+                    <div class="lifestyle-image">
+                        <img src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=400&h=300&fit=crop" alt="Alpine Sanctuaries">
+                        <div class="lifestyle-overlay">
+                            <div class="lifestyle-content">
+                                <h3>Alpine Sanctuaries</h3>
+                                <p>Ski-in chalets and secluded retreats offering year-round adventure, wellness, and refined exclusivity at altitude.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="lifestyle-card">
+                    <div class="lifestyle-image">
+                        <img src="https://images.unsplash.com/photo-1600596542815-ffad4c2039ab?w=400&h=300&fit=crop" alt="Equestrian Estates">
+                        <div class="lifestyle-overlay">
+                            <div class="lifestyle-content">
+                                <h3>Equestrian Estates</h3>
+                                <p>Ranches, vineyards, and countryside properties with private stables and acreage, crafted for equestrian pursuits and rural prestige.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="lifestyle-card">
+                    <div class="lifestyle-image">
+                        <img src="https://images.unsplash.com/photo-1600607687644-c7171b42498b?w=400&h=300&fit=crop" alt="Resort-Style Living">
+                        <div class="lifestyle-overlay">
+                            <div class="lifestyle-content">
+                                <h3>Resort-Style Living</h3>
+                                <p>Gated communities, spa enclaves, and championship golf estates that redefine leisure, longevity, and curated luxury.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="lifestyle-card">
+                    <div class="lifestyle-image">
+                        <img src="https://images.unsplash.com/photo-1600566752355-35792bedcfea?w=400&h=300&fit=crop" alt="Private Aviation Estates">
+                        <div class="lifestyle-overlay">
+                            <div class="lifestyle-content">
+                                <h3>Private Aviation Estates</h3>
+                                <p>Exclusive residences with hangars, runway access, and proximity to elite aviation hubs for seamless global mobility.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="lifestyle-cta">
+                <h3 class="display-font">Experience the Extraordinary</h3>
+                <p class="text-elegant">Join our exclusive community of discerning individuals who demand nothing less than perfection in every aspect of their lifestyle.</p>
+                <a href="#contact" class="lifestyle-button">Discover More</a>
             </div>
         </div>
     </section>

@@ -3,32 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About Us - Aperture Global</title>
+    <title>Kyle Foreman — Luxury Real Estate & Media Strategy | Aperture Global</title>
+    <meta name="description" content="Discreet, measurable outcomes for HNW/UHNW sellers, brands, and developers through curated strategy and addressable media.">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Kyle Foreman — Luxury Real Estate & Media Strategy">
+    <meta property="og:description" content="Discreet, measurable outcomes for HNW/UHNW sellers, brands, and developers through curated strategy and addressable media.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1200&h=630&fit=crop">
+    
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600;700;800;900&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="includes/load-includes.js"></script>
     <style>
-        /* Ultra-Premium About Page - Luxury Real Estate Design */
+        /* Luxury Personal Branding - About Me Page */
         :root {
-            --primary-black: #000000;
-            --secondary-black: #0f0f0f;
-            --tertiary-black: #1a1a1a;
+            --onyx: #0E0F12;
+            --charcoal: #181A1F;
+            --champagne: #E8D8BE;
+            --platinum: #C8C8C8;
+            --text-primary: #ffffff;
+            --text-secondary: #B8B8B8;
+            --text-muted: #888888;
+            --border-color: #2A2A2A;
             --accent-blue: #0092ff;
             --accent-blue-light: #4db8ff;
-            --accent-blue-dark: #007acc;
-            --text-primary: #ffffff;
-            --text-secondary: #b8b8b8;
-            --text-muted: #888888;
-            --text-accent: #0092ff;
-            --border-subtle: rgba(0, 146, 255, 0.15);
-            --border-blue: rgba(0, 146, 255, 0.3);
-            --gradient-primary: linear-gradient(135deg, #000000 0%, #0f0f0f 50%, #1a1a1a 100%);
-            --gradient-accent: linear-gradient(135deg, #0092ff 0%, #4db8ff 50%, #007acc 100%);
-            --gradient-text: linear-gradient(135deg, #0092ff 0%, #ffffff 50%, #0092ff 100%);
-            --shadow-soft: 0 30px 80px rgba(0, 0, 0, 0.4);
-            --shadow-glow: 0 0 60px rgba(0, 146, 255, 0.15);
-            --shadow-premium: 0 40px 100px rgba(0, 0, 0, 0.5);
+            --gradient-accent: linear-gradient(135deg, #0092ff 0%, #4db8ff 100%);
+            --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.3);
+            --shadow-glow: 0 0 40px rgba(0, 146, 255, 0.2);
         }
 
         * {
@@ -38,754 +41,272 @@
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: var(--primary-black);
+            font-family: 'Inter', sans-serif;
+            background: var(--onyx);
             color: var(--text-primary);
-            line-height: 1.7;
+            line-height: 1.6;
             overflow-x: hidden;
-            font-weight: 200;
+            font-weight: 300;
         }
 
-        /* Ultra-Premium Typography */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Typography */
         .display-font {
-            font-family: 'Playfair Display', serif;
-            font-weight: 300;
-            letter-spacing: -0.03em;
-            line-height: 1.1;
-        }
-
-        .text-gradient {
-            background: var(--gradient-text);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            background-size: 200% 200%;
-            animation: gradientShift 8s ease-in-out infinite;
-        }
-
-        .text-luxury {
-            font-family: 'Playfair Display', serif;
-            font-weight: 300;
-            letter-spacing: 0.05em;
-            text-transform: uppercase;
-            color: var(--accent-blue);
-        }
-
-        .text-bold {
-            font-weight: 700;
+            font-family: 'Libre Baskerville', serif;
+            font-weight: 400;
             letter-spacing: -0.02em;
         }
 
-        .text-elegant {
-            font-weight: 200;
-            letter-spacing: 0.02em;
-            line-height: 1.8;
+        .text-gradient {
+            background: var(--gradient-accent);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            color: var(--accent-blue);
         }
 
-        @keyframes gradientShift {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-        }
-
-        /* Ultra-Premium Hero Section */
-        .about-hero {
+        /* Hero Section */
+        .hero {
             min-height: 100vh;
+            background: linear-gradient(135deg, var(--onyx) 0%, var(--charcoal) 100%);
             position: relative;
             display: flex;
             align-items: center;
-            justify-content: center;
-            background: var(--gradient-primary);
             overflow: hidden;
         }
 
-        .hero-background {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-        }
-
-        .hero-background::before {
+        .hero::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
+            right: 0;
+            bottom: 0;
             background: url('https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=1920&h=1080&fit=crop') center/cover;
-            opacity: 0.08;
-            filter: grayscale(100%) contrast(1.5) brightness(0.7);
-        }
-
-        .hero-background::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: 
-                radial-gradient(circle at 20% 30%, rgba(0, 146, 255, 0.08) 0%, transparent 60%),
-                radial-gradient(circle at 80% 70%, rgba(0, 146, 255, 0.05) 0%, transparent 60%),
-                linear-gradient(135deg, rgba(0, 0, 0, 0.3) 0%, transparent 50%, rgba(0, 0, 0, 0.2) 100%);
+            opacity: 0.1;
+            z-index: 1;
         }
 
         .hero-content {
             position: relative;
             z-index: 2;
-            text-align: center;
-            max-width: 1200px;
-            padding: 0 3rem;
-        }
-
-        .hero-badge {
-            display: inline-block;
-            padding: 1rem 3rem;
-            background: rgba(0, 146, 255, 0.08);
-            border: 1px solid var(--border-blue);
-            border-radius: 60px;
-            font-size: 0.875rem;
-            font-weight: 400;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            color: var(--accent-blue);
-            margin-bottom: 4rem;
-            backdrop-filter: blur(20px);
-            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero-badge::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(0, 146, 255, 0.2), transparent);
-            transition: left 0.6s ease;
-        }
-
-        .hero-badge:hover::before {
-            left: 100%;
-        }
-
-        .hero-badge:hover {
-            background: rgba(0, 146, 255, 0.15);
-            transform: translateY(-3px);
-            box-shadow: var(--shadow-glow);
-            border-color: var(--accent-blue);
-        }
-
-        .hero-title {
-            font-size: clamp(4rem, 10vw, 8rem);
-            font-weight: 200;
-            line-height: 0.95;
-            margin-bottom: 3rem;
-            opacity: 0;
-            transform: translateY(60px);
-            animation: fadeInUp 1.2s ease 0.6s forwards;
-            letter-spacing: -0.04em;
-        }
-
-        .hero-subtitle {
-            font-size: clamp(1.25rem, 3vw, 1.75rem);
-            font-weight: 200;
-            color: var(--text-secondary);
             max-width: 800px;
-            margin: 0 auto 5rem;
-            opacity: 0;
-            transform: translateY(40px);
-            animation: fadeInUp 1.2s ease 0.9s forwards;
-            line-height: 1.6;
-            letter-spacing: 0.01em;
         }
 
-        /* Animation Classes */
-        .fade-in {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-
-        .fade-in.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .slide-in-left {
-            opacity: 0;
-            transform: translateX(-50px);
-            transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-
-        .slide-in-left.visible {
-            opacity: 1;
-            transform: translateX(0);
-        }
-
-        .slide-in-right {
-            opacity: 0;
-            transform: translateX(50px);
-            transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-
-        .slide-in-right.visible {
-            opacity: 1;
-            transform: translateX(0);
-        }
-
-        .scale-in {
-            opacity: 0;
-            transform: scale(0.9);
-            transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-
-        .scale-in.visible {
-            opacity: 1;
-            transform: scale(1);
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Ultra-Premium Mission Section */
-        .mission-section {
-            padding: 12rem 0;
-            background: var(--secondary-black);
-            position: relative;
-        }
-
-        .mission-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, var(--accent-blue), transparent);
-        }
-
-        .mission-container {
-            max-width: 1600px;
-            margin: 0 auto;
-            padding: 0 4rem;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 8rem;
-            align-items: center;
-        }
-
-        .mission-content h2 {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(3rem, 6vw, 5rem);
-            font-weight: 200;
-            margin-bottom: 3rem;
+        .hero h1 {
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 400;
+            margin-bottom: 1.5rem;
             line-height: 1.1;
-            color: var(--text-primary);
-            letter-spacing: -0.02em;
         }
 
-        .mission-content p {
-            font-size: 1.25rem;
-            line-height: 1.9;
+        .hero .subhead {
+            font-size: clamp(1.2rem, 3vw, 1.8rem);
             color: var(--text-secondary);
-            margin-bottom: 2.5rem;
-            font-weight: 200;
-            letter-spacing: 0.01em;
-        }
-
-        .mission-stats {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 3rem;
-            margin-top: 4rem;
-        }
-
-        .stat-item {
-            text-align: center;
-            padding: 3rem 2rem;
-            background: rgba(0, 146, 255, 0.03);
-            border: 1px solid var(--border-subtle);
-            border-radius: 24px;
-            backdrop-filter: blur(20px);
-            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .stat-item::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--gradient-accent);
-            opacity: 0;
-            transition: opacity 0.4s ease;
-        }
-
-        .stat-item:hover::before {
-            opacity: 0.05;
-        }
-
-        .stat-item:hover {
-            transform: translateY(-8px) scale(1.02);
-            border-color: var(--border-blue);
-            box-shadow: var(--shadow-premium);
-        }
-
-        .stat-number {
-            font-size: 4rem;
-            font-weight: 200;
-            color: var(--accent-blue);
-            margin-bottom: 1rem;
-            font-family: 'Playfair Display', serif;
-            letter-spacing: -0.02em;
-            position: relative;
-            z-index: 1;
-        }
-
-        .stat-label {
-            color: var(--text-muted);
-            font-size: 0.875rem;
-            text-transform: uppercase;
-            letter-spacing: 0.15em;
-            font-weight: 400;
-            position: relative;
-            z-index: 1;
-        }
-
-        .mission-image {
-            position: relative;
-            border-radius: 32px;
-            overflow: hidden;
-            box-shadow: var(--shadow-premium);
-            border: 1px solid var(--border-subtle);
-        }
-
-        .mission-image::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, rgba(0, 146, 255, 0.1) 0%, transparent 50%);
-            z-index: 1;
-            opacity: 0;
-            transition: opacity 0.4s ease;
-        }
-
-        .mission-image:hover::before {
-            opacity: 1;
-        }
-
-        .mission-image img {
-            width: 100%;
-            height: 600px;
-            object-fit: cover;
-            transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-
-        .mission-image:hover img {
-            transform: scale(1.08);
-        }
-
-        /* Ultra-Premium Values Section */
-        .values-section {
-            padding: 12rem 0;
-            background: var(--primary-black);
-            position: relative;
-        }
-
-        .values-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, var(--accent-blue), transparent);
-        }
-
-        .values-container {
-            max-width: 1600px;
-            margin: 0 auto;
-            padding: 0 4rem;
-        }
-
-        .values-header {
-            text-align: center;
-            margin-bottom: 8rem;
-        }
-
-        .values-header h2 {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(3rem, 6vw, 5rem);
-            font-weight: 200;
             margin-bottom: 2rem;
-            color: var(--text-primary);
-            letter-spacing: -0.02em;
+            font-weight: 300;
         }
 
-        .values-header p {
-            font-size: 1.375rem;
-            color: var(--text-secondary);
-            max-width: 700px;
-            margin: 0 auto;
-            font-weight: 200;
-            line-height: 1.7;
-            letter-spacing: 0.01em;
-        }
-
-        .values-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 4rem;
-        }
-
-        .value-card {
-            text-align: center;
-            padding: 4rem 3rem;
-            background: rgba(0, 146, 255, 0.02);
-            border: 1px solid var(--border-subtle);
-            border-radius: 28px;
-            backdrop-filter: blur(20px);
-            transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .value-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--gradient-accent);
-            opacity: 0;
-            transition: opacity 0.5s ease;
-        }
-
-        .value-card:hover::before {
-            opacity: 0.08;
-        }
-
-        .value-card:hover {
-            transform: translateY(-15px) scale(1.03);
-            border-color: var(--border-blue);
-            box-shadow: var(--shadow-premium);
-        }
-
-        .value-icon {
-            width: 100px;
-            height: 100px;
-            margin: 0 auto 3rem;
+        .hero-chips {
             display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+
+        .chip {
+            background: rgba(0, 146, 255, 0.1);
+            border: 1px solid var(--accent-blue);
+            color: var(--accent-blue);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .hero-ctas {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            display: inline-flex;
             align-items: center;
-            justify-content: center;
-            background: rgba(0, 146, 255, 0.08);
-            border-radius: 50%;
-            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            position: relative;
-            z-index: 1;
+            gap: 0.5rem;
         }
 
-        .value-card:hover .value-icon {
-            background: rgba(0, 146, 255, 0.15);
-            transform: scale(1.15) rotate(5deg);
+        .btn-primary {
+            background: var(--gradient-accent);
+            color: var(--onyx);
         }
 
-        .value-icon i {
-            font-size: 2.5rem;
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--accent-blue);
             color: var(--accent-blue);
         }
 
-        .value-card h3 {
-            font-size: 1.75rem;
-            font-weight: 400;
-            margin-bottom: 1.5rem;
-            color: var(--text-primary);
-            font-family: 'Playfair Display', serif;
-            letter-spacing: -0.01em;
-            position: relative;
-            z-index: 1;
-        }
-
-        .value-card p {
-            font-size: 1.125rem;
-            line-height: 1.8;
-            color: var(--text-secondary);
-            margin: 0;
-            font-weight: 200;
-            letter-spacing: 0.01em;
-            position: relative;
-            z-index: 1;
-        }
-
-        /* Leadership Section */
-        .leadership-section {
-            padding: 8rem 0;
-            background: var(--secondary-black);
+        /* Section Styles */
+        .section {
+            padding: 6rem 0;
             position: relative;
         }
 
-        .leadership-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-
-        .leadership-header {
+        .section-header {
             text-align: center;
-            margin-bottom: 6rem;
+            margin-bottom: 4rem;
         }
 
-        .leadership-header h2 {
-            font-family: 'Playfair Display', serif;
+        .section-header h2 {
             font-size: clamp(2.5rem, 5vw, 4rem);
-            font-weight: 300;
             margin-bottom: 1.5rem;
-            color: var(--text-primary);
+            font-weight: 400;
         }
 
-        .leadership-grid {
+        .section-header p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Cards and Grids */
+        .grid {
             display: grid;
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .grid-3 {
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 3rem;
         }
 
-        .leader-card {
-            text-align: center;
-            padding: 3rem 2rem;
+        .grid-2 {
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+        }
+
+        .card {
             background: rgba(255, 255, 255, 0.02);
-            border: 1px solid var(--border-subtle);
-            border-radius: 20px;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
             backdrop-filter: blur(10px);
-            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .leader-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--gradient-accent);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .leader-card:hover::before {
-            opacity: 0.05;
-        }
-
-        .leader-card:hover {
-            transform: translateY(-10px);
-            border-color: rgba(212, 175, 55, 0.3);
-            box-shadow: var(--shadow-soft);
-        }
-
-        .leader-image {
-            width: 200px;
-            height: 200px;
-            border-radius: 50%;
-            overflow: hidden;
-            margin: 0 auto 2rem;
-            border: 3px solid var(--accent-blue);
-            box-shadow: var(--shadow-soft);
             transition: all 0.3s ease;
         }
 
-        .leader-card:hover .leader-image {
-            transform: scale(1.05);
-            box-shadow: var(--shadow-glow);
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-blue);
+            box-shadow: var(--shadow-soft);
         }
 
-        .leader-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.3s ease;
-        }
-
-        .leader-card:hover .leader-image img {
-            transform: scale(1.1);
-        }
-
-        .leader-card h3 {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            color: var(--text-primary);
-            font-family: 'Playfair Display', serif;
-        }
-
-        .leader-card .title {
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
             color: var(--accent-blue);
-            font-weight: 500;
-            margin-bottom: 1.5rem;
-            font-size: 0.875rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
             text-transform: uppercase;
             letter-spacing: 0.1em;
         }
 
-        .leader-card p {
-            color: var(--text-secondary);
-            line-height: 1.7;
-            font-size: 0.95rem;
-            margin: 0;
-            font-weight: 200;
-        }
-
-        /* CTA Section */
-        .cta-section {
-            padding: 8rem 0;
-            background: var(--primary-black);
-            text-align: center;
+        /* Timeline */
+        .timeline {
             position: relative;
-        }
-
-        .cta-container {
             max-width: 800px;
             margin: 0 auto;
-            padding: 0 2rem;
         }
 
-        .cta-content h2 {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(2.5rem, 5vw, 4rem);
-            font-weight: 300;
-            margin-bottom: 2rem;
-            color: var(--text-primary);
-        }
-
-        .cta-content p {
-            font-size: 1.25rem;
-            line-height: 1.7;
-            color: var(--text-secondary);
-            margin-bottom: 3rem;
-            font-weight: 200;
-        }
-
-        .cta-buttons {
-            display: flex;
-            gap: 2rem;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .cta-btn {
-            padding: 1.25rem 3rem;
-            border-radius: 50px;
-            font-size: 1rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-block;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .cta-btn.primary {
-            background: var(--gradient-accent);
-            color: var(--primary-black);
-            border: none;
-        }
-
-        .cta-btn.primary:hover {
-            transform: translateY(-3px);
-            box-shadow: var(--shadow-glow);
-        }
-
-        .cta-btn.secondary {
-            background: transparent;
-            color: var(--text-primary);
-            border: 1px solid var(--accent-blue);
-        }
-
-        .cta-btn.secondary:hover {
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
             background: var(--accent-blue);
-            color: var(--primary-black);
-            transform: translateY(-3px);
+            transform: translateX(-50%);
         }
 
-        /* Contact Form Section */
-        .contact-section {
-            padding: 8rem 0;
-            background: var(--secondary-black);
+        .timeline-item {
+            position: relative;
+            margin-bottom: 3rem;
+            width: 50%;
         }
 
-        .contact-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 2rem;
+        .timeline-item:nth-child(odd) {
+            left: 0;
+            padding-right: 2rem;
         }
 
-        .contact-header {
-            text-align: center;
-            margin-bottom: 6rem;
+        .timeline-item:nth-child(even) {
+            left: 50%;
+            padding-left: 2rem;
         }
 
-        .contact-header h2 {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(2.5rem, 5vw, 4rem);
-            font-weight: 300;
-            margin-bottom: 1.5rem;
-            color: var(--text-primary);
+        .timeline-content {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            position: relative;
         }
 
-        .contact-header p {
-            font-size: 1.25rem;
-            color: var(--text-secondary);
+        .timeline-year {
+            color: var(--accent-blue);
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Form Styles */
+        .form-container {
             max-width: 600px;
             margin: 0 auto;
-            font-weight: 200;
-        }
-
-        .contact-form-wrapper {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 4rem;
-            align-items: start;
-        }
-
-        .contact-form {
             background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
             padding: 3rem;
-            border-radius: 20px;
-            border: 1px solid var(--border-subtle);
             backdrop-filter: blur(10px);
         }
 
         .form-group {
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
         }
 
         .form-group label {
             display: block;
-            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
             font-weight: 500;
-            font-size: 0.875rem;
-            margin-bottom: 0.75rem;
         }
 
         .form-group input,
@@ -793,9 +314,9 @@
         .form-group textarea {
             width: 100%;
             padding: 1rem;
-            border: 1px solid var(--border-subtle);
-            border-radius: 12px;
             background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
             color: var(--text-primary);
             font-size: 1rem;
             transition: all 0.3s ease;
@@ -809,111 +330,169 @@
             box-shadow: 0 0 0 3px rgba(0, 146, 255, 0.1);
         }
 
-        .submit-btn {
-            width: 100%;
-            padding: 1.25rem 2rem;
-            background: var(--gradient-accent);
-            color: var(--primary-black);
-            border: none;
-            border-radius: 12px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
         }
 
-        .submit-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-glow);
+        /* FAQ */
+        .faq-item {
+            border-bottom: 1px solid var(--border-color);
+            padding: 1.5rem 0;
         }
 
-        .contact-info {
-            display: flex;
-            flex-direction: column;
-            gap: 2rem;
-        }
-
-        .info-card {
-            background: rgba(255, 255, 255, 0.02);
-            padding: 2rem;
-            border-radius: 16px;
-            border: 1px solid var(--border-subtle);
-            backdrop-filter: blur(10px);
-        }
-
-        .info-card h3 {
-            font-size: 1.25rem;
-            font-weight: 600;
-            margin-bottom: 1.5rem;
+        .faq-question {
+            font-size: 1.1rem;
+            font-weight: 500;
             color: var(--text-primary);
-            font-family: 'Playfair Display', serif;
-        }
-
-        .info-item {
+            cursor: pointer;
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            margin-bottom: 1rem;
+            transition: color 0.3s ease;
         }
 
-        .info-item i {
+        .faq-question:hover {
             color: var(--accent-blue);
-            margin-right: 1rem;
-            width: 20px;
         }
 
-        .info-item span {
+        .faq-answer {
+            margin-top: 1rem;
             color: var(--text-secondary);
+            line-height: 1.6;
+            display: none;
         }
 
-        /* Responsive Design */
-        @media (max-width: 1024px) {
-            .mission-container,
-            .contact-form-wrapper {
-                grid-template-columns: 1fr;
-                gap: 4rem;
-            }
-
-            .values-grid,
-            .leadership-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 2rem;
-            }
-
-            .mission-stats {
-                grid-template-columns: 1fr;
-            }
+        .faq-answer.active {
+            display: block;
         }
 
+        .faq-icon {
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item.active .faq-icon {
+            transform: rotate(180deg);
+        }
+
+        /* Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive */
         @media (max-width: 768px) {
-            .hero-title {
-                font-size: 3rem;
-            }
-
-            .hero-subtitle {
-                font-size: 1.125rem;
-            }
-
-            .values-grid,
-            .leadership-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .cta-buttons {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .mission-container,
-            .values-container,
-            .leadership-container,
-            .cta-container,
-            .contact-container {
+            .container {
                 padding: 0 1rem;
             }
 
-            .contact-form {
+            .hero-ctas {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .grid-3,
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+
+            .form-container {
                 padding: 2rem;
             }
+
+            .timeline::before {
+                left: 20px;
+            }
+
+            .timeline-item {
+                width: 100%;
+                left: 0 !important;
+                padding-left: 3rem !important;
+                padding-right: 0 !important;
+            }
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            background: var(--gradient-accent);
+            color: var(--onyx);
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            box-shadow: var(--shadow-soft);
+            z-index: 1000;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        /* Image Styles */
+        .image-card {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            aspect-ratio: 4/3;
+            background: var(--charcoal);
+            transition: all 0.3s ease;
+        }
+
+        .image-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(232, 216, 190, 0.2);
+        }
+
+        .image-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .image-card:hover img {
+            transform: scale(1.1);
+        }
+
+        .image-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(0, 146, 255, 0.8), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+
+        .image-card:hover .image-overlay {
+            opacity: 1;
+        }
+
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
         }
     </style>
 </head>
@@ -921,569 +500,532 @@
     <!-- Navigation Placeholder -->
     <div id="nav-placeholder"></div>
 
-    <!-- About Hero Section -->
-    <section class="about-hero">
-        <div class="hero-background"></div>
-        <div class="hero-content">
-            <div class="hero-badge text-luxury">About Aperture Global</div>
-            <h1 class="hero-title display-font text-gradient">Crafting Extraordinary<br>Real Estate Experiences</h1>
-            <p class="hero-subtitle text-elegant">At Aperture Global, we believe that luxury real estate is more than just property—it's about creating extraordinary experiences and lasting relationships. We are dedicated to connecting discerning clients with the world's most exceptional properties through unparalleled service and expertise.</p>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content fade-in">
+                <h1 class="display-font text-gradient">Luxury is precision. Not noise.</h1>
+                <p class="subhead">I help discerning sellers and brands achieve outsized outcomes through curated strategy, uncompromising presentation, and addressable media that reaches only the right households.</p>
+                <div class="hero-chips">
+                    <div class="chip">$2.1B+ total listings influenced</div>
+                    <div class="chip">12 marquee markets</div>
+                    <div class="chip">CTV + Audio Addressable</div>
+                    <div class="chip">Privacy-safe</div>
         </div>
-    </section>
-
-    <!-- Mission Section -->
-    <section class="mission-section">
-        <div class="mission-container">
-            <div class="mission-content fade-in">
-                <h2 class="display-font text-bold">Our Mission</h2>
-                <p class="text-elegant">We are passionate about redefining what luxury real estate means in today's world. Our mission is to create meaningful connections between exceptional properties and extraordinary people, ensuring every transaction is not just a sale, but the beginning of a new chapter.</p>
-                <p class="text-elegant">Through our global network and local expertise, we provide our clients with access to the world's most coveted properties while maintaining the highest standards of service, discretion, and professionalism that define true luxury.</p>
-                
-                <div class="mission-stats">
-                    <div class="stat-item">
-                        <div class="stat-number counter" data-target="500">0</div>
-                        <div class="stat-label">Properties Sold</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-number counter" data-target="25">0</div>
-                        <div class="stat-label">Countries</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-number counter" data-target="2">0</div>
-                        <div class="stat-label">Billion+ Total Sales</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-number counter" data-target="15">0</div>
-                        <div class="stat-label">Years Experience</div>
-                    </div>
+                <div class="hero-ctas">
+                    <a href="#contact" class="btn btn-primary">
+                        <i class="fas fa-calendar-alt"></i>
+                        Book a Private Consultation
+                    </a>
+                    <a href="#selected-work" class="btn btn-secondary">
+                        <i class="fas fa-eye"></i>
+                        See My Work
+                    </a>
                 </div>
             </div>
-            <div class="mission-image fade-in">
-                <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=600&h=500&fit=crop" alt="Luxury Property">
-            </div>
         </div>
     </section>
 
-    <!-- Values Section -->
-    <section class="values-section">
-        <div class="values-container">
-            <div class="values-header fade-in">
-                <h2 class="display-font text-bold">Our Values</h2>
-                <p class="text-elegant">The core principles that shape our approach to luxury real estate and guide every interaction</p>
+    <!-- Principles Section -->
+    <section class="section" id="principles">
+        <div class="container">
+            <div class="section-header fade-in">
+                <h2 class="display-font">How I Operate</h2>
+                <p>The principles that guide every engagement and ensure exceptional outcomes.</p>
             </div>
             
-            <div class="values-grid">
-                <div class="value-card fade-in">
-                    <div class="value-icon">
-                        <i class="far fa-heart"></i>
+            <div class="grid grid-3">
+                <div class="card fade-in">
+                    <h3 style="color: var(--accent-blue); margin-bottom: 1rem; font-size: 1.5rem;">Curation over volume</h3>
+                    <p>I take on fewer projects to deliver comp-setting outcomes. Quality over quantity in every engagement.</p>
                     </div>
-                    <h3>Passion</h3>
-                    <p>We are driven by a genuine passion for exceptional properties and the stories they tell. Every transaction is approached with enthusiasm and dedication.</p>
-                </div>
-                
-                <div class="value-card fade-in">
-                    <div class="value-icon">
-                        <i class="far fa-handshake"></i>
+                <div class="card fade-in">
+                    <h3 style="color: var(--accent-blue); margin-bottom: 1rem; font-size: 1.5rem;">Exclusivity, earned</h3>
+                    <p>Placement and media that fit the asset. Every strategy is tailored to the specific property and market.</p>
                     </div>
-                    <h3>Authenticity</h3>
-                    <p>We believe in genuine relationships built on trust, transparency, and mutual respect. Our approach is always honest and straightforward.</p>
-                </div>
-                
-                <div class="value-card fade-in">
-                    <div class="value-icon">
-                        <i class="far fa-star"></i>
+                <div class="card fade-in">
+                    <h3 style="color: var(--accent-blue); margin-bottom: 1rem; font-size: 1.5rem;">Proof, not promises</h3>
+                    <p>Measurement, lift, and closed-loop reporting. Every campaign is tracked and optimized for maximum impact.</p>
                     </div>
-                    <h3>Excellence</h3>
-                    <p>We set the highest standards for ourselves and our work, ensuring every detail is perfect and every experience is extraordinary.</p>
-                </div>
-                
-                <div class="value-card fade-in">
-                    <div class="value-icon">
-                        <i class="far fa-users"></i>
-                    </div>
-                    <h3>Connection</h3>
-                    <p>We understand that luxury real estate is about more than properties—it's about connecting people with their dreams and aspirations.</p>
-                </div>
-                
-                <div class="value-card fade-in">
-                    <div class="value-icon">
-                        <i class="far fa-lightbulb"></i>
-                    </div>
-                    <h3>Innovation</h3>
-                    <p>We embrace new ideas and technologies to enhance the real estate experience while respecting the timeless values of luxury.</p>
-                </div>
-                
-                <div class="value-card fade-in">
-                    <div class="value-icon">
-                        <i class="far fa-shield-alt"></i>
-                    </div>
-                    <h3>Discretion</h3>
-                    <p>We understand the importance of privacy in luxury real estate and maintain the highest level of confidentiality for all our clients.</p>
-                </div>
             </div>
         </div>
     </section>
 
-    <!-- Leadership Section -->
-    <section class="leadership-section">
-        <div class="leadership-container">
-            <div class="leadership-header fade-in">
-                <h2 class="display-font">Aperture Leadership</h2>
-            </div>
-            <div class="leadership-grid">
-                <div class="leader-card fade-in">
-                    <div class="leader-image">
-                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=300&fit=crop&crop=face" alt="Robert Palmer">
-                    </div>
-                    <h3>Robert Palmer</h3>
-                    <p class="title">Founder/CEO</p>
-                    <p>Robert Palmer is a serial entrepreneur, business leader and marketing guru who has built an impressive portfolio of brands and businesses through innovation, hard work, and a relentless passion for success.</p>
-                </div>
-                <div class="leader-card fade-in">
-                    <div class="leader-image">
-                        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=300&h=300&fit=crop&crop=face" alt="Michael Valdes">
-                    </div>
-                    <h3>Michael Valdes</h3>
-                    <p class="title">Global President</p>
-                    <p>Michael Valdes is a leader in luxury real estate, serving as Global President of Aperture and CEO of LPT International. Prior to this role, he served as Chief Growth Officer of exp Realty.</p>
-                </div>
-                <div class="leader-card fade-in">
-                    <div class="leader-image">
-                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300&h=300&fit=crop&crop=face" alt="Mercedes Saewitz">
-                    </div>
-                    <h3>Mercedes Saewitz</h3>
-                    <p class="title">SVP of Operations</p>
-                    <p>A Miami native with over 20 years of industry experience, Mercedes Saewitz is a recognized leader in real estate. During her decade at Compass, she led regional brokerage operations.</p>
-                </div>
-                <div class="leader-card fade-in">
-                    <div class="leader-image">
-                        <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=300&h=300&fit=crop&crop=face" alt="Matt Hodge">
-                    </div>
-                    <h3>Matt Hodge</h3>
-                    <p class="title">Executive VP</p>
-                    <p>Matthew Hodge's real estate journey began with a deep passion for helping individuals build wealth through real estate. This commitment to client success paved the way for a seamless transition into luxury sales.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-
-    <!-- CTA Section -->
-    <section class="cta-section">
-        <div class="cta-container">
-            <div class="cta-content fade-in">
-                <h2 class="display-font">Ready to Discover Your<br>Perfect Property?</h2>
-                <p>Let us help you find the extraordinary property that matches your lifestyle and aspirations. Every great story begins with the right setting.</p>
-                <div class="cta-buttons">
-                    <a href="properties.html" class="cta-btn primary">Explore Properties</a>
-                    <a href="#contact" class="cta-btn secondary">Start Your Journey</a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact Form Section -->
-    <section class="contact-section" id="contact">
-        <div class="contact-container">
-            <div class="contact-header fade-in">
-                <h2 class="display-font">Sell With Us</h2>
-                <p>Stay in control of how, when, and where your property is marketed with a strategy tailored to fit your needs.</p>
+    <!-- Signature Outcomes Section -->
+    <section class="section" id="signature-outcomes">
+        <div class="container">
+            <div class="section-header fade-in">
+                <h2 class="display-font">Signature Outcomes</h2>
+                <p>Proof of performance through measurable results and client success stories.</p>
             </div>
             
-            <div class="contact-form-wrapper">
-                <form class="contact-form fade-in">
+            <div class="grid grid-2">
+                <div class="card fade-in">
+                    <div class="stat-number">$47M</div>
+                    <h3 style="color: var(--accent-blue); margin-bottom: 1rem;">Record-setting sale</h3>
+                    <p style="color: var(--text-secondary); margin-bottom: 1rem;">Beverly Hills Estate — Reduced time-to-contract by 35% via household-level CTV sequencing.</p>
+                    <p style="font-size: 0.9rem; color: var(--text-muted);">Targeted 2,100 high-net-worth households with precision addressable TV, resulting in 3 qualified offers within 2 weeks.</p>
+                    </div>
+                <div class="card fade-in">
+                    <div class="stat-number">12K</div>
+                    <h3 style="color: var(--accent-blue); margin-bottom: 1rem;">Developer launch</h3>
+                    <p style="color: var(--text-secondary); margin-bottom: 1rem;">Manhattan Penthouse Collection — 12k qualified visits from top-5% zip codes in 30 days.</p>
+                    <p style="font-size: 0.9rem; color: var(--text-muted);">Combined CTV and premium audio targeting delivered 340% higher quality leads compared to traditional digital advertising.</p>
+                </div>
+                <div class="card fade-in">
+                    <div class="stat-number">+89%</div>
+                    <h3 style="color: var(--accent-blue); margin-bottom: 1rem;">Cross-border placement</h3>
+                    <p style="color: var(--text-secondary); margin-bottom: 1rem;">Monaco Villa — CTV + audio flight delivered 89% incremental reach vs. demo buy.</p>
+                    <p style="font-size: 0.9rem; color: var(--text-muted);">International luxury property reached 15,000 verified high-net-worth households across 8 European markets.</p>
+                    </div>
+                <div class="card fade-in">
+                    <div class="stat-number">156%</div>
+                    <h3 style="color: var(--accent-blue); margin-bottom: 1rem;">Brand awareness lift</h3>
+                    <p style="color: var(--text-secondary); margin-bottom: 1rem;">Luxury Developer Campaign — Measured brand lift and qualified site visits from premium demographics.</p>
+                    <p style="font-size: 0.9rem; color: var(--text-muted);">Privacy-safe audience modeling delivered 156% increase in high-intent website traffic from target zip codes.</p>
+                </div>
+                    </div>
+                </div>
+    </section>
+
+    <!-- Modern Media Advantage Section -->
+    <section class="section" id="media-advantage">
+        <div class="container">
+            <div class="section-header fade-in">
+                <h2 class="display-font">Modern Media Advantage</h2>
+                <p>Exclusivity, delivered via addressable TV/CTV and premium audio.</p>
+                </div>
+                
+            <div class="grid grid-3">
+                <div class="card fade-in">
+                    <h3 style="color: var(--accent-blue); margin-bottom: 1rem; font-size: 1.5rem;">Model</h3>
+                    <p>Privacy-safe HNW audiences using advanced machine learning and consented data partners to identify high-value households with precision.</p>
+                    </div>
+                <div class="card fade-in">
+                    <h3 style="color: var(--accent-blue); margin-bottom: 1rem; font-size: 1.5rem;">Match</h3>
+                    <p>Deterministic household graph mapping to premium publishers and connected devices, ensuring precise delivery across all touchpoints.</p>
+                </div>
+                <div class="card fade-in">
+                    <h3 style="color: var(--accent-blue); margin-bottom: 1rem; font-size: 1.5rem;">Measure</h3>
+                    <p>Incremental reach, site visits, and intent actions with full attribution tracking and closed-loop reporting for maximum ROI.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Selected Work Section -->
+    <section class="section" id="selected-work">
+        <div class="container">
+            <div class="section-header fade-in">
+                <h2 class="display-font">Selected Work</h2>
+                <p>A curated selection of recent projects showcasing precision strategy and measurable results.</p>
+                    </div>
+            
+            <div class="grid grid-3">
+                <div class="card fade-in">
+                    <div class="image-card">
+                        <img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=400&h=300&fit=crop" alt="Beverly Hills Estate">
+                        <div class="image-overlay">$47M Sale</div>
+                </div>
+                    <h3 style="color: var(--accent-blue); margin-bottom: 0.5rem;">Beverly Hills Estate</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;">$47M sale in 45 days vs. 120-day market average</p>
+                    <p style="font-size: 0.8rem; color: var(--text-muted);">Household-level CTV targeting delivered 3 qualified offers within 2 weeks of launch.</p>
+                    </div>
+                <div class="card fade-in">
+                    <div class="image-card">
+                        <img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=400&h=300&fit=crop" alt="Manhattan Penthouse">
+                        <div class="image-overlay">12K Visits</div>
+                </div>
+                    <h3 style="color: var(--accent-blue); margin-bottom: 0.5rem;">Manhattan Penthouse</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;">12K qualified visits from top-5% zip codes</p>
+                    <p style="font-size: 0.8rem; color: var(--text-muted);">Combined CTV and premium audio targeting for luxury developer launch.</p>
+                    </div>
+                <div class="card fade-in">
+                    <div class="image-card">
+                        <img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=400&h=300&fit=crop" alt="Monaco Villa">
+                        <div class="image-overlay">89% Reach</div>
+                </div>
+                    <h3 style="color: var(--accent-blue); margin-bottom: 0.5rem;">Monaco Villa</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;">89% incremental reach vs. demo buy</p>
+                    <p style="font-size: 0.8rem; color: var(--text-muted);">International luxury property reached 15K verified HNW households across 8 markets.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Recognition Section -->
+    <section class="section" id="recognition">
+        <div class="container">
+            <div class="section-header fade-in">
+                <h2 class="display-font">Recognition</h2>
+                <p>Industry recognition and press coverage for innovative approaches to luxury real estate marketing.</p>
+            </div>
+            
+            <div class="fade-in" style="text-align: center; margin: 3rem 0;">
+                <div style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-color); border-radius: 12px; padding: 3rem; backdrop-filter: blur(10px);">
+                    <p style="color: var(--accent-blue); font-size: 1.2rem; font-style: italic; margin-bottom: 2rem;">
+                        "Kyle Foreman brings a cinematic discipline to luxury go-to-market."
+                    </p>
+                    <div style="display: flex; justify-content: center; align-items: center; gap: 2rem; flex-wrap: wrap;">
+                        <div style="color: var(--text-secondary); font-weight: 500;">Inman</div>
+                        <div style="color: var(--text-secondary); font-weight: 500;">HousingWire</div>
+                        <div style="color: var(--text-secondary); font-weight: 500;">RISMedia</div>
+                        <div style="color: var(--text-secondary); font-weight: 500;">RealEstateNews</div>
+                    </div>
+                </div>
+                    </div>
+                </div>
+    </section>
+
+    <!-- Timeline Section -->
+    <section class="section" id="timeline">
+        <div class="container">
+            <div class="section-header fade-in">
+                <h2 class="display-font">Career Arc</h2>
+                <p>Key milestones in building expertise in luxury real estate and modern media strategy.</p>
+                    </div>
+            
+            <div class="timeline">
+                <div class="timeline-item fade-in">
+                    <div class="timeline-content">
+                        <div class="timeline-year">2010-2015</div>
+                        <h3>Early Craft</h3>
+                        <p>Built foundation in luxury real estate sales, learning the art of presentation and client relationship management.</p>
+                </div>
+            </div>
+                <div class="timeline-item fade-in">
+                    <div class="timeline-content">
+                        <div class="timeline-year">2016-2018</div>
+                        <h3>Breakthrough Listing</h3>
+                        <p>Led marketing for $25M Beverly Hills estate, pioneering digital-first luxury real estate presentation.</p>
+        </div>
+            </div>
+                <div class="timeline-item fade-in">
+                    <div class="timeline-content">
+                        <div class="timeline-year">2019-2021</div>
+                        <h3>Media Innovation</h3>
+                        <p>Developed proprietary addressable TV and CTV targeting methodology for luxury real estate marketing.</p>
+                    </div>
+                    </div>
+                <div class="timeline-item fade-in">
+                    <div class="timeline-content">
+                        <div class="timeline-year">2022-2024</div>
+                        <h3>Global Rollouts</h3>
+                        <p>Expanded methodology across 12 international markets, achieving $2.1B+ in influenced listings.</p>
+                </div>
+                    </div>
+                <div class="timeline-item fade-in">
+                    <div class="timeline-content">
+                        <div class="timeline-year">Today</div>
+                        <h3>Strategic Focus</h3>
+                        <p>Leading Aperture Global's media strategy while consulting with select luxury developers and high-net-worth clients.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Ethos & Privacy Section -->
+    <section class="section" id="ethos-privacy">
+        <div class="container">
+            <div class="section-header fade-in">
+                <h2 class="display-font">Ethos & Privacy</h2>
+                <p>Selection criteria, confidentiality standards, and ethical practices that guide every engagement.</p>
+                    </div>
+            
+            <div class="grid grid-2">
+                <div class="card fade-in">
+                    <h3 style="color: var(--accent-blue); margin-bottom: 1rem;">Selection Criteria</h3>
+                    <ul style="list-style: none; color: var(--text-secondary); line-height: 1.8;">
+                        <li>• Properties valued $10M+ or unique market positioning</li>
+                        <li>• Clients committed to premium presentation standards</li>
+                        <li>• 6-month minimum engagement for optimal results</li>
+                        <li>• Non-compete windows respected in all markets</li>
+                    </ul>
+                    </div>
+                <div class="card fade-in">
+                    <h3 style="color: var(--accent-blue); margin-bottom: 1rem;">Confidentiality & Privacy</h3>
+                    <ul style="list-style: none; color: var(--text-secondary); line-height: 1.8;">
+                        <li>• CCPA and GDPR compliant data practices</li>
+                        <li>• Client information never shared or resold</li>
+                        <li>• All campaigns use privacy-safe audience modeling</li>
+                        <li>• Clear opt-out pathways for all targeting</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Personal Note Section -->
+    <section class="section" id="personal-note">
+        <div class="container">
+            <div class="fade-in" style="max-width: 800px; margin: 0 auto; text-align: center;">
+                <div style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-color); border-radius: 12px; padding: 3rem; backdrop-filter: blur(10px);">
+                    <div style="width: 120px; height: 120px; border-radius: 50%; background: url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=face') center/cover; margin: 0 auto 2rem;"></div>
+                    <h3 style="color: var(--accent-blue); margin-bottom: 1.5rem; font-size: 1.5rem;">A Personal Note</h3>
+                    <p style="color: var(--text-secondary); line-height: 1.8; font-size: 1.1rem;">
+                        I believe luxury real estate deserves the same level of craft and precision as fine architecture. 
+                        Every property tells a story, and my role is to ensure that story reaches the right audience through 
+                        the most effective channels. When I'm not strategizing campaigns, you'll find me exploring 
+                        architectural details in historic buildings or studying the intersection of technology and 
+                        traditional craftsmanship. This attention to detail—whether in a 16th-century villa or a 
+                        modern penthouse—is what drives exceptional outcomes for my clients.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Concierge CTA Section -->
+    <section class="section" id="contact">
+        <div class="container">
+            <div class="section-header fade-in">
+                <h2 class="display-font">Book a Private Consultation</h2>
+                <p>Ready to discuss your luxury real estate marketing strategy? Let's explore how precision targeting can deliver exceptional results.</p>
+            </div>
+            
+            <div class="form-container fade-in">
+                <form id="consultation-form">
                     <div class="form-group">
                         <label for="name">Full Name</label>
                         <input type="text" id="name" name="name" required>
                     </div>
-                    
                     <div class="form-group">
                         <label for="email">Email Address</label>
                         <input type="email" id="email" name="email" required>
                     </div>
-                    
                     <div class="form-group">
-                        <label for="phone">Phone Number</label>
-                        <input type="tel" id="phone" name="phone">
+                        <label for="company">Company</label>
+                        <input type="text" id="company" name="company" required>
                     </div>
-                    
                     <div class="form-group">
-                        <label for="property-type">Property Type</label>
-                        <select id="property-type" name="property-type">
-                            <option value="">Select Property Type</option>
-                            <option value="penthouse">Penthouse</option>
-                            <option value="estate">Estate</option>
-                            <option value="mansion">Mansion</option>
-                            <option value="condo">Condo</option>
-                            <option value="villa">Villa</option>
+                        <label for="markets">Market(s) of Interest</label>
+                        <select id="markets" name="markets" required>
+                            <option value="">Select markets</option>
+                            <option value="beverly-hills">Beverly Hills</option>
+                            <option value="manhattan">Manhattan</option>
+                            <option value="monaco">Monaco</option>
+                            <option value="london">London</option>
+                            <option value="multiple">Multiple Markets</option>
                         </select>
                     </div>
-                    
                     <div class="form-group">
-                        <label for="location">Property Location</label>
-                        <input type="text" id="location" name="location" placeholder="City, State/Country">
+                        <label for="budget">Budget Range</label>
+                        <select id="budget" name="budget" required>
+                            <option value="">Select budget range</option>
+                            <option value="50k-100k">$50K - $100K</option>
+                            <option value="100k-250k">$100K - $250K</option>
+                            <option value="250k-500k">$250K - $500K</option>
+                            <option value="500k+">$500K+</option>
+                        </select>
                     </div>
-                    
                     <div class="form-group">
-                        <label for="message">Tell us about your property</label>
-                        <textarea id="message" name="message" rows="4" placeholder="Share details about your property, timeline, and goals..."></textarea>
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" placeholder="Tell us about your luxury real estate marketing goals..."></textarea>
                     </div>
-                    
-                    <button type="submit" class="submit-btn">Submit</button>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">
+                        <i class="fas fa-paper-plane"></i>
+                        Request Consultation
+                    </button>
                 </form>
                 
-                <div class="contact-info fade-in">
-                    <div class="info-card">
-                        <h3>Contact Information</h3>
-                        <div class="info-item">
-                            <i class="far fa-phone"></i>
-                            <span>+1 (555) 123-4567</span>
+                <div style="text-align: center; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--border-color);">
+                    <p style="color: var(--text-secondary); margin-bottom: 1rem; font-size: 0.9rem;">Your details remain private. No list adds. No resell.</p>
+                    <p style="color: var(--accent-blue);">
+                        <i class="fas fa-envelope"></i> kyle@apertureglobal.com
+                        <span style="margin: 0 1rem;">|</span>
+                        <i class="fas fa-phone"></i> +1 (555) 123-4567
+                    </p>
                         </div>
-                        <div class="info-item">
-                            <i class="far fa-envelope"></i>
-                            <span>info@apertureglobal.com</span>
                         </div>
-                        <div class="info-item">
-                            <i class="far fa-map-marker-alt"></i>
-                            <span>Visit Our Sales Gallery<br>123 Luxury Avenue, Miami, FL</span>
                         </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="section" id="faq">
+        <div class="container">
+            <div class="section-header fade-in">
+                <h2 class="display-font">Frequently Asked Questions</h2>
+                <p>Everything you need to know about luxury real estate marketing and media strategy.</p>
                     </div>
                     
-                    <div class="info-card">
-                        <h3>Schedule an Appointment</h3>
-                        <p>Ready to discuss your property? Schedule a private consultation with one of our luxury real estate specialists.</p>
-                        <a href="#" class="cta-btn secondary">Schedule Consultation</a>
+            <div style="max-width: 800px; margin: 0 auto;">
+                <div class="faq-item fade-in">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        What makes your targeting different?
+                        <i class="fas fa-chevron-down faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        I use privacy-safe household-level addressable TV and CTV targeting combined with premium audio, reaching only verified high-net-worth households. This precision eliminates waste and ensures your message reaches qualified prospects.
+                </div>
+            </div>
+                
+                <div class="faq-item fade-in">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        How do you measure success?
+                        <i class="fas fa-chevron-down faq-icon"></i>
+        </div>
+                    <div class="faq-answer">
+                        Every campaign includes incremental reach measurement, view-through rates, qualified site visits, and high-intent actions. I provide detailed reporting on campaign performance and audience engagement with full attribution tracking.
+                    </div>
+                </div>
+                
+                <div class="faq-item fade-in">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        Do you offer market exclusivity?
+                        <i class="fas fa-chevron-down faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        Yes, I respect non-compete windows and typically work with one luxury property per market at a time. This ensures your property receives undivided attention and prevents market saturation.
+                    </div>
+                </div>
+                
+                <div class="faq-item fade-in">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        How quickly can we launch?
+                        <i class="fas fa-chevron-down faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        Typical launch timeline is 2-3 weeks from contract signing, including audience modeling, creative adaptation, and inventory placement. Rush launches can be accommodated for urgent campaigns.
+                    </div>
+                </div>
+                
+                <div class="faq-item fade-in">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        What do engagements cost?
+                        <i class="fas fa-chevron-down faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        Investment ranges from $50K to $500K+ depending on market, property value, and campaign scope. I provide detailed proposals with clear ROI projections and performance guarantees.
+                    </div>
+                </div>
+                
+                <div class="faq-item fade-in">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        Do you manage creative and production?
+                        <i class="fas fa-chevron-down faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        Yes, I work with a network of luxury real estate photographers, videographers, and creative directors to ensure your property is presented at the highest level. All creative is optimized for CTV and audio platforms.
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Footer Placeholder -->
-    <div id="footer-placeholder"></div>
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
 
-    <script src="script.js"></script>
     <script>
-        // Modern About Page with Award-Winning Interactions
-        class ModernAboutPage {
-            constructor() {
-                this.init();
-            }
-
-            init() {
-                this.initScrollAnimations();
-                this.initCounters();
-                this.initSmoothScrolling();
-                this.initMicroInteractions();
-                this.initContactForm();
-                this.initParallaxEffects();
-            }
-
-            // Advanced scroll-triggered animations
-            initScrollAnimations() {
-                const observerOptions = {
-                    threshold: 0.1,
-                    rootMargin: '0px 0px -100px 0px'
-                };
-
-                const observer = new IntersectionObserver((entries) => {
-                    entries.forEach((entry, index) => {
-                        if (entry.isIntersecting) {
-                            // Stagger animations for better visual flow
-                            setTimeout(() => {
-                                entry.target.classList.add('visible');
-                            }, index * 100);
-                        }
-                    });
-                }, observerOptions);
-
-                // Observe all animated elements
-                const animatedElements = document.querySelectorAll('.fade-in');
-                animatedElements.forEach(el => observer.observe(el));
-            }
-
-            // Smooth counter animations
-            initCounters() {
-                const counters = document.querySelectorAll('.counter');
-                const counterObserver = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            this.animateCounter(entry.target);
-                            counterObserver.unobserve(entry.target);
-                        }
-                    });
-                }, { threshold: 0.5 });
-
-                counters.forEach(counter => counterObserver.observe(counter));
-            }
-
-            animateCounter(element) {
-                const target = parseInt(element.getAttribute('data-target'));
-                const duration = 2500;
-                const startTime = performance.now();
-
-                const updateCounter = (currentTime) => {
-                    const elapsed = currentTime - startTime;
-                    const progress = Math.min(elapsed / duration, 1);
-                    
-                    // Easing function for smooth animation
-                    const easeOutCubic = 1 - Math.pow(1 - progress, 3);
-                    const current = Math.floor(target * easeOutCubic);
-                    
-                    // Format the number based on target
-                    if (target >= 100) {
-                        element.textContent = current + '+';
-                    } else if (target >= 10) {
-                        element.textContent = current + '+';
-                    } else {
-                        element.textContent = current;
-                    }
-                    
-                    if (progress < 1) {
-                        requestAnimationFrame(updateCounter);
-                    }
-                };
-
-                requestAnimationFrame(updateCounter);
-            }
-
-            // Smooth scrolling with offset
-            initSmoothScrolling() {
-                const links = document.querySelectorAll('a[href^="#"]');
-                links.forEach(link => {
-                    link.addEventListener('click', (e) => {
+        // Form handling
+        document.getElementById('consultation-form').addEventListener('submit', function(e) {
                         e.preventDefault();
-                        const targetId = link.getAttribute('href');
-                        const targetElement = document.querySelector(targetId);
-                        
-                        if (targetElement) {
-                            const offsetTop = targetElement.offsetTop - 100;
-                            window.scrollTo({
-                                top: offsetTop,
-                                behavior: 'smooth'
-                            });
-                        }
-                    });
-                });
-            }
-
-            // Micro-interactions for enhanced UX
-            initMicroInteractions() {
-                // Value cards hover effects
-                const valueCards = document.querySelectorAll('.value-card');
-                valueCards.forEach(card => {
-                    card.addEventListener('mouseenter', () => {
-                        card.style.transform = 'translateY(-15px) scale(1.02)';
-                    });
-                    
-                    card.addEventListener('mouseleave', () => {
-                        card.style.transform = 'translateY(0) scale(1)';
-                    });
-                });
-
-                // Leader cards interactions
-                const leaderCards = document.querySelectorAll('.leader-card');
-                leaderCards.forEach(card => {
-                    card.addEventListener('mouseenter', () => {
-                        const image = card.querySelector('.leader-image');
-                        if (image) {
-                            image.style.transform = 'scale(1.1) rotate(2deg)';
-                        }
-                    });
-                    
-                    card.addEventListener('mouseleave', () => {
-                        const image = card.querySelector('.leader-image');
-                        if (image) {
-                            image.style.transform = 'scale(1) rotate(0deg)';
-                        }
-                    });
-                });
-
-                // CTA button interactions
-                const ctaButtons = document.querySelectorAll('.cta-btn');
-                ctaButtons.forEach(button => {
-                    button.addEventListener('mouseenter', () => {
-                        button.style.transform = 'translateY(-3px) scale(1.05)';
-                    });
-                    
-                    button.addEventListener('mouseleave', () => {
-                        button.style.transform = 'translateY(0) scale(1)';
-                    });
-                });
-
-                // Form input focus effects
-                const formInputs = document.querySelectorAll('input, textarea, select');
-                formInputs.forEach(input => {
-                    input.addEventListener('focus', () => {
-                        input.parentElement.style.transform = 'translateY(-2px)';
-                    });
-                    
-                    input.addEventListener('blur', () => {
-                        input.parentElement.style.transform = 'translateY(0)';
-                    });
-                });
-            }
-
-            // Contact form with enhanced UX
-            initContactForm() {
-                const contactForm = document.querySelector('.contact-form');
-                if (contactForm) {
-                    contactForm.addEventListener('submit', (e) => {
-                        e.preventDefault();
-                        this.handleFormSubmission(contactForm);
-                    });
-                }
-            }
-
-            handleFormSubmission(form) {
-                const formData = new FormData(form);
-                const data = Object.fromEntries(formData);
-                
-                // Show loading state with animation
-                const submitBtn = form.querySelector('.submit-btn');
-                const originalText = submitBtn.textContent;
-                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
-                submitBtn.disabled = true;
-                submitBtn.style.transform = 'scale(0.95)';
-
-                // Simulate API call
-                setTimeout(() => {
-                    this.showSuccessMessage();
-                    form.reset();
-                    submitBtn.textContent = originalText;
-                    submitBtn.disabled = false;
-                    submitBtn.style.transform = 'scale(1)';
-                }, 2000);
-            }
-
-            showSuccessMessage() {
-                // Create success notification
-                const notification = document.createElement('div');
-                notification.className = 'success-notification';
-                notification.innerHTML = `
-                    <div class="notification-content">
-                        <i class="fas fa-check-circle"></i>
-                        <span>Thank you! We'll contact you within 24 hours.</span>
-                    </div>
-                `;
-                
-                notification.style.cssText = `
-                    position: fixed;
-                    top: 2rem;
-                    right: 2rem;
-                    background: linear-gradient(135deg, #0092ff, #4db8ff);
-                    color: #ffffff;
-                    padding: 1rem 2rem;
-                    border-radius: 12px;
-                    box-shadow: 0 10px 30px rgba(0, 146, 255, 0.3);
-                    z-index: 10000;
-                    transform: translateX(100%);
-                    transition: transform 0.3s ease;
-                `;
-
-                document.body.appendChild(notification);
-
-                // Animate in
-                setTimeout(() => {
-                    notification.style.transform = 'translateX(0)';
-                }, 100);
-
-                // Animate out
-                setTimeout(() => {
-                    notification.style.transform = 'translateX(100%)';
-                    setTimeout(() => {
-                        if (notification.parentNode) {
-                            notification.parentNode.removeChild(notification);
-                        }
-                    }, 300);
-                }, 4000);
-            }
-
-            // Subtle parallax effects
-            initParallaxEffects() {
-                let ticking = false;
-
-                const updateParallax = () => {
-                    const scrolled = window.pageYOffset;
-                    const heroBackground = document.querySelector('.hero-background');
-                    
-                    if (heroBackground) {
-                        const rate = scrolled * -0.3;
-                        heroBackground.style.transform = `translateY(${rate}px)`;
-                    }
-                    
-                    ticking = false;
-                };
-
-                const requestTick = () => {
-                    if (!ticking) {
-                        requestAnimationFrame(updateParallax);
-                        ticking = true;
-                    }
-                };
-
-                window.addEventListener('scroll', requestTick, { passive: true });
-            }
-        }
-
-        // Initialize when DOM is loaded
-        document.addEventListener('DOMContentLoaded', () => {
-            new ModernAboutPage();
+            
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData);
+            
+            // Log to console (in production, this would be sent to backend)
+            console.log('Form submission:', data);
+            
+            // Show success toast
+            showToast('Thank you! I\'ll contact you within 24 hours to schedule your private consultation.');
+            
+            // Reset form
+            this.reset();
         });
 
-        // Add custom CSS for enhanced interactions
-        const enhancedStyles = document.createElement('style');
-        enhancedStyles.textContent = `
-            .value-card, .leader-card, .cta-btn {
-                transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            }
+        // Toast notification
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            
+                setTimeout(() => {
+                toast.classList.remove('show');
+            }, 5000);
+        }
 
-            .form-group {
-                transition: transform 0.3s ease;
-            }
+        // FAQ toggle
+        function toggleFAQ(element) {
+            const faqItem = element.parentElement;
+            const answer = faqItem.querySelector('.faq-answer');
+            
+            // Close all other FAQ items
+            document.querySelectorAll('.faq-item').forEach(item => {
+                if (item !== faqItem) {
+                    item.classList.remove('active');
+                    item.querySelector('.faq-answer').classList.remove('active');
+                }
+            });
+            
+            // Toggle current item
+            faqItem.classList.toggle('active');
+            answer.classList.toggle('active');
+        }
 
-            .success-notification .notification-content {
-                display: flex;
-                align-items: center;
-                gap: 0.75rem;
-                font-weight: 600;
-            }
+        // Scroll animations
+        function handleScrollAnimations() {
+            const elements = document.querySelectorAll('.fade-in');
+            
+            elements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+                
+                if (elementTop < window.innerHeight - elementVisible) {
+                    element.classList.add('visible');
+                }
+            });
+        }
 
-            .success-notification i {
-                font-size: 1.25rem;
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                });
             }
+        });
+        });
 
-            /* Enhanced scrollbar */
-            ::-webkit-scrollbar {
-                width: 8px;
-            }
+        // Event listeners
+        window.addEventListener('scroll', handleScrollAnimations);
+        window.addEventListener('load', handleScrollAnimations);
 
-            ::-webkit-scrollbar-track {
-                background: var(--secondary-black);
-            }
+        // Analytics event stubs
+        function trackEvent(eventName, properties = {}) {
+            console.log('Analytics Event:', eventName, properties);
+            // In production, this would send to your analytics platform
+        }
 
-            ::-webkit-scrollbar-thumb {
-                background: var(--accent-blue);
-                border-radius: 4px;
-            }
+        // Track CTA clicks
+        document.querySelectorAll('.btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                trackEvent('CTA Click', {
+                    buttonText: this.textContent.trim(),
+                    section: this.closest('section').id || 'hero'
+            });
+        });
+        });
 
-            ::-webkit-scrollbar-thumb:hover {
-                background: var(--accent-blue-light);
-            }
+        // Track form submission
+        document.getElementById('consultation-form').addEventListener('submit', function() {
+            trackEvent('Form Submit', {
+                formType: 'consultation_request'
+                        });
+                    });
 
-            /* Selection styling */
-            ::selection {
-                background: var(--accent-blue);
-                color: var(--primary-black);
-            }
-
-            /* Focus styles */
-            *:focus {
-                outline: 2px solid var(--accent-blue);
-                outline-offset: 2px;
-            }
-        `;
-        document.head.appendChild(enhancedStyles);
+        // Track FAQ interactions
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', function() {
+                trackEvent('FAQ Open', {
+                    question: this.textContent.trim()
+                });
+            });
+        });
     </script>
 </body>
 </html>
