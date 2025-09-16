@@ -1,0 +1,416 @@
+/* CSS Snippet for Lofty.com - News Section Styles */
+
+/* CSS Variables for Easy Customization */
+:root {
+    --primary-black: #000000;
+    --secondary-black: #0f0f0f;
+    --tertiary-black: #1a1a1a;
+    --accent-blue: #0092ff;
+    --accent-blue-light: #4db8ff;
+    --accent-blue-dark: #007acc;
+    --text-primary: #ffffff;
+    --text-secondary: #b8b8b8;
+    --text-muted: #888888;
+    --text-accent: #0092ff;
+    --border-subtle: rgba(0, 146, 255, 0.15);
+    --border-blue: rgba(0, 146, 255, 0.3);
+    --gradient-primary: linear-gradient(135deg, #000000 0%, #0f0f0f 50%, #1a1a1a 100%);
+    --gradient-accent: linear-gradient(135deg, #0092ff 0%, #4db8ff 50%, #007acc 100%);
+    --gradient-text: linear-gradient(135deg, #0092ff 0%, #ffffff 50%, #0092ff 100%);
+    --shadow-soft: 0 30px 80px rgba(0, 0, 0, 0.4);
+    --shadow-glow: 0 0 60px rgba(0, 146, 255, 0.15);
+    --shadow-premium: 0 40px 100px rgba(0, 0, 0, 0.5);
+    --primary-bg: #000000;
+    --card-bg: rgba(255, 255, 255, 0.02);
+    --border-color: rgba(255, 255, 255, 0.1);
+    --shadow-dark: rgba(0, 0, 0, 0.3);
+    --shadow: rgba(0, 146, 255, 0.2);
+}
+
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--primary-black);
+    color: var(--text-primary);
+    line-height: 1.7;
+    overflow-x: hidden;
+    font-weight: 200;
+}
+
+/* Typography */
+.display-font {
+    font-family: 'Playfair Display', serif;
+    font-weight: 300;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+}
+
+.text-elegant {
+    font-weight: 200;
+    letter-spacing: 0.02em;
+    line-height: 1.8;
+}
+
+/* Container */
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+/* News Section */
+.news {
+    padding: 120px 0;
+    background: var(--primary-bg);
+    position: relative;
+}
+
+.news::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 80% 20%, rgba(0, 212, 255, 0.03) 0%, transparent 50%);
+    pointer-events: none;
+}
+
+.news h2 {
+    color: var(--text-primary);
+    margin-bottom: 2rem;
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    background: var(--gradient-text);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.news > .container > p {
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto 4rem;
+    color: var(--text-secondary);
+    font-size: 1.2rem;
+    position: relative;
+    z-index: 2;
+}
+
+/* News Grid */
+.news-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2.5rem;
+    position: relative;
+    z-index: 2;
+}
+
+.news-card {
+    background: var(--card-bg);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 8px 32px var(--shadow-dark);
+    transition: all 0.4s ease;
+    border: 1px solid var(--border-color);
+    backdrop-filter: blur(10px);
+    cursor: pointer;
+}
+
+.news-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 60px var(--shadow);
+    border-color: var(--accent-blue);
+}
+
+.news-image {
+    height: 220px;
+    overflow: hidden;
+    position: relative;
+}
+
+.news-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.news-card:hover .news-image img {
+    transform: scale(1.08);
+}
+
+.news-content {
+    padding: 2rem;
+}
+
+.news-content h3 {
+    color: var(--text-primary);
+    margin-bottom: 1.2rem;
+    font-size: 1.2rem;
+    font-weight: 400;
+    line-height: 1.4;
+    transition: color 0.3s ease;
+}
+
+.news-card:hover .news-content h3 {
+    color: var(--accent-blue);
+}
+
+.news-content p {
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+    line-height: 1.7;
+    font-size: 0.95rem;
+}
+
+.read-more {
+    color: var(--accent-blue);
+    text-decoration: none;
+    font-weight: 400;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.9rem;
+    position: relative;
+    display: inline-block;
+}
+
+.read-more::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--accent-blue);
+    transition: width 0.3s ease;
+}
+
+.read-more:hover::after {
+    width: 100%;
+}
+
+.read-more:hover {
+    color: var(--accent-blue-light);
+    transform: translateX(5px);
+}
+
+/* News Card Animations */
+.news-card {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.6s ease;
+}
+
+.news-card.animate-in {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* News Card Hover Effects */
+.news-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(0, 146, 255, 0.05) 0%, transparent 50%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.news-card:hover::before {
+    opacity: 1;
+}
+
+.news-content {
+    position: relative;
+    z-index: 2;
+}
+
+/* News Source Styling */
+.news-content .news-source {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+.news-content .news-source i {
+    color: var(--accent-blue);
+}
+
+.news-content .news-source .separator {
+    color: #666;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .news-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2rem;
+    }
+    
+    .news {
+        padding: 80px 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .news-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .news {
+        padding: 60px 0;
+    }
+    
+    .news h2 {
+        font-size: 2.5rem;
+    }
+    
+    .news > .container > p {
+        font-size: 1.1rem;
+        margin-bottom: 3rem;
+    }
+    
+    .news-content {
+        padding: 1.5rem;
+    }
+    
+    .news-image {
+        height: 200px;
+    }
+}
+
+@media (max-width: 480px) {
+    .news {
+        padding: 40px 0;
+    }
+    
+    .news h2 {
+        font-size: 2rem;
+    }
+    
+    .news > .container > p {
+        font-size: 1rem;
+        margin-bottom: 2rem;
+    }
+    
+    .news-content {
+        padding: 1.25rem;
+    }
+    
+    .news-content h3 {
+        font-size: 1.1rem;
+    }
+    
+    .news-content p {
+        font-size: 0.9rem;
+    }
+    
+    .read-more {
+        font-size: 0.85rem;
+    }
+}
+
+/* Loading Animation */
+.news-loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 4rem;
+    color: var(--text-secondary);
+}
+
+.news-loading::after {
+    content: '';
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--border-color);
+    border-top: 2px solid var(--accent-blue);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-left: 1rem;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* News Filter Styles */
+.news-filters {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 3rem;
+    flex-wrap: wrap;
+}
+
+.news-filter-btn {
+    padding: 0.5rem 1.5rem;
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.news-filter-btn:hover,
+.news-filter-btn.active {
+    background: var(--accent-blue);
+    border-color: var(--accent-blue);
+    color: var(--text-primary);
+    transform: translateY(-2px);
+}
+
+/* News Pagination */
+.news-pagination {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 3rem;
+}
+
+.news-pagination-btn {
+    padding: 0.5rem 1rem;
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+}
+
+.news-pagination-btn:hover,
+.news-pagination-btn.active {
+    background: var(--accent-blue);
+    border-color: var(--accent-blue);
+    color: var(--text-primary);
+}
+
+.news-pagination-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
