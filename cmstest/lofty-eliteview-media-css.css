@@ -1,5 +1,15 @@
 /* CSS Snippet for Lofty.com - EliteView Media Page Styles */
 
+/* CSS Reset to Override Lofty's Default Styles */
+* {
+    box-sizing: border-box !important;
+}
+
+html, body, div, section, article, aside, header, footer, nav, main {
+    background: #000000 !important;
+    background-color: #000000 !important;
+}
+
 /* CSS Variables for Easy Customization */
 :root {
     --charcoal: #000000;
@@ -25,13 +35,25 @@
     box-sizing: border-box;
 }
 
+/* Override Lofty's default styles */
+html, body {
+    font-family: 'Inter', sans-serif !important;
+    background: #000000 !important;
+    background-color: #000000 !important;
+    color: var(--text-primary) !important;
+    line-height: 1.6 !important;
+    overflow-x: hidden !important;
+    font-weight: 300 !important;
+}
+
 body {
-    font-family: 'Inter', sans-serif;
-    background: #000000;
-    color: var(--text-primary);
-    line-height: 1.6;
-    overflow-x: hidden;
-    font-weight: 300;
+    font-family: 'Inter', sans-serif !important;
+    background: #000000 !important;
+    background-color: #000000 !important;
+    color: var(--text-primary) !important;
+    line-height: 1.6 !important;
+    overflow-x: hidden !important;
+    font-weight: 300 !important;
 }
 
 /* Container */
@@ -146,15 +168,28 @@ body {
     color: var(--accent-blue);
 }
 
-/* Section Styles */
-.section {
-    padding: 6rem 0;
-    position: relative;
-    background: var(--charcoal);
+/* Section Styles - High Specificity to Override Lofty */
+body .section {
+    padding: 6rem 0 !important;
+    position: relative !important;
+    background: var(--charcoal) !important;
+    background-color: #000000 !important;
 }
 
-.section:nth-child(even) {
-    background: var(--onyx);
+body .section:nth-child(even) {
+    background: var(--onyx) !important;
+    background-color: #181A1F !important;
+}
+
+/* Ensure all sections have dark background */
+body section {
+    background: #000000 !important;
+    background-color: #000000 !important;
+}
+
+body section:nth-child(even) {
+    background: #181A1F !important;
+    background-color: #181A1F !important;
 }
 
 .section-header {
