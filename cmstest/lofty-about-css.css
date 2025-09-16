@@ -1,0 +1,432 @@
+/* CSS Snippet for Lofty.com - About Section Styles */
+
+/* CSS Variables for Easy Customization */
+:root {
+    --primary-black: #000000;
+    --secondary-black: #0f0f0f;
+    --tertiary-black: #1a1a1a;
+    --accent-blue: #0092ff;
+    --accent-blue-light: #4db8ff;
+    --accent-blue-dark: #007acc;
+    --text-primary: #ffffff;
+    --text-secondary: #b8b8b8;
+    --text-muted: #888888;
+    --text-accent: #0092ff;
+    --border-subtle: rgba(0, 146, 255, 0.15);
+    --border-blue: rgba(0, 146, 255, 0.3);
+    --gradient-primary: linear-gradient(135deg, #000000 0%, #0f0f0f 50%, #1a1a1a 100%);
+    --gradient-accent: linear-gradient(135deg, #0092ff 0%, #4db8ff 50%, #007acc 100%);
+    --gradient-text: linear-gradient(135deg, #0092ff 0%, #ffffff 50%, #0092ff 100%);
+    --shadow-soft: 0 30px 80px rgba(0, 0, 0, 0.4);
+    --shadow-glow: 0 0 60px rgba(0, 146, 255, 0.15);
+    --shadow-premium: 0 40px 100px rgba(0, 0, 0, 0.5);
+}
+
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--primary-black);
+    color: var(--text-primary);
+    line-height: 1.7;
+    overflow-x: hidden;
+    font-weight: 200;
+}
+
+/* Typography */
+.display-font {
+    font-family: 'Playfair Display', serif;
+    font-weight: 300;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+}
+
+.text-elegant {
+    font-weight: 200;
+    letter-spacing: 0.02em;
+    line-height: 1.8;
+}
+
+/* Container */
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+/* About Section */
+.about {
+    padding: 8rem 0;
+    background: var(--primary-black);
+    position: relative;
+    overflow: hidden;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+}
+
+.about::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 6px;
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        #00aaff 15%,
+        #0088ff 35%,
+        #0066ff 50%,
+        #0044ff 65%,
+        #0088ff 85%,
+        transparent 100%
+    );
+    background-size: 200% 100%;
+    animation: gradientFlow 3s ease-in-out infinite;
+    box-shadow: 
+        0 0 20px rgba(0, 170, 255, 0.8),
+        0 0 40px rgba(0, 170, 255, 0.6),
+        0 0 60px rgba(0, 170, 255, 0.4),
+        0 0 80px rgba(0, 170, 255, 0.2);
+}
+
+@keyframes gradientFlow {
+    0%, 100% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+}
+
+/* 3D Rotating Earth Globe */
+.earth-globe {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+    will-change: transform;
+}
+
+.globe-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    perspective: 1000px;
+    perspective-origin: center center;
+}
+
+.globe {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    height: 600px;
+}
+
+.sphere-ring {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transform-style: preserve-3d;
+}
+
+.dot {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: #00aaff;
+    border-radius: 50%;
+    box-shadow: 
+        0 0 15px #00aaff,
+        0 0 30px #00aaff,
+        0 0 45px #00aaff,
+        0 0 60px rgba(0, 170, 255, 0.5);
+    animation: 
+        pulseDot 2s ease-in-out infinite,
+        rotateSphere 20s linear infinite;
+    animation-delay: var(--delay);
+    top: 50%;
+    left: 50%;
+    transform-origin: 0 0;
+    transform: 
+        translate(-50%, -50%) 
+        rotateY(var(--angle)) 
+        rotateX(var(--elevation))
+        translateZ(300px);
+}
+
+.dot:nth-child(odd) {
+    width: 10px;
+    height: 10px;
+    background: #0088ff;
+    box-shadow: 
+        0 0 20px #0088ff,
+        0 0 40px #0088ff,
+        0 0 60px #0088ff,
+        0 0 80px rgba(0, 136, 255, 0.6);
+}
+
+.dot:nth-child(3n) {
+    width: 6px;
+    height: 6px;
+    background: #0066ff;
+    box-shadow: 
+        0 0 12px #0066ff,
+        0 0 24px #0066ff,
+        0 0 36px #0066ff,
+        0 0 48px rgba(0, 102, 255, 0.4);
+}
+
+.dot:nth-child(5n) {
+    width: 12px;
+    height: 12px;
+    background: #00ccff;
+    box-shadow: 
+        0 0 25px #00ccff,
+        0 0 50px #00ccff,
+        0 0 75px #00ccff,
+        0 0 100px rgba(0, 204, 255, 0.7);
+}
+
+@keyframes pulseDot {
+    0%, 100% {
+        opacity: 0.6;
+        transform: 
+            translate(-50%, -50%) 
+            rotateY(var(--angle)) 
+            rotateX(var(--elevation))
+            translateZ(300px)
+            scale(1);
+    }
+    50% {
+        opacity: 1;
+        transform: 
+            translate(-50%, -50%) 
+            rotateY(var(--angle)) 
+            rotateX(var(--elevation))
+            translateZ(300px)
+            scale(1.2);
+    }
+}
+
+@keyframes rotateSphere {
+    from {
+        transform: 
+            translate(-50%, -50%) 
+            rotateY(var(--angle)) 
+            rotateX(var(--elevation))
+            translateZ(300px);
+    }
+    to {
+        transform: 
+            translate(-50%, -50%) 
+            rotateY(calc(var(--angle) + 360deg)) 
+            rotateX(var(--elevation))
+            translateZ(300px);
+    }
+}
+
+/* Content Styling */
+.about .container {
+    max-width: 1400px;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+}
+
+.about h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 200;
+    margin-bottom: 3rem;
+    color: var(--text-primary);
+    letter-spacing: -0.02em;
+}
+
+.about p {
+    font-size: 1.25rem;
+    font-weight: 200;
+    color: var(--text-secondary);
+    max-width: 800px;
+    margin: 0 auto 4rem;
+    line-height: 1.8;
+    letter-spacing: 0.01em;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 3rem;
+    margin-top: 4rem;
+}
+
+.feature-card {
+    text-align: center;
+    padding: 3rem 2rem;
+    background: rgba(0, 146, 255, 0.02);
+    border: 1px solid var(--border-subtle);
+    border-radius: 20px;
+    backdrop-filter: blur(20px);
+    transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    position: relative;
+    overflow: hidden;
+}
+
+.feature-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--gradient-accent);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.feature-card:hover::before {
+    opacity: 0.05;
+}
+
+.feature-card:hover {
+    transform: translateY(-10px);
+    border-color: var(--border-blue);
+    box-shadow: var(--shadow-premium);
+}
+
+.feature-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 146, 255, 0.1);
+    border-radius: 50%;
+    border: 1px solid var(--border-subtle);
+    position: relative;
+    z-index: 2;
+}
+
+.feature-icon i {
+    font-size: 2rem;
+    color: var(--accent-blue);
+}
+
+.feature-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 300;
+    margin-bottom: 1.5rem;
+    color: var(--text-primary);
+    position: relative;
+    z-index: 2;
+}
+
+.feature-card p {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin: 0;
+    position: relative;
+    z-index: 2;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .about {
+        padding: 4rem 0;
+    }
+    
+    .earth-globe {
+        top: 50%;
+    }
+    
+    .globe {
+        width: 300px;
+        height: 300px;
+    }
+    
+    .dot {
+        width: 6px;
+        height: 6px;
+        transform: 
+            translate(-50%, -50%) 
+            rotateY(var(--angle)) 
+            rotateX(var(--elevation))
+            translateZ(150px);
+    }
+    
+    .dot:nth-child(odd) {
+        width: 8px;
+        height: 8px;
+    }
+    
+    .dot:nth-child(3n) {
+        width: 5px;
+        height: 5px;
+    }
+    
+    .dot:nth-child(5n) {
+        width: 10px;
+        height: 10px;
+    }
+
+    .features-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .feature-card {
+        padding: 2rem 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .earth-globe {
+        top: 40%;
+    }
+    
+    .globe {
+        width: 200px;
+        height: 200px;
+    }
+    
+    .dot {
+        width: 5px;
+        height: 5px;
+        transform: 
+            translate(-50%, -50%) 
+            rotateY(var(--angle)) 
+            rotateX(var(--elevation))
+            translateZ(100px);
+    }
+    
+    .dot:nth-child(odd) {
+        width: 7px;
+        height: 7px;
+    }
+    
+    .dot:nth-child(3n) {
+        width: 4px;
+        height: 4px;
+    }
+    
+    .dot:nth-child(5n) {
+        width: 8px;
+        height: 8px;
+    }
+}

@@ -9,12 +9,10 @@ import { Badge } from '@/components/ui/badge'
 import { 
   Building2, 
   Users, 
-  FileText, 
   RefreshCw, 
   TrendingUp, 
-  Calendar,
   Plus,
-  Settings
+  Upload
 } from 'lucide-react'
 import Link from 'next/link'
 import { toast } from 'sonner'
@@ -22,8 +20,7 @@ import { toast } from 'sonner'
 interface DashboardStats {
   totalProperties: number
   totalAgents: number
-  totalLeads: number
-  recentSyncs: Array<{
+  recentMlsSyncs: Array<{
     id: string
     source: string
     status: string
@@ -38,8 +35,7 @@ export default function AdminDashboard() {
   const [stats, setStats] = useState<DashboardStats>({
     totalProperties: 0,
     totalAgents: 0,
-    totalLeads: 0,
-    recentSyncs: [],
+    recentMlsSyncs: [],
   })
   const [syncing, setSyncing] = useState(false)
 
@@ -60,8 +56,7 @@ export default function AdminDashboard() {
       setStats({
         totalProperties: 127,
         totalAgents: 8,
-        totalLeads: 23,
-        recentSyncs: [
+        recentMlsSyncs: [
           {
             id: '1',
             source: 'RESO',
@@ -142,12 +137,6 @@ export default function AdminDashboard() {
                 <RefreshCw className={`w-4 h-4 mr-2 ${syncing ? 'animate-spin' : ''}`} />
                 {syncing ? 'Syncing...' : 'Sync MLS'}
               </Button>
-              <Button asChild>
-                <Link href="/admin/settings">
-                  <Settings className="w-4 h-4 mr-2" />
-                  Settings
-                </Link>
-              </Button>
             </div>
           </div>
         </div>
@@ -155,7 +144,7 @@ export default function AdminDashboard() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Stats Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Total Properties</CardTitle>
@@ -164,7 +153,7 @@ export default function AdminDashboard() {
             <CardContent>
               <div className="text-2xl font-bold">{stats.totalProperties}</div>
               <p className="text-xs text-muted-foreground">
-                +12% from last month
+                Active listings in database
               </p>
             </CardContent>
           </Card>
@@ -177,40 +166,14 @@ export default function AdminDashboard() {
             <CardContent>
               <div className="text-2xl font-bold">{stats.totalAgents}</div>
               <p className="text-xs text-muted-foreground">
-                +2 new this month
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">New Leads</CardTitle>
-              <FileText className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{stats.totalLeads}</div>
-              <p className="text-xs text-muted-foreground">
-                +8% from last week
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">MLS Sync Status</CardTitle>
-              <TrendingUp className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">Active</div>
-              <p className="text-xs text-muted-foreground">
-                Last sync: 2 hours ago
+                Registered agents
               </p>
             </CardContent>
           </Card>
         </div>
 
         {/* Quick Actions */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <Card>
             <CardHeader>
               <CardTitle>Manage Properties</CardTitle>
@@ -261,17 +224,17 @@ export default function AdminDashboard() {
 
           <Card>
             <CardHeader>
-              <CardTitle>Content Management</CardTitle>
+              <CardTitle>MLS Management</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <p className="text-sm text-gray-600">
-                Manage pages and site content
+                Upload and manage MLS data files
               </p>
               <div className="flex gap-2">
                 <Button asChild className="flex-1">
-                  <Link href="/admin/pages">
-                    <FileText className="w-4 h-4 mr-2" />
-                    Manage Pages
+                  <Link href="/admin/mls">
+                    <Upload className="w-4 h-4 mr-2" />
+                    MLS Uploader
                   </Link>
                 </Button>
               </div>
@@ -279,7 +242,7 @@ export default function AdminDashboard() {
           </Card>
         </div>
 
-        {/* Recent Activity */}
+        {/* Recent MLS Activity */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <Card>
             <CardHeader>
@@ -287,7 +250,7 @@ export default function AdminDashboard() {
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                {stats.recentSyncs.map((sync) => (
+                {stats.recentMlsSyncs.map((sync) => (
                   <div key={sync.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
                     <div className="flex items-center gap-3">
                       <div className={`w-2 h-2 rounded-full ${
@@ -329,12 +292,12 @@ export default function AdminDashboard() {
                   <Badge variant="default">Connected</Badge>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-sm font-medium">Email Service</span>
+                  <span className="text-sm font-medium">Property Feed</span>
                   <Badge variant="default">Active</Badge>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-sm font-medium">Storage</span>
-                  <Badge variant="default">Available</Badge>
+                  <span className="text-sm font-medium">Agent Profiles</span>
+                  <Badge variant="default">Updated</Badge>
                 </div>
               </div>
             </CardContent>

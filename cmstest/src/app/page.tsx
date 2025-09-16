@@ -1,6 +1,7 @@
 'use client'
 
 import { PropertyCard } from '@/components/properties/PropertyCard'
+import { HeroCarousel } from '@/components/carousel/HeroCarousel'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Search, MapPin, Star, Users, Award, TrendingUp, Home, DollarSign, User } from 'lucide-react'
@@ -10,13 +11,28 @@ import { useState, useEffect } from 'react'
 
 export default function HomePage() {
   const [properties, setProperties] = useState<any[]>([])
+  const [featuredProperties, setFeaturedProperties] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     fetchFeaturedProperties()
+    fetchRegularProperties()
   }, [])
 
   const fetchFeaturedProperties = async () => {
+    try {
+      const response = await fetch('/api/properties/featured')
+      const data = await response.json()
+      
+      if (data.success) {
+        setFeaturedProperties(data.properties)
+      }
+    } catch (error) {
+      console.error('Error fetching featured properties:', error)
+    }
+  }
+
+  const fetchRegularProperties = async () => {
     try {
       const response = await fetch('/api/properties/search?limit=3')
       const data = await response.json()
@@ -35,56 +51,7 @@ export default function HomePage() {
     <div className="min-h-screen bg-black text-white">
       
       {/* Hero Carousel Section */}
-      <section className="relative h-screen overflow-hidden">
-        <div className="absolute inset-0">
-          <Image
-            src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=1920&h=1080&fit=crop"
-            alt="Manhattan Penthouse"
-            fill
-            className="object-cover"
-            priority
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent"></div>
-        </div>
-        
-        <div className="relative z-10 h-full flex items-center">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="max-w-3xl">
-              <div className="text-blue-400 text-sm font-medium uppercase tracking-wider mb-4">
-                Premiere Listing
-              </div>
-              <div className="flex items-center text-gray-300 mb-4">
-                <MapPin className="w-4 h-4 mr-2" />
-                <span>Manhattan, New York</span>
-              </div>
-              <h1 className="text-5xl md:text-7xl font-light mb-6 font-serif">
-                Manhattan Skyline Penthouse
-              </h1>
-              <p className="text-xl text-gray-300 mb-8 leading-relaxed">
-                Spectacular triplex penthouse with 360-degree city views, private elevator, and rooftop terrace overlooking Central Park.
-              </p>
-              <div className="flex flex-wrap gap-4 mb-8">
-                <span className="text-gray-300">6 Bedrooms</span>
-                <span className="text-gray-300">8 Bathrooms</span>
-                <span className="text-gray-300">8,500 sq ft</span>
-              </div>
-              <div className="text-4xl md:text-5xl font-light text-blue-400 mb-8 font-serif">
-                $45,000,000
-              </div>
-              <div className="flex gap-4">
-                <Link href="/properties">
-                  <Button className="bg-blue-500 hover:bg-blue-600 text-white px-8 py-3 text-lg">
-                    View Details
-                  </Button>
-                </Link>
-                <Button variant="outline" className="border-white text-white hover:bg-white hover:text-black px-8 py-3 text-lg">
-                  Schedule Tour
-                </Button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <HeroCarousel properties={featuredProperties} />
 
       {/* Property Search Bar */}
       <section className="py-16 bg-gray-900">
@@ -133,6 +100,28 @@ export default function HomePage() {
             <p className="text-xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
               Aperture Global is pioneering a new era in the international real estate market as the first of its kind in the global luxury space. With a vision to become the premier name in high-end real estate, Aperture Global operates with a presence concentrated on the greatest luxury cities around the world, spanning 6 continents and 20+ countries.
             </p>
+          </div>
+          
+          {/* Global Presence Stats */}
+          <div className="relative mb-16">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+              <div>
+                <div className="text-4xl font-light text-blue-400 mb-2 font-serif">50+</div>
+                <div className="text-gray-300">Luxury Markets</div>
+              </div>
+              <div>
+                <div className="text-4xl font-light text-blue-400 mb-2 font-serif">6</div>
+                <div className="text-gray-300">Continents</div>
+              </div>
+              <div>
+                <div className="text-4xl font-light text-blue-400 mb-2 font-serif">20+</div>
+                <div className="text-gray-300">Countries</div>
+              </div>
+              <div>
+                <div className="text-4xl font-light text-blue-400 mb-2 font-serif">∞</div>
+                <div className="text-gray-300">Possibilities</div>
+              </div>
+            </div>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -235,7 +224,7 @@ export default function HomePage() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <Card className="lg:col-span-2 bg-white/5 border-gray-800 overflow-hidden">
               <div className="relative h-96">
-                <Image
+          <Image
                   src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=800&h=600&fit=crop"
                   alt="The Residences at 1428 Brickell"
                   fill
@@ -287,7 +276,7 @@ export default function HomePage() {
             <div className="space-y-8">
               <Card className="bg-white/5 border-gray-800 overflow-hidden">
                 <div className="relative h-48">
-                  <Image
+          <Image
                     src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=600&h=400&fit=crop"
                     alt="Beverly Hills Estates"
                     fill
@@ -312,7 +301,7 @@ export default function HomePage() {
 
               <Card className="bg-white/5 border-gray-800 overflow-hidden">
                 <div className="relative h-48">
-                  <Image
+          <Image
                     src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=600&h=400&fit=crop"
                     alt="Monaco Riviera Residences"
                     fill

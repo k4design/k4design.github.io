@@ -4,8 +4,10 @@ import { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { Plus, Edit, Trash2, Eye } from 'lucide-react'
+import { Checkbox } from '@/components/ui/checkbox'
+import { Plus, Edit, Trash2, Eye, Star } from 'lucide-react'
 import Link from 'next/link'
+import { toast } from 'sonner'
 
 interface Property {
   id: string
@@ -19,6 +21,8 @@ interface Property {
   bathrooms: number
   squareFeet: number
   isMlsSourced: boolean
+  featured: boolean
+  featuredOrder: number | null
 }
 
 export default function AdminPropertiesPage() {
@@ -33,11 +37,46 @@ export default function AdminPropertiesPage() {
     try {
       const response = await fetch('/api/properties/search?limit=50')
       const data = await response.json()
-      setProperties(data.properties || [])
+      setProperties(data.data?.listings || [])
     } catch (error) {
       console.error('Error fetching properties:', error)
     } finally {
       setLoading(false)
+    }
+  }
+
+  const toggleFeatured = async (propertyId: string, currentlyFeatured: boolean) => {
+    try {
+      const response = await fetch(`/api/admin/properties/${propertyId}/featured`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          featured: !currentlyFeatured
+        }),
+      })
+
+      if (response.ok) {
+        // Update local state
+        setProperties(prev => 
+          prev.map(prop => 
+            prop.id === propertyId 
+              ? { 
+                  ...prop, 
+                  featured: !currentlyFeatured,
+                  featuredOrder: !currentlyFeatured ? 0 : null
+                }
+              : prop
+          )
+        )
+        toast.success(`Property ${!currentlyFeatured ? 'featured' : 'unfeatured'} successfully`)
+      } else {
+        toast.error('Failed to update property')
+      }
+    } catch (error) {
+      console.error('Error toggling featured:', error)
+      toast.error('Failed to update property')
     }
   }
 
@@ -101,6 +140,12 @@ export default function AdminPropertiesPage() {
                         {property.isMlsSourced ? 'MLS' : 'Exclusive'}
                       </Badge>
                       <Badge variant="outline">{property.status}</Badge>
+                      {property.featured && (
+                        <Badge className="bg-gold text-white">
+                          <Star className="w-3 h-3 mr-1" />
+                          Featured
+                        </Badge>
+                      )}
                     </div>
                     
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm text-gray-600 mb-4">
@@ -126,6 +171,14 @@ export default function AdminPropertiesPage() {
                   </div>
 
                   <div className="flex items-center gap-2 ml-4">
+                    <Button 
+                      variant={property.featured ? "default" : "outline"} 
+                      size="sm"
+                      onClick={() => toggleFeatured(property.id, property.featured)}
+                      className={property.featured ? "bg-gold hover:bg-gold/90" : ""}
+                    >
+                      <Star className="w-4 h-4" />
+                    </Button>
                     <Button variant="outline" size="sm" asChild>
                       <Link href={`/properties/${property.id}`}>
                         <Eye className="w-4 h-4" />

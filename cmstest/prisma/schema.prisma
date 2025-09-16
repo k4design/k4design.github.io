@@ -65,6 +65,8 @@ model User {
   sessions      Session[]
   accounts      Account[]
   auditLogs     AuditLog[]
+  mlsSyncs      MlsSync[]
+  mlsUploads    MlsUpload[]
 
   @@map("users")
 }
@@ -185,6 +187,10 @@ model Listing {
   mlsStatus       String?
   isMlsSourced    Boolean       @default(false)
   
+  // Display Settings
+  featured        Boolean       @default(false)
+  featuredOrder   Int?          // Order for featured properties
+  
   // Timestamps
   createdAt       DateTime      @default(now())
   updatedAt       DateTime      @updatedAt
@@ -279,6 +285,23 @@ model MlsSync {
   startedAt     DateTime @default(now())
   completedAt   DateTime?
   lastListingKey String? // For pagination
+  userId        String?  // User who initiated the sync
+  user          User?    @relation(fields: [userId], references: [id])
 
   @@map("mls_syncs")
+}
+
+model MlsUpload {
+  id              String    @id @default(cuid())
+  filename        String
+  status          String    // pending, processing, completed, error
+  recordsProcessed Int      @default(0)
+  recordsTotal    Int       @default(0)
+  error           String?   // Error message if failed
+  createdAt       DateTime  @default(now())
+  completedAt     DateTime?
+  uploadedBy      String?   // User who uploaded the file
+  user            User?     @relation(fields: [uploadedBy], references: [id])
+
+  @@map("mls_uploads")
 }
