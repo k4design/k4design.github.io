@@ -36,8 +36,8 @@ function initFormHandling() {
         // Log to console (in production, this would be sent to backend)
         console.log('Form submission:', data);
         
-        // Show success toast
-        showToast('Thank you! We\'ll contact you within 24 hours to schedule your private consultation.');
+        // Show success message
+        alert('Thank you! We\'ll contact you within 24 hours to schedule your private consultation.');
         
         // Track form submission
         trackEvent('Form Submit', {
@@ -51,17 +51,9 @@ function initFormHandling() {
     });
 }
 
-// Toast notification
-function showToast(message) {
-    const toast = document.getElementById('toast');
-    if (!toast) return;
-    
-    toast.textContent = message;
-    toast.classList.add('show');
-    
-    setTimeout(() => {
-        toast.classList.remove('show');
-    }, 5000);
+// Success message (using simple alert)
+function showSuccessMessage(message) {
+    alert(message);
 }
 
 // FAQ functionality

@@ -2,7 +2,7 @@
 
 /* CSS Variables for Easy Customization */
 :root {
-    --charcoal: #0E0F12;
+    --charcoal: #000000;
     --onyx: #181A1F;
     --champagne: #E8D8BE;
     --platinum: #C8C8C8;
@@ -27,7 +27,7 @@
 
 body {
     font-family: 'Inter', sans-serif;
-    background: var(--charcoal);
+    background: #000000;
     color: var(--text-primary);
     line-height: 1.6;
     overflow-x: hidden;
@@ -407,24 +407,6 @@ body {
     transform: translateY(0);
 }
 
-/* Toast Notification */
-.toast {
-    position: fixed;
-    top: 2rem;
-    right: 2rem;
-    background: var(--gradient-accent);
-    color: var(--charcoal);
-    padding: 1rem 2rem;
-    border-radius: 8px;
-    box-shadow: var(--shadow-soft);
-    z-index: 1000;
-    transform: translateX(100%);
-    transition: transform 0.3s ease;
-}
-
-.toast.show {
-    transform: translateX(0);
-}
 
 /* Back to Aperture Global */
 .back-to-aperture {
