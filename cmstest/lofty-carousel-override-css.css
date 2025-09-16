@@ -1,0 +1,385 @@
+/* CSS Override for Lofty.com - Transform md-house layout5 mg-bg to Carousel Style */
+
+/* High specificity selectors to override Lofty's default styles */
+body .md-house.layout5.mg-bg,
+body div.md-house.layout5.mg-bg,
+body .md-house.layout5.mg-bg * {
+    /* Reset and override Lofty's default styles */
+    box-sizing: border-box !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    outline: none !important;
+    text-decoration: none !important;
+    list-style: none !important;
+}
+
+/* Main container styling to match luxury carousel */
+body .md-house.layout5.mg-bg {
+    /* Carousel container properties */
+    min-height: 100vh !important;
+    height: 100vh !important;
+    position: relative !important;
+    overflow: hidden !important;
+    background: #000000 !important;
+    background-color: #000000 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
+    color: #ffffff !important;
+    line-height: 1.7 !important;
+    font-weight: 200 !important;
+    -webkit-overflow-scrolling: touch !important;
+    touch-action: manipulation !important;
+}
+
+/* Create slide background effect */
+body .md-house.layout5.mg-bg::before {
+    content: '' !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.2) 50%, rgba(0, 0, 0, 0.6) 100%) !important;
+    z-index: 2 !important;
+    pointer-events: none !important;
+}
+
+/* Style any background images to match carousel */
+body .md-house.layout5.mg-bg img {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    filter: grayscale(20%) contrast(1.1) !important;
+    -webkit-backface-visibility: hidden !important;
+    backface-visibility: hidden !important;
+    -webkit-transform: translateZ(0) !important;
+    transform: translateZ(0) !important;
+    z-index: 1 !important;
+}
+
+/* Content container styling */
+body .md-house.layout5.mg-bg > * {
+    position: relative !important;
+    z-index: 15 !important;
+    max-width: 1400px !important;
+    margin: 0 auto !important;
+    padding: 0 4rem !important;
+    width: 100% !important;
+    text-align: left !important;
+    color: #ffffff !important;
+}
+
+/* Typography overrides to match carousel */
+body .md-house.layout5.mg-bg h1,
+body .md-house.layout5.mg-bg h2,
+body .md-house.layout5.mg-bg h3,
+body .md-house.layout5.mg-bg h4,
+body .md-house.layout5.mg-bg h5,
+body .md-house.layout5.mg-bg h6 {
+    font-family: 'Playfair Display', serif !important;
+    font-weight: 300 !important;
+    letter-spacing: -0.03em !important;
+    line-height: 1.1 !important;
+    color: #ffffff !important;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5) !important;
+    margin: 0 0 2rem 0 !important;
+}
+
+/* Main title styling */
+body .md-house.layout5.mg-bg h1 {
+    font-size: 4.5rem !important;
+    font-weight: 300 !important;
+    line-height: 1.1 !important;
+    margin-bottom: 2rem !important;
+    color: #ffffff !important;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* Subtitle styling */
+body .md-house.layout5.mg-bg h2 {
+    font-size: 2.5rem !important;
+    font-weight: 300 !important;
+    line-height: 1.2 !important;
+    margin-bottom: 1.5rem !important;
+    color: #ffffff !important;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* Paragraph styling */
+body .md-house.layout5.mg-bg p {
+    font-size: 1.3rem !important;
+    line-height: 1.6 !important;
+    margin-bottom: 2.5rem !important;
+    color: rgba(255, 255, 255, 0.9) !important;
+    max-width: 600px !important;
+    font-weight: 300 !important;
+}
+
+/* Button styling to match carousel */
+body .md-house.layout5.mg-bg .btn,
+body .md-house.layout5.mg-bg button,
+body .md-house.layout5.mg-bg a[class*="btn"],
+body .md-house.layout5.mg-bg input[type="button"],
+body .md-house.layout5.mg-bg input[type="submit"] {
+    display: inline-block !important;
+    padding: 1rem 2.5rem !important;
+    font-size: 1rem !important;
+    font-weight: 500 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+    border-radius: 0 !important;
+    transition: all 0.3s ease !important;
+    text-decoration: none !important;
+    border: 2px solid #0092ff !important;
+    background: transparent !important;
+    color: #ffffff !important;
+    cursor: pointer !important;
+    backdrop-filter: blur(20px) !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1) !important;
+    margin-right: 1rem !important;
+    margin-bottom: 1rem !important;
+}
+
+/* Primary button hover effect */
+body .md-house.layout5.mg-bg .btn:hover,
+body .md-house.layout5.mg-bg button:hover,
+body .md-house.layout5.mg-bg a[class*="btn"]:hover,
+body .md-house.layout5.mg-bg input[type="button"]:hover,
+body .md-house.layout5.mg-bg input[type="submit"]:hover {
+    background: #0092ff !important;
+    color: #ffffff !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 25px rgba(0, 146, 255, 0.3) !important;
+}
+
+/* Secondary button styling */
+body .md-house.layout5.mg-bg .btn-secondary,
+body .md-house.layout5.mg-bg .btn-outline {
+    background: transparent !important;
+    color: #ffffff !important;
+    border: 2px solid rgba(255, 255, 255, 0.3) !important;
+}
+
+body .md-house.layout5.mg-bg .btn-secondary:hover,
+body .md-house.layout5.mg-bg .btn-outline:hover {
+    background: rgba(255, 255, 255, 0.1) !important;
+    border-color: #0092ff !important;
+    color: #0092ff !important;
+}
+
+/* Badge styling */
+body .md-house.layout5.mg-bg .badge,
+body .md-house.layout5.mg-bg .tag {
+    display: inline-block !important;
+    background: transparent !important;
+    color: #ffffff !important;
+    border: 1px solid #ffffff !important;
+    padding: 8px 20px !important;
+    border-radius: 25px !important;
+    font-size: 0.8rem !important;
+    font-weight: 500 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+    margin-bottom: 1.5rem !important;
+}
+
+/* Location styling */
+body .md-house.layout5.mg-bg .location,
+body .md-house.layout5.mg-bg .address {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    margin-bottom: 1.5rem !important;
+    font-size: 1rem !important;
+    font-weight: 300 !important;
+    color: rgba(255, 255, 255, 0.9) !important;
+}
+
+/* Price styling */
+body .md-house.layout5.mg-bg .price,
+body .md-house.layout5.mg-bg .cost {
+    font-size: 3rem !important;
+    font-weight: 400 !important;
+    color: #ffffff !important;
+    margin-bottom: 3rem !important;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* Details styling */
+body .md-house.layout5.mg-bg .details,
+body .md-house.layout5.mg-bg .specs {
+    display: flex !important;
+    gap: 2rem !important;
+    margin-bottom: 2.5rem !important;
+    flex-wrap: wrap !important;
+}
+
+body .md-house.layout5.mg-bg .detail,
+body .md-house.layout5.mg-bg .spec {
+    background: rgba(255, 255, 255, 0.15) !important;
+    padding: 8px 16px !important;
+    border-radius: 0 !important;
+    font-size: 0.9rem !important;
+    font-weight: 300 !important;
+    backdrop-filter: blur(20px) !important;
+    border: none !important;
+    border-bottom: 2px solid #0092ff !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    body .md-house.layout5.mg-bg {
+        height: 100vh !important;
+        height: calc(var(--vh, 1vh) * 100) !important;
+    }
+    
+    body .md-house.layout5.mg-bg > * {
+        padding: 0 2rem !important;
+        text-align: center !important;
+    }
+    
+    body .md-house.layout5.mg-bg h1 {
+        font-size: 2.2rem !important;
+        margin-bottom: 1rem !important;
+    }
+    
+    body .md-house.layout5.mg-bg h2 {
+        font-size: 1.8rem !important;
+        margin-bottom: 1rem !important;
+    }
+    
+    body .md-house.layout5.mg-bg p {
+        font-size: 1rem !important;
+        margin-bottom: 1.5rem !important;
+    }
+    
+    body .md-house.layout5.mg-bg .details,
+    body .md-house.layout5.mg-bg .specs {
+        gap: 1rem !important;
+        margin-bottom: 1.5rem !important;
+        justify-content: center !important;
+    }
+    
+    body .md-house.layout5.mg-bg .detail,
+    body .md-house.layout5.mg-bg .spec {
+        font-size: 0.8rem !important;
+        padding: 6px 12px !important;
+    }
+    
+    body .md-house.layout5.mg-bg .price,
+    body .md-house.layout5.mg-bg .cost {
+        font-size: 1.8rem !important;
+        margin-bottom: 1.5rem !important;
+    }
+    
+    body .md-house.layout5.mg-bg .btn,
+    body .md-house.layout5.mg-bg button,
+    body .md-house.layout5.mg-bg a[class*="btn"],
+    body .md-house.layout5.mg-bg input[type="button"],
+    body .md-house.layout5.mg-bg input[type="submit"] {
+        width: 100% !important;
+        max-width: 300px !important;
+        margin-right: 0 !important;
+        margin-bottom: 1rem !important;
+    }
+}
+
+@media (max-width: 480px) {
+    body .md-house.layout5.mg-bg {
+        height: 100vh !important;
+        height: calc(var(--vh, 1vh) * 100) !important;
+    }
+    
+    body .md-house.layout5.mg-bg > * {
+        padding: 0 15px !important;
+    }
+    
+    body .md-house.layout5.mg-bg h1 {
+        font-size: 1.8rem !important;
+        margin-bottom: 0.8rem !important;
+    }
+    
+    body .md-house.layout5.mg-bg h2 {
+        font-size: 1.5rem !important;
+        margin-bottom: 0.8rem !important;
+    }
+    
+    body .md-house.layout5.mg-bg p {
+        font-size: 0.9rem !important;
+        margin-bottom: 1rem !important;
+    }
+    
+    body .md-house.layout5.mg-bg .details,
+    body .md-house.layout5.mg-bg .specs {
+        gap: 0.8rem !important;
+        margin-bottom: 1rem !important;
+    }
+    
+    body .md-house.layout5.mg-bg .detail,
+    body .md-house.layout5.mg-bg .spec {
+        font-size: 0.75rem !important;
+        padding: 5px 10px !important;
+    }
+    
+    body .md-house.layout5.mg-bg .price,
+    body .md-house.layout5.mg-bg .cost {
+        font-size: 1.5rem !important;
+        margin-bottom: 1rem !important;
+    }
+}
+
+/* Additional overrides for common Lofty elements */
+body .md-house.layout5.mg-bg .row,
+body .md-house.layout5.mg-bg .col,
+body .md-house.layout5.mg-bg .column {
+    display: block !important;
+    width: 100% !important;
+    float: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+body .md-house.layout5.mg-bg .container,
+body .md-house.layout5.mg-bg .wrapper {
+    max-width: 1400px !important;
+    margin: 0 auto !important;
+    padding: 0 4rem !important;
+    width: 100% !important;
+}
+
+/* Ensure all text is visible */
+body .md-house.layout5.mg-bg * {
+    color: #ffffff !important;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* Override any background colors */
+body .md-house.layout5.mg-bg,
+body .md-house.layout5.mg-bg * {
+    background: transparent !important;
+    background-color: transparent !important;
+}
+
+/* Ensure proper z-index stacking */
+body .md-house.layout5.mg-bg {
+    z-index: 1 !important;
+}
+
+body .md-house.layout5.mg-bg::before {
+    z-index: 2 !important;
+}
+
+body .md-house.layout5.mg-bg img {
+    z-index: 1 !important;
+}
+
+body .md-house.layout5.mg-bg > * {
+    z-index: 15 !important;
+}
