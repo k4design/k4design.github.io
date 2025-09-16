@@ -58,7 +58,7 @@ body {
 /* Hero Section */
 .hero {
     min-height: 100vh;
-    background: linear-gradient(135deg, var(--charcoal) 0%, var(--onyx) 100%);
+    background: var(--charcoal);
     position: relative;
     display: flex;
     align-items: center;
@@ -150,6 +150,11 @@ body {
 .section {
     padding: 6rem 0;
     position: relative;
+    background: var(--charcoal);
+}
+
+.section:nth-child(even) {
+    background: var(--onyx);
 }
 
 .section-header {
