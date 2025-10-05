@@ -725,6 +725,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initPerformance();
     initFuturisticBackground();
     initFloatingCTA();
+    initAnimatedCounters();
 });
 
 // ===== UTILITY FUNCTIONS =====
@@ -738,6 +739,63 @@ function updateEventData(newData) {
     renderVenue();
     renderPresentingSponsors();
     initFAQ();
+    initAnimatedCounters();
+}
+
+// ===== ANIMATED COUNTERS =====
+function animateCounter(element, target, suffix = '', duration = 2000) {
+    const startTime = performance.now();
+    const startValue = 0;
+    
+    function updateCounter(currentTime) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        
+        // Use easing function for smooth animation
+        const easeOutQuart = 1 - Math.pow(1 - progress, 4);
+        const currentValue = Math.floor(startValue + (target - startValue) * easeOutQuart);
+        
+        element.textContent = currentValue + suffix;
+        
+        if (progress < 1) {
+            requestAnimationFrame(updateCounter);
+        } else {
+            element.textContent = target + suffix;
+        }
+    }
+    
+    requestAnimationFrame(updateCounter);
+}
+
+function initAnimatedCounters() {
+    const statNumbers = document.querySelectorAll('.stat-number[data-target]');
+    
+    if (statNumbers.length === 0) return;
+    
+    // Create intersection observer
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const element = entry.target;
+                const target = parseInt(element.dataset.target);
+                const suffix = element.dataset.suffix || '';
+                
+                // Start animation
+                animateCounter(element, target, suffix);
+                
+                // Stop observing this element
+                observer.unobserve(element);
+            }
+        });
+    }, {
+        threshold: 0.5, // Trigger when 50% of the element is visible
+        rootMargin: '0px 0px -100px 0px' // Start animation slightly before element is fully visible
+    });
+    
+    // Start observing all stat numbers
+    statNumbers.forEach(stat => {
+        observer.observe(stat);
+    });
 }
 
 // Export for external use

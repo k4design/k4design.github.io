@@ -733,6 +733,8 @@ body {
     font-weight: 700;
     margin-bottom: 8px;
     line-height: 1;
+    transition: all 0.3s ease;
+    display: inline-block;
 }
 
 .stat-label {
