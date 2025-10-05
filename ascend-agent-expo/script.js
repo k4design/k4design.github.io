@@ -81,7 +81,7 @@ const eventData = {
     
     tickets: [
         {
-            tier: "Free Registration",
+            tier: "Step In. Level Up. Your Free Ticket Starts Here.",
             price: "FREE",
             perks: [
                 "3-day conference access",
@@ -345,15 +345,10 @@ function renderTickets() {
         <div class="ticket-card ${ticket.featured ? 'featured' : ''}">
             <div class="ticket-card-left">
                 <h3 class="ticket-tier">${ticket.tier}</h3>
-                <div class="ticket-price">
-                    ${ticket.price}
-                    ${ticket.originalPrice ? `<span style="text-decoration: line-through; font-size: 1.5rem; opacity: 0.6; margin-left: 8px;">${ticket.originalPrice}</span>` : ''}
-                </div>
-                <p class="ticket-price-note">per person</p>
                 <ul class="ticket-perks">
                     ${ticket.perks.map(perk => `<li>${perk}</li>`).join('')}
                 </ul>
-                <a href="#" class="btn btn-primary">Select Ticket</a>
+                <a href="#" class="btn btn-primary">Claim Your Free Ticket</a>
             </div>
             <div class="ticket-card-right">
                 <!-- Form will be added here later -->
@@ -653,6 +648,67 @@ function initFuturisticBackground() {
     });
 }
 
+// ===== FLOATING CTA FUNCTIONALITY =====
+function initFloatingCTA() {
+    const floatingCTA = document.querySelector('.floating-cta');
+    const floatingBtn = document.querySelector('.floating-cta-btn');
+    
+    if (!floatingCTA || !floatingBtn) return;
+    
+    // Hide/show floating CTA based on scroll position
+    let lastScrollTop = 0;
+    let ticking = false;
+    
+    function updateFloatingCTA() {
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        const windowHeight = window.innerHeight;
+        const documentHeight = document.documentElement.scrollHeight;
+        
+        // Hide when at the very top or bottom of the page
+        if (scrollTop < 100 || scrollTop + windowHeight >= documentHeight - 100) {
+            floatingCTA.style.opacity = '0.7';
+            floatingCTA.style.transform = 'scale(0.9)';
+        } else {
+            floatingCTA.style.opacity = '1';
+            floatingCTA.style.transform = 'scale(1)';
+        }
+        
+        // Add pulse animation when scrolling down
+        if (scrollTop > lastScrollTop && scrollTop > 200) {
+            floatingBtn.style.animation = 'pulse 1s ease-in-out';
+            setTimeout(() => {
+                floatingBtn.style.animation = '';
+            }, 1000);
+        }
+        
+        lastScrollTop = scrollTop;
+        ticking = false;
+    }
+    
+    function requestTick() {
+        if (!ticking) {
+            requestAnimationFrame(updateFloatingCTA);
+            ticking = true;
+        }
+    }
+    
+    window.addEventListener('scroll', requestTick, { passive: true });
+    
+    // Add click tracking (optional - for analytics)
+    floatingBtn.addEventListener('click', () => {
+        // Track the click event if you have analytics
+        console.log('Floating CTA clicked');
+    });
+    
+    // Add keyboard accessibility
+    floatingBtn.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            floatingBtn.click();
+        }
+    });
+}
+
 // ===== INITIALIZATION =====
 document.addEventListener('DOMContentLoaded', () => {
     initNavigation();
@@ -668,6 +724,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initAccessibility();
     initPerformance();
     initFuturisticBackground();
+    initFloatingCTA();
 });
 
 // ===== UTILITY FUNCTIONS =====
