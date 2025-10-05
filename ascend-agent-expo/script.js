@@ -2,10 +2,11 @@
 const eventData = {
     event: {
         name: "Ascend Agent Expo",
-        dates: "March 15-17, 2025",
-        location: "Miami Beach Convention Center",
+        dates: "October 16-17, 2025",
+        location: "Orlando Marriott World Center",
         tagline: "Elevate Your Real Estate Career to New Heights",
-        earlyBirdDeadline: "2024-10-15T09:00:00-04:00"
+        earlyBirdDeadline: "2025-08-15T09:00:00-04:00",
+        eventStartDate: "2025-10-16T09:00:00-04:00"
     },
     
     sponsors: [
@@ -264,7 +265,7 @@ function initCountdown() {
 
     function updateCountdown() {
         const now = new Date().getTime();
-        const eventDate = new Date(eventData.event.earlyBirdDeadline).getTime();
+        const eventDate = new Date(eventData.event.eventStartDate).getTime();
         const distance = eventDate - now;
 
         if (distance > 0) {
