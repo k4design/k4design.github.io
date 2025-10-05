@@ -11,83 +11,53 @@ const eventData = {
     sponsors: [
         {
             name: "Adobe",
-            logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Adobe_Systems_logo_and_wordmark.svg/200px-Adobe_Systems_logo_and_wordmark.svg.png",
+            logo: "img/sponsors/sponsor-01.png",
             link: "https://adobe.com"
         },
         {
             name: "Microsoft",
-            logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Microsoft_logo.svg/200px-Microsoft_logo.svg.png",
+            logo: "img/sponsors/sponsor-02.png",
             link: "https://microsoft.com"
         },
         {
             name: "Google",
-            logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Google_2015_logo.svg/200px-Google_2015_logo.svg.png",
+            logo: "img/sponsors/sponsor-03.png",
             link: "https://google.com"
         },
         {
             name: "Amazon",
-            logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Amazon_logo.svg/200px-Amazon_logo.svg.png",
+            logo: "img/sponsors/sponsor-04.png",
             link: "https://amazon.com"
         },
         {
             name: "Apple",
-            logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Apple_logo_black.svg/200px-Apple_logo_black.svg.png",
+            logo: "img/sponsors/sponsor-05.png",
             link: "https://apple.com"
         },
         {
             name: "Netflix",
-            logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Netflix_2015_logo.svg/200px-Netflix_2015_logo.svg.png",
+            logo: "img/sponsors/sponsor-06.png",
             link: "https://netflix.com"
         },
         {
             name: "Spotify",
-            logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Spotify_logo_without_text.svg/200px-Spotify_logo_without_text.svg.png",
+            logo: "img/sponsors/sponsor-07.png",
             link: "https://spotify.com"
         },
         {
             name: "Tesla",
-            logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/Tesla_T_symbol.svg/200px-Tesla_T_symbol.svg.png",
+            logo: "img/sponsors/sponsor-08.png",
             link: "https://tesla.com"
         },
         {
             name: "Uber",
-            logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cc/Uber_logo_2018.png/200px-Uber_logo_2018.png",
+            logo: "img/sponsors/sponsor-01.png",
             link: "https://uber.com"
         },
         {
             name: "Airbnb",
-            logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Airbnb_Logo_B%C3%A9lo.svg/200px-Airbnb_Logo_B%C3%A9lo.svg.png",
+            logo: "img/sponsors/sponsor-02.png",
             link: "https://airbnb.com"
-        },
-        {
-            name: "Property Marketing Hub",
-            logo: "https://via.placeholder.com/200x80/ed64a6/ffffff?text=PropMarketing",
-            link: "https://propmarketing.com"
-        },
-        {
-            name: "Real Estate CRM Plus",
-            logo: "https://via.placeholder.com/200x80/4299e1/ffffff?text=CRMPlus",
-            link: "https://recrmplus.com"
-        },
-        {
-            name: "Agent Success Tools",
-            logo: "https://via.placeholder.com/200x80/38a169/ffffff?text=AgentTools",
-            link: "https://agenttools.com"
-        },
-        {
-            name: "Digital Listing Pro",
-            logo: "https://via.placeholder.com/200x80/d69e2e/ffffff?text=ListingPro",
-            link: "https://listingpro.com"
-        },
-        {
-            name: "Real Estate AI",
-            logo: "https://via.placeholder.com/200x80/805ad5/ffffff?text=RE-AI",
-            link: "https://realestateai.com"
-        },
-        {
-            name: "Salesforce",
-            logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/Salesforce.com_logo.svg/200px-Salesforce.com_logo.svg.png",
-            link: "https://salesforce.com"
         }
     ],
     
@@ -145,31 +115,31 @@ const eventData = {
     
     presentingSponsors: [
         {
-            name: "RealtyTech Solutions",
-            logo: "https://via.placeholder.com/300x150/667eea/ffffff?text=RealtyTech+Solutions",
-            description: "Leading the future of real estate technology with innovative CRM solutions, automated marketing tools, and AI-powered lead generation systems that help agents close more deals and scale their business.",
-            link: "https://realtytech.com",
+            name: "LPT Realty",
+            logo: "img/lptrealty_logo_horizontal_BFL.png",
+            description: "Leading the future of real estate with innovative solutions and comprehensive support for agents nationwide.",
+            link: "https://lptrealty.com",
             mediaUrl: null
         },
         {
-            name: "PropertyPro CRM",
-            logo: "https://via.placeholder.com/300x150/764ba2/ffffff?text=PropertyPro+CRM",
-            description: "Streamline your real estate business with our comprehensive CRM platform. Manage leads, automate follow-ups, and track your sales pipeline with advanced analytics and reporting tools.",
-            link: "https://propertypro.com",
+            name: "Aperture Global Real Estate",
+            logo: "img/apertureglobal_logo-white.png",
+            description: "Expanding real estate opportunities globally with cutting-edge technology and world-class service.",
+            link: "https://apertureglobal.com",
             mediaUrl: null
         },
         {
-            name: "Digital Marketing Mastery",
-            logo: "https://via.placeholder.com/300x150/f093fb/ffffff?text=Digital+Marketing+Mastery",
-            description: "Transform your marketing strategy with cutting-edge digital tools and proven methodologies. From social media automation to targeted advertising campaigns that generate quality leads.",
-            link: "https://digitalmarketingmastery.com",
+            name: "Team Growth Plus",
+            logo: "https://via.placeholder.com/300x150/f093fb/ffffff?text=Team+Growth+Plus",
+            description: "Empowering real estate teams with growth strategies, training programs, and business development tools.",
+            link: "https://teamgrowthplus.com",
             mediaUrl: null
         },
         {
-            name: "Agent Success Academy",
-            logo: "https://via.placeholder.com/300x150/4facfe/ffffff?text=Agent+Success+Academy",
-            description: "Elevate your real estate career with comprehensive training programs, coaching services, and business development tools designed by top-performing agents for agents.",
-            link: "https://agentsuccessacademy.com",
+            name: "Zillow Showcase",
+            logo: "https://via.placeholder.com/300x150/4facfe/ffffff?text=Zillow+Showcase",
+            description: "Showcasing properties with innovative marketing tools and technology that drives results.",
+            link: "https://zillow.com",
             mediaUrl: null
         }
     ],
@@ -217,13 +187,42 @@ const navLinks = document.querySelector('.nav-links');
 
 // ===== NAVIGATION FUNCTIONALITY =====
 function initNavigation() {
+    let lastScrollTop = 0;
+    
     // Scroll effect for navigation
     window.addEventListener('scroll', () => {
-        if (window.scrollY > 100) {
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        
+        // Add scrolled class for styling
+        if (scrollTop > 100) {
             nav.classList.add('scrolled');
         } else {
             nav.classList.remove('scrolled');
+            nav.classList.remove('nav-hidden');
         }
+        
+        // Hide/show navigation based on scroll direction
+        if (scrollTop > lastScrollTop && scrollTop > 100) {
+            // Scrolling down - hide nav
+            nav.classList.add('nav-hidden');
+        } else if (scrollTop < lastScrollTop) {
+            // Scrolling up - show nav
+            nav.classList.remove('nav-hidden');
+        }
+        
+        // Hero background zoom effect (throttled for smoothness)
+        requestAnimationFrame(() => {
+            const heroBackground = document.querySelector('.hero-background');
+            if (heroBackground) {
+                // Smooth zoom calculation based on scroll position
+                const heroHeight = document.querySelector('.hero').offsetHeight;
+                const scrollProgress = Math.min(scrollTop / heroHeight, 1);
+                const zoomFactor = 1 + (scrollProgress * 0.8); // 80% max zoom
+                heroBackground.style.transform = `scale(${zoomFactor})`;
+            }
+        });
+        
+        lastScrollTop = scrollTop;
     });
 
     // Mobile navigation toggle
@@ -386,9 +385,6 @@ function renderVenue() {
                     ${eventData.venue.hotels.map(hotel => `
                         <li class="hotel-item">
                             <span class="hotel-name">${hotel.name}</span>
-                            <a href="${hotel.link}" class="hotel-rate" target="_blank" rel="noopener">
-                                Use code: ${hotel.rateCode}
-                            </a>
                         </li>
                     `).join('')}
                 </ul>
@@ -425,7 +421,6 @@ function renderPresentingSponsors() {
     const html = eventData.presentingSponsors.map(sponsor => `
         <div class="presenting-sponsor-item">
             <img src="${sponsor.logo}" alt="${sponsor.name}" class="presenting-sponsor-logo" loading="lazy">
-            <h3 class="presenting-sponsor-name">${sponsor.name}</h3>
             <p class="presenting-sponsor-description">${sponsor.description}</p>
             <a href="${sponsor.link}" class="presenting-sponsor-link" target="_blank" rel="noopener">
                 Learn More →
@@ -600,6 +595,64 @@ function initPerformance() {
     document.head.appendChild(preloadLink);
 }
 
+// ===== FUTURISTIC BACKGROUND EFFECTS =====
+function initFuturisticBackground() {
+    const heroSection = document.querySelector('.hero');
+    const dotsLayers = document.querySelectorAll('.dots-layer');
+    const connectionLines = document.querySelector('.connection-lines');
+    
+    if (!heroSection || !dotsLayers.length) return;
+    
+    let ticking = false;
+    
+    function updateParallax() {
+        const scrolled = window.pageYOffset;
+        const rate = scrolled * -0.5;
+        const rate2 = scrolled * -0.3;
+        const rate3 = scrolled * -0.1;
+        
+        // Parallax effect for different layers
+        if (dotsLayers[0]) dotsLayers[0].style.transform = `translateY(${rate}px)`;
+        if (dotsLayers[1]) dotsLayers[1].style.transform = `translateY(${rate2}px)`;
+        if (dotsLayers[2]) dotsLayers[2].style.transform = `translateY(${rate3}px)`;
+        if (connectionLines) connectionLines.style.transform = `translateY(${rate * 0.7}px)`;
+        
+        ticking = false;
+    }
+    
+    function requestTick() {
+        if (!ticking) {
+            requestAnimationFrame(updateParallax);
+            ticking = true;
+        }
+    }
+    
+    // Throttled scroll listener for performance
+    window.addEventListener('scroll', requestTick, { passive: true });
+    
+    // Mouse movement effect
+    heroSection.addEventListener('mousemove', (e) => {
+        const { clientX, clientY } = e;
+        const { innerWidth, innerHeight } = window;
+        
+        const xPos = (clientX / innerWidth - 0.5) * 20;
+        const yPos = (clientY / innerHeight - 0.5) * 20;
+        
+        dotsLayers.forEach((layer, index) => {
+            const intensity = (index + 1) * 0.3;
+            layer.style.transform = `translate(${xPos * intensity}px, ${yPos * intensity}px)`;
+        });
+    });
+    
+    // Reset on mouse leave
+    heroSection.addEventListener('mouseleave', () => {
+        dotsLayers.forEach(layer => {
+            layer.style.transform = '';
+        });
+        if (connectionLines) connectionLines.style.transform = '';
+    });
+}
+
 // ===== INITIALIZATION =====
 document.addEventListener('DOMContentLoaded', () => {
     initNavigation();
@@ -614,6 +667,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initAnimations();
     initAccessibility();
     initPerformance();
+    initFuturisticBackground();
 });
 
 // ===== UTILITY FUNCTIONS =====

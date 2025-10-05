@@ -158,15 +158,20 @@ body {
     left: 0;
     right: 0;
     z-index: 1000;
-    background: rgba(0, 0, 0, 0.95);
+    background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%);
     backdrop-filter: blur(20px);
     border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-    transition: all 0.3s ease;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), background 0.3s ease;
+    transform: translateY(0);
 }
 
 .nav.scrolled {
-    background: rgba(0, 0, 0, 0.98);
+    background: linear-gradient(135deg, #0d0d0d 0%, #000000 100%);
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.nav.nav-hidden {
+    transform: translateY(-100%);
 }
 
 .nav-container {
@@ -179,13 +184,10 @@ body {
     height: 80px;
 }
 
-.nav-logo h2 {
-    font-size: 1.5rem;
-    font-weight: 800;
-    background: linear-gradient(135deg, #00ff91 0%, #0092ff 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+.nav-logo-img {
+    height: 55px;
+    width: auto;
+    object-fit: contain;
 }
 
 .nav-links {
@@ -268,33 +270,70 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(135deg, rgba(0, 255, 145, 0.3) 0%, rgba(0, 146, 255, 0.3) 50%, rgba(0, 51, 132, 0.3) 100%);
+    background: url('img/fallconbg.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    transform-origin: center center;
+    will-change: transform;
     z-index: -2;
     overflow: hidden;
 }
 
-.hero-video {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    min-width: 100%;
-    min-height: 100%;
-    width: auto;
-    height: auto;
-    transform: translate(-50%, -50%);
-    z-index: -1;
-    object-fit: cover;
-}
-
-.hero-background::before {
-    content: '';
+.futuristic-dots {
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="1" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
-    animation: grain 20s linear infinite;
+    width: 100%;
+    height: 100%;
+}
+
+.dots-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: radial-gradient(circle, rgba(255, 255, 255, 0.8) 1px, transparent 1px);
+    background-size: 40px 40px;
+    animation: floatDots 20s ease-in-out infinite;
+}
+
+.layer-1 {
+    background-size: 60px 60px;
+    animation-delay: 0s;
+    opacity: 0.8;
+}
+
+.layer-2 {
+    background-size: 80px 80px;
+    animation-delay: -7s;
+    opacity: 0.6;
+    transform: translate(20px, 20px);
+}
+
+.layer-3 {
+    background-size: 100px 100px;
+    animation-delay: -14s;
+    opacity: 0.4;
+    transform: translate(-10px, -10px);
+}
+
+.connection-lines {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+        linear-gradient(90deg, transparent 39px, rgba(255, 255, 255, 0.2) 40px, transparent 41px),
+        linear-gradient(transparent 39px, rgba(255, 255, 255, 0.2) 40px, transparent 41px);
+    background-size: 40px 40px;
+    animation: pulseLines 15s ease-in-out infinite;
+    opacity: 0.5;
 }
 
 .hero-overlay {
@@ -303,21 +342,113 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.2);
+    background: rgba(0, 0, 0, 0.1);
     z-index: -1;
 }
 
-@keyframes grain {
-    0%, 100% { transform: translate(0, 0); }
-    10% { transform: translate(-5%, -10%); }
-    20% { transform: translate(-15%, 5%); }
-    30% { transform: translate(7%, -25%); }
-    40% { transform: translate(-5%, 25%); }
-    50% { transform: translate(-15%, 10%); }
-    60% { transform: translate(15%, 0%); }
-    70% { transform: translate(0%, 15%); }
-    80% { transform: translate(3%, 35%); }
-    90% { transform: translate(-10%, 10%); }
+@keyframes floatDots {
+    0%, 100% { 
+        transform: translate(0, 0) scale(1);
+        opacity: 0.6;
+    }
+    25% { 
+        transform: translate(5px, -8px) scale(1.02);
+        opacity: 0.8;
+    }
+    50% { 
+        transform: translate(-3px, 6px) scale(0.98);
+        opacity: 0.7;
+    }
+    75% { 
+        transform: translate(8px, -4px) scale(1.01);
+        opacity: 0.9;
+    }
+}
+
+@keyframes pulseLines {
+    0%, 100% { 
+        opacity: 0.1;
+        transform: scale(1);
+    }
+    50% { 
+        opacity: 0.3;
+        transform: scale(1.02);
+    }
+}
+
+/* Hover effects for interactivity */
+.hero:hover .dots-layer {
+    animation-duration: 15s;
+}
+
+.hero:hover .connection-lines {
+    animation-duration: 10s;
+    opacity: 0.5;
+}
+
+/* Responsive design for mobile */
+@media (max-width: 768px) {
+    .dots-layer {
+        background-size: 30px 30px;
+    }
+    
+    .layer-1 {
+        background-size: 45px 45px;
+    }
+    
+    .layer-2 {
+        background-size: 60px 60px;
+        transform: translate(15px, 15px);
+    }
+    
+    .layer-3 {
+        background-size: 75px 75px;
+        transform: translate(-8px, -8px);
+    }
+    
+    .connection-lines {
+        background-size: 30px 30px;
+    }
+}
+
+/* Performance optimizations */
+@media (prefers-reduced-motion: reduce) {
+    .dots-layer,
+    .connection-lines {
+        animation: none;
+    }
+    
+    .hero:hover .dots-layer,
+    .hero:hover .connection-lines {
+        animation-duration: 20s;
+    }
+}
+
+/* Dark mode compatibility */
+@media (prefers-color-scheme: dark) {
+    .dots-layer {
+        background-image: radial-gradient(circle, rgba(200, 200, 200, 0.3) 1px, transparent 1px);
+    }
+    
+    .connection-lines {
+        background-image: 
+            linear-gradient(90deg, transparent 39px, rgba(200, 200, 200, 0.08) 40px, transparent 41px),
+            linear-gradient(transparent 39px, rgba(200, 200, 200, 0.08) 40px, transparent 41px);
+    }
+}
+
+/* Light mode compatibility */
+@media (prefers-color-scheme: light) {
+    
+    .dots-layer {
+        background-image: radial-gradient(circle, rgba(100, 100, 100, 0.2) 1px, transparent 1px);
+    }
+    
+    .connection-lines {
+        background-image: 
+            linear-gradient(90deg, transparent 39px, rgba(100, 100, 100, 0.06) 40px, transparent 41px),
+            linear-gradient(transparent 39px, rgba(100, 100, 100, 0.06) 40px, transparent 41px);
+    }
 }
 
 .hero-content {
@@ -445,7 +576,19 @@ body {
 /* ===== SPONSORS SECTION ===== */
 .sponsors {
     padding: 120px 0;
-    background: #f8fafc;
+    background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+    color: white;
+}
+
+.sponsors .section-title {
+    background: linear-gradient(135deg, #00ff91 0%, #0092ff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.sponsors .section-subtitle {
+    color: rgba(255, 255, 255, 0.8);
 }
 
 .sponsors-grid {
@@ -478,11 +621,17 @@ body {
 }
 
 .university-content {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 60px;
-    align-items: start;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     margin-top: 60px;
+    margin-bottom: 60px;
+}
+
+.university-text {
+    width: 80%;
+    text-align: center;
+    margin-bottom: 60px;
 }
 
 .university-text p {
@@ -528,8 +677,10 @@ body {
 
 .university-stats {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(4, 1fr);
     gap: 24px;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .stat-item {
@@ -619,7 +770,10 @@ body {
 /* ===== TICKETS SECTION ===== */
 .tickets {
     padding: 120px 0;
-    background: linear-gradient(135deg, #00ff91 0%, #0092ff 50%, #003384 100%);
+    background: url('img/fallconbg.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
     color: white;
 }
 
@@ -833,7 +987,8 @@ body {
 /* ===== PRESENTING SPONSORS SECTION ===== */
 .presenting-sponsors {
     padding: 120px 0;
-    background: white;
+    background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+    color: white;
 }
 
 .presenting-sponsors-grid {
@@ -843,21 +998,23 @@ body {
 }
 
 .presenting-sponsor-item {
-    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    background: rgba(0, 0, 0, 0.18);
+    backdrop-filter: blur(10px);
     border-radius: 20px;
     padding: 48px;
     text-align: center;
-    transition: all 0.3s ease;
-    border: 1px solid #e5e7eb;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .presenting-sponsor-item:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    transform: translateY(-4px) !important;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1) !important;
+    border-color: #0092ff !important;
 }
 
 .presenting-sponsor-logo {
-    width: 200px;
+    width: 75%;
     height: 100px;
     object-fit: contain;
     margin: 0 auto 24px;
@@ -867,25 +1024,25 @@ body {
     font-size: 1.5rem;
     font-weight: 700;
     margin-bottom: 16px;
-    color: #1f2937;
+    color: white;
 }
 
 .presenting-sponsor-description {
     font-size: 1rem;
-    color: #6b7280;
+    color: rgba(255, 255, 255, 0.8);
     margin-bottom: 24px;
     line-height: 1.6;
 }
 
 .presenting-sponsor-link {
-    color: #0092ff;
+    color: #00ff91;
     text-decoration: none;
     font-weight: 600;
     transition: color 0.3s ease;
 }
 
 .presenting-sponsor-link:hover {
-    color: #764ba2;
+    color: #0092ff;
     text-decoration: underline;
 }
 
@@ -1128,8 +1285,13 @@ body {
     }
     
     .university-content {
-        grid-template-columns: 1fr;
+        flex-direction: column;
         gap: 40px;
+    }
+    
+    .university-text {
+        width: 100%;
+        margin-bottom: 40px;
     }
     
     .university-features {
@@ -1242,6 +1404,11 @@ body {
     .presenting-sponsor-item {
         padding: 32px 24px;
     }
+    
+    .university-stats {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
 }
 
 /* ===== ACCESSIBILITY ===== */
@@ -1276,10 +1443,8 @@ body {
         color: #000;
     }
     
-    .nav-logo h2 {
-        background: none;
-        -webkit-text-fill-color: initial;
-        color: #000;
+    .nav-logo-img {
+        filter: none;
     }
 }
 
