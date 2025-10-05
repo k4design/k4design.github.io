@@ -211,15 +211,21 @@ function initNavigation() {
             nav.classList.remove('nav-hidden');
         }
         
-        // Hero background zoom effect (throttled for smoothness)
+        // Hero background parallax effect (throttled for smoothness)
         requestAnimationFrame(() => {
             const heroBackground = document.querySelector('.hero-background');
-            if (heroBackground) {
-                // Smooth zoom calculation based on scroll position
-                const heroHeight = document.querySelector('.hero').offsetHeight;
+            const heroSection = document.querySelector('.hero');
+            if (heroBackground && heroSection) {
+                const heroHeight = heroSection.offsetHeight;
                 const scrollProgress = Math.min(scrollTop / heroHeight, 1);
-                const zoomFactor = 1 + (scrollProgress * 0.8); // 80% max zoom
-                heroBackground.style.transform = `scale(${zoomFactor})`;
+                
+                // Parallax movement - background moves slower than scroll
+                const parallaxOffset = scrollTop * 0.5; // 50% of scroll speed
+                const zoomFactor = 1 + (scrollProgress * 0.2); // 20% max zoom
+                
+                // Apply parallax transform without overriding the breathing animation
+                heroBackground.style.setProperty('--parallax-offset', `${parallaxOffset}px`);
+                heroBackground.style.setProperty('--parallax-scale', zoomFactor);
             }
         });
         

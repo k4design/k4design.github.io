@@ -301,10 +301,10 @@ body {
 
 .hero-background {
     position: absolute;
-    top: 0;
+    top: -20%;
     left: 0;
     right: 0;
-    bottom: 0;
+    height: 120%;
     background: url('img/fallconbg.jpg');
     background-size: cover;
     background-position: center;
@@ -314,6 +314,10 @@ body {
     will-change: transform;
     z-index: -2;
     overflow: hidden;
+    animation: breathe 8s ease-in-out infinite;
+    transform: translateZ(0);
+    --parallax-offset: 0px;
+    --parallax-scale: 1;
 }
 
 .futuristic-dots {
@@ -411,6 +415,15 @@ body {
     }
 }
 
+@keyframes breathe {
+    0%, 100% { 
+        transform: translateY(var(--parallax-offset)) scale(calc(var(--parallax-scale) * 1)) translateZ(0);
+    }
+    50% { 
+        transform: translateY(var(--parallax-offset)) scale(calc(var(--parallax-scale) * 1.05)) translateZ(0);
+    }
+}
+
 /* Hover effects for interactivity */
 .hero:hover .dots-layer {
     animation-duration: 15s;
@@ -449,7 +462,8 @@ body {
 /* Performance optimizations */
 @media (prefers-reduced-motion: reduce) {
     .dots-layer,
-    .connection-lines {
+    .connection-lines,
+    .hero-background {
         animation: none;
     }
     
@@ -690,6 +704,25 @@ body {
     border-radius: 12px;
     border: 1px solid #e2e8f0;
     transition: all 0.3s ease;
+}
+
+.feature-icon {
+    width: 60px;
+    height: 60px;
+    margin: 0 auto 20px;
+    background: linear-gradient(135deg, #00ff91 0%, #0092ff 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: white;
+    transition: all 0.3s ease;
+}
+
+.feature-item:hover .feature-icon {
+    transform: scale(1.1);
+    box-shadow: 0 8px 20px rgba(0, 146, 255, 0.3);
 }
 
 .feature-item:hover {
