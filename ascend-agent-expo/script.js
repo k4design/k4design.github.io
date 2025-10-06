@@ -11,54 +11,124 @@ const eventData = {
     
     sponsors: [
         {
-            name: "Adobe",
-            logo: "img/sponsors/sponsor-01.png",
-            link: "https://adobe.com"
+            name: "LPT Realty",
+            logo: "img/sponsors/lptrealty_logo_horizontal_white.png",
+            link: "https://lptrealty.com"
         },
         {
-            name: "Microsoft",
+            name: "Aperture Global",
+            logo: "img/sponsors/apertureglobal_logo_white.png",
+            link: "https://apertureglobal.com"
+        },
+        {
+            name: "Showingtime Plus",
+            logo: "img/sponsors/showing-logo.png",
+            link: "https://showingtime.com"
+        },
+        {
+            name: "Rocket Mortgage",
+            logo: "img/sponsors/rocketmortgage_logo.webp",
+            link: "https://rocketmortgage.com"
+        },
+        {
+            name: "Fello",
             logo: "img/sponsors/sponsor-02.png",
-            link: "https://microsoft.com"
+            link: "https://fello.com"
         },
         {
-            name: "Google",
+            name: "Realtor.com",
+            logo: "img/sponsors/realtorcom.png",
+            link: "https://realtor.com"
+        },
+        {
+            name: "Realty.com",
+            logo: "img/sponsors/realtycom.svg",
+            link: "https://realty.com"
+        },
+        {
+            name: "ZooDealio",
+            logo: "img/sponsors/zoodealio.png",
+            link: "https://zoodealio.com"
+        },
+        {
+            name: "Ruuster",
+            logo: "img/sponsors/ruuster.png",
+            link: "https://ruuster.com"
+        },
+        {
+            name: "House Whisperer",
+            logo: "img/sponsors/housewhisper.png",
+            link: "https://housewhisper.com"
+        },
+        {
+            name: "Comparion Insurance",
+            logo: "img/sponsors/comparion_logo.png",
+            link: "https://comparion.com"
+        },
+        {
+            name: "Home Warranty of America",
+            logo: "img/sponsors/hwa.png",
+            link: "https://hwa.com"
+        },
+        {
+            name: "Crexi",
             logo: "img/sponsors/sponsor-03.png",
-            link: "https://google.com"
+            link: "https://crexi.com"
         },
         {
-            name: "Amazon",
-            logo: "img/sponsors/sponsor-04.png",
-            link: "https://amazon.com"
+            name: "AM Cards",
+            logo: "img/sponsors/amcards.png",
+            link: "https://amcards.com"
         },
         {
-            name: "Apple",
-            logo: "img/sponsors/sponsor-05.png",
-            link: "https://apple.com"
-        },
-        {
-            name: "Netflix",
-            logo: "img/sponsors/sponsor-06.png",
-            link: "https://netflix.com"
-        },
-        {
-            name: "Spotify",
-            logo: "img/sponsors/sponsor-07.png",
-            link: "https://spotify.com"
-        },
-        {
-            name: "Tesla",
-            logo: "img/sponsors/sponsor-08.png",
-            link: "https://tesla.com"
-        },
-        {
-            name: "Uber",
+            name: "Sponsor 01",
             logo: "img/sponsors/sponsor-01.png",
-            link: "https://uber.com"
+            link: "https://sponsor01.com"
         },
         {
-            name: "Airbnb",
-            logo: "img/sponsors/sponsor-02.png",
-            link: "https://airbnb.com"
+            name: "UWM",
+            logo: "img/sponsors/UWM_Logo.png",
+            link: "https://uwm.com"
+        },
+        {
+            name: "Citywide",
+            logo: "img/sponsors/citywide_logo.png",
+            link: "https://citywide.com"
+        },
+        {
+            name: "MJV",
+            logo: "img/sponsors/mjv.png",
+            link: "https://mjv.com"
+        },
+        {
+            name: "Mutual",
+            logo: "img/sponsors/mutual-brand-white.svg",
+            link: "https://mutual.com"
+        },
+        {
+            name: "Responsive",
+            logo: "img/sponsors/responsive_logo.png",
+            link: "https://responsive.com"
+        },
+        {
+            name: "Sponsor 5",
+            logo: "img/sponsors/sponsor-05.png",
+            link: "https://sponsor5.com"
+        },
+        {
+            name: "Sponsor 6",
+            logo: "img/sponsors/sponsor-06.png",
+            link: "https://sponsor6.com"
+        },
+        {
+            name: "Sponsor 7",
+            logo: "img/sponsors/sponsor-07.png",
+            link: "https://sponsor7.com"
+        },
+        {
+            name: "Sponsor 8",
+            logo: "img/sponsors/sponsor-08.png",
+            link: "https://sponsor8.com"
         }
     ],
     
@@ -111,17 +181,31 @@ const eventData = {
             mediaUrl: null
         },
         {
-            name: "Team Growth Plus",
-            logo: "https://via.placeholder.com/300x150/f093fb/ffffff?text=Team+Growth+Plus",
-            description: "Empowering real estate teams with growth strategies, training programs, and business development tools.",
-            link: "https://teamgrowthplus.com",
+            name: "AM Cards",
+            logo: "img/sponsors/amcards.png",
+            description: "Providing innovative real estate marketing solutions and business development tools for agents.",
+            link: "https://amcards.com",
             mediaUrl: null
         },
         {
-            name: "Zillow Showcase",
-            logo: "https://via.placeholder.com/300x150/4facfe/ffffff?text=Zillow+Showcase",
-            description: "Showcasing properties with innovative marketing tools and technology that drives results.",
-            link: "https://zillow.com",
+            name: "HWA",
+            logo: "img/sponsors/hwa.png",
+            description: "Empowering real estate professionals with cutting-edge technology and comprehensive support services.",
+            link: "https://hwa.com",
+            mediaUrl: null
+        },
+        {
+            name: "Ruuster",
+            logo: "img/sponsors/ruuster.png",
+            description: "Revolutionizing real estate transactions with innovative technology and streamlined processes.",
+            link: "https://ruuster.com",
+            mediaUrl: null
+        },
+        {
+            name: "ZooDealio",
+            logo: "img/sponsors/zoodealio.png",
+            description: "Connecting real estate professionals with innovative tools and resources for success.",
+            link: "https://zoodealio.com",
             mediaUrl: null
         }
     ],
@@ -297,15 +381,103 @@ function initCountdown() {
 // ===== SPONSORS RENDERING =====
 function renderSponsors() {
     const sponsorsGrid = document.getElementById('sponsors-grid');
-    if (!sponsorsGrid) return;
+    if (!sponsorsGrid) {
+        console.error('Sponsors grid not found');
+        return;
+    }
 
-    const html = eventData.sponsors.map(sponsor => `
+    // Split sponsors into visible and hidden groups
+    const totalSponsors = eventData.sponsors.length;
+    const visibleCount = 12; // Show exactly 12 sponsors initially
+    const visibleSponsors = eventData.sponsors.slice(0, visibleCount);
+    const hiddenSponsors = eventData.sponsors.slice(visibleCount);
+    
+    console.log('Total sponsors:', totalSponsors);
+    console.log('Visible sponsors:', visibleSponsors.length);
+    console.log('Hidden sponsors:', hiddenSponsors.length);
+
+    // Render visible sponsors
+    const visibleHtml = visibleSponsors.map(sponsor => `
         <div class="sponsor-item">
             <img src="${sponsor.logo}" alt="${sponsor.name}" class="sponsor-logo" loading="lazy">
         </div>
     `).join('');
 
-    sponsorsGrid.innerHTML = html;
+    // Render hidden sponsors
+    const hiddenHtml = hiddenSponsors.map(sponsor => `
+        <div class="sponsor-item sponsor-hidden">
+            <img src="${sponsor.logo}" alt="${sponsor.name}" class="sponsor-logo" loading="lazy">
+        </div>
+    `).join('');
+
+    // Render only the sponsors in the grid
+    sponsorsGrid.innerHTML = visibleHtml + hiddenHtml;
+
+    // Add reveal button outside the grid if there are hidden sponsors
+    if (hiddenSponsors.length > 0) {
+        const sponsorsSection = sponsorsGrid.closest('.sponsors');
+        const existingButton = sponsorsSection.querySelector('.sponsor-reveal-container');
+        const existingText = sponsorsSection.querySelector('.more-sponsors-text');
+        
+        if (existingButton) {
+            existingButton.remove();
+        }
+        if (existingText) {
+            existingText.remove();
+        }
+        
+        // Add text about more sponsors not listed
+        const moreSponsorsText = document.createElement('p');
+        moreSponsorsText.className = 'more-sponsors-text';
+        moreSponsorsText.innerHTML = 'More sponsors not listed above';
+        sponsorsSection.appendChild(moreSponsorsText);
+        
+        const revealButton = document.createElement('div');
+        revealButton.className = 'sponsor-reveal-container';
+        revealButton.innerHTML = `
+            <button class="btn btn-outline sponsor-reveal-btn" id="sponsor-reveal-btn">
+                Show More Sponsors
+                <span class="btn-arrow">↓</span>
+            </button>
+        `;
+        
+        sponsorsSection.appendChild(revealButton);
+    }
+
+    // Add event listener for reveal button
+    if (hiddenSponsors.length > 0) {
+        const revealBtn = document.getElementById('sponsor-reveal-btn');
+        if (revealBtn) {
+            revealBtn.addEventListener('click', toggleSponsorVisibility);
+        }
+    }
+}
+
+// ===== SPONSOR VISIBILITY TOGGLE =====
+function toggleSponsorVisibility() {
+    const hiddenSponsors = document.querySelectorAll('.sponsor-hidden');
+    const revealBtn = document.getElementById('sponsor-reveal-btn');
+    
+    if (!hiddenSponsors.length || !revealBtn) return;
+    
+    const isHidden = hiddenSponsors[0].style.display === 'none' || 
+                    hiddenSponsors[0].classList.contains('sponsor-revealed');
+    
+    if (isHidden) {
+        // Hide sponsors
+        hiddenSponsors.forEach(sponsor => {
+            sponsor.style.display = 'none';
+            sponsor.classList.remove('sponsor-revealed');
+        });
+        revealBtn.innerHTML = 'Show More Sponsors <span class="btn-arrow">↓</span>';
+    } else {
+        // Show sponsors
+        hiddenSponsors.forEach(sponsor => {
+            sponsor.style.display = 'block';
+            sponsor.classList.add('sponsor-revealed');
+        });
+        revealBtn.innerHTML = 'Show Less Sponsors <span class="btn-arrow">↑</span>';
+    }
 }
 
 // ===== PILLARS RENDERING =====
@@ -480,34 +652,6 @@ function initAnimations() {
 
 // ===== ACCESSIBILITY ENHANCEMENTS =====
 function initAccessibility() {
-    // Skip to main content link
-    const skipLink = document.createElement('a');
-    skipLink.href = '#hero';
-    skipLink.textContent = 'Skip to main content';
-    skipLink.className = 'skip-link';
-    skipLink.style.cssText = `
-        position: absolute;
-        top: -40px;
-        left: 6px;
-        background: #667eea;
-        color: white;
-        padding: 8px;
-        text-decoration: none;
-        border-radius: 4px;
-        z-index: 1001;
-        transition: top 0.3s;
-    `;
-    
-    skipLink.addEventListener('focus', () => {
-        skipLink.style.top = '6px';
-    });
-    
-    skipLink.addEventListener('blur', () => {
-        skipLink.style.top = '-40px';
-    });
-    
-    document.body.insertBefore(skipLink, document.body.firstChild);
-
     // Keyboard navigation for mobile menu
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {

@@ -46,7 +46,7 @@ body {
 .section-subtitle {
     font-size: 1.25rem;
     color: #6b7280;
-    max-width: 600px;
+    max-width: 65%;
     margin: 0 auto;
     font-weight: 400;
 }
@@ -625,8 +625,32 @@ body {
 /* ===== SPONSORS SECTION ===== */
 .sponsors {
     padding: 120px 0;
-    background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+    background: #2d3748;
+    background-image: 
+        radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.15) 3px, transparent 3px),
+        radial-gradient(circle at 75% 75%, rgba(255, 255, 255, 0.1) 2px, transparent 2px),
+        linear-gradient(45deg, transparent 47%, rgba(255, 255, 255, 0.08) 48%, rgba(255, 255, 255, 0.08) 52%, transparent 53%),
+        linear-gradient(-45deg, transparent 47%, rgba(255, 255, 255, 0.08) 48%, rgba(255, 255, 255, 0.08) 52%, transparent 53%);
+    background-size: 60px 60px, 40px 40px, 30px 30px, 30px 30px;
+    background-position: 0 0, 30px 30px, 0 0, 0 0;
     color: white;
+    position: relative;
+}
+
+.sponsors::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(45, 55, 72, 0.8) 0%, rgba(26, 32, 44, 0.9) 100%);
+    z-index: 1;
+}
+
+.sponsors > * {
+    position: relative;
+    z-index: 2;
 }
 
 .sponsors .section-title {
@@ -642,8 +666,8 @@ body {
 
 .sponsors-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 24px;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 40px;
     margin-bottom: 64px;
     max-width: 100%;
     overflow: hidden;
@@ -653,17 +677,87 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 2vh;
+    margin-bottom: 1.5vh;
+    padding: 20px;
 }
+
 
 .sponsor-logo {
     width: 200px;
-    height: 80px;
+    height: 180px;
     object-fit: contain;
+    background: linear-gradient(135deg, rgba(0, 255, 145, 0.1) 0%, rgba(0, 146, 255, 0.1) 100%);
+    border-radius: 12px;
+    padding: 21px;
+    box-shadow: 0 4px 20px rgba(0, 255, 145, 0.15), 0 0 0 1px rgba(0, 255, 145, 0.1);
+    transition: all 0.3s ease;
+    display: block;
+    position: relative;
+    z-index: 3;
+}
+
+.sponsor-logo:hover {
+    box-shadow: 0 8px 30px rgba(0, 255, 145, 0.25), 0 0 0 1px rgba(0, 255, 145, 0.2);
+    transform: translateY(-2px);
 }
 
 .sponsors-cta {
     text-align: center;
+}
+
+/* ===== SPONSOR REVEAL FUNCTIONALITY ===== */
+.sponsor-hidden {
+    display: none;
+}
+
+.sponsor-revealed {
+    display: flex !important;
+    animation: fadeInUp 0.6s ease-out;
+}
+
+.sponsor-reveal-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 40px auto 0;
+    width: 100%;
+    text-align: center;
+}
+
+.sponsor-reveal-btn {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+}
+
+.sponsor-reveal-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+.more-sponsors-text {
+    text-align: center;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 1rem;
+    margin: 24px auto 16px;
+    font-style: italic;
+    position: relative;
+    z-index: 2;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* ===== ASCEND INITIATIVE UNIVERSITY SECTION ===== */
@@ -1057,7 +1151,6 @@ body {
 }
 
 .ticket-tier {
-    font-size: clamp(2rem, 4vw, 3rem);
     font-weight: 800;
     margin-bottom: 24px;
     line-height: 1.2;
@@ -1065,6 +1158,19 @@ body {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.ticket-tier-main {
+    font-size: clamp(4rem, 8vw, 6rem);
+    line-height: 0.9;
+}
+
+.ticket-tier-sub {
+    font-size: clamp(2rem, 4vw, 3rem);
+    line-height: 1.1;
 }
 
 
@@ -1683,14 +1789,19 @@ body {
     
     .sponsors-grid {
         grid-template-columns: 1fr; /* 1 sponsor per row on mobile */
-        gap: 20px;
+        gap: 30px;
         max-width: 100%;
     }
     
     .sponsor-logo {
         width: 100%;
         max-width: 250px;
-        height: 60px;
+        height: 120px;
+    }
+    
+    .more-sponsors-text {
+        font-size: 0.9rem;
+        margin: 20px auto 12px;
     }
     
     .pillars-grid {
@@ -1757,6 +1868,11 @@ body {
     .sponsors-grid {
         grid-template-columns: 1fr; /* Keep 1 per row on small mobile */
         gap: 16px;
+    }
+    
+    .more-sponsors-text {
+        font-size: 0.85rem;
+        margin: 16px auto 10px;
     }
     
     .price-countdown {
