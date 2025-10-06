@@ -940,53 +940,120 @@ body {
     padding: 20px;
 }
 
-/* Basic form styling for future form content */
-.form-container form {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
+/* Form container styling */
+.form-container {
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
 }
 
-.form-container input,
-.form-container select,
-.form-container textarea {
-    padding: 12px 16px;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: 8px;
-    background: rgba(255, 255, 255, 0.1);
-    color: white;
-    font-size: 1rem;
-    transition: all 0.3s ease;
+/* Override form styles to match the design */
+#_form_24_ {
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    max-width: 100% !important;
 }
 
-.form-container input::placeholder,
-.form-container textarea::placeholder {
-    color: rgba(255, 255, 255, 0.7);
+#_form_24_ ._form-title {
+    color: #1a1a1a !important;
+    font-size: 1.5rem !important;
+    font-weight: 600 !important;
+    margin-bottom: 16px !important;
+    text-align: center;
 }
 
-.form-container input:focus,
-.form-container select:focus,
-.form-container textarea:focus {
-    outline: none;
-    border-color: #00ff91;
-    box-shadow: 0 0 0 2px rgba(0, 255, 145, 0.2);
+#_form_24_ ._html-code p {
+    color: #374151 !important;
+    text-align: center;
+    margin-bottom: 24px !important;
+    font-size: 0.95rem !important;
 }
 
-.form-container button[type="submit"] {
-    background: linear-gradient(135deg, #00ff91 0%, #0092ff 100%);
-    color: white;
-    border: none;
-    padding: 14px 24px;
-    border-radius: 8px;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
+#_form_24_ ._form-label {
+    color: #1a1a1a !important;
+    font-weight: 600 !important;
+    margin-bottom: 8px !important;
+    font-size: 0.9rem !important;
 }
 
-.form-container button[type="submit"]:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(0, 146, 255, 0.4);
+#_form_24_ input[type="text"] {
+    background: rgba(255, 255, 255, 0.9) !important;
+    border: 1px solid #d1d5db !important;
+    color: #1a1a1a !important;
+    padding: 12px 16px !important;
+    border-radius: 8px !important;
+    font-size: 1rem !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+#_form_24_ input[type="text"]::placeholder {
+    color: #6b7280 !important;
+}
+
+#_form_24_ input[type="text"]:focus {
+    outline: none !important;
+    border-color: #00ff91 !important;
+    box-shadow: 0 0 0 2px rgba(0, 255, 145, 0.2) !important;
+}
+
+#_form_24_ ._submit {
+    background: linear-gradient(135deg, #00ff91 0%, #0092ff 100%) !important;
+    color: white !important;
+    border: none !important;
+    padding: 14px 24px !important;
+    border-radius: 8px !important;
+    font-size: 1rem !important;
+    font-weight: 600 !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    width: 100% !important;
+    margin-top: 16px !important;
+}
+
+#_form_24_ ._submit:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 25px rgba(0, 146, 255, 0.4) !important;
+}
+
+#_form_24_ ._submit:disabled {
+    opacity: 0.6 !important;
+    cursor: not-allowed !important;
+    transform: none !important;
+}
+
+#_form_24_ .field-required {
+    color: #ff6b6b !important;
+}
+
+#_form_24_ ._form_element {
+    margin-bottom: 20px !important;
+}
+
+#_form_24_ ._button-wrapper {
+    margin-top: 24px !important;
+}
+
+/* Error styling */
+#_form_24_ ._error-inner {
+    background: rgba(255, 107, 107, 0.1) !important;
+    border: 1px solid #ff6b6b !important;
+    color: #dc2626 !important;
+    border-radius: 8px !important;
+    padding: 12px !important;
+    margin-top: 8px !important;
+}
+
+/* Thank you message styling */
+#_form_24_ ._form-thank-you {
+    color: #1a1a1a !important;
+    text-align: center !important;
+    padding: 20px !important;
+    background: rgba(0, 255, 145, 0.1) !important;
+    border: 1px solid rgba(0, 255, 145, 0.3) !important;
+    border-radius: 8px !important;
 }
 
 .ticket-tier {

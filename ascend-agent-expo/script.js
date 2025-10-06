@@ -80,26 +80,7 @@ const eventData = {
         }
     ],
     
-    tickets: [
-        {
-            tier: "Step In. Level Up. Your Free Ticket Starts Here.",
-            price: "FREE",
-            perks: [
-                "3-day conference access",
-                "Welcome reception",
-                "Networking lunch",
-                "Digital resource library",
-                "Conference mobile app",
-                "Certificate of completion",
-                "Access to all sessions",
-                "Networking opportunities",
-                "Swag bag"
-            ],
-            countdown: false,
-            available: true,
-            featured: true
-        }
-    ],
+    // Tickets section is now static HTML - no data needed
     
     venue: {
         name: "Orlando Marriott World Center - Cypress Ballroom 2",
@@ -344,27 +325,7 @@ function renderPillars() {
 }
 
 // ===== TICKETS RENDERING =====
-function renderTickets() {
-    const ticketsGrid = document.getElementById('tickets-grid');
-    if (!ticketsGrid) return;
-
-    const html = eventData.tickets.map(ticket => `
-        <div class="ticket-card ${ticket.featured ? 'featured' : ''}">
-            <div class="ticket-card-left">
-                <h3 class="ticket-tier">${ticket.tier}</h3>
-                <ul class="ticket-perks">
-                    ${ticket.perks.map(perk => `<li>${perk}</li>`).join('')}
-                </ul>
-                <a href="#" class="btn btn-primary">Claim Your Free Ticket</a>
-            </div>
-            <div class="ticket-card-right">
-                <!-- Form will be added here later -->
-            </div>
-        </div>
-    `).join('');
-
-    ticketsGrid.innerHTML = html;
-}
+// Tickets section is now static HTML - no JavaScript rendering needed
 
 // ===== VENUE RENDERING =====
 function renderVenue() {
@@ -392,7 +353,7 @@ function renderVenue() {
                 </ul>
             </div>
             
-            <a href="mailto:travel@ascendagentexpo.com" class="btn btn-outline">
+            <a href="https://www.marriott.com/search/findHotels.mi?pageType=advanced&searchType=InCity&destinationAddress.latitude=28.360086&destinationAddress.longitude=-81.508582&destinationAddress.destination=Orlando+World+Center+Marriott&nst=paid&cid=PAI_GLB0004YXD_GLE000BIM5_GLF000OETA&ppc=ppc&pId=ustbppc&gclsrc=aw.ds&gad_source=1&gad_campaignid=22339671805&gbraid=0AAAAADilnicXeEIZps0ez0MvrbgUtEEbR" class="btn btn-outline" target="_blank" rel="noopener">
                 Book Hotel Package
                 <span class="btn-arrow">→</span>
             </a>
@@ -722,7 +683,6 @@ document.addEventListener('DOMContentLoaded', () => {
     initCountdown();
     renderSponsors();
     renderPillars();
-    renderTickets();
     renderVenue();
     renderPresentingSponsors();
     initFAQ();
@@ -742,7 +702,6 @@ function updateEventData(newData) {
     // Re-render affected sections
     renderSponsors();
     renderPillars();
-    renderTickets();
     renderVenue();
     renderPresentingSponsors();
     initFAQ();
