@@ -1649,24 +1649,7 @@ body {
     
     .floating-cta-btn {
         padding: 14px 20px;
-        font-size: 0.9rem;
-        border-radius: 40px;
-    }
-    
-    .floating-cta-text {
-        display: none; /* Hide text on mobile, show only arrow */
-    }
-    
-    .floating-cta-btn {
-        padding: 16px;
-        border-radius: 50%;
-        min-width: 56px;
-        min-height: 56px;
-        justify-content: center;
-    }
-    
-    .floating-cta-arrow {
-        font-size: 1.5rem;
+        font-size: 0.95rem;
     }
 }
 
@@ -1677,9 +1660,8 @@ body {
     }
     
     .floating-cta-btn {
-        padding: 14px;
-        min-width: 52px;
-        min-height: 52px;
+        padding: 12px 18px;
+        font-size: 0.9rem;
     }
 }
 
@@ -1890,10 +1872,28 @@ body {
     .ticket-card {
         grid-template-columns: 1fr;
         gap: 24px;
+        text-align: left;
     }
     
     .ticket-card-left {
-        text-align: center;
+        text-align: left;
+    }
+    
+    .ticket-perks {
+        width: 100%;
+    }
+    
+    /* Left align form elements on mobile */
+    #_form_24_ ._form-title {
+        text-align: left !important;
+    }
+    
+    #_form_24_ ._html-code p {
+        text-align: left !important;
+    }
+    
+    #_form_24_ ._form-label {
+        text-align: left !important;
     }
     
     .final-cta-buttons {

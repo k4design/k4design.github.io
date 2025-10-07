@@ -533,16 +533,29 @@ window._load_script = function(url, callback, isSubmit) {
             }
         };
     }
-    script.onerror = function() {
+    script.onerror = function(error) {
         if (isSubmit) {
+            console.error('Form submission script failed to load:', error);
+            console.error('Script URL:', script.src);
+            
             if (script.src.length > 10000) {
                 _show_error("24", "Sorry, your submission failed. Please shorten your responses and try again.");
             } else {
-                _show_error("24", "Sorry, your submission failed. Please try again.");
+                _show_error("24", "Sorry, your submission failed. This may be due to browser security settings or ad blockers. Please try again or contact support.");
             }
             submitButton.disabled = false;
             submitButton.classList.remove('processing');
         }
+    }
+    
+    // Add timeout for script loading
+    if (isSubmit) {
+        setTimeout(function() {
+            if (!r) {
+                console.error('Form submission timed out - script did not load within 10 seconds');
+                script.onerror();
+            }
+        }, 10000);
     }
 
     head.appendChild(script);
@@ -892,7 +905,10 @@ window._load_script = function(url, callback, isSubmit) {
 
     var _form_serialize = function(form){if(!form||form.nodeName!=="FORM"){return }var i,j,q=[];for(i=0;i<form.elements.length;i++){if(form.elements[i].name===""){continue}switch(form.elements[i].nodeName){case"INPUT":switch(form.elements[i].type){case"tel":q.push(form.elements[i].name+"="+encodeURIComponent(form.elements[i].previousSibling.querySelector('div.iti__selected-dial-code').innerText)+encodeURIComponent(" ")+encodeURIComponent(form.elements[i].value));break;case"text":case"number":case"date":case"time":case"hidden":case"password":case"button":case"reset":case"submit":q.push(form.elements[i].name+"="+encodeURIComponent(form.elements[i].value));break;case"checkbox":case"radio":if(form.elements[i].checked){q.push(form.elements[i].name+"="+encodeURIComponent(form.elements[i].value))}break;case"file":break}break;case"TEXTAREA":q.push(form.elements[i].name+"="+encodeURIComponent(form.elements[i].value));break;case"SELECT":switch(form.elements[i].type){case"select-one":q.push(form.elements[i].name+"="+encodeURIComponent(form.elements[i].value));break;case"select-multiple":for(j=0;j<form.elements[i].options.length;j++){if(form.elements[i].options[j].selected){q.push(form.elements[i].name+"="+encodeURIComponent(form.elements[i].options[j].value))}}break}break;case"BUTTON":switch(form.elements[i].type){case"reset":case"submit":case"button":q.push(form.elements[i].name+"="+encodeURIComponent(form.elements[i].value));break}break}}return q.join("&")};
 
+    // Development mode detection
+    const isDevelopment = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
     const formSupportsPost = false;
+    
     var form_submit = function(e) {
 
         e.preventDefault();
@@ -904,9 +920,31 @@ window._load_script = function(url, callback, isSubmit) {
             var submitButton = e.target.querySelector('#_form_24_submit');
             submitButton.disabled = true;
             submitButton.classList.add('processing');
-                    var serialized = _form_serialize(document.getElementById('_form_24_')).replace(/%0A/g, '\\n');
+            
+            // If in development mode, simulate successful submission
+            if (isDevelopment) {
+                console.log('🚀 DEVELOPMENT MODE: Form submission simulated');
+                const formData = new FormData(form_to_submit);
+                console.log('Form data:', Object.fromEntries(formData));
+                
+                // Simulate network delay
+                setTimeout(() => {
+                    submitButton.disabled = false;
+                    submitButton.classList.remove('processing');
+                    _show_thank_you("24", "<p>Thank you for registering! (Development Mode - No actual submission)</p><p>In production, this will submit to ActiveCampaign.</p>", null, formData.get('email'));
+                }, 1000);
+                
+                return false;
+            }
+            
+            // Production mode - actual submission
+            console.log('🌐 PRODUCTION MODE: Submitting to ActiveCampaign');
+            var serialized = _form_serialize(document.getElementById('_form_24_')).replace(/%0A/g, '\\n');
+            console.log('Serialized form data:', serialized);
+            
             var err = form_to_submit.querySelector('._form_error');
             err ? err.parentNode.removeChild(err) : false;
+            
             async function submitForm() {
                 var formData = new FormData();
                 const searchParams = new URLSearchParams(serialized);
@@ -927,18 +965,32 @@ window._load_script = function(url, callback, isSubmit) {
                 if (pageUrlParams.has('t')) {
                     request.headers.Authorization = 'Bearer ' + pageUrlParams.get('t');
                 }
+                
+                console.log('Submitting to ActiveCampaign...', request);
                 const response = await fetch('https://robertpalmercompanies.activehosted.com/proc.php?jsonp=true', request);
 
                 return response.json();
             }
             if (formSupportsPost) {
                 submitForm().then((data) => {
+                    console.log('Form submission response:', data);
                     eval(data.js);
-                }).catch(() => {
-                    _show_error("24", "Sorry, your submission failed. Please try again.");
+                }).catch((error) => {
+                    console.error('Form submission error:', error);
+                    console.error('Error details:', {
+                        message: error.message,
+                        stack: error.stack
+                    });
+                    _show_error("24", "Sorry, your submission failed. Please try again or contact support.");
+                    submitButton.disabled = false;
+                    submitButton.classList.remove('processing');
                 });
             } else {
-                _load_script('https://robertpalmercompanies.activehosted.com/proc.php?' + serialized + '&jsonp=true', null, true);
+                // JSONP method - default for ActiveCampaign forms
+                console.log('Using JSONP submission method');
+                var scriptUrl = 'https://robertpalmercompanies.activehosted.com/proc.php?' + serialized + '&jsonp=true';
+                console.log('JSONP URL length:', scriptUrl.length);
+                _load_script(scriptUrl, null, true);
             }
         }
         return false;

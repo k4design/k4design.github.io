@@ -259,6 +259,9 @@ function initNavigation() {
     window.addEventListener('scroll', () => {
         const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
         
+        // Check if mobile menu is open
+        const isMobileMenuOpen = navLinks?.classList.contains('active');
+        
         // Add scrolled class for styling
         if (scrollTop > 100) {
             nav.classList.add('scrolled');
@@ -268,9 +271,12 @@ function initNavigation() {
         }
         
         // Hide/show navigation based on scroll direction
+        // Don't hide if mobile menu is open
         if (scrollTop > lastScrollTop && scrollTop > 100) {
-            // Scrolling down - hide nav
-            nav.classList.add('nav-hidden');
+            // Scrolling down - hide nav (but not if mobile menu is open)
+            if (!isMobileMenuOpen) {
+                nav.classList.add('nav-hidden');
+            }
         } else if (scrollTop < lastScrollTop) {
             // Scrolling up - show nav
             nav.classList.remove('nav-hidden');
@@ -309,6 +315,10 @@ function initNavigation() {
             e.preventDefault();
             const target = document.querySelector(this.getAttribute('href'));
             if (target) {
+                // Close mobile menu when clicking a nav link
+                navLinks?.classList.remove('active');
+                navToggle?.classList.remove('active');
+                
                 const offsetTop = target.offsetTop - 80;
                 window.scrollTo({
                     top: offsetTop,
@@ -388,7 +398,9 @@ function renderSponsors() {
 
     // Split sponsors into visible and hidden groups
     const totalSponsors = eventData.sponsors.length;
-    const visibleCount = 12; // Show exactly 12 sponsors initially
+    // Show 5 sponsors on mobile, 12 on desktop
+    const isMobile = window.innerWidth <= 768;
+    const visibleCount = isMobile ? 5 : 12;
     const visibleSponsors = eventData.sponsors.slice(0, visibleCount);
     const hiddenSponsors = eventData.sponsors.slice(visibleCount);
     
@@ -840,6 +852,15 @@ document.addEventListener('DOMContentLoaded', () => {
     initFuturisticBackground();
     initFloatingCTA();
     initAnimatedCounters();
+    
+    // Re-render sponsors on resize to adjust visible count for mobile/desktop
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => {
+            renderSponsors();
+        }, 250);
+    });
 });
 
 // ===== UTILITY FUNCTIONS =====
