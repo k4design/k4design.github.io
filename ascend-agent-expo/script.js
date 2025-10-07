@@ -212,28 +212,28 @@ const eventData = {
     
     faq: [
         {
-            question: "What is included in my ticket?",
-            answer: "Your ticket includes access to all conference sessions, networking events, welcome reception, lunch, digital resources, mobile app, and certificate of completion. VIP tickets include additional perks like premium seating and exclusive meet & greets."
+            question: "What is included in my free ticket?",
+            answer: "Your free ticket includes access to all expo exhibitors, 8 hours of educational content from the Expo Stage, 8 hours of educational content from the Expo Mini Stage, networking opportunities with top industry vendors, games, raffles, and prizes."
         },
         {
-            question: "What is your refund policy?",
-            answer: "Full refunds are available up to 30 days before the event. Between 30-14 days, a 50% refund applies. No refunds within 14 days of the event, but tickets can be transferred to another person."
+            question: "Who is eligible for a free ticket?",
+            answer: "Tickets are free to any Licensed Real Estate Agent, Referral Agent, or Aspiring Real Estate Agent. Simply register with your name and email to claim your spot."
         },
         {
             question: "Is the venue accessible?",
-            answer: "Yes, the Miami Beach Convention Center is fully ADA compliant with wheelchair accessibility, accessible parking, restrooms, and seating areas. Please contact us if you have specific accessibility needs."
+            answer: "Yes, the Orlando Marriott World Center is fully ADA compliant with wheelchair accessibility, accessible parking, restrooms, and seating areas. Please contact us if you have specific accessibility needs."
         },
         {
             question: "Will sessions be recorded?",
-            answer: "Select keynote sessions will be recorded and made available to ticket holders within 48 hours after the event. Workshop sessions are not recorded to encourage active participation."
+            answer: "Select sessions may be recorded. Please check with individual speakers or our team for specific session recording availability."
         },
         {
             question: "What should I bring?",
-            answer: "Bring business cards for networking, a notebook or device for taking notes, comfortable shoes for walking, and professional attire. All materials and resources will be provided digitally."
+            answer: "Bring business cards for networking, a notebook or device for taking notes, comfortable shoes for walking, and professional attire. We recommend planning for meals on your own as food is not provided at the event."
         },
         {
-            question: "Can I upgrade my ticket?",
-            answer: "Yes, you can upgrade your ticket at any time before the event by paying the difference. Contact our support team for assistance with upgrades."
+            question: "Can I transfer my ticket?",
+            answer: "Yes, free tickets can be transferred to another eligible real estate professional. Please contact our support team for assistance with ticket transfers."
         },
         {
             question: "What is the code of conduct?",
@@ -241,7 +241,7 @@ const eventData = {
         },
         {
             question: "Are meals provided?",
-            answer: "Yes, we provide a welcome reception, networking lunch, and coffee breaks throughout the event. Special dietary requirements can be accommodated with advance notice."
+            answer: "No, meals are not provided at the event. The venue is located at the Orlando Marriott World Center which has multiple dining options available on-site, and there are many restaurants nearby."
         }
     ]
 };
@@ -460,10 +460,9 @@ function toggleSponsorVisibility() {
     
     if (!hiddenSponsors.length || !revealBtn) return;
     
-    const isHidden = hiddenSponsors[0].style.display === 'none' || 
-                    hiddenSponsors[0].classList.contains('sponsor-revealed');
+    const isRevealed = hiddenSponsors[0].classList.contains('sponsor-revealed');
     
-    if (isHidden) {
+    if (isRevealed) {
         // Hide sponsors
         hiddenSponsors.forEach(sponsor => {
             sponsor.style.display = 'none';
@@ -637,6 +636,10 @@ function initAnimations() {
             if (entry.isIntersecting) {
                 entry.target.style.opacity = '1';
                 entry.target.style.transform = 'translateY(0)';
+                // Remove inline transform after animation completes to allow hover effects
+                setTimeout(() => {
+                    entry.target.style.transform = '';
+                }, 600);
             }
         });
     }, observerOptions);
