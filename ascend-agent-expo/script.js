@@ -249,13 +249,172 @@ const eventData = {
         }
     ],
     
+    agenda: [
+        {
+            day: "Day 1",
+            date: "October 16, 2025",
+            sessions: [
+                {
+                    time: "8:00 AM – 9:00 AM",
+                    duration: "1 hour",
+                    title: "Registration & Welcome Coffee",
+                    speaker: null,
+                    location: "Main Lobby",
+                    tag: null,
+                    description: "Network with fellow attendees while enjoying refreshments."
+                },
+                {
+                    time: "9:00 AM – 10:00 AM",
+                    duration: "1 hour",
+                    title: "Opening Keynote: The Future of Real Estate",
+                    speaker: "Sarah Martinez",
+                    location: "Expo Main Stage",
+                    tag: "Keynote",
+                    description: "Discover how technology and innovation are reshaping the real estate landscape."
+                },
+                {
+                    time: "10:15 AM – 11:15 AM",
+                    duration: "1 hour",
+                    title: "Mastering Digital Marketing for Agents",
+                    speaker: "Michael Chen",
+                    location: "Expo Main Stage",
+                    tag: "Marketing",
+                    description: "Learn proven strategies to generate leads and build your online presence."
+                },
+                {
+                    time: "11:30 AM – 12:30 PM",
+                    duration: "1 hour",
+                    title: "Building a Seven-Figure Real Estate Business",
+                    speaker: "Jennifer Thompson",
+                    location: "Expo Main Stage",
+                    tag: "Business Growth",
+                    description: "Actionable insights on scaling your business and maximizing profitability."
+                },
+                {
+                    time: "12:30 PM – 1:30 PM",
+                    duration: "1 hour",
+                    title: "Lunch Break & Networking",
+                    speaker: null,
+                    location: "Exhibition Hall",
+                    tag: null,
+                    description: "Connect with sponsors, vendors, and fellow professionals."
+                },
+                {
+                    time: "1:30 PM – 2:30 PM",
+                    duration: "1 hour",
+                    title: "AI & Automation in Real Estate",
+                    speaker: "David Rodriguez",
+                    location: "Expo Mini Stage",
+                    tag: "Technology",
+                    description: "Harness the power of AI to streamline operations and close more deals."
+                },
+                {
+                    time: "2:45 PM – 3:45 PM",
+                    duration: "1 hour",
+                    title: "Luxury Market Strategies",
+                    speaker: "Amanda Foster",
+                    location: "Expo Mini Stage",
+                    tag: "Luxury Sales",
+                    description: "Expert tactics for breaking into and dominating the luxury real estate market."
+                },
+                {
+                    time: "4:00 PM – 5:00 PM",
+                    duration: "1 hour",
+                    title: "Panel: Investment Properties & Wealth Building",
+                    speaker: "James Patterson & Guests",
+                    location: "Expo Main Stage",
+                    tag: "Panel Discussion",
+                    description: "Learn how to help clients build wealth through strategic property investments."
+                }
+            ]
+        },
+        {
+            day: "Day 2",
+            date: "October 17, 2025",
+            sessions: [
+                {
+                    time: "8:30 AM – 9:00 AM",
+                    duration: "30 minutes",
+                    title: "Morning Coffee & Networking",
+                    speaker: null,
+                    location: "Main Lobby",
+                    tag: null,
+                    description: "Start your day connecting with industry professionals."
+                },
+                {
+                    time: "9:00 AM – 10:00 AM",
+                    duration: "1 hour",
+                    title: "Social Media Mastery for Real Estate",
+                    speaker: "Lisa Wang",
+                    location: "Expo Main Stage",
+                    tag: "Marketing",
+                    description: "Build a powerful social media presence that attracts and converts leads."
+                },
+                {
+                    time: "10:15 AM – 11:15 AM",
+                    duration: "1 hour",
+                    title: "Negotiation Tactics That Close Deals",
+                    speaker: "Robert Taylor",
+                    location: "Expo Main Stage",
+                    tag: "Sales",
+                    description: "Win-win negotiation strategies that benefit both you and your clients."
+                },
+                {
+                    time: "11:30 AM – 12:30 PM",
+                    duration: "1 hour",
+                    title: "First-Time Buyer Success Strategies",
+                    speaker: "Maria Gonzalez",
+                    location: "Expo Mini Stage",
+                    tag: "Client Service",
+                    description: "Guide first-time buyers through the process with confidence and expertise."
+                },
+                {
+                    time: "12:30 PM – 1:30 PM",
+                    duration: "1 hour",
+                    title: "Lunch & Expo Floor Exploration",
+                    speaker: null,
+                    location: "Exhibition Hall",
+                    tag: null,
+                    description: "Discover new tools, services, and opportunities from our sponsors."
+                },
+                {
+                    time: "1:30 PM – 2:30 PM",
+                    duration: "1 hour",
+                    title: "Commercial Real Estate Opportunities",
+                    speaker: "Kevin Anderson",
+                    location: "Expo Mini Stage",
+                    tag: "Commercial",
+                    description: "Expand your business into the lucrative commercial real estate sector."
+                },
+                {
+                    time: "2:45 PM – 3:45 PM",
+                    duration: "1 hour",
+                    title: "Home Staging Secrets for Faster Sales",
+                    speaker: "Nicole Johnson",
+                    location: "Expo Mini Stage",
+                    tag: "Staging",
+                    description: "Transform properties to sell faster and at higher prices."
+                },
+                {
+                    time: "4:00 PM – 5:00 PM",
+                    duration: "1 hour",
+                    title: "Closing Session: Your Action Plan for Success",
+                    speaker: "Christopher Lee & Team",
+                    location: "Expo Main Stage",
+                    tag: "Keynote",
+                    description: "Leave with a clear roadmap to implement everything you've learned."
+                }
+            ]
+        }
+    ],
+    
     // Tickets section is now static HTML - no data needed
     
     venue: {
         name: "Orlando Marriott World Center - Cypress Ballroom 2",
         address: "8701 World Center Dr, Orlando, FL 32821",
         mapUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3510.4!2d-81.50928669917572!3d28.360979974698278!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88dd7b8c8c8c8c8d%3A0x8c8c8c8c8c8c8c8d!2sOrlando+Marriott+World+Center!5e0!3m2!1sen!2sus!4v1234567890",
-        travelTips: "Orlando International Airport (MCO) is 20 minutes away. Uber, Lyft, and taxi services are readily available. The hotel offers complimentary airport shuttle service.",
+        travelTips: "Orlando International Airport (MCO) is 20 minutes away. Uber, Lyft, and taxi services are readily available.",
         hotels: [
             {
                 name: "Orlando Marriott World Center",
@@ -722,7 +881,6 @@ function renderAllSpeakersGrid() {
 function initViewAllSpeakersToggle() {
     const toggleBtn = document.getElementById('view-all-speakers-btn');
     const container = document.getElementById('all-speakers-container');
-    const arrow = document.getElementById('speaker-arrow');
     
     if (!toggleBtn || !container) return;
 
@@ -959,6 +1117,118 @@ function stopSpeakerRotation() {
     if (speakerAutoRotateInterval) {
         clearInterval(speakerAutoRotateInterval);
         speakerAutoRotateInterval = null;
+    }
+}
+
+// ===== AGENDA RENDERING =====
+function renderAgenda() {
+    eventData.agenda.forEach((day, index) => {
+        const scheduleContainer = document.getElementById(`day${index + 1}-schedule`);
+        if (!scheduleContainer) return;
+        
+        const sessionsHtml = day.sessions.map(session => `
+            <div class="agenda-item">
+                <div class="agenda-time">
+                    <div class="agenda-time-primary">${session.time}</div>
+                    ${session.duration ? `<div class="agenda-time-duration">${session.duration}</div>` : ''}
+                </div>
+                <div class="agenda-details">
+                    <h3 class="agenda-title">${session.title}</h3>
+                    <div class="agenda-meta">
+                        ${session.speaker ? `
+                            <span class="agenda-speaker">
+                                <i class="fas fa-user"></i>
+                                ${session.speaker}
+                            </span>
+                        ` : ''}
+                        ${session.location ? `
+                            <span class="agenda-location">
+                                <i class="fas fa-map-marker-alt"></i>
+                                ${session.location}
+                            </span>
+                        ` : ''}
+                        ${session.tag ? `
+                            <span class="agenda-tag">${session.tag}</span>
+                        ` : ''}
+                    </div>
+                    ${session.description ? `
+                        <p class="agenda-description">${session.description}</p>
+                    ` : ''}
+                </div>
+            </div>
+        `).join('');
+        
+        scheduleContainer.innerHTML = sessionsHtml;
+    });
+    
+    // Initialize tab functionality
+    initAgendaTabs();
+}
+
+function initAgendaTabs() {
+    const tabs = document.querySelectorAll('.agenda-tab');
+    const panels = document.querySelectorAll('.agenda-panel');
+    
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            switchAgendaTab(tab, tabs, panels);
+        });
+        
+        // Keyboard navigation
+        tab.addEventListener('keydown', (e) => {
+            handleAgendaKeyboard(e, tab, tabs);
+        });
+    });
+}
+
+function switchAgendaTab(selectedTab, allTabs, allPanels) {
+    const targetPanel = selectedTab.getAttribute('aria-controls');
+    
+    // Deactivate all tabs and panels
+    allTabs.forEach(tab => {
+        tab.classList.remove('active');
+        tab.setAttribute('aria-selected', 'false');
+    });
+    
+    allPanels.forEach(panel => {
+        panel.classList.remove('active');
+        panel.setAttribute('hidden', '');
+    });
+    
+    // Activate selected tab and panel
+    selectedTab.classList.add('active');
+    selectedTab.setAttribute('aria-selected', 'true');
+    
+    const panel = document.getElementById(targetPanel);
+    if (panel) {
+        panel.classList.add('active');
+        panel.removeAttribute('hidden');
+    }
+}
+
+function handleAgendaKeyboard(e, currentTab, allTabs) {
+    let newIndex = -1;
+    const currentIndex = Array.from(allTabs).indexOf(currentTab);
+    
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+        e.preventDefault();
+        newIndex = currentIndex + 1;
+        if (newIndex >= allTabs.length) newIndex = 0;
+    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+        e.preventDefault();
+        newIndex = currentIndex - 1;
+        if (newIndex < 0) newIndex = allTabs.length - 1;
+    } else if (e.key === 'Home') {
+        e.preventDefault();
+        newIndex = 0;
+    } else if (e.key === 'End') {
+        e.preventDefault();
+        newIndex = allTabs.length - 1;
+    }
+    
+    if (newIndex !== -1) {
+        allTabs[newIndex].focus();
+        allTabs[newIndex].click();
     }
 }
 
@@ -1298,6 +1568,7 @@ document.addEventListener('DOMContentLoaded', () => {
     renderSponsors();
     renderPillars();
     renderSpeakers();
+    renderAgenda();
     renderVenue();
     renderPresentingSponsors();
     initFAQ();

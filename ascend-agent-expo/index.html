@@ -36,6 +36,7 @@
                 <a href="#sponsors" class="nav-link">Sponsors</a>
                 <a href="#why-attend" class="nav-link">Why Attend</a>
                 <a href="#featured-speaker" class="nav-link">Speakers</a>
+                <a href="#agenda" class="nav-link">Agenda</a>
                 <a href="#tickets" class="nav-link">Register</a>
                 <a href="#venue" class="nav-link">Venue</a>
                 <a href="#faq" class="nav-link">FAQ</a>
@@ -146,11 +147,11 @@
                     <div class="stat-label">Professionals Trained</div>
                 </div>
                 <div class="stat-item">
-                    <div class="stat-number" data-target="95" data-suffix="%">0</div>
-                    <div class="stat-label">Success Rate</div>
+                    <div class="stat-number" data-target="50" data-suffix="+">0</div>
+                    <div class="stat-label">Free Classes Held</div>
                 </div>
                 <div class="stat-item">
-                    <div class="stat-number" data-target="50" data-suffix="+">0</div>
+                    <div class="stat-number" data-target="35" data-suffix="+">0</div>
                     <div class="stat-label">Expert Instructors</div>
                 </div>
                 <div class="stat-item">
@@ -267,6 +268,67 @@
                 <div class="all-speakers-grid" id="all-speakers-grid">
                     <!-- Speaker cards will be populated by JavaScript -->
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Agenda Section -->
+    <section class="agenda" id="agenda">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Agenda</h2>
+                <p class="section-subtitle">Two days of actionable insights, expert sessions, and networking opportunities.</p>
+            </div>
+            
+            <!-- Day Tabs -->
+            <div class="agenda-tabs" role="tablist" aria-label="Event days">
+                <button class="agenda-tab active" 
+                        role="tab" 
+                        aria-selected="true" 
+                        aria-controls="day1-panel"
+                        id="day1-tab"
+                        data-day="day1">
+                    Day 1
+                    <span class="agenda-tab-date">October 16, 2025</span>
+                </button>
+                <button class="agenda-tab" 
+                        role="tab" 
+                        aria-selected="false" 
+                        aria-controls="day2-panel"
+                        id="day2-tab"
+                        data-day="day2">
+                    Day 2
+                    <span class="agenda-tab-date">October 17, 2025</span>
+                </button>
+            </div>
+            
+            <!-- Day 1 Panel -->
+            <div class="agenda-panel active" 
+                 role="tabpanel" 
+                 id="day1-panel" 
+                 aria-labelledby="day1-tab">
+                <div class="agenda-schedule" id="day1-schedule">
+                    <!-- Schedule items will be populated by JavaScript -->
+                </div>
+            </div>
+            
+            <!-- Day 2 Panel -->
+            <div class="agenda-panel" 
+                 role="tabpanel" 
+                 id="day2-panel" 
+                 aria-labelledby="day2-tab"
+                 hidden>
+                <div class="agenda-schedule" id="day2-schedule">
+                    <!-- Schedule items will be populated by JavaScript -->
+                </div>
+            </div>
+            
+            <!-- Download CTA -->
+            <div class="agenda-cta">
+                <a href="img/FallCon2025Agenda.pdf" class="btn btn-outline btn-large" target="_blank" rel="noopener noreferrer">
+                    Download Full Agenda
+                    <span class="btn-arrow">↓</span>
+                </a>
             </div>
         </div>
     </section>
