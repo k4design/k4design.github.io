@@ -35,6 +35,7 @@
             <div class="nav-links">
                 <a href="#sponsors" class="nav-link">Sponsors</a>
                 <a href="#why-attend" class="nav-link">Why Attend</a>
+                <a href="#featured-speaker" class="nav-link">Speakers</a>
                 <a href="#tickets" class="nav-link">Register</a>
                 <a href="#venue" class="nav-link">Venue</a>
                 <a href="#faq" class="nav-link">FAQ</a>
@@ -214,6 +215,62 @@
         </div>
     </section>
 
+    <!-- Featured Speaker Section -->
+    <section class="featured-speaker" id="featured-speaker">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Featured Speaker</h2>
+                <p class="section-subtitle">Hear from industry leaders shaping the future of real estate.</p>
+            </div>
+            
+            <div class="speaker-carousel" 
+                 role="region" 
+                 aria-label="Featured speakers carousel"
+                 aria-live="polite">
+                <div class="speaker-carousel-inner" id="speaker-carousel-inner">
+                    <!-- Speakers will be populated by JavaScript -->
+                </div>
+                
+                <div class="speaker-controls">
+                    <button class="speaker-nav-btn speaker-prev" 
+                            aria-label="Previous speaker"
+                            type="button">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="speaker-nav-btn speaker-next" 
+                            aria-label="Next speaker"
+                            type="button">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+                
+                <div class="speaker-dots" id="speaker-dots" role="tablist" aria-label="Speaker navigation">
+                    <!-- Dots will be populated by JavaScript -->
+                </div>
+            </div>
+            
+            <div class="speaker-more-info" id="speaker-more-info">
+                <p class="speaker-count-text">
+                    <span class="speaker-count-number" id="additional-speaker-count">7</span> more industry experts speaking at the expo
+                </p>
+            </div>
+            
+            <div class="speaker-cta">
+                <button class="btn btn-outline btn-large" id="view-all-speakers-btn" aria-expanded="false">
+                    View All Speakers
+                    <span class="btn-arrow" id="speaker-arrow">↓</span>
+                </button>
+            </div>
+            
+            <!-- All Speakers Grid (Hidden by default) -->
+            <div class="all-speakers-grid-container" id="all-speakers-container" style="display: none;" aria-hidden="true">
+                <div class="all-speakers-grid" id="all-speakers-grid">
+                    <!-- Speaker cards will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Registration Section -->
     <section class="tickets" id="tickets">
         <div class="container">
@@ -356,18 +413,6 @@
                         Register Free
                         <span class="btn-arrow">→</span>
                     </a>
-                    <a href="#" class="btn btn-outline btn-large">
-                        Download Agenda
-                        <span class="btn-arrow">→</span>
-                    </a>
-                </div>
-                
-                <div class="newsletter-signup">
-                    <h3>Stay Updated</h3>
-                    <form class="newsletter-form" id="newsletter-form">
-                        <input type="email" placeholder="Enter your email" required>
-                        <button type="submit" class="btn btn-secondary">Subscribe</button>
-                    </form>
                 </div>
             </div>
         </div>

@@ -150,6 +150,105 @@ const eventData = {
         }
     ],
     
+    speakers: [
+        {
+            name: "Sarah Martinez",
+            title: "Chief Innovation Officer",
+            company: "Premier Real Estate Group",
+            photo: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=800&h=800&fit=crop",
+            tagline: "Transforming the future of real estate through technology and human connection.",
+            bioUrl: "#"
+        },
+        {
+            name: "Michael Chen",
+            title: "Top Producer & Team Leader",
+            company: "Luxury Properties International",
+            photo: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=800&h=800&fit=crop",
+            tagline: "Building seven-figure businesses through strategic lead generation and client relationships.",
+            bioUrl: "#"
+        },
+        {
+            name: "Jennifer Thompson",
+            title: "CEO & Founder",
+            company: "Market Dominance Academy",
+            photo: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=800&h=800&fit=crop",
+            tagline: "Empowering agents to scale their businesses with proven systems and sustainable growth strategies.",
+            bioUrl: "#"
+        },
+        {
+            name: "David Rodriguez",
+            title: "Digital Marketing Strategist",
+            company: "RealEstate.AI",
+            photo: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=800&fit=crop",
+            tagline: "Leveraging AI and automation to revolutionize how agents attract and convert clients.",
+            bioUrl: "#"
+        },
+        {
+            name: "Amanda Foster",
+            title: "Luxury Market Specialist",
+            company: "Elite Estates Global",
+            photo: "https://images.unsplash.com/photo-1594744803329-e58b31de8bf5?w=800&h=800&fit=crop",
+            tagline: "Mastering high-end property sales through personalized client experiences.",
+            bioUrl: "#"
+        },
+        {
+            name: "James Patterson",
+            title: "Investment Property Expert",
+            company: "Wealth Builder Realty",
+            photo: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=800&h=800&fit=crop",
+            tagline: "Helping investors build wealth through strategic real estate acquisitions.",
+            bioUrl: "#"
+        },
+        {
+            name: "Lisa Wang",
+            title: "Social Media Marketing Coach",
+            company: "Digital Agent Academy",
+            photo: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=800&h=800&fit=crop",
+            tagline: "Teaching agents to dominate social media and attract qualified leads organically.",
+            bioUrl: "#"
+        },
+        {
+            name: "Robert Taylor",
+            title: "Negotiation Strategist",
+            company: "Deal Makers Institute",
+            photo: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=800&h=800&fit=crop",
+            tagline: "Expert tactics for winning negotiations and maximizing client outcomes.",
+            bioUrl: "#"
+        },
+        {
+            name: "Maria Gonzalez",
+            title: "First-Time Buyer Specialist",
+            company: "New Home Navigators",
+            photo: "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=800&h=800&fit=crop",
+            tagline: "Guiding new buyers through the home purchase process with confidence and clarity.",
+            bioUrl: "#"
+        },
+        {
+            name: "Kevin Anderson",
+            title: "Commercial Real Estate Advisor",
+            company: "Business Property Solutions",
+            photo: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=800&h=800&fit=crop",
+            tagline: "Connecting businesses with ideal commercial spaces for growth and success.",
+            bioUrl: "#"
+        },
+        {
+            name: "Nicole Johnson",
+            title: "Staging & Design Consultant",
+            company: "Home Impression Studios",
+            photo: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=800&h=800&fit=crop",
+            tagline: "Transforming properties to sell faster and for higher prices through strategic staging.",
+            bioUrl: "#"
+        },
+        {
+            name: "Christopher Lee",
+            title: "Tech Integration Specialist",
+            company: "PropTech Innovations",
+            photo: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=800&h=800&fit=crop",
+            tagline: "Implementing cutting-edge technology solutions to streamline real estate operations.",
+            bioUrl: "#"
+        }
+    ],
+    
     // Tickets section is now static HTML - no data needed
     
     venue: {
@@ -507,6 +606,362 @@ function renderPillars() {
     pillarsGrid.innerHTML = html;
 }
 
+// ===== FEATURED SPEAKER CAROUSEL =====
+let currentSpeakerIndex = 0;
+let speakerAutoRotateInterval = null;
+let speakerRotationPaused = false;
+let speakerLastInteractionTime = 0;
+let speakerTouchStartX = 0;
+let speakerTouchEndX = 0;
+
+function renderSpeakers() {
+    const carouselInner = document.getElementById('speaker-carousel-inner');
+    const dotsContainer = document.getElementById('speaker-dots');
+    
+    if (!carouselInner || !dotsContainer) return;
+
+    // Limit carousel to first 5 speakers
+    const featuredSpeakers = eventData.speakers.slice(0, 5);
+
+    // Render speaker slides
+    const slidesHtml = featuredSpeakers.map((speaker, index) => `
+        <div class="speaker-slide ${index === 0 ? 'active' : ''}" 
+             data-index="${index}"
+             role="tabpanel"
+             aria-label="Speaker ${index + 1} of ${featuredSpeakers.length}: ${speaker.name}">
+            <div class="speaker-image-container">
+                <img src="${speaker.photo}" 
+                     alt="${speaker.name}" 
+                     class="speaker-headshot"
+                     loading="${index === 0 ? 'eager' : 'lazy'}">
+            </div>
+            <div class="speaker-content">
+                <h3 class="speaker-name">${speaker.name}</h3>
+                <p class="speaker-title">${speaker.title}</p>
+                <p class="speaker-company">${speaker.company}</p>
+                ${speaker.tagline ? `<p class="speaker-tagline">${speaker.tagline}</p>` : ''}
+                ${speaker.bioUrl ? `
+                    <a href="${speaker.bioUrl}" class="speaker-bio-link">
+                        Read Full Bio
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                ` : ''}
+            </div>
+        </div>
+    `).join('');
+
+    carouselInner.innerHTML = slidesHtml;
+
+    // Render dots
+    const dotsHtml = featuredSpeakers.map((speaker, index) => `
+        <button class="speaker-dot ${index === 0 ? 'active' : ''}" 
+                data-index="${index}"
+                role="tab"
+                aria-label="Go to speaker ${index + 1}: ${speaker.name}"
+                aria-selected="${index === 0}">
+        </button>
+    `).join('');
+
+    dotsContainer.innerHTML = dotsHtml;
+
+    // Initialize carousel
+    initSpeakerCarousel();
+    
+    // Update speaker count display
+    updateSpeakerCount(featuredSpeakers.length);
+    
+    // Render all speakers grid
+    renderAllSpeakersGrid();
+    
+    // Initialize view all toggle
+    initViewAllSpeakersToggle();
+}
+
+function updateSpeakerCount(featuredCount) {
+    const countElement = document.getElementById('additional-speaker-count');
+    if (!countElement) return;
+    
+    const totalSpeakers = eventData.speakers.length;
+    const additionalSpeakers = totalSpeakers - featuredCount;
+    
+    if (additionalSpeakers > 0) {
+        countElement.textContent = additionalSpeakers;
+    }
+}
+
+function renderAllSpeakersGrid() {
+    const gridContainer = document.getElementById('all-speakers-grid');
+    if (!gridContainer) return;
+
+    const cardsHtml = eventData.speakers.map((speaker, index) => `
+        <div class="speaker-card">
+            <div class="speaker-card-image">
+                <img src="${speaker.photo}" 
+                     alt="${speaker.name}" 
+                     class="speaker-card-photo"
+                     loading="lazy">
+            </div>
+            <div class="speaker-card-content">
+                <h3 class="speaker-card-name">${speaker.name}</h3>
+                <p class="speaker-card-title">${speaker.title}</p>
+                <p class="speaker-card-company">${speaker.company}</p>
+                ${speaker.tagline ? `<p class="speaker-card-tagline">${speaker.tagline}</p>` : ''}
+                ${speaker.bioUrl ? `
+                    <a href="${speaker.bioUrl}" class="speaker-card-link">
+                        Read Full Bio
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                ` : ''}
+            </div>
+        </div>
+    `).join('');
+
+    gridContainer.innerHTML = cardsHtml;
+}
+
+function initViewAllSpeakersToggle() {
+    const toggleBtn = document.getElementById('view-all-speakers-btn');
+    const container = document.getElementById('all-speakers-container');
+    const arrow = document.getElementById('speaker-arrow');
+    
+    if (!toggleBtn || !container) return;
+
+    toggleBtn.addEventListener('click', (e) => {
+        e.preventDefault(); // Prevent default button behavior
+        const isExpanded = toggleBtn.getAttribute('aria-expanded') === 'true';
+        
+        if (isExpanded) {
+            // Collapse
+            container.classList.remove('visible');
+            container.setAttribute('aria-hidden', 'true');
+            toggleBtn.setAttribute('aria-expanded', 'false');
+            toggleBtn.innerHTML = 'View All Speakers <span class="btn-arrow" id="speaker-arrow">↓</span>';
+        } else {
+            // Expand
+            container.style.display = 'block';
+            setTimeout(() => {
+                container.classList.add('visible');
+                container.setAttribute('aria-hidden', 'false');
+                toggleBtn.setAttribute('aria-expanded', 'true');
+                toggleBtn.innerHTML = 'Hide Speakers <span class="btn-arrow" id="speaker-arrow">↑</span>';
+            }, 10);
+        }
+    });
+}
+
+function initSpeakerCarousel() {
+    const carousel = document.querySelector('.speaker-carousel');
+    const prevBtn = document.querySelector('.speaker-prev');
+    const nextBtn = document.querySelector('.speaker-next');
+    const dotsContainer = document.getElementById('speaker-dots');
+    
+    if (!carousel) return;
+
+    // Navigation button handlers
+    if (prevBtn) {
+        prevBtn.addEventListener('click', () => {
+            changeSpeaker('prev');
+            pauseSpeakerRotationTemporarily();
+        });
+    }
+
+    if (nextBtn) {
+        nextBtn.addEventListener('click', () => {
+            changeSpeaker('next');
+            pauseSpeakerRotationTemporarily();
+        });
+    }
+
+    // Dot navigation
+    if (dotsContainer) {
+        dotsContainer.addEventListener('click', (e) => {
+            const dot = e.target.closest('.speaker-dot');
+            if (dot) {
+                const index = parseInt(dot.dataset.index);
+                goToSpeaker(index);
+                pauseSpeakerRotationTemporarily();
+            }
+        });
+    }
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+        const carousel = document.querySelector('.speaker-carousel');
+        if (!carousel) return;
+        
+        // Check if carousel is in viewport
+        const rect = carousel.getBoundingClientRect();
+        const isInViewport = rect.top < window.innerHeight && rect.bottom > 0;
+        
+        if (isInViewport) {
+            if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                changeSpeaker('prev');
+                pauseSpeakerRotationTemporarily();
+            } else if (e.key === 'ArrowRight') {
+                e.preventDefault();
+                changeSpeaker('next');
+                pauseSpeakerRotationTemporarily();
+            }
+        }
+    });
+
+    // Hover pause/resume
+    carousel.addEventListener('mouseenter', () => {
+        pauseSpeakerRotation();
+        carousel.classList.add('paused');
+    });
+
+    carousel.addEventListener('mouseleave', () => {
+        resumeSpeakerRotation();
+        carousel.classList.remove('paused');
+    });
+
+    // Focus pause/resume
+    carousel.addEventListener('focusin', () => {
+        pauseSpeakerRotation();
+        carousel.classList.add('paused');
+    });
+
+    carousel.addEventListener('focusout', () => {
+        resumeSpeakerRotation();
+        carousel.classList.remove('paused');
+    });
+
+    // Touch/swipe gestures for mobile
+    const carouselInner = document.getElementById('speaker-carousel-inner');
+    if (carouselInner) {
+        carouselInner.addEventListener('touchstart', (e) => {
+            speakerTouchStartX = e.touches[0].clientX;
+        }, { passive: true });
+
+        carouselInner.addEventListener('touchend', (e) => {
+            speakerTouchEndX = e.changedTouches[0].clientX;
+            handleSpeakerSwipe();
+        }, { passive: true });
+    }
+
+    // Start auto-rotation
+    startSpeakerRotation();
+}
+
+function changeSpeaker(direction) {
+    const slides = document.querySelectorAll('.speaker-slide');
+    const dots = document.querySelectorAll('.speaker-dot');
+    
+    if (!slides.length) return;
+
+    // Remove active class from current slide
+    slides[currentSpeakerIndex].classList.remove('active', 'slide-in-left', 'slide-in-right');
+    dots[currentSpeakerIndex].classList.remove('active');
+    dots[currentSpeakerIndex].setAttribute('aria-selected', 'false');
+
+    // Calculate new index
+    if (direction === 'next') {
+        currentSpeakerIndex = (currentSpeakerIndex + 1) % slides.length;
+    } else {
+        currentSpeakerIndex = (currentSpeakerIndex - 1 + slides.length) % slides.length;
+    }
+
+    // Add active class to new slide with animation
+    const animationClass = direction === 'next' ? 'slide-in-right' : 'slide-in-left';
+    slides[currentSpeakerIndex].classList.add('active', animationClass);
+    dots[currentSpeakerIndex].classList.add('active');
+    dots[currentSpeakerIndex].setAttribute('aria-selected', 'true');
+
+    // Update ARIA live region for screen readers
+    const carousel = document.querySelector('.speaker-carousel');
+    const speaker = eventData.speakers[currentSpeakerIndex];
+    carousel?.setAttribute('aria-label', 
+        `Now showing speaker ${currentSpeakerIndex + 1} of ${slides.length}: ${speaker.name}, ${speaker.title} at ${speaker.company}`
+    );
+}
+
+function goToSpeaker(index) {
+    const slides = document.querySelectorAll('.speaker-slide');
+    const dots = document.querySelectorAll('.speaker-dot');
+    
+    if (index === currentSpeakerIndex || !slides.length) return;
+
+    const direction = index > currentSpeakerIndex ? 'next' : 'prev';
+
+    // Remove active class from current slide
+    slides[currentSpeakerIndex].classList.remove('active', 'slide-in-left', 'slide-in-right');
+    dots[currentSpeakerIndex].classList.remove('active');
+    dots[currentSpeakerIndex].setAttribute('aria-selected', 'false');
+
+    // Update index
+    currentSpeakerIndex = index;
+
+    // Add active class to new slide with animation
+    const animationClass = direction === 'next' ? 'slide-in-right' : 'slide-in-left';
+    slides[currentSpeakerIndex].classList.add('active', animationClass);
+    dots[currentSpeakerIndex].classList.add('active');
+    dots[currentSpeakerIndex].setAttribute('aria-selected', 'true');
+
+    // Update ARIA
+    const carousel = document.querySelector('.speaker-carousel');
+    const speaker = eventData.speakers[currentSpeakerIndex];
+    carousel?.setAttribute('aria-label', 
+        `Now showing speaker ${currentSpeakerIndex + 1} of ${slides.length}: ${speaker.name}`
+    );
+}
+
+function handleSpeakerSwipe() {
+    const swipeThreshold = 50;
+    const diff = speakerTouchStartX - speakerTouchEndX;
+
+    if (Math.abs(diff) > swipeThreshold) {
+        if (diff > 0) {
+            // Swipe left - next slide
+            changeSpeaker('next');
+        } else {
+            // Swipe right - previous slide
+            changeSpeaker('prev');
+        }
+        pauseSpeakerRotationTemporarily();
+    }
+}
+
+function startSpeakerRotation() {
+    if (speakerAutoRotateInterval) return;
+    
+    // Auto-rotate every 5 seconds (5000ms)
+    speakerAutoRotateInterval = setInterval(() => {
+        if (!speakerRotationPaused) {
+            changeSpeaker('next');
+        }
+    }, 5000);
+}
+
+function pauseSpeakerRotation() {
+    speakerRotationPaused = true;
+}
+
+function resumeSpeakerRotation() {
+    speakerRotationPaused = false;
+}
+
+function pauseSpeakerRotationTemporarily() {
+    speakerRotationPaused = true;
+    speakerLastInteractionTime = Date.now();
+
+    // Resume after 10 seconds of no interaction
+    setTimeout(() => {
+        const timeSinceLastInteraction = Date.now() - speakerLastInteractionTime;
+        if (timeSinceLastInteraction >= 10000) {
+            speakerRotationPaused = false;
+        }
+    }, 10000);
+}
+
+function stopSpeakerRotation() {
+    if (speakerAutoRotateInterval) {
+        clearInterval(speakerAutoRotateInterval);
+        speakerAutoRotateInterval = null;
+    }
+}
+
 // ===== TICKETS RENDERING =====
 // Tickets section is now static HTML - no JavaScript rendering needed
 
@@ -842,10 +1297,10 @@ document.addEventListener('DOMContentLoaded', () => {
     initCountdown();
     renderSponsors();
     renderPillars();
+    renderSpeakers();
     renderVenue();
     renderPresentingSponsors();
     initFAQ();
-    initNewsletter();
     initAnimations();
     initAccessibility();
     initPerformance();
@@ -870,6 +1325,10 @@ function updateEventData(newData) {
     // Re-render affected sections
     renderSponsors();
     renderPillars();
+    if (newData.speakers) {
+        stopSpeakerRotation();
+        renderSpeakers();
+    }
     renderVenue();
     renderPresentingSponsors();
     initFAQ();
