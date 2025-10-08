@@ -490,10 +490,6 @@ const eventData = {
             answer: "Bring business cards for networking, a notebook or device for taking notes, comfortable shoes for walking, and professional attire. We recommend planning for meals on your own as food is not provided at the event."
         },
         {
-            question: "Can I transfer my ticket?",
-            answer: "Yes, free tickets can be transferred to another eligible real estate professional. Please contact our support team for assistance with ticket transfers."
-        },
-        {
             question: "What is the code of conduct?",
             answer: "We maintain a professional, inclusive environment. Harassment, discrimination, or disruptive behavior will not be tolerated. All attendees must treat others with respect and professionalism."
         },
