@@ -2553,6 +2553,38 @@ body {
     line-height: 1.4;
 }
 
+.speaker-card-session {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 2px solid rgba(0, 146, 255, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.speaker-card-time {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #00ff91;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.speaker-card-time i {
+    font-size: 0.75rem;
+    color: #0092ff;
+}
+
+.speaker-card-session-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #1f2937;
+    margin: 0;
+    line-height: 1.4;
+}
+
 .speaker-card-tagline {
     font-size: 0.875rem;
     color: #374151;
