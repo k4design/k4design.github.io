@@ -152,21 +152,30 @@ const eventData = {
     
     speakers: [
         {
+            name: "Barry Jenkins",
+            title: "CMO & Technology Evangelist",
+            company: "Better Homes and Gardens Real Estate NAGR",
+            photo: "img/blakejekins.jpg",
+            tagline: "Innovative leader at the intersection of real estate and technology, driving transformation through AI and digital solutions.",
+            bioUrl: "#",
+            bio: "Barry Jenkins is an innovative real estate leader with nearly two decades of experience at the intersection of technology and results-driven leadership. As Chief Marketing Officer of Better Homes and Gardens Real Estate NAGR, he leads a top-performing team in Virginia Beach, VA, achieving thousands of transactions and earning a top national ranking on Real Trends Top 1,000 Teams. Barry also serves as Head Realtor in Residence at Ylopo, focusing on training, product development, and championing transformative technology. As an author, speaker, and ordained minister, he is deeply committed to his faith, family, and creating a legacy of integrity and excellence."
+        },
+        {
+            name: "Bobby Moats",
+            title: "AI Expert & Real Estate Innovator",
+            company: "Speculo AI",
+            photo: "img/bobbymoats.png",
+            tagline: "Leveraging AI to transform how agents connect with leads and scale their businesses.",
+            bioUrl: "#",
+            bio: "Bobby Moats is passionate about driving innovation and empowering real estate professionals to achieve extraordinary results. With over a decade of experience, he has built his career on blending strategic leadership, cutting-edge technology, and a deep understanding of what agents and clients need to succeed. As founder of Speculo AI, Bobby is committed to leveraging artificial intelligence to transform how agents connect with leads, nurture relationships, and scale their businesses. His work focuses on creating tools and systems that simplify processes, improve efficiency, and deliver measurable results—all while ensuring a personal touch remains at the core of real estate transactions."
+        },
+        {
             name: "Marissa Canario",
             title: "Real Estate Professional",
             company: "",
             photo: "img/MarissaCanario.jpg",
             tagline: "Expert in lead conversion and brokerage model evolution.",
             bioUrl: "#"
-        },
-        {
-            name: "Bobby Moats",
-            title: "AI Expert & Real Estate Innovator",
-            company: "Speculo AI",
-            photo: "img/sponsors/bobbymoats.jpg",
-            tagline: "Leveraging AI to transform how agents connect with leads and scale their businesses.",
-            bioUrl: "#",
-            bio: "Bobby Moats is passionate about driving innovation and empowering real estate professionals to achieve extraordinary results. With over a decade of experience, he has built his career on blending strategic leadership, cutting-edge technology, and a deep understanding of what agents and clients need to succeed. As founder of Speculo AI, Bobby is committed to leveraging artificial intelligence to transform how agents connect with leads, nurture relationships, and scale their businesses. His work focuses on creating tools and systems that simplify processes, improve efficiency, and deliver measurable results—all while ensuring a personal touch remains at the core of real estate transactions."
         },
         {
             name: "Michael Perna",
@@ -185,15 +194,6 @@ const eventData = {
             tagline: "Passionate about real estate as a vehicle for opportunity and community good.",
             bioUrl: "#",
             bio: "Blair has an unquenchable passion for real estate as a vehicle for opportunity and for community good. Blair began her real estate career in Vermont in 2013 at Keller Williams Vermont and went on to form her own team at the firm in 2015, The Knowles Group. In 2020 Blair and her team left the brokerage at Keller Williams to form their own brokerage, Ridgeline Real Estate. Outside of Ridgeline Real Estate Blair is a property owner and a landlord in Vermont. She is also an avid yoga practitioner."
-        },
-        {
-            name: "Barry Jenkins",
-            title: "CMO & Technology Evangelist",
-            company: "Better Homes and Gardens Real Estate NAGR",
-            photo: "img/blakejekins.jpg",
-            tagline: "Innovative leader at the intersection of real estate and technology, driving transformation through AI and digital solutions.",
-            bioUrl: "#",
-            bio: "Barry Jenkins is an innovative real estate leader with nearly two decades of experience at the intersection of technology and results-driven leadership. As Chief Marketing Officer of Better Homes and Gardens Real Estate NAGR, he leads a top-performing team in Virginia Beach, VA, achieving thousands of transactions and earning a top national ranking on Real Trends Top 1,000 Teams. Barry also serves as Head Realtor in Residence at Ylopo, focusing on training, product development, and championing transformative technology. As an author, speaker, and ordained minister, he is deeply committed to his faith, family, and creating a legacy of integrity and excellence."
         },
         {
             name: "Jessica Starr",
@@ -476,7 +476,7 @@ const eventData = {
     faq: [
         {
             question: "What is included in my free ticket?",
-            answer: "Your free ticket includes access to all expo exhibitors, 8 hours of educational content from the Expo Stage, 8 hours of educational content from the Expo Mini Stage, networking opportunities with top industry vendors, games, raffles, and prizes."
+            answer: "Your free ticket includes access to all expo exhibitors, 8 hours of educational content from the Expo Stage, networking opportunities with top industry vendors, games, raffles, and prizes."
         },
         {
             question: "Who is eligible for a free ticket?",
@@ -906,14 +906,16 @@ function initSpeakerCarousel() {
 
     // Navigation button handlers
     if (prevBtn) {
-        prevBtn.addEventListener('click', () => {
+        prevBtn.addEventListener('click', (e) => {
+            e.preventDefault();
             changeSpeaker('prev');
             pauseSpeakerRotationTemporarily();
         });
     }
 
     if (nextBtn) {
-        nextBtn.addEventListener('click', () => {
+        nextBtn.addEventListener('click', (e) => {
+            e.preventDefault();
             changeSpeaker('next');
             pauseSpeakerRotationTemporarily();
         });
@@ -922,6 +924,7 @@ function initSpeakerCarousel() {
     // Dot navigation
     if (dotsContainer) {
         dotsContainer.addEventListener('click', (e) => {
+            e.preventDefault();
             const dot = e.target.closest('.speaker-dot');
             if (dot) {
                 const index = parseInt(dot.dataset.index);
