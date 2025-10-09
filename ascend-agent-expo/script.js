@@ -369,31 +369,13 @@ const eventData = {
                     description: "Discover home warranty solutions for your clients."
                 },
                 {
-                    time: "3:15 PM",
-                    duration: "15 minutes",
+                    time: "3:15 PM – 4:00 PM",
+                    duration: "45 minutes",
                     title: "Glover",
                     speaker: "Glover",
                     location: "Expo Main Stage",
                     tag: "Vendor",
                     description: "Learn about Glover's real estate services."
-                },
-                {
-                    time: "3:30 PM",
-                    duration: "15 minutes",
-                    title: "Glover",
-                    speaker: "Glover",
-                    location: "Expo Main Stage",
-                    tag: "Vendor",
-                    description: "Continue learning about Glover's offerings."
-                },
-                {
-                    time: "3:45 PM",
-                    duration: "15 minutes",
-                    title: "Glover",
-                    speaker: "Glover",
-                    location: "Expo Main Stage",
-                    tag: "Vendor",
-                    description: "Final session with Glover."
                 }
             ]
         }
