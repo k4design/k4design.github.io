@@ -2170,6 +2170,44 @@ body {
     border-top: 2px solid #e5e7eb;
 }
 
+.speaker-session-info {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 2px solid rgba(0, 146, 255, 0.15);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.speaker-session-info + .speaker-session-info {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(0, 146, 255, 0.1);
+}
+
+.speaker-time {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #00ff91;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.speaker-time i {
+    font-size: 0.875rem;
+    color: #0092ff;
+}
+
+.speaker-session-title {
+    font-size: 1.0625rem;
+    font-weight: 600;
+    color: #1f2937;
+    margin: 0;
+    line-height: 1.4;
+}
+
 .speaker-bio-link {
     display: inline-flex;
     align-items: center;
@@ -2394,6 +2432,14 @@ body {
     }
     
     .speaker-tagline {
+        font-size: 1rem;
+    }
+    
+    .speaker-time {
+        font-size: 0.9375rem;
+    }
+    
+    .speaker-session-title {
         font-size: 1rem;
     }
     

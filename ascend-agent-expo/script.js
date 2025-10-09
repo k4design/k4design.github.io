@@ -826,25 +826,49 @@ function renderSpeakers() {
     const featuredSpeakers = eventData.speakers.slice(0, 5);
 
     // Render speaker slides
-    const slidesHtml = featuredSpeakers.map((speaker, index) => `
-        <div class="speaker-slide ${index === 0 ? 'active' : ''}" 
-             data-index="${index}"
-             role="tabpanel"
-             aria-label="Speaker ${index + 1} of ${featuredSpeakers.length}: ${speaker.name}">
-            <div class="speaker-image-container">
-                <img src="${speaker.photo}" 
-                     alt="${speaker.name}" 
-                     class="speaker-headshot"
-                     loading="${index === 0 ? 'eager' : 'lazy'}">
+    const slidesHtml = featuredSpeakers.map((speaker, index) => {
+        // Handle both single session and multiple sessions
+        let sessionsHtml = '';
+        
+        if (speaker.sessions && speaker.sessions.length > 0) {
+            // Multiple sessions
+            sessionsHtml = speaker.sessions.map(session => `
+                <div class="speaker-session-info">
+                    <p class="speaker-time"><i class="fas fa-clock"></i> ${session.speakingTime}</p>
+                    <p class="speaker-session-title">${session.sessionTitle}</p>
+                </div>
+            `).join('');
+        } else if (speaker.speakingTime) {
+            // Single session
+            sessionsHtml = `
+                <div class="speaker-session-info">
+                    <p class="speaker-time"><i class="fas fa-clock"></i> ${speaker.speakingTime}</p>
+                    <p class="speaker-session-title">${speaker.sessionTitle}</p>
+                </div>
+            `;
+        }
+        
+        return `
+            <div class="speaker-slide ${index === 0 ? 'active' : ''}" 
+                 data-index="${index}"
+                 role="tabpanel"
+                 aria-label="Speaker ${index + 1} of ${featuredSpeakers.length}: ${speaker.name}">
+                <div class="speaker-image-container">
+                    <img src="${speaker.photo}" 
+                         alt="${speaker.name}" 
+                         class="speaker-headshot"
+                         loading="${index === 0 ? 'eager' : 'lazy'}">
+                </div>
+                <div class="speaker-content">
+                    <h3 class="speaker-name">${speaker.name}</h3>
+                    <p class="speaker-title">${speaker.title}</p>
+                    <p class="speaker-company">${speaker.company}</p>
+                    ${sessionsHtml}
+                    ${speaker.tagline ? `<p class="speaker-tagline">${speaker.tagline}</p>` : ''}
+                </div>
             </div>
-            <div class="speaker-content">
-                <h3 class="speaker-name">${speaker.name}</h3>
-                <p class="speaker-title">${speaker.title}</p>
-                <p class="speaker-company">${speaker.company}</p>
-                ${speaker.tagline ? `<p class="speaker-tagline">${speaker.tagline}</p>` : ''}
-            </div>
-        </div>
-    `).join('');
+        `;
+    }).join('');
 
     carouselInner.innerHTML = slidesHtml;
 
