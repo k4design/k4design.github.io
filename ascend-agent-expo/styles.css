@@ -694,6 +694,7 @@ body {
 
 /* ===== GIVEAWAY CTA BAR ===== */
 .giveaway-cta-bar {
+    display: none;
     background: linear-gradient(135deg, #1f2937 0%, #374151 100%);
     padding: 24px 0;
     position: relative;
@@ -771,6 +772,7 @@ body {
 
 /* ===== GIVEAWAY SECTION ===== */
 .giveaway {
+    display: none;
     padding: 120px 0;
     background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
     position: relative;
@@ -991,6 +993,7 @@ body {
     
     .giveaway-detail-value {
         font-size: 1rem;
+        text-align: left;
     }
 }
 
@@ -2065,6 +2068,72 @@ body {
     padding: 0 80px;
 }
 
+/* Swipe Hint Indicator */
+.swipe-hint {
+    position: absolute;
+    bottom: 120px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    background: rgba(0, 146, 255, 0.95);
+    padding: 12px 24px;
+    border-radius: 50px;
+    box-shadow: 0 4px 20px rgba(0, 146, 255, 0.4);
+    animation: swipeHintPulse 2s ease-in-out infinite;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.swipe-hint.fade-out {
+    opacity: 0;
+}
+
+.swipe-hint-content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: white;
+}
+
+.swipe-hint-text {
+    font-size: 0.875rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.swipe-icon-left,
+.swipe-icon-right {
+    font-size: 1rem;
+    animation: swipeIconBounce 1.5s ease-in-out infinite;
+}
+
+.swipe-icon-left {
+    animation-delay: 0s;
+}
+
+.swipe-icon-right {
+    animation-delay: 0.75s;
+}
+
+@keyframes swipeHintPulse {
+    0%, 100% {
+        box-shadow: 0 4px 20px rgba(0, 146, 255, 0.4);
+    }
+    50% {
+        box-shadow: 0 4px 30px rgba(0, 146, 255, 0.6);
+    }
+}
+
+@keyframes swipeIconBounce {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    50% {
+        transform: translateX(-3px);
+    }
+}
+
 .speaker-carousel-inner {
     position: relative;
     overflow: hidden;
@@ -2441,6 +2510,15 @@ body {
     
     .speaker-session-title {
         font-size: 1rem;
+    }
+    
+    .swipe-hint {
+        bottom: 80px;
+        padding: 10px 20px;
+    }
+    
+    .swipe-hint-text {
+        font-size: 0.8125rem;
     }
     
     .speaker-nav-btn {

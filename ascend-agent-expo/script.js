@@ -1095,6 +1095,8 @@ function initSpeakerCarousel() {
     if (carouselInner) {
         carouselInner.addEventListener('touchstart', (e) => {
             speakerTouchStartX = e.touches[0].clientX;
+            // Hide swipe hint on first touch
+            hideSwipeHint();
         }, { passive: true });
 
         carouselInner.addEventListener('touchend', (e) => {
@@ -1102,6 +1104,9 @@ function initSpeakerCarousel() {
             handleSpeakerSwipe();
         }, { passive: true });
     }
+
+    // Add swipe hint for mobile
+    addSwipeHint();
 
     // Start auto-rotation
     startSpeakerRotation();
@@ -1221,6 +1226,56 @@ function stopSpeakerRotation() {
     if (speakerAutoRotateInterval) {
         clearInterval(speakerAutoRotateInterval);
         speakerAutoRotateInterval = null;
+    }
+}
+
+// ===== SWIPE HINT FUNCTIONALITY =====
+function addSwipeHint() {
+    // Only show on mobile devices
+    if (window.innerWidth > 768) return;
+    
+    const carousel = document.querySelector('.speaker-carousel');
+    if (!carousel) return;
+    
+    // Check if hint already exists
+    if (document.querySelector('.swipe-hint')) return;
+    
+    // Create swipe hint element
+    const swipeHint = document.createElement('div');
+    swipeHint.className = 'swipe-hint';
+    swipeHint.innerHTML = `
+        <div class="swipe-hint-content">
+            <i class="fas fa-hand-point-right swipe-icon-left"></i>
+            <span class="swipe-hint-text">Swipe to see more speakers</span>
+            <i class="fas fa-hand-point-left swipe-icon-right"></i>
+        </div>
+    `;
+    
+    carousel.appendChild(swipeHint);
+    
+    // Fade out after 4 seconds
+    setTimeout(() => {
+        const hint = document.querySelector('.swipe-hint');
+        if (hint) {
+            hint.classList.add('fade-out');
+            setTimeout(() => {
+                if (hint.parentNode) {
+                    hint.remove();
+                }
+            }, 500);
+        }
+    }, 4000);
+}
+
+function hideSwipeHint() {
+    const swipeHint = document.querySelector('.swipe-hint');
+    if (swipeHint) {
+        swipeHint.classList.add('fade-out');
+        setTimeout(() => {
+            if (swipeHint.parentNode) {
+                swipeHint.remove();
+            }
+        }, 300);
     }
 }
 
