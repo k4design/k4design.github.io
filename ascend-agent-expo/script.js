@@ -160,6 +160,7 @@ const eventData = {
             bioUrl: "#",
             bio: "Barry Jenkins is an innovative real estate leader with nearly two decades of experience at the intersection of technology and results-driven leadership. As Chief Marketing Officer of Better Homes and Gardens Real Estate NAGR, he leads a top-performing team in Virginia Beach, VA, achieving thousands of transactions and earning a top national ranking on Real Trends Top 1,000 Teams. Barry also serves as Head Realtor in Residence at Ylopo, focusing on training, product development, and championing transformative technology. As an author, speaker, and ordained minister, he is deeply committed to his faith, family, and creating a legacy of integrity and excellence.",
             speakingTime: "1:45 PM – 2:15 PM",
+            speakingDate: "Friday, Oct 17",
             sessionTitle: "The 30-Day Conversion Comeback: Turn Old Leads Into New Closings"
         },
         {
@@ -173,10 +174,12 @@ const eventData = {
             sessions: [
                 {
                     speakingTime: "11:00 AM – 11:30 AM",
+                    speakingDate: "Friday, Oct 17",
                     sessionTitle: "The Evolution of the Brokerage Model (Panel)"
                 },
                 {
                     speakingTime: "1:00 PM – 1:30 PM",
+                    speakingDate: "Friday, Oct 17",
                     sessionTitle: "Building Your AI-Powered Empire (Panel)"
                 }
             ]
@@ -191,10 +194,12 @@ const eventData = {
             sessions: [
                 {
                     speakingTime: "11:00 AM – 11:30 AM",
+                    speakingDate: "Friday, Oct 17",
                     sessionTitle: "The Evolution of the Brokerage Model (Panel)"
                 },
                 {
                     speakingTime: "1:45 PM – 2:15 PM",
+                    speakingDate: "Friday, Oct 17",
                     sessionTitle: "The 30-Day Conversion Comeback: Turn Old Leads Into New Closings"
                 }
             ]
@@ -208,6 +213,7 @@ const eventData = {
             bioUrl: "#",
             bio: "Michael Perna has been in real estate for over 20 years and spent the majority of his career with Keller Williams where he started his team in 2001 when realizing he had excelled as an individual agent and had room to grow and improve his overall client experience. The Perna Team is now with eXp Realty and has grown to the #1 real estate team in the state of Michigan with over 1000 families served in the past 12 months. The Perna Team aims at making every client relationship #1. Our objective is to ensure that we net the most for our sellers, as well as creating the smoothest transaction possible in addition to helping them find their dream home. Mike grew up in Farmington Hills Michigan and is passionate about the community and educating the community on the biggest investment most people will make in their lives. His energy and fun loving spirit is reflected in the culture of the team and the level of service provided to our clients.",
             speakingTime: "1:00 PM – 1:30 PM",
+            speakingDate: "Friday, Oct 17",
             sessionTitle: "Building Your AI-Powered Empire (Panel)"
         },
         {
@@ -219,6 +225,7 @@ const eventData = {
             bioUrl: "#",
             bio: "Blair has an unquenchable passion for real estate as a vehicle for opportunity and for community good. Blair began her real estate career in Vermont in 2013 at Keller Williams Vermont and went on to form her own team at the firm in 2015, The Knowles Group. In 2020 Blair and her team left the brokerage at Keller Williams to form their own brokerage, Ridgeline Real Estate. Outside of Ridgeline Real Estate Blair is a property owner and a landlord in Vermont. She is also an avid yoga practitioner.",
             speakingTime: "1:00 PM – 1:30 PM",
+            speakingDate: "Friday, Oct 17",
             sessionTitle: "Building Your AI-Powered Empire (Panel)"
         },
         {
@@ -230,6 +237,7 @@ const eventData = {
             bioUrl: "#",
             bio: "Jessica Cieslak Starr is a proud Quinnipiac University graduate and seasoned real estate professional known for her market insight, tireless work ethic, and personal touch. Clients praise her responsiveness, strategic approach, and genuine care. Beyond real estate, Jessica is a dedicated community advocate, mom of four, and wife to her high school sweetheart. She has spent over 20 years with the Simsbury Volunteer Fire Department Ladies Auxiliary and actively supports organizations including The Village for Families & Children and Journey Home CT. Rooted in Simsbury, her deep local knowledge comes from living, serving, and raising her family in the area.",
             speakingTime: "11:00 AM – 11:30 AM",
+            speakingDate: "Friday, Oct 17",
             sessionTitle: "The Evolution of the Brokerage Model (Panel)"
         },
         {
@@ -241,6 +249,7 @@ const eventData = {
             bioUrl: "#",
             bio: "Norkis Fernandez Valdez serves as Vice President at LPT Realty, where she focuses on agent development and building a strong brand narrative. Her role encompasses refining the company's community-driven culture and enhancing brand identity. Her tenure on the Board of Directors at ORRA and NAHREP has granted her a unique perspective on industry-leading strategies. Through strategic branding and a nurturing environment, she has elevated market presence and attracted top-tier talent, reinforcing her commitment to growth and excellence within the industry.",
             speakingTime: "11:45 AM – 12:00 PM",
+            speakingDate: "Friday, Oct 17",
             sessionTitle: "Panel Discussion"
         },
         {
@@ -252,6 +261,7 @@ const eventData = {
             bioUrl: "#",
             bio: "David Lewis is a business builder passionate about creating opportunity. He owns and operates five businesses including TLG Atlanta, TLG Savannah, Pepper Boxing - Buckhead, Eleven16 Renovations, and CDL Holdings. A national teacher, trainer, and speaker, David graduated from The University of Alabama in 2008 and built the #1 team in one of the top brokerages in the nation in just 7 years. He has helped create more 6-figure income earners than anyone else in the industry. David is very active in Operation Christmas Child, launched the TLG Gives Fund during the pandemic, and believes in using success to give back to the community.",
             speakingTime: "11:00 AM – 11:30 AM",
+            speakingDate: "Friday, Oct 17",
             sessionTitle: "The Evolution of the Brokerage Model (Panel)"
         },
         {
@@ -263,6 +273,7 @@ const eventData = {
             bioUrl: "#",
             bio: "With over 14 years of experience serving Polk County, Ricky Miller has established himself as one of the area's most respected real estate professionals. As Broker of the second-largest real estate office in Polk County, he has led and supported hundreds of agents while serving thousands of families across Central Florida. Ricky's career spans property management, residential sales, new home construction, and real estate investing. Known for his entrepreneurial drive and commitment to excellence, he continues to shape the future of real estate in Polk County and beyond.",
             speakingTime: "11:45 AM – 12:00 PM",
+            speakingDate: "Friday, Oct 17",
             sessionTitle: "Panel Discussion"
         },
         {
@@ -274,6 +285,7 @@ const eventData = {
             bioUrl: "#",
             bio: "Jomar López is a distinguished professional holding Broker licenses in both Puerto Rico and Florida. With 12 years of experience and over 300 properties sold, he has established himself as an authority in real estate. As Founder of Level Up Network, he leads an organization of more than 1,400 agents. Specializing as a HUD Listing Agent and in foreclosed properties, he has demonstrated a unique ability to identify and capitalize on market opportunities. His passion, leadership, and consistency have earned him awards for six consecutive years from NAHREP, including the prestigious Top 250 Latino Agent Award.",
             speakingTime: "12:15 PM – 12:45 PM",
+            speakingDate: "Friday, Oct 17",
             sessionTitle: "Expert Panel Discussion"
         },
         {
@@ -284,6 +296,7 @@ const eventData = {
             tagline: "Industry expert and panelist.",
             bioUrl: "#",
             speakingTime: "12:15 PM – 12:45 PM",
+            speakingDate: "Friday, Oct 17",
             sessionTitle: "Expert Panel Discussion"
         },
         {
@@ -295,6 +308,7 @@ const eventData = {
             bioUrl: "#",
             bio: "Cindy Castillo drives the growth of real estate agents through the Top Million Producer System, a proven model designed to take their business to the next level. With more than 17 years of experience in the industry, she has achieved over $100 million in sales and led a team of more than 100 agents committed to excellence and results. Her true passion is real estate coaching, through which she has guided over 3,000 agents to structure their businesses, increase productivity, and achieve extraordinary results.",
             speakingTime: "12:15 PM – 12:45 PM",
+            speakingDate: "Friday, Oct 17",
             sessionTitle: "Expert Panel Discussion"
         },
         {
@@ -306,6 +320,7 @@ const eventData = {
             bioUrl: "#",
             bio: "Francisco Lara is an International Realtor and CEO of The Global Team, powered by LPT Realty. He specializes in helping clients buy, sell, and invest in Florida real estate, bringing a global perspective to the local market.",
             speakingTime: "12:15 PM – 12:45 PM",
+            speakingDate: "Friday, Oct 17",
             sessionTitle: "Expert Panel Discussion"
         }
     ],
@@ -834,7 +849,7 @@ function renderSpeakers() {
             // Multiple sessions
             sessionsHtml = speaker.sessions.map(session => `
                 <div class="speaker-session-info">
-                    <p class="speaker-time"><i class="fas fa-clock"></i> ${session.speakingTime}</p>
+                    <p class="speaker-time"><i class="fas fa-clock"></i> ${session.speakingDate} • ${session.speakingTime}</p>
                     <p class="speaker-session-title">${session.sessionTitle}</p>
                 </div>
             `).join('');
@@ -842,7 +857,7 @@ function renderSpeakers() {
             // Single session
             sessionsHtml = `
                 <div class="speaker-session-info">
-                    <p class="speaker-time"><i class="fas fa-clock"></i> ${speaker.speakingTime}</p>
+                    <p class="speaker-time"><i class="fas fa-clock"></i> ${speaker.speakingDate} • ${speaker.speakingTime}</p>
                     <p class="speaker-session-title">${speaker.sessionTitle}</p>
                 </div>
             `;
@@ -921,7 +936,7 @@ function renderAllSpeakersGrid() {
             // Multiple sessions
             sessionsHtml = speaker.sessions.map(session => `
                 <div class="speaker-card-session">
-                    <p class="speaker-card-time"><i class="fas fa-clock"></i> ${session.speakingTime}</p>
+                    <p class="speaker-card-time"><i class="fas fa-clock"></i> ${session.speakingDate} • ${session.speakingTime}</p>
                     <p class="speaker-card-session-title">${session.sessionTitle}</p>
                 </div>
             `).join('');
@@ -929,7 +944,7 @@ function renderAllSpeakersGrid() {
             // Single session
             sessionsHtml = `
                 <div class="speaker-card-session">
-                    <p class="speaker-card-time"><i class="fas fa-clock"></i> ${speaker.speakingTime}</p>
+                    <p class="speaker-card-time"><i class="fas fa-clock"></i> ${speaker.speakingDate} • ${speaker.speakingTime}</p>
                     <p class="speaker-card-session-title">${speaker.sessionTitle}</p>
                 </div>
             `;
