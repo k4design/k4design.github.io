@@ -251,7 +251,7 @@ const eventData = {
     
     agenda: [
         {
-            day: "Day 1",
+            day: "Thursday — Sponsor Showcase",
             date: "October 16, 2025",
             sessions: [
                 {
@@ -260,8 +260,8 @@ const eventData = {
                     title: "Ted Bogert",
                     speaker: "Ted Bogert",
                     location: "Expo Main Stage",
-                    tag: "Speaker",
-                    description: "Join us for an engaging session with Ted Bogert."
+                    tag: "Sponsor Session",
+                    description: "Join us for an engaging sponsor session with Ted Bogert."
                 },
                 {
                     time: "2:45 PM",
@@ -269,7 +269,7 @@ const eventData = {
                     title: "Fello",
                     speaker: "Fello",
                     location: "Expo Main Stage",
-                    tag: "Vendor",
+                    tag: "Sponsor Session",
                     description: "Learn about Fello's innovative solutions."
                 },
                 {
@@ -278,8 +278,8 @@ const eventData = {
                     title: "Alex Cooper",
                     speaker: "Alex Cooper",
                     location: "Expo Main Stage",
-                    tag: "Speaker",
-                    description: "Join us for an engaging session with Alex Cooper."
+                    tag: "Sponsor Session",
+                    description: "Join us for an engaging sponsor session with Alex Cooper."
                 },
                 {
                     time: "3:45 PM",
@@ -287,95 +287,131 @@ const eventData = {
                     title: "Ruuster",
                     speaker: "Ruuster",
                     location: "Expo Main Stage",
-                    tag: "Vendor",
+                    tag: "Sponsor Session",
                     description: "Discover Ruuster's real estate solutions."
                 }
             ]
         },
         {
-            day: "Day 2",
+            day: "Friday — Main Event",
             date: "October 17, 2025",
             sessions: [
                 {
-                    time: "11:00 AM",
+                    time: "11:00 AM – 11:30 AM",
+                    duration: "30 minutes",
+                    title: "The Evolution of the Brokerage Model",
+                    speaker: "Jessica Starr, Bobby Moats, Marissa Canario, David Lewis",
+                    location: "Expo Main Stage",
+                    tag: "Panel",
+                    description: "Industry leaders discuss the changing landscape of real estate brokerages."
+                },
+                {
+                    time: "11:30 AM – 11:45 AM",
                     duration: "15 minutes",
                     title: "Crexi",
                     speaker: "Crexi",
                     location: "Expo Main Stage",
-                    tag: "Vendor",
-                    description: "Learn about Crexi's commercial real estate platform."
+                    tag: "Sponsor Session",
+                    description: "Discover Crexi's commercial real estate platform."
                 },
                 {
-                    time: "11:15 AM",
-                    duration: "45 minutes",
+                    time: "11:45 AM – 12:00 PM",
+                    duration: "15 minutes",
+                    title: "Panel",
+                    speaker: "Norkis Fernandez, Ricky Miller",
+                    location: "Expo Main Stage",
+                    tag: "Panel",
+                    description: "Expert insights and discussion."
+                },
+                {
+                    time: "12:00 PM – 12:15 PM",
+                    duration: "15 minutes",
                     title: "Realty.com",
                     speaker: "Realty.com",
                     location: "Expo Main Stage",
-                    tag: "Vendor",
+                    tag: "Sponsor Session",
                     description: "Discover Realty.com's innovative tools and resources."
                 },
                 {
-                    time: "12:00 PM",
-                    duration: "1 hour",
-                    title: "Chris Doering",
-                    speaker: "Chris Doering",
+                    time: "12:15 PM – 12:45 PM",
+                    duration: "30 minutes",
+                    title: "Panel",
+                    speaker: "Jomar Lopez, Michael Cruz, Cindy Castillo, Francisco Lara",
                     location: "Expo Main Stage",
-                    tag: "Speaker",
-                    description: "Join us for an engaging session with Chris Doering."
+                    tag: "Panel",
+                    description: "Industry experts share their insights."
                 },
                 {
-                    time: "1:00 PM",
+                    time: "12:45 PM – 1:00 PM",
+                    duration: "15 minutes",
+                    title: "Chris Doering Mortgage Team",
+                    speaker: "Chris Doering Mortgage Team",
+                    location: "Expo Main Stage",
+                    tag: "Sponsor Session",
+                    description: "Learn about mortgage solutions from the Chris Doering Mortgage Team."
+                },
+                {
+                    time: "1:00 PM – 1:30 PM",
+                    duration: "30 minutes",
+                    title: "Building Your AI-Powered Empire",
+                    speaker: "Michael Perna, Blair Knowles, Bobby Moats",
+                    location: "Expo Main Stage",
+                    tag: "Panel",
+                    description: "Learn how to leverage AI to grow your real estate business."
+                },
+                {
+                    time: "1:30 PM – 1:45 PM",
                     duration: "15 minutes",
                     title: "HomeFirst",
                     speaker: "HomeFirst",
                     location: "Expo Main Stage",
-                    tag: "Vendor",
+                    tag: "Sponsor Session",
                     description: "Learn about HomeFirst's mortgage solutions."
                 },
                 {
-                    time: "1:15 PM",
-                    duration: "45 minutes",
+                    time: "1:45 PM – 2:00 PM",
+                    duration: "15 minutes",
                     title: "House Whisperer",
                     speaker: "House Whisperer",
                     location: "Expo Main Stage",
-                    tag: "Vendor",
+                    tag: "Sponsor Session",
                     description: "Discover House Whisperer's unique approach to real estate."
                 },
                 {
-                    time: "2:00 PM",
+                    time: "2:00 PM – 2:15 PM",
                     duration: "15 minutes",
                     title: "CyberTracker",
                     speaker: "CyberTracker",
                     location: "Expo Main Stage",
-                    tag: "Vendor",
+                    tag: "Sponsor Session",
                     description: "Explore CyberTracker's technology solutions."
                 },
                 {
-                    time: "2:15 PM",
-                    duration: "45 minutes",
+                    time: "2:15 PM – 2:30 PM",
+                    duration: "15 minutes",
                     title: "YLOPO",
                     speaker: "YLOPO",
                     location: "Expo Main Stage",
-                    tag: "Vendor",
+                    tag: "Sponsor Session",
                     description: "Learn about YLOPO's lead generation platform."
                 },
                 {
-                    time: "3:00 PM",
+                    time: "3:00 PM – 3:15 PM",
                     duration: "15 minutes",
                     title: "America's Preferred Home Warranty",
                     speaker: "America's Preferred Home Warranty",
                     location: "Expo Main Stage",
-                    tag: "Vendor",
+                    tag: "Sponsor Session",
                     description: "Discover home warranty solutions for your clients."
                 },
                 {
-                    time: "3:15 PM – 4:00 PM",
-                    duration: "45 minutes",
-                    title: "Glover",
-                    speaker: "Glover",
+                    time: "3:15 PM – 3:45 PM",
+                    duration: "30 minutes",
+                    title: "Glover U Power Session",
+                    speaker: "Jeff Glover & Team",
                     location: "Expo Main Stage",
-                    tag: "Vendor",
-                    description: "Learn about Glover's real estate services."
+                    tag: "Power Session",
+                    description: "Learn from Jeff Glover & Team in this power-packed session."
                 }
             ]
         }
@@ -1125,7 +1161,8 @@ function initAgendaTabs() {
     const panels = document.querySelectorAll('.agenda-panel');
     
     tabs.forEach(tab => {
-        tab.addEventListener('click', () => {
+        tab.addEventListener('click', (e) => {
+            e.preventDefault();
             switchAgendaTab(tab, tabs, panels);
         });
         
