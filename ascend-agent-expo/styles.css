@@ -2562,6 +2562,12 @@ body {
     gap: 8px;
 }
 
+.speaker-card-session + .speaker-card-session {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(0, 146, 255, 0.08);
+}
+
 .speaker-card-time {
     font-size: 0.875rem;
     font-weight: 600;

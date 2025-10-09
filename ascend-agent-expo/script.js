@@ -170,8 +170,16 @@ const eventData = {
             tagline: "Leveraging AI to transform how agents connect with leads and scale their businesses.",
             bioUrl: "#",
             bio: "Bobby Moats is passionate about driving innovation and empowering real estate professionals to achieve extraordinary results. With over a decade of experience, he has built his career on blending strategic leadership, cutting-edge technology, and a deep understanding of what agents and clients need to succeed. As founder of Speculo AI, Bobby is committed to leveraging artificial intelligence to transform how agents connect with leads, nurture relationships, and scale their businesses. His work focuses on creating tools and systems that simplify processes, improve efficiency, and deliver measurable results—all while ensuring a personal touch remains at the core of real estate transactions.",
-            speakingTime: "11:00 AM – 11:30 AM",
-            sessionTitle: "The Evolution of the Brokerage Model (Panel)"
+            sessions: [
+                {
+                    speakingTime: "11:00 AM – 11:30 AM",
+                    sessionTitle: "The Evolution of the Brokerage Model (Panel)"
+                },
+                {
+                    speakingTime: "1:00 PM – 1:30 PM",
+                    sessionTitle: "Building Your AI-Powered Empire (Panel)"
+                }
+            ]
         },
         {
             name: "Marissa Canario",
@@ -180,8 +188,16 @@ const eventData = {
             photo: "img/MarissaCanario.jpg",
             tagline: "Expert in lead conversion and brokerage model evolution.",
             bioUrl: "#",
-            speakingTime: "11:00 AM – 11:30 AM",
-            sessionTitle: "The Evolution of the Brokerage Model (Panel)"
+            sessions: [
+                {
+                    speakingTime: "11:00 AM – 11:30 AM",
+                    sessionTitle: "The Evolution of the Brokerage Model (Panel)"
+                },
+                {
+                    speakingTime: "1:45 PM – 2:15 PM",
+                    sessionTitle: "The 30-Day Conversion Comeback: Turn Old Leads Into New Closings"
+                }
+            ]
         },
         {
             name: "Michael Perna",
@@ -873,28 +889,46 @@ function renderAllSpeakersGrid() {
     const gridContainer = document.getElementById('all-speakers-grid');
     if (!gridContainer) return;
 
-    const cardsHtml = eventData.speakers.map((speaker, index) => `
-        <div class="speaker-card">
-            <div class="speaker-card-image">
-                <img src="${speaker.photo}" 
-                     alt="${speaker.name}" 
-                     class="speaker-card-photo"
-                     loading="lazy">
+    const cardsHtml = eventData.speakers.map((speaker, index) => {
+        // Handle both single session (speakingTime/sessionTitle) and multiple sessions (sessions array)
+        let sessionsHtml = '';
+        
+        if (speaker.sessions && speaker.sessions.length > 0) {
+            // Multiple sessions
+            sessionsHtml = speaker.sessions.map(session => `
+                <div class="speaker-card-session">
+                    <p class="speaker-card-time"><i class="fas fa-clock"></i> ${session.speakingTime}</p>
+                    <p class="speaker-card-session-title">${session.sessionTitle}</p>
+                </div>
+            `).join('');
+        } else if (speaker.speakingTime) {
+            // Single session
+            sessionsHtml = `
+                <div class="speaker-card-session">
+                    <p class="speaker-card-time"><i class="fas fa-clock"></i> ${speaker.speakingTime}</p>
+                    <p class="speaker-card-session-title">${speaker.sessionTitle}</p>
+                </div>
+            `;
+        }
+        
+        return `
+            <div class="speaker-card">
+                <div class="speaker-card-image">
+                    <img src="${speaker.photo}" 
+                         alt="${speaker.name}" 
+                         class="speaker-card-photo"
+                         loading="lazy">
+                </div>
+                <div class="speaker-card-content">
+                    <h3 class="speaker-card-name">${speaker.name}</h3>
+                    <p class="speaker-card-title">${speaker.title}</p>
+                    <p class="speaker-card-company">${speaker.company}</p>
+                    ${sessionsHtml}
+                    ${speaker.tagline ? `<p class="speaker-card-tagline">${speaker.tagline}</p>` : ''}
+                </div>
             </div>
-            <div class="speaker-card-content">
-                <h3 class="speaker-card-name">${speaker.name}</h3>
-                <p class="speaker-card-title">${speaker.title}</p>
-                <p class="speaker-card-company">${speaker.company}</p>
-                ${speaker.speakingTime ? `
-                    <div class="speaker-card-session">
-                        <p class="speaker-card-time"><i class="fas fa-clock"></i> ${speaker.speakingTime}</p>
-                        <p class="speaker-card-session-title">${speaker.sessionTitle}</p>
-                    </div>
-                ` : ''}
-                ${speaker.tagline ? `<p class="speaker-card-tagline">${speaker.tagline}</p>` : ''}
-            </div>
-        </div>
-    `).join('');
+        `;
+    }).join('');
 
     gridContainer.innerHTML = cardsHtml;
 }
