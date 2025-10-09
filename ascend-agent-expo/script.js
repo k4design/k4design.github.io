@@ -155,106 +155,116 @@ const eventData = {
             name: "Marissa Canario",
             title: "Real Estate Professional",
             company: "",
-            photo: "https://images.unsplash.com/photo-1594744803329-e58b31de8bf5?w=800&h=800&fit=crop",
+            photo: "img/MarissaCanario.jpg",
             tagline: "Expert in lead conversion and brokerage model evolution.",
             bioUrl: "#"
         },
         {
             name: "Bobby Moats",
             title: "AI Expert & Real Estate Innovator",
-            company: "",
-            photo: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=800&h=800&fit=crop",
-            tagline: "Leading the AI revolution in real estate and building AI-powered empires.",
-            bioUrl: "#"
+            company: "Speculo AI",
+            photo: "img/sponsors/bobbymoats.jpg",
+            tagline: "Leveraging AI to transform how agents connect with leads and scale their businesses.",
+            bioUrl: "#",
+            bio: "Bobby Moats is passionate about driving innovation and empowering real estate professionals to achieve extraordinary results. With over a decade of experience, he has built his career on blending strategic leadership, cutting-edge technology, and a deep understanding of what agents and clients need to succeed. As founder of Speculo AI, Bobby is committed to leveraging artificial intelligence to transform how agents connect with leads, nurture relationships, and scale their businesses. His work focuses on creating tools and systems that simplify processes, improve efficiency, and deliver measurable results—all while ensuring a personal touch remains at the core of real estate transactions."
         },
         {
             name: "Michael Perna",
             title: "Team Leader & Real Estate Expert",
             company: "The Perna Team - eXp Realty",
-            photo: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=800&fit=crop",
+            photo: "img/michaelcerna.webp",
             tagline: "Leading Michigan's #1 real estate team with over 1000 families served annually. 'I want to be remembered as passionate and helpful.'",
             bioUrl: "#",
             bio: "Michael Perna has been in real estate for over 20 years and spent the majority of his career with Keller Williams where he started his team in 2001 when realizing he had excelled as an individual agent and had room to grow and improve his overall client experience. The Perna Team is now with eXp Realty and has grown to the #1 real estate team in the state of Michigan with over 1000 families served in the past 12 months. The Perna Team aims at making every client relationship #1. Our objective is to ensure that we net the most for our sellers, as well as creating the smoothest transaction possible in addition to helping them find their dream home. Mike grew up in Farmington Hills Michigan and is passionate about the community and educating the community on the biggest investment most people will make in their lives. His energy and fun loving spirit is reflected in the culture of the team and the level of service provided to our clients."
         },
         {
             name: "Blair Knowles",
-            title: "AI & Technology Expert",
-            company: "",
-            photo: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=800&h=800&fit=crop",
-            tagline: "Expert in AI-powered real estate solutions.",
-            bioUrl: "#"
+            title: "Real Estate Leader & Brokerage Owner",
+            company: "Ridgeline Real Estate",
+            photo: "img/blaireknowles.jpg",
+            tagline: "Passionate about real estate as a vehicle for opportunity and community good.",
+            bioUrl: "#",
+            bio: "Blair has an unquenchable passion for real estate as a vehicle for opportunity and for community good. Blair began her real estate career in Vermont in 2013 at Keller Williams Vermont and went on to form her own team at the firm in 2015, The Knowles Group. In 2020 Blair and her team left the brokerage at Keller Williams to form their own brokerage, Ridgeline Real Estate. Outside of Ridgeline Real Estate Blair is a property owner and a landlord in Vermont. She is also an avid yoga practitioner."
         },
         {
             name: "Barry Jenkins",
-            title: "Real Estate Expert",
-            company: "",
-            photo: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=800&h=800&fit=crop",
-            tagline: "Industry leader and speaker.",
-            bioUrl: "#"
+            title: "CMO & Technology Evangelist",
+            company: "Better Homes and Gardens Real Estate NAGR",
+            photo: "img/blakejekins.jpg",
+            tagline: "Innovative leader at the intersection of real estate and technology, driving transformation through AI and digital solutions.",
+            bioUrl: "#",
+            bio: "Barry Jenkins is an innovative real estate leader with nearly two decades of experience at the intersection of technology and results-driven leadership. As Chief Marketing Officer of Better Homes and Gardens Real Estate NAGR, he leads a top-performing team in Virginia Beach, VA, achieving thousands of transactions and earning a top national ranking on Real Trends Top 1,000 Teams. Barry also serves as Head Realtor in Residence at Ylopo, focusing on training, product development, and championing transformative technology. As an author, speaker, and ordained minister, he is deeply committed to his faith, family, and creating a legacy of integrity and excellence."
         },
         {
             name: "Jessica Starr",
-            title: "Real Estate Industry Leader",
-            company: "",
-            photo: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=800&h=800&fit=crop",
-            tagline: "Leading industry discussions on the evolution of the brokerage model.",
-            bioUrl: "#"
+            title: "Real Estate Professional & Community Advocate",
+            company: "Starr Team | LPT Realty",
+            photo: "img/jessicastarr.jpg",
+            tagline: "Known for her market insight, tireless work ethic, and personal touch — treating every client like family.",
+            bioUrl: "#",
+            bio: "Jessica Cieslak Starr is a proud Quinnipiac University graduate and seasoned real estate professional known for her market insight, tireless work ethic, and personal touch. Clients praise her responsiveness, strategic approach, and genuine care. Beyond real estate, Jessica is a dedicated community advocate, mom of four, and wife to her high school sweetheart. She has spent over 20 years with the Simsbury Volunteer Fire Department Ladies Auxiliary and actively supports organizations including The Village for Families & Children and Journey Home CT. Rooted in Simsbury, her deep local knowledge comes from living, serving, and raising her family in the area."
         },
         {
             name: "Norkis Fernandez",
-            title: "Real Estate Panelist",
-            company: "",
-            photo: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=800&h=800&fit=crop",
-            tagline: "Industry expert sharing insights on real estate practices.",
-            bioUrl: "#"
+            title: "Vice President",
+            company: "LPT Realty",
+            photo: "img/norkisfernandez.jpg",
+            tagline: "Refining community-driven culture and enhancing brand identity with a focus on agent development.",
+            bioUrl: "#",
+            bio: "Norkis Fernandez Valdez serves as Vice President at LPT Realty, where she focuses on agent development and building a strong brand narrative. Her role encompasses refining the company's community-driven culture and enhancing brand identity. Her tenure on the Board of Directors at ORRA and NAHREP has granted her a unique perspective on industry-leading strategies. Through strategic branding and a nurturing environment, she has elevated market presence and attracted top-tier talent, reinforcing her commitment to growth and excellence within the industry."
         },
         {
             name: "David Lewis",
-            title: "Real Estate Expert",
-            company: "",
-            photo: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=800&h=800&fit=crop",
-            tagline: "Industry leader in brokerage strategies.",
-            bioUrl: "#"
+            title: "Business Builder & Multi-Business Owner",
+            company: "TLG Atlanta | TLG Savannah",
+            photo: "img/davidlewis.jpg",
+            tagline: "Building the #1 team in the nation while creating 6-figure income earners and giving back to the community.",
+            bioUrl: "#",
+            bio: "David Lewis is a business builder passionate about creating opportunity. He owns and operates five businesses including TLG Atlanta, TLG Savannah, Pepper Boxing - Buckhead, Eleven16 Renovations, and CDL Holdings. A national teacher, trainer, and speaker, David graduated from The University of Alabama in 2008 and built the #1 team in one of the top brokerages in the nation in just 7 years. He has helped create more 6-figure income earners than anyone else in the industry. David is very active in Operation Christmas Child, launched the TLG Gives Fund during the pandemic, and believes in using success to give back to the community."
         },
         {
             name: "Ricky Miller",
-            title: "Real Estate Panelist",
-            company: "",
-            photo: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=800&h=800&fit=crop",
-            tagline: "Panel expert sharing industry insights.",
-            bioUrl: "#"
+            title: "Broker & Real Estate Leader",
+            company: "Polk County Real Estate",
+            photo: "img/rickymiller.webp",
+            tagline: "Leading one of Polk County's largest real estate offices with expertise spanning property management to new home construction.",
+            bioUrl: "#",
+            bio: "With over 14 years of experience serving Polk County, Ricky Miller has established himself as one of the area's most respected real estate professionals. As Broker of the second-largest real estate office in Polk County, he has led and supported hundreds of agents while serving thousands of families across Central Florida. Ricky's career spans property management, residential sales, new home construction, and real estate investing. Known for his entrepreneurial drive and commitment to excellence, he continues to shape the future of real estate in Polk County and beyond."
         },
         {
             name: "Jomar Lopez",
-            title: "Real Estate Professional",
-            company: "",
-            photo: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=800&h=800&fit=crop",
-            tagline: "Panel discussion leader.",
-            bioUrl: "#"
+            title: "Founder & Broker",
+            company: "Level Up Network",
+            photo: "img/jomarlopez.jpg",
+            tagline: "Distinguished broker with licenses in Puerto Rico and Florida, leading 1,400+ agents with over 300 properties sold.",
+            bioUrl: "#",
+            bio: "Jomar López is a distinguished professional holding Broker licenses in both Puerto Rico and Florida. With 12 years of experience and over 300 properties sold, he has established himself as an authority in real estate. As Founder of Level Up Network, he leads an organization of more than 1,400 agents. Specializing as a HUD Listing Agent and in foreclosed properties, he has demonstrated a unique ability to identify and capitalize on market opportunities. His passion, leadership, and consistency have earned him awards for six consecutive years from NAHREP, including the prestigious Top 250 Latino Agent Award."
         },
         {
             name: "Michael Cruz",
             title: "Real Estate Expert",
             company: "",
-            photo: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=800&h=800&fit=crop",
+            photo: "img/michaelcruz.png",
             tagline: "Industry expert and panelist.",
             bioUrl: "#"
         },
         {
             name: "Cindy Castillo",
-            title: "Real Estate Professional",
-            company: "",
-            photo: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=800&h=800&fit=crop",
-            tagline: "Panel expert sharing valuable insights.",
-            bioUrl: "#"
+            title: "Real Estate Coach & Team Leader",
+            company: "Top Million Producer System",
+            photo: "img/cindycastillo.jpg",
+            tagline: "Empowering 3,000+ agents to achieve extraordinary results with over $100M in sales and 17 years of experience.",
+            bioUrl: "#",
+            bio: "Cindy Castillo drives the growth of real estate agents through the Top Million Producer System, a proven model designed to take their business to the next level. With more than 17 years of experience in the industry, she has achieved over $100 million in sales and led a team of more than 100 agents committed to excellence and results. Her true passion is real estate coaching, through which she has guided over 3,000 agents to structure their businesses, increase productivity, and achieve extraordinary results."
         },
         {
             name: "Francisco Lara",
-            title: "Real Estate Panelist",
-            company: "",
-            photo: "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=800&h=800&fit=crop",
-            tagline: "Industry leader and panel participant.",
-            bioUrl: "#"
+            title: "International Realtor & CEO",
+            company: "The Global Team - LPT Realty",
+            photo: "img/franciscoAgente.jpg",
+            tagline: "International real estate expert specializing in buying, selling, and investing in Florida.",
+            bioUrl: "#",
+            bio: "Francisco Lara is an International Realtor and CEO of The Global Team, powered by LPT Realty. He specializes in helping clients buy, sell, and invest in Florida real estate, bringing a global perspective to the local market."
         }
     ],
     
@@ -790,12 +800,6 @@ function renderSpeakers() {
                 <p class="speaker-title">${speaker.title}</p>
                 <p class="speaker-company">${speaker.company}</p>
                 ${speaker.tagline ? `<p class="speaker-tagline">${speaker.tagline}</p>` : ''}
-                ${speaker.bioUrl ? `
-                    <a href="${speaker.bioUrl}" class="speaker-bio-link">
-                        Read Full Bio
-                        <i class="fas fa-arrow-right"></i>
-                    </a>
-                ` : ''}
             </div>
         </div>
     `).join('');
@@ -856,12 +860,6 @@ function renderAllSpeakersGrid() {
                 <p class="speaker-card-title">${speaker.title}</p>
                 <p class="speaker-card-company">${speaker.company}</p>
                 ${speaker.tagline ? `<p class="speaker-card-tagline">${speaker.tagline}</p>` : ''}
-                ${speaker.bioUrl ? `
-                    <a href="${speaker.bioUrl}" class="speaker-card-link">
-                        Read Full Bio
-                        <i class="fas fa-arrow-right"></i>
-                    </a>
-                ` : ''}
             </div>
         </div>
     `).join('');
