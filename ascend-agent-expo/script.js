@@ -291,10 +291,11 @@ const eventData = {
         {
             name: "Michael Cruz",
             title: "Real Estate Expert",
-            company: "",
+            company: "Michael Cruz Homes | LPT Realty",
             photo: "img/michaelcruz.png",
-            tagline: "Industry expert and panelist.",
+            tagline: "First Time Home Buyer Specialist dedicated to guiding homebuyers through every step of their real estate journey with personalized solutions.",
             bioUrl: "#",
+            bio: "As a First Time Home Buyer Specialist, Michael Cruz is dedicated to guiding homebuyers and homeowners through every step of the real estate journey. Explore personalized solutions and expert advice tailored to your unique needs.",
             speakingTime: "12:15 PM – 12:45 PM",
             speakingDate: "Friday, Oct 17",
             sessionTitle: "Expert Panel Discussion"
