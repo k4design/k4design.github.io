@@ -713,6 +713,9 @@ function renderSponsors() {
         return;
     }
 
+    // Check if sponsors are currently revealed before re-rendering
+    const currentlyRevealed = document.querySelector('.sponsor-hidden.sponsor-revealed') !== null;
+
     // Split sponsors into visible and hidden groups
     const totalSponsors = eventData.sponsors.length;
     // Show 5 sponsors on mobile, 12 on desktop
@@ -732,9 +735,9 @@ function renderSponsors() {
         </div>
     `).join('');
 
-    // Render hidden sponsors
+    // Render hidden sponsors - preserve revealed state if it was previously revealed
     const hiddenHtml = hiddenSponsors.map(sponsor => `
-        <div class="sponsor-item sponsor-hidden">
+        <div class="sponsor-item sponsor-hidden${currentlyRevealed ? ' sponsor-revealed' : ''}" style="${currentlyRevealed ? 'display: block;' : ''}">
             <img src="${sponsor.logo}" alt="${sponsor.name}" class="sponsor-logo" loading="lazy">
         </div>
     `).join('');
@@ -763,10 +766,13 @@ function renderSponsors() {
         
         const revealButton = document.createElement('div');
         revealButton.className = 'sponsor-reveal-container';
+        // Set button text based on current state
+        const buttonText = currentlyRevealed ? 'Show Less Sponsors' : 'Show More Sponsors';
+        const arrowDirection = currentlyRevealed ? '↑' : '↓';
         revealButton.innerHTML = `
             <button class="btn btn-outline sponsor-reveal-btn" id="sponsor-reveal-btn">
-                Show More Sponsors
-                <span class="btn-arrow">↓</span>
+                ${buttonText}
+                <span class="btn-arrow">${arrowDirection}</span>
             </button>
         `;
         
