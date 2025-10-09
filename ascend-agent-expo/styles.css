@@ -912,6 +912,17 @@ body {
     margin-top: 16px;
 }
 
+.giveaway-terms-text {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.875rem;
+    line-height: 1.6;
+    margin: 0;
+    padding: 16px;
+    background: rgba(255, 255, 255, 0.05);
+    border-left: 3px solid #00ff91;
+    border-radius: 4px;
+}
+
 .giveaway-terms-link {
     color: rgba(255, 255, 255, 0.7);
     text-decoration: underline;
@@ -945,6 +956,10 @@ body {
     
     .giveaway-cta {
         align-items: center;
+    }
+    
+    .giveaway-terms-text {
+        text-align: center;
     }
 }
 

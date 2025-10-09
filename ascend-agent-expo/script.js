@@ -255,76 +255,40 @@ const eventData = {
             date: "October 16, 2025",
             sessions: [
                 {
-                    time: "8:00 AM – 9:00 AM",
-                    duration: "1 hour",
-                    title: "Registration & Welcome Coffee",
-                    speaker: null,
-                    location: "Main Lobby",
-                    tag: null,
-                    description: "Network with fellow attendees while enjoying refreshments."
-                },
-                {
-                    time: "9:00 AM – 10:00 AM",
-                    duration: "1 hour",
-                    title: "Opening Keynote: The Future of Real Estate",
-                    speaker: "Sarah Martinez",
+                    time: "2:00 PM",
+                    duration: "45 minutes",
+                    title: "Ted Bogert",
+                    speaker: "Ted Bogert",
                     location: "Expo Main Stage",
-                    tag: "Keynote",
-                    description: "Discover how technology and innovation are reshaping the real estate landscape."
+                    tag: "Speaker",
+                    description: "Join us for an engaging session with Ted Bogert."
                 },
                 {
-                    time: "10:15 AM – 11:15 AM",
-                    duration: "1 hour",
-                    title: "Mastering Digital Marketing for Agents",
-                    speaker: "Michael Chen",
+                    time: "2:45 PM",
+                    duration: "15 minutes",
+                    title: "Fello",
+                    speaker: "Fello",
                     location: "Expo Main Stage",
-                    tag: "Marketing",
-                    description: "Learn proven strategies to generate leads and build your online presence."
+                    tag: "Vendor",
+                    description: "Learn about Fello's innovative solutions."
                 },
                 {
-                    time: "11:30 AM – 12:30 PM",
-                    duration: "1 hour",
-                    title: "Building a Seven-Figure Real Estate Business",
-                    speaker: "Jennifer Thompson",
+                    time: "3:00 PM",
+                    duration: "45 minutes",
+                    title: "Alex Cooper",
+                    speaker: "Alex Cooper",
                     location: "Expo Main Stage",
-                    tag: "Business Growth",
-                    description: "Actionable insights on scaling your business and maximizing profitability."
+                    tag: "Speaker",
+                    description: "Join us for an engaging session with Alex Cooper."
                 },
                 {
-                    time: "12:30 PM – 1:30 PM",
-                    duration: "1 hour",
-                    title: "Lunch Break & Networking",
-                    speaker: null,
-                    location: "Exhibition Hall",
-                    tag: null,
-                    description: "Connect with sponsors, vendors, and fellow professionals."
-                },
-                {
-                    time: "1:30 PM – 2:30 PM",
-                    duration: "1 hour",
-                    title: "AI & Automation in Real Estate",
-                    speaker: "David Rodriguez",
-                    location: "Expo Mini Stage",
-                    tag: "Technology",
-                    description: "Harness the power of AI to streamline operations and close more deals."
-                },
-                {
-                    time: "2:45 PM – 3:45 PM",
-                    duration: "1 hour",
-                    title: "Luxury Market Strategies",
-                    speaker: "Amanda Foster",
-                    location: "Expo Mini Stage",
-                    tag: "Luxury Sales",
-                    description: "Expert tactics for breaking into and dominating the luxury real estate market."
-                },
-                {
-                    time: "4:00 PM – 5:00 PM",
-                    duration: "1 hour",
-                    title: "Panel: Investment Properties & Wealth Building",
-                    speaker: "James Patterson & Guests",
+                    time: "3:45 PM",
+                    duration: "15 minutes",
+                    title: "Ruuster",
+                    speaker: "Ruuster",
                     location: "Expo Main Stage",
-                    tag: "Panel Discussion",
-                    description: "Learn how to help clients build wealth through strategic property investments."
+                    tag: "Vendor",
+                    description: "Discover Ruuster's real estate solutions."
                 }
             ]
         },
@@ -333,76 +297,103 @@ const eventData = {
             date: "October 17, 2025",
             sessions: [
                 {
-                    time: "8:30 AM – 9:00 AM",
-                    duration: "30 minutes",
-                    title: "Morning Coffee & Networking",
-                    speaker: null,
-                    location: "Main Lobby",
-                    tag: null,
-                    description: "Start your day connecting with industry professionals."
-                },
-                {
-                    time: "9:00 AM – 10:00 AM",
-                    duration: "1 hour",
-                    title: "Social Media Mastery for Real Estate",
-                    speaker: "Lisa Wang",
+                    time: "11:00 AM",
+                    duration: "15 minutes",
+                    title: "Crexi",
+                    speaker: "Crexi",
                     location: "Expo Main Stage",
-                    tag: "Marketing",
-                    description: "Build a powerful social media presence that attracts and converts leads."
+                    tag: "Vendor",
+                    description: "Learn about Crexi's commercial real estate platform."
                 },
                 {
-                    time: "10:15 AM – 11:15 AM",
-                    duration: "1 hour",
-                    title: "Negotiation Tactics That Close Deals",
-                    speaker: "Robert Taylor",
+                    time: "11:15 AM",
+                    duration: "45 minutes",
+                    title: "Realty.com",
+                    speaker: "Realty.com",
                     location: "Expo Main Stage",
-                    tag: "Sales",
-                    description: "Win-win negotiation strategies that benefit both you and your clients."
+                    tag: "Vendor",
+                    description: "Discover Realty.com's innovative tools and resources."
                 },
                 {
-                    time: "11:30 AM – 12:30 PM",
+                    time: "12:00 PM",
                     duration: "1 hour",
-                    title: "First-Time Buyer Success Strategies",
-                    speaker: "Maria Gonzalez",
-                    location: "Expo Mini Stage",
-                    tag: "Client Service",
-                    description: "Guide first-time buyers through the process with confidence and expertise."
-                },
-                {
-                    time: "12:30 PM – 1:30 PM",
-                    duration: "1 hour",
-                    title: "Lunch & Expo Floor Exploration",
-                    speaker: null,
-                    location: "Exhibition Hall",
-                    tag: null,
-                    description: "Discover new tools, services, and opportunities from our sponsors."
-                },
-                {
-                    time: "1:30 PM – 2:30 PM",
-                    duration: "1 hour",
-                    title: "Commercial Real Estate Opportunities",
-                    speaker: "Kevin Anderson",
-                    location: "Expo Mini Stage",
-                    tag: "Commercial",
-                    description: "Expand your business into the lucrative commercial real estate sector."
-                },
-                {
-                    time: "2:45 PM – 3:45 PM",
-                    duration: "1 hour",
-                    title: "Home Staging Secrets for Faster Sales",
-                    speaker: "Nicole Johnson",
-                    location: "Expo Mini Stage",
-                    tag: "Staging",
-                    description: "Transform properties to sell faster and at higher prices."
-                },
-                {
-                    time: "4:00 PM – 5:00 PM",
-                    duration: "1 hour",
-                    title: "Closing Session: Your Action Plan for Success",
-                    speaker: "Christopher Lee & Team",
+                    title: "Chris Doering",
+                    speaker: "Chris Doering",
                     location: "Expo Main Stage",
-                    tag: "Keynote",
-                    description: "Leave with a clear roadmap to implement everything you've learned."
+                    tag: "Speaker",
+                    description: "Join us for an engaging session with Chris Doering."
+                },
+                {
+                    time: "1:00 PM",
+                    duration: "15 minutes",
+                    title: "HomeFirst",
+                    speaker: "HomeFirst",
+                    location: "Expo Main Stage",
+                    tag: "Vendor",
+                    description: "Learn about HomeFirst's mortgage solutions."
+                },
+                {
+                    time: "1:15 PM",
+                    duration: "45 minutes",
+                    title: "House Whisperer",
+                    speaker: "House Whisperer",
+                    location: "Expo Main Stage",
+                    tag: "Vendor",
+                    description: "Discover House Whisperer's unique approach to real estate."
+                },
+                {
+                    time: "2:00 PM",
+                    duration: "15 minutes",
+                    title: "CyberTracker",
+                    speaker: "CyberTracker",
+                    location: "Expo Main Stage",
+                    tag: "Vendor",
+                    description: "Explore CyberTracker's technology solutions."
+                },
+                {
+                    time: "2:15 PM",
+                    duration: "45 minutes",
+                    title: "YLOPO",
+                    speaker: "YLOPO",
+                    location: "Expo Main Stage",
+                    tag: "Vendor",
+                    description: "Learn about YLOPO's lead generation platform."
+                },
+                {
+                    time: "3:00 PM",
+                    duration: "15 minutes",
+                    title: "America's Preferred Home Warranty",
+                    speaker: "America's Preferred Home Warranty",
+                    location: "Expo Main Stage",
+                    tag: "Vendor",
+                    description: "Discover home warranty solutions for your clients."
+                },
+                {
+                    time: "3:15 PM",
+                    duration: "15 minutes",
+                    title: "Glover",
+                    speaker: "Glover",
+                    location: "Expo Main Stage",
+                    tag: "Vendor",
+                    description: "Learn about Glover's real estate services."
+                },
+                {
+                    time: "3:30 PM",
+                    duration: "15 minutes",
+                    title: "Glover",
+                    speaker: "Glover",
+                    location: "Expo Main Stage",
+                    tag: "Vendor",
+                    description: "Continue learning about Glover's offerings."
+                },
+                {
+                    time: "3:45 PM",
+                    duration: "15 minutes",
+                    title: "Glover",
+                    speaker: "Glover",
+                    location: "Expo Main Stage",
+                    tag: "Vendor",
+                    description: "Final session with Glover."
                 }
             ]
         }
@@ -425,45 +416,31 @@ const eventData = {
     
     presentingSponsors: [
         {
-            name: "LPT Realty",
-            logo: "img/lptrealty_logo_horizontal_BFL.png",
-            description: "Leading the future of real estate with innovative solutions and comprehensive support for agents nationwide.",
-            link: "https://lptrealty.com",
+            name: "Mutual of Omaha",
+            logo: "img/sponsors/mutual-brand-white.svg",
+            description: "Providing trusted insurance and financial services to help you protect what matters most.",
+            link: "https://www.mutualofomaha.com",
             mediaUrl: null
         },
         {
-            name: "Aperture Global Real Estate",
-            logo: "img/apertureglobal_logo-white.png",
-            description: "Expanding real estate opportunities globally with cutting-edge technology and world-class service.",
-            link: "https://apertureglobal.com",
+            name: "ShowingTime Plus",
+            logo: "img/sponsors/showing-logo.png",
+            description: "Streamlining the showing process with advanced scheduling and property access solutions.",
+            link: "https://www.showingtime.com",
             mediaUrl: null
         },
         {
-            name: "AM Cards",
-            logo: "img/sponsors/amcards.png",
-            description: "Providing innovative real estate marketing solutions and business development tools for agents.",
-            link: "https://amcards.com",
+            name: "Comparion Insurance",
+            logo: "img/sponsors/comparion_logo.png",
+            description: "Comprehensive insurance solutions designed specifically for real estate professionals.",
+            link: "https://www.comparioninsurance.com",
             mediaUrl: null
         },
         {
-            name: "HWA",
-            logo: "img/sponsors/hwa.png",
-            description: "Empowering real estate professionals with cutting-edge technology and comprehensive support services.",
-            link: "https://hwa.com",
-            mediaUrl: null
-        },
-        {
-            name: "Ruuster",
-            logo: "img/sponsors/ruuster.png",
-            description: "Revolutionizing real estate transactions with innovative technology and streamlined processes.",
-            link: "https://ruuster.com",
-            mediaUrl: null
-        },
-        {
-            name: "ZooDealio",
-            logo: "img/sponsors/zoodealio.png",
-            description: "Connecting real estate professionals with innovative tools and resources for success.",
-            link: "https://zoodealio.com",
+            name: "Realtor.com",
+            logo: "img/sponsors/realtorcom.png",
+            description: "Connecting buyers and sellers with the most comprehensive real estate marketplace.",
+            link: "https://www.realtor.com",
             mediaUrl: null
         }
     ],
