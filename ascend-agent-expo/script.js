@@ -3,7 +3,7 @@ const eventData = {
     event: {
         name: "Ascend Agent Expo",
         dates: "October 16-17, 2025",
-        location: "Orlando Marriott World Center",
+        location: "Orlando World Center Marriott",
         tagline: "Elevate Your Real Estate Career to New Heights",
         earlyBirdDeadline: "2025-08-15T09:00:00-04:00",
         eventStartDate: "2025-10-16T09:00:00-04:00"
@@ -152,99 +152,108 @@ const eventData = {
     
     speakers: [
         {
-            name: "Sarah Martinez",
-            title: "Chief Innovation Officer",
-            company: "Premier Real Estate Group",
-            photo: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=800&h=800&fit=crop",
-            tagline: "Transforming the future of real estate through technology and human connection.",
-            bioUrl: "#"
-        },
-        {
-            name: "Michael Chen",
-            title: "Top Producer & Team Leader",
-            company: "Luxury Properties International",
-            photo: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=800&h=800&fit=crop",
-            tagline: "Building seven-figure businesses through strategic lead generation and client relationships.",
-            bioUrl: "#"
-        },
-        {
-            name: "Jennifer Thompson",
-            title: "CEO & Founder",
-            company: "Market Dominance Academy",
-            photo: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=800&h=800&fit=crop",
-            tagline: "Empowering agents to scale their businesses with proven systems and sustainable growth strategies.",
-            bioUrl: "#"
-        },
-        {
-            name: "David Rodriguez",
-            title: "Digital Marketing Strategist",
-            company: "RealEstate.AI",
-            photo: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=800&fit=crop",
-            tagline: "Leveraging AI and automation to revolutionize how agents attract and convert clients.",
-            bioUrl: "#"
-        },
-        {
-            name: "Amanda Foster",
-            title: "Luxury Market Specialist",
-            company: "Elite Estates Global",
+            name: "Marissa Canario",
+            title: "Real Estate Professional",
+            company: "",
             photo: "https://images.unsplash.com/photo-1594744803329-e58b31de8bf5?w=800&h=800&fit=crop",
-            tagline: "Mastering high-end property sales through personalized client experiences.",
+            tagline: "Expert in lead conversion and brokerage model evolution.",
             bioUrl: "#"
         },
         {
-            name: "James Patterson",
-            title: "Investment Property Expert",
-            company: "Wealth Builder Realty",
-            photo: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=800&h=800&fit=crop",
-            tagline: "Helping investors build wealth through strategic real estate acquisitions.",
+            name: "Bobby Moats",
+            title: "AI Expert & Real Estate Innovator",
+            company: "",
+            photo: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=800&h=800&fit=crop",
+            tagline: "Leading the AI revolution in real estate and building AI-powered empires.",
             bioUrl: "#"
         },
         {
-            name: "Lisa Wang",
-            title: "Social Media Marketing Coach",
-            company: "Digital Agent Academy",
-            photo: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=800&h=800&fit=crop",
-            tagline: "Teaching agents to dominate social media and attract qualified leads organically.",
-            bioUrl: "#"
+            name: "Michael Perna",
+            title: "Team Leader & Real Estate Expert",
+            company: "The Perna Team - eXp Realty",
+            photo: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=800&fit=crop",
+            tagline: "Leading Michigan's #1 real estate team with over 1000 families served annually. 'I want to be remembered as passionate and helpful.'",
+            bioUrl: "#",
+            bio: "Michael Perna has been in real estate for over 20 years and spent the majority of his career with Keller Williams where he started his team in 2001 when realizing he had excelled as an individual agent and had room to grow and improve his overall client experience. The Perna Team is now with eXp Realty and has grown to the #1 real estate team in the state of Michigan with over 1000 families served in the past 12 months. The Perna Team aims at making every client relationship #1. Our objective is to ensure that we net the most for our sellers, as well as creating the smoothest transaction possible in addition to helping them find their dream home. Mike grew up in Farmington Hills Michigan and is passionate about the community and educating the community on the biggest investment most people will make in their lives. His energy and fun loving spirit is reflected in the culture of the team and the level of service provided to our clients."
         },
         {
-            name: "Robert Taylor",
-            title: "Negotiation Strategist",
-            company: "Deal Makers Institute",
-            photo: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=800&h=800&fit=crop",
-            tagline: "Expert tactics for winning negotiations and maximizing client outcomes.",
-            bioUrl: "#"
-        },
-        {
-            name: "Maria Gonzalez",
-            title: "First-Time Buyer Specialist",
-            company: "New Home Navigators",
-            photo: "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=800&h=800&fit=crop",
-            tagline: "Guiding new buyers through the home purchase process with confidence and clarity.",
-            bioUrl: "#"
-        },
-        {
-            name: "Kevin Anderson",
-            title: "Commercial Real Estate Advisor",
-            company: "Business Property Solutions",
-            photo: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=800&h=800&fit=crop",
-            tagline: "Connecting businesses with ideal commercial spaces for growth and success.",
-            bioUrl: "#"
-        },
-        {
-            name: "Nicole Johnson",
-            title: "Staging & Design Consultant",
-            company: "Home Impression Studios",
+            name: "Blair Knowles",
+            title: "AI & Technology Expert",
+            company: "",
             photo: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=800&h=800&fit=crop",
-            tagline: "Transforming properties to sell faster and for higher prices through strategic staging.",
+            tagline: "Expert in AI-powered real estate solutions.",
             bioUrl: "#"
         },
         {
-            name: "Christopher Lee",
-            title: "Tech Integration Specialist",
-            company: "PropTech Innovations",
+            name: "Barry Jenkins",
+            title: "Real Estate Expert",
+            company: "",
+            photo: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=800&h=800&fit=crop",
+            tagline: "Industry leader and speaker.",
+            bioUrl: "#"
+        },
+        {
+            name: "Jessica Starr",
+            title: "Real Estate Industry Leader",
+            company: "",
+            photo: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=800&h=800&fit=crop",
+            tagline: "Leading industry discussions on the evolution of the brokerage model.",
+            bioUrl: "#"
+        },
+        {
+            name: "Norkis Fernandez",
+            title: "Real Estate Panelist",
+            company: "",
+            photo: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=800&h=800&fit=crop",
+            tagline: "Industry expert sharing insights on real estate practices.",
+            bioUrl: "#"
+        },
+        {
+            name: "David Lewis",
+            title: "Real Estate Expert",
+            company: "",
+            photo: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=800&h=800&fit=crop",
+            tagline: "Industry leader in brokerage strategies.",
+            bioUrl: "#"
+        },
+        {
+            name: "Ricky Miller",
+            title: "Real Estate Panelist",
+            company: "",
+            photo: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=800&h=800&fit=crop",
+            tagline: "Panel expert sharing industry insights.",
+            bioUrl: "#"
+        },
+        {
+            name: "Jomar Lopez",
+            title: "Real Estate Professional",
+            company: "",
             photo: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=800&h=800&fit=crop",
-            tagline: "Implementing cutting-edge technology solutions to streamline real estate operations.",
+            tagline: "Panel discussion leader.",
+            bioUrl: "#"
+        },
+        {
+            name: "Michael Cruz",
+            title: "Real Estate Expert",
+            company: "",
+            photo: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=800&h=800&fit=crop",
+            tagline: "Industry expert and panelist.",
+            bioUrl: "#"
+        },
+        {
+            name: "Cindy Castillo",
+            title: "Real Estate Professional",
+            company: "",
+            photo: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=800&h=800&fit=crop",
+            tagline: "Panel expert sharing valuable insights.",
+            bioUrl: "#"
+        },
+        {
+            name: "Francisco Lara",
+            title: "Real Estate Panelist",
+            company: "",
+            photo: "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=800&h=800&fit=crop",
+            tagline: "Industry leader and panel participant.",
             bioUrl: "#"
         }
     ],
@@ -369,22 +378,13 @@ const eventData = {
                     description: "Learn about HomeFirst's mortgage solutions."
                 },
                 {
-                    time: "1:45 PM – 2:00 PM",
-                    duration: "15 minutes",
-                    title: "House Whisperer",
-                    speaker: "House Whisperer",
+                    time: "1:45 PM – 2:15 PM",
+                    duration: "30 minutes",
+                    title: "The 30-Day Conversion Comeback: Turn Old Leads Into New Closings",
+                    speaker: "Marissa Canario, Blake Jenkins",
                     location: "Expo Main Stage",
-                    tag: "Sponsor Session",
-                    description: "Discover House Whisperer's unique approach to real estate."
-                },
-                {
-                    time: "2:00 PM – 2:15 PM",
-                    duration: "15 minutes",
-                    title: "CyberTracker",
-                    speaker: "CyberTracker",
-                    location: "Expo Main Stage",
-                    tag: "Sponsor Session",
-                    description: "Explore CyberTracker's technology solutions."
+                    tag: "Session",
+                    description: "Learn strategies to convert old leads into new closings in just 30 days."
                 },
                 {
                     time: "2:15 PM – 2:30 PM",
@@ -420,13 +420,13 @@ const eventData = {
     // Tickets section is now static HTML - no data needed
     
     venue: {
-        name: "Orlando Marriott World Center - Cypress Ballroom 2",
+        name: "Orlando World Center Marriott - Cypress Ballroom 2",
         address: "8701 World Center Dr, Orlando, FL 32821",
         mapUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3510.4!2d-81.50928669917572!3d28.360979974698278!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88dd7b8c8c8c8c8d%3A0x8c8c8c8c8c8c8c8d!2sOrlando+Marriott+World+Center!5e0!3m2!1sen!2sus!4v1234567890",
         travelTips: "Orlando International Airport (MCO) is 20 minutes away. Uber, Lyft, and taxi services are readily available.",
         hotels: [
             {
-                name: "Orlando Marriott World Center",
+                name: "Orlando World Center Marriott",
                 link: "https://marriott.com/hotels/travel/mcowc-orlando-marriott-world-center"
             }
         ]
@@ -474,7 +474,7 @@ const eventData = {
         },
         {
             question: "Is the venue accessible?",
-            answer: "Yes, the Orlando Marriott World Center is fully ADA compliant with wheelchair accessibility, accessible parking, restrooms, and seating areas. Please contact us if you have specific accessibility needs."
+            answer: "Yes, the Orlando World Center Marriott is fully ADA compliant with wheelchair accessibility, accessible parking, restrooms, and seating areas. Please contact us if you have specific accessibility needs."
         },
         {
             question: "Will sessions be recorded?",
@@ -490,7 +490,7 @@ const eventData = {
         },
         {
             question: "Are meals provided?",
-            answer: "No, meals are not provided at the event. The venue is located at the Orlando Marriott World Center which has multiple dining options available on-site, and there are many restaurants nearby."
+            answer: "No, meals are not provided at the event. The venue is located at the Orlando World Center Marriott which has multiple dining options available on-site, and there are many restaurants nearby."
         }
     ]
 };
@@ -770,7 +770,7 @@ function renderSpeakers() {
     
     if (!carouselInner || !dotsContainer) return;
 
-    // Limit carousel to first 5 speakers
+    // Limit carousel to first 5 featured speakers
     const featuredSpeakers = eventData.speakers.slice(0, 5);
 
     // Render speaker slides
