@@ -206,7 +206,7 @@ const eventData = {
             bio: "Chris Doering, former NFL wide receiver and lifelong Florida Gator, is the founder of Chris Doering Mortgage and a national speaker known for his resilience and leadership. As an ESPN and SEC Network analyst, he combines his passion for teamwork and excellence to inspire both his clients and audiences nationwide.",
             speakingTime: "2:40 – 3:00 PM",
             speakingDate: "Thursday, Oct 16",
-            sessionTitle: "Lessons from an NFL Career"
+            sessionTitle: "Taking Hits: Lessons from an NFL Career"
         },
         {
             name: "Barry Jenkins",
@@ -236,18 +236,9 @@ const eventData = {
             tagline: "Leveraging AI to transform how agents connect with leads and scale their businesses.",
             bioUrl: "#",
             bio: "Bobby Moats is passionate about driving innovation and empowering real estate professionals to achieve extraordinary results. With over a decade of experience, he has built his career on blending strategic leadership, cutting-edge technology, and a deep understanding of what agents and clients need to succeed. As founder of Speculo AI, Bobby is committed to leveraging artificial intelligence to transform how agents connect with leads, nurture relationships, and scale their businesses. His work focuses on creating tools and systems that simplify processes, improve efficiency, and deliver measurable results—all while ensuring a personal touch remains at the core of real estate transactions.",
-            sessions: [
-                {
-                    speakingTime: "1:00 – 1:40 PM",
-                    speakingDate: "Friday, Oct 17",
-                    sessionTitle: "Building Your AI-Powered Empire (Panel)"
-                },
-                {
-                    speakingTime: "2:20 – 3:00 PM",
-                    speakingDate: "Friday, Oct 17",
-                    sessionTitle: "The Evolution of the Brokerage Model (Panel)"
-                }
-            ]
+            speakingTime: "2:20 – 3:00 PM",
+            speakingDate: "Friday, Oct 17",
+            sessionTitle: "The Evolution of the Brokerage Model (Panel)"
         },
         {
             name: "Andy Nelson",
@@ -268,9 +259,18 @@ const eventData = {
             photo: "img/MarissaCanario.jpg",
             tagline: "Expert in lead conversion and brokerage model evolution.",
             bioUrl: "#",
-            speakingTime: "2:20 – 3:00 PM",
-            speakingDate: "Friday, Oct 17",
-            sessionTitle: "The Evolution of the Brokerage Model (Panel)"
+            sessions: [
+                {
+                    speakingTime: "1:40 – 2:20 PM",
+                    speakingDate: "Friday, Oct 17",
+                    sessionTitle: "The 30-Day Conversion Comeback: Turn Old Leads Into New Closings"
+                },
+                {
+                    speakingTime: "2:20 – 3:00 PM",
+                    speakingDate: "Friday, Oct 17",
+                    sessionTitle: "The Evolution of the Brokerage Model (Panel)"
+                }
+            ]
         },
         {
             name: "Michael Perna",
@@ -340,7 +340,7 @@ const eventData = {
             tagline: "Leading one of Polk County's largest real estate offices with expertise spanning property management to new home construction.",
             bioUrl: "#",
             bio: "With over 14 years of experience serving Polk County, Ricky Miller has established himself as one of the area's most respected real estate professionals. As Broker of the second-largest real estate office in Polk County, he has led and supported hundreds of agents while serving thousands of families across Central Florida. Ricky's career spans property management, residential sales, new home construction, and real estate investing. Known for his entrepreneurial drive and commitment to excellence, he continues to shape the future of real estate in Polk County and beyond.",
-            speakingTime: "11:45 AM – 12:00 PM",
+            speakingTime: "11:40 AM – 12:20 PM",
             speakingDate: "Friday, Oct 17",
             sessionTitle: "Growing Without Borders: Building Your Real Estate Business Across Communities"
         },
@@ -402,16 +402,16 @@ const eventData = {
                 {
                     time: "2:00 – 2:40 PM",
                     duration: "40 minutes",
-                    title: "The Ted Show: Mortgage",
-                    speaker: "Ted Bogert",
+                    title: "The Ted Show Live!",
+                    speaker: "Ted Bogert and special guests",
                     location: "Cypress 2 Stage",
-                    tag: "Session",
-                    description: "Engage with Ted Bogert as he delivers insights on mortgage solutions and strategies."
+                    tag: "Keynote Session",
+                    description: "Engage with Ted Bogert and special guests as they deliver insights on mortgage solutions and strategies."
                 },
                 {
                     time: "2:40 – 3:00 PM",
                     duration: "20 minutes",
-                    title: "Lessons from an NFL Career",
+                    title: "Taking Hits: Lessons from an NFL Career",
                     speaker: "Chris Doering",
                     sponsor: "Crexi",
                     location: "Cypress 2 Stage",
@@ -422,7 +422,7 @@ const eventData = {
                     time: "3:00 – 3:40 PM",
                     duration: "40 minutes",
                     title: "Winning Stories from Agents Who Joined Teams!",
-                    speaker: "JoinATeam",
+                    speaker: "Chris Feamster, Larry Fisher, Keegan Seigfried",
                     sponsor: "America's Preferred Home Warranty",
                     location: "Cypress 2 Stage",
                     tag: "Keynote Session",
@@ -432,7 +432,7 @@ const eventData = {
                     time: "3:40 – 4:00 PM",
                     duration: "20 minutes",
                     title: "Creative Financing to SAVE Deals!",
-                    speaker: "HomeFirst",
+                    speaker: "Zac Bleznick",
                     sponsor: "HomeFirst",
                     location: "Cypress 2 Stage",
                     tag: "Keynote Session",
@@ -468,17 +468,17 @@ const eventData = {
                     time: "11:40 AM – 12:20 PM",
                     duration: "40 minutes",
                     title: "Growing Without Borders: Building Your Real Estate Business Across Communities",
-                    speaker: "Norkis Fernandez",
+                    speaker: "Norkis Fernandez, Ricky Miller",
                     sponsor: "Realty.com",
                     location: "Cypress 2 Stage",
-                    tag: "Session",
+                    tag: "Keynote Session",
                     description: "Learn strategies for expanding your real estate business across diverse communities."
                 },
                 {
                     time: "12:20 – 1:00 PM",
                     duration: "40 minutes",
                     title: "Beyond Elevating Your Business and Client Experience",
-                    speaker: "Level Up",
+                    speaker: "Jomar Lopez, Michael Cruz, Cindy Castillo, Francisco Lara",
                     sponsor: "Zoodealio",
                     location: "Cypress 2 Stage",
                     tag: "Keynote Session",
@@ -488,7 +488,7 @@ const eventData = {
                     time: "1:00 – 1:40 PM",
                     duration: "40 minutes",
                     title: "Building Your AI-Powered Empire",
-                    speaker: "Michael Perna, Blair Knowles, Bobby Moats",
+                    speaker: "Michael Perna, Blair Knowles",
                     sponsor: "Ruuster",
                     location: "Cypress 2 Stage",
                     tag: "Panel",
@@ -498,10 +498,10 @@ const eventData = {
                     time: "1:40 – 2:20 PM",
                     duration: "40 minutes",
                     title: "The 30-Day Conversion Comeback: Turn Old Leads Into New Closings",
-                    speaker: "Barry Jenkins",
+                    speaker: "Barry Jenkins, Marissa Canario",
                     sponsor: "YLOPO",
                     location: "Cypress 2 Stage",
-                    tag: "Session",
+                    tag: "Keynote Session",
                     description: "Learn strategies to convert old leads into new closings in just 30 days."
                 },
                 {
