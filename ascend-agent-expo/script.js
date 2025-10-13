@@ -189,6 +189,26 @@ const eventData = {
             sessionTitle: "Dead Contacts to Done Deals: The Database Conversion System"
         },
         {
+            name: "Chris Doering",
+            positions: [
+                {
+                    title: "College Football Analyst",
+                    company: "ESPN"
+                },
+                {
+                    title: "Owner",
+                    company: "Chris Doering Mortgage"
+                }
+            ],
+            photo: "img/chrisdoering.jpg",
+            tagline: "Former NFL wide receiver and lifelong Florida Gator, combining resilience and leadership to inspire clients and audiences nationwide.",
+            bioUrl: "#",
+            bio: "Chris Doering, former NFL wide receiver and lifelong Florida Gator, is the founder of Chris Doering Mortgage and a national speaker known for his resilience and leadership. As an ESPN and SEC Network analyst, he combines his passion for teamwork and excellence to inspire both his clients and audiences nationwide.",
+            speakingTime: "2:40 – 3:00 PM",
+            speakingDate: "Thursday, Oct 16",
+            sessionTitle: "Lessons from an NFL Career"
+        },
+        {
             name: "Barry Jenkins",
             positions: [
                 {
@@ -260,7 +280,7 @@ const eventData = {
             tagline: "Leading Michigan's #1 real estate team with over 1000 families served annually. 'I want to be remembered as passionate and helpful.'",
             bioUrl: "#",
             bio: "Michael Perna has been in real estate for over 20 years and spent the majority of his career with Keller Williams where he started his team in 2001 when realizing he had excelled as an individual agent and had room to grow and improve his overall client experience. The Perna Team is now with eXp Realty and has grown to the #1 real estate team in the state of Michigan with over 1000 families served in the past 12 months. The Perna Team aims at making every client relationship #1. Our objective is to ensure that we net the most for our sellers, as well as creating the smoothest transaction possible in addition to helping them find their dream home. Mike grew up in Farmington Hills Michigan and is passionate about the community and educating the community on the biggest investment most people will make in their lives. His energy and fun loving spirit is reflected in the culture of the team and the level of service provided to our clients.",
-            speakingTime: "1:00 PM – 1:30 PM",
+            speakingTime: "1:00 – 1:40 PM",
             speakingDate: "Friday, Oct 17",
             sessionTitle: "Building Your AI-Powered Empire (Panel)"
         },
@@ -272,7 +292,7 @@ const eventData = {
             tagline: "Passionate about real estate as a vehicle for opportunity and community good.",
             bioUrl: "#",
             bio: "Blair has an unquenchable passion for real estate as a vehicle for opportunity and for community good. Blair began her real estate career in Vermont in 2013 at Keller Williams Vermont and went on to form her own team at the firm in 2015, The Knowles Group. In 2020 Blair and her team left the brokerage at Keller Williams to form their own brokerage, Ridgeline Real Estate. Outside of Ridgeline Real Estate Blair is a property owner and a landlord in Vermont. She is also an avid yoga practitioner.",
-            speakingTime: "1:00 PM – 1:30 PM",
+            speakingTime: "1:00 – 1:40 PM",
             speakingDate: "Friday, Oct 17",
             sessionTitle: "Building Your AI-Powered Empire (Panel)"
         },
@@ -284,7 +304,7 @@ const eventData = {
             tagline: "Known for her market insight, tireless work ethic, and personal touch — treating every client like family.",
             bioUrl: "#",
             bio: "Jessica Cieslak Starr is a proud Quinnipiac University graduate and seasoned real estate professional known for her market insight, tireless work ethic, and personal touch. Clients praise her responsiveness, strategic approach, and genuine care. Beyond real estate, Jessica is a dedicated community advocate, mom of four, and wife to her high school sweetheart. She has spent over 20 years with the Simsbury Volunteer Fire Department Ladies Auxiliary and actively supports organizations including The Village for Families & Children and Journey Home CT. Rooted in Simsbury, her deep local knowledge comes from living, serving, and raising her family in the area.",
-            speakingTime: "11:00 AM – 11:30 AM",
+            speakingTime: "2:20 – 3:00 PM",
             speakingDate: "Friday, Oct 17",
             sessionTitle: "The Evolution of the Brokerage Model (Panel)"
         },
@@ -296,7 +316,7 @@ const eventData = {
             tagline: "Refining community-driven culture and enhancing brand identity with a focus on agent development.",
             bioUrl: "#",
             bio: "Norkis Fernandez Valdez serves as Vice President at LPT Realty, where she focuses on agent development and building a strong brand narrative. Her role encompasses refining the company's community-driven culture and enhancing brand identity. Her tenure on the Board of Directors at ORRA and NAHREP has granted her a unique perspective on industry-leading strategies. Through strategic branding and a nurturing environment, she has elevated market presence and attracted top-tier talent, reinforcing her commitment to growth and excellence within the industry.",
-            speakingTime: "11:45 AM – 12:00 PM",
+            speakingTime: "11:40 AM – 12:20 PM",
             speakingDate: "Friday, Oct 17",
             sessionTitle: "Growing Without Borders: Building Your Real Estate Business Across Communities"
         },
@@ -308,7 +328,7 @@ const eventData = {
             tagline: "Operating a massive real estate business in Atlanta Georgia while creating 6-figure income earners across the country and giving back to the community.",
             bioUrl: "#",
             bio: "David Lewis is a business builder passionate about creating opportunity. He owns and operates five businesses including TLG Atlanta, TLG Savannah, Pepper Boxing - Buckhead, Eleven16 Renovations, and CDL Holdings. A national teacher, trainer, and speaker, David graduated from The University of Alabama in 2008 and built the #1 team in one of the top brokerages in the nation in just 7 years. He has helped create more 6-figure income earners than anyone else in the industry. David is very active in Operation Christmas Child, launched the TLG Gives Fund during the pandemic, and believes in using success to give back to the community.",
-            speakingTime: "11:00 AM – 11:30 AM",
+            speakingTime: "2:20 – 3:00 PM",
             speakingDate: "Friday, Oct 17",
             sessionTitle: "The Evolution of the Brokerage Model (Panel)"
         },
@@ -332,9 +352,9 @@ const eventData = {
             tagline: "Distinguished broker with licenses in Puerto Rico and Florida, leading 1,400+ agents with over 300 properties sold.",
             bioUrl: "#",
             bio: "Jomar López is a distinguished professional holding Broker licenses in both Puerto Rico and Florida. With 12 years of experience and over 300 properties sold, he has established himself as an authority in real estate. As Founder of Level Up Network, he leads an organization of more than 1,400 agents. Specializing as a HUD Listing Agent and in foreclosed properties, he has demonstrated a unique ability to identify and capitalize on market opportunities. His passion, leadership, and consistency have earned him awards for six consecutive years from NAHREP, including the prestigious Top 250 Latino Agent Award.",
-            speakingTime: "12:15 PM – 12:45 PM",
+            speakingTime: "12:20 – 1:00 PM",
             speakingDate: "Friday, Oct 17",
-            sessionTitle: "Más Allá de las Expectativas / Beyond Elevating Your Business and Client Experience"
+            sessionTitle: "Beyond Elevating Your Business and Client Experience"
         },
         {
             name: "Michael Cruz",
@@ -344,9 +364,9 @@ const eventData = {
             tagline: "First Time Home Buyer Specialist dedicated to guiding homebuyers through every step of their real estate journey with personalized solutions.",
             bioUrl: "#",
             bio: "As a First Time Home Buyer Specialist, Michael Cruz is dedicated to guiding homebuyers and homeowners through every step of the real estate journey. Explore personalized solutions and expert advice tailored to your unique needs.",
-            speakingTime: "12:15 PM – 12:45 PM",
+            speakingTime: "12:20 – 1:00 PM",
             speakingDate: "Friday, Oct 17",
-            sessionTitle: "Más Allá de las Expectativas / Beyond Elevating Your Business and Client Experience"
+            sessionTitle: "Beyond Elevating Your Business and Client Experience"
         },
         {
             name: "Cindy Castillo",
@@ -356,9 +376,9 @@ const eventData = {
             tagline: "Empowering 3,000+ agents to achieve extraordinary results with over $100M in sales and 17 years of experience.",
             bioUrl: "#",
             bio: "Cindy Castillo drives the growth of real estate agents through the Top Million Producer System, a proven model designed to take their business to the next level. With more than 17 years of experience in the industry, she has achieved over $100 million in sales and led a team of more than 100 agents committed to excellence and results. Her true passion is real estate coaching, through which she has guided over 3,000 agents to structure their businesses, increase productivity, and achieve extraordinary results.",
-            speakingTime: "12:15 PM – 12:45 PM",
+            speakingTime: "12:20 – 1:00 PM",
             speakingDate: "Friday, Oct 17",
-            sessionTitle: "Más Allá de las Expectativas / Beyond Elevating Your Business and Client Experience"
+            sessionTitle: "Beyond Elevating Your Business and Client Experience"
         },
         {
             name: "Francisco Lara",
@@ -368,9 +388,9 @@ const eventData = {
             tagline: "International real estate expert specializing in buying, selling, and investing in Florida.",
             bioUrl: "#",
             bio: "Francisco Lara is an International Realtor and CEO of The Global Team, powered by LPT Realty. He specializes in helping clients buy, sell, and invest in Florida real estate, bringing a global perspective to the local market.",
-            speakingTime: "12:15 PM – 12:45 PM",
+            speakingTime: "12:20 – 1:00 PM",
             speakingDate: "Friday, Oct 17",
-            sessionTitle: "Más Allá de las Expectativas / Beyond Elevating Your Business and Client Experience"
+            sessionTitle: "Beyond Elevating Your Business and Client Experience"
         }
     ],
     
