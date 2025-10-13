@@ -27,18 +27,23 @@ const eventData = {
         },
         {
             name: "Rocket Mortgage",
-            logo: "img/sponsors/rocketmortgage_logo.webp",
+            logo: "img/sponsors/rocketmortage.svg",
             link: "https://rocketmortgage.com"
         },
         {
             name: "Fello",
-            logo: "img/sponsors/sponsor-02.png",
+            logo: "img/sponsors/fello.webp",
             link: "https://fello.com"
         },
         {
             name: "Realtor.com",
             logo: "img/sponsors/realtorcom.png",
             link: "https://realtor.com"
+        },
+        {
+            name: "Devore Design",
+            logo: "img/sponsors/devoredesign.png",
+            link: "https://devoredesign.com"
         },
         {
             name: "Realty.com",
@@ -72,13 +77,33 @@ const eventData = {
         },
         {
             name: "Crexi",
-            logo: "img/sponsors/sponsor-03.png",
+            logo: "img/sponsors/crexi.svg",
             link: "https://crexi.com"
         },
         {
             name: "AM Cards",
             logo: "img/sponsors/amcards.png",
             link: "https://amcards.com"
+        },
+        {
+            name: "Alex Cooper",
+            logo: "img/sponsors/alexcooper.svg",
+            link: "https://alexcooper.com"
+        },
+        {
+            name: "America's Preferred Home Warranty",
+            logo: "img/sponsors/americaspreferred.png",
+            link: "https://apwhome.com"
+        },
+        {
+            name: "HomeFirst Lending",
+            logo: "img/sponsors/homefirstlending.png",
+            link: "https://homefirstlending.com"
+        },
+        {
+            name: "Ylopo",
+            logo: "img/sponsors/ylopo.png",
+            link: "https://ylopo.com"
         },
         {
             name: "Sponsor 01",
@@ -152,14 +177,34 @@ const eventData = {
     
     speakers: [
         {
+            name: "Ryan Young",
+            title: "CEO",
+            company: "Young Team KW and Fello",
+            photo: "img/ryanyoung.jpg",
+            tagline: "Founder of Fello and leader of The Young Team, combining hospitality background with real estate innovation to deliver exceptional client experiences.",
+            bioUrl: "#",
+            bio: "Ryan Young, founder of Fello and leader of The Young Team, combines his hospitality background with real estate innovation to deliver exceptional client experiences and business growth. Under his leadership, Fello has become one of the nation's most trusted lead generation platforms, empowering over 2,000 real estate teams across the U.S.",
+            speakingTime: "4:00 – 5:00 PM",
+            speakingDate: "Thursday, Oct 16",
+            sessionTitle: "Dead Contacts to Done Deals: The Database Conversion System"
+        },
+        {
             name: "Barry Jenkins",
-            title: "CMO & Technology Evangelist",
-            company: "Better Homes and Gardens Real Estate NAGR",
+            positions: [
+                {
+                    title: "Founder",
+                    company: "Legacy Home Team at LPT"
+                },
+                {
+                    title: "Head Realtor in Residence",
+                    company: "Ylopo"
+                }
+            ],
             photo: "img/blakejekins.jpg",
             tagline: "Innovative leader at the intersection of real estate and technology, driving transformation through AI and digital solutions.",
             bioUrl: "#",
-            bio: "Barry Jenkins is an innovative real estate leader with nearly two decades of experience at the intersection of technology and results-driven leadership. As Chief Marketing Officer of Better Homes and Gardens Real Estate NAGR, he leads a top-performing team in Virginia Beach, VA, achieving thousands of transactions and earning a top national ranking on Real Trends Top 1,000 Teams. Barry also serves as Head Realtor in Residence at Ylopo, focusing on training, product development, and championing transformative technology. As an author, speaker, and ordained minister, he is deeply committed to his faith, family, and creating a legacy of integrity and excellence.",
-            speakingTime: "1:45 PM – 2:15 PM",
+            bio: "Barry Jenkins is an innovative real estate leader with nearly two decades of experience at the intersection of technology and results-driven leadership. As Founder of Legacy Home Team at LPT, he leads a top-performing team in Virginia Beach, VA, achieving thousands of transactions and earning a top national ranking on Real Trends Top 1,000 Teams. Barry also serves as Head Realtor in Residence at Ylopo, focusing on training, product development, and championing transformative technology. As an author, speaker, and ordained minister, he is deeply committed to his faith, family, and creating a legacy of integrity and excellence.",
+            speakingTime: "1:40 – 2:20 PM",
             speakingDate: "Friday, Oct 17",
             sessionTitle: "The 30-Day Conversion Comeback: Turn Old Leads Into New Closings"
         },
@@ -173,16 +218,28 @@ const eventData = {
             bio: "Bobby Moats is passionate about driving innovation and empowering real estate professionals to achieve extraordinary results. With over a decade of experience, he has built his career on blending strategic leadership, cutting-edge technology, and a deep understanding of what agents and clients need to succeed. As founder of Speculo AI, Bobby is committed to leveraging artificial intelligence to transform how agents connect with leads, nurture relationships, and scale their businesses. His work focuses on creating tools and systems that simplify processes, improve efficiency, and deliver measurable results—all while ensuring a personal touch remains at the core of real estate transactions.",
             sessions: [
                 {
-                    speakingTime: "11:00 AM – 11:30 AM",
-                    speakingDate: "Friday, Oct 17",
-                    sessionTitle: "The Evolution of the Brokerage Model (Panel)"
-                },
-                {
-                    speakingTime: "1:00 PM – 1:30 PM",
+                    speakingTime: "1:00 – 1:40 PM",
                     speakingDate: "Friday, Oct 17",
                     sessionTitle: "Building Your AI-Powered Empire (Panel)"
+                },
+                {
+                    speakingTime: "2:20 – 3:00 PM",
+                    speakingDate: "Friday, Oct 17",
+                    sessionTitle: "The Evolution of the Brokerage Model (Panel)"
                 }
             ]
+        },
+        {
+            name: "Andy Nelson",
+            title: "Glover U Coach",
+            company: "Iron Valley Real Estate",
+            photo: "img/andynelson.jpg",
+            tagline: "U.S. Navy Veteran and co-owner of five brokerages across Virginia and North Carolina, leading nearly 200 agents with a mission of service before self.",
+            bioUrl: "#",
+            bio: "Andy Nelson, a U.S. Navy Veteran and co-owner of five brokerages across Virginia and North Carolina, leads nearly 200 agents with a mission of service before self. After overcoming multiple setbacks, he's built a thriving career as a top producer, closing over 1,100 transactions annually while inspiring others through his resilience and leadership.",
+            speakingTime: "3:00 – 4:00 PM",
+            speakingDate: "Friday, Oct 17",
+            sessionTitle: "Building a Thriving Real Estate Business"
         },
         {
             name: "Marissa Canario",
@@ -191,18 +248,9 @@ const eventData = {
             photo: "img/MarissaCanario.jpg",
             tagline: "Expert in lead conversion and brokerage model evolution.",
             bioUrl: "#",
-            sessions: [
-                {
-                    speakingTime: "11:00 AM – 11:30 AM",
-                    speakingDate: "Friday, Oct 17",
-                    sessionTitle: "The Evolution of the Brokerage Model (Panel)"
-                },
-                {
-                    speakingTime: "1:45 PM – 2:15 PM",
-                    speakingDate: "Friday, Oct 17",
-                    sessionTitle: "The 30-Day Conversion Comeback: Turn Old Leads Into New Closings"
-                }
-            ]
+            speakingTime: "2:20 – 3:00 PM",
+            speakingDate: "Friday, Oct 17",
+            sessionTitle: "The Evolution of the Brokerage Model (Panel)"
         },
         {
             name: "Michael Perna",
@@ -250,14 +298,14 @@ const eventData = {
             bio: "Norkis Fernandez Valdez serves as Vice President at LPT Realty, where she focuses on agent development and building a strong brand narrative. Her role encompasses refining the company's community-driven culture and enhancing brand identity. Her tenure on the Board of Directors at ORRA and NAHREP has granted her a unique perspective on industry-leading strategies. Through strategic branding and a nurturing environment, she has elevated market presence and attracted top-tier talent, reinforcing her commitment to growth and excellence within the industry.",
             speakingTime: "11:45 AM – 12:00 PM",
             speakingDate: "Friday, Oct 17",
-            sessionTitle: "Panel Discussion"
+            sessionTitle: "Growing Without Borders: Building Your Real Estate Business Across Communities"
         },
         {
             name: "David Lewis",
             title: "Business Builder & Multi-Business Owner",
             company: "TLG Atlanta | TLG Savannah",
             photo: "img/davidlewis.jpg",
-            tagline: "Building the #1 team in the nation while creating 6-figure income earners and giving back to the community.",
+            tagline: "Operating a massive real estate business in Atlanta Georgia while creating 6-figure income earners across the country and giving back to the community.",
             bioUrl: "#",
             bio: "David Lewis is a business builder passionate about creating opportunity. He owns and operates five businesses including TLG Atlanta, TLG Savannah, Pepper Boxing - Buckhead, Eleven16 Renovations, and CDL Holdings. A national teacher, trainer, and speaker, David graduated from The University of Alabama in 2008 and built the #1 team in one of the top brokerages in the nation in just 7 years. He has helped create more 6-figure income earners than anyone else in the industry. David is very active in Operation Christmas Child, launched the TLG Gives Fund during the pandemic, and believes in using success to give back to the community.",
             speakingTime: "11:00 AM – 11:30 AM",
@@ -274,7 +322,7 @@ const eventData = {
             bio: "With over 14 years of experience serving Polk County, Ricky Miller has established himself as one of the area's most respected real estate professionals. As Broker of the second-largest real estate office in Polk County, he has led and supported hundreds of agents while serving thousands of families across Central Florida. Ricky's career spans property management, residential sales, new home construction, and real estate investing. Known for his entrepreneurial drive and commitment to excellence, he continues to shape the future of real estate in Polk County and beyond.",
             speakingTime: "11:45 AM – 12:00 PM",
             speakingDate: "Friday, Oct 17",
-            sessionTitle: "Panel Discussion"
+            sessionTitle: "Growing Without Borders: Building Your Real Estate Business Across Communities"
         },
         {
             name: "Jomar Lopez",
@@ -286,7 +334,7 @@ const eventData = {
             bio: "Jomar López is a distinguished professional holding Broker licenses in both Puerto Rico and Florida. With 12 years of experience and over 300 properties sold, he has established himself as an authority in real estate. As Founder of Level Up Network, he leads an organization of more than 1,400 agents. Specializing as a HUD Listing Agent and in foreclosed properties, he has demonstrated a unique ability to identify and capitalize on market opportunities. His passion, leadership, and consistency have earned him awards for six consecutive years from NAHREP, including the prestigious Top 250 Latino Agent Award.",
             speakingTime: "12:15 PM – 12:45 PM",
             speakingDate: "Friday, Oct 17",
-            sessionTitle: "Expert Panel Discussion"
+            sessionTitle: "Más Allá de las Expectativas / Beyond Elevating Your Business and Client Experience"
         },
         {
             name: "Michael Cruz",
@@ -298,7 +346,7 @@ const eventData = {
             bio: "As a First Time Home Buyer Specialist, Michael Cruz is dedicated to guiding homebuyers and homeowners through every step of the real estate journey. Explore personalized solutions and expert advice tailored to your unique needs.",
             speakingTime: "12:15 PM – 12:45 PM",
             speakingDate: "Friday, Oct 17",
-            sessionTitle: "Expert Panel Discussion"
+            sessionTitle: "Más Allá de las Expectativas / Beyond Elevating Your Business and Client Experience"
         },
         {
             name: "Cindy Castillo",
@@ -310,7 +358,7 @@ const eventData = {
             bio: "Cindy Castillo drives the growth of real estate agents through the Top Million Producer System, a proven model designed to take their business to the next level. With more than 17 years of experience in the industry, she has achieved over $100 million in sales and led a team of more than 100 agents committed to excellence and results. Her true passion is real estate coaching, through which she has guided over 3,000 agents to structure their businesses, increase productivity, and achieve extraordinary results.",
             speakingTime: "12:15 PM – 12:45 PM",
             speakingDate: "Friday, Oct 17",
-            sessionTitle: "Expert Panel Discussion"
+            sessionTitle: "Más Allá de las Expectativas / Beyond Elevating Your Business and Client Experience"
         },
         {
             name: "Francisco Lara",
@@ -322,164 +370,139 @@ const eventData = {
             bio: "Francisco Lara is an International Realtor and CEO of The Global Team, powered by LPT Realty. He specializes in helping clients buy, sell, and invest in Florida real estate, bringing a global perspective to the local market.",
             speakingTime: "12:15 PM – 12:45 PM",
             speakingDate: "Friday, Oct 17",
-            sessionTitle: "Expert Panel Discussion"
+            sessionTitle: "Más Allá de las Expectativas / Beyond Elevating Your Business and Client Experience"
         }
     ],
     
     agenda: [
         {
-            day: "Thursday — Sponsor Showcase",
+            day: "Thursday — Cypress 2 Stage",
             date: "October 16, 2025",
             sessions: [
                 {
-                    time: "2:00 PM",
-                    duration: "45 minutes",
-                    title: "Ted Bogert",
+                    time: "2:00 – 2:40 PM",
+                    duration: "40 minutes",
+                    title: "The Ted Show: Mortgage",
                     speaker: "Ted Bogert",
-                    location: "Expo Main Stage",
-                    tag: "Sponsor Session",
-                    description: "Join us for an engaging sponsor session with Ted Bogert."
+                    location: "Cypress 2 Stage",
+                    tag: "Session",
+                    description: "Engage with Ted Bogert as he delivers insights on mortgage solutions and strategies."
                 },
                 {
-                    time: "2:45 PM",
-                    duration: "15 minutes",
-                    title: "Fello",
-                    speaker: "Fello",
-                    location: "Expo Main Stage",
-                    tag: "Sponsor Session",
-                    description: "Learn about Fello's innovative solutions."
+                    time: "2:40 – 3:00 PM",
+                    duration: "20 minutes",
+                    title: "Lessons from an NFL Career",
+                    speaker: "Chris Doering",
+                    sponsor: "Crexi",
+                    location: "Cypress 2 Stage",
+                    tag: "Keynote Session",
+                    description: "Learn valuable life and business lessons from Chris Doering's NFL career."
                 },
                 {
-                    time: "3:00 PM",
-                    duration: "45 minutes",
-                    title: "Alex Cooper",
-                    speaker: "Alex Cooper",
-                    location: "Expo Main Stage",
-                    tag: "Sponsor Session",
-                    description: "Join us for an engaging sponsor session with Alex Cooper."
+                    time: "3:00 – 3:40 PM",
+                    duration: "40 minutes",
+                    title: "Winning Stories from Agents Who Joined Teams!",
+                    speaker: "JoinATeam",
+                    sponsor: "America's Preferred Home Warranty",
+                    location: "Cypress 2 Stage",
+                    tag: "Keynote Session",
+                    description: "Hear success stories from agents who joined teams and transformed their careers."
                 },
                 {
-                    time: "3:45 PM",
-                    duration: "15 minutes",
-                    title: "Ruuster",
-                    speaker: "Ruuster",
-                    location: "Expo Main Stage",
-                    tag: "Sponsor Session",
-                    description: "Discover Ruuster's real estate solutions."
+                    time: "3:40 – 4:00 PM",
+                    duration: "20 minutes",
+                    title: "Creative Financing to SAVE Deals!",
+                    speaker: "HomeFirst",
+                    sponsor: "HomeFirst",
+                    location: "Cypress 2 Stage",
+                    tag: "Keynote Session",
+                    description: "Discover creative financing solutions to save your deals."
+                },
+                {
+                    time: "4:00 – 5:00 PM",
+                    duration: "60 minutes",
+                    title: "Dead Contacts to Done Deals: The Database Conversion System",
+                    speaker: "Fello / Ryan Young",
+                    sponsor: "Mutual of Omaha",
+                    location: "Cypress 2 Stage",
+                    tag: "Keynote Session",
+                    description: "Learn how Fello became one of the nation's most trusted lead generation platforms, empowering over 2,000 real estate teams across the U.S."
                 }
             ]
         },
         {
-            day: "Friday — Main Event",
+            day: "Friday — Cypress 2 Stage",
             date: "October 17, 2025",
             sessions: [
                 {
-                    time: "11:00 AM – 11:30 AM",
-                    duration: "30 minutes",
-                    title: "The Evolution of the Brokerage Model",
-                    speaker: "Jessica Starr, Bobby Moats, Marissa Canario, David Lewis",
-                    location: "Expo Main Stage",
-                    tag: "Panel",
-                    description: "Industry leaders discuss the changing landscape of real estate brokerages."
+                    time: "11:00 – 11:40 AM",
+                    duration: "40 minutes",
+                    title: "Distressed Properties / Veterans",
+                    speaker: "Tony Martinez",
+                    sponsor: "Alex Cooper",
+                    location: "Cypress 2 Stage",
+                    tag: "Keynote Session",
+                    description: "Gain insights on working with distressed properties and serving veteran clients."
                 },
                 {
-                    time: "11:30 AM – 11:45 AM",
-                    duration: "15 minutes",
-                    title: "Crexi",
-                    speaker: "Crexi",
-                    location: "Expo Main Stage",
-                    tag: "Sponsor Session",
-                    description: "Discover Crexi's commercial real estate platform."
+                    time: "11:40 AM – 12:20 PM",
+                    duration: "40 minutes",
+                    title: "Growing Without Borders: Building Your Real Estate Business Across Communities",
+                    speaker: "Norkis Fernandez",
+                    sponsor: "Realty.com",
+                    location: "Cypress 2 Stage",
+                    tag: "Session",
+                    description: "Learn strategies for expanding your real estate business across diverse communities."
                 },
                 {
-                    time: "11:45 AM – 12:00 PM",
-                    duration: "15 minutes",
-                    title: "Panel",
-                    speaker: "Norkis Fernandez, Ricky Miller",
-                    location: "Expo Main Stage",
-                    tag: "Panel",
-                    description: "Expert insights and discussion."
+                    time: "12:20 – 1:00 PM",
+                    duration: "40 minutes",
+                    title: "Beyond Elevating Your Business and Client Experience",
+                    speaker: "Level Up",
+                    sponsor: "Zoodealio",
+                    location: "Cypress 2 Stage",
+                    tag: "Keynote Session",
+                    description: "Discover ways to elevate your business and enhance client experience."
                 },
                 {
-                    time: "12:00 PM – 12:15 PM",
-                    duration: "15 minutes",
-                    title: "Realty.com",
-                    speaker: "Realty.com",
-                    location: "Expo Main Stage",
-                    tag: "Sponsor Session",
-                    description: "Discover Realty.com's innovative tools and resources."
-                },
-                {
-                    time: "12:15 PM – 12:45 PM",
-                    duration: "30 minutes",
-                    title: "Panel",
-                    speaker: "Jomar Lopez, Michael Cruz, Cindy Castillo, Francisco Lara",
-                    location: "Expo Main Stage",
-                    tag: "Panel",
-                    description: "Industry experts share their insights."
-                },
-                {
-                    time: "12:45 PM – 1:00 PM",
-                    duration: "15 minutes",
-                    title: "Chris Doering Mortgage Team",
-                    speaker: "Chris Doering Mortgage Team",
-                    location: "Expo Main Stage",
-                    tag: "Sponsor Session",
-                    description: "Learn about mortgage solutions from the Chris Doering Mortgage Team."
-                },
-                {
-                    time: "1:00 PM – 1:30 PM",
-                    duration: "30 minutes",
+                    time: "1:00 – 1:40 PM",
+                    duration: "40 minutes",
                     title: "Building Your AI-Powered Empire",
                     speaker: "Michael Perna, Blair Knowles, Bobby Moats",
-                    location: "Expo Main Stage",
+                    sponsor: "Ruuster",
+                    location: "Cypress 2 Stage",
                     tag: "Panel",
-                    description: "Learn how to leverage AI to grow your real estate business."
+                    description: "Learn how to leverage AI to grow your real estate business and build your empire."
                 },
                 {
-                    time: "1:30 PM – 1:45 PM",
-                    duration: "15 minutes",
-                    title: "HomeFirst",
-                    speaker: "HomeFirst",
-                    location: "Expo Main Stage",
-                    tag: "Sponsor Session",
-                    description: "Learn about HomeFirst's mortgage solutions."
-                },
-                {
-                    time: "1:45 PM – 2:15 PM",
-                    duration: "30 minutes",
+                    time: "1:40 – 2:20 PM",
+                    duration: "40 minutes",
                     title: "The 30-Day Conversion Comeback: Turn Old Leads Into New Closings",
-                    speaker: "Marissa Canario, Blake Jenkins",
-                    location: "Expo Main Stage",
+                    speaker: "Barry Jenkins",
+                    sponsor: "YLOPO",
+                    location: "Cypress 2 Stage",
                     tag: "Session",
                     description: "Learn strategies to convert old leads into new closings in just 30 days."
                 },
                 {
-                    time: "2:15 PM – 2:30 PM",
-                    duration: "15 minutes",
-                    title: "YLOPO",
-                    speaker: "YLOPO",
-                    location: "Expo Main Stage",
-                    tag: "Sponsor Session",
-                    description: "Learn about YLOPO's lead generation platform."
+                    time: "2:20 – 3:00 PM",
+                    duration: "40 minutes",
+                    title: "The Evolution of the Brokerage Model",
+                    speaker: "Bobby Moats, Marissa Canario, Jessica Starr, David Lewis",
+                    sponsor: "CyberTracker",
+                    location: "Cypress 2 Stage",
+                    tag: "Panel",
+                    description: "Industry leaders discuss the changing landscape of real estate brokerages."
                 },
                 {
-                    time: "3:00 PM – 3:15 PM",
-                    duration: "15 minutes",
-                    title: "America's Preferred Home Warranty",
-                    speaker: "America's Preferred Home Warranty",
-                    location: "Expo Main Stage",
-                    tag: "Sponsor Session",
-                    description: "Discover home warranty solutions for your clients."
-                },
-                {
-                    time: "3:15 PM – 3:45 PM",
-                    duration: "30 minutes",
-                    title: "Glover U Power Session",
-                    speaker: "Jeff Glover & Team",
-                    location: "Expo Main Stage",
-                    tag: "Power Session",
-                    description: "Learn from Jeff Glover & Team in this power-packed session."
+                    time: "3:00 – 4:00 PM",
+                    duration: "60 minutes",
+                    title: "Building a Thriving Real Estate Business",
+                    speaker: "Andy Nelson / Glover U",
+                    sponsor: "House Whisperer",
+                    location: "Cypress 2 Stage",
+                    tag: "Keynote Session",
+                    description: "Learn from a U.S. Navy Veteran who built five brokerages and leads nearly 200 agents while closing over 1,100 transactions annually."
                 }
             ]
         }
@@ -844,8 +867,8 @@ function renderSpeakers() {
     
     if (!carouselInner || !dotsContainer) return;
 
-    // Limit carousel to first 5 featured speakers
-    const featuredSpeakers = eventData.speakers.slice(0, 5);
+    // Limit carousel to first 8 featured speakers
+    const featuredSpeakers = eventData.speakers.slice(0, 8);
 
     // Render speaker slides
     const slidesHtml = featuredSpeakers.map((speaker, index) => {
@@ -883,8 +906,15 @@ function renderSpeakers() {
                 </div>
                 <div class="speaker-content">
                     <h3 class="speaker-name">${speaker.name}</h3>
-                    <p class="speaker-title">${speaker.title}</p>
-                    <p class="speaker-company">${speaker.company}</p>
+                    ${speaker.positions ? 
+                        speaker.positions.map(pos => `
+                            <p class="speaker-title">${pos.title}</p>
+                            <p class="speaker-company">${pos.company}</p>
+                        `).join('') 
+                        : 
+                        `<p class="speaker-title">${speaker.title}</p>
+                        <p class="speaker-company">${speaker.company}</p>`
+                    }
                     ${sessionsHtml}
                     ${speaker.tagline ? `<p class="speaker-tagline">${speaker.tagline}</p>` : ''}
                 </div>
@@ -967,8 +997,15 @@ function renderAllSpeakersGrid() {
                 </div>
                 <div class="speaker-card-content">
                     <h3 class="speaker-card-name">${speaker.name}</h3>
-                    <p class="speaker-card-title">${speaker.title}</p>
-                    <p class="speaker-card-company">${speaker.company}</p>
+                    ${speaker.positions ? 
+                        speaker.positions.map(pos => `
+                            <p class="speaker-card-title">${pos.title}</p>
+                            <p class="speaker-card-company">${pos.company}</p>
+                        `).join('') 
+                        : 
+                        `<p class="speaker-card-title">${speaker.title}</p>
+                        <p class="speaker-card-company">${speaker.company}</p>`
+                    }
                     ${sessionsHtml}
                     ${speaker.tagline ? `<p class="speaker-card-tagline">${speaker.tagline}</p>` : ''}
                 </div>
@@ -1293,6 +1330,12 @@ function renderAgenda() {
                 </div>
                 <div class="agenda-details">
                     <h3 class="agenda-title">${session.title}</h3>
+                    ${session.sponsor ? `
+                        <div class="agenda-sponsor">
+                            <i class="fas fa-handshake"></i>
+                            Sponsored by ${session.sponsor}
+                        </div>
+                    ` : ''}
                     <div class="agenda-meta">
                         ${session.speaker ? `
                             <span class="agenda-speaker">
