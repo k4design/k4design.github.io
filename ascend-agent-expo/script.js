@@ -238,7 +238,7 @@ const eventData = {
             bio: "Bobby Moats is passionate about driving innovation and empowering real estate professionals to achieve extraordinary results. With over a decade of experience, he has built his career on blending strategic leadership, cutting-edge technology, and a deep understanding of what agents and clients need to succeed. As founder of Speculo AI, Bobby is committed to leveraging artificial intelligence to transform how agents connect with leads, nurture relationships, and scale their businesses. His work focuses on creating tools and systems that simplify processes, improve efficiency, and deliver measurable results—all while ensuring a personal touch remains at the core of real estate transactions.",
             speakingTime: "2:20 – 3:00 PM",
             speakingDate: "Friday, Oct 17",
-            sessionTitle: "The Evolution of the Brokerage Model (Panel)"
+            sessionTitle: "Throwing Out the Old Playbook! The Real Estate Model of Today! (Panel)"
         },
         {
             name: "Andy Nelson",
@@ -268,7 +268,7 @@ const eventData = {
                 {
                     speakingTime: "2:20 – 3:00 PM",
                     speakingDate: "Friday, Oct 17",
-                    sessionTitle: "The Evolution of the Brokerage Model (Panel)"
+                    sessionTitle: "Throwing Out the Old Playbook! The Real Estate Model of Today! (Panel)"
                 }
             ]
         },
@@ -306,7 +306,7 @@ const eventData = {
             bio: "Jessica Cieslak Starr is a proud Quinnipiac University graduate and seasoned real estate professional known for her market insight, tireless work ethic, and personal touch. Clients praise her responsiveness, strategic approach, and genuine care. Beyond real estate, Jessica is a dedicated community advocate, mom of four, and wife to her high school sweetheart. She has spent over 20 years with the Simsbury Volunteer Fire Department Ladies Auxiliary and actively supports organizations including The Village for Families & Children and Journey Home CT. Rooted in Simsbury, her deep local knowledge comes from living, serving, and raising her family in the area.",
             speakingTime: "2:20 – 3:00 PM",
             speakingDate: "Friday, Oct 17",
-            sessionTitle: "The Evolution of the Brokerage Model (Panel)"
+            sessionTitle: "Throwing Out the Old Playbook! The Real Estate Model of Today! (Panel)"
         },
         {
             name: "Norkis Fernandez",
@@ -330,7 +330,7 @@ const eventData = {
             bio: "David Lewis is a business builder passionate about creating opportunity. He owns and operates five businesses including TLG Atlanta, TLG Savannah, Pepper Boxing - Buckhead, Eleven16 Renovations, and CDL Holdings. A national teacher, trainer, and speaker, David graduated from The University of Alabama in 2008 and built the #1 team in one of the top brokerages in the nation in just 7 years. He has helped create more 6-figure income earners than anyone else in the industry. David is very active in Operation Christmas Child, launched the TLG Gives Fund during the pandemic, and believes in using success to give back to the community.",
             speakingTime: "2:20 – 3:00 PM",
             speakingDate: "Friday, Oct 17",
-            sessionTitle: "The Evolution of the Brokerage Model (Panel)"
+            sessionTitle: "Throwing Out the Old Playbook! The Real Estate Model of Today! (Panel)"
         },
         {
             name: "Ricky Miller",
@@ -354,7 +354,7 @@ const eventData = {
             bio: "Jomar López is a distinguished professional holding Broker licenses in both Puerto Rico and Florida. With 12 years of experience and over 300 properties sold, he has established himself as an authority in real estate. As Founder of Level Up Network, he leads an organization of more than 1,400 agents. Specializing as a HUD Listing Agent and in foreclosed properties, he has demonstrated a unique ability to identify and capitalize on market opportunities. His passion, leadership, and consistency have earned him awards for six consecutive years from NAHREP, including the prestigious Top 250 Latino Agent Award.",
             speakingTime: "12:20 – 1:00 PM",
             speakingDate: "Friday, Oct 17",
-            sessionTitle: "Beyond Elevating Your Business and Client Experience"
+            sessionTitle: "Going Beyond! Elevating Your Business and Client Experience"
         },
         {
             name: "Michael Cruz",
@@ -366,7 +366,7 @@ const eventData = {
             bio: "As a First Time Home Buyer Specialist, Michael Cruz is dedicated to guiding homebuyers and homeowners through every step of the real estate journey. Explore personalized solutions and expert advice tailored to your unique needs.",
             speakingTime: "12:20 – 1:00 PM",
             speakingDate: "Friday, Oct 17",
-            sessionTitle: "Beyond Elevating Your Business and Client Experience"
+            sessionTitle: "Going Beyond! Elevating Your Business and Client Experience"
         },
         {
             name: "Cindy Castillo",
@@ -378,7 +378,7 @@ const eventData = {
             bio: "Cindy Castillo drives the growth of real estate agents through the Top Million Producer System, a proven model designed to take their business to the next level. With more than 17 years of experience in the industry, she has achieved over $100 million in sales and led a team of more than 100 agents committed to excellence and results. Her true passion is real estate coaching, through which she has guided over 3,000 agents to structure their businesses, increase productivity, and achieve extraordinary results.",
             speakingTime: "12:20 – 1:00 PM",
             speakingDate: "Friday, Oct 17",
-            sessionTitle: "Beyond Elevating Your Business and Client Experience"
+            sessionTitle: "Going Beyond! Elevating Your Business and Client Experience"
         },
         {
             name: "Francisco Lara",
@@ -390,7 +390,7 @@ const eventData = {
             bio: "Francisco Lara is an International Realtor and CEO of The Global Team, powered by LPT Realty. He specializes in helping clients buy, sell, and invest in Florida real estate, bringing a global perspective to the local market.",
             speakingTime: "12:20 – 1:00 PM",
             speakingDate: "Friday, Oct 17",
-            sessionTitle: "Beyond Elevating Your Business and Client Experience"
+            sessionTitle: "Going Beyond! Elevating Your Business and Client Experience"
         }
     ],
     
@@ -422,7 +422,8 @@ const eventData = {
                     time: "3:00 – 3:40 PM",
                     duration: "40 minutes",
                     title: "Winning Stories from Agents Who Joined Teams!",
-                    speaker: "Chris Feamster, Larry Fisher, Keegan Seigfried",
+                    speaker: "",
+                    host: "Luis Fermin",
                     sponsor: "America's Preferred Home Warranty",
                     location: "Cypress 2 Stage",
                     tag: "Keynote Session",
@@ -457,7 +458,7 @@ const eventData = {
                 {
                     time: "11:00 – 11:40 AM",
                     duration: "40 minutes",
-                    title: "Distressed Properties / Veterans",
+                    title: "Riches in Niches: From Distressed Properties to Serving our Veterans",
                     speaker: "Tony Martinez",
                     sponsor: "Alex Cooper",
                     location: "Cypress 2 Stage",
@@ -477,7 +478,7 @@ const eventData = {
                 {
                     time: "12:20 – 1:00 PM",
                     duration: "40 minutes",
-                    title: "Beyond Elevating Your Business and Client Experience",
+                    title: "Going Beyond! Elevating Your Business and Client Experience",
                     speaker: "Jomar Lopez, Michael Cruz, Cindy Castillo, Francisco Lara",
                     sponsor: "Zoodealio",
                     location: "Cypress 2 Stage",
@@ -507,8 +508,9 @@ const eventData = {
                 {
                     time: "2:20 – 3:00 PM",
                     duration: "40 minutes",
-                    title: "The Evolution of the Brokerage Model",
+                    title: "Throwing Out the Old Playbook! The Real Estate Model of Today!",
                     speaker: "Bobby Moats, Marissa Canario, Jessica Starr, David Lewis",
+                    host: "Sajag Patel",
                     sponsor: "CyberTracker",
                     location: "Cypress 2 Stage",
                     tag: "Panel",
@@ -1357,6 +1359,12 @@ function renderAgenda() {
                         </div>
                     ` : ''}
                     <div class="agenda-meta">
+                        ${session.host ? `
+                            <span class="agenda-host">
+                                <i class="fas fa-microphone"></i>
+                                Host: <span class="host-name">${session.host}</span>
+                            </span>
+                        ` : ''}
                         ${session.speaker ? `
                             <span class="agenda-speaker">
                                 <i class="fas fa-user"></i>

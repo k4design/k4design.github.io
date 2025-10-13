@@ -3062,6 +3062,24 @@ body {
     margin-top: 4px;
 }
 
+.agenda-host {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.95rem;
+    color: #00ff91;
+    font-weight: 600;
+}
+
+.agenda-host i {
+    font-size: 0.875rem;
+    color: #00ff91;
+}
+
+.agenda-host .host-name {
+    color: #374151;
+}
+
 .agenda-speaker {
     display: inline-flex;
     align-items: center;
@@ -3145,8 +3163,8 @@ body {
     }
     
     .agenda-time {
-        border-bottom: 1px solid #e5e7eb;
-        padding-bottom: 12px;
+        border-bottom: none;
+        padding-bottom: 0;
     }
     
     .agenda-time-primary {
@@ -3155,12 +3173,37 @@ body {
     
     .agenda-title {
         font-size: 1.25rem;
+        margin-bottom: 8px;
+    }
+    
+    .agenda-details {
+        gap: 12px;
+    }
+    
+    .agenda-sponsor {
+        margin-top: 8px;
+        margin-bottom: 4px;
     }
     
     .agenda-meta {
         flex-direction: column;
         align-items: flex-start;
         gap: 8px;
+        width: 100%;
+        margin-top: 12px;
+    }
+    
+    .agenda-description {
+        margin-top: 12px;
+    }
+    
+    /* Force all meta items to be visible */
+    .agenda-meta .agenda-host,
+    .agenda-meta .agenda-speaker,
+    .agenda-meta .agenda-location,
+    .agenda-meta .agenda-tag {
+        display: inline-flex !important;
+        width: auto !important;
     }
     
     .agenda-cta {
@@ -3218,6 +3261,17 @@ body {
         position: relative;
     }
     
+    /* Allow agenda section to show all content */
+    section.agenda {
+        overflow-x: visible !important;
+        overflow-y: visible !important;
+    }
+    
+    .agenda-schedule,
+    .agenda-panel {
+        overflow: visible !important;
+    }
+    
     .container {
         padding: 0 16px;
         max-width: 100%;
@@ -3261,6 +3315,44 @@ body {
     .all-speakers-grid > * {
         max-width: 100%;
         min-width: 0;
+    }
+    
+    /* Ensure agenda items show all content on mobile */
+    .agenda-item,
+    .agenda-time,
+    .agenda-time-primary,
+    .agenda-time-duration,
+    .agenda-details,
+    .agenda-meta,
+    .agenda-sponsor,
+    .agenda-host,
+    .agenda-speaker,
+    .agenda-location,
+    .agenda-tag,
+    .agenda-description,
+    .agenda-title {
+        max-width: 100% !important;
+        overflow: visible !important;
+        white-space: normal !important;
+        word-wrap: break-word !important;
+    }
+    
+    /* Ensure all agenda children are visible */
+    .agenda-details,
+    .agenda-details > *,
+    .agenda-meta,
+    .agenda-meta > * {
+        display: block !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+    
+    /* Ensure sponsor, host, speaker, and location display properly */
+    .agenda-sponsor,
+    .agenda-host,
+    .agenda-speaker,
+    .agenda-location {
+        display: inline-flex !important;
     }
     
     /* Prevent negative margins on mobile */
