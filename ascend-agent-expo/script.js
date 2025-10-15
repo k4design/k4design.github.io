@@ -11,19 +11,9 @@ const eventData = {
     
     sponsors: [
         {
-            name: "LPT Realty",
-            logo: "img/sponsors/lptrealty_logo_horizontal_white.png",
-            link: "https://lptrealty.com"
-        },
-        {
-            name: "Aperture Global",
-            logo: "img/sponsors/apertureglobal_logo_white.png",
-            link: "https://apertureglobal.com"
-        },
-        {
-            name: "Showingtime Plus",
-            logo: "img/sponsors/showing-logo.png",
-            link: "https://showingtime.com"
+            name: "Zillow",
+            logo: "img/zillow.png",
+            link: "https://zillow.com"
         },
         {
             name: "Rocket Mortgage",
@@ -31,19 +21,34 @@ const eventData = {
             link: "https://rocketmortgage.com"
         },
         {
-            name: "Fello",
-            logo: "img/sponsors/fello.webp",
-            link: "https://fello.com"
+            name: "Crexi",
+            logo: "img/sponsors/crexi.svg",
+            link: "https://crexi.com"
         },
         {
-            name: "Realtor.com",
-            logo: "img/sponsors/realtorcom.png",
-            link: "https://realtor.com"
+            name: "America's Preferred Home Warranty",
+            logo: "img/sponsors/americaspreferred.png",
+            link: "https://apwhome.com"
         },
         {
-            name: "Devore Design",
-            logo: "img/sponsors/devoredesign.png",
-            link: "https://devoredesign.com"
+            name: "Home 1st Lending",
+            logo: "img/sponsors/homefirstlending.png",
+            link: "https://homefirstlending.com"
+        },
+        {
+            name: "Lower Mortgage",
+            logo: "img/sponsors/lowermortgage.png",
+            link: "https://lower.com"
+        },
+        {
+            name: "Mutual",
+            logo: "img/sponsors/mutual-brand-white.svg",
+            link: "https://mutual.com"
+        },
+        {
+            name: "Alex Cooper Auctioneers",
+            logo: "img/sponsors/alexcooper.svg",
+            link: "https://alexcooper.com"
         },
         {
             name: "Realty.com",
@@ -61,9 +66,44 @@ const eventData = {
             link: "https://ruuster.com"
         },
         {
-            name: "House Whisperer",
+            name: "Ylopo",
+            logo: "img/sponsors/ylopo.png",
+            link: "https://ylopo.com"
+        },
+        {
+            name: "CyberBacker",
+            logo: "img/cyberbacker.png",
+            link: "https://cyberbacker.com"
+        },
+        {
+            name: "House Whisper",
             logo: "img/sponsors/housewhisper.png",
             link: "https://housewhisper.com"
+        },
+        {
+            name: "LPT Realty",
+            logo: "img/sponsors/lptrealty_logo_horizontal_white.png",
+            link: "https://lptrealty.com"
+        },
+        {
+            name: "Aperture Global",
+            logo: "img/sponsors/apertureglobal_logo_white.png",
+            link: "https://apertureglobal.com"
+        },
+        {
+            name: "Fello",
+            logo: "img/sponsors/fello.webp",
+            link: "https://fello.com"
+        },
+        {
+            name: "Realtor.com",
+            logo: "img/sponsors/realtorcom.png",
+            link: "https://realtor.com"
+        },
+        {
+            name: "Devore Design",
+            logo: "img/sponsors/devoredesign.png",
+            link: "https://devoredesign.com"
         },
         {
             name: "Comparion Insurance",
@@ -76,34 +116,9 @@ const eventData = {
             link: "https://hwa.com"
         },
         {
-            name: "Crexi",
-            logo: "img/sponsors/crexi.svg",
-            link: "https://crexi.com"
-        },
-        {
             name: "AM Cards",
             logo: "img/sponsors/amcards.png",
             link: "https://amcards.com"
-        },
-        {
-            name: "Alex Cooper",
-            logo: "img/sponsors/alexcooper.svg",
-            link: "https://alexcooper.com"
-        },
-        {
-            name: "America's Preferred Home Warranty",
-            logo: "img/sponsors/americaspreferred.png",
-            link: "https://apwhome.com"
-        },
-        {
-            name: "HomeFirst Lending",
-            logo: "img/sponsors/homefirstlending.png",
-            link: "https://homefirstlending.com"
-        },
-        {
-            name: "Ylopo",
-            logo: "img/sponsors/ylopo.png",
-            link: "https://ylopo.com"
         },
         {
             name: "Sponsor 01",
@@ -124,11 +139,6 @@ const eventData = {
             name: "MJV",
             logo: "img/sponsors/mjv.png",
             link: "https://mjv.com"
-        },
-        {
-            name: "Mutual",
-            logo: "img/sponsors/mutual-brand-white.svg",
-            link: "https://mutual.com"
         },
         {
             name: "Responsive",
@@ -282,7 +292,7 @@ const eventData = {
             bio: "Michael Perna has been in real estate for over 20 years and spent the majority of his career with Keller Williams where he started his team in 2001 when realizing he had excelled as an individual agent and had room to grow and improve his overall client experience. The Perna Team is now with eXp Realty and has grown to the #1 real estate team in the state of Michigan with over 1000 families served in the past 12 months. The Perna Team aims at making every client relationship #1. Our objective is to ensure that we net the most for our sellers, as well as creating the smoothest transaction possible in addition to helping them find their dream home. Mike grew up in Farmington Hills Michigan and is passionate about the community and educating the community on the biggest investment most people will make in their lives. His energy and fun loving spirit is reflected in the culture of the team and the level of service provided to our clients.",
             speakingTime: "1:00 – 1:40 PM",
             speakingDate: "Friday, Oct 17",
-            sessionTitle: "Building Your AI-Powered Empire (Panel)"
+            sessionTitle: "Building Your AI-Powered Empire"
         },
         {
             name: "Blair Knowles",
@@ -294,7 +304,7 @@ const eventData = {
             bio: "Blair has an unquenchable passion for real estate as a vehicle for opportunity and for community good. Blair began her real estate career in Vermont in 2013 at Keller Williams Vermont and went on to form her own team at the firm in 2015, The Knowles Group. In 2020 Blair and her team left the brokerage at Keller Williams to form their own brokerage, Ridgeline Real Estate. Outside of Ridgeline Real Estate Blair is a property owner and a landlord in Vermont. She is also an avid yoga practitioner.",
             speakingTime: "1:00 – 1:40 PM",
             speakingDate: "Friday, Oct 17",
-            sessionTitle: "Building Your AI-Powered Empire (Panel)"
+            sessionTitle: "Building Your AI-Powered Empire"
         },
         {
             name: "Jessica Starr",
@@ -336,7 +346,7 @@ const eventData = {
             name: "Ricky Miller",
             title: "Broker & Real Estate Leader",
             company: "Polk County Real Estate",
-            photo: "img/rickymiller.webp",
+            photo: "img/rickymiller.jpg",
             tagline: "Leading one of Polk County's largest real estate offices with expertise spanning property management to new home construction.",
             bioUrl: "#",
             bio: "With over 14 years of experience serving Polk County, Ricky Miller has established himself as one of the area's most respected real estate professionals. As Broker of the second-largest real estate office in Polk County, he has led and supported hundreds of agents while serving thousands of families across Central Florida. Ricky's career spans property management, residential sales, new home construction, and real estate investing. Known for his entrepreneurial drive and commitment to excellence, he continues to shape the future of real estate in Polk County and beyond.",
@@ -354,7 +364,7 @@ const eventData = {
             bio: "Jomar López is a distinguished professional holding Broker licenses in both Puerto Rico and Florida. With 12 years of experience and over 300 properties sold, he has established himself as an authority in real estate. As Founder of Level Up Network, he leads an organization of more than 1,400 agents. Specializing as a HUD Listing Agent and in foreclosed properties, he has demonstrated a unique ability to identify and capitalize on market opportunities. His passion, leadership, and consistency have earned him awards for six consecutive years from NAHREP, including the prestigious Top 250 Latino Agent Award.",
             speakingTime: "12:20 – 1:00 PM",
             speakingDate: "Friday, Oct 17",
-            sessionTitle: "Going Beyond! Elevating Your Business and Client Experience"
+            sessionTitle: "Going Beyond! Elevating Your Business and Client Experience (Panel)"
         },
         {
             name: "Michael Cruz",
@@ -366,7 +376,7 @@ const eventData = {
             bio: "As a First Time Home Buyer Specialist, Michael Cruz is dedicated to guiding homebuyers and homeowners through every step of the real estate journey. Explore personalized solutions and expert advice tailored to your unique needs.",
             speakingTime: "12:20 – 1:00 PM",
             speakingDate: "Friday, Oct 17",
-            sessionTitle: "Going Beyond! Elevating Your Business and Client Experience"
+            sessionTitle: "Going Beyond! Elevating Your Business and Client Experience (Panel)"
         },
         {
             name: "Cindy Castillo",
@@ -378,7 +388,7 @@ const eventData = {
             bio: "Cindy Castillo drives the growth of real estate agents through the Top Million Producer System, a proven model designed to take their business to the next level. With more than 17 years of experience in the industry, she has achieved over $100 million in sales and led a team of more than 100 agents committed to excellence and results. Her true passion is real estate coaching, through which she has guided over 3,000 agents to structure their businesses, increase productivity, and achieve extraordinary results.",
             speakingTime: "12:20 – 1:00 PM",
             speakingDate: "Friday, Oct 17",
-            sessionTitle: "Going Beyond! Elevating Your Business and Client Experience"
+            sessionTitle: "Going Beyond! Elevating Your Business and Client Experience (Panel)"
         },
         {
             name: "Francisco Lara",
@@ -390,7 +400,7 @@ const eventData = {
             bio: "Francisco Lara is an International Realtor and CEO of The Global Team, powered by LPT Realty. He specializes in helping clients buy, sell, and invest in Florida real estate, bringing a global perspective to the local market.",
             speakingTime: "12:20 – 1:00 PM",
             speakingDate: "Friday, Oct 17",
-            sessionTitle: "Going Beyond! Elevating Your Business and Client Experience"
+            sessionTitle: "Going Beyond! Elevating Your Business and Client Experience (Panel)"
         }
     ],
     
@@ -421,20 +431,20 @@ const eventData = {
                 {
                     time: "3:00 – 3:40 PM",
                     duration: "40 minutes",
-                    title: "Winning Stories from Agents Who Joined Teams!",
+                    title: "Winning Stories from Agents Who Joined Teams! (Panel)",
                     speaker: "",
                     host: "Luis Fermin",
                     sponsor: "America's Preferred Home Warranty",
                     location: "Cypress 2 Stage",
-                    tag: "Keynote Session",
+                    tag: "Panel",
                     description: "Hear success stories from agents who joined teams and transformed their careers."
                 },
                 {
                     time: "3:40 – 4:00 PM",
                     duration: "20 minutes",
                     title: "Creative Financing to SAVE Deals!",
-                    speaker: "Zac Bleznick",
-                    sponsor: "HomeFirst",
+                    speaker: "Zach Bleznick",
+                    sponsor: "Home 1st Lending",
                     location: "Cypress 2 Stage",
                     tag: "Keynote Session",
                     description: "Discover creative financing solutions to save your deals."
@@ -460,7 +470,7 @@ const eventData = {
                     duration: "40 minutes",
                     title: "Riches in Niches: From Distressed Properties to Serving our Veterans",
                     speaker: "Tony Martinez",
-                    sponsor: "Alex Cooper",
+                    sponsor: "Alex Cooper Auctioneers",
                     location: "Cypress 2 Stage",
                     tag: "Keynote Session",
                     description: "Gain insights on working with distressed properties and serving veteran clients."
@@ -478,11 +488,11 @@ const eventData = {
                 {
                     time: "12:20 – 1:00 PM",
                     duration: "40 minutes",
-                    title: "Going Beyond! Elevating Your Business and Client Experience",
+                    title: "Going Beyond! Elevating Your Business and Client Experience (Panel)",
                     speaker: "Jomar Lopez, Michael Cruz, Cindy Castillo, Francisco Lara",
                     sponsor: "Zoodealio",
                     location: "Cypress 2 Stage",
-                    tag: "Keynote Session",
+                    tag: "Panel",
                     description: "Discover ways to elevate your business and enhance client experience."
                 },
                 {
@@ -508,10 +518,10 @@ const eventData = {
                 {
                     time: "2:20 – 3:00 PM",
                     duration: "40 minutes",
-                    title: "Throwing Out the Old Playbook! The Real Estate Model of Today!",
+                    title: "Throwing Out the Old Playbook! The Real Estate Model of Today! (Panel)",
                     speaker: "Bobby Moats, Marissa Canario, Jessica Starr, David Lewis",
                     host: "Sajag Patel",
-                    sponsor: "CyberTracker",
+                    sponsor: "CyberBacker",
                     location: "Cypress 2 Stage",
                     tag: "Panel",
                     description: "Industry leaders discuss the changing landscape of real estate brokerages."
@@ -521,7 +531,7 @@ const eventData = {
                     duration: "60 minutes",
                     title: "Building a Thriving Real Estate Business",
                     speaker: "Andy Nelson / Glover U",
-                    sponsor: "House Whisperer",
+                    sponsor: "House Whisper",
                     location: "Cypress 2 Stage",
                     tag: "Keynote Session",
                     description: "Learn from a U.S. Navy Veteran who built five brokerages and leads nearly 200 agents while closing over 1,100 transactions annually."
@@ -551,13 +561,6 @@ const eventData = {
             logo: "img/sponsors/mutual-brand-white.svg",
             description: "Providing trusted insurance and financial services to help you protect what matters most.",
             link: "https://www.mutualofomaha.com",
-            mediaUrl: null
-        },
-        {
-            name: "ShowingTime Plus",
-            logo: "img/sponsors/showing-logo.png",
-            description: "Streamlining the showing process with advanced scheduling and property access solutions.",
-            link: "https://www.showingtime.com",
             mediaUrl: null
         },
         {
