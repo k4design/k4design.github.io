@@ -1,25 +1,25 @@
 /* CSS Snippet for Lofty.com - Lifestyle Section Styles */
 
-/* CSS Variables for Easy Customization - AGGRESSIVE COLORS */
+/* CSS Variables for Easy Customization */
 :root {
     --primary-white: #ffffff;
     --secondary-white: #f8f9fa;
     --tertiary-white: #f1f3f4;
     --accent-blue: #0092ff;
-    --accent-blue-light: #33a8ff;
-    --accent-blue-dark: #0056b3;
+    --accent-blue-light: #4db8ff;
+    --accent-blue-dark: #007acc;
     --text-primary: #1a1a1a;
     --text-secondary: #4a4a4a;
     --text-muted: #6b7280;
     --text-accent: #0092ff;
-    --border-subtle: rgba(0, 146, 255, 0.3);
-    --border-blue: rgba(0, 146, 255, 0.4);
+    --border-subtle: rgba(0, 146, 255, 0.15);
+    --border-blue: rgba(0, 146, 255, 0.3);
     --gradient-primary: linear-gradient(135deg, #ffffff 0%, #f8f9fa 50%, #f1f3f4 100%);
-    --gradient-accent: linear-gradient(135deg, #0092ff 0%, #0056b3 100%);
+    --gradient-accent: linear-gradient(135deg, #0092ff 0%, #4db8ff 50%, #007acc 100%);
     --gradient-text: linear-gradient(135deg, #1a1a1a 0%, #4a4a4a 100%);
-    --shadow-soft: 0 25px 60px rgba(0, 146, 255, 0.15);
-    --shadow-glow: 0 15px 40px rgba(0, 146, 255, 0.3);
-    --shadow-premium: 0 25px 60px rgba(0, 146, 255, 0.15);
+    --shadow-soft: 0 30px 80px rgba(0, 0, 0, 0.1);
+    --shadow-glow: 0 0 60px rgba(0, 146, 255, 0.15);
+    --shadow-premium: 0 40px 100px rgba(0, 146, 255, 0.15);
 }
 
 /* Reset and Base Styles */
@@ -61,10 +61,10 @@ body {
 
 /* Lifestyle Section */
 .lifestyle-section {
-    padding: 8rem 0;
+    padding: 8rem 0 !important;
     background: linear-gradient(135deg, var(--primary-white) 0%, var(--secondary-white) 50%, var(--tertiary-white) 100%) !important;
-    position: relative;
-    overflow: hidden;
+    position: relative !important;
+    overflow: hidden !important;
     color: var(--text-primary) !important;
 }
 
@@ -105,17 +105,19 @@ section.lifestyle-section p {
 }
 
 .lifestyle-header {
-    text-align: center;
-    margin-bottom: 5rem;
-    position: relative;
-    z-index: 2;
+    text-align: center !important;
+    margin-bottom: 5rem !important;
+    position: relative !important;
+    z-index: 2 !important;
 }
 
 .lifestyle-header h2,
 .lifestyle-section .lifestyle-header h2,
 section.lifestyle-section .lifestyle-header h2 {
     font-size: clamp(2.5rem, 5vw, 4rem) !important;
+    font-weight: 200 !important;
     margin-bottom: 2rem !important;
+    line-height: 1.1 !important;
     background: var(--gradient-text) !important;
     -webkit-background-clip: text !important;
     -webkit-text-fill-color: transparent !important;
@@ -125,77 +127,77 @@ section.lifestyle-section .lifestyle-header h2 {
 .lifestyle-header p,
 .lifestyle-section .lifestyle-header p,
 section.lifestyle-section .lifestyle-header p {
-    font-size: 1.2rem;
-    max-width: 600px;
-    margin: 0 auto;
+    font-size: 1.2rem !important;
+    max-width: 600px !important;
+    margin: 0 auto !important;
+    line-height: 1.7 !important;
     color: var(--text-secondary) !important;
     color: #4a4a4a !important;
 }
 
 /* Lifestyle Grid */
 .lifestyle-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
-    margin-bottom: 5rem;
-    position: relative;
-    z-index: 2;
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 2rem !important;
+    margin-bottom: 5rem !important;
+    position: relative !important;
+    z-index: 2 !important;
 }
 
 .lifestyle-card {
-    position: relative;
-    border-radius: 20px;
-    overflow: hidden;
-    transition: all 0.4s ease;
-    cursor: pointer;
+    position: relative !important;
+    border-radius: 16px !important;
+    overflow: hidden !important;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+    cursor: pointer !important;
     background: rgba(255, 255, 255, 0.9) !important;
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1) !important;
 }
 
 .lifestyle-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 25px 60px rgba(0, 146, 255, 0.15);
-    border-color: rgba(0, 146, 255, 0.3);
+    transform: translateY(-8px) scale(1.02) !important;
+    box-shadow: var(--shadow-premium) !important;
+    border-color: rgba(0, 146, 255, 0.3) !important;
 }
 
 .lifestyle-image {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    min-height: 500px;
-    overflow: hidden;
-    aspect-ratio: 3 / 4;
+    position: relative !important;
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 500px !important;
+    overflow: hidden !important;
+    aspect-ratio: 3 / 4 !important;
 }
 
 .lifestyle-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.4s ease;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    transition: transform 0.6s ease !important;
 }
 
 .lifestyle-card:hover .lifestyle-image img {
-    transform: scale(1.05);
+    transform: scale(1.1) !important;
 }
 
 .lifestyle-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(135deg, rgba(0, 0, 0, 0.75) 0%, rgba(0, 0, 0, 0.6) 50%, rgba(0, 146, 255, 0.3) 100%);
-    display: flex;
-    align-items: flex-end;
-    padding: 2rem;
-    opacity: 1;
-    transition: all 0.4s ease;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.5) 50%, rgba(0, 146, 255, 0.3) 100%) !important;
+    display: flex !important;
+    align-items: flex-end !important;
+    padding: 2rem !important;
+    opacity: 1 !important;
+    transition: all 0.4s ease !important;
 }
 
 .lifestyle-card:hover .lifestyle-overlay {
-    background: linear-gradient(135deg, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.7) 50%, rgba(0, 146, 255, 0.5) 100%);
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.7) 50%, rgba(0, 146, 255, 0.5) 100%) !important;
 }
 
 .lifestyle-content h3,
@@ -214,8 +216,9 @@ section.lifestyle-section .lifestyle-card .lifestyle-content h3,
 section.lifestyle-section .lifestyle-card .lifestyle-content p,
 .lifestyle-section .lifestyle-card .lifestyle-overlay .lifestyle-content p {
     color: #ffffff !important;
-    margin-bottom: 1rem;
-    font-size: 0.95rem;
+    margin-bottom: 1rem !important;
+    font-size: 0.95rem !important;
+    opacity: 0.95 !important;
 }
 
 .lifestyle-link,
@@ -223,53 +226,44 @@ section.lifestyle-section .lifestyle-card .lifestyle-content p,
 section.lifestyle-section .lifestyle-card .lifestyle-link,
 .lifestyle-section .lifestyle-card .lifestyle-overlay .lifestyle-link {
     color: #ffffff !important;
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 0.9rem;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    transition: color 0.3s ease;
-    border-bottom: 2px solid rgba(255, 255, 255, 0.5);
-    padding-bottom: 2px;
+    text-decoration: none !important;
+    font-weight: 600 !important;
+    font-size: 0.9rem !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.1em !important;
+    transition: color 0.3s ease !important;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.5) !important;
+    padding-bottom: 2px !important;
 }
 
 .lifestyle-link:hover,
 .lifestyle-section .lifestyle-link:hover,
 section.lifestyle-section .lifestyle-card .lifestyle-link:hover {
     color: var(--accent-blue-light) !important;
-    color: #33a8ff !important;
-    border-bottom-color: var(--accent-blue-light);
+    color: #4db8ff !important;
+    border-bottom-color: var(--accent-blue-light) !important;
 }
 
 /* Lifestyle CTA */
 .lifestyle-cta {
-    text-align: center;
+    text-align: center !important;
     background: rgba(255, 255, 255, 0.9) !important;
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    border-radius: 25px;
-    padding: 4rem 3rem;
-    backdrop-filter: blur(20px);
-    position: relative;
-    z-index: 2;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+    border-radius: 20px !important;
+    padding: 4rem 3rem !important;
+    backdrop-filter: blur(20px) !important;
+    position: relative !important;
+    z-index: 2 !important;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1) !important;
     color: var(--text-primary) !important;
-    overflow: hidden;
-}
-
-.lifestyle-cta::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, var(--accent-blue) 0%, #0056b3 50%, var(--accent-blue) 100%);
+    overflow: hidden !important;
 }
 
 .lifestyle-cta h3,
 .lifestyle-section .lifestyle-cta h3,
 section.lifestyle-section .lifestyle-cta h3 {
     font-size: clamp(2rem, 4vw, 3rem) !important;
+    font-weight: 300 !important;
     margin-bottom: 1.5rem !important;
     background: var(--gradient-text) !important;
     -webkit-background-clip: text !important;
@@ -280,82 +274,81 @@ section.lifestyle-section .lifestyle-cta h3 {
 .lifestyle-cta p,
 .lifestyle-section .lifestyle-cta p,
 section.lifestyle-section .lifestyle-cta p {
-    font-size: 1.1rem;
+    font-size: 1.1rem !important;
     color: var(--text-secondary) !important;
     color: #4a4a4a !important;
-    margin-bottom: 2.5rem;
-    max-width: 500px;
-    margin-left: auto;
-    margin-right: auto;
+    margin-bottom: 2.5rem !important;
+    max-width: 500px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    line-height: 1.6 !important;
 }
 
 .lifestyle-button,
 .lifestyle-section .lifestyle-button,
 section.lifestyle-section .lifestyle-button,
 .lifestyle-section .lifestyle-cta .lifestyle-button {
-    display: inline-block;
-    background: linear-gradient(135deg, var(--accent-blue) 0%, #0056b3 100%);
+    display: inline-block !important;
+    background: var(--gradient-accent) !important;
     color: white !important;
     color: #ffffff !important;
-    padding: 15px 30px;
-    border-radius: 12px;
-    text-decoration: none;
-    font-weight: 500;
-    font-size: 1rem;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    transition: all 0.4s ease;
-    box-shadow: 0 8px 25px rgba(0, 146, 255, 0.3);
-    border: none;
-    position: relative;
-    overflow: hidden;
+    padding: 1rem 2.5rem !important;
+    border-radius: 50px !important;
+    text-decoration: none !important;
+    font-weight: 600 !important;
+    font-size: 1rem !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.1em !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 10px 30px rgba(0, 146, 255, 0.3) !important;
+    border: none !important;
 }
 
 .lifestyle-button:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 15px 35px rgba(0, 146, 255, 0.4);
+    transform: translateY(-3px) !important;
+    box-shadow: 0 15px 40px rgba(0, 146, 255, 0.4) !important;
 }
 
 /* Responsive Design */
 @media (max-width: 1024px) {
     .lifestyle-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 1.5rem;
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 1.5rem !important;
     }
     
     .lifestyle-image {
-        min-height: 450px;
-        aspect-ratio: 3 / 4;
+        min-height: 450px !important;
+        aspect-ratio: 3 / 4 !important;
     }
 }
 
 @media (max-width: 768px) {
     .lifestyle-section {
-        padding: 5rem 0;
+        padding: 5rem 0 !important;
     }
 
     .lifestyle-grid {
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
+        grid-template-columns: 1fr !important;
+        gap: 1.5rem !important;
     }
 
     .lifestyle-image {
-        min-height: 400px;
-        aspect-ratio: 3 / 4;
+        min-height: 400px !important;
+        aspect-ratio: 3 / 4 !important;
     }
 
     .lifestyle-cta {
-        padding: 3rem 2rem;
+        padding: 3rem 2rem !important;
     }
 
     .lifestyle-overlay {
-        padding: 1.5rem;
+        padding: 1.5rem !important;
     }
 }
 
 @media (max-width: 480px) {
     .lifestyle-section {
-        padding: 4rem 0;
+        padding: 4rem 0 !important;
     }
     
     .lifestyle-header h2 {
@@ -363,11 +356,11 @@ section.lifestyle-section .lifestyle-button,
     }
     
     .lifestyle-header p {
-        font-size: 1rem;
+        font-size: 1rem !important;
     }
     
     .lifestyle-cta {
-        padding: 2rem 1.5rem;
+        padding: 2rem 1.5rem !important;
     }
     
     .lifestyle-cta h3 {
@@ -375,11 +368,11 @@ section.lifestyle-section .lifestyle-button,
     }
     
     .lifestyle-cta p {
-        font-size: 1rem;
+        font-size: 1rem !important;
     }
     
     .lifestyle-button {
-        padding: 0.8rem 2rem;
-        font-size: 0.9rem;
+        padding: 0.8rem 2rem !important;
+        font-size: 0.9rem !important;
     }
 }
