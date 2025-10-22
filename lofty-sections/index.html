@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lofty Sections - Development Server</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            color: #1a1a1a;
+            padding: 3rem 2rem;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: 300;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #1a1a1a 0%, #0092ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #4a4a4a;
+            margin-bottom: 3rem;
+        }
+
+        .sections-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .section-card {
+            background: white;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 16px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        .section-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 50px rgba(0, 146, 255, 0.15);
+            border-color: rgba(0, 146, 255, 0.3);
+        }
+
+        .section-card h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 1rem;
+        }
+
+        .section-card p {
+            color: #4a4a4a;
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: rgba(0, 146, 255, 0.1);
+            color: #0092ff;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 1rem;
+        }
+
+        .badge.light {
+            background: rgba(255, 193, 7, 0.1);
+            color: #f59e0b;
+        }
+
+        .links {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .link {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(135deg, #0092ff 0%, #0073cc 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 500;
+            text-align: center;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .link:hover {
+            transform: translateX(4px);
+            box-shadow: 0 5px 15px rgba(0, 146, 255, 0.3);
+        }
+
+        .link.demo {
+            background: rgba(0, 0, 0, 0.05);
+            color: #1a1a1a;
+        }
+
+        .link.demo:hover {
+            background: rgba(0, 146, 255, 0.1);
+            color: #0092ff;
+        }
+
+        .server-info {
+            background: rgba(0, 146, 255, 0.05);
+            border: 1px solid rgba(0, 146, 255, 0.2);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .server-info h3 {
+            color: #0092ff;
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .server-info p {
+            color: #4a4a4a;
+            font-size: 0.9rem;
+        }
+
+        .server-info code {
+            background: rgba(0, 0, 0, 0.05);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏙️ Lofty Sections</h1>
+        <p class="subtitle">Development Server - Light Theme Edition</p>
+
+        <div class="server-info">
+            <h3>🚀 Server Running</h3>
+            <p>Access your sections at: <code>http://localhost:8000</code></p>
+        </div>
+
+        <div class="sections-grid">
+            <!-- About Section -->
+            <div class="section-card">
+                <span class="badge">Dark Theme</span>
+                <h2>About Section</h2>
+                <p>Premium about section with elegant typography and smooth animations.</p>
+                <div class="links">
+                    <a href="lofty-about-html.html" class="link">View Section</a>
+                    <a href="lofty-about-snippet.html" class="link demo">View Snippet</a>
+                </div>
+            </div>
+
+            <!-- Lifestyle Section -->
+            <div class="section-card">
+                <span class="badge light">Light Theme ✨</span>
+                <h2>Lifestyle Section</h2>
+                <p>Showcase lifestyle content with an elegant masonry-style grid layout.</p>
+                <div class="links">
+                    <a href="lifestyle-demo.html" class="link">View Demo</a>
+                    <a href="lofty-lifestyle-html.html" class="link demo">View Snippet</a>
+                </div>
+            </div>
+
+            <!-- New Development Section -->
+            <div class="section-card">
+                <span class="badge light">Light Theme ✨</span>
+                <h2>New Development</h2>
+                <p>Featured property developments with interactive cards and details.</p>
+                <div class="links">
+                    <a href="new-development-demo.html" class="link">View Demo</a>
+                    <a href="lofty-new-development-html.html" class="link demo">View Snippet</a>
+                </div>
+            </div>
+
+            <!-- New Development Page -->
+            <div class="section-card">
+                <span class="badge light">Light Theme ✨</span>
+                <h2>New Development Page</h2>
+                <p>Full page layout for new developments with hero section and project grid.</p>
+                <div class="links">
+                    <a href="new-development-page-demo.html" class="link">View Demo</a>
+                    <a href="lofty-new-development-page-html.html" class="link demo">View Snippet</a>
+                </div>
+            </div>
+
+            <!-- EliteView Media -->
+            <div class="section-card">
+                <span class="badge">Dark Theme</span>
+                <h2>EliteView Media</h2>
+                <p>Premium media gallery with advanced filtering and lightbox features.</p>
+                <div class="links">
+                    <a href="lofty-eliteview-media-html.html" class="link">View Section</a>
+                </div>
+            </div>
+
+            <!-- News Section -->
+            <div class="section-card">
+                <span class="badge">Dark Theme</span>
+                <h2>News Section</h2>
+                <p>Display latest news and updates with elegant card layouts.</p>
+                <div class="links">
+                    <a href="lofty-news-html.html" class="link">View Section</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="server-info">
+            <h3>📝 Recently Updated</h3>
+            <p>✨ Lifestyle Section - Converted to light theme<br>
+            ✨ New Development Section - Already light themed<br>
+            ✨ New Development Page - Converted to light theme</p>
+        </div>
+    </div>
+</body>
+</html>
+
