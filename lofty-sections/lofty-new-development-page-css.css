@@ -562,33 +562,47 @@ section.dev-projects-section .project-card .project-agent .agent-name {
 }
 
 /* NUCLEAR OPTION - Override ALL global styles for new development cards */
-section.dev-projects-section .project-card * {
-    color: inherit;
-}
-
-section.dev-projects-section .project-card h1,
-section.dev-projects-section .project-card h2,
-section.dev-projects-section .project-card h3 {
+/* Apply dark text to project content, but keep overlay content white */
+section.dev-projects-section .project-card .project-content h1,
+section.dev-projects-section .project-card .project-content h2,
+section.dev-projects-section .project-card .project-content h3 {
     color: #1a1a1a !important;
 }
 
-section.dev-projects-section .project-card p,
-section.dev-projects-section .project-card span:not(.agent-name):not(.project-location span) {
+section.dev-projects-section .project-card .project-content p,
+section.dev-projects-section .project-card .project-content span:not(.agent-name):not(.project-location span) {
     color: #4a4a4a !important;
 }
 
-section.dev-projects-section .project-card .project-location,
-section.dev-projects-section .project-card .project-location span,
-section.dev-projects-section .project-card .project-location i {
+section.dev-projects-section .project-card .project-content .project-location,
+section.dev-projects-section .project-card .project-content .project-location span,
+section.dev-projects-section .project-card .project-content .project-location i {
     color: #0092ff !important;
 }
 
-section.dev-projects-section .project-card .agent-name {
+section.dev-projects-section .project-card .project-content .agent-name {
     color: #1a1a1a !important;
 }
 
 section.dev-projects-section .project-card .project-btn.primary {
     color: #ffffff !important;
+}
+
+/* Keep overlay content WHITE */
+section.dev-projects-section .project-card .overlay-content,
+section.dev-projects-section .project-card .overlay-content *,
+section.dev-projects-section .project-overlay,
+section.dev-projects-section .project-overlay *,
+section.dev-projects-section .project-card .project-overlay .overlay-content h1,
+section.dev-projects-section .project-card .project-overlay .overlay-content h2,
+section.dev-projects-section .project-card .project-overlay .overlay-content h3,
+section.dev-projects-section .project-card .project-overlay .overlay-content p,
+section.dev-projects-section .project-card .project-overlay .overlay-content span {
+    color: #ffffff !important;
+}
+
+section.dev-projects-section .project-card .project-overlay .overlay-content p {
+    color: #4db8ff !important;
 }
 
 /* Load More Button */
