@@ -197,8 +197,29 @@ body {
 /* Premium Projects Section */
 .dev-projects-section {
     padding: 8rem 0;
-    background: var(--secondary-white);
+    background: var(--secondary-white) !important;
     position: relative;
+    color: var(--text-primary) !important;
+}
+
+/* Ensure all text in dev sections has proper colors */
+.dev-projects-section *:not(.project-btn),
+.dev-cta-section *:not(.cta-btn) {
+    color: inherit;
+}
+
+.dev-projects-section h1,
+.dev-projects-section h2,
+.dev-projects-section h3,
+.dev-projects-section h4,
+.dev-projects-section h5,
+.dev-projects-section h6 {
+    color: var(--text-primary) !important;
+}
+
+.dev-projects-section p,
+.dev-projects-section span:not(.stat-number):not(.stat-label) {
+    color: var(--text-secondary) !important;
 }
 
 .dev-projects-section::before {
@@ -305,7 +326,7 @@ body {
 
 .overlay-content {
     text-align: center;
-    color: #ffffff;
+    color: #ffffff !important;
     padding: 2rem;
 }
 
@@ -320,7 +341,7 @@ body {
 
 .overlay-content p {
     font-size: 1rem;
-    color: var(--accent-blue-light);
+    color: var(--accent-blue-light) !important;
     margin-bottom: 1.5rem;
     font-weight: 300;
 }
@@ -333,7 +354,7 @@ body {
 
 .overlay-details span {
     font-size: 0.875rem;
-    color: rgba(255, 255, 255, 0.95);
+    color: rgba(255, 255, 255, 0.95) !important;
     font-weight: 300;
     background: rgba(255, 255, 255, 0.1);
     padding: 0.25rem 0.75rem;
@@ -350,12 +371,17 @@ body {
     gap: 0.5rem;
     margin-bottom: 0.75rem;
     font-size: 0.875rem;
-    color: var(--accent-blue);
+    color: var(--accent-blue) !important;
     font-weight: 300;
 }
 
 .project-location i {
     font-size: 1rem;
+    color: var(--accent-blue) !important;
+}
+
+.project-location span {
+    color: var(--accent-blue) !important;
 }
 
 .project-content h3 {
@@ -371,7 +397,7 @@ body {
 .project-description {
     font-size: 1rem;
     line-height: 1.6;
-    color: var(--text-secondary);
+    color: var(--text-secondary) !important;
     margin-bottom: 2rem;
     font-weight: 200;
     letter-spacing: 0.01em;
@@ -389,12 +415,12 @@ body {
     align-items: center;
     gap: 0.5rem;
     font-size: 0.875rem;
-    color: var(--text-secondary);
+    color: var(--text-secondary) !important;
     font-weight: 300;
 }
 
 .spec-item i {
-    color: var(--accent-blue);
+    color: var(--accent-blue) !important;
     font-size: 1rem;
 }
 
@@ -425,13 +451,13 @@ body {
 
 .project-agent .agent-label {
     font-weight: 300;
-    color: var(--text-secondary);
+    color: var(--text-secondary) !important;
     letter-spacing: 0.02em;
 }
 
 .project-agent .agent-name {
     font-weight: 400;
-    color: var(--text-primary);
+    color: var(--text-primary) !important;
     letter-spacing: 0.01em;
 }
 
@@ -455,13 +481,13 @@ body {
 
 .project-btn.primary {
     background: var(--gradient-accent);
-    color: white;
+    color: white !important;
     box-shadow: 0 8px 25px rgba(0, 146, 255, 0.3);
 }
 
 .project-btn.secondary {
     background: rgba(0, 0, 0, 0.05);
-    color: var(--text-primary);
+    color: var(--text-primary) !important;
     border: 1px solid rgba(0, 0, 0, 0.2);
 }
 
@@ -477,7 +503,7 @@ body {
 .project-btn.secondary:hover {
     background: rgba(0, 146, 255, 0.1);
     border-color: var(--accent-blue);
-    color: var(--accent-blue);
+    color: var(--accent-blue) !important;
 }
 
 /* Load More Button */
@@ -489,7 +515,7 @@ body {
 .load-more-btn {
     padding: 1rem 2.5rem;
     background: var(--gradient-accent);
-    color: white;
+    color: white !important;
     border: none;
     border-radius: 50px;
     font-size: 1rem;
@@ -509,9 +535,19 @@ body {
 /* CTA Section */
 .dev-cta-section {
     padding: 6rem 0;
-    background: var(--gradient-primary);
+    background: var(--gradient-primary) !important;
     text-align: center;
     position: relative;
+    color: var(--text-primary) !important;
+}
+
+.dev-cta-section h1,
+.dev-cta-section h2,
+.dev-cta-section h3,
+.dev-cta-section h4,
+.dev-cta-section h5,
+.dev-cta-section h6 {
+    color: var(--text-primary) !important;
 }
 
 .dev-cta-section::before {
@@ -545,7 +581,7 @@ body {
 
 .cta-content p {
     font-size: 1.2rem;
-    color: var(--text-secondary);
+    color: var(--text-secondary) !important;
     margin-bottom: 3rem;
     line-height: 1.6;
 }
@@ -572,7 +608,7 @@ body {
 
 .cta-btn.primary {
     background: var(--gradient-accent);
-    color: white;
+    color: white !important;
     box-shadow: 0 10px 30px rgba(0, 146, 255, 0.3);
 }
 
@@ -583,14 +619,14 @@ body {
 
 .cta-btn.secondary {
     background: rgba(0, 0, 0, 0.05);
-    color: var(--text-primary);
+    color: var(--text-primary) !important;
     border: 1px solid rgba(0, 0, 0, 0.2);
 }
 
 .cta-btn.secondary:hover {
     background: rgba(0, 146, 255, 0.1);
     border-color: var(--accent-blue);
-    color: var(--accent-blue);
+    color: var(--accent-blue) !important;
     transform: translateY(-3px);
 }
 
