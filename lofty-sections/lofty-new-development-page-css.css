@@ -136,13 +136,13 @@ body {
 }
 
 .hero-text h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(3rem, 8vw, 6rem);
-    font-weight: 200;
-    line-height: 0.95;
-    margin-bottom: 2rem;
-    color: #ffffff;
-    letter-spacing: -0.04em;
+    font-family: 'Playfair Display', serif !important;
+    font-size: clamp(3rem, 8vw, 6rem) !important;
+    font-weight: 200 !important;
+    line-height: 0.95 !important;
+    margin-bottom: 2rem !important;
+    color: #ffffff !important;
+    letter-spacing: -0.04em !important;
 }
 
 .hero-subtitle {
@@ -213,7 +213,7 @@ body {
 
 .projects-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
     gap: 3rem;
     margin-top: 4rem;
 }
@@ -228,6 +228,8 @@ body {
     box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
     opacity: 1;
     transform: translateY(0);
+    min-width: 0;
+    width: 100%;
 }
 
 .project-card:hover {
@@ -236,9 +238,12 @@ body {
     transform: translateY(-8px);
 }
 
+/* All project cards are now equal width */
 .project-card.featured {
-    grid-column: span 2;
+    grid-column: span 1;
     background: rgba(255, 255, 255, 0.9);
+    min-width: 0;
+    width: 100%;
 }
 
 .project-image {
@@ -247,8 +252,9 @@ body {
     overflow: hidden;
 }
 
+/* All images same height */
 .project-card.featured .project-image {
-    height: 400px;
+    height: 300px;
 }
 
 .project-image img {
@@ -304,12 +310,12 @@ body {
 }
 
 .overlay-content h3 {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.75rem;
-    font-weight: 300;
-    margin-bottom: 1rem;
-    letter-spacing: -0.02em;
-    color: #ffffff;
+    font-family: 'Playfair Display', serif !important;
+    font-size: 1.75rem !important;
+    font-weight: 300 !important;
+    margin-bottom: 1rem !important;
+    letter-spacing: -0.02em !important;
+    color: #ffffff !important;
 }
 
 .overlay-content p {
@@ -353,13 +359,13 @@ body {
 }
 
 .project-content h3 {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.75rem;
-    font-weight: 300;
-    margin-bottom: 1.5rem;
-    color: var(--text-primary);
-    line-height: 1.3;
-    letter-spacing: -0.02em;
+    font-family: 'Playfair Display', serif !important;
+    font-size: 1.75rem !important;
+    font-weight: 300 !important;
+    margin-bottom: 1.5rem !important;
+    color: var(--text-primary) !important;
+    line-height: 1.3 !important;
+    letter-spacing: -0.02em !important;
 }
 
 .project-description {
@@ -404,6 +410,29 @@ body {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+}
+
+.project-agent {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+    font-size: 0.95rem;
+    padding: 0.75rem 0;
+    border-top: 1px solid rgba(0, 146, 255, 0.15);
+    border-bottom: 1px solid rgba(0, 146, 255, 0.15);
+}
+
+.project-agent .agent-label {
+    font-weight: 300;
+    color: var(--text-secondary);
+    letter-spacing: 0.02em;
+}
+
+.project-agent .agent-name {
+    font-weight: 400;
+    color: var(--text-primary);
+    letter-spacing: 0.01em;
 }
 
 .project-actions {
@@ -504,14 +533,14 @@ body {
 }
 
 .cta-content h2 {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(2.5rem, 5vw, 4rem);
-    font-weight: 300;
-    margin-bottom: 2rem;
-    background: var(--gradient-text);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    font-family: 'Playfair Display', serif !important;
+    font-size: clamp(2.5rem, 5vw, 4rem) !important;
+    font-weight: 300 !important;
+    margin-bottom: 2rem !important;
+    background: var(--gradient-text) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
 }
 
 .cta-content p {
@@ -573,7 +602,7 @@ body {
     }
     
     .project-card.featured {
-        grid-column: span 2;
+        grid-column: span 1;
     }
     
     .hero-stats {
@@ -620,7 +649,7 @@ body {
 
 @media (max-width: 480px) {
     .hero-text h1 {
-        font-size: 2.5rem;
+        font-size: 2.5rem !important;
     }
     
     .hero-subtitle {
@@ -636,7 +665,7 @@ body {
     }
     
     .project-content h3 {
-        font-size: 1.5rem;
+        font-size: 1.5rem !important;
     }
     
     .project-price {
@@ -644,8 +673,15 @@ body {
         padding: 0.5rem 1rem;
     }
     
+    .project-agent {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.25rem;
+        font-size: 0.875rem;
+    }
+    
     .cta-content h2 {
-        font-size: 2rem;
+        font-size: 2rem !important;
     }
     
     .cta-content p {

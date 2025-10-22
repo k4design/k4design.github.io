@@ -10,9 +10,7 @@ body{
     /* Removed global dark theme colors to prevent conflicts with light sections */
     /* Dark sections should apply their own background and text colors */
 }
-img{
-
-}
+/* img styles can be added here if needed */
 @font-face {
     font-family: "FM";
     src: url(../font/fmbolyar500.woff);
@@ -85,10 +83,10 @@ img{
       text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
     }
     .text-overlay h3{
-        font-family: fm;
-        font-size:calc(12px + 2vw);
-        margin-bottom: 0;
-        font-weight: 200;
+        font-family: fm !important;
+        font-size:calc(12px + 2vw) !important;
+        margin-bottom: 0 !important;
+        font-weight: 200 !important;
 
     }
     .text-overlay p {
@@ -296,10 +294,10 @@ text-decoration: none;
     border-bottom-right-radius:50%;
 }
 .cta h2{
-    font-size: 2vw;
-    font-weight: 200;
+    font-size: 2vw !important;
+    font-weight: 200 !important;
     text-align: center !important;
-    line-height: 2vw;
+    line-height: 2vw !important;
 }
 
 #about-intro{
@@ -315,10 +313,10 @@ text-decoration: none;
   flex-wrap: wrap;
 }
 #about-intro h2{
-    font-family: poppins;
-    font-weight: 200;
-    font-size: 2rem;
-    padding-right: 5vw;
+    font-family: poppins !important;
+    font-weight: 200 !important;
+    font-size: 2rem !important;
+    padding-right: 5vw !important;
 }
 #about-intro span{
 	color: #0094F7;
@@ -401,9 +399,9 @@ text-decoration: none;
 
 }
 #about-stat-p h3{
-  font-size: 2rem;
-  margin-bottom: 10px;
-  font-weight: 200;
+  font-size: 2rem !important;
+  margin-bottom: 10px !important;
+  font-weight: 200 !important;
 }
 #stats{
 	display: flex;
@@ -416,11 +414,11 @@ text-decoration: none;
 	padding: 0 10%
 }
 #stats h3{
-	font-family: poppins;
-	font-size: 2rem;
-	font-weight: 300;
-	color: #0094F7;
-	margin:0;
+	font-family: poppins !important;
+	font-size: 2rem !important;
+	font-weight: 300 !important;
+	color: #0094F7 !important;
+	margin:0 !important;
 }
 #stats p{
 	font-family: poppins;
@@ -439,13 +437,13 @@ text-decoration: none;
 }
 #stat2{
 	border-bottom: solid 1px grey;
-	border-left: : solid 1px grey;
+	border-left: solid 1px grey;
 }
 #stat3{
 	border-right: solid 1px grey;
 }
 #stat4{
-	border-left: : solid 1px grey;
+	border-left: solid 1px grey;
 }
 
 #the-box{
@@ -473,9 +471,9 @@ text-decoration: none;
 	margin: 5% 0;
 }
 #the-box-description h2{
-	font-size: 2.5vw;
-	font-weight: 300;
-	line-height: 1.25;
+	font-size: 2.5vw !important;
+	font-weight: 300 !important;
+	line-height: 1.25 !important;
 }
 #the-box-description h2 span{
 	color: #0094F7;
@@ -506,8 +504,8 @@ text-decoration: none;
 	color: #fff;
 }
 #carousel-text h2{
-	font-size: 3rem;
-	font-weight: 200;
+	font-size: 3rem !important;
+	font-weight: 200 !important;
 }
 #carousel-text p{
 	font-weight: 100;
@@ -516,9 +514,9 @@ text-decoration: none;
     line-height: 2.5rem;
 	}
 #carousel-text h3{
-	font-weight: 200;
-	font-size: 1.55rem;
-    letter-spacing: 5%;
+	font-weight: 200 !important;
+	font-size: 1.55rem !important;
+    letter-spacing: 5% !important;
 }
 #carousel-text h2 span{
 	font-weight: 300;
@@ -566,12 +564,12 @@ text-decoration: none;
   line-height: 1.85;
 }
 .carousel-description h3 {
-    margin: 5% 0 5% 5%;
-    font-size: 1.5vw;
-    font-weight: 300;
-    line-height: 1;
-    border-left:solid 5px #0094F7;
-    padding-left: 1vw;
+    margin: 5% 0 5% 5% !important;
+    font-size: 1.5vw !important;
+    font-weight: 300 !important;
+    line-height: 1 !important;
+    border-left:solid 5px #0094F7 !important;
+    padding-left: 1vw !important;
 }
 
 .carousel-description p {
@@ -656,9 +654,9 @@ text-decoration: none;
 }
 
 .map-container h1 {
-    font-size: 2rem;
-    margin-bottom: 10px;
-    font-weight: 200;
+    font-size: 2rem !important;
+    margin-bottom: 10px !important;
+    font-weight: 200 !important;
 }
 
 .map-container p {
@@ -683,10 +681,10 @@ text-decoration: none;
 }
 
 .map-column h3 {
-    font-size: 1.2rem;
-    color: #007BFF;
-    margin-bottom: 10px;
-    font-weight: 300;
+    font-size: 1.2rem !important;
+    color: #007BFF !important;
+    margin-bottom: 10px !important;
+    font-weight: 300 !important;
 }
 
 .map-column ul {
@@ -709,14 +707,14 @@ text-decoration: none;
 	padding: 5vh 2vw;
 }
 #casestudy-intro{
-	max-width: ;
+	max-width: 1200px;
 	margin: 5% auto;
 }
 #casestudy-intro h2{
-	font-weight: 300;
-	font-size: 3rem;
-	margin-bottom: 2%;
-  font-family: fm;
+	font-weight: 300 !important;
+	font-size: 3rem !important;
+	margin-bottom: 2% !important;
+  font-family: fm !important;
 }
 #casestudy-intro p{
 	font-weight: 300;
@@ -749,13 +747,12 @@ text-decoration: none;
     border-radius: 30px;
 }
 .study h3{
-    font-size: 1.5rem;
-    font-weight: 400;
-    margin:0;
-    letter-spacing: 2%;
+    font-size: 1.5rem !important;
+    font-weight: 400 !important;
+    margin:0 !important;
+    letter-spacing: 2% !important;
 }
-.study p{
-}
+/* .study p styles can be added here if needed */
 #leadershiptitle{
     width: 70%;
     margin: auto;
@@ -767,11 +764,11 @@ text-decoration: none;
 
 }
 #leadershiptitle h2{
-    font-weight: 200;
-    margin: 0;
-    padding-bottom: 2vh;
-    padding-left: 2vw;
-    font-size: calc(12px + 2.5vw);
+    font-weight: 200 !important;
+    margin: 0 !important;
+    padding-bottom: 2vh !important;
+    padding-left: 2vw !important;
+    font-size: calc(12px + 2.5vw) !important;
 }
 .apertureHScroll-wrapper {
   position: relative;
@@ -812,10 +809,10 @@ text-decoration: none;
     box-shadow: rgba(30, 30, 93, 0.55) 0px 50px 100px -20px, rgba(0, 0, 0, 0.4) 0px 30px 20px -30px;
 }
 .apertureHScroll-card h3{
-    font-size: 1.5rem;
-    font-weight: 400;
-    margin:0;
-    letter-spacing: 2%;
+    font-size: 1.5rem !important;
+    font-weight: 400 !important;
+    margin:0 !important;
+    letter-spacing: 2% !important;
 }
 .apertureHScroll-card{
     font-weight: 100;
@@ -827,10 +824,10 @@ text-decoration: none;
     padding: 20vh 0;
 }
 #leadership h2{
-    text-align: left;
-    font-size: 3vw;
-    font-weight: 200;
-    margin:0 auto 5vh;
+    text-align: left !important;
+    font-size: 3vw !important;
+    font-weight: 200 !important;
+    margin:0 auto 5vh !important;
 }
 .title{
     font-size: 1.25rem;
@@ -880,14 +877,14 @@ text-decoration: none;
     align-content: center;
 }
 .details3 h3 {
-    font-size: 1.5em;
-    font-weight: 200;
-    line-height: 1.25em;
-    color: #fff;
-    text-transform: capitalize;
-    margin: 3vh 0;
-    border-left:solid 5px #0094F7;
-    padding-left: 1vw;
+    font-size: 1.5em !important;
+    font-weight: 200 !important;
+    line-height: 1.25em !important;
+    color: #fff !important;
+    text-transform: capitalize !important;
+    margin: 3vh 0 !important;
+    border-left:solid 5px #0094F7 !important;
+    padding-left: 1vw !important;
 }
 .details3 p {
     font-size: 1em;
@@ -925,8 +922,8 @@ text-decoration: none;
   flex-basis: 25%;
 }
 .outro h3{
-  font-weight: 400;
-  font-size: calc(12px + .75vw)
+  font-weight: 400 !important;
+  font-size: calc(12px + .75vw) !important;
 }
 .outro p{
   font-weight: 200;
@@ -947,8 +944,8 @@ text-decoration: none;
   justify-content:space-between;
 }
 .outro-cta h3{
-  border-left:solid 5px #0094F7;
-  padding-left: .5vw;
+  border-left:solid 5px #0094F7 !important;
+  padding-left: .5vw !important;
 }
 .outro-border{
   border-top: 1px grey solid;
@@ -1011,8 +1008,8 @@ footer img{
       display: none;
     }
     #casestudy-intro h2{
-        line-height: 1.2;
-        padding: 10%;
+        line-height: 1.2 !important;
+        padding: 10% !important;
     }
     #map{
         flex-direction: column;
@@ -1041,7 +1038,7 @@ footer img{
         padding: 10% 0;
     }
     #the-box-description h2{
-        font-size: 2rem;
+        font-size: 2rem !important;
     }
     #the-box-description p{
         margin: auto;
@@ -1049,7 +1046,7 @@ footer img{
         padding: 2% 0;
     }
     #leadershiptitle h2{
-        font-size: 2rem;
+        font-size: 2rem !important;
     }
     .apertureHScroll-card {
         flex: 0 0 calc(100vw / 1.5);
@@ -1108,8 +1105,8 @@ footer img{
   flex-basis: 25%;
 }
 .outro h3{
-  font-weight: 400;
-  font-size: calc(12px + 2.75vw)
+  font-weight: 400 !important;
+  font-size: calc(12px + 2.75vw) !important;
 }
 .outro p{
   font-weight: 200;
@@ -1130,8 +1127,8 @@ footer img{
   justify-content:space-between;
 }
 .outro-cta h3{
-  border-left:solid 5px #0094F7;
-  padding-left: 3vw;
+  border-left:solid 5px #0094F7 !important;
+  padding-left: 3vw !important;
 }
 .outro-border{
   border-top: 1px grey solid;

@@ -87,12 +87,12 @@ body {
 }
 
 .lifestyle-header h2 {
-    font-size: clamp(2.5rem, 5vw, 4rem);
-    margin-bottom: 2rem;
-    background: var(--gradient-text);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    font-size: clamp(2.5rem, 5vw, 4rem) !important;
+    margin-bottom: 2rem !important;
+    background: var(--gradient-text) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
 }
 
 .lifestyle-header p {
@@ -168,10 +168,10 @@ body {
 }
 
 .lifestyle-content h3 {
-    font-size: 1.5rem;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-    color: white;
+    font-size: 1.5rem !important;
+    font-weight: 600 !important;
+    margin-bottom: 0.5rem !important;
+    color: white !important;
 }
 
 .lifestyle-content p {
@@ -211,12 +211,12 @@ body {
 }
 
 .lifestyle-cta h3 {
-    font-size: clamp(2rem, 4vw, 3rem);
-    margin-bottom: 1.5rem;
-    background: var(--gradient-text);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    font-size: clamp(2rem, 4vw, 3rem) !important;
+    margin-bottom: 1.5rem !important;
+    background: var(--gradient-text) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
 }
 
 .lifestyle-cta p {
@@ -291,7 +291,7 @@ body {
     }
     
     .lifestyle-header h2 {
-        font-size: 2rem;
+        font-size: 2rem !important;
     }
     
     .lifestyle-header p {
@@ -303,7 +303,7 @@ body {
     }
     
     .lifestyle-cta h3 {
-        font-size: 1.5rem;
+        font-size: 1.5rem !important;
     }
     
     .lifestyle-cta p {
