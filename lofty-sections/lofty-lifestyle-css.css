@@ -62,9 +62,24 @@ body {
 /* Lifestyle Section */
 .lifestyle-section {
     padding: 8rem 0;
-    background: linear-gradient(135deg, var(--primary-white) 0%, var(--secondary-white) 50%, var(--tertiary-white) 100%);
+    background: linear-gradient(135deg, var(--primary-white) 0%, var(--secondary-white) 50%, var(--tertiary-white) 100%) !important;
     position: relative;
     overflow: hidden;
+    color: var(--text-primary) !important;
+}
+
+/* Ensure all text in lifestyle sections has proper colors */
+.lifestyle-section h1,
+.lifestyle-section h2:not(.lifestyle-content h2),
+.lifestyle-section h3:not(.lifestyle-content h3),
+.lifestyle-section h4,
+.lifestyle-section h5,
+.lifestyle-section h6 {
+    color: var(--text-primary) !important;
+}
+
+.lifestyle-section p:not(.lifestyle-content p) {
+    color: var(--text-secondary) !important;
 }
 
 .lifestyle-section::before {
@@ -99,7 +114,7 @@ body {
     font-size: 1.2rem;
     max-width: 600px;
     margin: 0 auto;
-    color: var(--text-secondary);
+    color: var(--text-secondary) !important;
 }
 
 /* Lifestyle Grid */
@@ -118,7 +133,7 @@ body {
     overflow: hidden;
     transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     cursor: pointer;
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.9) !important;
     border: 1px solid rgba(0, 0, 0, 0.1);
     box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
 }
@@ -175,13 +190,13 @@ body {
 }
 
 .lifestyle-content p {
-    color: #ffffff;
+    color: #ffffff !important;
     margin-bottom: 1rem;
     font-size: 0.95rem;
 }
 
 .lifestyle-link {
-    color: #ffffff;
+    color: #ffffff !important;
     text-decoration: none;
     font-weight: 600;
     font-size: 0.9rem;
@@ -193,14 +208,14 @@ body {
 }
 
 .lifestyle-link:hover {
-    color: var(--accent-blue-light);
+    color: var(--accent-blue-light) !important;
     border-bottom-color: var(--accent-blue-light);
 }
 
 /* Lifestyle CTA */
 .lifestyle-cta {
     text-align: center;
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.9) !important;
     border: 1px solid rgba(0, 0, 0, 0.1);
     border-radius: 20px;
     padding: 4rem 3rem;
@@ -208,6 +223,7 @@ body {
     position: relative;
     z-index: 2;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+    color: var(--text-primary) !important;
 }
 
 .lifestyle-cta h3 {
@@ -221,7 +237,7 @@ body {
 
 .lifestyle-cta p {
     font-size: 1.1rem;
-    color: var(--text-secondary);
+    color: var(--text-secondary) !important;
     margin-bottom: 2.5rem;
     max-width: 500px;
     margin-left: auto;
@@ -231,7 +247,7 @@ body {
 .lifestyle-button {
     display: inline-block;
     background: var(--gradient-accent);
-    color: white;
+    color: white !important;
     padding: 1rem 2.5rem;
     border-radius: 50px;
     text-decoration: none;
