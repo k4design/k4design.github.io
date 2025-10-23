@@ -150,7 +150,7 @@ section.lifestyle-section .lifestyle-header p {
     border-radius: 16px !important;
     overflow: hidden !important;
     transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
-    cursor: pointer !important;
+    cursor: default !important;
     background: rgba(255, 255, 255, 0.9) !important;
     border: 1px solid rgba(0, 0, 0, 0.1) !important;
     box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1) !important;
