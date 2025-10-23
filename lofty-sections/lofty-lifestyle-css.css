@@ -244,6 +244,51 @@ section.lifestyle-section .lifestyle-card .lifestyle-link:hover {
     border-bottom-color: var(--accent-blue-light) !important;
 }
 
+/* NUCLEAR OPTION - Override ALL Lofty global styles */
+/* Section-level overrides */
+section#lifestyle.lifestyle-section,
+section.lifestyle-section#lifestyle,
+.lifestyle-section {
+    background: linear-gradient(135deg, var(--primary-white) 0%, var(--secondary-white) 50%, var(--tertiary-white) 100%) !important;
+    color: var(--text-primary) !important;
+}
+
+/* Force all headings to be dark */
+section#lifestyle h1,
+section#lifestyle h2,
+section#lifestyle h3,
+section#lifestyle h4,
+section#lifestyle h5,
+section#lifestyle h6,
+section.lifestyle-section h1,
+section.lifestyle-section h2,
+section.lifestyle-section h3,
+section.lifestyle-section h4,
+section.lifestyle-section h5,
+section.lifestyle-section h6 {
+    color: #1a1a1a !important;
+}
+
+/* Force all paragraphs to be dark secondary */
+section#lifestyle p,
+section.lifestyle-section p,
+section#lifestyle .container p,
+section.lifestyle-section .container p {
+    color: #4a4a4a !important;
+}
+
+/* Keep overlay content WHITE */
+section#lifestyle .lifestyle-overlay *,
+section.lifestyle-section .lifestyle-overlay *,
+section#lifestyle .lifestyle-card .lifestyle-overlay .lifestyle-content h3,
+section.lifestyle-section .lifestyle-card .lifestyle-overlay .lifestyle-content h3,
+section#lifestyle .lifestyle-card .lifestyle-overlay .lifestyle-content p,
+section.lifestyle-section .lifestyle-card .lifestyle-overlay .lifestyle-content p,
+section#lifestyle .lifestyle-link,
+section.lifestyle-section .lifestyle-link {
+    color: #ffffff !important;
+}
+
 /* Lifestyle CTA */
 .lifestyle-cta {
     text-align: center !important;
@@ -375,4 +420,48 @@ section.lifestyle-section .lifestyle-button,
         padding: 0.8rem 2rem !important;
         font-size: 0.9rem !important;
     }
+}
+
+/* ABSOLUTE FINAL OVERRIDES - Must come last to override everything */
+/* These rules use ID selector for maximum specificity */
+section[id="lifestyle"] h2,
+section[id="lifestyle"] .lifestyle-header h2 {
+    color: #1a1a1a !important;
+    background: var(--gradient-text) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+}
+
+section[id="lifestyle"] .lifestyle-header p {
+    color: #4a4a4a !important;
+}
+
+/* Exception: overlay content must stay white */
+section[id="lifestyle"] .lifestyle-overlay h3,
+section[id="lifestyle"] .lifestyle-overlay p,
+section[id="lifestyle"] .lifestyle-overlay a {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+}
+
+/* Button text must be white */
+section[id="lifestyle"] .lifestyle-button,
+section[id="lifestyle"] .lifestyle-cta .lifestyle-button {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+}
+
+/* Ensure CTA section has dark text */
+section[id="lifestyle"] .lifestyle-cta h3 {
+    color: #1a1a1a !important;
+    background: var(--gradient-text) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+}
+
+section[id="lifestyle"] .lifestyle-cta p {
+    color: #4a4a4a !important;
+    -webkit-text-fill-color: #4a4a4a !important;
 }
