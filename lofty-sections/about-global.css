@@ -1007,11 +1007,11 @@ text-decoration: none;
 .leader-bio {
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.6s ease;
+    transition: max-height 0.8s ease;
 }
 
 .leader-card:hover .leader-bio {
-    max-height: 200px;
+    max-height: 500px;
 }
 
 .leader-bio p {
@@ -1019,6 +1019,7 @@ text-decoration: none;
     font-size: 0.95rem;
     line-height: 1.7;
     margin: 0;
+    padding-top: 1rem;
 }
 
 .leader-social {
