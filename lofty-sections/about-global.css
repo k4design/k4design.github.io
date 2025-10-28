@@ -104,6 +104,61 @@ body{
     }
 }
 
+@keyframes fadeInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes fadeInRight {
+    from {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-100px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(100px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
 .about-header p {
     text-align: center;
     max-width: 800px;
@@ -241,6 +296,8 @@ body{
 .vid{
     display: flex;
     justify-content: center;
+	opacity: 0;
+	animation: fadeInUp 1.2s ease-out 0.8s forwards;
 }
 .viddiv{
     height: auto;
@@ -568,11 +625,15 @@ text-decoration: none;
 	margin: 0% auto 10%;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
     background-attachment: fixed;
+	opacity: 0;
+	animation: fadeInScale 1.2s ease-out 1.8s forwards;
 }
 #the-box-description{
 	flex-basis: 30%;
 	padding: 0 2%;
-
+	opacity: 0;
+	transform: translateX(-30px);
+	animation: fadeInLeft 1s ease-out 1.9s forwards;
 }
 #the-box a{
 	margin: 5% 0;
@@ -596,6 +657,9 @@ text-decoration: none;
 #the-box-img{
 	flex-basis: 40%;
 	align-content: center;
+	opacity: 0;
+	transform: translateX(30px);
+	animation: fadeInRight 1s ease-out 1.9s forwards;
 }
 #the-box-img img{
 	width: 100%;
@@ -604,6 +668,8 @@ text-decoration: none;
     margin:10vw auto 0;
 	background-color: #0A0A12;
 	padding: 5vh 0;
+	opacity: 0;
+	animation: fadeInUp 1.2s ease-out 1s forwards;
 }
 
 #carousel-text{
@@ -612,6 +678,8 @@ text-decoration: none;
 	margin: auto;
     padding: 5vh 0 10vh;
 	color: #fff;
+	opacity: 0;
+	animation: fadeInUp 1s ease-out 1.1s forwards;
 }
 #carousel-text h2{
 	font-size: clamp(2.5rem, 5vw, 4rem) !important;
@@ -737,6 +805,8 @@ text-decoration: none;
     letter-spacing: 5%;
 	background-color: #fff;
 	color: #333;
+	opacity: 0;
+	animation: fadeInScale 1.2s ease-out 0.5s forwards;
 }
 #map .icon{
     height: 10vh;
@@ -860,6 +930,8 @@ text-decoration: none;
     background: var(--primary-black);
     position: relative;
     overflow: hidden;
+	opacity: 0;
+	animation: fadeInUp 1.2s ease-out 2s forwards;
 }
 
 .leadership-section::before {
@@ -887,6 +959,9 @@ text-decoration: none;
 .leadership-header {
     text-align: center;
     margin-bottom: 3rem;
+	opacity: 0;
+	transform: translateY(30px);
+	animation: fadeInUp 1s ease-out 2.1s forwards;
 }
 
 .leadership-header h2 {
@@ -924,6 +999,32 @@ text-decoration: none;
     transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     cursor: pointer;
     backdrop-filter: blur(20px);
+	opacity: 0;
+	transform: translateY(30px);
+}
+
+.leader-card:nth-child(1) {
+	animation: fadeInUp 0.8s ease-out 2.3s forwards;
+}
+
+.leader-card:nth-child(2) {
+	animation: fadeInUp 0.8s ease-out 2.4s forwards;
+}
+
+.leader-card:nth-child(3) {
+	animation: fadeInUp 0.8s ease-out 2.5s forwards;
+}
+
+.leader-card:nth-child(4) {
+	animation: fadeInUp 0.8s ease-out 2.6s forwards;
+}
+
+.leader-card:nth-child(5) {
+	animation: fadeInUp 0.8s ease-out 2.7s forwards;
+}
+
+.leader-card:nth-child(6) {
+	animation: fadeInUp 0.8s ease-out 2.8s forwards;
 }
 
 .leader-card::before {
@@ -1221,6 +1322,16 @@ text-decoration: none;
 	background-color: #0A0A12;
 	color: #fff;
 	padding: 5vh 0;
+	opacity: 0;
+}
+.community {
+	animation: slideInLeft 1.2s ease-out 1.2s forwards;
+}
+.interior {
+	animation: slideInRight 1.2s ease-out 1.4s forwards;
+}
+.aminities {
+	animation: slideInLeft 1.2s ease-out 1.6s forwards;
 }
 .community img,
 .interior img,
