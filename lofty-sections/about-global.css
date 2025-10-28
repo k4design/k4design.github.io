@@ -26,12 +26,13 @@ html{
 }
 body{
 	overflow-x: hidden;
-	font-family: poppins;
+	font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
 	margin: 0;
     letter-spacing: 5%;
     background: var(--primary-black);
     color: var(--text-primary);
     line-height: 1.7;
+    font-weight: 200;
 }
 
 /* Typography */
@@ -886,10 +887,12 @@ text-decoration: none;
 }
 
 .leadership-header p {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     color: var(--text-secondary);
     font-size: 1.2rem;
     max-width: 600px;
     margin: 0 auto;
+    font-weight: 200;
 }
 
 .leadership-grid {
@@ -983,9 +986,9 @@ text-decoration: none;
 }
 
 .leader-name {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     font-size: 1.75rem !important;
-    font-weight: 300 !important;
+    font-weight: 400 !important;
     color: var(--text-primary) !important;
     margin-bottom: 0.5rem !important;
     transition: color 0.3s ease;
@@ -996,7 +999,8 @@ text-decoration: none;
 }
 
 .leader-title {
-    font-size: 1rem;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 0.9rem;
     font-weight: 400;
     color: var(--accent-blue);
     text-transform: uppercase;
@@ -1015,11 +1019,13 @@ text-decoration: none;
 }
 
 .leader-bio p {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     color: var(--text-secondary);
     font-size: 0.95rem;
     line-height: 1.7;
     margin: 0;
     padding-top: 1rem;
+    font-weight: 200;
 }
 
 .leader-social {
@@ -1037,9 +1043,10 @@ text-decoration: none;
 }
 
 .social-link {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     color: var(--text-secondary);
     text-decoration: none;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     font-weight: 400;
     text-transform: uppercase;
     letter-spacing: 1px;
