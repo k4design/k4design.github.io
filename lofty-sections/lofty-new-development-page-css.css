@@ -88,7 +88,8 @@ body {
 
 /* Premium Hero Section */
 .new-dev-hero {
-    height: 100vh;
+    height: auto;
+    padding: 8rem 0;
     position: relative;
     overflow: hidden;
     display: flex;
