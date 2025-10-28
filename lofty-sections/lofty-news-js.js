@@ -6,20 +6,124 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function initNewsSection() {
-    // Initialize news cards animations
-    initNewsAnimations();
+    // Load images from article URLs first
+    loadNewsImages().then(() => {
+        // Initialize news cards animations
+        initNewsAnimations();
+        
+        // Initialize news card interactions
+        initNewsCardInteractions();
+        
+        // Initialize news filtering (if needed)
+        initNewsFiltering();
+        
+        // Initialize news pagination (if needed)
+        initNewsPagination();
+        
+        // Initialize news sharing
+        initNewsSharing();
+    });
+}
+
+// Load images from article URLs
+async function loadNewsImages() {
+    const newsCards = document.querySelectorAll('.news-card');
     
-    // Initialize news card interactions
-    initNewsCardInteractions();
-    
-    // Initialize news filtering (if needed)
-    initNewsFiltering();
-    
-    // Initialize news pagination (if needed)
-    initNewsPagination();
-    
-    // Initialize news sharing
-    initNewsSharing();
+    for (const card of newsCards) {
+        const readMoreLink = card.querySelector('.read-more');
+        if (!readMoreLink || !readMoreLink.href || readMoreLink.href === '#') {
+            continue;
+        }
+        
+        const articleUrl = readMoreLink.href;
+        const newsImage = card.querySelector('.news-image');
+        
+        try {
+            // Show loading state
+            newsImage.style.background = 'linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%)';
+            newsImage.innerHTML = '<div style="display: flex; align-items: center; justify-content: center; height: 100%; color: #888;"><i class="fas fa-spinner fa-spin" style="font-size: 2rem;"></i></div>';
+            
+            // Fetch image from URL using Open Graph protocol or use a service
+            const imageUrl = await getImageFromArticle(articleUrl);
+            
+            if (imageUrl) {
+                // Create img element
+                const img = document.createElement('img');
+                img.src = imageUrl;
+                img.style.width = '100%';
+                img.style.height = '100%';
+                img.style.objectFit = 'cover';
+                img.alt = card.querySelector('h3')?.textContent || 'News article';
+                
+                // Handle image load errors
+                img.onerror = function() {
+                    newsImage.classList.add('error');
+                    const sourceText = card.querySelector('.news-content > div > span:nth-child(2)')?.textContent || card.querySelector('.news-content').textContent.split('\n')[0] || 'News';
+                    newsImage.innerHTML = '<div style="display: flex; align-items: center; justify-content: center; height: 100%; color: #888;"><div style="text-align: center;"><div style="font-size: 3rem; margin-bottom: 0.5rem;">📰</div><div>' + sourceText + '</div></div></div>';
+                };
+                
+                // Clear existing content and add image
+                newsImage.innerHTML = '';
+                newsImage.style.background = 'none';
+                newsImage.appendChild(img);
+            } else {
+                // No image found, restore placeholder with source name
+                const sourceText = card.querySelector('.news-content > div > span:nth-child(2)')?.textContent || card.querySelector('.news-content').textContent.split('\n')[0] || 'News';
+                newsImage.innerHTML = '<div style="display: flex; align-items: center; justify-content: center; height: 100%; color: white; font-size: 1.5rem; font-weight: 600;"><div style="text-align: center;"><div style="font-size: 2rem; margin-bottom: 0.5rem;">📰</div><div>' + sourceText + '</div></div></div>';
+            }
+        } catch (error) {
+            console.error('Error loading image for:', articleUrl, error);
+            // Keep the default placeholder if image fails to load
+            const sourceText = card.querySelector('.news-content > div > span:nth-child(2)')?.textContent || 'News';
+            newsImage.innerHTML = '<div style="display: flex; align-items: center; justify-content: center; height: 100%; color: white; font-size: 1.5rem; font-weight: 600;"><div style="text-align: center;"><div style="font-size: 2rem; margin-bottom: 0.5rem;">📰</div><div>' + sourceText + '</div></div></div>';
+        }
+    }
+}
+
+// Get image from article URL
+async function getImageFromArticle(url) {
+    try {
+        // Use a CORS proxy to fetch the article HTML
+        const proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(url);
+        
+        const response = await fetch(proxyUrl);
+        if (!response.ok) {
+            throw new Error('Failed to fetch article');
+        }
+        
+        const html = await response.text();
+        
+        // Parse HTML to find Open Graph image
+        const ogImageMatch = html.match(/<meta\s+property=["']og:image["']\s+content=["']([^"']+)["']/i);
+        if (ogImageMatch && ogImageMatch[1]) {
+            return ogImageMatch[1];
+        }
+        
+        // Fallback to twitter:image
+        const twitterImageMatch = html.match(/<meta\s+name=["']twitter:image["']\s+content=["']([^"']+)["']/i);
+        if (twitterImageMatch && twitterImageMatch[1]) {
+            return twitterImageMatch[1];
+        }
+        
+        // Fallback to first large image in article content
+        const imgMatch = html.match(/<img[^>]+src=["']([^"']+)["'][^>]*>/i);
+        if (imgMatch && imgMatch[1]) {
+            // Make sure it's an absolute URL
+            if (imgMatch[1].startsWith('http')) {
+                return imgMatch[1];
+            } else if (imgMatch[1].startsWith('//')) {
+                return 'https:' + imgMatch[1];
+            } else if (imgMatch[1].startsWith('/')) {
+                const urlObj = new URL(url);
+                return urlObj.origin + imgMatch[1];
+            }
+        }
+        
+        return null;
+    } catch (error) {
+        console.error('Error getting image from article:', error);
+        return null;
+    }
 }
 
 // News card animations

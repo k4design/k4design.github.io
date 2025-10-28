@@ -135,6 +135,7 @@ body {
     height: 220px;
     overflow: hidden;
     position: relative;
+    background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
 }
 
 .news-image img {
@@ -144,8 +145,28 @@ body {
     transition: transform 0.4s ease;
 }
 
+.news-image img[src=""],
+.news-image img:not([src]) {
+    opacity: 0;
+}
+
 .news-card:hover .news-image img {
     transform: scale(1.08);
+}
+
+/* Error state for failed image loads */
+.news-image.error {
+    background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    font-size: 3rem;
+}
+
+.news-image.error::after {
+    content: '📰';
+    font-size: 3rem;
 }
 
 .news-content {
