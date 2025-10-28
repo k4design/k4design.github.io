@@ -1,15 +1,102 @@
+/* CSS Variables for Easy Customization */
+:root {
+    --primary-black: #000000;
+    --secondary-black: #0f0f0f;
+    --tertiary-black: #1a1a1a;
+    --accent-blue: #0094F7;
+    --accent-blue-light: #4db8ff;
+    --accent-blue-dark: #007acc;
+    --text-primary: #ffffff;
+    --text-secondary: #b8b8b8;
+    --text-muted: #888888;
+    --text-accent: #0094F7;
+    --border-subtle: rgba(0, 148, 247, 0.15);
+    --border-blue: rgba(0, 148, 247, 0.3);
+    --gradient-primary: linear-gradient(135deg, #000000 0%, #0f0f0f 50%, #1a1a1a 100%);
+    --gradient-accent: linear-gradient(135deg, #0094F7 0%, #4db8ff 50%, #007acc 100%);
+    --gradient-text: linear-gradient(135deg, #0094F7 0%, #ffffff 50%, #0094F7 100%);
+    --shadow-soft: 0 30px 80px rgba(0, 0, 0, 0.4);
+    --shadow-glow: 0 0 60px rgba(0, 148, 247, 0.15);
+    --shadow-premium: 0 40px 100px rgba(0, 0, 0, 0.5);
+}
+
 html{
 	overflow-x: hidden;
-  scroll-behavior: smooth;
+    scroll-behavior: smooth;
 }
 body{
 	overflow-x: hidden;
 	font-family: poppins;
 	margin: 0;
     letter-spacing: 5%;
-    /* Removed global dark theme colors to prevent conflicts with light sections */
-    /* Dark sections should apply their own background and text colors */
+    background: var(--primary-black);
+    color: var(--text-primary);
+    line-height: 1.7;
 }
+
+/* Typography */
+.display-font {
+    font-family: 'Playfair Display', serif;
+    font-weight: 300;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+}
+
+.text-elegant {
+    font-weight: 200;
+    letter-spacing: 0.02em;
+    line-height: 1.8;
+}
+
+/* Container */
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+/* About Header Section */
+.about-header {
+    padding: 120px 0;
+    background: var(--primary-black);
+    position: relative;
+    border-bottom: 5px solid var(--accent-blue);
+}
+
+.about-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 50% 20%, rgba(0, 148, 247, 0.08) 0%, transparent 50%);
+    pointer-events: none;
+}
+
+.about-header h2 {
+    color: var(--text-primary) !important;
+    margin-bottom: 2rem !important;
+    position: relative;
+    z-index: 2;
+    text-align: center !important;
+    font-size: clamp(2.5rem, 5vw, 4rem) !important;
+    background: var(--gradient-text) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+}
+
+.about-header p {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+    color: var(--text-secondary);
+    font-size: 1.2rem;
+    position: relative;
+    z-index: 2;
+}
+
 /* img styles can be added here if needed */
 @font-face {
     font-family: "FM";
@@ -1147,5 +1234,35 @@ footer img{
   border-radius: 0px;
   text-align: center;
   transition: all 0.3s ease;
+}
+
+/* About Header Responsive Styles */
+@media (max-width: 768px) {
+    .about-header {
+        padding: 80px 0;
+    }
+    
+    .about-header h2 {
+        font-size: 2.5rem !important;
+    }
+    
+    .about-header p {
+        font-size: 1.1rem;
+        padding: 0 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .about-header {
+        padding: 60px 0;
+    }
+    
+    .about-header h2 {
+        font-size: 2rem !important;
+    }
+    
+    .about-header p {
+        font-size: 1rem;
+    }
 }
 }
