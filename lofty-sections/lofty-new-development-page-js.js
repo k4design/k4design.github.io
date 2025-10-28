@@ -3,36 +3,7 @@
 // New Development page functionality
 document.addEventListener('DOMContentLoaded', function() {
     initNewDevelopmentPage();
-    initParallaxEffect();
 });
-
-// Parallax effect for hero background
-function initParallaxEffect() {
-    const heroImage = document.querySelector('.hero-background img');
-    
-    if (heroImage) {
-        let ticking = false;
-        
-        function updateParallax() {
-            const scrolled = window.pageYOffset;
-            const parallax = heroImage;
-            const speed = scrolled * 0.5; // Adjust speed here (0.5 = 50% of scroll speed)
-            
-            parallax.style.transform = `translate3d(0, ${speed}px, 0)`;
-            ticking = false;
-        }
-        
-        function requestTick() {
-            if (!ticking) {
-                window.requestAnimationFrame(updateParallax);
-                ticking = true;
-            }
-        }
-        
-        window.addEventListener('scroll', requestTick);
-        updateParallax(); // Initial call
-    }
-}
 
 function initNewDevelopmentPage() {
     // Initialize project cards
