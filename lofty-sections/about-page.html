@@ -18,6 +18,58 @@ var rule = '.house-grid-item.template4 .mask .house-detail .hide-price,.house-gr
 rule += '.mg-container{width:100vw !important;max-width:100vw !important;background-color:#0A0A12;}';
 
 cssEngine(rule);
+
+// Scroll-triggered animations using Intersection Observer
+document.addEventListener('DOMContentLoaded', function() {
+  // Elements to animate
+  const elementsToAnimate = [
+    { selector: '#map' },
+    { selector: '.vid' },
+    { selector: '#products' },
+    { selector: '#carousel-text' },
+    { selector: '.community' },
+    { selector: '.interior' },
+    { selector: '.aminities' },
+    { selector: '#the-box' },
+    { selector: '#the-box-description' },
+    { selector: '#the-box-img' },
+    { selector: '.leadership-section' },
+    { selector: '.leadership-header' }
+  ];
+
+  // Options for Intersection Observer
+  const options = {
+    root: null,
+    rootMargin: '0px',
+    threshold: 0.2 // Trigger when 20% of element is visible
+  };
+
+  // Create observer
+  const observer = new IntersectionObserver(function(entries) {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && !entry.target.classList.contains('animate')) {
+        entry.target.classList.add('animate');
+        // For leader cards, add animate class to each card
+        if (entry.target.classList.contains('leadership-section')) {
+          setTimeout(() => {
+            const leaderCards = entry.target.querySelectorAll('.leader-card');
+            leaderCards.forEach((card, index) => {
+              setTimeout(() => {
+                card.classList.add('animate');
+              }, index * 100);
+            });
+          }, 200);
+        }
+      }
+    });
+  }, options);
+
+  // Observe each element
+  elementsToAnimate.forEach(({ selector }) => {
+    const elements = document.querySelectorAll(selector);
+    elements.forEach(element => observer.observe(element));
+  });
+});
 </script>
 
 <div id="map">

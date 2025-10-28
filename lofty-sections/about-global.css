@@ -297,7 +297,10 @@ body{
     display: flex;
     justify-content: center;
 	opacity: 0;
-	animation: fadeInUp 1.2s ease-out 0.8s forwards;
+}
+
+.vid.animate {
+	animation: fadeInUp 1.2s ease-out forwards;
 }
 .viddiv{
     height: auto;
@@ -626,15 +629,23 @@ text-decoration: none;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
     background-attachment: fixed;
 	opacity: 0;
-	animation: fadeInScale 1.2s ease-out 1.8s forwards;
 }
+
+#the-box.animate {
+	animation: fadeInScale 1.2s ease-out forwards;
+}
+
 #the-box-description{
 	flex-basis: 30%;
 	padding: 0 2%;
 	opacity: 0;
 	transform: translateX(-30px);
-	animation: fadeInLeft 1s ease-out 1.9s forwards;
 }
+
+#the-box-description.animate {
+	animation: fadeInLeft 1s ease-out forwards;
+}
+
 #the-box a{
 	margin: 5% 0;
 }
@@ -659,7 +670,10 @@ text-decoration: none;
 	align-content: center;
 	opacity: 0;
 	transform: translateX(30px);
-	animation: fadeInRight 1s ease-out 1.9s forwards;
+}
+
+#the-box-img.animate {
+	animation: fadeInRight 1s ease-out forwards;
 }
 #the-box-img img{
 	width: 100%;
@@ -669,7 +683,10 @@ text-decoration: none;
 	background-color: #0A0A12;
 	padding: 5vh 0;
 	opacity: 0;
-	animation: fadeInUp 1.2s ease-out 1s forwards;
+}
+
+#products.animate {
+	animation: fadeInUp 1.2s ease-out forwards;
 }
 
 #carousel-text{
@@ -679,7 +696,10 @@ text-decoration: none;
     padding: 5vh 0 10vh;
 	color: #fff;
 	opacity: 0;
-	animation: fadeInUp 1s ease-out 1.1s forwards;
+}
+
+#carousel-text.animate {
+	animation: fadeInUp 1s ease-out forwards;
 }
 #carousel-text h2{
 	font-size: clamp(2.5rem, 5vw, 4rem) !important;
@@ -806,7 +826,10 @@ text-decoration: none;
 	background-color: #fff;
 	color: #333;
 	opacity: 0;
-	animation: fadeInScale 1.2s ease-out 0.5s forwards;
+}
+
+#map.animate {
+	animation: fadeInScale 1.2s ease-out forwards;
 }
 #map .icon{
     height: 10vh;
@@ -931,7 +954,10 @@ text-decoration: none;
     position: relative;
     overflow: hidden;
 	opacity: 0;
-	animation: fadeInUp 1.2s ease-out 2s forwards;
+}
+
+.leadership-section.animate {
+	animation: fadeInUp 1.2s ease-out forwards;
 }
 
 .leadership-section::before {
@@ -961,7 +987,10 @@ text-decoration: none;
     margin-bottom: 3rem;
 	opacity: 0;
 	transform: translateY(30px);
-	animation: fadeInUp 1s ease-out 2.1s forwards;
+}
+
+.leadership-header.animate {
+	animation: fadeInUp 1s ease-out forwards;
 }
 
 .leadership-header h2 {
@@ -1003,28 +1032,28 @@ text-decoration: none;
 	transform: translateY(30px);
 }
 
-.leader-card:nth-child(1) {
-	animation: fadeInUp 0.8s ease-out 2.3s forwards;
+.leader-card.animate:nth-child(1) {
+	animation: fadeInUp 0.8s ease-out 0.1s forwards;
 }
 
-.leader-card:nth-child(2) {
-	animation: fadeInUp 0.8s ease-out 2.4s forwards;
+.leader-card.animate:nth-child(2) {
+	animation: fadeInUp 0.8s ease-out 0.2s forwards;
 }
 
-.leader-card:nth-child(3) {
-	animation: fadeInUp 0.8s ease-out 2.5s forwards;
+.leader-card.animate:nth-child(3) {
+	animation: fadeInUp 0.8s ease-out 0.3s forwards;
 }
 
-.leader-card:nth-child(4) {
-	animation: fadeInUp 0.8s ease-out 2.6s forwards;
+.leader-card.animate:nth-child(4) {
+	animation: fadeInUp 0.8s ease-out 0.4s forwards;
 }
 
-.leader-card:nth-child(5) {
-	animation: fadeInUp 0.8s ease-out 2.7s forwards;
+.leader-card.animate:nth-child(5) {
+	animation: fadeInUp 0.8s ease-out 0.5s forwards;
 }
 
-.leader-card:nth-child(6) {
-	animation: fadeInUp 0.8s ease-out 2.8s forwards;
+.leader-card.animate:nth-child(6) {
+	animation: fadeInUp 0.8s ease-out 0.6s forwards;
 }
 
 .leader-card::before {
@@ -1324,14 +1353,17 @@ text-decoration: none;
 	padding: 5vh 0;
 	opacity: 0;
 }
-.community {
-	animation: slideInLeft 1.2s ease-out 1.2s forwards;
+
+.community.animate {
+	animation: slideInLeft 1.2s ease-out forwards;
 }
-.interior {
-	animation: slideInRight 1.2s ease-out 1.4s forwards;
+
+.interior.animate {
+	animation: slideInRight 1.2s ease-out forwards;
 }
-.aminities {
-	animation: slideInLeft 1.2s ease-out 1.6s forwards;
+
+.aminities.animate {
+	animation: slideInLeft 1.2s ease-out forwards;
 }
 .community img,
 .interior img,
