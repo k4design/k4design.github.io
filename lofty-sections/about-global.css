@@ -559,7 +559,8 @@ text-decoration: none;
 	margin: 5% 0;
 }
 #the-box-description h2{
-	font-size: 2.5vw !important;
+	font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+	font-size: clamp(2rem, 3vw, 3rem) !important;
 	font-weight: 300 !important;
 	line-height: 1.25 !important;
 }
@@ -567,9 +568,11 @@ text-decoration: none;
 	color: #0094F7;
 }
 #the-box-description p{
-	font-size: 1rem;
-	font-weight: 300;
+	font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+	font-size: 1.2rem;
+	font-weight: 200;
 	width: 85%;
+	line-height: 1.8;
 }
 #the-box-img{
 	flex-basis: 40%;
@@ -592,19 +595,21 @@ text-decoration: none;
 	color: #fff;
 }
 #carousel-text h2{
-	font-size: 3rem !important;
+	font-size: clamp(2.5rem, 5vw, 4rem) !important;
 	font-weight: 200 !important;
 }
 #carousel-text p{
-	font-weight: 100;
-    font-size: 1rem;
+	font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+	font-weight: 200;
+    font-size: 1.2rem;
     margin:5vh auto;
-    line-height: 2.5rem;
+    line-height: 2;
 	}
 #carousel-text h3{
-	font-weight: 200 !important;
-	font-size: 1.55rem !important;
-    letter-spacing: 5% !important;
+	font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+	font-weight: 300 !important;
+	font-size: 1.3rem !important;
+    letter-spacing: 0.05em !important;
 }
 #carousel-text h2 span{
 	font-weight: 300;
@@ -1213,8 +1218,9 @@ text-decoration: none;
     align-content: center;
 }
 .details3 h3 {
-    font-size: 1.5em !important;
-    font-weight: 200 !important;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 1.75em !important;
+    font-weight: 300 !important;
     line-height: 1.25em !important;
     color: #fff !important;
     text-transform: capitalize !important;
@@ -1223,10 +1229,12 @@ text-decoration: none;
     padding-left: 1vw !important;
 }
 .details3 p {
-    font-size: 1em;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 1.1em;
     font-weight: 200;
     margin: 2% 0 7% 0;
     width: 80%;
+    line-height: 1.8;
 }
 .details3 a {
     border: 1.5px solid #0094F7;
@@ -1382,8 +1390,9 @@ footer img{
     }
     #the-box-description p{
         margin: auto;
-        line-height: 2;
+        line-height: 1.8;
         padding: 2% 0;
+        font-size: 1.1rem;
     }
     #leadershiptitle h2{
         font-size: 2rem !important;
