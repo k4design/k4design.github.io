@@ -88,6 +88,20 @@ body{
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
     max-width: 1200px;
     margin: 0 auto;
+    opacity: 0;
+    transform: translateY(50px);
+    animation: fadeInUp 1s ease-out 0.3s forwards;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .about-header p {
@@ -98,6 +112,9 @@ body{
     font-size: 1.2rem;
     position: relative;
     z-index: 2;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInUp 1s ease-out 0.5s forwards;
 }
 
 /* img styles can be added here if needed */
