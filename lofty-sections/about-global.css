@@ -709,48 +709,36 @@ text-decoration: none;
 	max-width: 1200px;
 	margin: auto;
 	align-content: center;
-    padding: 5vh 0 10vh 0;
+    padding: 3vh 0;
     letter-spacing: 5%;
-    background-image: url("https://k4design.github.io/lofty-sections/img/dotmap.svg");
-    background-repeat: no-repeat;
-    background-position: right;
-    background-size: contain;
 	background-color: #fff;
 	color: #333;
 }
 #map .icon{
     height: 10vh;
-
-}
-#map-img{
-	flex-basis: 40%;
-	margin: auto;
-}
-#map-img img{
-	width: 80%;
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
 }
 .map-container {
     margin: 50px auto;
-    text-align: left;
+    text-align: center;
     padding: 20px;
     border-radius: 8px;
-    flex-basis: 40%;
+    width: 100%;
+    max-width: 900px;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
 }
 
 .map-container h1 {
-    font-size: 2rem !important;
-    margin-bottom: 10px !important;
-    font-weight: 200 !important;
+    font-size: 2.5rem !important;
+    margin-bottom: 20px !important;
+    font-weight: 300 !important;
 }
 
 .map-container p {
-    font-size: 1rem;
+    font-size: 1.2rem;
     margin-bottom: 30px;
-    font-weight: 100;
+    font-weight: 200;
     width: 100%;
     line-height: 2;
 }
@@ -843,7 +831,7 @@ text-decoration: none;
 /* .study p styles can be added here if needed */
 /* Leadership Section - Modern Awwwards-Worthy Design */
 .leadership-section {
-    padding: 8rem 0;
+    padding: 5rem 0;
     background: var(--primary-black);
     position: relative;
     overflow: hidden;
@@ -873,7 +861,7 @@ text-decoration: none;
 
 .leadership-header {
     text-align: center;
-    margin-bottom: 5rem;
+    margin-bottom: 3rem;
 }
 
 .leadership-header h2 {
@@ -988,7 +976,7 @@ text-decoration: none;
 .leader-name {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     font-size: 1.75rem !important;
-    font-weight: 400 !important;
+    font-weight: 500 !important;
     color: var(--text-primary) !important;
     margin-bottom: 0.5rem !important;
     transition: color 0.3s ease;
@@ -1000,8 +988,8 @@ text-decoration: none;
 
 .leader-title {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    font-size: 0.9rem;
-    font-weight: 400;
+    font-size: 1rem;
+    font-weight: 500;
     color: var(--accent-blue);
     text-transform: uppercase;
     letter-spacing: 2px;
@@ -1021,11 +1009,11 @@ text-decoration: none;
 .leader-bio p {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     color: var(--text-secondary);
-    font-size: 0.95rem;
-    line-height: 1.7;
+    font-size: 1rem;
+    line-height: 1.8;
     margin: 0;
     padding-top: 1rem;
-    font-weight: 200;
+    font-weight: 300;
 }
 
 .leader-social {
@@ -1088,10 +1076,11 @@ text-decoration: none;
     }
     
     .leadership-section {
-        padding: 6rem 0;
+        padding: 4rem 0;
     }
 }
 
+/* Disable interactivity on mobile/tablet */
 @media (max-width: 768px) {
     .leadership-grid {
         grid-template-columns: 1fr;
@@ -1099,37 +1088,75 @@ text-decoration: none;
     }
     
     .leadership-section {
-        padding: 5rem 0;
+        padding: 4rem 0;
     }
     
     .leadership-header h2 {
         font-size: 2.5rem !important;
     }
     
-    .leadership-header p {
-        font-size: 1.1rem;
+    /* Remove all hover effects on mobile */
+    .leader-card {
+        cursor: default !important;
+    }
+    
+    .leader-card:hover {
+        transform: none !important;
+        border-color: var(--border-subtle) !important;
+        box-shadow: none !important;
+    }
+    
+    .leader-card:hover::before {
+        opacity: 0 !important;
+    }
+    
+    .leader-card:hover .leader-image img {
+        transform: none !important;
+    }
+    
+    .leader-card:hover .leader-overlay {
+        opacity: 0 !important;
+    }
+    
+    .leader-card:hover .leader-content {
+        background: none !important;
+    }
+    
+    .leader-card:hover .leader-name {
+        color: var(--text-primary) !important;
+    }
+    
+    /* Always show bio on mobile */
+    .leader-bio {
+        max-height: none !important;
+        margin-top: 1rem;
+    }
+    
+    /* Hide social on mobile since it's already removed */
+    .leader-social {
+        display: none !important;
+    }
+    
+    .leader-image {
+        height: 350px;
     }
 }
 
 @media (max-width: 480px) {
     .leadership-section {
-        padding: 4rem 0;
+        padding: 3rem 0;
     }
     
     .leadership-header {
-        margin-bottom: 3rem;
+        margin-bottom: 2rem;
     }
     
     .leadership-header h2 {
         font-size: 2rem !important;
     }
     
-    .leadership-header p {
-        font-size: 1rem;
-    }
-    
     .leader-image {
-        height: 350px;
+        height: 300px;
     }
 }
 .nav-hidden {
@@ -1301,12 +1328,16 @@ footer img{
         padding: 10% !important;
     }
     #map{
-        flex-direction: column;
-        width: 90%;
-        background-position: top;
+        padding: 2vh 0;
     }
-    #map-img{
-        display: none;
+    .map-container {
+        padding: 15px;
+    }
+    .map-container h1 {
+        font-size: 2rem !important;
+    }
+    .map-container p {
+        font-size: 1.1rem;
     }
     #the-box{
         flex-direction: column;
