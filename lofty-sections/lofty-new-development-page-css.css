@@ -672,10 +672,7 @@ section.dev-projects-section .project-card .project-overlay .overlay-content p {
     font-size: clamp(2.5rem, 5vw, 4rem) !important;
     font-weight: 300 !important;
     margin-bottom: 2rem !important;
-    background: var(--gradient-text) !important;
-    -webkit-background-clip: text !important;
-    -webkit-text-fill-color: transparent !important;
-    background-clip: text !important;
+    color: var(--text-primary) !important;
 }
 
 .cta-content p {

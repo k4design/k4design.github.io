@@ -101,10 +101,6 @@ body {
     font-weight: 200 !important;
     margin-bottom: 1rem !important;
     color: var(--text-primary) !important;
-    background: linear-gradient(135deg, #1a1a1a 0%, #4a4a4a 100%) !important;
-    -webkit-background-clip: text !important;
-    -webkit-text-fill-color: transparent !important;
-    background-clip: text !important;
 }
 
 .section-subtitle {
@@ -432,10 +428,6 @@ body {
     font-weight: 300 !important;
     color: var(--text-primary) !important;
     margin-bottom: 1rem !important;
-    background: linear-gradient(135deg, #1a1a1a 0%, #4a4a4a 100%) !important;
-    -webkit-background-clip: text !important;
-    -webkit-text-fill-color: transparent !important;
-    background-clip: text !important;
 }
 
 .cta-content p {
