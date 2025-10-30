@@ -1,5 +1,66 @@
 <!-- HTML Snippet for Lofty.com - About Section -->
 <section id="about" class="about">
+    <style>
+    /* Scoped styles for Lofty About - Mobile cleanup */
+    #about .container {
+        padding: 0 6vw;
+    }
+    #about .features-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
+        align-items: start;
+    }
+    #about .feature-card {
+        text-align: center;
+    }
+    #about .feature-icon {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 0.75rem;
+    }
+    #about .feature-icon img,
+    #about .feature-icon svg {
+        width: 56px;
+        height: 56px;
+        object-fit: contain;
+    }
+    #about h2.display-font {
+        margin: 0 0 0.75rem 0;
+    }
+    #about p.text-elegant {
+        margin-top: 0;
+        margin-bottom: 2rem;
+    }
+
+    @media (max-width: 1024px) {
+        #about .features-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 768px) {
+        #about .features-grid {
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+        #about .feature-icon img,
+        #about .feature-icon svg {
+            width: 48px;
+            height: 48px;
+        }
+        #about h2.display-font {
+            font-size: clamp(1.6rem, 8vw, 2rem) !important;
+            line-height: 1.2 !important;
+        }
+        #about p.text-elegant {
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+        /* Optional: contain the globe on small screens */
+        #about .earth-globe { margin-bottom: 1.5rem; }
+        #about .globe-container { max-width: 90vw; margin: 0 auto; }
+    }
+    </style>
     <!-- 3D Rotating Earth Globe -->
     <div class="earth-globe">
         <div class="globe-container">
