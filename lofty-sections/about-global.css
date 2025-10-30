@@ -296,7 +296,6 @@ body{
 .vid{
     display: flex;
     justify-content: center;
-	opacity: 0;
 }
 
 .vid.animate {
@@ -628,7 +627,6 @@ text-decoration: none;
 	margin: 0% auto 10%;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
     background-attachment: fixed;
-	opacity: 0;
 }
 
 #the-box.animate {
@@ -638,7 +636,6 @@ text-decoration: none;
 #the-box-description{
 	flex-basis: 30%;
 	padding: 0 2%;
-	opacity: 0;
 	transform: translateX(-30px);
 }
 
@@ -668,7 +665,6 @@ text-decoration: none;
 #the-box-img{
 	flex-basis: 40%;
 	align-content: center;
-	opacity: 0;
 	transform: translateX(30px);
 }
 
@@ -682,7 +678,6 @@ text-decoration: none;
     margin:10vw auto 0;
 	background-color: #0A0A12;
 	padding: 5vh 0;
-	opacity: 0;
 }
 
 #products.animate {
@@ -695,7 +690,6 @@ text-decoration: none;
 	margin: auto;
     padding: 5vh 0 10vh;
 	color: #fff;
-	opacity: 0;
 }
 
 #carousel-text.animate {
@@ -825,7 +819,6 @@ text-decoration: none;
     letter-spacing: 5%;
 	background-color: #fff;
 	color: #333;
-	opacity: 0;
 }
 
 #map.animate {
@@ -953,7 +946,6 @@ text-decoration: none;
     background: var(--primary-black);
     position: relative;
     overflow: hidden;
-	opacity: 0;
 }
 
 .leadership-section.animate {
@@ -985,7 +977,6 @@ text-decoration: none;
 .leadership-header {
     text-align: center;
     margin-bottom: 3rem;
-	opacity: 0;
 	transform: translateY(30px);
 }
 
@@ -1028,7 +1019,6 @@ text-decoration: none;
     transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     cursor: pointer;
     backdrop-filter: blur(20px);
-	opacity: 0;
 	transform: translateY(30px);
 }
 
@@ -1351,7 +1341,6 @@ text-decoration: none;
 	background-color: #0A0A12;
 	color: #fff;
 	padding: 5vh 0;
-	opacity: 0;
 }
 
 .community.animate {
