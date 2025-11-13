@@ -1,0 +1,1448 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="LPT Realty is a revolutionary brokerage for life platform designed to grow your real estate business, attract new agents, and increase your revenue."
+    />
+    <title>LPT Realty — Brokerage for Life</title>
+    <link rel="icon" type="image/x-icon" href="https://lpt.com/favicon.ico" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Poppins:wght@400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+    <a class="skip-link" href="#primary-nav">Skip to menu</a>
+    <a class="skip-link" href="#footer">Skip to footer</a>
+
+    <header class="site-header" data-scroll-lock="false">
+      <div class="header-shell">
+        <a class="brand" href="/" aria-label="LPT Realty home">
+            <img
+            src="https://lpt.com/assets/images/lptrealty_logo_horizontal.svg"
+            alt="LPT Realty"
+            width="162"
+            height="36"
+          />
+        </a>
+
+        <nav id="primary-nav" class="primary-nav" aria-label="Main navigation">
+          <button
+            class="nav-toggle"
+            type="button"
+            aria-controls="nav-drawer"
+            aria-expanded="false"
+          >
+            <span class="nav-toggle__label">Menu</span>
+            <span class="nav-toggle__icon" aria-hidden="true"></span>
+          </button>
+          <div class="nav-drawer" id="nav-drawer">
+            <div class="nav-drawer__inner">
+              <ul class="nav-list">
+                <li>
+                  <a href="#hero" class="nav-link">Overview</a>
+                </li>
+                <li>
+                  <a href="#agent-experience" class="nav-link">Agent Success</a>
+                </li>
+                <li>
+                  <a href="#dezzy-ai" class="nav-link">dezzy.ai</a>
+                </li>
+                <li>
+                  <a href="#compensation" class="nav-link">Comp Plans</a>
+                </li>
+                <li>
+                  <a href="#contact" class="nav-link">Let’s Talk</a>
+                </li>
+              </ul>
+              <div class="nav-cta">
+                <a class="button button--outline" href="/onboard">Join Now</a>
+                <a class="button button--ghost" href="interest">Show Interest</a>
+              </div>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main-content">
+      <section class="hero" id="hero">
+        <div class="hero__media">
+          <video
+            class="hero__video"
+            autoplay
+            loop
+            muted
+            playsinline
+            poster="https://lpt.com/assets/images/agent-branding.webp"
+          >
+            <source
+              src="https://lpt.com/assets/video/LPT_Convex_loop_40sec.mov"
+              type="video/quicktime"
+            />
+          </video>
+          <div class="hero__overlay"></div>
+        </div>
+        <div class="shell hero__shell">
+          <div class="hero__content">
+            <div class="hero__award">
+              <img
+                src="https://lpt.com/assets/images/InmanInnovators.svg"
+                alt="Inman Innovators Award"
+                width="116"
+                height="32"
+              />
+              <span>LPT Realty is the winner of the 2024 Most Innovative Brokerage Award</span>
+            </div>
+            <h1 class="headline">The Only Agent Choice Brokerage for Life</h1>
+            <p class="hero__lead">
+              LPT Realty is a revolutionary brokerage for life platform designed to grow your real estate business,
+              attract new agents, and increase your revenue.
+            </p>
+            <div class="hero__actions">
+              <a class="button button--solid button--light" href="#wistia_sm4mracms7?time=0">
+                Watch The LPT Explained Video
+              </a>
+              <a class="button button--ghost button--light" href="#contact">
+                Request A Call
+              </a>
+            </div>
+            <dl class="hero__stats scroll-animate-stagger">
+              <div>
+                <dt>50+</dt>
+                <dd>Markets launched nationwide with local agent support</dd>
+              </div>
+              <div>
+                <dt>1,600+</dt>
+                <dd>Agents empowered with technology-first marketing systems</dd>
+              </div>
+              <div>
+                <dt>100%</dt>
+                <dd>Retention-focused programs engineered for agent choice</dd>
+              </div>
+            </dl>
+          </div>
+          <div class="hero__form">
+            <div class="form-card">
+              <header class="form-card__header">
+                <h2>Download Our Full Agent Compensation Details</h2>
+                <p>Includes fees, rev share breakdown, stock awards and more.</p>
+              </header>
+              <form id="hero-form" class="form-grid">
+                <label>
+                  <span>First Name</span>
+                  <input
+                    type="text"
+                    id="heroFirstName"
+                    name="heroFirstName"
+                    placeholder="John"
+                    required
+                  />
+                  <small class="input-error" id="heroFirstNameError">Please enter first name</small>
+                </label>
+                <label>
+                  <span>Last Name</span>
+                  <input
+                    type="text"
+                    id="heroLastName"
+                    name="heroLastName"
+                    placeholder="Smith"
+                    required
+                  />
+                  <small class="input-error" id="heroLastNameError">Please enter last name</small>
+                </label>
+                <label>
+                  <span>Email</span>
+                  <input
+                    type="email"
+                    id="heroEmail"
+                    name="heroEmail"
+                    placeholder="johnsmith@test.com"
+                    required
+                  />
+                  <small class="input-error" id="heroEmailError">Please enter valid email</small>
+                </label>
+                <label>
+                  <span>Phone</span>
+                  <input
+                    type="tel"
+                    id="heroPhone"
+                    name="heroPhone"
+                    placeholder="(XXX) XXX-XXXX"
+                    required
+                  />
+                  <small class="input-error" id="heroPhoneError">Please enter valid phone number</small>
+                </label>
+                <label class="form-grid__full">
+                  <span>Country</span>
+                  <select id="heroCountry" name="heroCountry" required>
+                    <option disabled selected value="">Select a country</option>
+                    <option value="1">Afghanistan</option>
+                    <option value="2">Albania</option>
+                    <option value="3">Algeria</option>
+                    <option value="4">Andorra</option>
+                    <option value="5">Angola</option>
+                    <option value="6">Argentina</option>
+                    <option value="7">Armenia</option>
+                    <option value="8">Australia</option>
+                    <option value="9">Austria</option>
+                    <option value="10">Azerbaijan</option>
+                    <option value="11">Bahamas</option>
+                    <option value="12">Bahrain</option>
+                    <option value="13">Bangladesh</option>
+                    <option value="14">Barbados</option>
+                    <option value="15">Belarus</option>
+                    <option value="16">Belgium</option>
+                    <option value="17">Belize</option>
+                    <option value="18">Benin</option>
+                    <option value="19">Bhutan</option>
+                    <option value="20">Bolivia</option>
+                    <option value="21">Bosnia and Herzegovina</option>
+                    <option value="22">Botswana</option>
+                    <option value="23">Brazil</option>
+                    <option value="24">Brunei</option>
+                    <option value="25">Bulgaria</option>
+                    <option value="26">Burkina Faso</option>
+                    <option value="27">Burundi</option>
+                    <option value="28">Cabo Verde</option>
+                    <option value="29">Cambodia</option>
+                    <option value="30">Cameroon</option>
+                    <option value="31">Canada</option>
+                    <option value="32">Central African Republic</option>
+                    <option value="33">Chad</option>
+                    <option value="34">Chile</option>
+                    <option value="35">China</option>
+                    <option value="36">Colombia</option>
+                    <option value="37">Comoros</option>
+                    <option value="38">Congo</option>
+                    <option value="39">Costa Rica</option>
+                    <option value="40">Croatia</option>
+                    <option value="41">Cuba</option>
+                    <option value="42">Cyprus</option>
+                    <option value="43">Czech Republic</option>
+                    <option value="44">Denmark</option>
+                    <option value="45">Djibouti</option>
+                    <option value="46">Dominica</option>
+                    <option value="47">Dominican Republic</option>
+                    <option value="48">Ecuador</option>
+                    <option value="49">Egypt</option>
+                    <option value="50">El Salvador</option>
+                    <option value="51">Equatorial Guinea</option>
+                    <option value="52">Eritrea</option>
+                    <option value="53">Estonia</option>
+                    <option value="54">Eswatini</option>
+                    <option value="55">Ethiopia</option>
+                    <option value="56">Fiji</option>
+                    <option value="57">Finland</option>
+                    <option value="58">France</option>
+                    <option value="59">Gabon</option>
+                    <option value="60">Gambia</option>
+                    <option value="61">Georgia</option>
+                    <option value="62">Germany</option>
+                    <option value="63">Ghana</option>
+                    <option value="64">Greece</option>
+                    <option value="65">Grenada</option>
+                    <option value="66">Guatemala</option>
+                    <option value="67">Guinea</option>
+                    <option value="68">Guinea-Bissau</option>
+                    <option value="69">Guyana</option>
+                    <option value="70">Haiti</option>
+                    <option value="71">Honduras</option>
+                    <option value="72">Hungary</option>
+                    <option value="73">Iceland</option>
+                    <option value="74">India</option>
+                    <option value="75">Indonesia</option>
+                    <option value="76">Iran</option>
+                    <option value="77">Iraq</option>
+                    <option value="78">Ireland</option>
+                    <option value="79">Israel</option>
+                    <option value="80">Italy</option>
+                    <option value="81">Jamaica</option>
+                    <option value="82">Japan</option>
+                    <option value="83">Jordan</option>
+                    <option value="84">Kazakhstan</option>
+                    <option value="85">Kenya</option>
+                    <option value="86">Kiribati</option>
+                    <option value="87">Korea (North)</option>
+                    <option value="88">Korea (South)</option>
+                    <option value="89">Kuwait</option>
+                    <option value="90">Kyrgyzstan</option>
+                    <option value="91">Laos</option>
+                    <option value="92">Latvia</option>
+                    <option value="93">Lebanon</option>
+                    <option value="94">Lesotho</option>
+                    <option value="95">Liberia</option>
+                    <option value="96">Libya</option>
+                    <option value="97">Liechtenstein</option>
+                    <option value="98">Lithuania</option>
+                    <option value="99">Luxembourg</option>
+                    <option value="100">Madagascar</option>
+                    <option value="101">Malawi</option>
+                    <option value="102">Malaysia</option>
+                    <option value="103">Maldives</option>
+                    <option value="104">Mali</option>
+                    <option value="105">Malta</option>
+                    <option value="106">Marshall Islands</option>
+                    <option value="107">Mauritania</option>
+                    <option value="108">Mauritius</option>
+                    <option value="109">Mexico</option>
+                    <option value="110">Micronesia</option>
+                    <option value="111">Moldova</option>
+                    <option value="112">Monaco</option>
+                    <option value="113">Mongolia</option>
+                    <option value="114">Montenegro</option>
+                    <option value="115">Morocco</option>
+                    <option value="116">Mozambique</option>
+                    <option value="117">Myanmar</option>
+                    <option value="118">Namibia</option>
+                    <option value="119">Nauru</option>
+                    <option value="120">Nepal</option>
+                    <option value="121">Netherlands</option>
+                    <option value="122">New Zealand</option>
+                    <option value="123">Nicaragua</option>
+                    <option value="124">Niger</option>
+                    <option value="125">Nigeria</option>
+                    <option value="126">North Macedonia</option>
+                    <option value="127">Norway</option>
+                    <option value="128">Oman</option>
+                    <option value="129">Pakistan</option>
+                    <option value="130">Palau</option>
+                    <option value="131">Panama</option>
+                    <option value="132">Papua New Guinea</option>
+                    <option value="133">Paraguay</option>
+                    <option value="134">Peru</option>
+                    <option value="135">Philippines</option>
+                    <option value="136">Poland</option>
+                    <option value="137">Portugal</option>
+                    <option value="138">Qatar</option>
+                    <option value="139">Romania</option>
+                    <option value="140">Russia</option>
+                    <option value="141">Rwanda</option>
+                    <option value="142">Saint Kitts and Nevis</option>
+                    <option value="143">Saint Lucia</option>
+                    <option value="144">Saint Vincent and the Grenadines</option>
+                    <option value="145">Samoa</option>
+                    <option value="146">San Marino</option>
+                    <option value="147">Sao Tome and Principe</option>
+                    <option value="148">Saudi Arabia</option>
+                    <option value="149">Senegal</option>
+                    <option value="150">Serbia</option>
+                    <option value="151">Seychelles</option>
+                    <option value="152">Sierra Leone</option>
+                    <option value="153">Singapore</option>
+                    <option value="154">Slovakia</option>
+                    <option value="155">Slovenia</option>
+                    <option value="156">Solomon Islands</option>
+                    <option value="157">Somalia</option>
+                    <option value="158">South Africa</option>
+                    <option value="159">South Sudan</option>
+                    <option value="160">Spain</option>
+                    <option value="161">Sri Lanka</option>
+                    <option value="162">Sudan</option>
+                    <option value="163">Suriname</option>
+                    <option value="164">Sweden</option>
+                    <option value="165">Switzerland</option>
+                    <option value="166">Syria</option>
+                    <option value="167">Taiwan</option>
+                    <option value="168">Tajikistan</option>
+                    <option value="169">Tanzania</option>
+                    <option value="170">Thailand</option>
+                    <option value="171">Timor-Leste</option>
+                    <option value="172">Togo</option>
+                    <option value="173">Tonga</option>
+                    <option value="174">Trinidad and Tobago</option>
+                    <option value="175">Tunisia</option>
+                    <option value="176">Turkey</option>
+                    <option value="177">Turkmenistan</option>
+                    <option value="178">Tuvalu</option>
+                    <option value="179">Uganda</option>
+                    <option value="180">Ukraine</option>
+                    <option value="181">United Arab Emirates</option>
+                    <option value="182">United Kingdom</option>
+                    <option value="183">United States</option>
+                    <option value="184">Uruguay</option>
+                    <option value="185">Uzbekistan</option>
+                    <option value="186">Vanuatu</option>
+                    <option value="187">Vatican City</option>
+                    <option value="188">Venezuela</option>
+                    <option value="189">Vietnam</option>
+                    <option value="190">Yemen</option>
+                    <option value="191">Zambia</option>
+                    <option value="192">Zimbabwe</option>
+                  </select>
+                </label>
+                <button class="button button--solid" type="submit">
+                  Access Compensation Details
+                </button>
+              </form>
+              <div class="form-success hidden" id="hero-success-message">
+                <div>
+                  <span class="icon-check" aria-hidden="true"></span>
+                  <p>Thank you! Check your inbox for compensation details.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="press-logos" aria-label="Featured in publications">
+        <div class="press-logos__container">
+          <div class="press-logos__track">
+            <div class="press-logos__item">
+              <img src="https://via.placeholder.com/150x60/ffffff/000000?text=Forbes" alt="Forbes" width="150" height="60" />
+            </div>
+            <div class="press-logos__item">
+              <img src="https://via.placeholder.com/150x60/ffffff/000000?text=TechCrunch" alt="TechCrunch" width="150" height="60" />
+            </div>
+            <div class="press-logos__item">
+              <img src="https://via.placeholder.com/150x60/ffffff/000000?text=Inman" alt="Inman" width="150" height="60" />
+            </div>
+            <div class="press-logos__item">
+              <img src="https://via.placeholder.com/150x60/ffffff/000000?text=WSJ" alt="Wall Street Journal" width="150" height="60" />
+            </div>
+            <div class="press-logos__item">
+              <img src="https://via.placeholder.com/150x60/ffffff/000000?text=Bloomberg" alt="Bloomberg" width="150" height="60" />
+            </div>
+            <div class="press-logos__item">
+              <img src="https://via.placeholder.com/150x60/ffffff/000000?text=Realtor" alt="Realtor Magazine" width="150" height="60" />
+            </div>
+            <div class="press-logos__item">
+              <img src="https://via.placeholder.com/150x60/ffffff/000000?text=HousingWire" alt="HousingWire" width="150" height="60" />
+            </div>
+            <div class="press-logos__item">
+              <img src="https://via.placeholder.com/150x60/ffffff/000000?text=RealTrends" alt="RealTrends" width="150" height="60" />
+            </div>
+            <!-- Duplicate items for seamless loop -->
+            <div class="press-logos__item">
+              <img src="https://via.placeholder.com/150x60/ffffff/000000?text=Forbes" alt="Forbes" width="150" height="60" />
+            </div>
+            <div class="press-logos__item">
+              <img src="https://via.placeholder.com/150x60/ffffff/000000?text=TechCrunch" alt="TechCrunch" width="150" height="60" />
+            </div>
+            <div class="press-logos__item">
+              <img src="https://via.placeholder.com/150x60/ffffff/000000?text=Inman" alt="Inman" width="150" height="60" />
+            </div>
+            <div class="press-logos__item">
+              <img src="https://via.placeholder.com/150x60/ffffff/000000?text=WSJ" alt="Wall Street Journal" width="150" height="60" />
+            </div>
+            <div class="press-logos__item">
+              <img src="https://via.placeholder.com/150x60/ffffff/000000?text=Bloomberg" alt="Bloomberg" width="150" height="60" />
+            </div>
+            <div class="press-logos__item">
+              <img src="https://via.placeholder.com/150x60/ffffff/000000?text=Realtor" alt="Realtor Magazine" width="150" height="60" />
+            </div>
+            <div class="press-logos__item">
+              <img src="https://via.placeholder.com/150x60/ffffff/000000?text=HousingWire" alt="HousingWire" width="150" height="60" />
+            </div>
+            <div class="press-logos__item">
+              <img src="https://via.placeholder.com/150x60/ffffff/000000?text=RealTrends" alt="RealTrends" width="150" height="60" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="growth-highlight" aria-labelledby="growth-highlight-title">
+        <div class="shell growth-highlight__shell">
+          <div class="growth-highlight__content scroll-animate scroll-animate--slide-left">
+            <h2 id="growth-highlight-title" class="headline-sm">Fastest Growing Brokerage Ever</h2>
+            <p>
+              After reaching over 10,000 agents in just 19 states, LPT Realty then began its national expansion reaching 47
+              states by the end of 2024, offering more agents our unfair advantage than ever.
+            </p>
+          </div>
+          <div class="growth-highlight__map scroll-animate scroll-animate--slide-right">
+            <svg
+              id="growth-map"
+              class="growth-map"
+              viewBox="0 0 660 360"
+              role="img"
+              aria-labelledby="growth-map-title growth-map-desc"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <title id="growth-map-title">LPT Realty footprint across the United States and Canada</title>
+              <desc id="growth-map-desc">
+                Minimalist map with transparent fill and electric blue stroke outlining the states and provinces where LPT
+                Realty operates.
+              </desc>
+            </svg>
+            <p class="growth-map__fallback" id="growth-map-fallback">Loading expansion footprint…</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="seismic-proof" aria-labelledby="seismic-proof-title">
+        <div class="shell">
+          <div class="seismic-proof__grid">
+            <div class="seismic-proof__intro scroll-animate scroll-animate--fade">
+              <p class="section-tag">Why Agents Choose LPT</p>
+              <h2 id="seismic-proof-title" class="headline-sm">
+                A brokerage engineered for scale with a human touch
+              </h2>
+              <p>
+                Every touchpoint is designed around agent autonomy. LPT Realty equips you with cinematic marketing,
+                automated operations, and relentless support so you can move faster, close more, and grow without limits.
+              </p>
+            </div>
+            <div class="seismic-proof__list scroll-animate-stagger">
+              <article class="feature-card" tabindex="0">
+                <div class="feature-card__media">
+                  <img
+                    src="https://lpt.com/assets/images/agent-branding.webp"
+                    alt="Agent Centric Branding showcase"
+                    width="766"
+                    height="768"
+                    loading="lazy"
+                  />
+                </div>
+                <div class="feature-card__content">
+                  <header class="feature-card__header">
+                    <h3 class="feature-card__title">Agent Centric Branding</h3>
+                  </header>
+                  <div class="feature-card__body">
+                    <p class="feature-card__description">
+                      Showcase your personal brand at scale with a turnkey design system, property storytelling, and premium
+                      print collateral tailored to every market.
+                    </p>
+                  </div>
+                </div>
+              </article>
+              <article class="feature-card" tabindex="0">
+                <div class="feature-card__media">
+                  <img
+                    src="https://lpt.com/assets/images/dezzy-phone-mockup.webp"
+                    alt="Brokerage powered marketing on mobile"
+                    width="382"
+                    height="689"
+                    loading="lazy"
+                  />
+                </div>
+                <div class="feature-card__content">
+                  <header class="feature-card__header">
+                    <h3 class="feature-card__title">Brokerage Powered Marketing</h3>
+                  </header>
+                  <div class="feature-card__body">
+                    <p class="feature-card__description">
+                      Launch paid and organic campaigns with pre-built funnels, retargeting journeys, and dynamic creative all
+                      managed inside a single agent cockpit.
+                    </p>
+                  </div>
+                </div>
+              </article>
+              <article class="feature-card" tabindex="0">
+                <div class="feature-card__media">
+                  <img
+                    src="https://lpt.com/assets/images/lpt-collateral-system.webp"
+                    alt="LPT Collateral Marketing System interface"
+                    width="619"
+                    height="696"
+                    loading="lazy"
+                  />
+                </div>
+                <div class="feature-card__content">
+                  <header class="feature-card__header">
+                    <h3 class="feature-card__title">LPT Collateral Marketing System&trade;</h3>
+                  </header>
+                  <div class="feature-card__body">
+                    <p class="feature-card__description">
+                      Command every listing with the Listing Power Pack, cinematic property brochures, and hyperlocal market
+                      reports delivered in minutes.
+                    </p>
+                  </div>
+                </div>
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section
+        class="experience-strata"
+        id="agent-experience"
+        aria-labelledby="agent-experience-title"
+      >
+        <div class="shell">
+          <p class="section-tag">Agent Technology Stack</p>
+          <div class="experience-strata__layout">
+            <div class="experience-strata__headline scroll-animate scroll-animate--slide-left">
+              <h2 id="agent-experience-title" class="headline-sm">
+                Streamline Your Workflow with dezzy.ai
+              </h2>
+              <p>
+                dezzy.ai is a cutting-edge AI bot that revolutionizes real estate workflows and is available exclusively
+                for LPT Realty agents.
+              </p>
+              <ul class="checklist">
+                <li>Lead generation</li>
+                <li>Seamless dotloop integration</li>
+                <li>Automated creation of CDAs</li>
+                <li>High quality, agent branded marketing materials in minutes</li>
+              </ul>
+              <div class="experience-strata__actions">
+                <a
+                  class="button button--outline"
+                  href="#wistia_sm4mracms7?time=34m19s"
+                >
+                  Learn More About dezzy.ai
+                </a>
+              </div>
+            </div>
+            <div class="experience-strata__visual scroll-animate scroll-animate--slide-right">
+              <img
+                src="https://lpt.com/assets/images/dezzy-bot.webp"
+                class="floating-visual"
+                width="240"
+                height="556"
+                alt="dezzy.ai bot"
+              />
+              <div class="holo-orbit" aria-hidden="true"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="ai-impact">
+        <div class="shell">
+          <div class="ai-impact__layout">
+            <div class="ai-impact__content scroll-animate scroll-animate--slide-left">
+              <h2 class="headline-sm">LPT's Mission Model and Tools Explained</h2>
+              <ul class="ai-impact__list">
+                <li>
+                  <span class="icon-check" aria-hidden="true"></span>
+                  <p>
+                    CEO Robert Palmer explains the LPT model in depth including the vision, the tools, the origin, and the
+                    marketing systems—dive into the full walkthrough in the video.
+                  </p>
+                </li>
+                <li>
+                  <span class="icon-check" aria-hidden="true"></span>
+                  <p>
+                    Choosing your own comp plan with our cutting edge Hybrid Model. $500 per file with a $5,000 cap or 80/20
+                    with a $15,000 cap.
+                  </p>
+                </li>
+                <li>
+                  <span class="icon-check" aria-hidden="true"></span>
+                  <p>
+                    Controlling your own agent centric brand (including choosing the color of our logo) and how you put our
+                    state of the art collateral marketing system™ to work for you.
+                  </p>
+                </li>
+                <li>
+                  <span class="icon-check" aria-hidden="true"></span>
+                  <p>Your own local relationships when it comes to mortgage, title, office space and more.</p>
+                </li>
+              </ul>
+              <div class="ai-impact__actions">
+                <a class="button button--glow" href="#mission-video">Watch Mission Model Video</a>
+              </div>
+            </div>
+            <div class="ai-impact__video scroll-animate scroll-animate--slide-right" id="mission-video">
+              <script src="https://fast.wistia.com/player.js" async></script><script src="https://fast.wistia.com/embed/6pnluigr3k.js" async type="module"></script><style>wistia-player[media-id='6pnluigr3k']:not(:defined) { background: center / contain no-repeat url('https://fast.wistia.com/embed/medias/6pnluigr3k/swatch'); display: block; filter: blur(5px); padding-top:56.25%; }</style> <wistia-player media-id="6pnluigr3k" aspect="1.7777777777777777"></wistia-player>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="support-spectrum" aria-labelledby="support-title">
+        <div class="shell support-spectrum__shell">
+          <div class="support-spectrum__content scroll-animate scroll-animate--slide-left">
+            <p class="section-tag">Agent Success Team</p>
+            <h2 id="support-title" class="headline-sm">Fast, Reliable Support</h2>
+            <p>
+              Tap into LPT Connect, dotloop, and Lofty with live concierge support, 1:1 mentorship, and a national community
+              engineered to keep you on offense.
+            </p>
+            <ul class="support-grid scroll-animate-stagger">
+              <li>
+                <strong>24/7</strong>
+                <span>Live agent escalation</span>
+              </li>
+              <li>
+                <strong>90%</strong>
+                <span>Tickets solved in under an hour</span>
+              </li>
+              <li>
+                <strong>4.9/5</strong>
+                <span>Support satisfaction score</span>
+              </li>
+            </ul>
+          </div>
+          <div class="support-spectrum__visual scroll-animate scroll-animate--slide-right">
+            <img
+              src="https://lpt.com/assets/images/support-phone-mockup.webp"
+              width="527"
+              height="641"
+              alt="LPT Connect support chat mobile"
+            />
+          </div>
+        </div>
+      </section>
+
+      <section
+        class="agent-stories"
+        aria-labelledby="agent-stories-title"
+        id="agent-stories"
+      >
+        <div class="shell">
+          <p class="section-tag">Agent Wins</p>
+          <div class="agent-stories__header scroll-animate scroll-animate--fade">
+            <h2 id="agent-stories-title" class="headline-sm">
+              How We've Helped Our Agents Achieve Success
+            </h2>
+            <p>
+              Proof, not promises. Hear the momentum directly from the agents who grow with LPT every day.
+            </p>
+          </div>
+          <div class="agent-stories__grid scroll-animate-stagger">
+            <article class="story-card">
+              <div class="story-card__header">
+                <img
+                  src="https://lpt.com/assets/images/reeka-christmann.webp"
+                  width="64"
+                  height="64"
+                  alt="Reeka Christmann"
+                />
+                <div>
+                  <p class="story-card__name">Reeka Christmann</p>
+                  <p class="story-card__meta">Southwest Florida Team</p>
+                </div>
+              </div>
+              <p>
+                We (domestic team serving SW FL) had 2 back to back listings due to the Power Pack presentation alone
+                competing against large local teams and agents. The owners of both listings were licensed Realtors
+                themselves, one active in another state. One expired listing and one FSBO that both successfully closed at a
+                combined 2.375M. We then received 3 "Come List Me Calls (for next year)" directly from our mailers we
+                ordered with the Listing Power Pack as a direct result of how impressed the sellers were with the quality of
+                all print material alone and how many times they saw marketing material in their mail or on their door. The
+                7 Home Buyer Strategies magazine made us stand out with a HomeValue lead that will be closing next week.
+                Cheers, everyone.
+              </p>
+            </article>
+            <article class="story-card">
+              <div class="story-card__header">
+                <img
+                  src="https://lpt.com/assets/images/chance-pircher.webp"
+                  width="64"
+                  height="64"
+                  alt="Chance Pircher"
+                />
+                <div>
+                  <p class="story-card__name">Chance Pircher</p>
+                  <p class="story-card__meta">Listing Power Pack</p>
+                </div>
+              </div>
+              <p>
+                Converting a prospective buyer after meeting them at an open last month. At the open they told me "Thanks for
+                all the info but we have a bunch of realtor connections". I didn't feel rejected and gave them a magazine. I
+                used to do open houses and I looked like a fool, cause I didn't have any Marketing pieces to put in prospects
+                hands besides a flyer and biz card. Now I pair that with Active Marketing Plan, 9CQs and 7 Buyers to put in
+                their hands — and they're starting to find me after the fact.
+              </p>
+            </article>
+            <article class="story-card">
+              <div class="story-card__header">
+                <img
+                  src="https://lpt.com/assets/images/shelly-servedio.webp"
+                  width="64"
+                  height="64"
+                  alt="Shelly Servedio"
+                />
+                <div>
+                  <p class="story-card__name">Shelly Servedio</p>
+                  <p class="story-card__meta">Listing Power Pack</p>
+                </div>
+              </div>
+              <p>
+                I used both the Listing Power pack for an August blitz, as well as the Prospecting Pack for an open house.
+                Neighbors came to the open house with that open house door hanger in their hand.
+              </p>
+            </article>
+            <article class="story-card">
+              <div class="story-card__header">
+                <img
+                  src="https://lpt.com/assets/images/kristen-smith.webp"
+                  width="64"
+                  height="64"
+                  alt="Kristen Smith"
+                />
+                <div>
+                  <p class="story-card__name">Kristen Smith</p>
+                  <p class="story-card__meta">Agent Billboard</p>
+                </div>
+              </div>
+              <p>
+                I received 3 referrals from my billboard social media post. Two came from out of state agents and one from my
+                SOI. One is a $1.2M Cali buyer just waiting for them to get their home under contract.
+              </p>
+            </article>
+            <article class="story-card">
+              <div class="story-card__header">
+                <img
+                  src="https://lpt.com/assets/images/robert-p-salazar.webp"
+                  width="64"
+                  height="64"
+                  alt="Robert P Salazar"
+                />
+                <div>
+                  <p class="story-card__name">Robert P Salazar</p>
+                  <p class="story-card__meta">San Antonio</p>
+                </div>
+              </div>
+              <p>
+                Robert Palmer I won a listing after competing with another agent and it was the first in a few years that I
+                had since my business is 100% referrals. Oh and did it with a borrowed listing power pack you gave me when
+                you came to San Antonio.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="culture" id="culture">
+        <div class="shell">
+          <div class="culture__card">
+            <div class="culture__content scroll-animate scroll-animate--slide-left">
+              <p class="section-tag">Culture</p>
+              <h2 class="headline-sm">A community designed for leaders and collaborators</h2>
+              <p>
+                LPT Realty builds culture around agent choice, collaboration, and innovation. Explore the programs, events,
+                and rituals that keep our network inspired.
+              </p>
+              <span
+                class="wistia_embed wistia_async_sm4mracms7 popover=true popoverContent=link videoFoam=false time=75m45s"
+                style="display:inline-block;height:84px;position:relative;width:220px"
+              >
+                <a class="button button--ghost" href="#culture-video">
+                  Learn More About LPT Realty Culture
+                </a>
+              </span>
+            </div>
+            <div class="culture__visual scroll-animate scroll-animate--slide-right" id="culture-video">
+              <div class="culture__glow"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section
+        class="compensation"
+        id="compensation"
+        aria-labelledby="compensation-title"
+      >
+        <div class="shell">
+          <p class="section-tag scroll-animate scroll-animate--fade">Compensation Architecture</p>
+          <h2 id="compensation-title" class="headline-sm text-center scroll-animate scroll-animate--fade">
+            Built On Agent Choice
+          </h2>
+          <div class="compensation__table scroll-animate scroll-animate--scale-up">
+            <table>
+              <thead>
+                <tr>
+                  <th>
+                    <img
+                      src="https://lpt.com/assets/images/lptrealty_logo_horizontal.svg"
+                      width="104"
+                      height="24"
+                      alt="LPT Realty"
+                    />
+                  </th>
+                  <th>
+                    <strong>Business Builder</strong>
+                    <p>$500 a file / $5,000 cap</p>
+                  </th>
+                  <th>
+                    <strong>Brokerage Partner</strong>
+                    <p>80/20 split / $15,000 cap</p>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Listing Power Tools</td>
+                  <td><span class="icon-check" aria-label="Included"></span></td>
+                  <td><span class="icon-check" aria-label="Included"></span></td>
+                </tr>
+                <tr>
+                  <td>LPT Connect / Dotloop / Lofty</td>
+                  <td><span class="icon-check" aria-label="Included"></span></td>
+                  <td><span class="icon-check" aria-label="Included"></span></td>
+                </tr>
+                <tr>
+                  <td>Education / Training / Support</td>
+                  <td><span class="icon-check" aria-label="Included"></span></td>
+                  <td><span class="icon-check" aria-label="Included"></span></td>
+                </tr>
+                <tr>
+                  <td>Earn Stock</td>
+                  <td><span class="icon-check" aria-label="Included"></span></td>
+                  <td><span class="icon-check" aria-label="Included"></span></td>
+                </tr>
+                <tr>
+                  <td>Recruit a Downline</td>
+                  <td></td>
+                  <td><span class="icon-check" aria-label="Included"></span></td>
+                </tr>
+                <tr>
+                  <td>Join a team</td>
+                  <td><span class="icon-check" aria-label="Included"></span></td>
+                  <td><span class="icon-check" aria-label="Included"></span></td>
+                </tr>
+                <tr>
+                  <td>Lead a team</td>
+                  <td></td>
+                  <td><span class="icon-check" aria-label="Included"></span></td>
+                </tr>
+                <tr>
+                  <td>Earn RevShare</td>
+                  <td></td>
+                  <td><span class="icon-check" aria-label="Included"></span></td>
+                </tr>
+                <tr>
+                  <td>Have a branch office</td>
+                  <td></td>
+                  <td><span class="icon-check" aria-label="Included"></span></td>
+                </tr>
+                <tr>
+                  <td>Eligible for black badge</td>
+                  <td></td>
+                  <td><span class="icon-check" aria-label="Included"></span></td>
+                </tr>
+                <tr>
+                  <td>Be a mentor</td>
+                  <td></td>
+                  <td><span class="icon-check" aria-label="Included"></span></td>
+                </tr>
+                <tr>
+                  <td>Early access to new products</td>
+                  <td></td>
+                  <td><span class="icon-check" aria-label="Included"></span></td>
+                </tr>
+                <tr>
+                  <td>Special events</td>
+                  <td></td>
+                  <td><span class="icon-check" aria-label="Included"></span></td>
+                </tr>
+                <tr>
+                  <td>Priority access to hubs</td>
+                  <td></td>
+                  <td><span class="icon-check" aria-label="Included"></span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="compensation__summary">
+            <h3>No signup fees. No monthly fees.</h3>
+            <p><strong>$500</strong> Annual Fee Paid from First Transaction</p>
+            <p>
+              All transactions have a <strong>$195</strong> Transaction Fee
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section
+        class="contact"
+        id="contact"
+        aria-labelledby="contact-title"
+      >
+        <div class="shell">
+          <div class="contact__grid">
+            <div class="contact__content scroll-animate scroll-animate--slide-left">
+              <p class="section-tag">Next Step</p>
+              <h2 id="contact-title" class="headline-sm">
+                Ready to Level Up Your Business?
+              </h2>
+              <p>Share a few details and our team will reach out to architect your growth plan.</p>
+            </div>
+            <div class="contact__form scroll-animate scroll-animate--slide-right">
+              <form id="contact-form" class="form-grid">
+                <label>
+                  <span>First Name</span>
+                  <input
+                    type="text"
+                    id="firstName"
+                    name="firstName"
+                    placeholder="John"
+                    required
+                  />
+                  <small class="input-error" id="firstNameError">Please enter first name</small>
+                </label>
+                <label>
+                  <span>Last Name</span>
+                  <input
+                    type="text"
+                    id="lastName"
+                    name="lastName"
+                    placeholder="Smith"
+                    required
+                  />
+                  <small class="input-error" id="lastNameError">Please enter last name</small>
+                </label>
+                <label>
+                  <span>Email</span>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="johnsmith@test.com"
+                    required
+                  />
+                  <small class="input-error" id="emailError">Please enter valid email</small>
+                </label>
+                <label>
+                  <span>Phone</span>
+                  <input
+                    type="tel"
+                    id="phone"
+                    name="phone"
+                    placeholder="(XXX) XXX-XXXX"
+                    required
+                  />
+                  <small class="input-error" id="phoneError">Please enter valid phone number</small>
+                </label>
+                <label>
+                  <span>Zip</span>
+                  <input
+                    type="text"
+                    id="zip"
+                    name="zip"
+                    placeholder="XXXXX"
+                    required
+                  />
+                  <small class="input-error" id="zipError">Please enter your zip</small>
+                </label>
+                <label>
+                  <span>Team Size</span>
+                  <input
+                    type="number"
+                    id="size"
+                    name="size"
+                    placeholder="0"
+                    min="0"
+                    required
+                  />
+                  <small class="input-error" id="sizeError">Please enter your team size</small>
+                </label>
+                <label class="form-checkbox form-grid__full">
+                  <input
+                    type="checkbox"
+                    id="privacy"
+                    name="privacy"
+                    required
+                    checked
+                  />
+                  <span>
+                    I agree to the <a href="privacy">Privacy Policy</a>, call recording, emails, and texts from LPT Realty
+                    and LPT.
+                    <small class="input-error" id="privacyError">Please confirm consent</small>
+                  </span>
+                </label>
+                <button class="button button--solid form-grid__full" id="contact-submit-button" type="submit">
+                  Request a Call
+                </button>
+              </form>
+              <div class="form-success hidden" id="contact-success-message">
+                <div>
+                  <span class="icon-check" aria-hidden="true"></span>
+                  <p>Thank you! Your request has been submitted.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer id="footer" class="site-footer">
+      <div class="shell">
+        <div class="footer__grid">
+          <div>
+            <a href="/" aria-label="LPT Realty home">
+              <img
+                class="footer__logo"
+                width="195"
+                height="44"
+                src="https://lpt.com/assets/images/lptrealty_logo_horizontal.svg"
+                alt="LPT Realty"
+              />
+            </a>
+            <p class="footer__title"><strong>LPT Realty</strong></p>
+            <a class="footer__tel" href="tel:+18773662213">(877) 366-2213</a>
+            <address>
+              1400 S International Parkway<br />
+              Suite 1020<br />
+              Lake Mary, FL 32746
+            </address>
+          </div>
+          <div>
+            <p><strong>Links</strong></p>
+            <ul>
+              <li><a href="watch-robert-palmer-explain-lpt">Watch Dedicated Video</a></li>
+              <li><a href="https://aperturelifestyle.com/">Aperture Lifestyle Real Estate</a></li>
+              <li><a href="https://apertureflorida.com/">Aperture Lifestyle Real Estate Florida</a></li>
+            </ul>
+          </div>
+          <div>
+            <p><strong>Terms</strong></p>
+            <ul>
+              <li><a href="privacy">Privacy Policy</a></li>
+              <li>
+                <a
+                  href="https://lptrealty.com/documents/document.cfc?method=documentIABSHTML"
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label="LPT Realty IABS Document page - opens in new window"
+                >
+                  LPT Realty TREC Information About Brokerage Services
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://lptrealty.com/documents/document.cfc?method=documentIABSHTML&organizationId=100003"
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label="LPT Network Realty IABS Document page - opens in new window"
+                >
+                  LPT Network Realty TREC Information About Brokerage Services
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://lptrealty.com/documents/consumerProtectionNotice.pdf"
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label="TREC Consumer Protection Notice - opens in new window"
+                >
+                  TREC Consumer Protection Notice
+                </a>
+              </li>
+              <li>LPT Realty, Inc. | CA DRE #02249735 | Leah Cowley - Designated Broker</li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer__legal">
+          <p>
+            LPT Realty is committed to adhering to the guidelines of the New York State Fair Housing Regulations —
+            <a href="https://dos.ny.gov/fair-housing" target="_blank" rel="noreferrer">
+              The New York Fair Housing Notice
+            </a>
+            |
+            <a
+              href="https://lpt.com/documents/New_York_State_Required_Standarized_Operating_Procedure_for_Website.pdf"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Standardized Operating Procedure for Purchasers of Real Estate Law 442-H
+            </a>
+          </p>
+          <p>
+            LPT Network Realty is committed to adhering to the guidelines of the New York State Fair Housing Regulations —
+            <a href="https://dos.ny.gov/fair-housing" target="_blank" rel="noreferrer">
+              The New York Fair Housing Notice
+            </a>
+            |
+            <a
+              href="https://lpt.com/documents/New_York_State_Required_Standarized_Operating_Procedure_for_Website_LPTN.pdf"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Standardized Operating Procedure for Purchasers of Real Estate Law 442-H
+            </a>
+          </p>
+          <p class="footer__disclaimer">
+            NOT FOR CONSUMERS, THIS SITE IS ONLY FOR LICENSED REAL ESTATE PROFESSIONALS. Benefits offered are exclusively
+            for real estate agents who become exclusive agents of LPT Realty, LLC. Terms and conditions apply. Call for
+            details. We retain $500 per file with a $5000 annual cap on 100% on comp plan. $500 Annual Fee Charged from first
+            closing annually, does not include client transaction fee. Revenue Share requires RevPartner comp plan. Benefits
+            subject to change. Independent Contractor Agreement supersedes all information provided here.
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <div class="chat-entry">
+      <form class="chat-entry__form" id="rp-chatlio-form">
+        <h2>Agents are available now</h2>
+        <p>Enter your information to start a live chat</p>
+        <label>
+          <span>Name</span>
+          <input
+            type="text"
+            class="form-control"
+            id="chatFullName"
+            name="chatFullName"
+            placeholder="Name"
+            required
+          />
+        </label>
+        <label>
+          <span>E-mail</span>
+          <input
+            type="email"
+            class="form-control"
+            id="chatEmail"
+            name="chatEmail"
+            placeholder="E-mail"
+            required
+          />
+        </label>
+        <label>
+          <span>Phone</span>
+          <input
+            type="tel"
+            class="form-control"
+            id="chatPhone"
+            name="chatPhone"
+            placeholder="Phone"
+            required
+          />
+        </label>
+        <button class="button button--solid chat-entry__button" type="submit">
+          Start Chat
+        </button>
+      </form>
+      <button class="chat-entry__toggle" id="chatlio-button">
+        Live Chat
+        <span class="status-dot" aria-hidden="true">●</span>
+      </button>
+    </div>
+
+    <script type="module">
+      import { geoConicEqualArea, geoPath } from "https://cdn.jsdelivr.net/npm/d3-geo@3/+esm";
+      import { feature } from "https://cdn.jsdelivr.net/npm/topojson-client@3/+esm";
+
+      const svg = document.getElementById("growth-map");
+      if (svg) {
+        const fallback = document.getElementById("growth-map-fallback");
+        const width = 660;
+        const height = 360;
+        const ns = "http://www.w3.org/2000/svg";
+
+        const TARGET_STATES = new Set([
+          "AK",
+          "AL",
+          "AR",
+          "AZ",
+          "CA",
+          "CO",
+          "CT",
+          "DC",
+          "DE",
+          "FL",
+          "GA",
+          "HI",
+          "IA",
+          "ID",
+          "IL",
+          "IN",
+          "KS",
+          "KY",
+          "LA",
+          "MA",
+          "MD",
+          "ME",
+          "MI",
+          "MN",
+          "MO",
+          "MS",
+          "MT",
+          "NC",
+          "NE",
+          "ND",
+          "NH",
+          "NJ",
+          "NM",
+          "NV",
+          "NY",
+          "OH",
+          "OK",
+          "OR",
+          "PA",
+          "RI",
+          "SC",
+          "SD",
+          "TN",
+          "TX",
+          "UT",
+          "VA",
+          "VT",
+          "WA",
+          "WI",
+          "WV",
+          "WY",
+        ]);
+
+        const FIPS_TO_ABBR = {
+          "01": "AL",
+          "02": "AK",
+          "04": "AZ",
+          "05": "AR",
+          "06": "CA",
+          "08": "CO",
+          "09": "CT",
+          "10": "DE",
+          "11": "DC",
+          "12": "FL",
+          "13": "GA",
+          "15": "HI",
+          "16": "ID",
+          "17": "IL",
+          "18": "IN",
+          "19": "IA",
+          "20": "KS",
+          "21": "KY",
+          "22": "LA",
+          "23": "ME",
+          "24": "MD",
+          "25": "MA",
+          "26": "MI",
+          "27": "MN",
+          "28": "MS",
+          "29": "MO",
+          "30": "MT",
+          "31": "NE",
+          "32": "NV",
+          "33": "NH",
+          "34": "NJ",
+          "35": "NM",
+          "36": "NY",
+          "37": "NC",
+          "38": "ND",
+          "39": "OH",
+          "40": "OK",
+          "41": "OR",
+          "42": "PA",
+          "44": "RI",
+          "45": "SC",
+          "46": "SD",
+          "47": "TN",
+          "48": "TX",
+          "49": "UT",
+          "50": "VT",
+          "51": "VA",
+          "53": "WA",
+          "54": "WV",
+          "55": "WI",
+          "56": "WY",
+        };
+
+        const PROVINCE_ABBR = {
+          "Alberta": "AB",
+          "Saskatchewan": "SK",
+          "Ontario": "ON",
+          "British Columbia": "BC",
+        };
+
+        const CANADA_URL =
+          "https://raw.githubusercontent.com/codeforamerica/click_that_hood/master/public/data/canada.geojson";
+        const STATES_URL = "https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json";
+
+        const renderExpansionMap = async () => {
+          try {
+            const [statesResponse, provincesResponse] = await Promise.all([fetch(STATES_URL), fetch(CANADA_URL)]);
+
+            if (!statesResponse.ok || !provincesResponse.ok) {
+              throw new Error("Failed to load geographic data");
+            }
+
+            const [statesData, provincesData] = await Promise.all([statesResponse.json(), provincesResponse.json()]);
+
+            const stateFeatures = feature(statesData, statesData.objects.states).features
+              .map((d) => {
+                const fips = String(d.id).padStart(2, "0");
+                const abbr = FIPS_TO_ABBR[fips];
+                if (!abbr) return null;
+                return { ...d, properties: { ...d.properties, abbr } };
+              })
+              .filter(Boolean)
+              .filter((d) => TARGET_STATES.has(d.properties.abbr));
+
+            const provinceFeatures = provincesData.features
+              .map((d) => {
+                const name = d.properties?.name || d.properties?.NAME_1;
+                const abbr = PROVINCE_ABBR[name];
+                if (!abbr) return null;
+                return { ...d, properties: { ...d.properties, abbr } };
+              })
+              .filter(Boolean);
+
+            const features = [...stateFeatures, ...provinceFeatures];
+
+            const projection = geoConicEqualArea()
+              .parallels([29.5, 45.5])
+              .rotate([96, 0])
+              .center([0, 37.5])
+              .fitSize([width, height], { type: "FeatureCollection", features });
+
+            const pathGenerator = geoPath(projection);
+            const group = document.createElementNS(ns, "g");
+            group.setAttribute("class", "growth-map__group");
+            svg.appendChild(group);
+
+            features.forEach((featureItem, index) => {
+              const path = document.createElementNS(ns, "path");
+              path.setAttribute("class", "growth-map__path");
+              path.setAttribute("d", pathGenerator(featureItem));
+              path.style.animationDelay = `${(index % 5) * 0.4}s`;
+              group.appendChild(path);
+
+              const [centroidX, centroidY] = pathGenerator.centroid(featureItem);
+              if (Number.isFinite(centroidX) && Number.isFinite(centroidY)) {
+                const label = document.createElementNS(ns, "text");
+                label.setAttribute("class", "growth-map__label");
+                label.setAttribute("x", centroidX.toFixed(2));
+                label.setAttribute("y", centroidY.toFixed(2));
+                label.textContent = featureItem.properties.abbr;
+                group.appendChild(label);
+              }
+            });
+
+            svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
+            svg.dataset.rendered = "true";
+            fallback?.remove();
+          } catch (error) {
+            console.error(error);
+            if (fallback) {
+              fallback.textContent = "Unable to load map right now.";
+            }
+          }
+        };
+
+        renderExpansionMap();
+      }
+    </script>
+    <script src="https://fast.wistia.com/assets/external/E-v1.js" async></script>
+    <script src="https://www.googletagmanager.com/gtag/js?id=G-WHD1ER3WBT" async></script>
+    <script src="scripts.js" defer></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-WHD1ER3WBT");
+      window.userBySubdomain = { success: "false" };
+      window.isCanada = false;
+    </script>
+    <script>
+      (function () {
+        var s = document.createElement("script");
+        var h = document.querySelector("head") || document.body;
+        s.src = "https://acsbapp.com/apps/app/dist/js/app.js";
+        s.async = true;
+        s.onload = function () {
+          acsbJS.init();
+        };
+        h.appendChild(s);
+      })();
+    </script>
+  </body>
+</html>
