@@ -140,13 +140,52 @@ body {
 .hero {
   position: relative;
   min-height: 85vh;
-  background: linear-gradient(180deg, rgba(0, 165, 232, 0.85) 0%, rgba(22, 74, 141, 0.85) 100%),
-              url('../hero-handshake.jpg') center/cover no-repeat;
+  background: url('../hero-handshake.jpg') center/cover no-repeat;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   padding: 80px 0 0;
   overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(circle at 30% 40%, rgba(0, 165, 232, 0.9) 0%, transparent 50%),
+    radial-gradient(circle at 70% 60%, rgba(22, 74, 141, 0.9) 0%, transparent 50%),
+    linear-gradient(180deg, rgba(0, 165, 232, 0.6) 0%, rgba(22, 74, 141, 0.6) 100%);
+  background-size: 300% 300%, 300% 300%, 100% 100%;
+  background-position: 30% 40%, 70% 60%, center;
+  animation: gradientMove 15s ease-in-out infinite;
+  z-index: 1;
+}
+
+.hero > * {
+  position: relative;
+  z-index: 2;
+}
+
+@keyframes gradientMove {
+  0% {
+    background-position: 30% 40%, 70% 60%, center;
+  }
+  25% {
+    background-position: 80% 20%, 20% 80%, center;
+  }
+  50% {
+    background-position: 20% 80%, 80% 20%, center;
+  }
+  75% {
+    background-position: 70% 70%, 30% 30%, center;
+  }
+  100% {
+    background-position: 30% 40%, 70% 60%, center;
+  }
 }
 
 .hero-content {
@@ -1056,6 +1095,12 @@ body {
   color: var(--color-text-dark);
   margin-bottom: 16px;
   letter-spacing: -0.01em;
+  display: inline-block;
+  background: linear-gradient(to right, rgba(0, 191, 255, 0.4) 0%, rgba(0, 191, 255, 0.4) 100%);
+  background-position: 0 calc(50% + 8px);
+  background-size: 100% 60%;
+  background-repeat: no-repeat;
+  padding: 4px 0;
 }
 
 .feature-card p {
@@ -1301,9 +1346,14 @@ body {
 /* Stagger Animation Container */
 .stagger-container > * {
   opacity: 0;
-  transform: translateY(30px);
-  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateY(50px) scale(0.9);
+  transition: opacity 0.9s cubic-bezier(0.34, 1.56, 0.64, 1),
+              transform 0.9s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.stagger-container > *:hover {
+  transform: translateY(-4px) scale(1.02);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .stagger-container.animate-in > *:nth-child(1) {
@@ -1340,16 +1390,27 @@ body {
 
 .stagger-container.animate-in > * {
   opacity: 1;
-  transform: translateY(0);
+  transform: translateY(0) scale(1);
 }
 
 /* Respect reduced motion preference */
 @media (prefers-reduced-motion: reduce) {
+  .hero::before {
+    animation: none;
+    background: linear-gradient(180deg, rgba(0, 165, 232, 0.85) 0%, rgba(22, 74, 141, 0.85) 100%);
+  }
+  
   .fade-up,
   .stagger-container > * {
     opacity: 1;
     transform: none;
     transition: none;
+    box-shadow: none;
+  }
+  
+  .stagger-container > *:hover {
+    transform: none;
+    box-shadow: none;
   }
 }
 
