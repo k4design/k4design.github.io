@@ -46,6 +46,9 @@
     <main>
       <!-- Hero Section -->
       <section class="hero" id="hero">
+        <video class="hero-video" autoplay muted loop playsinline>
+          <source src="vid/hero.mp4" type="video/mp4">
+        </video>
         <div class="hero-content" style="grid-template-columns: 1fr; max-width: 900px; text-align: center;">
           <div>
             <div class="fade-up" style="display: inline-flex; align-items: center; gap: 20px; padding: 16px 24px; border-radius: 8px; background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(10px); margin-bottom: 24px;">
@@ -104,28 +107,25 @@
           <p class="featured-in-label fade-up">Featured In</p>
           <div class="featured-in-logos fade-up fade-up-delay-1">
             <div class="featured-in-item">
-              <img src="https://lpt.com/assets/images/forbes-logo.svg" alt="Forbes" width="150" height="60" loading="lazy" onerror="this.onerror=null; this.src='https://lpt.com/assets/images/forbes-logo.png'; this.onerror=function(){this.src='https://via.placeholder.com/150x60/ffffff/000000?text=Forbes'};" />
+              <img src="img/forbes_logo.svg" alt="Forbes" width="300" height="120" loading="lazy" />
             </div>
             <div class="featured-in-item">
-              <img src="https://lpt.com/assets/images/techcrunch-logo.svg" alt="TechCrunch" width="150" height="60" loading="lazy" onerror="this.onerror=null; this.src='https://lpt.com/assets/images/techcrunch-logo.png'; this.onerror=function(){this.src='https://via.placeholder.com/150x60/ffffff/000000?text=TechCrunch'};" />
+              <img src="img/techcrunch_logo.svg" alt="TechCrunch" width="300" height="120" loading="lazy" />
             </div>
             <div class="featured-in-item">
-              <img src="https://lpt.com/assets/images/inman-logo.svg" alt="Inman" width="150" height="60" loading="lazy" onerror="this.onerror=null; this.src='https://lpt.com/assets/images/inman-logo.png'; this.onerror=function(){this.src='https://via.placeholder.com/150x60/ffffff/000000?text=Inman'};" />
+              <img src="img/wsj_logo.svg" alt="Wall Street Journal" width="300" height="120" loading="lazy" />
             </div>
             <div class="featured-in-item">
-              <img src="https://lpt.com/assets/images/wsj-logo.svg" alt="Wall Street Journal" width="150" height="60" loading="lazy" onerror="this.onerror=null; this.src='https://lpt.com/assets/images/wsj-logo.png'; this.onerror=function(){this.src='https://via.placeholder.com/150x60/ffffff/000000?text=WSJ'};" />
+              <img src="img/bloomberg_logo.svg" alt="Bloomberg" width="300" height="120" loading="lazy" />
             </div>
             <div class="featured-in-item">
-              <img src="https://lpt.com/assets/images/bloomberg-logo.svg" alt="Bloomberg" width="150" height="60" loading="lazy" onerror="this.onerror=null; this.src='https://lpt.com/assets/images/bloomberg-logo.png'; this.onerror=function(){this.src='https://via.placeholder.com/150x60/ffffff/000000?text=Bloomberg'};" />
+              <img src="img/realtormagazine_logo.png" alt="Realtor Magazine" width="300" height="120" loading="lazy" />
             </div>
             <div class="featured-in-item">
-              <img src="https://lpt.com/assets/images/realtor-logo.svg" alt="Realtor Magazine" width="150" height="60" loading="lazy" onerror="this.onerror=null; this.src='https://lpt.com/assets/images/realtor-logo.png'; this.onerror=function(){this.src='https://via.placeholder.com/150x60/ffffff/000000?text=Realtor'};" />
+              <img src="img/housingwire_logo.svg" alt="HousingWire" width="300" height="120" loading="lazy" />
             </div>
             <div class="featured-in-item">
-              <img src="https://lpt.com/assets/images/housingwire-logo.svg" alt="HousingWire" width="150" height="60" loading="lazy" onerror="this.onerror=null; this.src='https://lpt.com/assets/images/housingwire-logo.png'; this.onerror=function(){this.src='https://via.placeholder.com/150x60/ffffff/000000?text=HousingWire'};" />
-            </div>
-            <div class="featured-in-item">
-              <img src="https://lpt.com/assets/images/realtrends-logo.svg" alt="RealTrends" width="150" height="60" loading="lazy" onerror="this.onerror=null; this.src='https://lpt.com/assets/images/realtrends-logo.png'; this.onerror=function(){this.src='https://via.placeholder.com/150x60/ffffff/000000?text=RealTrends'};" />
+              <img src="img/realtrends_logo.png" alt="RealTrends" width="300" height="120" loading="lazy" />
             </div>
           </div>
         </div>
@@ -213,7 +213,7 @@
               <button class="see-more-btn">Learn More</button>
             </div>
             <div class="escapes-content">
-              <h2 class="escapes-headline fade-up">A brokerage engineered for scale with a human touch</h2>
+              <h2 class="escapes-headline fade-up">A brokerage engineered for scale with a <span style="background-color: rgba(4, 179, 255, 0.3); padding: 4px 8px; border-radius: 4px;">human touch</span></h2>
               <p class="fade-up fade-up-delay-1" style="font-size: 18px; line-height: 1.7; color: var(--color-text-gray); margin-bottom: 48px; max-width: 800px;">
                 Every touchpoint is designed around agent autonomy. LPT Realty equips you with cinematic marketing,
                 automated operations, and relentless support so you can move faster, close more, and grow without limits.
@@ -222,12 +222,11 @@
                 <article class="accommodation-card">
                   <div class="accommodation-image">
                     <img
-                      src="https://lpt.com/assets/images/agent-branding.webp"
+                      src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=600&h=800&fit=crop&crop=center"
                       alt="Agent Centric Branding showcase"
-                      width="766"
-                      height="768"
+                      width="600"
+                      height="800"
                       loading="lazy"
-                      style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;"
                     />
                   </div>
                   <div class="accommodation-info">
@@ -238,12 +237,11 @@
                 <article class="accommodation-card">
                   <div class="accommodation-image">
                     <img
-                      src="https://lpt.com/assets/images/dezzy-phone-mockup.webp"
+                      src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=800&fit=crop&crop=center"
                       alt="Brokerage powered marketing on mobile"
-                      width="382"
-                      height="689"
+                      width="600"
+                      height="800"
                       loading="lazy"
-                      style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;"
                     />
                   </div>
                   <div class="accommodation-info">
@@ -254,12 +252,11 @@
                 <article class="accommodation-card">
                   <div class="accommodation-image">
                     <img
-                      src="https://lpt.com/assets/images/lpt-collateral-system.webp"
+                      src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=600&h=800&fit=crop&crop=center"
                       alt="LPT Collateral Marketing System interface"
-                      width="619"
-                      height="696"
+                      width="600"
+                      height="800"
                       loading="lazy"
-                      style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;"
                     />
                   </div>
                   <div class="accommodation-info">
