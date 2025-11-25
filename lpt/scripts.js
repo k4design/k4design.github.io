@@ -1,5 +1,6 @@
 const navToggle = document.querySelector('.nav-toggle');
 const navDrawer = document.querySelector('#nav-drawer');
+const navOverlay = document.querySelector('#nav-overlay');
 
 if (navToggle && navDrawer) {
   const navToggleLabel = navToggle.querySelector('.nav-toggle__label');
@@ -19,6 +20,9 @@ if (navToggle && navDrawer) {
     navToggle.setAttribute('aria-expanded', String(isOpen));
     navDrawer.classList.toggle('is-open', isOpen);
     navDrawer.setAttribute('aria-hidden', String(!isOpen));
+    if (navOverlay) {
+      navOverlay.setAttribute('aria-hidden', String(!isOpen));
+    }
     body.classList.toggle('is-locked', isOpen);
     if (navToggleLabel) {
       navToggleLabel.textContent = isOpen ? 'Close' : 'Menu';
@@ -42,8 +46,25 @@ if (navToggle && navDrawer) {
 
   navToggle.addEventListener('click', toggleMenu);
 
+  // Close menu when clicking overlay
+  if (navOverlay) {
+    navOverlay.addEventListener('click', () => closeMenu());
+  }
+
   navDrawer.querySelectorAll('a').forEach((link) => {
-    link.addEventListener('click', () => closeMenu());
+    link.addEventListener('click', () => {
+      closeMenu();
+      // Smooth scroll to anchor if it's a hash link
+      if (link.getAttribute('href').startsWith('#')) {
+        setTimeout(() => {
+          const targetId = link.getAttribute('href').substring(1);
+          const targetElement = document.getElementById(targetId);
+          if (targetElement) {
+            targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        }, 300);
+      }
+    });
   });
 
   navDrawer.addEventListener('keydown', (event) => {

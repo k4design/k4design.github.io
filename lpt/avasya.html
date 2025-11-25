@@ -16,6 +16,9 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="avasya.css" />
+    <script src="https://fast.wistia.com/player.js" async></script>
+    <script src="https://fast.wistia.com/embed/sm4mracms7.js" async type="module"></script>
+    <style>wistia-player[media-id='sm4mracms7']:not(:defined) { background: center / contain no-repeat url('https://fast.wistia.com/embed/medias/sm4mracms7/swatch'); display: block; filter: blur(5px); padding-top:56.25%; }</style>
   </head>
   <body>
     <!-- Top Navigation -->
@@ -39,8 +42,27 @@
         </nav>
         <div class="header-utils">
           <a class="login-btn" href="/onboard">Join Now</a>
+          <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="nav-drawer">
+            <span class="nav-toggle__icon">
+              <span></span>
+              <span></span>
+              <span></span>
+            </span>
+            <span class="nav-toggle__label">Menu</span>
+          </button>
         </div>
       </div>
+      <div class="nav-overlay" id="nav-overlay" aria-hidden="true"></div>
+      <nav id="nav-drawer" class="nav-drawer" aria-label="Mobile navigation" aria-hidden="true">
+        <div class="nav-drawer__content">
+          <a href="#hero" class="nav-drawer__link">Overview</a>
+          <a href="#agent-experience" class="nav-drawer__link">Agent Success</a>
+          <a href="#dezzy-ai" class="nav-drawer__link">dezzy.ai</a>
+          <a href="#compensation" class="nav-drawer__link">Comp Plans</a>
+          <a href="#contact" class="nav-drawer__link">Let's Talk</a>
+          <a class="nav-drawer__button" href="/onboard">Join Now</a>
+        </div>
+      </nav>
     </header>
 
     <main>
@@ -204,6 +226,61 @@
         </div>
       </section>
 
+      <!-- Robert Palmer Founder Section -->
+      <section class="founder-section">
+        <div class="container">
+          <div class="founder-content">
+            <div class="founder-text fade-up">
+              <h2 class="founder-headline">Who Is LPT Founder Robert Palmer?</h2>
+              <p class="founder-description">
+                Robert Palmer is the founder and CEO of LPT Realty and a lifelong entrepreneur who's built his career on one simple pattern: bet big on himself, then use the wins to help others win bigger.
+              </p>
+              <p class="founder-description">
+                Raised in Lakeland, Florida by a mom who struggled to make ends meet, Robert started his first "brand" at age ten, selling homemade cookies with his name on the label. Years later, he stepped in to help his mother's struggling mortgage company, where he saw firsthand how junk fees and hidden costs could wreck families and even contribute to a housing crash. Instead of playing along, he decided to rebuild the model.
+              </p>
+              <p class="founder-description">
+                He launched RP Funding, a direct mortgage company that flipped the script by paying borrowers' closing costs out of his own marketing budget. From a broom-closet office with a handful of employees, he reinvested every dollar into advertising—TV, radio, stadium signage, and more—until RP Funding became a household name across Central Florida. Over time, he paid over $100 million in closing costs for consumers and built a reputation as a financial educator, marketing innovator, and industry disruptor.
+              </p>
+              <p class="founder-description">
+                As his companies grew, Robert built powerful marketing systems and tools for real estate agents nationwide, became a highly sought-after keynote speaker and "marketing mind" in the real estate space, invested heavily in philanthropy, including large donations to causes like Special Olympics, and put his name on major venues and sponsorships, including the RP Funding Center, arena and stadium branding, and ownership of the Jacksonville Armada soccer club.
+              </p>
+              <p class="founder-description">
+                After effectively creating a legacy business and stepping back to focus on being a full-time dad, Robert came back with a new mission: help agents build their own brands and legacies.
+              </p>
+              <p class="founder-description">
+                That vision led him to create Listing Power Tools (the "magic white box" marketing system) and ultimately LPT Realty — an agent-first brokerage platform that combines his marketing engine, technology, and resources with flexible compensation options so agents can build their businesses, not just the brokerage's.
+              </p>
+              <div style="margin-top: 32px;">
+                <span class="wistia_embed wistia_async_sm4mracms7 popover=true popoverContent=link videoFoam=false wistia_embed_initialized" style="display:inline-block;height:84;position:relative;width:150" id="wistia-sm4mracms7-1"><div id="wistia_129.thumb_container" class="wistia_click_to_play" style="position: relative;"><a href="#wistia_sm4mracms7?time=4m08s"><button class="button-border white-border">Learn More About Robert Palmer</button></a></div></span>
+              </div>
+            </div>
+            <div class="founder-card fade-up fade-up-delay-1">
+              <div class="founder-card-content">
+                <div class="founder-card-image">
+                  <img
+                    src="https://lpt.com/assets/images/robert-palmer.jpg"
+                    alt="Robert Palmer, Founder and CEO of LPT Realty"
+                    width="400"
+                    height="400"
+                    loading="lazy"
+                  />
+                </div>
+                <h3 class="founder-card-title">At a Glance</h3>
+                <ul class="founder-card-list">
+                  <li>Built powerful marketing systems and tools for real estate agents nationwide</li>
+                  <li>Became a highly sought-after keynote speaker and "marketing mind" in the real estate space</li>
+                  <li>Invested heavily in philanthropy, including large donations to causes like Special Olympics</li>
+                  <li>Put his name on major venues and sponsorships, including the RP Funding Center, arena and stadium branding, and ownership of the Jacksonville Armada soccer club</li>
+                </ul>
+                <blockquote class="founder-quote">
+                  "After decades of betting on himself and winning, Robert Palmer is betting on you."
+                </blockquote>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <!-- Handpicked Escapes Section -->
       <section class="escapes-section">
         <div class="container">
@@ -294,13 +371,14 @@
                 <li>High quality, agent branded marketing materials in minutes</li>
               </ul>
               <div class="dezzy-ai-actions">
-                <a
+                <button
+                  type="button"
                   class="see-more-btn"
-                  href="#wistia_sm4mracms7?time=34m19s"
-                  style="text-decoration: none; display: inline-block;"
+                  id="dezzy-ai-video-btn"
+                  style="text-decoration: none; display: inline-block; cursor: pointer;"
                 >
                   Learn More About dezzy.ai
-                </a>
+                </button>
               </div>
             </div>
             <div class="dezzy-ai-visual fade-up fade-up-delay-1">
@@ -335,10 +413,11 @@
               <p>Controlling your own agent centric brand (including choosing the color of our logo) and how you put our state of the art collateral marketing system™ to work for you.</p>
             </article>
           </div>
+          <div class="feature-cards-video fade-up fade-up-delay-2" style="margin-top: 64px; max-width: 1200px; margin-left: auto; margin-right: auto;">
+            <wistia-player media-id="sm4mracms7" aspect="1.7777777777777777"></wistia-player>
+          </div>
           <div class="feature-cards-cta">
-            <a class="see-more-btn" href="#mission-video" style="text-decoration: none; display: inline-block;">
-              Watch Mission Model Video
-            </a>
+            
           </div>
         </div>
       </section>
@@ -1128,5 +1207,227 @@
         });
       })();
     </script>
+
+    <!-- Wisitia Modal Script -->
+    <script>
+      (function initWistiaModal() {
+        const modal = document.getElementById('wistia-modal');
+        const closeBtn = modal ? modal.querySelector('.wistia-modal-close') : null;
+        const backdrop = modal ? modal.querySelector('.wistia-modal-backdrop') : null;
+        const playerContainer = modal ? modal.querySelector('.wistia-modal-player-container') : null;
+        let wistiaPlayer = null;
+        let playerElement = null;
+
+        if (!modal || !playerContainer) {
+          console.warn('Wistia modal elements not found');
+          return;
+        }
+
+        // Convert time string like "4m08s" or "34m19s" to seconds
+        const parseTime = (timeStr) => {
+          if (!timeStr) return 0;
+          let totalSeconds = 0;
+          const minutes = timeStr.match(/(\d+)m/);
+          const seconds = timeStr.match(/(\d+)s/);
+          if (minutes) totalSeconds += parseInt(minutes[1]) * 60;
+          if (seconds) totalSeconds += parseInt(seconds[1]);
+          return totalSeconds;
+        };
+
+        const createPlayer = () => {
+          // Remove existing player if any
+          if (playerElement) {
+            playerElement.remove();
+          }
+          
+          // Clear container
+          playerContainer.innerHTML = '';
+          
+          // Create new player element
+          playerElement = document.createElement('wistia-player');
+          playerElement.setAttribute('media-id', 'sm4mracms7');
+          playerElement.setAttribute('aspect', '1.7777777777777777');
+          playerElement.setAttribute('id', 'modal-wistia-player');
+          playerContainer.appendChild(playerElement);
+          
+          return playerElement;
+        };
+
+        const getWistiaPlayer = () => {
+          if (wistiaPlayer) return wistiaPlayer;
+          
+          // Wait for custom element to be defined
+          if (playerElement && playerElement.player) {
+            wistiaPlayer = playerElement.player;
+            return wistiaPlayer;
+          }
+          
+          // Try Wistia API
+          if (window.Wistia && playerElement) {
+            const mediaId = playerElement.getAttribute('media-id');
+            const api = Wistia.api(mediaId);
+            if (api) {
+              wistiaPlayer = api;
+              return wistiaPlayer;
+            }
+          }
+          
+          return null;
+        };
+
+        const openModal = (timeStr) => {
+          modal.setAttribute('aria-hidden', 'false');
+          document.body.style.overflow = 'hidden';
+          
+          // Reset player reference
+          wistiaPlayer = null;
+          
+          // Create player element when modal opens
+          createPlayer();
+          
+          // Wait for modal to be visible and Wisitia custom element to be defined
+          const waitForWistia = () => {
+            return new Promise((resolve) => {
+              if (customElements.get('wistia-player')) {
+                resolve();
+                return;
+              }
+              
+              customElements.whenDefined('wistia-player').then(() => {
+                resolve();
+              });
+              
+              // Fallback timeout
+              setTimeout(resolve, 2000);
+            });
+          };
+          
+          waitForWistia().then(() => {
+            // Wait a bit more for player to initialize
+            setTimeout(() => {
+              const waitForPlayer = setInterval(() => {
+                const player = getWistiaPlayer();
+                if (player) {
+                  clearInterval(waitForPlayer);
+                  const targetTime = parseTime(timeStr);
+                  if (targetTime > 0 && typeof player.time === 'function') {
+                    try {
+                      player.time(targetTime);
+                    } catch (e) {
+                      console.error('Error seeking video:', e);
+                    }
+                  }
+                }
+              }, 100);
+              
+              // Clear interval after 10 seconds if player doesn't load
+              setTimeout(() => {
+                clearInterval(waitForPlayer);
+              }, 10000);
+            }, 300);
+          });
+        };
+
+        const closeModal = () => {
+          modal.setAttribute('aria-hidden', 'true');
+          document.body.style.overflow = '';
+          
+          // Pause video if playing
+          const player = getWistiaPlayer();
+          if (player && typeof player.pause === 'function') {
+            try {
+              if (typeof player.state === 'function' && player.state() === 'playing') {
+                player.pause();
+              }
+            } catch (e) {
+              console.warn('Could not pause Wisitia player:', e);
+            }
+          }
+          
+          // Clean up player
+          wistiaPlayer = null;
+          if (playerElement) {
+            playerElement.remove();
+            playerElement = null;
+          }
+        };
+
+        // Initialize buttons when DOM is ready
+        const initButtons = () => {
+          // Dezzy AI button
+          const dezzyButton = document.getElementById('dezzy-ai-video-btn');
+          if (dezzyButton) {
+            dezzyButton.addEventListener('click', (e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              openModal('34m19s');
+            });
+          }
+
+          // Robert Palmer button
+          const robertButton = document.getElementById('robert-palmer-video-btn');
+          if (robertButton) {
+            robertButton.addEventListener('click', (e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              const timeStr = robertButton.getAttribute('data-video-time') || '4m08s';
+              openModal(timeStr);
+            });
+          }
+        };
+
+        // Close modal on close button click
+        if (closeBtn) {
+          closeBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            closeModal();
+          });
+        }
+
+        // Close modal on backdrop click
+        if (backdrop) {
+          backdrop.addEventListener('click', (e) => {
+            if (e.target === backdrop) {
+              closeModal();
+            }
+          });
+        }
+
+        // Close modal on ESC key
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape' && modal.getAttribute('aria-hidden') === 'false') {
+            closeModal();
+          }
+        });
+
+        // Initialize when DOM is ready
+        function startInit() {
+          setTimeout(initButtons, 100);
+        }
+
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', startInit);
+        } else {
+          startInit();
+        }
+        
+        // Also try initializing after a longer delay as fallback
+        setTimeout(() => {
+          initButtons();
+        }, 1000);
+      })();
+    </script>
+
+    <!-- Wisitia Video Modal -->
+    <div id="wistia-modal" class="wistia-modal" role="dialog" aria-labelledby="modal-title" aria-hidden="true">
+      <div class="wistia-modal-backdrop"></div>
+      <div class="wistia-modal-content">
+        <button class="wistia-modal-close" aria-label="Close modal">&times;</button>
+        <div class="wistia-modal-player-container">
+          <!-- Player will be inserted here dynamically -->
+        </div>
+      </div>
+    </div>
   </body>
 </html>
