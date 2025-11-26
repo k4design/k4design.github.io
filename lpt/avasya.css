@@ -1084,11 +1084,12 @@ body.is-locked {
 
 @media (max-width: 768px) {
   .testimonial-card {
-    flex: 0 0 calc(100vw - 40px);
+    flex: 0 0 calc(85vw - 20px); /* Smaller width (~85% of viewport) to show peek of next card */
+    max-width: none;
   }
   
   .testimonial-carousel-track {
-    padding: 0 20px;
+    padding: 0 20px; /* Left padding for first card, gap + smaller card width shows peek */
   }
 }
 
