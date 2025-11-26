@@ -585,10 +585,12 @@ document.querySelectorAll('input, select').forEach((field) => {
   let touchCurrentX = 0;
   let touchCurrentY = 0;
   let isDragging = false;
+  let isHorizontalSwipe = false;
   let startPosition = 0;
   let touchStartTime = 0;
   const swipeThreshold = 50; // Minimum distance in pixels to trigger a swipe
   const swipeVelocityThreshold = 0.5; // Minimum velocity for a fast swipe
+  const directionThreshold = 10; // Minimum movement to determine swipe direction
 
   // Get current transform value
   const getCurrentTransform = () => {
@@ -610,12 +612,11 @@ document.querySelectorAll('input, select').forEach((field) => {
     touchCurrentX = touchStartX;
     touchCurrentY = touchStartY;
     isDragging = true;
+    isHorizontalSwipe = false; // Reset direction detection
     startPosition = getCurrentTransform();
     touchStartTime = Date.now();
     
-    // Pause auto-rotation during swipe
-    pauseRotation();
-    
+    // Don't pause auto-rotation yet - wait to see if it's a horizontal swipe
     // Disable transitions during drag
     carouselTrack.style.transition = 'none';
   };
@@ -631,10 +632,44 @@ document.querySelectorAll('input, select').forEach((field) => {
     // Calculate delta
     const deltaX = touchCurrentX - touchStartX;
     const deltaY = touchCurrentY - touchStartY;
+    const absDeltaX = Math.abs(deltaX);
+    const absDeltaY = Math.abs(deltaY);
     
-    // Only allow horizontal swipes (ignore if vertical movement is dominant)
-    if (Math.abs(deltaX) > Math.abs(deltaY)) {
-      e.preventDefault(); // Prevent page scroll
+    // Determine swipe direction after initial threshold movement
+    if (!isHorizontalSwipe && (absDeltaX > directionThreshold || absDeltaY > directionThreshold)) {
+      // Once we've moved enough, determine if this is a horizontal swipe
+      // Use a ratio to be more lenient - horizontal must be significantly more than vertical
+      const horizontalRatio = absDeltaX / Math.max(absDeltaY, 1);
+      isHorizontalSwipe = horizontalRatio > 1.5; // Horizontal must be 1.5x more than vertical
+      
+      if (isHorizontalSwipe) {
+        // It's clearly a horizontal swipe - pause rotation and prevent default
+        pauseRotation();
+        e.preventDefault(); // Prevent page scroll only for horizontal swipes
+      } else {
+        // It's a vertical scroll or ambiguous - cancel carousel interaction immediately
+        isDragging = false;
+        isHorizontalSwipe = false;
+        carouselTrack.style.transition = 'transform 1s cubic-bezier(0.4, 0, 0.2, 1)';
+        // Don't prevent default - allow normal vertical scrolling
+        return;
+      }
+    }
+    
+    // Re-check direction on continued movement to catch if user switches to vertical
+    if (isHorizontalSwipe && absDeltaY > absDeltaX * 1.2) {
+      // User switched to vertical scrolling - cancel carousel interaction
+      isDragging = false;
+      isHorizontalSwipe = false;
+      carouselTrack.style.transition = 'transform 1s cubic-bezier(0.4, 0, 0.2, 1)';
+      updatePosition(); // Snap back to position
+      // Don't prevent default - allow vertical scrolling
+      return;
+    }
+    
+    // Only handle horizontal swipes - if we get here, we know it's horizontal
+    if (isHorizontalSwipe) {
+      e.preventDefault(); // Prevent page scroll for horizontal swipes
       
       // Calculate new position
       const scrollDistance = getScrollDistance();
@@ -643,6 +678,10 @@ document.querySelectorAll('input, select').forEach((field) => {
       
       // Apply transform
       carouselTrack.style.transform = `translateX(-${newOffset}px)`;
+    } else {
+      // If somehow we're here but not horizontal, don't prevent default
+      // This allows vertical scrolling to proceed
+      return;
     }
   };
 
@@ -650,7 +689,16 @@ document.querySelectorAll('input, select').forEach((field) => {
   const handleTouchEnd = (e) => {
     if (!isDragging) return;
     
+    const wasHorizontalSwipe = isHorizontalSwipe;
     isDragging = false;
+    isHorizontalSwipe = false;
+    
+    // Only process if it was a horizontal swipe
+    if (!wasHorizontalSwipe) {
+      // Reset transition
+      carouselTrack.style.transition = 'transform 1s cubic-bezier(0.4, 0, 0.2, 1)';
+      return;
+    }
     
     // Calculate swipe distance and direction
     const deltaX = touchCurrentX - touchStartX;
@@ -662,11 +710,10 @@ document.querySelectorAll('input, select').forEach((field) => {
     carouselTrack.style.transition = 'transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
     
     // Determine if it's a valid swipe
-    const isHorizontalSwipe = Math.abs(deltaX) > Math.abs(deltaY);
     const isSignificantSwipe = Math.abs(deltaX) > swipeThreshold;
     const isFastSwipe = velocity > swipeVelocityThreshold;
     
-    if (isHorizontalSwipe && (isSignificantSwipe || isFastSwipe)) {
+    if (isSignificantSwipe || isFastSwipe) {
       // Swipe right (user dragged left, showing previous cards)
       if (deltaX > 0) {
         moveCarouselBackward();

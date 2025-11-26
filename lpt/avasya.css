@@ -1026,7 +1026,7 @@ body.is-locked {
   margin-left: calc(-50vw + 50%);
   padding: 20px 0;
   overflow: hidden;
-  touch-action: pan-y pinch-zoom;
+  touch-action: pan-y pinch-zoom; /* Allow vertical scrolling and pinch zoom */
 }
 
 .testimonial-carousel-track {
@@ -1035,7 +1035,7 @@ body.is-locked {
   transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1);
   will-change: transform;
   padding: 0 190px;
-  touch-action: pan-x;
+  touch-action: pan-y pan-x; /* Allow both vertical and horizontal panning */
   user-select: none;
   -webkit-user-select: none;
 }
