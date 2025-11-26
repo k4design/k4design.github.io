@@ -669,8 +669,8 @@
             </div>
             <div class="mission-image fade-up fade-up-delay-2">
               <img
-                src="https://lpt.com/assets/images/support-phone-mockup.webp"
-                alt="LPT Connect support chat mobile"
+                src="img/customersupport.png"
+                alt="LPT Realty customer support"
                 width="527"
                 height="641"
                 loading="lazy"
@@ -840,7 +840,15 @@
         <div class="container">
           <p class="section-tag fade-up">Compensation Architecture</p>
           <h2 id="compensation-title" class="compensation-headline fade-up fade-up-delay-1">Built On Agent Choice</h2>
-          <div class="compensation-table fade-up fade-up-delay-2">
+          <div class="compensation-summary fade-up fade-up-delay-2">
+            <h3>No signup fees.</h3>
+            <h3>No monthly fees.</h3>
+            <p>$500 Annual Fee Paid</p>
+            <p>from First Transaction</p>
+            <p>All transactions have a</p>
+            <p>$195 Transaction Fee</p>
+          </div>
+          <div class="compensation-table fade-up fade-up-delay-3">
             <table>
               <thead>
                 <tr>
@@ -935,11 +943,6 @@
                 </tr>
               </tbody>
             </table>
-          </div>
-          <div class="compensation-summary fade-up fade-up-delay-3">
-            <h3>No signup fees.<br> No monthly fees.</h3>
-            <p><strong>$500</strong> Annual Fee Paid from First Transaction</p>
-            <p>All transactions have a <strong>$195</strong> Transaction Fee</p>
           </div>
         </div>
       </section>
@@ -1725,6 +1728,81 @@
         setTimeout(() => {
           initButtons();
         }, 1000);
+      })();
+    </script>
+
+    <!-- Ensure all Wistia players appear above other elements when playing -->
+    <script>
+      (function ensureWistiaPlayersAboveAll() {
+        // Function to set high z-index on Wistia elements
+        const elevateWistiaElements = () => {
+          // Find all Wistia players
+          const players = document.querySelectorAll('wistia-player');
+          players.forEach(player => {
+            player.style.zIndex = '99998';
+            player.style.position = 'relative';
+            
+            // Find and elevate iframes and videos within players
+            const iframes = player.querySelectorAll('iframe');
+            const videos = player.querySelectorAll('video');
+            [...iframes, ...videos].forEach(el => {
+              el.style.zIndex = '99999';
+              el.style.position = 'relative';
+            });
+          });
+
+          // Find all Wistia popover elements
+          const popovers = document.querySelectorAll('[class*="wistia_popover"], [id*="wistia_popover"], [class*="wistia-popover"], [id*="wistia-popover"]');
+          popovers.forEach(popover => {
+            popover.style.zIndex = '99999';
+            if (window.getComputedStyle(popover).position === 'static') {
+              popover.style.position = 'fixed';
+            }
+            
+            // Elevate iframes and videos in popovers
+            const iframes = popover.querySelectorAll('iframe');
+            const videos = popover.querySelectorAll('video');
+            [...iframes, ...videos].forEach(el => {
+              el.style.zIndex = '100000';
+              el.style.position = 'relative';
+            });
+          });
+
+          // Find any Wistia elements at body level
+          const bodyWistiaElements = document.querySelectorAll('body > [id^="wistia"], body > [class*="wistia"]');
+          bodyWistiaElements.forEach(el => {
+            el.style.zIndex = '99999';
+            if (window.getComputedStyle(el).position === 'static') {
+              el.style.position = 'fixed';
+            }
+          });
+        };
+
+        // Run immediately
+        elevateWistiaElements();
+
+        // Run when DOM is ready
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', elevateWistiaElements);
+        }
+
+        // Watch for dynamically added Wistia elements
+        const observer = new MutationObserver(() => {
+          elevateWistiaElements();
+        });
+
+        observer.observe(document.body, {
+          childList: true,
+          subtree: true
+        });
+
+        // Also watch for hash changes (when Wistia popovers are triggered)
+        window.addEventListener('hashchange', () => {
+          setTimeout(elevateWistiaElements, 100);
+        });
+
+        // Periodically check (as fallback for dynamically loaded content)
+        setInterval(elevateWistiaElements, 1000);
       })();
     </script>
 

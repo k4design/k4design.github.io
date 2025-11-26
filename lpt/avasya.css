@@ -1663,6 +1663,33 @@ body.is-locked {
   font-weight: 700;
 }
 
+/* Mobile styling for compensation summary to match image */
+@media (max-width: 768px) {
+  .compensation-summary {
+    gap: 12px;
+    text-align: left;
+  }
+  
+  .compensation-summary h3 {
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 1.3;
+    text-transform: none;
+    background: none;
+    padding: 0;
+    margin: 0;
+    color: var(--color-text-dark);
+  }
+  
+  .compensation-summary p {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.5;
+    margin: 0;
+    color: var(--color-text-dark);
+  }
+}
+
 /* Feature Cards Section */
 .feature-cards-section {
   padding: 120px 0;
@@ -2106,7 +2133,7 @@ body.is-locked {
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 9999;
+  z-index: 99999 !important;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2156,6 +2183,7 @@ body.is-locked {
   width: 100%;
   padding-top: 56.25%; /* 16:9 aspect ratio */
   background: #000;
+  z-index: 3;
 }
 
 .wistia-modal-player-container wistia-player {
@@ -2164,6 +2192,16 @@ body.is-locked {
   left: 0;
   width: 100%;
   height: 100%;
+  z-index: 4 !important;
+}
+
+/* Ensure all Wistia player elements inside modal are above everything */
+.wistia-modal-player-container *,
+.wistia-modal-player-container iframe,
+.wistia-modal-player-container video,
+.wistia-modal-player-container [class*="wistia"] {
+  z-index: 5 !important;
+  position: relative;
 }
 
 .wistia-modal-close {
@@ -2272,18 +2310,18 @@ body.is-locked {
 [class*="wistia-popover"],
 [id*="wistia_popover"],
 [id*="wistia-popover"] {
-  z-index: 10000 !important;
+  z-index: 99999 !important;
   position: fixed !important;
 }
 
-/* Wistia iframe and video elements */
+/* Wistia iframe and video elements in popovers */
 .wistia_embed iframe,
 .wistia_embed video,
 .wistia_popover iframe,
 .wistia_popover video,
 [class*="wistia_popover"] iframe,
 [class*="wistia_popover"] video {
-  z-index: 10001 !important;
+  z-index: 100000 !important;
   position: relative;
 }
 
@@ -2298,6 +2336,34 @@ body.is-locked {
 body > [id^="wistia"],
 body > [class*="wistia_popover"],
 body > [class*="wistia-popover"] {
-  z-index: 10000 !important;
+  z-index: 99999 !important;
+}
+
+/* Wistia player custom element - ensure it's above everything when playing */
+wistia-player {
+  position: relative;
+  z-index: 1;
+}
+
+/* When Wistia player is playing, ensure it's above all other content */
+wistia-player[playing],
+wistia-player:not([paused]) {
+  z-index: 99998 !important;
+  position: relative;
+}
+
+/* Wistia player iframes and video elements */
+wistia-player iframe,
+wistia-player video,
+wistia-player [class*="wistia"] {
+  z-index: 99999 !important;
+  position: relative;
+}
+
+/* Ensure Wistia player shadow DOM elements are also above everything */
+wistia-player::part(player),
+wistia-player::part(iframe),
+wistia-player::part(video) {
+  z-index: 99999 !important;
 }
 
