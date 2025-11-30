@@ -966,7 +966,7 @@ section.dev-projects-section .project-card .project-overlay .overlay-content p {
 
 .marketing-card {
     background: var(--primary-white);
-    border-radius: 1rem;
+    border-radius: 0;
     overflow: hidden;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
@@ -1027,7 +1027,7 @@ section.dev-projects-section .project-card .project-overlay .overlay-content p {
 /* Stat Panels - Row 2 */
 .marketing-stat {
     background: var(--accent-blue);
-    border-radius: 1rem;
+    border-radius: 0;
     padding: 3rem 2rem;
     display: flex;
     flex-direction: column;
