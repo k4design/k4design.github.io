@@ -200,14 +200,15 @@ body {
 /* Video Overlay Section - 50% on hero, 50% on projects */
 .video-overlay-container {
     position: relative;
-    width: 100%;
+    width: 50%;
     height: 60vh;
     min-height: 400px;
     max-height: 600px;
-    margin-top: -30vh;
-    margin-bottom: -30vh;
+    margin: -30vh auto -30vh auto;
     z-index: 2;
     overflow: hidden;
+    left: 0;
+    right: 0;
 }
 
 .overlay-video {
