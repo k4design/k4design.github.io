@@ -671,6 +671,409 @@ section.dev-projects-section .project-card .project-overlay .overlay-content p {
     box-shadow: 0 15px 40px rgba(0, 146, 255, 0.4);
 }
 
+/* Section 2: Why Aperture for New Developments */
+.dev-why-section {
+    padding: calc(8rem + 30vh) 0 8rem 0;
+    background: var(--primary-white);
+    position: relative;
+    color: var(--text-primary) !important;
+}
+
+.dev-why-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent-blue), transparent);
+}
+
+.dev-why-section .section-header {
+    text-align: center;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.dev-why-section .section-header h2 {
+    font-family: 'Playfair Display', serif !important;
+    font-size: clamp(2.5rem, 5vw, 4rem) !important;
+    font-weight: 300 !important;
+    margin-bottom: 2rem !important;
+    color: var(--text-primary) !important;
+    line-height: 1.1 !important;
+    letter-spacing: -0.02em !important;
+}
+
+.dev-why-section .section-header p {
+    font-size: 1.2rem;
+    color: var(--text-secondary) !important;
+    line-height: 1.8;
+    font-weight: 200;
+    letter-spacing: 0.02em;
+}
+
+/* Section 3: The Aperture Development Advantage */
+.dev-advantage-section {
+    padding: 8rem 0;
+    background: var(--secondary-white);
+    position: relative;
+    color: var(--text-primary) !important;
+}
+
+.dev-advantage-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent-blue), transparent);
+}
+
+.dev-advantage-section .section-header {
+    text-align: center;
+    margin-bottom: 5rem;
+}
+
+.dev-advantage-section .section-header h2 {
+    font-family: 'Playfair Display', serif !important;
+    font-size: clamp(2.5rem, 5vw, 4rem) !important;
+    font-weight: 300 !important;
+    color: var(--text-primary) !important;
+    line-height: 1.1 !important;
+    letter-spacing: -0.02em !important;
+}
+
+.advantage-pillars {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 3rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.pillar-item {
+    padding: 2.5rem;
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 1rem;
+    transition: all 0.3s ease;
+}
+
+.pillar-item:hover {
+    border-color: rgba(0, 146, 255, 0.3);
+    box-shadow: 0 15px 40px rgba(0, 146, 255, 0.1);
+    transform: translateY(-4px);
+}
+
+.pillar-item h3 {
+    font-family: 'Playfair Display', serif !important;
+    font-size: clamp(1.5rem, 3vw, 2rem) !important;
+    font-weight: 300 !important;
+    margin-bottom: 1.5rem !important;
+    color: var(--text-primary) !important;
+    line-height: 1.3 !important;
+    letter-spacing: -0.02em !important;
+}
+
+.pillar-item p {
+    font-size: 1rem;
+    color: var(--text-secondary) !important;
+    line-height: 1.8;
+    font-weight: 200;
+    letter-spacing: 0.01em;
+}
+
+/* Section 4: Luxury Marketing Arsenal */
+.dev-marketing-section {
+    padding: 8rem 0;
+    background: var(--primary-white);
+    position: relative;
+    color: var(--text-primary) !important;
+}
+
+.dev-marketing-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent-blue), transparent);
+}
+
+.dev-marketing-section .section-header {
+    text-align: center;
+    max-width: 900px;
+    margin: 0 auto 5rem;
+}
+
+.dev-marketing-section .section-header h2 {
+    font-family: 'Playfair Display', serif !important;
+    font-size: clamp(2.5rem, 5vw, 4rem) !important;
+    font-weight: 300 !important;
+    margin-bottom: 2rem !important;
+    color: var(--text-primary) !important;
+    line-height: 1.1 !important;
+    letter-spacing: -0.02em !important;
+}
+
+.dev-marketing-section .section-header p {
+    font-size: 1.2rem;
+    color: var(--text-secondary) !important;
+    line-height: 1.8;
+    font-weight: 200;
+    letter-spacing: 0.02em;
+}
+
+.marketing-features {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.marketing-item {
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.5);
+    border-left: 3px solid var(--accent-blue);
+    border-radius: 0.5rem;
+}
+
+.marketing-item p {
+    font-size: 1rem;
+    color: var(--text-secondary) !important;
+    line-height: 1.8;
+    font-weight: 200;
+    letter-spacing: 0.01em;
+    margin: 0;
+}
+
+/* Section 5: Public Relations & Storytelling */
+.dev-pr-section {
+    padding: 8rem 0;
+    background: var(--secondary-white);
+    position: relative;
+    color: var(--text-primary) !important;
+}
+
+.dev-pr-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent-blue), transparent);
+}
+
+.dev-pr-section .section-header {
+    text-align: center;
+    max-width: 900px;
+    margin: 0 auto 5rem;
+}
+
+.dev-pr-section .section-header h2 {
+    font-family: 'Playfair Display', serif !important;
+    font-size: clamp(2.5rem, 5vw, 4rem) !important;
+    font-weight: 300 !important;
+    margin-bottom: 2rem !important;
+    color: var(--text-primary) !important;
+    line-height: 1.1 !important;
+    letter-spacing: -0.02em !important;
+}
+
+.dev-pr-section .section-header p {
+    font-size: 1.2rem;
+    color: var(--text-secondary) !important;
+    line-height: 1.8;
+    font-weight: 200;
+    letter-spacing: 0.02em;
+}
+
+.pr-features {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.pr-item {
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.5);
+    border-left: 3px solid var(--accent-blue);
+    border-radius: 0.5rem;
+}
+
+.pr-item p {
+    font-size: 1rem;
+    color: var(--text-secondary) !important;
+    line-height: 1.8;
+    font-weight: 200;
+    letter-spacing: 0.01em;
+    margin: 0;
+}
+
+/* Section 6: Unobtanium Events */
+.dev-events-section {
+    padding: 8rem 0;
+    background: var(--primary-white);
+    position: relative;
+    color: var(--text-primary) !important;
+}
+
+.dev-events-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent-blue), transparent);
+}
+
+.dev-events-section .section-header {
+    text-align: center;
+    max-width: 900px;
+    margin: 0 auto 5rem;
+}
+
+.dev-events-section .section-header h2 {
+    font-family: 'Playfair Display', serif !important;
+    font-size: clamp(2.5rem, 5vw, 4rem) !important;
+    font-weight: 300 !important;
+    margin-bottom: 2rem !important;
+    color: var(--text-primary) !important;
+    line-height: 1.1 !important;
+    letter-spacing: -0.02em !important;
+}
+
+.dev-events-section .section-header p {
+    font-size: 1.2rem;
+    color: var(--text-secondary) !important;
+    line-height: 1.8;
+    font-weight: 200;
+    letter-spacing: 0.02em;
+}
+
+.events-features {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.event-item {
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.5);
+    border-left: 3px solid var(--accent-blue);
+    border-radius: 0.5rem;
+}
+
+.event-item p {
+    font-size: 1rem;
+    color: var(--text-secondary) !important;
+    line-height: 1.8;
+    font-weight: 200;
+    letter-spacing: 0.01em;
+    margin: 0;
+}
+
+/* Section 7: Developer Partnership Opportunities */
+.dev-partnership-section {
+    padding: 8rem 0;
+    background: var(--secondary-white);
+    position: relative;
+    color: var(--text-primary) !important;
+}
+
+.dev-partnership-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent-blue), transparent);
+}
+
+.dev-partnership-section .section-header {
+    text-align: center;
+    max-width: 900px;
+    margin: 0 auto 5rem;
+}
+
+.dev-partnership-section .section-header h2 {
+    font-family: 'Playfair Display', serif !important;
+    font-size: clamp(2.5rem, 5vw, 4rem) !important;
+    font-weight: 300 !important;
+    margin-bottom: 2rem !important;
+    color: var(--text-primary) !important;
+    line-height: 1.1 !important;
+    letter-spacing: -0.02em !important;
+}
+
+.dev-partnership-section .section-header p {
+    font-size: 1.2rem;
+    color: var(--text-secondary) !important;
+    line-height: 1.8;
+    font-weight: 200;
+    letter-spacing: 0.02em;
+}
+
+.partnership-services {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 3rem;
+    max-width: 1200px;
+    margin: 0 auto 4rem;
+}
+
+.service-item {
+    padding: 2.5rem;
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 1rem;
+    transition: all 0.3s ease;
+}
+
+.service-item:hover {
+    border-color: rgba(0, 146, 255, 0.3);
+    box-shadow: 0 15px 40px rgba(0, 146, 255, 0.1);
+    transform: translateY(-4px);
+}
+
+.service-item h3 {
+    font-family: 'Playfair Display', serif !important;
+    font-size: clamp(1.5rem, 3vw, 2rem) !important;
+    font-weight: 300 !important;
+    margin-bottom: 1.5rem !important;
+    color: var(--text-primary) !important;
+    line-height: 1.3 !important;
+    letter-spacing: -0.02em !important;
+}
+
+.service-item p {
+    font-size: 1rem;
+    color: var(--text-secondary) !important;
+    line-height: 1.8;
+    font-weight: 200;
+    letter-spacing: 0.01em;
+}
+
+.partnership-cta {
+    text-align: center;
+    margin-top: 4rem;
+}
+
+.partnership-cta .cta-btn {
+    display: inline-block;
+}
+
 /* CTA Section */
 .dev-cta-section {
     padding: 6rem 0;
@@ -780,6 +1183,19 @@ section.dev-projects-section .project-card .project-overlay .overlay-content p {
     .hero-stats {
         gap: 2rem;
     }
+    
+    .advantage-pillars,
+    .partnership-services {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    .marketing-features,
+    .pr-features,
+    .events-features {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
 }
 
 @media (max-width: 768px) {
@@ -817,6 +1233,42 @@ section.dev-projects-section .project-card .project-overlay .overlay-content p {
     
     .dev-cta-section {
         padding: 4rem 0;
+    }
+    
+    .dev-why-section {
+        padding: calc(5rem + 20vh) 0 5rem 0;
+    }
+    
+    .dev-advantage-section,
+    .dev-marketing-section,
+    .dev-pr-section,
+    .dev-events-section,
+    .dev-partnership-section {
+        padding: 5rem 0;
+    }
+    
+    .advantage-pillars,
+    .partnership-services {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    .marketing-features,
+    .pr-features,
+    .events-features {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .pillar-item,
+    .service-item {
+        padding: 2rem;
+    }
+    
+    .marketing-item,
+    .pr-item,
+    .event-item {
+        padding: 1.5rem;
     }
     
     .video-overlay-container {
@@ -879,5 +1331,39 @@ section.dev-projects-section .project-card .project-overlay .overlay-content p {
     
     .dev-projects-section {
         padding-top: calc(4rem + 17.5vh);
+    }
+    
+    .dev-why-section {
+        padding: calc(4rem + 17.5vh) 0 4rem 0;
+    }
+    
+    .dev-advantage-section,
+    .dev-marketing-section,
+    .dev-pr-section,
+    .dev-events-section,
+    .dev-partnership-section {
+        padding: 4rem 0;
+    }
+    
+    .dev-why-section .section-header h2,
+    .dev-advantage-section .section-header h2,
+    .dev-marketing-section .section-header h2,
+    .dev-pr-section .section-header h2,
+    .dev-events-section .section-header h2,
+    .dev-partnership-section .section-header h2 {
+        font-size: 2rem !important;
+    }
+    
+    .pillar-item h3,
+    .service-item h3 {
+        font-size: 1.5rem !important;
+    }
+    
+    .dev-why-section .section-header p,
+    .dev-marketing-section .section-header p,
+    .dev-pr-section .section-header p,
+    .dev-events-section .section-header p,
+    .dev-partnership-section .section-header p {
+        font-size: 1rem;
     }
 }
