@@ -90,10 +90,12 @@ body {
 .new-dev-hero {
     height: auto;
     padding: 8rem 0;
+    padding-bottom: calc(8rem + 30vh);
     position: relative;
-    overflow: hidden;
+    overflow: visible;
     display: flex;
     align-items: center;
+    z-index: 1;
 }
 
 .hero-background {
@@ -195,12 +197,48 @@ body {
     text-transform: uppercase;
 }
 
+/* Video Overlay Section - 50% on hero, 50% on projects */
+.video-overlay-container {
+    position: relative;
+    width: 100%;
+    height: 60vh;
+    min-height: 400px;
+    max-height: 600px;
+    margin-top: -30vh;
+    margin-bottom: -30vh;
+    z-index: 2;
+    overflow: hidden;
+}
+
+.overlay-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.video-overlay-gradient {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(180deg, 
+        rgba(0, 0, 0, 0.3) 0%, 
+        rgba(0, 0, 0, 0.1) 50%, 
+        rgba(0, 0, 0, 0.3) 100%);
+    pointer-events: none;
+    z-index: 1;
+}
+
 /* Premium Projects Section */
 .dev-projects-section {
     padding: 8rem 0;
+    padding-top: calc(8rem + 30vh);
     background: var(--secondary-white) !important;
     position: relative;
     color: var(--text-primary) !important;
+    z-index: 1;
 }
 
 /* Ensure all text in dev sections has proper colors - MAXIMUM SPECIFICITY */
@@ -773,10 +811,19 @@ section.dev-projects-section .project-card .project-overlay .overlay-content p {
     
     .dev-projects-section {
         padding: 5rem 0;
+        padding-top: calc(5rem + 20vh);
     }
     
     .dev-cta-section {
         padding: 4rem 0;
+    }
+    
+    .video-overlay-container {
+        height: 40vh;
+        min-height: 300px;
+        max-height: 400px;
+        margin-top: -20vh;
+        margin-bottom: -20vh;
     }
 }
 
@@ -819,5 +866,17 @@ section.dev-projects-section .project-card .project-overlay .overlay-content p {
     
     .cta-content p {
         font-size: 1rem;
+    }
+    
+    .video-overlay-container {
+        height: 35vh;
+        min-height: 250px;
+        max-height: 350px;
+        margin-top: -17.5vh;
+        margin-bottom: -17.5vh;
+    }
+    
+    .dev-projects-section {
+        padding-top: calc(4rem + 17.5vh);
     }
 }
