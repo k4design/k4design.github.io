@@ -956,28 +956,137 @@ section.dev-projects-section .project-card .project-overlay .overlay-content p {
     letter-spacing: 0.02em;
 }
 
-.marketing-features {
+.marketing-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 2.5rem;
-    max-width: 1200px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    max-width: 1400px;
     margin: 0 auto;
 }
 
-.marketing-item {
-    padding: 2rem;
-    background: rgba(255, 255, 255, 0.5);
-    border-left: 3px solid var(--accent-blue);
-    border-radius: 0.5rem;
+.marketing-card {
+    background: var(--primary-white);
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
 }
 
-.marketing-item p {
+.marketing-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 50px rgba(0, 146, 255, 0.15);
+}
+
+.marketing-image {
+    width: 100%;
+    height: 250px;
+    overflow: hidden;
+    position: relative;
+}
+
+.marketing-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.marketing-card:hover .marketing-image img {
+    transform: scale(1.1);
+}
+
+.marketing-content {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.marketing-title {
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(1.25rem, 2vw, 1.5rem);
+    font-weight: 600;
+    color: var(--text-primary) !important;
+    margin-bottom: 1rem;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+}
+
+.marketing-description {
     font-size: 1rem;
     color: var(--text-secondary) !important;
-    line-height: 1.8;
-    font-weight: 200;
+    line-height: 1.7;
+    font-weight: 300;
     letter-spacing: 0.01em;
     margin: 0;
+    flex-grow: 1;
+}
+
+/* Stat Panels - Row 2 */
+.marketing-stat {
+    background: var(--accent-blue);
+    border-radius: 1rem;
+    padding: 3rem 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 146, 255, 0.2);
+    transition: all 0.3s ease;
+}
+
+.marketing-stat:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 15px 40px rgba(0, 146, 255, 0.3);
+}
+
+.stat-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.9) !important;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.stat-value {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3rem, 6vw, 5rem);
+    font-weight: 300;
+    color: #ffffff !important;
+    line-height: 1;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.02em;
+}
+
+.stat-description {
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.85) !important;
+    font-weight: 300;
+    letter-spacing: 0.02em;
+    margin: 0;
+}
+
+/* Grid Layout Adjustments - Stats in row 2 */
+.marketing-grid > .marketing-stat:first-of-type {
+    grid-column: 1;
+}
+
+.marketing-grid > .marketing-stat:last-of-type {
+    grid-column: 3;
+}
+
+/* Row 3 cards - centered layout */
+.marketing-grid > .marketing-card:nth-child(6) {
+    grid-column: 1 / span 1;
+}
+
+.marketing-grid > .marketing-card:nth-child(7) {
+    grid-column: 3 / span 1;
 }
 
 /* Section 5: Public Relations & Storytelling */
@@ -1333,7 +1442,21 @@ section.dev-projects-section .project-card .project-overlay .overlay-content p {
         gap: 2rem;
     }
     
-    .marketing-features,
+    .marketing-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2rem;
+    }
+    
+    .marketing-grid > .marketing-stat:first-of-type,
+    .marketing-grid > .marketing-stat:last-of-type {
+        grid-column: span 1;
+    }
+    
+    .marketing-grid > .marketing-card:nth-child(6),
+    .marketing-grid > .marketing-card:nth-child(7) {
+        grid-column: span 1;
+    }
+    
     .pr-features,
     .events-features {
         grid-template-columns: 1fr;
@@ -1417,7 +1540,33 @@ section.dev-projects-section .project-card .project-overlay .overlay-content p {
         gap: 2rem;
     }
     
-    .marketing-features,
+    .marketing-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .marketing-grid > .marketing-stat:first-of-type,
+    .marketing-grid > .marketing-stat:last-of-type {
+        grid-column: span 1;
+    }
+    
+    .marketing-grid > .marketing-card:nth-child(6),
+    .marketing-grid > .marketing-card:nth-child(7) {
+        grid-column: span 1;
+    }
+    
+    .marketing-image {
+        height: 200px;
+    }
+    
+    .marketing-content {
+        padding: 1.5rem;
+    }
+    
+    .marketing-stat {
+        padding: 2rem 1.5rem;
+    }
+    
     .pr-features,
     .events-features {
         grid-template-columns: 1fr;
@@ -1428,7 +1577,6 @@ section.dev-projects-section .project-card .project-overlay .overlay-content p {
         padding: 2rem;
     }
     
-    .marketing-item,
     .pr-item,
     .event-item {
         padding: 1.5rem;
