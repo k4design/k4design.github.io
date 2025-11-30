@@ -740,15 +740,39 @@ section.dev-projects-section .project-card .project-overlay .overlay-content p {
 
 .advantage-panel {
     position: relative;
-    padding: 3rem 2.5rem;
+    padding: 0;
     display: flex;
     flex-direction: column;
     min-height: 600px;
     border-right: 1px solid rgba(255, 255, 255, 0.1);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    overflow: hidden;
 }
 
 .advantage-panel:last-child {
     border-right: none;
+}
+
+.panel-background-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(10, 14, 26, 0.85) 0%, rgba(10, 14, 26, 0.75) 50%, rgba(10, 14, 26, 0.85) 100%);
+    z-index: 1;
+}
+
+.panel-content {
+    position: relative;
+    z-index: 2;
+    padding: 3rem 2.5rem;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    flex-grow: 1;
 }
 
 .panel-icon {
@@ -763,7 +787,7 @@ section.dev-projects-section .project-card .project-overlay .overlay-content p {
     background: rgba(255, 255, 255, 0.1);
     border-radius: 4px;
     color: #ffffff;
-    z-index: 2;
+    z-index: 3;
 }
 
 .panel-title {
@@ -1373,12 +1397,15 @@ section.dev-projects-section .project-card .project-overlay .overlay-content p {
     .advantage-panel {
         border-right: none;
         border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        padding: 2rem 1.5rem;
         min-height: 400px;
     }
     
     .advantage-panel:last-child {
         border-bottom: none;
+    }
+    
+    .panel-content {
+        padding: 2rem 1.5rem;
     }
     
     .center-panel .panel-overlay-content {
