@@ -19,11 +19,10 @@
 
 <!-- Video Overlay Section -->
 <div class="video-overlay-container">
-    <video class="overlay-video" autoplay muted loop playsinline>
-        <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" type="video/mp4">
-        <!-- Fallback image if video doesn't load -->
-        <img src="https://k4design.github.io/lofty-sections/img/1428.jpg" alt="New Development">
-    </video>
+    <script src="https://fast.wistia.com/player.js" async></script>
+    <script src="https://fast.wistia.com/embed/s0bl1gr5o8.js" async type="module"></script>
+    <style>wistia-player[media-id='s0bl1gr5o8']:not(:defined) { background: center / contain no-repeat url('https://fast.wistia.com/embed/medias/s0bl1gr5o8/swatch'); display: block; filter: blur(5px); padding-top:56.25%; }</style>
+    <wistia-player media-id="s0bl1gr5o8" aspect="1.7777777777777777"></wistia-player>
     <div class="video-overlay-gradient"></div>
 </div>
 
