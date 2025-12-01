@@ -25,6 +25,7 @@
                 <!-- Project 1: Infinity Villas by Elie Saab -->
                 <div class="project-card">
                     <div class="project-left">
+                        <div class="project-number">Featured Project 1 of 3</div>
                         <h2 class="project-title">Infinity Villas by Elie Saab</h2>
                         <div class="project-thumbnail">
                             <img src="https://k4design.github.io/lofty-sections/img/infinityvillas.jpg" alt="Infinity Villas by Elie Saab">
@@ -77,6 +78,7 @@
                 <!-- Project 2: The Residences at 1428 Brickell -->
                 <div class="project-card">
                     <div class="project-left">
+                        <div class="project-number">Featured Project 2 of 3</div>
                         <h2 class="project-title">The Residences at 1428 Brickell</h2>
                         <div class="project-thumbnail">
                             <img src="https://k4design.github.io/lofty-sections/img/1428.jpg" alt="The Residences at 1428 Brickell">
@@ -129,6 +131,7 @@
                 <!-- Project 3: Big Sky Quarry -->
                 <div class="project-card">
                     <div class="project-left">
+                        <div class="project-number">Featured Project 3 of 3</div>
                         <h2 class="project-title">Big Sky Quarry</h2>
                         <div class="project-thumbnail">
                             <img src="https://k4design.github.io/lofty-sections/img/quarry.jpg" alt="Big Sky Quarry">
@@ -392,10 +395,72 @@
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', () => {
             new VerticalCarousel();
+            initParallaxHero();
         });
     } else {
         // DOM is already ready
         new VerticalCarousel();
+        initParallaxHero();
+    }
+
+    // Parallax effect for hero section
+    function initParallaxHero() {
+        const heroBackground = document.querySelector('.hero-background img');
+        const heroSection = document.querySelector('.new-dev-hero');
+        
+        if (!heroBackground || !heroSection) return;
+
+        // Disable parallax on mobile for better performance
+        const isMobile = window.innerWidth <= 768;
+        if (isMobile) {
+            return;
+        }
+
+        let ticking = false;
+
+        function updateParallax() {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const heroHeight = heroSection.offsetHeight;
+            const heroTop = heroSection.getBoundingClientRect().top;
+            const heroBottom = heroTop + heroHeight;
+
+            // Only apply parallax when hero is in viewport
+            if (heroBottom > 0 && heroTop < window.innerHeight) {
+                // Calculate parallax offset (background moves slower than scroll)
+                const parallaxSpeed = 0.5; // Adjust this value to control parallax intensity
+                const offset = (scrollTop - heroTop) * parallaxSpeed;
+                
+                // Apply transform to background image
+                heroBackground.style.transform = `translateY(${offset}px)`;
+            } else {
+                // Reset transform when out of viewport
+                heroBackground.style.transform = 'translateY(0)';
+            }
+            
+            ticking = false;
+        }
+
+        function requestTick() {
+            if (!ticking) {
+                requestAnimationFrame(updateParallax);
+                ticking = true;
+            }
+        }
+
+        // Listen to scroll events
+        window.addEventListener('scroll', requestTick, { passive: true });
+        
+        // Handle window resize
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                updateParallax();
+            }, 100);
+        }, { passive: true });
+        
+        // Initial call
+        updateParallax();
     }
 </script>
 
