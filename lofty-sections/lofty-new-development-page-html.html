@@ -112,15 +112,61 @@
             this.prevButton = document.getElementById('prevButton');
             this.nextButton = document.getElementById('nextButton');
             this.currentIndex = 0;
-            this.totalSlides = this.carousel.children.length;
             this.isTransitioning = false;
 
-            this.init();
+            // Check if all required elements exist
+            if (!this.carousel || !this.prevButton || !this.nextButton) {
+                console.error('Carousel elements not found');
+                return;
+            }
+
+            this.totalSlides = this.carousel.children.length;
+            
+            if (this.totalSlides === 0) {
+                console.error('No carousel slides found');
+                return;
+            }
+
+            // Wait for images to load before initializing
+            this.waitForImages().then(() => {
+                this.init();
+            });
+        }
+
+        waitForImages() {
+            return new Promise((resolve) => {
+                const images = this.carousel.querySelectorAll('img');
+                let loadedCount = 0;
+                const totalImages = images.length;
+
+                if (totalImages === 0) {
+                    resolve();
+                    return;
+                }
+
+                const checkComplete = () => {
+                    loadedCount++;
+                    if (loadedCount === totalImages) {
+                        // Small delay to ensure layout is calculated
+                        setTimeout(resolve, 100);
+                    }
+                };
+
+                images.forEach((img) => {
+                    if (img.complete) {
+                        checkComplete();
+                    } else {
+                        img.addEventListener('load', checkComplete);
+                        img.addEventListener('error', checkComplete);
+                    }
+                });
+            });
         }
 
         init() {
             // Set initial height
             this.updateCarouselHeight();
+            this.updateCarouselPosition();
             
             // Event listeners
             this.prevButton.addEventListener('click', () => this.prev());
@@ -156,33 +202,40 @@
             });
 
             // Update on window resize
+            let resizeTimeout;
             window.addEventListener('resize', () => {
-                this.updateCarouselHeight();
-                this.updateCarouselPosition();
+                clearTimeout(resizeTimeout);
+                resizeTimeout = setTimeout(() => {
+                    this.updateCarouselHeight();
+                    this.updateCarouselPosition();
+                }, 250);
             });
         }
 
         updateCarouselHeight() {
+            if (!this.carousel || !this.carousel.children[0]) return;
             const cardHeight = this.carousel.children[0].offsetHeight;
-            this.carousel.style.height = `${cardHeight * this.totalSlides}px`;
+            if (cardHeight > 0) {
+                this.carousel.style.height = `${cardHeight * this.totalSlides}px`;
+            }
         }
 
         updateCarouselPosition() {
+            if (!this.carousel || !this.carousel.children[0]) return;
             const cardHeight = this.carousel.children[0].offsetHeight;
-            const translateY = -this.currentIndex * cardHeight;
-            this.carousel.style.transform = `translateY(${translateY}px)`;
+            if (cardHeight > 0) {
+                const translateY = -this.currentIndex * cardHeight;
+                this.carousel.style.transform = `translateY(${translateY}px)`;
+            }
         }
 
         goToSlide(index) {
-            if (this.isTransitioning || index === this.currentIndex) return;
+            if (this.isTransitioning || index === this.currentIndex || !this.carousel) return;
             
             this.isTransitioning = true;
             this.currentIndex = index;
             
-            const cardHeight = this.carousel.children[0].offsetHeight;
-            const translateY = -this.currentIndex * cardHeight;
-            this.carousel.style.transform = `translateY(${translateY}px)`;
-            
+            this.updateCarouselPosition();
             this.updateIndicators();
             this.updateButtons();
             
@@ -232,9 +285,14 @@
     }
 
     // Initialize carousel when DOM is ready
-    document.addEventListener('DOMContentLoaded', () => {
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => {
+            new VerticalCarousel();
+        });
+    } else {
+        // DOM is already ready
         new VerticalCarousel();
-    });
+    }
 </script>
 
 <!-- Section 2: Why Aperture for New Developments -->

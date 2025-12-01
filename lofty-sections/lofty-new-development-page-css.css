@@ -287,6 +287,10 @@ span:not(h1 span):not(h2 span):not(h3 span):not(h4 span):not(h5 span):not(h6 spa
 }
 
 /* Carousel Wrapper */
+.dev-projects-section .container {
+    position: relative;
+}
+
 .carousel-wrapper {
     position: relative;
     width: 100%;
@@ -743,6 +747,11 @@ section.dev-projects-section .project-card .project-overlay .overlay-content p {
     flex-direction: column;
     gap: 1rem;
     z-index: 100;
+    pointer-events: none;
+}
+
+.carousel-nav * {
+    pointer-events: auto;
 }
 
 .carousel-nav-button {
@@ -786,6 +795,11 @@ section.dev-projects-section .project-card .project-overlay .overlay-content p {
     flex-direction: column;
     gap: 0.75rem;
     z-index: 100;
+    pointer-events: none;
+}
+
+.carousel-indicators * {
+    pointer-events: auto;
 }
 
 .carousel-indicator {
