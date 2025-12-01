@@ -1407,11 +1407,27 @@ section.dev-projects-section .project-card .project-overlay .overlay-content p {
 
 .events-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 2rem;
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 2rem;
+}
+
+.event-panel-1 {
+    grid-column: 1 / 2; /* 25% width - first column */
+}
+
+.event-panel-2 {
+    grid-column: 2 / 5; /* 75% width - spans columns 2, 3, 4 */
+}
+
+.event-panel-3 {
+    grid-column: 1 / 4; /* 75% width - spans columns 1, 2, 3 */
+}
+
+.event-panel-4 {
+    grid-column: 4 / 5; /* 25% width - last column */
 }
 
 .event-panel {
@@ -1469,6 +1485,13 @@ section.dev-projects-section .project-card .project-overlay .overlay-content p {
     .events-grid {
         grid-template-columns: 1fr;
         gap: 1.5rem;
+    }
+    
+    .event-panel-1,
+    .event-panel-2,
+    .event-panel-3,
+    .event-panel-4 {
+        grid-column: 1 / -1; /* Reset to full width on mobile */
     }
     
     .event-panel-image {
