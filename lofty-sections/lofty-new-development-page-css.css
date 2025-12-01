@@ -1246,19 +1246,7 @@ section.dev-projects-section .project-card .project-overlay .overlay-content p {
 }
 
 .pr-title-accent {
-    position: relative;
     display: inline-block;
-}
-
-.pr-title-accent::after {
-    content: '';
-    position: absolute;
-    bottom: 0.2em;
-    left: 0;
-    width: 100%;
-    height: 3px;
-    background: var(--accent-blue);
-    border-radius: 2px;
 }
 
 .pr-hero-description {
