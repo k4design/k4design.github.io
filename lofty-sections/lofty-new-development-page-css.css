@@ -1333,19 +1333,34 @@ section.dev-projects-section .project-card .project-overlay .overlay-content p {
         row-gap: 2rem;
     }
 
-    .pr-card-01,
-    .pr-card-02,
-    .pr-card-03,
-    .pr-card-04 {
+    .pr-card-01 {
+        grid-column: 1;
+        grid-row: auto;
+        order: 1;
+    }
+
+    .pr-card-02 {
         grid-column: 1;
         grid-row: auto;
         order: 2;
     }
 
+    .pr-card-03 {
+        grid-column: 1;
+        grid-row: auto;
+        order: 3;
+    }
+
+    .pr-card-04 {
+        grid-column: 1;
+        grid-row: auto;
+        order: 4;
+    }
+
     .pr-hero {
         grid-column: 1;
         grid-row: auto;
-        order: 1;
+        order: 5;
     }
 
     .pr-card-number {
