@@ -765,7 +765,6 @@ section.dev-projects-section .project-card .project-overlay .overlay-content p {
     background: var(--primary-white);
     padding: 1rem;
     border-radius: 50%;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 
 /* Section 3: The Aperture Development Advantage */
