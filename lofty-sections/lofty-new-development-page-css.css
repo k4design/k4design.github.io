@@ -323,6 +323,7 @@ span:not(h1 span):not(h2 span):not(h3 span):not(h4 span):not(h5 span):not(h6 spa
     background: transparent;
     border: none;
     box-shadow: none;
+    overflow: visible !important;
 }
 
 .project-card:hover {
@@ -335,6 +336,8 @@ span:not(h1 span):not(h2 span):not(h3 span):not(h4 span):not(h5 span):not(h6 spa
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
+    overflow: visible !important;
+    min-height: auto;
 }
 
 .project-number {
@@ -454,6 +457,11 @@ section.dev-projects-section .project-card .project-image-wrapper .project-locat
     line-height: 1.8 !important;
     letter-spacing: 0.02em !important;
     margin: 0 !important;
+    overflow: visible !important;
+    text-overflow: clip !important;
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    overflow-wrap: break-word !important;
 }
 
 .project-badge {
@@ -587,6 +595,11 @@ section.dev-projects-section .project-card .project-description,
     margin-bottom: 2rem;
     font-weight: 200;
     letter-spacing: 0.01em;
+    overflow: visible !important;
+    text-overflow: clip !important;
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    overflow-wrap: break-word !important;
 }
 
 .project-specs {
@@ -794,9 +807,10 @@ section.dev-projects-section .project-card .project-overlay .overlay-content p {
     position: absolute;
     bottom: 1.5rem;
     right: 1.5rem;
-    width: 48px;
-    height: 48px;
+    width: max(4vw, 100px);
+    height: max(4vw, 100px);
     background: #000000;
+    border: none;
     border-radius: 50%;
     display: flex;
     align-items: center;
