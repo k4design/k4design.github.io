@@ -1449,16 +1449,29 @@ section.dev-projects-section .project-card .project-overlay .overlay-content p {
     height: 280px;
     overflow: hidden;
     position: relative;
-}
-
-.event-panel-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     transition: transform 0.5s ease;
 }
 
-.event-panel:hover .event-panel-image img {
+.event-panel-1 .event-panel-image {
+    background-image: url('https://k4design.github.io/lofty-sections/img/resort.jpg');
+}
+
+.event-panel-2 .event-panel-image {
+    background-image: url('https://k4design.github.io/lofty-sections/img/partner.jpg');
+}
+
+.event-panel-3 .event-panel-image {
+    background-image: url('https://k4design.github.io/lofty-sections/img/skyline.jpg');
+}
+
+.event-panel-4 .event-panel-image {
+    background-image: url('https://k4design.github.io/lofty-sections/img/1428.jpg');
+}
+
+.event-panel:hover .event-panel-image {
     transform: scale(1.05);
 }
 
