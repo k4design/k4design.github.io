@@ -1302,6 +1302,80 @@ section.dev-projects-section .project-card .project-overlay .overlay-content p {
     flex-grow: 1;
 }
 
+/* Marketing CTA Card with Gradient Background */
+.marketing-card-cta {
+    background: var(--gradient-accent) !important;
+    min-height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 2rem;
+}
+
+.marketing-cta-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+    max-width: 600px;
+}
+
+.marketing-cta-headline {
+    font-family: 'Playfair Display', serif !important;
+    font-size: clamp(2rem, 4vw, 3.5rem) !important;
+    font-weight: 300 !important;
+    color: #ffffff !important;
+    margin-bottom: 1rem !important;
+    line-height: 1.2 !important;
+    letter-spacing: -0.02em !important;
+}
+
+.marketing-cta-subhead {
+    font-family: 'Inter', sans-serif !important;
+    font-size: clamp(1rem, 2vw, 1.25rem) !important;
+    font-weight: 300 !important;
+    color: rgba(255, 255, 255, 0.95) !important;
+    margin-bottom: 2rem !important;
+    line-height: 1.6 !important;
+    letter-spacing: 0.02em !important;
+}
+
+.marketing-cta-text {
+    font-family: 'Inter', sans-serif !important;
+    font-size: clamp(0.875rem, 1.5vw, 1rem) !important;
+    font-weight: 400 !important;
+    color: rgba(255, 255, 255, 0.9) !important;
+    margin-bottom: 1.5rem !important;
+    letter-spacing: 0.1em !important;
+    text-transform: uppercase !important;
+}
+
+.marketing-cta-button {
+    display: inline-block;
+    padding: 1rem 2.5rem;
+    background: #ffffff;
+    color: var(--accent-blue) !important;
+    border-radius: 50px;
+    font-size: clamp(0.875rem, 1.5vw, 1rem);
+    font-weight: 600;
+    text-decoration: none;
+    text-align: center;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    border: 2px solid #ffffff;
+}
+
+.marketing-cta-button:hover {
+    background: transparent;
+    color: #ffffff !important;
+    border-color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(255, 255, 255, 0.2);
+}
+
 /* Stat Panels - Row 2 */
 .marketing-stat {
     background: var(--accent-blue);
@@ -2272,6 +2346,16 @@ section.dev-projects-section .project-card .project-overlay .overlay-content p {
     .marketing-title,
     .marketing-description {
         text-align: left !important;
+    }
+    
+    /* Center align CTA card on mobile */
+    .marketing-card-cta .marketing-cta-content {
+        text-align: center !important;
+    }
+    
+    .marketing-card-cta {
+        min-height: 350px;
+        padding: 2rem 1.5rem;
     }
     
     /* Left align advantage panels */
