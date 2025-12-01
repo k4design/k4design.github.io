@@ -372,12 +372,17 @@ span:not(h1 span):not(h2 span):not(h3 span):not(h4 span):not(h5 span):not(h6 spa
 
 /* Hide mobile carousel on desktop */
 .mobile-carousel {
-    display: none;
+    display: none !important;
 }
 
-/* Hide mobile location on desktop */
-.mobile-location {
-    display: none;
+/* Hide mobile location on desktop - ensure it doesn't show under thumbnail */
+.project-left .mobile-location {
+    display: none !important;
+}
+
+/* Ensure desktop location only shows on desktop and is in the right column */
+.project-image-wrapper .desktop-location {
+    display: block;
 }
 
 .image-carousel {
@@ -2080,8 +2085,16 @@ section.dev-projects-section .project-card .project-overlay .overlay-content p {
         display: none !important;
     }
 
+    /* Center carousel indicators horizontally at bottom on mobile */
     .carousel-indicators {
-        left: 1rem;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        top: auto;
+        bottom: 1rem;
+        flex-direction: row;
+        gap: 0.5rem;
+        z-index: 100;
     }
 
     .carousel-nav-button {
@@ -2089,12 +2102,19 @@ section.dev-projects-section .project-card .project-overlay .overlay-content p {
         height: 40px;
     }
 
+    /* Make indicators horizontal dots on mobile */
     .carousel-indicator {
-        height: 30px;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: rgba(0, 0, 0, 0.3);
     }
 
     .carousel-indicator.active {
-        height: 45px;
+        width: 24px;
+        height: 8px;
+        border-radius: 4px;
+        background: rgba(0, 0, 0, 0.8);
     }
 
     /* Mobile-specific styles for project cards */
