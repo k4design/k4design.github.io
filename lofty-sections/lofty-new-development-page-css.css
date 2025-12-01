@@ -749,6 +749,7 @@ section.dev-projects-section .project-card .project-overlay .overlay-content p {
     transition: all 0.3s ease;
     z-index: 3;
     text-decoration: none;
+    isolation: isolate;
 }
 
 .project-nav-button::before {
@@ -766,7 +767,7 @@ section.dev-projects-section .project-card .project-overlay .overlay-content p {
 
 .project-nav-button svg {
     position: relative;
-    z-index: 1;
+    z-index: 2;
 }
 
 .project-nav-button:hover {
