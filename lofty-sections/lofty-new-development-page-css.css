@@ -1092,7 +1092,7 @@ section.dev-projects-section .project-card .project-overlay .overlay-content p {
 /* Section 5: Public Relations & Storytelling */
 .dev-pr-section {
     padding: 8rem 0;
-    background: var(--secondary-white);
+    background: var(--primary-white);
     position: relative;
     color: var(--text-primary) !important;
 }
@@ -1107,52 +1107,255 @@ section.dev-projects-section .project-card .project-overlay .overlay-content p {
     background: linear-gradient(90deg, transparent, var(--accent-blue), transparent);
 }
 
-.dev-pr-section .section-header {
-    text-align: center;
-    max-width: 900px;
-    margin: 0 auto 5rem;
+.pr-layout {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr 1fr;
+    grid-template-rows: auto auto auto;
+    gap: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    align-items: start;
 }
 
-.dev-pr-section .section-header h2 {
-    font-family: 'Playfair Display', serif !important;
-    font-size: clamp(2.5rem, 5vw, 4rem) !important;
-    font-weight: 300 !important;
-    margin-bottom: 2rem !important;
+/* PR Cards */
+.pr-card {
+    position: relative;
+    padding: 2.5rem;
+    background: #f5f5f5;
+    border-radius: 1rem;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.pr-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.pr-card-number {
+    position: absolute;
+    top: 0;
+    right: 1rem;
+    font-size: 8rem;
+    font-weight: 900;
+    color: rgba(138, 43, 226, 0.1);
+    line-height: 1;
+    font-family: 'Playfair Display', serif;
+    z-index: 0;
+}
+
+.pr-card-icon {
+    position: relative;
+    width: 48px;
+    height: 48px;
+    color: #8a2be2;
+    margin-bottom: 1.5rem;
+    z-index: 1;
+}
+
+.pr-card-title {
+    position: relative;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+    z-index: 1;
+}
+
+.pr-card-description {
+    position: relative;
+    font-size: 0.95rem;
+    color: var(--text-secondary) !important;
+    line-height: 1.7;
+    font-weight: 200;
+    z-index: 1;
+}
+
+/* Card positioning */
+.pr-card-01 {
+    grid-column: 1;
+    grid-row: 1;
+}
+
+.pr-card-02 {
+    grid-column: 1;
+    grid-row: 3;
+}
+
+.pr-card-03 {
+    grid-column: 3;
+    grid-row: 1;
+}
+
+.pr-card-04 {
+    grid-column: 3;
+    grid-row: 3;
+}
+
+/* Central Hero Section */
+.pr-hero {
+    grid-column: 2;
+    grid-row: 1 / 4;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 0 2rem;
+    justify-content: flex-start;
+}
+
+.pr-hero-title {
+    font-size: clamp(2rem, 4vw, 3.5rem) !important;
+    font-weight: 700 !important;
+    margin-bottom: 1.5rem !important;
     color: var(--text-primary) !important;
     line-height: 1.1 !important;
     letter-spacing: -0.02em !important;
 }
 
-.dev-pr-section .section-header p {
-    font-size: 1.2rem;
+.pr-title-accent {
+    position: relative;
+    display: inline-block;
+}
+
+.pr-title-accent::after {
+    content: '';
+    position: absolute;
+    bottom: 0.2em;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: #8a2be2;
+    border-radius: 2px;
+}
+
+.pr-hero-description {
+    font-size: 1.1rem;
     color: var(--text-secondary) !important;
     line-height: 1.8;
     font-weight: 200;
     letter-spacing: 0.02em;
+    max-width: 700px;
+    margin-bottom: 2.5rem;
 }
 
-.pr-features {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 2.5rem;
-    max-width: 1200px;
-    margin: 0 auto;
+.pr-hero-buttons {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 3rem;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
-.pr-item {
-    padding: 2rem;
-    background: rgba(255, 255, 255, 0.5);
-    border-left: 3px solid var(--accent-blue);
+.pr-btn {
+    padding: 0.875rem 2rem;
     border-radius: 0.5rem;
+    font-size: 1rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: inline-block;
+    font-family: 'Inter', sans-serif;
+    border: none;
+    cursor: pointer;
 }
 
-.pr-item p {
-    font-size: 1rem;
-    color: var(--text-secondary) !important;
-    line-height: 1.8;
-    font-weight: 200;
-    letter-spacing: 0.01em;
-    margin: 0;
+.pr-btn-primary {
+    background: #8a2be2;
+    color: white;
+}
+
+.pr-btn-primary:hover {
+    background: #7a1bd2;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(138, 43, 226, 0.3);
+}
+
+.pr-btn-secondary {
+    background: white;
+    color: var(--text-primary);
+    border: 1px solid var(--text-primary);
+}
+
+.pr-btn-secondary:hover {
+    background: rgba(0, 0, 0, 0.05);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.pr-hero-image {
+    width: 100%;
+    max-width: 900px;
+    border-radius: 1rem;
+    overflow: hidden;
+    position: relative;
+}
+
+.pr-hero-image::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(138, 43, 226, 0.4) 0%, rgba(138, 43, 226, 0.2) 100%);
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.6;
+}
+
+.pr-hero-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .pr-layout {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+        gap: 2rem;
+    }
+
+    .pr-card-01,
+    .pr-card-02,
+    .pr-card-03,
+    .pr-card-04 {
+        grid-column: 1;
+        grid-row: auto;
+    }
+
+    .pr-hero {
+        grid-column: 1;
+        grid-row: auto;
+    }
+
+    .pr-card-number {
+        font-size: 6rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .dev-pr-section {
+        padding: 4rem 0;
+    }
+
+    .pr-hero-buttons {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .pr-btn {
+        width: 100%;
+        text-align: center;
+    }
+
+    .pr-card-number {
+        font-size: 5rem;
+    }
 }
 
 /* Section 6: Unobtanium Events */
