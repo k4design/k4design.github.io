@@ -1431,11 +1431,30 @@ section.dev-projects-section .project-card .project-overlay .overlay-content p {
 }
 
 .event-panel {
-    background: rgba(255, 255, 255, 0.05);
+    position: relative;
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 1rem;
     overflow: hidden;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 2rem;
+}
+
+.event-panel::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.6) 100%);
+    z-index: 1;
 }
 
 .event-panel:hover {
@@ -1444,35 +1463,20 @@ section.dev-projects-section .project-card .project-overlay .overlay-content p {
     border-color: rgba(255, 255, 255, 0.2);
 }
 
-.event-panel-image {
-    width: 100%;
-    height: 280px;
-    overflow: hidden;
-    position: relative;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    transition: transform 0.5s ease;
-}
-
-.event-panel-1 .event-panel-image {
+.event-panel-1 {
     background-image: url('https://k4design.github.io/lofty-sections/img/resort.jpg');
 }
 
-.event-panel-2 .event-panel-image {
+.event-panel-2 {
     background-image: url('https://k4design.github.io/lofty-sections/img/partner.jpg');
 }
 
-.event-panel-3 .event-panel-image {
+.event-panel-3 {
     background-image: url('https://k4design.github.io/lofty-sections/img/skyline.jpg');
 }
 
-.event-panel-4 .event-panel-image {
+.event-panel-4 {
     background-image: url('https://k4design.github.io/lofty-sections/img/1428.jpg');
-}
-
-.event-panel:hover .event-panel-image {
-    transform: scale(1.05);
 }
 
 .event-panel-title {
@@ -1480,9 +1484,11 @@ section.dev-projects-section .project-card .project-overlay .overlay-content p {
     font-size: clamp(1.5rem, 2.5vw, 2rem) !important;
     font-weight: 600 !important;
     color: #ffffff !important;
-    margin: 1.5rem 1.5rem 1rem 1.5rem;
+    margin: 0 0 1rem 0;
     line-height: 1.2 !important;
     letter-spacing: -0.01em !important;
+    position: relative;
+    z-index: 2;
 }
 
 .event-panel-description {
@@ -1491,7 +1497,9 @@ section.dev-projects-section .project-card .project-overlay .overlay-content p {
     line-height: 1.7;
     font-weight: 300;
     letter-spacing: 0.01em;
-    margin: 0 1.5rem 1.5rem 1.5rem;
+    margin: 0;
+    position: relative;
+    z-index: 2;
 }
 
 @media (max-width: 768px) {
@@ -1507,8 +1515,8 @@ section.dev-projects-section .project-card .project-overlay .overlay-content p {
         grid-column: 1 / -1; /* Reset to full width on mobile */
     }
     
-    .event-panel-image {
-        height: 220px;
+    .event-panel {
+        min-height: 350px;
     }
     
     .events-header {
