@@ -202,7 +202,7 @@ body {
 .video-overlay-container {
     position: relative;
     width: 75%;
-    margin: -30vh auto -30vh auto;
+    margin: -15vh auto -15vh auto;
     z-index: 2;
     overflow: hidden;
     left: 0;
@@ -237,7 +237,7 @@ body {
 
 /* Premium Projects Section */
 .dev-projects-section {
-    padding: 8rem 0;
+    padding: calc(8rem + 15vh) 0 8rem 0;
     background: var(--secondary-white) !important;
     position: relative;
     color: var(--text-primary) !important;
@@ -675,7 +675,7 @@ section.dev-projects-section .project-card .project-overlay .overlay-content p {
 
 /* Section 2: Why Aperture for New Developments */
 .dev-why-section {
-    padding: calc(8rem + 30vh) 0 8rem 0;
+    padding: 4rem 0 8rem 0;
     background: var(--primary-white);
     position: relative;
     color: var(--text-primary) !important;
@@ -1905,8 +1905,12 @@ section.dev-projects-section .project-card .project-overlay .overlay-content p {
     
     .video-overlay-container {
         width: 85%;
-        margin-top: -20vh;
-        margin-bottom: -20vh;
+        margin-top: -10vh;
+        margin-bottom: -10vh;
+    }
+    
+    .dev-projects-section {
+        padding: calc(4rem + 10vh) 0 4rem 0;
     }
 }
 
@@ -1953,16 +1957,16 @@ section.dev-projects-section .project-card .project-overlay .overlay-content p {
     
     .video-overlay-container {
         width: 85%;
-        margin-top: -17.5vh;
-        margin-bottom: -17.5vh;
+        margin-top: -8vh;
+        margin-bottom: -8vh;
     }
     
     .dev-projects-section {
-        padding: 4rem 0;
+        padding: calc(4rem + 8vh) 0 4rem 0;
     }
     
     .dev-why-section {
-        padding: calc(4rem + 17.5vh) 0 4rem 0;
+        padding: 2rem 0 4rem 0;
     }
     
     .dev-advantage-section,
