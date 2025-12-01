@@ -286,64 +286,95 @@ span:not(h1 span):not(h2 span):not(h3 span):not(h4 span):not(h5 span):not(h6 spa
     background: linear-gradient(90deg, transparent, var(--accent-blue), transparent);
 }
 
-.projects-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 3rem;
-    margin-top: 4rem;
+/* Carousel Wrapper */
+.carousel-wrapper {
+    position: relative;
+    width: 100%;
+    height: 80vh;
+    min-height: 600px;
+    max-height: 900px;
+    overflow: hidden;
+    margin: 4rem 0;
+}
+
+.project-cards-section {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .project-card {
-    background: rgba(255, 255, 255, 0.9);
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    border-radius: 1rem;
-    overflow: hidden;
-    transition: all 0.2s ease-in-out;
-    position: relative;
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
-    opacity: 1;
-    transform: translateY(0);
-    min-width: 0;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 3rem;
+    align-items: start;
+    min-height: 100%;
+    padding: 2rem 0;
+    flex-shrink: 0;
+    background: transparent;
+    border: none;
+    box-shadow: none;
 }
 
 .project-card:hover {
-    border-color: rgba(0, 146, 255, 0.3);
-    box-shadow: 0 25px 60px rgba(0, 146, 255, 0.15);
-    transform: translateY(-8px);
+    transform: none;
+    border: none;
+    box-shadow: none;
 }
 
-/* All project cards are now equal width */
-.project-card.featured {
-    grid-column: span 1;
-    background: rgba(255, 255, 255, 0.9);
-    min-width: 0;
+.project-left {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.project-title {
+    font-family: 'Playfair Display', serif !important;
+    font-size: clamp(2.5rem, 5vw, 4rem) !important;
+    font-weight: 300 !important;
+    color: var(--text-primary) !important;
+    line-height: 1.1 !important;
+    letter-spacing: -0.03em !important;
+    margin: 0 !important;
+}
+
+.project-thumbnail {
     width: 100%;
-}
-
-.project-image {
-    position: relative;
-    height: 300px;
+    border-radius: 1rem;
     overflow: hidden;
+    aspect-ratio: 4 / 3;
 }
 
-/* All images same height */
-.project-card.featured .project-image {
-    height: 300px;
-}
-
-.project-image img {
+.project-thumbnail img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    filter: grayscale(20%) contrast(1.1);
-    transition: transform 0.5s ease;
 }
 
-.project-card:hover .project-image img {
-    transform: scale(1.05);
+.project-image-container {
+    position: relative;
+    width: 100%;
+    border-radius: 1rem;
+    overflow: hidden;
+    aspect-ratio: 4 / 3;
+}
+
+.project-image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Carousel Project Description */
+.dev-projects-section .project-left .project-description {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 1.125rem !important;
+    font-weight: 200 !important;
+    color: var(--text-secondary) !important;
+    line-height: 1.8 !important;
+    letter-spacing: 0.02em !important;
+    margin: 0 !important;
 }
 
 .project-badge {
@@ -671,6 +702,104 @@ section.dev-projects-section .project-card .project-overlay .overlay-content p {
 .load-more-btn:hover {
     transform: translateY(-3px);
     box-shadow: 0 15px 40px rgba(0, 146, 255, 0.4);
+}
+
+/* Carousel Navigation */
+.project-nav-button {
+    position: absolute;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    width: 48px;
+    height: 48px;
+    background: #000000;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 2;
+    text-decoration: none;
+}
+
+.project-nav-button:hover {
+    transform: scale(1.1);
+    background: #1a1a1a;
+}
+
+.project-nav-button svg {
+    width: 20px;
+    height: 20px;
+    stroke: #ffffff;
+    fill: none;
+}
+
+.carousel-nav {
+    position: absolute;
+    right: 2rem;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    z-index: 100;
+}
+
+.carousel-nav-button {
+    width: 48px;
+    height: 48px;
+    background: rgba(0, 0, 0, 0.6);
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+.carousel-nav-button:hover {
+    background: rgba(0, 0, 0, 0.8);
+    transform: scale(1.1);
+}
+
+.carousel-nav-button:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+.carousel-nav-button svg {
+    width: 24px;
+    height: 24px;
+    stroke: #ffffff;
+    fill: none;
+}
+
+/* Carousel Indicators */
+.carousel-indicators {
+    position: absolute;
+    left: 2rem;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    z-index: 100;
+}
+
+.carousel-indicator {
+    width: 4px;
+    height: 40px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.carousel-indicator.active {
+    background: #000000;
+    height: 60px;
 }
 
 /* Section 2: Why Aperture for New Developments */
@@ -1794,27 +1923,66 @@ section.dev-projects-section .project-card .project-overlay .overlay-content p {
     }
 }
 
+@media (max-width: 1024px) {
+    .project-card {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .project-left {
+        order: 1;
+    }
+
+    .project-image-container {
+        order: 2;
+    }
+}
+
 @media (max-width: 768px) {
     .hero-stats {
         flex-direction: column;
         gap: 2rem;
     }
 
-    .projects-grid {
+    .carousel-wrapper {
+        height: auto;
+        min-height: 500px;
+        max-height: none;
+        margin: 2rem 0;
+    }
+
+    .project-card {
+        padding: 1rem 0;
         grid-template-columns: 1fr;
     }
 
-    .project-card.featured {
-        grid-column: span 1;
+    .project-title {
+        font-size: 2rem !important;
     }
 
-    .project-specs {
-        flex-direction: column;
-        gap: 1rem;
+    .project-description {
+        font-size: 1rem !important;
     }
 
-    .project-actions {
-        flex-direction: column;
+    .carousel-nav {
+        right: 1rem;
+    }
+
+    .carousel-indicators {
+        left: 1rem;
+    }
+
+    .carousel-nav-button {
+        width: 40px;
+        height: 40px;
+    }
+
+    .carousel-indicator {
+        height: 30px;
+    }
+
+    .carousel-indicator.active {
+        height: 45px;
     }
     
     .cta-actions {

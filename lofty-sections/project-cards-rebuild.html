@@ -19,18 +19,31 @@
             background: #ffffff;
             color: #1a1a1a;
             line-height: 1.7;
-            padding: 4rem 2rem;
+            padding: 0;
+            overflow: hidden;
         }
 
         .container {
             max-width: 1400px;
             margin: 0 auto;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .carousel-wrapper {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
         }
 
         .project-cards-section {
             display: flex;
             flex-direction: column;
-            gap: 6rem;
+            height: 100%;
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .project-card {
@@ -38,6 +51,9 @@
             grid-template-columns: 1fr 1.5fr;
             gap: 3rem;
             align-items: start;
+            min-height: 100%;
+            padding: 2rem 0;
+            flex-shrink: 0;
         }
 
         .project-left {
@@ -122,6 +138,75 @@
             fill: none;
         }
 
+        /* Carousel Navigation */
+        .carousel-nav {
+            position: fixed;
+            right: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            z-index: 100;
+        }
+
+        .carousel-nav-button {
+            width: 48px;
+            height: 48px;
+            background: rgba(0, 0, 0, 0.6);
+            border: none;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .carousel-nav-button:hover {
+            background: rgba(0, 0, 0, 0.8);
+            transform: scale(1.1);
+        }
+
+        .carousel-nav-button:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .carousel-nav-button svg {
+            width: 24px;
+            height: 24px;
+            stroke: #ffffff;
+            fill: none;
+        }
+
+        /* Carousel Indicators */
+        .carousel-indicators {
+            position: fixed;
+            left: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            z-index: 100;
+        }
+
+        .carousel-indicator {
+            width: 4px;
+            height: 40px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 2px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .carousel-indicator.active {
+            background: #000000;
+            height: 60px;
+        }
+
         @media (max-width: 1024px) {
             .project-card {
                 grid-template-columns: 1fr;
@@ -138,12 +223,12 @@
         }
 
         @media (max-width: 768px) {
-            body {
-                padding: 2rem 1rem;
+            .container {
+                padding: 1rem;
             }
 
-            .project-cards-section {
-                gap: 4rem;
+            .project-card {
+                padding: 1rem 0;
             }
 
             .project-title {
@@ -153,12 +238,34 @@
             .project-description {
                 font-size: 1rem;
             }
+
+            .carousel-nav {
+                right: 1rem;
+            }
+
+            .carousel-indicators {
+                left: 1rem;
+            }
+
+            .carousel-nav-button {
+                width: 40px;
+                height: 40px;
+            }
+
+            .carousel-indicator {
+                height: 30px;
+            }
+
+            .carousel-indicator.active {
+                height: 45px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <section class="project-cards-section">
+        <div class="carousel-wrapper">
+            <section class="project-cards-section" id="projectCarousel">
             <!-- Project 1: Infinity Villas by Elie Saab -->
             <div class="project-card">
                 <div class="project-left">
@@ -215,7 +322,170 @@
                     </a>
                 </div>
             </div>
-        </section>
+            </section>
+        </div>
+
+        <!-- Carousel Navigation -->
+        <div class="carousel-nav">
+            <button class="carousel-nav-button" id="prevButton" aria-label="Previous project">
+                <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 19V5M5 12l7-7 7 7"/>
+                </svg>
+            </button>
+            <button class="carousel-nav-button" id="nextButton" aria-label="Next project">
+                <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 5v14M19 12l-7 7-7-7"/>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Carousel Indicators -->
+        <div class="carousel-indicators" id="carouselIndicators">
+            <div class="carousel-indicator active" data-index="0"></div>
+            <div class="carousel-indicator" data-index="1"></div>
+            <div class="carousel-indicator" data-index="2"></div>
+        </div>
     </div>
+
+    <script>
+        class VerticalCarousel {
+            constructor() {
+                this.carousel = document.getElementById('projectCarousel');
+                this.indicators = document.querySelectorAll('.carousel-indicator');
+                this.prevButton = document.getElementById('prevButton');
+                this.nextButton = document.getElementById('nextButton');
+                this.currentIndex = 0;
+                this.totalSlides = this.carousel.children.length;
+                this.isTransitioning = false;
+
+                this.init();
+            }
+
+            init() {
+                // Set initial height
+                this.updateCarouselHeight();
+                
+                // Event listeners
+                this.prevButton.addEventListener('click', () => this.prev());
+                this.nextButton.addEventListener('click', () => this.next());
+                
+                // Indicator clicks
+                this.indicators.forEach((indicator, index) => {
+                    indicator.addEventListener('click', () => this.goToSlide(index));
+                });
+
+                // Keyboard navigation
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'ArrowUp') {
+                        e.preventDefault();
+                        this.prev();
+                    } else if (e.key === 'ArrowDown') {
+                        e.preventDefault();
+                        this.next();
+                    }
+                });
+
+                // Touch/swipe support
+                let touchStartY = 0;
+                let touchEndY = 0;
+
+                this.carousel.addEventListener('touchstart', (e) => {
+                    touchStartY = e.changedTouches[0].screenY;
+                });
+
+                this.carousel.addEventListener('touchend', (e) => {
+                    touchEndY = e.changedTouches[0].screenY;
+                    this.handleSwipe();
+                });
+
+                // Auto-advance (optional - uncomment to enable)
+                // this.autoAdvance = setInterval(() => {
+                //     this.next();
+                // }, 5000);
+
+                // Update on window resize
+                window.addEventListener('resize', () => {
+                    this.updateCarouselHeight();
+                    this.updateCarouselPosition();
+                });
+            }
+
+            updateCarouselHeight() {
+                const cardHeight = this.carousel.children[0].offsetHeight;
+                this.carousel.style.height = `${cardHeight * this.totalSlides}px`;
+            }
+
+            updateCarouselPosition() {
+                const cardHeight = this.carousel.children[0].offsetHeight;
+                const translateY = -this.currentIndex * cardHeight;
+                this.carousel.style.transform = `translateY(${translateY}px)`;
+            }
+
+            goToSlide(index) {
+                if (this.isTransitioning || index === this.currentIndex) return;
+                
+                this.isTransitioning = true;
+                this.currentIndex = index;
+                
+                const cardHeight = this.carousel.children[0].offsetHeight;
+                const translateY = -this.currentIndex * cardHeight;
+                this.carousel.style.transform = `translateY(${translateY}px)`;
+                
+                this.updateIndicators();
+                this.updateButtons();
+                
+                setTimeout(() => {
+                    this.isTransitioning = false;
+                }, 800);
+            }
+
+            next() {
+                if (this.isTransitioning) return;
+                const nextIndex = (this.currentIndex + 1) % this.totalSlides;
+                this.goToSlide(nextIndex);
+            }
+
+            prev() {
+                if (this.isTransitioning) return;
+                const prevIndex = (this.currentIndex - 1 + this.totalSlides) % this.totalSlides;
+                this.goToSlide(prevIndex);
+            }
+
+            handleSwipe() {
+                const swipeThreshold = 50;
+                const diff = touchStartY - touchEndY;
+
+                if (Math.abs(diff) > swipeThreshold) {
+                    if (diff > 0) {
+                        this.next();
+                    } else {
+                        this.prev();
+                    }
+                }
+            }
+
+            updateIndicators() {
+                this.indicators.forEach((indicator, index) => {
+                    if (index === this.currentIndex) {
+                        indicator.classList.add('active');
+                    } else {
+                        indicator.classList.remove('active');
+                    }
+                });
+            }
+
+            updateButtons() {
+                // Buttons are always enabled for circular navigation
+                // Uncomment below if you want to disable at ends
+                // this.prevButton.disabled = this.currentIndex === 0;
+                // this.nextButton.disabled = this.currentIndex === this.totalSlides - 1;
+            }
+        }
+
+        // Initialize carousel when DOM is ready
+        document.addEventListener('DOMContentLoaded', () => {
+            new VerticalCarousel();
+        });
+    </script>
 </body>
 </html>
