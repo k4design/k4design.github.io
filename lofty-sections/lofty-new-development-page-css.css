@@ -747,6 +747,27 @@ section.dev-projects-section .project-card .project-overlay .overlay-content p {
     letter-spacing: 0.02em;
 }
 
+/* Section Divider Icon - 50/50 overlay between sections */
+.section-divider-icon {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: -60px 0;
+    z-index: 10;
+    pointer-events: none;
+}
+
+.section-divider-icon img {
+    width: 120px;
+    height: 120px;
+    background: var(--primary-white);
+    padding: 1rem;
+    border-radius: 50%;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
 /* Section 3: The Aperture Development Advantage */
 .dev-advantage-section {
     padding: 8rem 0;
