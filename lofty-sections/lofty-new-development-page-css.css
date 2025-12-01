@@ -305,6 +305,8 @@ span:not(h1 span):not(h2 span):not(h3 span):not(h4 span):not(h5 span):not(h6 spa
     transform: translateY(0);
     min-width: 0;
     width: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 .project-card:hover {
@@ -417,6 +419,9 @@ span:not(h1 span):not(h2 span):not(h3 span):not(h4 span):not(h5 span):not(h6 spa
 
 .project-content {
     padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
 }
 
 .project-location,
@@ -555,6 +560,7 @@ section.dev-projects-section .project-card .project-agent .agent-name {
 .project-actions {
     display: flex;
     gap: 1rem;
+    margin-top: auto;
 }
 
 .project-btn {
