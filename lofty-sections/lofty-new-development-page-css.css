@@ -372,9 +372,9 @@ span:not(h1 span):not(h2 span):not(h3 span):not(h4 span):not(h5 span):not(h6 spa
 
 .image-carousel {
     display: flex;
-    width: 200%;
+    width: 1000%;
     height: 100%;
-    animation: scroll-horizontal 40s linear infinite;
+    animation: scroll-horizontal 50s ease-in-out infinite;
     gap: 0;
     will-change: transform;
 }
@@ -388,10 +388,48 @@ span:not(h1 span):not(h2 span):not(h3 span):not(h4 span):not(h5 span):not(h6 spa
 }
 
 @keyframes scroll-horizontal {
-    0% {
+    /* Image 1 - pause */
+    0%, 15% {
         transform: translateX(0);
     }
-    100% {
+    /* Transition to Image 2 */
+    16%, 17% {
+        transform: translateX(-10%);
+    }
+    /* Image 2 - pause */
+    18%, 33% {
+        transform: translateX(-10%);
+    }
+    /* Transition to Image 3 */
+    34%, 35% {
+        transform: translateX(-20%);
+    }
+    /* Image 3 - pause */
+    36%, 51% {
+        transform: translateX(-20%);
+    }
+    /* Transition to Image 4 */
+    52%, 53% {
+        transform: translateX(-30%);
+    }
+    /* Image 4 - pause */
+    54%, 69% {
+        transform: translateX(-30%);
+    }
+    /* Transition to Image 5 */
+    70%, 71% {
+        transform: translateX(-40%);
+    }
+    /* Image 5 - pause */
+    72%, 87% {
+        transform: translateX(-40%);
+    }
+    /* Transition to duplicate set (seamless loop) */
+    88%, 89% {
+        transform: translateX(-50%);
+    }
+    /* Hold at duplicate position */
+    90%, 100% {
         transform: translateX(-50%);
     }
 }
