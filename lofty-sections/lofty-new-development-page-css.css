@@ -1294,6 +1294,7 @@ section.dev-projects-section .project-card .project-overlay .overlay-content p {
 .pr-hero-image {
     width: 100%;
     max-width: 900px;
+    height: 280px;
     border-radius: 1rem;
     overflow: hidden;
     position: relative;
@@ -1314,7 +1315,7 @@ section.dev-projects-section .project-card .project-overlay .overlay-content p {
 
 .pr-hero-image img {
     width: 100%;
-    height: auto;
+    height: 100%;
     display: block;
     object-fit: cover;
 }
