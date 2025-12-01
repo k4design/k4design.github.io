@@ -376,7 +376,9 @@ span:not(h1 span):not(h2 span):not(h3 span):not(h4 span):not(h5 span):not(h6 spa
     object-fit: cover;
 }
 
-.project-image-wrapper .project-location {
+.project-image-wrapper .project-location,
+section.dev-projects-section .project-card .project-image-wrapper .project-location,
+.dev-projects-section .project-image-wrapper .project-location {
     font-family: 'Playfair Display', serif !important;
     font-size: clamp(1.25rem, 2.5vw, 2rem) !important;
     font-weight: 300 !important;
@@ -672,6 +674,12 @@ section.dev-projects-section .project-card .project-content .project-location,
 section.dev-projects-section .project-card .project-content .project-location span,
 section.dev-projects-section .project-card .project-content .project-location i {
     color: #0092ff !important;
+}
+
+/* Override for carousel location */
+section.dev-projects-section .project-card .project-image-wrapper .project-location,
+section.dev-projects-section .project-image-wrapper .project-location {
+    color: #000000 !important;
 }
 
 section.dev-projects-section .project-card .project-content .agent-name {
