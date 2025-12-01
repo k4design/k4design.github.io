@@ -751,6 +751,19 @@ section.dev-projects-section .project-card .project-overlay .overlay-content p {
     text-decoration: none;
 }
 
+.project-nav-button::before {
+    content: '';
+    position: absolute;
+    width: 192px;
+    height: 192px;
+    background: #ffffff;
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: -1;
+}
+
 .project-nav-button:hover {
     transform: scale(1.1);
     background: #1a1a1a;
