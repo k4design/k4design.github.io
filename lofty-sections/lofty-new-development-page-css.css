@@ -356,6 +356,12 @@ span:not(h1 span):not(h2 span):not(h3 span):not(h4 span):not(h5 span):not(h6 spa
     object-fit: cover;
 }
 
+.project-image-wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
 .project-image-container {
     position: relative;
     width: 100%;
@@ -370,19 +376,14 @@ span:not(h1 span):not(h2 span):not(h3 span):not(h4 span):not(h5 span):not(h6 spa
     object-fit: cover;
 }
 
-.project-image-container .project-location {
-    position: absolute;
-    bottom: 4rem;
-    left: 1.5rem;
+.project-image-wrapper .project-location {
     font-family: 'Inter', sans-serif;
     font-size: 0.875rem;
     font-weight: 300;
-    color: #ffffff;
-    background: rgba(0, 0, 0, 0.6);
-    padding: 0.5rem 1rem;
-    border-radius: 0.5rem;
-    backdrop-filter: blur(10px);
-    z-index: 3;
+    color: var(--text-secondary);
+    color: #4a4a4a;
+    margin-top: 1rem;
+    padding: 0;
 }
 
 /* Carousel Project Description */
@@ -1962,7 +1963,7 @@ section.dev-projects-section .project-card .project-overlay .overlay-content p {
         order: 1;
     }
 
-    .project-image-container {
+    .project-image-wrapper {
         order: 2;
     }
 }
