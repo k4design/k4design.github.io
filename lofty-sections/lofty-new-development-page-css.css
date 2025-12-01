@@ -1739,6 +1739,8 @@ section.dev-projects-section .project-card .project-overlay .overlay-content p {
     max-width: 1200px;
     margin: 0 auto 5rem;
     padding: 0 2rem;
+    border-left: 4px solid var(--accent-blue);
+    padding-left: 2rem;
 }
 
 .events-title {
