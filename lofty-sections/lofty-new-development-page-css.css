@@ -370,6 +370,21 @@ span:not(h1 span):not(h2 span):not(h3 span):not(h4 span):not(h5 span):not(h6 spa
     object-fit: cover;
 }
 
+.project-image-container .project-location {
+    position: absolute;
+    bottom: 4rem;
+    left: 1.5rem;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 300;
+    color: #ffffff;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    backdrop-filter: blur(10px);
+    z-index: 3;
+}
+
 /* Carousel Project Description */
 .dev-projects-section .project-left .project-description {
     font-family: 'Inter', sans-serif !important;
