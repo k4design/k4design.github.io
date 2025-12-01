@@ -1310,6 +1310,8 @@ section.dev-projects-section .project-card .project-overlay .overlay-content p {
     align-items: center;
     justify-content: center;
     padding: 3rem 2rem;
+    grid-column: 3;
+    grid-row: 2;
 }
 
 .marketing-cta-content {
