@@ -198,18 +198,20 @@ body {
     text-transform: uppercase;
 }
 
-/* Video Overlay Section - 50% on hero, 50% on projects */
+/* Video Overlay Section - 75% width, no fixed height */
 .video-overlay-container {
     position: relative;
-    width: 50%;
-    height: 60vh;
-    min-height: 400px;
-    max-height: 600px;
+    width: 75%;
     margin: -30vh auto -30vh auto;
     z-index: 2;
     overflow: hidden;
     left: 0;
     right: 0;
+}
+
+.video-overlay-container wistia-player {
+    width: 100%;
+    display: block;
 }
 
 .overlay-video {
@@ -1526,6 +1528,7 @@ section.dev-projects-section .project-card .project-overlay .overlay-content p {
 
 /* Section 7: Developer Partnership Opportunities */
 .dev-partnership-section {
+    display: none;
     padding: 8rem 0;
     background: var(--secondary-white);
     position: relative;
@@ -1886,9 +1889,7 @@ section.dev-projects-section .project-card .project-overlay .overlay-content p {
     }
     
     .video-overlay-container {
-        height: 40vh;
-        min-height: 300px;
-        max-height: 400px;
+        width: 85%;
         margin-top: -20vh;
         margin-bottom: -20vh;
     }
@@ -1936,9 +1937,7 @@ section.dev-projects-section .project-card .project-overlay .overlay-content p {
     }
     
     .video-overlay-container {
-        height: 35vh;
-        min-height: 250px;
-        max-height: 350px;
+        width: 85%;
         margin-top: -17.5vh;
         margin-bottom: -17.5vh;
     }
