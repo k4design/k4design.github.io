@@ -824,18 +824,15 @@ section.dev-projects-section .project-card .project-overlay .overlay-content p {
 .project-nav-button svg {
     position: relative;
     z-index: 2;
+    width: max(4vw, 100px);
+    height: max(4vw, 100px);
+    stroke: #000000;
+    fill: none;
 }
 
 .project-nav-button:hover {
     transform: scale(1.1);
     background: #1a1a1a;
-}
-
-.project-nav-button svg {
-    width: 20px;
-    height: 20px;
-    stroke: #ffffff;
-    fill: none;
 }
 
 .carousel-nav {
