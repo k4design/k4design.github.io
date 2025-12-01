@@ -121,8 +121,7 @@ span:not(h1 span):not(h2 span):not(h3 span):not(h4 span):not(h5 span):not(h6 spa
 /* Premium Hero Section */
 .new-dev-hero {
     height: auto;
-    padding: 8rem 0;
-    padding-bottom: calc(8rem + 30vh);
+    padding: 8rem 0 6rem 0;
     position: relative;
     overflow: visible;
     display: flex;
@@ -230,46 +229,9 @@ span:not(h1 span):not(h2 span):not(h3 span):not(h4 span):not(h5 span):not(h6 spa
     text-transform: uppercase;
 }
 
-/* Video Overlay Section - 75% width, no fixed height */
-.video-overlay-container {
-    position: relative;
-    width: 75%;
-    margin: -15vh auto -15vh auto;
-    z-index: 2;
-    overflow: hidden;
-    left: 0;
-    right: 0;
-}
-
-.video-overlay-container wistia-player {
-    width: 100%;
-    display: block;
-}
-
-.overlay-video {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-}
-
-.video-overlay-gradient {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(180deg, 
-        rgba(0, 0, 0, 0.3) 0%, 
-        rgba(0, 0, 0, 0.1) 50%, 
-        rgba(0, 0, 0, 0.3) 100%);
-    pointer-events: none;
-    z-index: 1;
-}
-
 /* Premium Projects Section */
 .dev-projects-section {
-    padding: calc(8rem + 15vh) 0 8rem 0;
+    padding: 6rem 0 8rem 0;
     background: var(--secondary-white) !important;
     position: relative;
     color: var(--text-primary) !important;
@@ -1956,14 +1918,8 @@ section.dev-projects-section .project-card .project-overlay .overlay-content p {
         padding: 1.5rem;
     }
     
-    .video-overlay-container {
-        width: 85%;
-        margin-top: -10vh;
-        margin-bottom: -10vh;
-    }
-    
     .dev-projects-section {
-        padding: calc(4rem + 10vh) 0 4rem 0;
+        padding: 4rem 0;
     }
 }
 
@@ -2008,14 +1964,8 @@ section.dev-projects-section .project-card .project-overlay .overlay-content p {
         font-size: 1rem;
     }
     
-    .video-overlay-container {
-        width: 85%;
-        margin-top: -8vh;
-        margin-bottom: -8vh;
-    }
-    
     .dev-projects-section {
-        padding: calc(4rem + 8vh) 0 4rem 0;
+        padding: 4rem 0;
     }
     
     .dev-why-section {
