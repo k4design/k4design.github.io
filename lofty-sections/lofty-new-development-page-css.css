@@ -293,12 +293,12 @@ span:not(h1 span):not(h2 span):not(h3 span):not(h4 span):not(h5 span):not(h6 spa
 
 .carousel-wrapper {
     position: relative;
-    width: 100%;
+    width: 90%;
     height: 80vh;
     min-height: 600px;
     max-height: 900px;
     overflow: hidden;
-    margin: 4rem 0;
+    margin: 4rem auto;
 }
 
 .project-cards-section {
@@ -319,8 +319,6 @@ span:not(h1 span):not(h2 span):not(h3 span):not(h4 span):not(h5 span):not(h6 spa
     background: transparent;
     border: none;
     box-shadow: none;
-    width: 90%;
-    margin: auto;
 }
 
 .project-card:hover {
