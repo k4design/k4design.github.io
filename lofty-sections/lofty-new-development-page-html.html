@@ -316,6 +316,11 @@
             const cardHeight = this.carousel.children[0].offsetHeight;
             if (cardHeight > 0) {
                 this.carousel.style.height = `${cardHeight * this.totalSlides}px`;
+                // On mobile, set wrapper height to match one card height
+                const wrapper = this.carousel.closest('.carousel-wrapper');
+                if (wrapper && window.innerWidth <= 768) {
+                    wrapper.style.height = `${cardHeight}px`;
+                }
             }
         }
 

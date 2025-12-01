@@ -2057,10 +2057,26 @@ section.dev-projects-section .project-card .project-overlay .overlay-content p {
     }
 
     .carousel-wrapper {
+        /* Height will be set by JS to match the first card's height on mobile */
+        /* The wrapper should be exactly one card height to show only one card at a time */
         height: auto;
-        min-height: 500px;
+        min-height: auto;
         max-height: none;
         margin: 2rem 0;
+        overflow: hidden;
+    }
+    
+    /* Make sure project-cards-section allows cards to determine height on mobile */
+    /* JS will set the total height (cardHeight * totalSlides) for the carousel */
+    .project-cards-section {
+        height: auto !important;
+    }
+    
+    /* Each card should determine its own height on mobile - no fixed min-height */
+    .project-card {
+        height: auto;
+        min-height: auto;
+        /* Remove any fixed height constraints so card can size naturally */
     }
 
     .project-card {
