@@ -1364,9 +1364,9 @@ section.dev-projects-section .project-card .project-overlay .overlay-content p {
 /* Section 6: Unobtanium Events */
 .dev-events-section {
     padding: 8rem 0;
-    background: var(--primary-white);
+    background: #1a1a1a;
     position: relative;
-    color: var(--text-primary) !important;
+    color: #ffffff !important;
 }
 
 .dev-events-section::before {
@@ -1376,55 +1376,108 @@ section.dev-projects-section .project-card .project-overlay .overlay-content p {
     left: 0;
     width: 100%;
     height: 1px;
-    background: linear-gradient(90deg, transparent, var(--accent-blue), transparent);
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
 }
 
-.dev-events-section .section-header {
-    text-align: center;
-    max-width: 900px;
+.events-header {
+    text-align: left;
+    max-width: 1200px;
     margin: 0 auto 5rem;
+    padding: 0 2rem;
 }
 
-.dev-events-section .section-header h2 {
-    font-family: 'Playfair Display', serif !important;
-    font-size: clamp(2.5rem, 5vw, 4rem) !important;
-    font-weight: 300 !important;
-    margin-bottom: 2rem !important;
-    color: var(--text-primary) !important;
+.events-title {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
+    font-size: clamp(3rem, 6vw, 5rem) !important;
+    font-weight: 700 !important;
+    margin-bottom: 1.5rem !important;
+    color: #ffffff !important;
     line-height: 1.1 !important;
     letter-spacing: -0.02em !important;
 }
 
-.dev-events-section .section-header p {
-    font-size: 1.2rem;
-    color: var(--text-secondary) !important;
+.events-description {
+    font-size: clamp(1rem, 1.5vw, 1.2rem);
+    color: #ffffff !important;
     line-height: 1.8;
-    font-weight: 200;
+    font-weight: 300;
     letter-spacing: 0.02em;
+    max-width: 900px;
 }
 
-.events-features {
+.events-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 2.5rem;
+    gap: 2rem;
     max-width: 1200px;
     margin: 0 auto;
+    padding: 0 2rem;
 }
 
-.event-item {
-    padding: 2rem;
-    background: rgba(255, 255, 255, 0.5);
-    border-left: 3px solid var(--accent-blue);
-    border-radius: 0.5rem;
+.event-panel {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 1rem;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.event-item p {
-    font-size: 1rem;
-    color: var(--text-secondary) !important;
-    line-height: 1.8;
-    font-weight: 200;
+.event-panel:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.event-panel-image {
+    width: 100%;
+    height: 280px;
+    overflow: hidden;
+    position: relative;
+}
+
+.event-panel-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.event-panel:hover .event-panel-image img {
+    transform: scale(1.05);
+}
+
+.event-panel-title {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
+    font-size: clamp(1.5rem, 2.5vw, 2rem) !important;
+    font-weight: 600 !important;
+    color: #ffffff !important;
+    margin: 1.5rem 1.5rem 1rem 1.5rem;
+    line-height: 1.2 !important;
+    letter-spacing: -0.01em !important;
+}
+
+.event-panel-description {
+    font-size: clamp(0.9rem, 1.2vw, 1rem);
+    color: rgba(255, 255, 255, 0.9) !important;
+    line-height: 1.7;
+    font-weight: 300;
     letter-spacing: 0.01em;
-    margin: 0;
+    margin: 0 1.5rem 1.5rem 1.5rem;
+}
+
+@media (max-width: 768px) {
+    .events-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .event-panel-image {
+        height: 220px;
+    }
+    
+    .events-header {
+        text-align: center;
+    }
 }
 
 /* Section 7: Developer Partnership Opportunities */
