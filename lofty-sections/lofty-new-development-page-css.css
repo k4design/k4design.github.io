@@ -1553,6 +1553,12 @@ section.dev-projects-section .project-card .project-overlay .overlay-content p {
         row-gap: 2rem;
     }
 
+    .pr-hero {
+        grid-column: 1;
+        grid-row: auto;
+        order: 0;
+    }
+
     .pr-card-01 {
         grid-column: 1;
         grid-row: auto;
@@ -1575,12 +1581,6 @@ section.dev-projects-section .project-card .project-overlay .overlay-content p {
         grid-column: 1;
         grid-row: auto;
         order: 4;
-    }
-
-    .pr-hero {
-        grid-column: 1;
-        grid-row: auto;
-        order: 5;
     }
 
     .pr-card-number {
