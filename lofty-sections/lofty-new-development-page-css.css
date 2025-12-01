@@ -838,8 +838,8 @@ section.dev-projects-section .project-card .project-overlay .overlay-content p {
 .project-nav-button svg {
     position: relative;
     z-index: 2;
-    width: max(4vw, 100px);
-    height: max(4vw, 100px);
+    width: min(4vw, 100px);
+    height: min(4vw, 100px);
     stroke: #000000;
     fill: none;
 }
