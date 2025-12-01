@@ -813,7 +813,7 @@ section.dev-projects-section .project-card .project-overlay .overlay-content p {
     position: absolute;
     width: 192px;
     height: 192px;
-    background: #ffffff;
+    background: var(--secondary-white) !important;
     border-radius: 50%;
     top: 50%;
     left: 50%;
