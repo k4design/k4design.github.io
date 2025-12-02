@@ -389,6 +389,29 @@ span:not(h1 span):not(h2 span):not(h3 span):not(h4 span):not(h5 span):not(h6 spa
     aspect-ratio: 4 / 3;
 }
 
+/* Wistia player styling to fill container like images */
+.project-image-container wistia-player {
+    width: 100% !important;
+    height: 100% !important;
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 0 !important;
+}
+
+/* Ensure Wistia iframe fills the container */
+.project-image-container wistia-player iframe,
+.project-image-container wistia-player > div,
+.project-image-container wistia-player > div > iframe {
+    width: 100% !important;
+    height: 100% !important;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border: none;
+}
+
 /* Hide mobile carousel on desktop */
 .mobile-carousel {
     display: none !important;
