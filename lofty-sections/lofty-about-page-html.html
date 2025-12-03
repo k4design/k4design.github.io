@@ -35,6 +35,33 @@
     transform: translateY(-2px);
     box-shadow: 0 10px 30px rgba(255, 255, 255, 0.3);
 }
+
+/* About Hero Image Section */
+.about-hero-image {
+    width: 100%;
+    height: 40vh;
+    min-height: 300px;
+    background-image: url('https://k4design.github.io/lofty-sections/img/abouthero.jpeg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    position: relative;
+    overflow: hidden;
+}
+
+@media (max-width: 768px) {
+    .about-hero-image {
+        background-attachment: scroll;
+        min-height: 250px;
+    }
+}
+
+@media (max-width: 480px) {
+    .about-hero-image {
+        min-height: 200px;
+    }
+}
 </style>
 
 <!-- Hero Section -->
@@ -53,6 +80,9 @@
         </div>
     </div>
 </section>
+
+<!-- Full Width Image Section -->
+<section class="about-hero-image"></section>
 
 <!-- Our Story Section -->
 <section class="story-section" style="padding: 6rem 0; background: #ffffff;">
