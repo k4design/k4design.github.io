@@ -1,357 +1,683 @@
-<!-- HTML Snippet for Lofty.com - About Page -->
+<!-- HTML Snippet for Lofty.com - About Page (APEXSTUDIO Design) -->
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://k4design.github.io/cmstest/about-global.css">
-<link rel="stylesheet" href="https://k4design.github.io/cmstest/lofty-new-development-page-css.css">
 <style>
-/* Feature Card Hover Effects - Matching Existing Patterns */
-.feature-card:hover {
-    transform: translateY(-10px);
-    border-color: rgba(0, 146, 255, 0.3);
-    box-shadow: 0 40px 100px rgba(0, 146, 255, 0.15);
+/* APEXSTUDIO Design Styles */
+:root {
+    --apex-dark: #0a0e1a;
+    --apex-dark-secondary: #1a1a1a;
+    --apex-white: #ffffff;
+    --apex-text-dark: #1a1a1a;
+    --apex-text-light: #ffffff;
+    --apex-accent: #0092ff;
 }
 
-.feature-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(135deg, rgba(0, 146, 255, 0.05) 0%, transparent 50%);
-    opacity: 0;
-    transition: opacity 0.4s ease;
-    pointer-events: none;
-}
-
-.feature-card:hover::before {
-    opacity: 1;
-}
-
-/* CTA Button Hover Effect */
-.cta-section .learn-more-btn:hover {
-    background: transparent;
-    color: #ffffff;
-    border-color: #ffffff;
-    transform: translateY(-2px);
-    box-shadow: 0 10px 30px rgba(255, 255, 255, 0.3);
-}
-
-/* About Hero Image Section */
-.about-hero-image {
-    width: 100%;
-    height: 65vh;
-    min-height: 400px;
-    background-image: url('https://k4design.github.io/lofty-sections/img/abouthero.jpeg');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-attachment: scroll;
+/* Hero Section - Dark Background */
+.apex-hero {
+    min-height: 90vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #000000;
     position: relative;
+    padding: 8rem 0 6rem;
+}
+
+.apex-hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    text-align: center;
+}
+
+.apex-hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3rem, 8vw, 5.5rem);
+    font-weight: 700;
+    color: var(--apex-text-light);
+    margin-bottom: 2rem;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+}
+
+.apex-hero p {
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(1rem, 2vw, 1.25rem);
+    font-weight: 300;
+    color: rgba(255, 255, 255, 0.9);
+    max-width: 800px;
+    margin: 0 auto 3rem;
+    line-height: 1.7;
+}
+
+.apex-hero-btn {
+    display: inline-block;
+    padding: 1rem 2.5rem;
+    border: 2px solid var(--apex-white);
+    color: var(--apex-white);
+    background: transparent;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.apex-hero-btn:hover {
+    background: var(--apex-white);
+    color: var(--apex-dark);
+}
+
+.apex-hero-image {
+    width: 100%;
+    max-width: 1400px;
+    margin: 4rem auto 0;
+    border-radius: 0;
     overflow: hidden;
 }
 
-@media (max-width: 768px) {
-    .about-hero-image {
-        min-height: 350px;
-    }
+.apex-hero-image img {
+    width: 100%;
+    height: auto;
+    display: block;
 }
 
-@media (max-width: 480px) {
-    .about-hero-image {
-        min-height: 300px;
-    }
+/* Section Styles */
+.apex-section {
+    padding: 6rem 0;
 }
 
-/* Hero Text Customization - 50% size and left aligned */
-.new-dev-hero .hero-text {
-    text-align: left !important;
-    max-width: 100%;
+.apex-section-dark {
+    background: #000000;
+    color: var(--apex-text-light);
+}
+
+.apex-section-light {
+    background: var(--apex-white);
+    color: var(--apex-text-dark);
+}
+
+.apex-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.apex-section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 2rem;
+    letter-spacing: -0.02em;
+}
+
+.apex-section-light .apex-section-title {
+    color: var(--apex-text-dark);
+}
+
+.apex-section-dark .apex-section-title {
+    color: var(--apex-text-light);
+}
+
+.apex-section-text {
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(1rem, 1.5vw, 1.15rem);
+    font-weight: 300;
+    line-height: 1.8;
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto 3rem;
+}
+
+.apex-section-light .apex-section-text {
+    color: var(--apex-text-dark);
+}
+
+.apex-section-dark .apex-section-text {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.apex-btn {
+    display: inline-block;
+    padding: 0.875rem 2rem;
+    border: 2px solid var(--apex-text-dark);
+    color: var(--apex-text-dark);
+    background: transparent;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.apex-btn:hover {
+    background: var(--apex-text-dark);
+    color: var(--apex-white);
+}
+
+.apex-btn-white {
+    border-color: var(--apex-white);
+    color: var(--apex-white);
+}
+
+.apex-btn-white:hover {
+    background: var(--apex-white);
+    color: var(--apex-dark);
+}
+
+/* Split Layout Sections */
+.apex-split-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    min-height: 500px;
+}
+
+.apex-split-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.apex-split-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 4rem;
+}
+
+.apex-split-content h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.02em;
+}
+
+.apex-split-content p {
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(1rem, 1.5vw, 1.1rem);
+    font-weight: 300;
+    line-height: 1.8;
+    margin-bottom: 2rem;
+}
+
+/* Image Gallery */
+.apex-image-gallery {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.apex-gallery-image {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    border-radius: 0;
+}
+
+/* Timeline Section */
+.apex-timeline {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    margin-top: 3rem;
+}
+
+.apex-timeline-item {
+    text-align: center;
+}
+
+.apex-timeline-year {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.apex-timeline-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.25rem, 2vw, 1.5rem);
+    font-weight: 600;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.apex-timeline-text {
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    font-weight: 300;
+    line-height: 1.6;
+}
+
+/* Founder Message Section */
+.apex-founder-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    min-height: 600px;
+}
+
+.apex-founder-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 4rem;
+}
+
+.apex-founder-content h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    margin-bottom: 2rem;
+    letter-spacing: -0.02em;
+    color: var(--apex-text-light);
+}
+
+.apex-founder-quote {
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(1.25rem, 2vw, 1.75rem);
+    font-weight: 300;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+    color: rgba(255, 255, 255, 0.95);
+    font-style: italic;
+}
+
+.apex-founder-name {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--apex-text-light);
+    margin-top: 1rem;
+}
+
+.apex-founder-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Awards Section */
+.apex-awards-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    margin-top: 3rem;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.apex-award-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.5rem;
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-left: 4px solid var(--apex-accent);
+}
+
+.apex-award-icon {
+    font-size: 2.5rem;
+    color: var(--apex-accent);
+    flex-shrink: 0;
+}
+
+.apex-award-content h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.25rem, 2vw, 1.5rem);
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--apex-text-light);
+}
+
+.apex-award-content p {
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    font-weight: 300;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.8);
     margin: 0;
 }
 
-.new-dev-hero .hero-text h1 {
-    font-size: clamp(1.5rem, 4vw, 3rem) !important;
+/* Team Section */
+.apex-team-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+    margin-top: 3rem;
 }
 
-.new-dev-hero .hero-description {
-    font-size: clamp(0.5625rem, 1.25vw, 0.75rem) !important;
-    text-align: left !important;
-    margin: 0 auto 2rem 0 !important;
+.apex-team-member {
+    text-align: center;
+}
+
+.apex-team-image {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border-radius: 0;
+    margin-bottom: 1rem;
+}
+
+.apex-team-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+    color: var(--apex-text-dark);
+}
+
+.apex-team-title {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 300;
+    color: var(--apex-text-dark);
+    opacity: 0.7;
+}
+
+/* Community Section */
+.apex-community-form {
+    max-width: 600px;
+    margin: 3rem auto 0;
+    display: flex;
+    gap: 1rem;
+}
+
+.apex-community-input {
+    flex: 1;
+    padding: 1rem;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--apex-white);
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    outline: none;
+}
+
+.apex-community-input::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.apex-community-btn {
+    padding: 1rem 2.5rem;
+    background: var(--apex-white);
+    color: var(--apex-dark);
+    border: none;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.apex-community-btn:hover {
+    background: rgba(255, 255, 255, 0.9);
+    transform: translateY(-2px);
+}
+
+/* CTA Section */
+.apex-cta-section {
+    text-align: center;
+    padding: 8rem 0;
+}
+
+.apex-cta-circle {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: var(--apex-text-dark);
+    color: var(--apex-white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 3rem auto;
+    font-size: 2rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.apex-cta-circle:hover {
+    transform: scale(1.1);
+    background: var(--apex-accent);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .apex-split-section,
+    .apex-founder-section {
+        grid-template-columns: 1fr;
+    }
+    
+    .apex-split-image,
+    .apex-founder-image {
+        order: -1;
+        height: 400px;
+    }
+    
+    .apex-team-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .apex-timeline {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .apex-hero {
+        min-height: 70vh;
+        padding: 6rem 0 4rem;
+    }
+    
+    .apex-section {
+        padding: 4rem 0;
+    }
+    
+    .apex-image-gallery {
+        grid-template-columns: 1fr;
+    }
+    
+    .apex-team-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .apex-community-form {
+        flex-direction: column;
+    }
+    
+    .apex-split-content,
+    .apex-founder-content {
+        padding: 2rem;
+    }
 }
 </style>
 
 <!-- Hero Section -->
-<section class="new-dev-hero">
-    <div class="hero-background">
-        <img src="https://k4design.github.io/lofty-sections/img/skyline.jpg" alt="Luxury Real Estate">
-        <div class="hero-overlay"></div>
+<section class="apex-hero">
+    <div class="apex-hero-content">
+        <h1>ARCHIVING DREAMS, BUILDING REALITY.</h1>
+        <p>At Aperture Global, we are more than just a luxury real estate brokerage – we are the architects of your vision and the builders of your reality. With a global presence spanning 6 continents and 20+ countries, we bring unparalleled expertise, innovation, and service to the world's most prestigious markets.</p>
+        <a href="#projects" class="apex-hero-btn">VIEW OUR PROJECTS</a>
     </div>
-    <div class="hero-content">
-        <div class="container">
-            <div class="hero-text">
-                <h1 class="display-font">Redefining Luxury Real Estate—Globally</h1>
-                <p class="hero-description text-elegant">Aperture Global is a modern, luxury-focused brokerage built on leadership, innovation, and elevated service. We merge unwavering passion for luxury real estate with uncompromising dedication to presenting each property at its absolute finest.</p>
-                <a href="#contact" class="learn-more-btn">Contact Us</a>
+    <div class="apex-hero-image">
+        <img src="https://k4design.github.io/lofty-sections/img/abouthero.jpeg" alt="Luxury Real Estate">
+    </div>
+</section>
+
+<!-- About APEXSTUDIO Section -->
+<section class="apex-section apex-section-light">
+    <div class="apex-container">
+        <h2 class="apex-section-title">ABOUT APERTURE GLOBAL</h2>
+        <p class="apex-section-text">Founded with a vision to transform the luxury real estate landscape, Aperture Global emerged from a recognition that the industry needed a new standard of excellence. Our team brings decades of industry experience and a proven track record of building successful real estate brands that empower agents and deliver exceptional results.</p>
+        <div style="text-align: center;">
+            <a href="#learn-more" class="apex-btn">LEARN MORE</a>
+        </div>
+        <div class="apex-image-gallery">
+            <img src="https://k4design.github.io/lofty-sections/img/skyline.jpg" alt="Modern Architecture" class="apex-gallery-image">
+            <img src="https://k4design.github.io/lofty-sections/img/resort.jpg" alt="Luxury Property" class="apex-gallery-image">
+        </div>
+    </div>
+</section>
+
+<!-- Our Vision Section -->
+<section class="apex-section apex-section-light">
+    <div class="apex-split-section">
+        <img src="https://k4design.github.io/lofty-sections/img/leadership/danielmcpeake.jpeg" alt="Our Team" class="apex-split-image">
+        <div class="apex-split-content">
+            <h2>OUR VISION</h2>
+            <p>To be the world's most trusted and innovative luxury real estate brokerage, setting new standards for excellence in property marketing, client service, and global market presence. We envision a future where every luxury property receives the sophisticated presentation and strategic marketing it deserves, connecting discerning buyers with exceptional homes across the globe.</p>
+            <a href="#vision" class="apex-btn">LEARN MORE</a>
+        </div>
+    </div>
+</section>
+
+<!-- Our Mission Section -->
+<section class="apex-section apex-section-light">
+    <div class="apex-split-section">
+        <div class="apex-split-content">
+            <h2>OUR MISSION</h2>
+            <p>To empower luxury real estate professionals with cutting-edge technology, world-class marketing capabilities, and unparalleled support, enabling them to deliver exceptional results for their clients. We are committed to elevating the industry through innovation, integrity, and an unwavering dedication to excellence in every transaction.</p>
+            <a href="#mission" class="apex-btn">LEARN MORE</a>
+        </div>
+        <img src="https://k4design.github.io/lofty-sections/img/partner.jpg" alt="Teamwork" class="apex-split-image">
+    </div>
+</section>
+
+<!-- Our Journey Section -->
+<section class="apex-section apex-section-light">
+    <div class="apex-container">
+        <h2 class="apex-section-title">OUR JOURNEY</h2>
+        <p class="apex-section-text">From our founding to becoming a global leader in luxury real estate, our journey has been marked by innovation, growth, and an unwavering commitment to excellence.</p>
+        <div class="apex-timeline">
+            <div class="apex-timeline-item">
+                <div class="apex-timeline-year">2022</div>
+                <div class="apex-timeline-title">GETTING OUR START</div>
+                <div class="apex-timeline-text">Founded with a vision to transform luxury real estate through innovation and excellence, launching with a focus on empowering agents and delivering exceptional results.</div>
+            </div>
+            <div class="apex-timeline-item">
+                <div class="apex-timeline-year">2025</div>
+                <div class="apex-timeline-title">GROWING TO STRONG</div>
+                <div class="apex-timeline-text">Expanded to become the first independent luxury brokerage with a global launch at inception, spanning 6 continents and 20+ countries with over 100 top brokers.</div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- Full Width Image Section -->
-<section class="about-hero-image"></section>
+<!-- Messages From The Founder Section -->
+<section class="apex-section apex-section-dark">
+    <div class="apex-founder-section">
+        <div class="apex-founder-content">
+            <h2>MESSAGES FROM THE FOUNDER</h2>
+            <div class="apex-founder-quote">"At Aperture Global, we believe that every luxury property deserves to be presented at its absolute finest. Our mission is to empower real estate professionals with the tools, technology, and support they need to succeed in today's competitive market. We're not just building a brokerage – we're building the future of luxury real estate."</div>
+            <div class="apex-founder-name">Robert Palmer, Founder & CEO, Aperture Global</div>
+        </div>
+        <img src="https://apertureglobal.com/about/rp.png" alt="Robert Palmer" class="apex-founder-image">
+    </div>
+</section>
 
-<!-- Our Story Section -->
-<section class="story-section" style="padding: 6rem 0; background: #ffffff;">
-    <div class="container">
-        <h2 class="display-font" style="font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 300; margin-bottom: 3rem; color: #1a1a1a; text-align: center; letter-spacing: -0.02em;">Our Story</h2>
-        <div style="max-width: 900px; margin: 0 auto;">
-            <p class="text-elegant" style="font-size: clamp(1rem, 2vw, 1.15rem); font-weight: 200; color: #1a1a1a; line-height: 1.8; margin-bottom: 2rem; letter-spacing: 0.01em;">
-                Founded with a vision to transform the luxury real estate landscape, Aperture Global emerged from a recognition that the industry needed a new standard of excellence. Our founder, Robert Palmer, brings decades of industry experience and a proven track record of building successful real estate brands that empower agents and deliver exceptional results.
-            </p>
-            <p class="text-elegant" style="font-size: clamp(1rem, 2vw, 1.15rem); font-weight: 200; color: #1a1a1a; line-height: 1.8; margin-bottom: 2rem; letter-spacing: 0.01em;">
-                The purpose behind launching Aperture Global was clear: to create a brokerage that combines cutting-edge technology, world-class marketing capabilities, and unparalleled service to serve the most discerning clients in the world's most prestigious markets. We operate with a presence concentrated on the greatest luxury cities around the world, spanning 6 continents and 20+ countries.
-            </p>
-            <p class="text-elegant" style="font-size: clamp(1rem, 2vw, 1.15rem); font-weight: 200; color: #1a1a1a; line-height: 1.8; margin-bottom: 0; letter-spacing: 0.01em;">
-                Today, Aperture Global stands as the first independent luxury brokerage to have a global launch at its inception, built on a battle-tested, performance-driven platform that enables us to scale and maintain operational efficiencies from day one.
-            </p>
+<!-- Unmatched Momentum Section -->
+<section class="apex-section apex-section-dark">
+    <div class="apex-container">
+        <h2 class="apex-section-title">Unmatched Momentum. Unrivaled Support.</h2>
+        <p class="apex-section-text">Aperture Global is proudly backed by LPTA, ranked #2 among the fastest-growing companies on the Deloitte Fast 500. This achievement underscores the power, stability, and rapid expansion that fuel our brokerage—empowering us to deliver world-class service, breakthrough technology, and exceptional results for luxury clients and agents worldwide.</p>
+    </div>
+</section>
+
+<!-- Our Talented Team Members Section -->
+<section class="apex-section apex-section-light">
+    <div class="apex-container">
+        <h2 class="apex-section-title">OUR TALENTED TEAM MEMBERS</h2>
+        <p class="apex-section-text">Our team brings together decades of experience in luxury real estate, technology, and marketing to deliver exceptional results for our clients and partners.</p>
+        <div class="apex-team-grid">
+            <div class="apex-team-member">
+                <img src="https://apertureglobal.com/about/rp.png" alt="Robert Palmer" class="apex-team-image">
+                <div class="apex-team-name">Robert Palmer</div>
+                <div class="apex-team-title">Founder & CEO</div>
+            </div>
+            <div class="apex-team-member">
+                <img src="https://apertureglobal.com/about/valdes.png" alt="Michael Valdes" class="apex-team-image">
+                <div class="apex-team-name">Michael Valdes</div>
+                <div class="apex-team-title">Global President</div>
+            </div>
+            <div class="apex-team-member">
+                <img src="https://apertureglobal.com/img/mercedessaewitz.png" alt="Mercedes Saewitz" class="apex-team-image">
+                <div class="apex-team-name">Mercedes Saewitz</div>
+                <div class="apex-team-title">SVP of Operations</div>
+            </div>
+            <div class="apex-team-member">
+                <img src="https://k4design.github.io/lofty-sections/img/leadership/danielmcpeake.jpeg" alt="Team Member" class="apex-team-image">
+                <div class="apex-team-name">Daniel McPeake</div>
+                <div class="apex-team-title">VP of Marketing</div>
+            </div>
+        </div>
+        <div style="text-align: center; margin-top: 3rem;">
+            <a href="#team" class="apex-btn">VIEW ALL TEAM</a>
         </div>
     </div>
 </section>
 
-<!-- Leadership Section -->
-<section id="leadership" class="leadership-section">
-    <div class="leadership-container">
-        <div class="leadership-header">
-            <h2 class="display-font">Leadership Team</h2>
-        </div>
-        
-        <div class="leadership-grid">
-            <div class="leader-card">
-                <div class="leader-image">
-                    <img src="https://apertureglobal.com/about/rp.png" alt="Robert Palmer">
-                    <div class="leader-overlay"></div>
-                </div>
-                <div class="leader-content">
-                    <h3 class="leader-name">Robert Palmer</h3>
-                    <p class="leader-title">Founder & CEO</p>
-                    <div class="leader-bio">
-                        <p>Robert Palmer is a serial entrepreneur, business leader and marketing guru who has built an impressive portfolio of brands and businesses through innovation, hard work, and a relentless passion for success. In 2022, Palmer launched LPT Realty, the fastest growing single-entity national brokerage in history, designed to empower agents through an innovative model that focuses on agent choice. Seeing a hole in the industry for truly global and effective marketing for luxury real estate, he launched Aperture in 2025, further disrupting the industry.</p>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="leader-card">
-                <div class="leader-image">
-                    <img src="https://apertureglobal.com/about/valdes.png" alt="Michael Valdes">
-                    <div class="leader-overlay"></div>
-                </div>
-                <div class="leader-content">
-                    <h3 class="leader-name">Michael Valdes</h3>
-                    <p class="leader-title">Global President</p>
-                    <div class="leader-bio">
-                        <p>Michael Valdes is a leader in luxury real estate, serving as Global President of Aperture and CEO of LPT International. Prior to this role, he served as Chief Growth Officer of exp Realty and former Senior Vice President of Realogy Corporation where he spent 15 years at Sotheby's Realty growing that brand to over 70 countries. Prior to real estate, Valdes spent 10 years at Deutsche Bank Private Banking.</p>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="leader-card">
-                <div class="leader-image">
-                    <img src="https://apertureglobal.com/img/mercedessaewitz.png" alt="Mercedes Saewitz">
-                    <div class="leader-overlay"></div>
-                </div>
-                <div class="leader-content">
-                    <h3 class="leader-name">Mercedes Saewitz</h3>
-                    <p class="leader-title">SVP of Operations</p>
-                    <div class="leader-bio">
-                        <p>A Miami native with over 20 years of industry experience, Mercedes Saewitz is a recognized leader in real estate. During her decade at Compass, she led regional brokerage operations, managed top-producing teams, and drove national initiatives, fostering innovation and excellence. Passionate about agent growth and innovation, she specializes in streamlining processes, implementing strategic solutions, and empowering agents to excel in the luxury market.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
+<!-- Join Our Community Section -->
+<section class="apex-section apex-section-dark">
+    <div class="apex-container">
+        <h2 class="apex-section-title">JOIN OUR COMMUNITY</h2>
+        <p class="apex-section-text">Stay connected with Aperture Global and receive the latest insights, market updates, and exclusive opportunities in luxury real estate.</p>
+        <form class="apex-community-form">
+            <input type="email" placeholder="Enter your email address" class="apex-community-input" required>
+            <button type="submit" class="apex-community-btn">SUBSCRIBE</button>
+        </form>
     </div>
 </section>
 
-<!-- Values & Philosophy Section -->
-<section class="values-section" style="padding: 6rem 0; background: #f8f9fa;">
-    <div class="container">
-        <h2 class="display-font" style="font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 300; margin-bottom: 3rem; color: #1a1a1a; text-align: center; letter-spacing: -0.02em;">Values & Philosophy</h2>
-        <div class="features-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 3rem; margin-top: 4rem;">
-            <div class="feature-card" style="text-align: center; padding: 3rem 2rem; background: rgba(255, 255, 255, 0.9); border: 1px solid rgba(0, 146, 255, 0.15); border-radius: 20px; transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); position: relative; overflow: hidden;">
-                <h3 class="display-font" style="font-size: 1.5rem; font-weight: 300; margin-bottom: 1.5rem; color: #1a1a1a;">Excellence</h3>
-                <p class="text-elegant" style="font-size: 1rem; color: #4a4a4a; line-height: 1.6; margin: 0;">We maintain the highest standards in every aspect of our work, from property presentation to client service, ensuring that excellence is not just a goal but a fundamental principle that guides every decision.</p>
+<!-- Transform Ideas Into Reality Section -->
+<section class="apex-section apex-section-light">
+    <div class="apex-container">
+        <div class="apex-cta-section">
+            <h2 class="apex-section-title">TRANSFORM IDEAS INTO REALITY</h2>
+            <p class="apex-section-text">Ready to elevate your luxury real estate business? Let's collaborate to create exceptional experiences and deliver outstanding results.</p>
+            <div class="apex-cta-circle">
+                <a href="#contact" style="color: inherit; text-decoration: none;">→</a>
             </div>
-            
-            <div class="feature-card" style="text-align: center; padding: 3rem 2rem; background: rgba(255, 255, 255, 0.9); border: 1px solid rgba(0, 146, 255, 0.15); border-radius: 20px; transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); position: relative; overflow: hidden;">
-                <h3 class="display-font" style="font-size: 1.5rem; font-weight: 300; margin-bottom: 1.5rem; color: #1a1a1a;">Innovation</h3>
-                <p class="text-elegant" style="font-size: 1rem; color: #4a4a4a; line-height: 1.6; margin: 0;">We leverage cutting-edge technology and forward-thinking strategies to stay ahead of the curve, continuously evolving our platform and services to meet the changing needs of the luxury market.</p>
+            <div style="text-align: center;">
+                <a href="#contact" class="apex-btn" style="font-size: 0.85rem; padding: 0.75rem 1.5rem;">CONTACT US</a>
             </div>
-            
-            <div class="feature-card" style="text-align: center; padding: 3rem 2rem; background: rgba(255, 255, 255, 0.9); border: 1px solid rgba(0, 146, 255, 0.15); border-radius: 20px; transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); position: relative; overflow: hidden;">
-                <h3 class="display-font" style="font-size: 1.5rem; font-weight: 300; margin-bottom: 1.5rem; color: #1a1a1a;">Integrity</h3>
-                <p class="text-elegant" style="font-size: 1rem; color: #4a4a4a; line-height: 1.6; margin: 0;">We conduct business with unwavering honesty, transparency, and ethical standards, building trust through consistent actions and genuine commitment to our clients' success.</p>
-            </div>
-            
-            <div class="feature-card" style="text-align: center; padding: 3rem 2rem; background: rgba(255, 255, 255, 0.9); border: 1px solid rgba(0, 146, 255, 0.15); border-radius: 20px; transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); position: relative; overflow: hidden;">
-                <h3 class="display-font" style="font-size: 1.5rem; font-weight: 300; margin-bottom: 1.5rem; color: #1a1a1a;">Global Perspective</h3>
-                <p class="text-elegant" style="font-size: 1rem; color: #4a4a4a; line-height: 1.6; margin: 0;">We understand that luxury real estate transcends borders, bringing international expertise and a sophisticated understanding of global markets to serve clients wherever they are.</p>
-            </div>
-            
-            <div class="feature-card" style="text-align: center; padding: 3rem 2rem; background: rgba(255, 255, 255, 0.9); border: 1px solid rgba(0, 146, 255, 0.15); border-radius: 20px; transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); position: relative; overflow: hidden;">
-                <h3 class="display-font" style="font-size: 1.5rem; font-weight: 300; margin-bottom: 1.5rem; color: #1a1a1a;">Storytelling</h3>
-                <p class="text-elegant" style="font-size: 1rem; color: #4a4a4a; line-height: 1.6; margin: 0;">We believe every property has a unique narrative, and we excel at crafting compelling stories that capture the essence of each home, connecting with discerning buyers on an emotional level.</p>
-            </div>
-            
-            <div class="feature-card" style="text-align: center; padding: 3rem 2rem; background: rgba(255, 255, 255, 0.9); border: 1px solid rgba(0, 146, 255, 0.15); border-radius: 20px; transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); position: relative; overflow: hidden;">
-                <h3 class="display-font" style="font-size: 1.5rem; font-weight: 300; margin-bottom: 1.5rem; color: #1a1a1a;">Elevated Service</h3>
-                <p class="text-elegant" style="font-size: 1rem; color: #4a4a4a; line-height: 1.6; margin: 0;">We provide concierge-level support that goes beyond transactions, offering personalized guidance, marketing expertise, and seamless coordination to ensure exceptional experiences at every touchpoint.</p>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Technology & Innovation Section -->
-<section class="technology-section" style="padding: 6rem 0; background: #ffffff;">
-    <div class="container">
-        <h2 class="display-font" style="font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 300; margin-bottom: 3rem; color: #1a1a1a; text-align: center; letter-spacing: -0.02em;">Technology & Innovation</h2>
-        <div style="max-width: 900px; margin: 0 auto;">
-            <p class="text-elegant" style="font-size: clamp(1rem, 2vw, 1.15rem); font-weight: 200; color: #1a1a1a; line-height: 1.8; margin-bottom: 2rem; letter-spacing: 0.01em;">
-                Aperture Global is powered by an AI-driven operating platform that streamlines every aspect of the real estate transaction. Our unified marketing and transaction system eliminates friction, enabling agents to focus on what they do best—serving clients and closing deals.
-            </p>
-            <p class="text-elegant" style="font-size: clamp(1rem, 2vw, 1.15rem); font-weight: 200; color: #1a1a1a; line-height: 1.8; margin-bottom: 2rem; letter-spacing: 0.01em;">
-                Every agent receives a custom website designed to showcase their brand and listings with sophistication. Our modern productivity tools integrate seamlessly into daily workflows, providing the efficiency and insights needed to excel in today's competitive luxury market.
-            </p>
-            <p class="text-elegant" style="font-size: clamp(1rem, 2vw, 1.15rem); font-weight: 200; color: #1a1a1a; line-height: 1.8; margin-bottom: 0; letter-spacing: 0.01em;">
-                This technology foundation, combined with our exclusive EliteView Media platform, ensures that Aperture Global agents have access to the most advanced tools in the industry, giving them a distinct competitive advantage.
-            </p>
-        </div>
-    </div>
-</section>
-
-<!-- Marketing Excellence Section -->
-<section class="marketing-section" style="padding: 6rem 0; background: #f8f9fa;">
-    <div class="container">
-        <h2 class="display-font" style="font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 300; margin-bottom: 3rem; color: #1a1a1a; text-align: center; letter-spacing: -0.02em;">Marketing Excellence</h2>
-        <div class="features-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 3rem; margin-top: 4rem;">
-            <div class="feature-card" style="text-align: center; padding: 3rem 2rem; background: rgba(255, 255, 255, 0.9); border: 1px solid rgba(0, 146, 255, 0.15); border-radius: 20px; transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); position: relative; overflow: hidden;">
-                <h3 class="display-font" style="font-size: 1.5rem; font-weight: 300; margin-bottom: 1.5rem; color: #1a1a1a;">Premium Print Collateral</h3>
-                <p class="text-elegant" style="font-size: 1rem; color: #4a4a4a; line-height: 1.6; margin: 0;">Exquisitely crafted print materials that capture the essence of luxury, from custom property magazines to sophisticated direct mail campaigns that command attention.</p>
-            </div>
-            
-            <div class="feature-card" style="text-align: center; padding: 3rem 2rem; background: rgba(255, 255, 255, 0.9); border: 1px solid rgba(0, 146, 255, 0.15); border-radius: 20px; transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); position: relative; overflow: hidden;">
-                <h3 class="display-font" style="font-size: 1.5rem; font-weight: 300; margin-bottom: 1.5rem; color: #1a1a1a;">Cinematic Video Production</h3>
-                <p class="text-elegant" style="font-size: 1rem; color: #4a4a4a; line-height: 1.6; margin: 0;">Professional videography that transforms properties into compelling visual narratives, showcasing every detail with cinematic quality that resonates with luxury buyers.</p>
-            </div>
-            
-            <div class="feature-card" style="text-align: center; padding: 3rem 2rem; background: rgba(255, 255, 255, 0.9); border: 1px solid rgba(0, 146, 255, 0.15); border-radius: 20px; transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); position: relative; overflow: hidden;">
-                <h3 class="display-font" style="font-size: 1.5rem; font-weight: 300; margin-bottom: 1.5rem; color: #1a1a1a;">High-End Photography</h3>
-                <p class="text-elegant" style="font-size: 1rem; color: #4a4a4a; line-height: 1.6; margin: 0;">Stunning photography that elevates property presentation, capturing the unique character and sophistication of each home with precision and artistry.</p>
-            </div>
-            
-            <div class="feature-card" style="text-align: center; padding: 3rem 2rem; background: rgba(255, 255, 255, 0.9); border: 1px solid rgba(0, 146, 255, 0.15); border-radius: 20px; transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); position: relative; overflow: hidden;">
-                <h3 class="display-font" style="font-size: 1.5rem; font-weight: 300; margin-bottom: 1.5rem; color: #1a1a1a;">Custom Development Websites</h3>
-                <p class="text-elegant" style="font-size: 1rem; color: #4a4a4a; line-height: 1.6; margin: 0;">Bespoke websites designed to showcase properties with sophistication, combining elegant design with cutting-edge functionality to create immersive digital experiences.</p>
-            </div>
-            
-            <div class="feature-card" style="text-align: center; padding: 3rem 2rem; background: rgba(255, 255, 255, 0.9); border: 1px solid rgba(0, 146, 255, 0.15); border-radius: 20px; transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); position: relative; overflow: hidden;">
-                <h3 class="display-font" style="font-size: 1.5rem; font-weight: 300; margin-bottom: 1.5rem; color: #1a1a1a;">Luxury Publication Visibility</h3>
-                <p class="text-elegant" style="font-size: 1rem; color: #4a4a4a; line-height: 1.6; margin: 0;">Strategic placement in prestigious publications and luxury media outlets, ensuring properties reach the most discerning audiences through trusted channels.</p>
-            </div>
-            
-            <div class="feature-card" style="text-align: center; padding: 3rem 2rem; background: rgba(255, 255, 255, 0.9); border: 1px solid rgba(0, 146, 255, 0.15); border-radius: 20px; transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); position: relative; overflow: hidden;">
-                <h3 class="display-font" style="font-size: 1.5rem; font-weight: 300; margin-bottom: 1.5rem; color: #1a1a1a;">Strategic Digital Campaigns</h3>
-                <p class="text-elegant" style="font-size: 1rem; color: #4a4a4a; line-height: 1.6; margin: 0;">Data-driven digital marketing strategies that maximize visibility and engagement, from targeted social media campaigns to precision digital billboard placements.</p>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Support & Concierge Section -->
-<section class="support-section" style="padding: 6rem 0; background: #ffffff;">
-    <div class="container">
-        <h2 class="display-font" style="font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 300; margin-bottom: 3rem; color: #1a1a1a; text-align: center; letter-spacing: -0.02em;">Support & Concierge</h2>
-        <div style="max-width: 900px; margin: 0 auto;">
-            <p class="text-elegant" style="font-size: clamp(1rem, 2vw, 1.15rem); font-weight: 200; color: #1a1a1a; line-height: 1.8; margin-bottom: 2rem; letter-spacing: 0.01em;">
-                Our dedicated marketing team provides comprehensive support throughout every listing, ensuring that each property receives the attention and resources it deserves. From initial strategy development to final execution, we work alongside agents to create campaigns that deliver results.
-            </p>
-            <p class="text-elegant" style="font-size: clamp(1rem, 2vw, 1.15rem); font-weight: 200; color: #1a1a1a; line-height: 1.8; margin-bottom: 2rem; letter-spacing: 0.01em;">
-                Our concierge services offer personalized guidance for both agents and clients, handling everything from transaction coordination to luxury lifestyle services. We understand that exceptional service extends beyond the sale, and our team is committed to providing seamless experiences at every stage.
-            </p>
-            <p class="text-elegant" style="font-size: clamp(1rem, 2vw, 1.15rem); font-weight: 200; color: #1a1a1a; line-height: 1.8; margin-bottom: 0; letter-spacing: 0.01em;">
-                Broker compliance and coordination are handled with precision and expertise, ensuring that every transaction adheres to the highest standards while maintaining efficiency and transparency throughout the process.
-            </p>
-        </div>
-    </div>
-</section>
-
-<!-- Recognition / Milestones Section -->
-<section class="recognition-section" style="padding: 6rem 0; background: #f8f9fa;">
-    <div class="container">
-        <h2 class="display-font" style="font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 300; margin-bottom: 3rem; color: #1a1a1a; text-align: center; letter-spacing: -0.02em;">Recognition & Milestones</h2>
-        <div style="max-width: 900px; margin: 0 auto; text-align: center;">
-            <p class="text-elegant" style="font-size: clamp(1rem, 2vw, 1.15rem); font-weight: 200; color: #1a1a1a; line-height: 1.8; margin-bottom: 2rem; letter-spacing: 0.01em;">
-                Aperture Global has been recognized by leading industry publications including Inman, RealTrends, HousingWire, and RISMedia for our innovative approach to luxury real estate. Our rapid national growth and commitment to excellence have positioned us as a leader in the global luxury market.
-            </p>
-            <p class="text-elegant" style="font-size: clamp(1rem, 2vw, 1.15rem); font-weight: 200; color: #1a1a1a; line-height: 1.8; margin-bottom: 0; letter-spacing: 0.01em;">
-                With over 100 top brokers representing more than $1 billion in annual sales across 15 states and four international locations, we continue to expand our presence while maintaining the highest standards of service and innovation.
-            </p>
-        </div>
-    </div>
-</section>
-
-<!-- Closing Vision Statement & CTA -->
-<section class="cta-section" style="padding: 6rem 0; background: linear-gradient(135deg, #0092ff 0%, #0073cc 100%); position: relative; overflow: hidden;">
-    <div class="container">
-        <div style="max-width: 800px; margin: 0 auto; text-align: center;">
-            <h2 class="display-font" style="font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 300; margin-bottom: 2rem; color: #ffffff; letter-spacing: -0.02em;">A New Vision for Luxury Real Estate</h2>
-            <p class="text-elegant" style="font-size: clamp(1rem, 2vw, 1.25rem); font-weight: 200; color: rgba(255, 255, 255, 0.95); line-height: 1.8; margin-bottom: 3rem; letter-spacing: 0.01em;">
-                At Aperture Global, we are redefining what it means to operate in luxury real estate. Through innovation, excellence, and unwavering commitment to our clients, we are building the future of high-end property marketing and sales—one exceptional experience at a time.
-            </p>
-            <a href="#contact" class="learn-more-btn" style="display: inline-block; padding: 1rem 2.5rem; background: #ffffff; color: #0092ff; font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; font-size: 0.95rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.1em; text-decoration: none; border-radius: 8px; transition: all 0.3s ease; border: 2px solid #ffffff;">Contact Us</a>
         </div>
     </div>
 </section>
 
 <script>
-// Scroll-triggered animations using Intersection Observer
-document.addEventListener('DOMContentLoaded', function() {
-  // Elements to animate
-  const elementsToAnimate = [
-    { selector: '.leadership-section' },
-    { selector: '.leadership-header' }
-  ];
+// Form submission handler
+document.querySelector('.apex-community-form')?.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const email = this.querySelector('input[type="email"]').value;
+    alert('Thank you for subscribing! We\'ll be in touch soon.');
+    this.reset();
+});
 
-  // Options for Intersection Observer
-  const options = {
-    root: null,
-    rootMargin: '0px',
-    threshold: 0.2 // Trigger when 20% of element is visible
-  };
-
-  // Create observer
-  const observer = new IntersectionObserver(function(entries) {
-    entries.forEach(entry => {
-      if (entry.isIntersecting && !entry.target.classList.contains('animate')) {
-        entry.target.classList.add('animate');
-        // For leader cards, add animate class to each card
-        if (entry.target.classList.contains('leadership-section')) {
-          setTimeout(() => {
-            const leaderCards = entry.target.querySelectorAll('.leader-card');
-            leaderCards.forEach((card, index) => {
-              setTimeout(() => {
-                card.classList.add('animate');
-              }, index * 100);
+// Smooth scroll for anchor links
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+            target.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
             });
-          }, 200);
         }
-      }
     });
-  }, options);
-
-  // Observe each element
-  elementsToAnimate.forEach(({ selector }) => {
-    const elements = document.querySelectorAll(selector);
-    elements.forEach(element => observer.observe(element));
-  });
 });
 </script>
-
