@@ -67,18 +67,18 @@ body {
 /* News Section */
 .news {
     padding: 120px 0;
-    background: #ffffff;
+    background: #000000;
     position: relative;
 }
 
 .news::after {
     content: '';
     position: absolute;
-    bottom: 0;
+    top: 0;
     left: 0;
     right: 0;
     height: 25%;
-    background: #000000;
+    background: #ffffff;
     z-index: 0;
 }
 
@@ -88,11 +88,10 @@ body {
     top: 0;
     left: 0;
     right: 0;
-    height: 75%;
+    height: 25%;
     background: radial-gradient(circle at 80% 20%, rgba(0, 212, 255, 0.03) 0%, transparent 50%);
     pointer-events: none;
     z-index: 1;
-    background-color: #ffffff;
 }
 
 .news h2 {
