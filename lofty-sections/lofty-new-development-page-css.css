@@ -335,7 +335,6 @@ span:not(h1 span):not(h2 span):not(h3 span):not(h4 span):not(h5 span):not(h6 spa
 .project-left {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
     overflow: visible !important;
     min-height: auto;
     padding-bottom: 2rem;
@@ -350,7 +349,7 @@ span:not(h1 span):not(h2 span):not(h3 span):not(h4 span):not(h5 span):not(h6 spa
     line-height: 1.5 !important;
     letter-spacing: 0.1em !important;
     text-transform: uppercase !important;
-    margin: 0 0 0.75rem 0 !important;
+    margin: 0 0 1.5rem 0 !important;
     opacity: 0.9;
 }
 
@@ -361,7 +360,7 @@ span:not(h1 span):not(h2 span):not(h3 span):not(h4 span):not(h5 span):not(h6 spa
     color: var(--text-primary) !important;
     line-height: 1.1 !important;
     letter-spacing: -0.03em !important;
-    margin: 0 !important;
+    margin: 0 0 1.5rem 0 !important;
 }
 
 .project-thumbnail {
@@ -369,6 +368,7 @@ span:not(h1 span):not(h2 span):not(h3 span):not(h4 span):not(h5 span):not(h6 spa
     border-radius: 0;
     overflow: hidden;
     aspect-ratio: 4 / 3;
+    margin-bottom: 1.5rem;
 }
 
 .project-thumbnail img {
@@ -389,6 +389,10 @@ span:not(h1 span):not(h2 span):not(h3 span):not(h4 span):not(h5 span):not(h6 spa
     border-radius: 0;
     overflow: hidden;
     aspect-ratio: 4 / 3;
+}
+
+.project-left .project-image-container {
+    margin-bottom: 1.5rem;
 }
 
 /* Wistia player styling to fill container like images */
@@ -883,8 +887,8 @@ section.dev-projects-section .project-card .project-overlay .overlay-content p {
 
 .carousel-nav {
     position: absolute;
-    left: 2rem;
-    top: calc(50% - 100px);
+    right: 2rem;
+    top: 50%;
     transform: translateY(-50%);
     display: flex;
     flex-direction: column;
@@ -932,7 +936,7 @@ section.dev-projects-section .project-card .project-overlay .overlay-content p {
 .carousel-indicators {
     position: absolute;
     left: 2rem;
-    top: calc(50% + 100px);
+    top: 50%;
     transform: translateY(-50%);
     display: flex;
     flex-direction: column;
