@@ -276,6 +276,11 @@
         goToSlide(index) {
             if (this.isTransitioning || index === this.currentIndex || !this.carousel) return;
             
+            // Pause all Wistia videos when changing slides
+            if (typeof window.pauseAllWistiaVideos === 'function') {
+                window.pauseAllWistiaVideos();
+            }
+            
             this.isTransitioning = true;
             this.currentIndex = index;
             
@@ -400,6 +405,23 @@
         updateParallax();
     }
 
+    // Store Wistia video references globally
+    window.wistiaVideos = {};
+
+    // Function to pause all Wistia videos
+    window.pauseAllWistiaVideos = function() {
+        Object.keys(window.wistiaVideos).forEach((mediaId) => {
+            const video = window.wistiaVideos[mediaId];
+            if (video && typeof video.pause === 'function') {
+                try {
+                    video.pause();
+                } catch (e) {
+                    console.warn('Error pausing Wistia video:', e);
+                }
+            }
+        });
+    };
+
     // Hide Wistia timeline until video is playing
     function initWistiaTimelineControl() {
         // Media IDs for all three videos
@@ -411,6 +433,9 @@
             window._wq.push({
                 id: mediaId,
                 onReady: function(video) {
+                    // Store video reference globally
+                    window.wistiaVideos[mediaId] = video;
+
                     // Function to hide/show timeline
                     const updateTimelineVisibility = (show) => {
                         const container = video.container();
