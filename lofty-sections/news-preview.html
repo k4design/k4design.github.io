@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News Section Preview - Aperture Global</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;600&family=Playfair+Display:wght@300&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* CSS Snippet for Lofty.com - News Section Styles */
+
+        /* CSS Variables for Easy Customization */
+        :root {
+            --primary-black: #000000;
+            --secondary-black: #0f0f0f;
+            --tertiary-black: #1a1a1a;
+            --accent-blue: #0092ff;
+            --accent-blue-light: #4db8ff;
+            --accent-blue-dark: #007acc;
+            --text-primary: #ffffff;
+            --text-secondary: #b8b8b8;
+            --text-muted: #888888;
+            --text-accent: #0092ff;
+            --border-subtle: rgba(0, 146, 255, 0.15);
+            --border-blue: rgba(0, 146, 255, 0.3);
+            --gradient-primary: linear-gradient(135deg, #000000 0%, #0f0f0f 50%, #1a1a1a 100%);
+            --gradient-accent: linear-gradient(135deg, #0092ff 0%, #4db8ff 50%, #007acc 100%);
+            --gradient-text: linear-gradient(135deg, #0092ff 0%, #ffffff 50%, #0092ff 100%);
+            --shadow-soft: 0 30px 80px rgba(0, 0, 0, 0.4);
+            --shadow-glow: 0 0 60px rgba(0, 146, 255, 0.15);
+            --shadow-premium: 0 40px 100px rgba(0, 0, 0, 0.5);
+            --primary-bg: #000000;
+            --card-bg: rgba(255, 255, 255, 0.02);
+            --border-color: rgba(255, 255, 255, 0.1);
+            --shadow-dark: rgba(0, 0, 0, 0.3);
+            --shadow: rgba(0, 146, 255, 0.2);
+        }
+
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--primary-black);
+            color: var(--text-primary);
+            line-height: 1.7;
+            overflow-x: hidden;
+            font-weight: 200;
+            min-height: 100vh;
+        }
+
+        /* Typography */
+        .display-font {
+            font-family: 'Playfair Display', serif;
+            font-weight: 300;
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+        }
+
+        .text-elegant {
+            font-weight: 200;
+            letter-spacing: 0.02em;
+            line-height: 1.8;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* News Section */
+        .news {
+            padding: 120px 0;
+            background: var(--primary-bg);
+            position: relative;
+        }
+
+        .news::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 80% 20%, rgba(0, 212, 255, 0.03) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .news h2 {
+            color: #ffffff !important;
+            margin-bottom: 2rem !important;
+            position: relative;
+            z-index: 2;
+            text-align: center !important;
+            font-size: clamp(2.5rem, 5vw, 4rem) !important;
+        }
+
+        .news > .container > p {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 4rem;
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* News Carousel */
+        .news-carousel-wrapper {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            z-index: 2;
+            cursor: grab;
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+        }
+
+        .news-carousel-wrapper:active {
+            cursor: grabbing;
+        }
+
+        .news-carousel-container {
+            overflow: hidden;
+            width: 100%;
+            position: relative;
+        }
+
+        .news-carousel-track {
+            display: flex;
+            gap: 2.5rem;
+            transition: transform 0.3s ease-out;
+            will-change: transform;
+        }
+
+        .news-carousel-track.dragging {
+            transition: none;
+            cursor: grabbing;
+        }
+
+        /* Legacy grid class for backward compatibility */
+        .news-grid {
+            display: flex;
+            gap: 2.5rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .news-card {
+            background: var(--card-bg);
+            border-radius: 0;
+            overflow: hidden;
+            box-shadow: 0 8px 32px var(--shadow-dark);
+            transition: all 0.4s ease;
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(10px);
+            cursor: pointer;
+            flex: 0 0 auto;
+            width: calc(33.333% - 1.67rem);
+            min-width: 320px;
+        }
+
+        .news-card:hover:not(.news-card-cta) {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 60px var(--shadow);
+            border-color: var(--accent-blue);
+        }
+
+        .news-card-cta:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 40px rgba(0, 146, 255, 0.3);
+        }
+
+        .news-image {
+            height: 220px;
+            overflow: hidden;
+            position: relative;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+        }
+
+        .news-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .news-image img[src=""],
+        .news-image img:not([src]) {
+            opacity: 0;
+        }
+
+        .news-card:hover .news-image img {
+            transform: scale(1.08);
+        }
+
+        /* Error state for failed image loads */
+        .news-image.error {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            font-size: 3rem;
+        }
+
+        .news-image.error::after {
+            content: '📰';
+            font-size: 3rem;
+        }
+
+        .news-content {
+            padding: 2rem;
+        }
+
+        .news-content h3 {
+            color: var(--text-primary) !important;
+            margin-bottom: 1.2rem !important;
+            font-size: 1.2rem !important;
+            font-weight: 400 !important;
+            line-height: 1.4 !important;
+            transition: color 0.3s ease;
+        }
+
+        .news-card:hover:not(.news-card-cta) .news-content h3 {
+            color: var(--accent-blue) !important;
+        }
+
+        .news-content p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
+            font-size: 0.95rem;
+        }
+
+        .read-more {
+            color: var(--accent-blue);
+            text-decoration: none;
+            font-weight: 400;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .read-more::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-blue);
+            transition: width 0.3s ease;
+        }
+
+        .read-more:hover::after {
+            width: 100%;
+        }
+
+        .read-more:hover {
+            color: var(--accent-blue-light);
+            transform: translateX(5px);
+        }
+
+        /* News Card Animations */
+        .news-card {
+            opacity: 1;
+            transform: translateY(0);
+            transition: all 0.6s ease;
+        }
+
+        .news-card.animate-in {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* News Card Hover Effects */
+        .news-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(0, 146, 255, 0.05) 0%, transparent 50%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .news-card:hover::before {
+            opacity: 1;
+        }
+
+        /* News CTA Card with Gradient Background */
+        .news-card-cta {
+            background: var(--gradient-accent) !important;
+            min-height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 3rem 2rem;
+            border: none !important;
+        }
+
+        .news-card-cta::before {
+            display: none;
+        }
+
+        .news-cta-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .news-cta-headline {
+            font-family: 'Playfair Display', serif !important;
+            font-size: clamp(2rem, 4vw, 3.5rem) !important;
+            font-weight: 300 !important;
+            color: #ffffff !important;
+            margin-bottom: 1rem !important;
+            line-height: 1.2 !important;
+            letter-spacing: -0.02em !important;
+        }
+
+        .news-cta-subhead {
+            font-family: 'Inter', sans-serif !important;
+            font-size: clamp(1rem, 2vw, 1.25rem) !important;
+            font-weight: 300 !important;
+            color: rgba(255, 255, 255, 0.95) !important;
+            margin-bottom: 2rem !important;
+            line-height: 1.6 !important;
+            letter-spacing: 0.02em !important;
+        }
+
+        .news-cta-text {
+            font-family: 'Inter', sans-serif !important;
+            font-size: clamp(0.875rem, 1.5vw, 1rem) !important;
+            font-weight: 400 !important;
+            color: rgba(255, 255, 255, 0.9) !important;
+            margin-bottom: 1.5rem !important;
+            letter-spacing: 0.1em !important;
+            text-transform: uppercase !important;
+        }
+
+        .news-cta-button {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: #ffffff;
+            color: var(--accent-blue) !important;
+            border-radius: 50px;
+            font-size: clamp(0.875rem, 1.5vw, 1rem);
+            font-weight: 600;
+            text-decoration: none;
+            text-align: center;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            border: 2px solid #ffffff;
+        }
+
+        .news-cta-button:hover {
+            background: transparent;
+            color: #ffffff !important;
+            border-color: #ffffff;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 255, 255, 0.2);
+        }
+
+        .news-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* News Source Styling */
+        .news-content .news-source {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .news-content .news-source i {
+            color: var(--accent-blue);
+        }
+
+        .news-content .news-source .separator {
+            color: #666;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .news-card {
+                width: calc(50% - 1.25rem);
+                min-width: 300px;
+            }
+            
+            .news-carousel-track {
+                gap: 2rem;
+            }
+            
+            .news {
+                padding: 80px 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .news-card {
+                width: calc(100% - 1rem);
+                min-width: 280px;
+            }
+            
+            .news-carousel-track {
+                gap: 1.5rem;
+            }
+            
+            .news {
+                padding: 60px 0;
+            }
+            
+            .news h2 {
+                font-size: 2.5rem !important;
+            }
+            
+            .news > .container > p {
+                font-size: 1.1rem;
+                margin-bottom: 3rem;
+            }
+            
+            .news-content {
+                padding: 1.5rem;
+            }
+            
+            .news-image {
+                height: 200px;
+            }
+            
+            .news-card-cta {
+                min-height: 350px;
+                padding: 2.5rem 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .news {
+                padding: 40px 0;
+            }
+            
+            .news h2 {
+                font-size: 2rem !important;
+            }
+            
+            .news > .container > p {
+                font-size: 1rem;
+                margin-bottom: 2rem;
+            }
+            
+            .news-content {
+                padding: 1.25rem;
+            }
+            
+            .news-content h3 {
+                font-size: 1.1rem !important;
+            }
+            
+            .news-content p {
+                font-size: 0.9rem;
+            }
+            
+            .read-more {
+                font-size: 0.85rem;
+            }
+            
+            .news-card-cta {
+                min-height: 300px;
+                padding: 2rem 1.25rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- HTML Snippet for Lofty.com - News Section -->
+    <section id="news" class="news">
+        <div class="container">
+            <h2 class="display-font">Aperture News</h2>
+            <p class="text-elegant">Get a curated glimpse into the brand's global expansion, marquee listings, elite agent achievements, and the latest innovations redefining luxury real estate.</p>
+            
+            <div class="news-carousel-wrapper">
+                <div class="news-carousel-container">
+                    <div class="news-carousel-track">
+                        <div class="news-card">
+                            <div class="news-image">
+                                <img src="https://k4design.github.io/lofty-sections/img/news/housingwire.webp" alt="HousingWire">
+                            </div>
+                            <div class="news-content">
+                                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem; font-size: 0.9rem; color: #888;">
+                                    <i class="fas fa-newspaper"></i>
+                                    <span>HousingWire</span>
+                                    <span style="color: #666;">•</span>
+                                    <span>May 8, 2025</span>
+                                </div>
+                                <h3>LPT Launches International Luxury Brand Aperture Global</h3>
+                                <p>LPT Holdings announces the launch of Aperture Global Real Estate, LPT's new independent global luxury brand. The brokerage currently operates in 15 states and four international locations with over 100 top brokers representing $1 billion in annual sales.</p>
+                                <a href="https://www.housingwire.com/articles/lpt-realty-launches-international-luxury-brand-aperture-global/" class="read-more" target="_blank">Read More</a>
+                            </div>
+                        </div>
+                        
+                        <div class="news-card">
+                            <div class="news-image">
+                                <img src="https://k4design.github.io/lofty-sections/img/news/ris.jpg" alt="RISMedia">
+                            </div>
+                            <div class="news-content">
+                                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem; font-size: 0.9rem; color: #888;">
+                                    <i class="fas fa-newspaper"></i>
+                                    <span>RISMedia</span>
+                                    <span style="color: #666;">•</span>
+                                    <span>May 8, 2025</span>
+                                </div>
+                                <h3>LPT Realty Launches Independent International Luxury Brokerage</h3>
+                                <p>Aperture Global Real Estate kicks off with over 100 agents with more than $1B in listings in 15 states and four countries, with plans for an IPO in Q1 2026. Led by former Sotheby's executive Michael Valdes and Compass founding agent Mercedes Saewitz.</p>
+                                <a href="https://www.rismedia.com/2025/05/08/lpt-realty-announces-launch-aperture-global-luxury-real-estate/" class="read-more" target="_blank">Read More</a>
+                            </div>
+                        </div>
+                        
+                        <div class="news-card">
+                            <div class="news-image">
+                                <img src="https://k4design.github.io/lofty-sections/img/news/inman.jpg" alt="Inman">
+                            </div>
+                            <div class="news-content">
+                                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem; font-size: 0.9rem; color: #888;">
+                                    <i class="fas fa-newspaper"></i>
+                                    <span>Inman</span>
+                                    <span style="color: #666;">•</span>
+                                    <span>May 8, 2025</span>
+                                </div>
+                                <h3>LPT Holdings Launches Luxury Firm Aperture Global Real Estate</h3>
+                                <p>The new luxury brand is designed to meet agents where they are in their careers, offering a stronger brand with more rigorous guidelines and standards. Aperture Global represents a new vision for exceptional marketing and seamless client experiences worldwide.</p>
+                                <a href="https://www.inman.com/2025/05/08/lpt-holdings-launches-luxury-firm-aperture-global-real-estate/" class="read-more" target="_blank">Read More</a>
+                            </div>
+                        </div>
+                        
+                        <div class="news-card">
+                            <div class="news-image">
+                                <img src="https://k4design.github.io/lofty-sections/img/news/res.webp" alt="Real Estate News">
+                            </div>
+                            <div class="news-content">
+                                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem; font-size: 0.9rem; color: #888;">
+                                    <i class="fas fa-newspaper"></i>
+                                    <span>Real Estate News</span>
+                                    <span style="color: #666;">•</span>
+                                    <span>May 8, 2025</span>
+                                </div>
+                                <h3>LPT Realty Launches Luxury Offshoot Aperture Global</h3>
+                                <p>Aperture Global represents the first independent luxury brokerage to have a global launch at its inception. The company is built on a battle-tested, performance-driven platform, giving it the ability to scale and maintain operational efficiencies from day one.</p>
+                                <a href="https://www.realestatenews.com/2025/05/08/lpt-realty-launches-luxury-offshoot-aperture-global" class="read-more" target="_blank">Read More</a>
+                            </div>
+                        </div>
+                        
+                        <div class="news-card">
+                            <div class="news-image" style="background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem; font-weight: 600;">
+                                <div style="text-align: center;">
+                                    <div style="font-size: 2rem; margin-bottom: 0.5rem;">🌟</div>
+                                    <div>Luxury Living</div>
+                                </div>
+                            </div>
+                            <div class="news-content">
+                                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem; font-size: 0.9rem; color: #888;">
+                                    <i class="fas fa-newspaper"></i>
+                                    <span>Luxury Living</span>
+                                    <span style="color: #666;">•</span>
+                                    <span>May 7, 2025</span>
+                                </div>
+                                <h3>Aperture Global Expands to European Markets</h3>
+                                <p>Following successful launches in North America, Aperture Global announces strategic expansion into key European luxury markets including London, Paris, and Monaco, bringing world-class real estate services to discerning international clients.</p>
+                                <a href="#" class="read-more" target="_blank">Read More</a>
+                            </div>
+                        </div>
+                        
+                        <div class="news-card news-card-cta">
+                            <div class="news-cta-content">
+                                <h3 class="news-cta-headline">Go Beyond the Headlines</h3>
+                                <p class="news-cta-subhead">Browse our complete collection of news, stories, and press coverage.</p>
+                                <a href="#" class="news-cta-button">See All Updates</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // JavaScript Snippet for Lofty.com - News Section Infinite Carousel
+
+        document.addEventListener('DOMContentLoaded', function() {
+            initNewsCarousel();
+            initNewsAnimations();
+        });
+
+        // Initialize infinite carousel with drag and swipe
+        function initNewsCarousel() {
+            const wrapper = document.querySelector('.news-carousel-wrapper');
+            const container = document.querySelector('.news-carousel-container');
+            const track = document.querySelector('.news-carousel-track');
+            
+            if (!wrapper || !track) return;
+            
+            const cards = Array.from(track.querySelectorAll('.news-card'));
+            if (cards.length === 0) return;
+            
+            // Clone cards for infinite loop
+            const clonedCardsStart = cards.slice().map(card => card.cloneNode(true));
+            const clonedCardsEnd = cards.slice().map(card => card.cloneNode(true));
+            
+            clonedCardsStart.forEach(card => {
+                card.setAttribute('data-cloned', 'start');
+                track.insertBefore(card, track.firstChild);
+            });
+            
+            clonedCardsEnd.forEach(card => {
+                card.setAttribute('data-cloned', 'end');
+                track.appendChild(card);
+            });
+            
+            // Get card width including gap
+            const cardWidth = cards[0].offsetWidth;
+            const gap = parseFloat(getComputedStyle(track).gap) || 40;
+            const cardWidthWithGap = cardWidth + gap;
+            
+            // Calculate initial position (center on original cards)
+            const originalCardsWidth = cards.length * cardWidthWithGap;
+            const startOffset = originalCardsWidth;
+            let currentPosition = startOffset;
+            let isDragging = false;
+            let startX = 0;
+            let currentX = 0;
+            let animationId = null;
+            let velocity = 0;
+            let lastPosition = 0;
+            let lastTime = Date.now();
+            
+            // Auto-scroll variables
+            let autoScrollAnimationId = null;
+            let autoScrollTimeout = null;
+            let isAutoScrolling = false;
+            const autoScrollSpeed = 0.25; // pixels per frame (slower, smoother)
+            const autoScrollDelay = 3000; // 3 seconds delay after user stops
+            
+            // Set initial position
+            track.style.transform = `translateX(-${currentPosition}px)`;
+            
+            // Smooth drag tracking variables
+            let targetDragPosition = currentPosition;
+            let dragAnimationId = null;
+            
+            // Auto-scroll functions
+            function stopAutoScroll() {
+                if (autoScrollTimeout) {
+                    clearTimeout(autoScrollTimeout);
+                    autoScrollTimeout = null;
+                }
+                
+                if (autoScrollAnimationId) {
+                    cancelAnimationFrame(autoScrollAnimationId);
+                    autoScrollAnimationId = null;
+                }
+                
+                isAutoScrolling = false;
+                track.style.transition = 'transform 0.3s ease-out';
+            }
+            
+            function startAutoScroll() {
+                // Clear any existing auto-scroll
+                stopAutoScroll();
+                
+                // Wait 3 seconds before starting
+                autoScrollTimeout = setTimeout(() => {
+                    if (isDragging || isTouching) return;
+                    
+                    isAutoScrolling = true;
+                    track.style.transition = 'none';
+                    
+                    function autoScroll() {
+                        if (isDragging || isTouching || !isAutoScrolling) {
+                            stopAutoScroll();
+                            return;
+                        }
+                        
+                        // Smooth continuous scrolling
+                        currentPosition += autoScrollSpeed;
+                        track.style.transform = `translateX(-${currentPosition}px)`;
+                        
+                        // Check and handle infinite loop
+                        checkAndLoop();
+                        
+                        // Continue animation
+                        autoScrollAnimationId = requestAnimationFrame(autoScroll);
+                    }
+                    
+                    autoScroll();
+                }, autoScrollDelay);
+            }
+            
+            // Smooth drag position update function
+            function updateDragPosition() {
+                if (!isDragging && !isTouching) {
+                    dragAnimationId = null;
+                    return;
+                }
+                
+                // Smooth interpolation towards target position
+                const smoothingFactor = 0.25; // Higher = smoother but more lag, lower = more responsive
+                const diff = targetDragPosition - currentPosition;
+                currentPosition += diff * smoothingFactor;
+                
+                track.style.transform = `translateX(-${currentPosition}px)`;
+                
+                // Calculate velocity for momentum scrolling
+                const now = Date.now();
+                const timeDelta = now - lastTime;
+                if (timeDelta > 0) {
+                    velocity = (currentPosition - lastPosition) / timeDelta;
+                    lastPosition = currentPosition;
+                    lastTime = now;
+                }
+                
+                // Continue smoothing animation
+                if (isDragging || isTouching) {
+                    dragAnimationId = requestAnimationFrame(updateDragPosition);
+                }
+            }
+            
+            // Mouse drag handlers
+            wrapper.addEventListener('mousedown', (e) => {
+                if (e.target.closest('a') || e.target.closest('button')) return;
+                
+                stopAutoScroll(); // Stop auto-scroll when user interacts
+                
+                // Cancel any existing drag animation
+                if (dragAnimationId) {
+                    cancelAnimationFrame(dragAnimationId);
+                    dragAnimationId = null;
+                }
+                
+                isDragging = true;
+                wrapper.style.cursor = 'grabbing';
+                track.classList.add('dragging');
+                startX = e.clientX;
+                lastPosition = currentPosition;
+                targetDragPosition = currentPosition;
+                lastTime = Date.now();
+                velocity = 0;
+                
+                // Cancel any ongoing animation
+                if (animationId) {
+                    cancelAnimationFrame(animationId);
+                }
+                
+                e.preventDefault();
+            });
+            
+            document.addEventListener('mousemove', (e) => {
+                if (!isDragging) return;
+                
+                const deltaX = e.clientX - startX;
+                currentX = deltaX;
+                
+                // Apply damping factor for less sensitive movement (0.55 = 55% of mouse movement)
+                const dragSensitivity = 0.55;
+                const dampedDelta = deltaX * dragSensitivity;
+                
+                // Update target position (will be smoothly interpolated)
+                targetDragPosition = lastPosition - dampedDelta;
+                
+                // Start smooth animation loop if not already running
+                if (!dragAnimationId) {
+                    dragAnimationId = requestAnimationFrame(updateDragPosition);
+                }
+            });
+            
+            document.addEventListener('mouseup', () => {
+                if (!isDragging) return;
+                
+                isDragging = false;
+                wrapper.style.cursor = 'grab';
+                track.classList.remove('dragging');
+                
+                // Stop drag animation
+                if (dragAnimationId) {
+                    cancelAnimationFrame(dragAnimationId);
+                    dragAnimationId = null;
+                }
+                
+                // Update lastPosition to current smoothed position
+                lastPosition = currentPosition;
+                
+                // Apply momentum scrolling
+                if (Math.abs(velocity) > 0.5) {
+                    applyMomentum(velocity);
+                    // Restart auto-scroll after momentum ends
+                    setTimeout(() => {
+                        startAutoScroll();
+                    }, 500);
+                } else {
+                    snapToNearestCard();
+                    // Restart auto-scroll after snap completes
+                    setTimeout(() => {
+                        startAutoScroll();
+                    }, 300);
+                }
+            });
+            
+            // Touch swipe handlers
+            let touchStartX = 0;
+            let touchStartY = 0;
+            let touchCurrentX = 0;
+            let isTouching = false;
+            
+            wrapper.addEventListener('touchstart', (e) => {
+                if (e.target.closest('a') || e.target.closest('button')) return;
+                
+                stopAutoScroll(); // Stop auto-scroll when user interacts
+                
+                // Cancel any existing drag animation
+                if (dragAnimationId) {
+                    cancelAnimationFrame(dragAnimationId);
+                    dragAnimationId = null;
+                }
+                
+                const touch = e.touches[0];
+                touchStartX = touch.clientX;
+                touchStartY = touch.clientY;
+                isTouching = true;
+                lastPosition = currentPosition;
+                targetDragPosition = currentPosition;
+                lastTime = Date.now();
+                velocity = 0;
+                
+                // Cancel any ongoing animation
+                if (animationId) {
+                    cancelAnimationFrame(animationId);
+                }
+                
+                e.preventDefault();
+            }, { passive: false });
+            
+            wrapper.addEventListener('touchmove', (e) => {
+                if (!isTouching) return;
+                
+                const touch = e.touches[0];
+                touchCurrentX = touch.clientX;
+                
+                const deltaX = touchCurrentX - touchStartX;
+                const deltaY = touch.clientY - touchStartY;
+                
+                // Only scroll horizontally if horizontal movement is greater
+                if (Math.abs(deltaX) > Math.abs(deltaY)) {
+                    currentX = deltaX;
+                    
+                    // Apply damping factor for less sensitive movement (0.55 = 55% of touch movement)
+                    const dragSensitivity = 0.55;
+                    const dampedDelta = deltaX * dragSensitivity;
+                    
+                    // Update target position (will be smoothly interpolated)
+                    targetDragPosition = lastPosition - dampedDelta;
+                    
+                    track.style.transition = 'none';
+                    
+                    // Start smooth animation loop if not already running
+                    if (!dragAnimationId) {
+                        dragAnimationId = requestAnimationFrame(updateDragPosition);
+                    }
+                    
+                    e.preventDefault();
+                }
+            }, { passive: false });
+            
+            wrapper.addEventListener('touchend', () => {
+                if (!isTouching) return;
+                
+                isTouching = false;
+                track.style.transition = 'transform 0.3s ease-out';
+                
+                // Stop drag animation
+                if (dragAnimationId) {
+                    cancelAnimationFrame(dragAnimationId);
+                    dragAnimationId = null;
+                }
+                
+                // Update lastPosition to current smoothed position
+                lastPosition = currentPosition;
+                
+                // Apply momentum scrolling
+                if (Math.abs(velocity) > 0.5) {
+                    applyMomentum(velocity);
+                    // Restart auto-scroll after momentum ends
+                    setTimeout(() => {
+                        startAutoScroll();
+                    }, 500);
+                } else {
+                    snapToNearestCard();
+                    // Restart auto-scroll after snap completes
+                    setTimeout(() => {
+                        startAutoScroll();
+                    }, 300);
+                }
+            });
+            
+            // Momentum scrolling function
+            function applyMomentum(initialVelocity) {
+                stopAutoScroll(); // Stop auto-scroll during momentum
+                
+                let currentVelocity = initialVelocity;
+                const friction = 0.96; // Increased friction for slower, smoother deceleration
+                const minVelocity = 0.3; // Lower threshold for smoother stopping
+                
+                function animate() {
+                    if (Math.abs(currentVelocity) < minVelocity) {
+                        snapToNearestCard();
+                        return;
+                    }
+                    
+                    currentPosition -= currentVelocity;
+                    track.style.transform = `translateX(-${currentPosition}px)`;
+                    currentVelocity *= friction;
+                    
+                    // Check boundaries and loop
+                    checkAndLoop();
+                    
+                    animationId = requestAnimationFrame(animate);
+                }
+                
+                animate();
+            }
+            
+            // Snap to nearest card
+            function snapToNearestCard() {
+                stopAutoScroll(); // Stop auto-scroll during snap
+                
+                const totalCardWidth = cardWidthWithGap;
+                const snappedPosition = Math.round(currentPosition / totalCardWidth) * totalCardWidth;
+                
+                currentPosition = snappedPosition;
+                track.style.transition = 'transform 0.5s ease-out'; // Slower, smoother transition
+                track.style.transform = `translateX(-${currentPosition}px)`;
+                
+                // Check and loop after transition
+                setTimeout(() => {
+                    checkAndLoop();
+                }, 500);
+            }
+            
+            // Infinite loop logic
+            function checkAndLoop() {
+                const totalCards = cards.length;
+                const totalWidth = totalCards * cardWidthWithGap;
+                
+                // If we've scrolled past the end clones, jump to start
+                if (currentPosition >= totalWidth * 2) {
+                    currentPosition -= totalWidth;
+                    track.style.transition = 'none';
+                    track.style.transform = `translateX(-${currentPosition}px)`;
+                }
+                // If we've scrolled before the start clones, jump to end
+                else if (currentPosition < totalWidth) {
+                    currentPosition += totalWidth;
+                    track.style.transition = 'none';
+                    track.style.transform = `translateX(-${currentPosition}px)`;
+                }
+            }
+            
+            // Prevent clicks during drag
+            wrapper.addEventListener('click', (e) => {
+                if (Math.abs(currentX) > 10) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+                currentX = 0;
+            }, true);
+            
+            // Handle window resize
+            let resizeTimeout;
+            window.addEventListener('resize', () => {
+                stopAutoScroll(); // Stop auto-scroll during resize
+                clearTimeout(resizeTimeout);
+                resizeTimeout = setTimeout(() => {
+                    const newCardWidth = cards[0].offsetWidth;
+                    const newGap = parseFloat(getComputedStyle(track).gap) || 40;
+                    const newCardWidthWithGap = newCardWidth + newGap;
+                    const newTotalWidth = cards.length * newCardWidthWithGap;
+                    
+                    // Recalculate position
+                    const cardIndex = Math.round((currentPosition - startOffset) / cardWidthWithGap);
+                    currentPosition = startOffset + (cardIndex * newCardWidthWithGap);
+                    
+                    track.style.transform = `translateX(-${currentPosition}px)`;
+                    
+                    // Restart auto-scroll after resize
+                    startAutoScroll();
+                }, 250);
+            });
+            
+            // Start auto-scroll when page loads
+            startAutoScroll();
+        }
+
+        // News card animations
+        function initNewsAnimations() {
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate-in');
+                    }
+                });
+            }, observerOptions);
+            
+            const newsCards = document.querySelectorAll('.news-card');
+            newsCards.forEach(card => {
+                observer.observe(card);
+            });
+        }
+    </script>
+</body>
+</html>
+

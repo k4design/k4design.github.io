@@ -48,18 +48,115 @@ function initNewsCarousel() {
     let lastPosition = 0;
     let lastTime = Date.now();
     
+    // Auto-scroll variables
+    let autoScrollAnimationId = null;
+    let autoScrollTimeout = null;
+    let isAutoScrolling = false;
+    const autoScrollSpeed = 0.25; // pixels per frame (slower, smoother)
+    const autoScrollDelay = 3000; // 3 seconds delay after user stops
+    
     // Set initial position
     track.style.transform = `translateX(-${currentPosition}px)`;
+    
+    // Smooth drag tracking variables
+    let targetDragPosition = currentPosition;
+    let dragAnimationId = null;
+    
+    // Auto-scroll functions
+    function stopAutoScroll() {
+        if (autoScrollTimeout) {
+            clearTimeout(autoScrollTimeout);
+            autoScrollTimeout = null;
+        }
+        
+        if (autoScrollAnimationId) {
+            cancelAnimationFrame(autoScrollAnimationId);
+            autoScrollAnimationId = null;
+        }
+        
+        isAutoScrolling = false;
+        track.style.transition = 'transform 0.3s ease-out';
+    }
+    
+    function startAutoScroll() {
+        // Clear any existing auto-scroll
+        stopAutoScroll();
+        
+        // Wait 3 seconds before starting
+        autoScrollTimeout = setTimeout(() => {
+            if (isDragging || isTouching) return;
+            
+            isAutoScrolling = true;
+            track.style.transition = 'none';
+            
+            function autoScroll() {
+                if (isDragging || isTouching || !isAutoScrolling) {
+                    stopAutoScroll();
+                    return;
+                }
+                
+                // Smooth continuous scrolling
+                currentPosition += autoScrollSpeed;
+                track.style.transform = `translateX(-${currentPosition}px)`;
+                
+                // Check and handle infinite loop
+                checkAndLoop();
+                
+                // Continue animation
+                autoScrollAnimationId = requestAnimationFrame(autoScroll);
+            }
+            
+            autoScroll();
+        }, autoScrollDelay);
+    }
+    
+    // Smooth drag position update function
+    function updateDragPosition() {
+        if (!isDragging && !isTouching) {
+            dragAnimationId = null;
+            return;
+        }
+        
+        // Smooth interpolation towards target position
+        const smoothingFactor = 0.25; // Higher = smoother but more lag, lower = more responsive
+        const diff = targetDragPosition - currentPosition;
+        currentPosition += diff * smoothingFactor;
+        
+        track.style.transform = `translateX(-${currentPosition}px)`;
+        
+        // Calculate velocity for momentum scrolling
+        const now = Date.now();
+        const timeDelta = now - lastTime;
+        if (timeDelta > 0) {
+            velocity = (currentPosition - lastPosition) / timeDelta;
+            lastPosition = currentPosition;
+            lastTime = now;
+        }
+        
+        // Continue smoothing animation
+        if (isDragging || isTouching) {
+            dragAnimationId = requestAnimationFrame(updateDragPosition);
+        }
+    }
     
     // Mouse drag handlers
     wrapper.addEventListener('mousedown', (e) => {
         if (e.target.closest('a') || e.target.closest('button')) return;
+        
+        stopAutoScroll(); // Stop auto-scroll when user interacts
+        
+        // Cancel any existing drag animation
+        if (dragAnimationId) {
+            cancelAnimationFrame(dragAnimationId);
+            dragAnimationId = null;
+        }
         
         isDragging = true;
         wrapper.style.cursor = 'grabbing';
         track.classList.add('dragging');
         startX = e.clientX;
         lastPosition = currentPosition;
+        targetDragPosition = currentPosition;
         lastTime = Date.now();
         velocity = 0;
         
@@ -77,17 +174,16 @@ function initNewsCarousel() {
         const deltaX = e.clientX - startX;
         currentX = deltaX;
         
-        // Update position
-        currentPosition = lastPosition - deltaX;
-        track.style.transform = `translateX(-${currentPosition}px)`;
+        // Apply damping factor for less sensitive movement (0.55 = 55% of mouse movement)
+        const dragSensitivity = 0.55;
+        const dampedDelta = deltaX * dragSensitivity;
         
-        // Calculate velocity for momentum scrolling
-        const now = Date.now();
-        const timeDelta = now - lastTime;
-        if (timeDelta > 0) {
-            velocity = (currentPosition - lastPosition) / timeDelta;
-            lastPosition = currentPosition;
-            lastTime = now;
+        // Update target position (will be smoothly interpolated)
+        targetDragPosition = lastPosition - dampedDelta;
+        
+        // Start smooth animation loop if not already running
+        if (!dragAnimationId) {
+            dragAnimationId = requestAnimationFrame(updateDragPosition);
         }
     });
     
@@ -98,11 +194,28 @@ function initNewsCarousel() {
         wrapper.style.cursor = 'grab';
         track.classList.remove('dragging');
         
+        // Stop drag animation
+        if (dragAnimationId) {
+            cancelAnimationFrame(dragAnimationId);
+            dragAnimationId = null;
+        }
+        
+        // Update lastPosition to current smoothed position
+        lastPosition = currentPosition;
+        
         // Apply momentum scrolling
         if (Math.abs(velocity) > 0.5) {
             applyMomentum(velocity);
+            // Restart auto-scroll after momentum ends
+            setTimeout(() => {
+                startAutoScroll();
+            }, 500);
         } else {
             snapToNearestCard();
+            // Restart auto-scroll after snap completes
+            setTimeout(() => {
+                startAutoScroll();
+            }, 300);
         }
     });
     
@@ -115,11 +228,20 @@ function initNewsCarousel() {
     wrapper.addEventListener('touchstart', (e) => {
         if (e.target.closest('a') || e.target.closest('button')) return;
         
+        stopAutoScroll(); // Stop auto-scroll when user interacts
+        
+        // Cancel any existing drag animation
+        if (dragAnimationId) {
+            cancelAnimationFrame(dragAnimationId);
+            dragAnimationId = null;
+        }
+        
         const touch = e.touches[0];
         touchStartX = touch.clientX;
         touchStartY = touch.clientY;
         isTouching = true;
         lastPosition = currentPosition;
+        targetDragPosition = currentPosition;
         lastTime = Date.now();
         velocity = 0;
         
@@ -143,17 +265,19 @@ function initNewsCarousel() {
         // Only scroll horizontally if horizontal movement is greater
         if (Math.abs(deltaX) > Math.abs(deltaY)) {
             currentX = deltaX;
-            currentPosition = lastPosition - deltaX;
-            track.style.transform = `translateX(-${currentPosition}px)`;
+            
+            // Apply damping factor for less sensitive movement (0.55 = 55% of touch movement)
+            const dragSensitivity = 0.55;
+            const dampedDelta = deltaX * dragSensitivity;
+            
+            // Update target position (will be smoothly interpolated)
+            targetDragPosition = lastPosition - dampedDelta;
+            
             track.style.transition = 'none';
             
-            // Calculate velocity
-            const now = Date.now();
-            const timeDelta = now - lastTime;
-            if (timeDelta > 0) {
-                velocity = (currentPosition - lastPosition) / timeDelta;
-                lastPosition = currentPosition;
-                lastTime = now;
+            // Start smooth animation loop if not already running
+            if (!dragAnimationId) {
+                dragAnimationId = requestAnimationFrame(updateDragPosition);
             }
             
             e.preventDefault();
@@ -166,19 +290,38 @@ function initNewsCarousel() {
         isTouching = false;
         track.style.transition = 'transform 0.3s ease-out';
         
+        // Stop drag animation
+        if (dragAnimationId) {
+            cancelAnimationFrame(dragAnimationId);
+            dragAnimationId = null;
+        }
+        
+        // Update lastPosition to current smoothed position
+        lastPosition = currentPosition;
+        
         // Apply momentum scrolling
         if (Math.abs(velocity) > 0.5) {
             applyMomentum(velocity);
+            // Restart auto-scroll after momentum ends
+            setTimeout(() => {
+                startAutoScroll();
+            }, 500);
         } else {
             snapToNearestCard();
+            // Restart auto-scroll after snap completes
+            setTimeout(() => {
+                startAutoScroll();
+            }, 300);
         }
     });
     
     // Momentum scrolling function
     function applyMomentum(initialVelocity) {
+        stopAutoScroll(); // Stop auto-scroll during momentum
+        
         let currentVelocity = initialVelocity;
-        const friction = 0.95;
-        const minVelocity = 0.5;
+        const friction = 0.96; // Increased friction for slower, smoother deceleration
+        const minVelocity = 0.3; // Lower threshold for smoother stopping
         
         function animate() {
             if (Math.abs(currentVelocity) < minVelocity) {
@@ -201,17 +344,19 @@ function initNewsCarousel() {
     
     // Snap to nearest card
     function snapToNearestCard() {
+        stopAutoScroll(); // Stop auto-scroll during snap
+        
         const totalCardWidth = cardWidthWithGap;
         const snappedPosition = Math.round(currentPosition / totalCardWidth) * totalCardWidth;
         
         currentPosition = snappedPosition;
-        track.style.transition = 'transform 0.3s ease-out';
+        track.style.transition = 'transform 0.5s ease-out'; // Slower, smoother transition
         track.style.transform = `translateX(-${currentPosition}px)`;
         
         // Check and loop after transition
         setTimeout(() => {
             checkAndLoop();
-        }, 300);
+        }, 500);
     }
     
     // Infinite loop logic
@@ -245,6 +390,7 @@ function initNewsCarousel() {
     // Handle window resize
     let resizeTimeout;
     window.addEventListener('resize', () => {
+        stopAutoScroll(); // Stop auto-scroll during resize
         clearTimeout(resizeTimeout);
         resizeTimeout = setTimeout(() => {
             const newCardWidth = cards[0].offsetWidth;
@@ -257,23 +403,14 @@ function initNewsCarousel() {
             currentPosition = startOffset + (cardIndex * newCardWidthWithGap);
             
             track.style.transform = `translateX(-${currentPosition}px)`;
+            
+            // Restart auto-scroll after resize
+            startAutoScroll();
         }, 250);
     });
     
-    // Auto-play (optional - can be disabled)
-    // Uncomment to enable auto-scroll
-    /*
-    setInterval(() => {
-        if (!isDragging && !isTouching) {
-            currentPosition += cardWidthWithGap;
-            track.style.transition = 'transform 0.5s ease-out';
-            track.style.transform = `translateX(-${currentPosition}px)`;
-            setTimeout(() => {
-                checkAndLoop();
-            }, 500);
-        }
-    }, 5000);
-    */
+    // Start auto-scroll when page loads
+    startAutoScroll();
 }
 
 // Load images (keep existing functionality)
