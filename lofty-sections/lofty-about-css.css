@@ -85,7 +85,7 @@ body {
     font-size: clamp(2.5rem, 5vw, 4rem) !important;
     font-weight: 200 !important;
     margin-bottom: 3rem !important;
-    color: var(--text-primary) !important;
+    color: #000000 !important;
     letter-spacing: -0.02em !important;
 }
 
@@ -163,7 +163,7 @@ body {
     font-size: 1.5rem !important;
     font-weight: 300 !important;
     margin-bottom: 1.5rem !important;
-    color: var(--text-primary) !important;
+    color: #000000 !important;
     position: relative;
     z-index: 2;
 }
