@@ -338,7 +338,8 @@ span:not(h1 span):not(h2 span):not(h3 span):not(h4 span):not(h5 span):not(h6 spa
     gap: 1.5rem;
     overflow: visible !important;
     min-height: auto;
-    padding-bottom: 1rem;
+    padding-bottom: 2rem;
+    padding-right: 1rem;
 }
 
 .project-number {
@@ -486,7 +487,8 @@ section.dev-projects-section .project-card .project-image-wrapper .project-locat
     letter-spacing: 0.02em !important;
     margin: 0 !important;
     margin-bottom: 0 !important;
-    padding-bottom: 0.5rem;
+    padding-bottom: 1rem;
+    padding-right: 0.5rem;
     overflow: visible !important;
     text-overflow: clip !important;
     white-space: normal !important;
@@ -881,8 +883,8 @@ section.dev-projects-section .project-card .project-overlay .overlay-content p {
 
 .carousel-nav {
     position: absolute;
-    right: 2rem;
-    top: 50%;
+    left: 2rem;
+    top: calc(50% - 100px);
     transform: translateY(-50%);
     display: flex;
     flex-direction: column;
@@ -930,7 +932,7 @@ section.dev-projects-section .project-card .project-overlay .overlay-content p {
 .carousel-indicators {
     position: absolute;
     left: 2rem;
-    top: 50%;
+    top: calc(50% + 100px);
     transform: translateY(-50%);
     display: flex;
     flex-direction: column;
@@ -2183,10 +2185,19 @@ section.dev-projects-section .project-card .project-overlay .overlay-content p {
 
     .project-left {
         order: 1;
+        padding-bottom: 2rem;
+        padding-right: 1rem;
+        overflow: visible !important;
     }
 
     .project-image-wrapper {
         order: 2;
+    }
+    
+    .dev-projects-section .project-left .project-description {
+        padding-bottom: 1rem;
+        padding-right: 0.5rem;
+        overflow: visible !important;
     }
 }
 
@@ -2234,6 +2245,18 @@ section.dev-projects-section .project-card .project-overlay .overlay-content p {
 
     .project-description {
         font-size: 1rem !important;
+    }
+    
+    .project-left {
+        padding-bottom: 2rem !important;
+        padding-right: 1rem !important;
+        overflow: visible !important;
+    }
+    
+    .dev-projects-section .project-left .project-description {
+        padding-bottom: 1rem !important;
+        padding-right: 0.5rem !important;
+        overflow: visible !important;
     }
 
     /* Hide carousel navigation on mobile */
