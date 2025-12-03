@@ -67,7 +67,7 @@ body {
 /* News Section */
 .news {
     padding: 120px 0;
-    background: #000000;
+    background: #ffffff;
     position: relative;
 }
 
@@ -78,7 +78,7 @@ body {
     left: 0;
     right: 0;
     height: 25%;
-    background: #ffffff;
+    background: #000000;
     z-index: 0;
 }
 
@@ -92,6 +92,7 @@ body {
     background: radial-gradient(circle at 80% 20%, rgba(0, 212, 255, 0.03) 0%, transparent 50%);
     pointer-events: none;
     z-index: 1;
+    background-color: #ffffff;
 }
 
 .news h2 {
