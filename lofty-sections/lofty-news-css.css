@@ -319,13 +319,11 @@ body {
 .news-cta-image {
     flex: 0 0 35%;
     max-width: none;
-}
-
-.news-cta-image img {
-    width: 100%;
-    height: auto;
-    display: block;
-    border-radius: 0;
+    background-image: url('https://k4design.github.io/lofty-sections/img/allnews.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 300px;
 }
 
 .news-cta-headline {
@@ -473,6 +471,8 @@ body {
     
     .news-cta-image {
         max-width: 100%;
+        min-height: 250px;
+        flex: 0 0 100%;
     }
 }
 
@@ -533,6 +533,8 @@ body {
     
     .news-cta-image {
         max-width: 100%;
+        min-height: 250px;
+        flex: 0 0 100%;
     }
 }
 
