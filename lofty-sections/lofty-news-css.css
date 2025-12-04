@@ -291,19 +291,41 @@ body {
     padding: 4rem 2rem;
     background: var(--gradient-accent);
     border-radius: 0;
-    text-align: center;
     position: relative;
     z-index: 2;
+    display: flex;
+    justify-content: center;
 }
 
 .news-cta-content {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
-    justify-content: center;
-    text-align: center;
+    justify-content: space-between;
+    gap: 3rem;
     width: 100%;
-    max-width: 600px;
+    max-width: 1200px;
+}
+
+.news-cta-text-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    text-align: left;
+    flex: 1;
+}
+
+.news-cta-image {
+    flex: 1;
+    max-width: 500px;
+}
+
+.news-cta-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 0;
 }
 
 .news-cta-headline {
@@ -314,6 +336,7 @@ body {
     margin-bottom: 1rem !important;
     line-height: 1.2 !important;
     letter-spacing: -0.02em !important;
+    text-align: left !important;
 }
 
 .news-cta-subhead {
@@ -324,6 +347,7 @@ body {
     margin-bottom: 2rem !important;
     line-height: 1.6 !important;
     letter-spacing: 0.02em !important;
+    text-align: left !important;
 }
 
 .news-cta-text {
@@ -431,6 +455,25 @@ body {
         margin-top: 3rem;
         padding: 3rem 1.5rem;
     }
+    
+    .news-cta-content {
+        flex-direction: column;
+        gap: 2rem;
+    }
+    
+    .news-cta-text-wrapper {
+        text-align: center;
+        align-items: center;
+    }
+    
+    .news-cta-headline,
+    .news-cta-subhead {
+        text-align: center !important;
+    }
+    
+    .news-cta-image {
+        max-width: 100%;
+    }
 }
 
 @media (max-width: 480px) {
@@ -471,6 +514,25 @@ body {
     .news-cta-section {
         margin-top: 2rem;
         padding: 2.5rem 1.25rem;
+    }
+    
+    .news-cta-content {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+    
+    .news-cta-text-wrapper {
+        text-align: center;
+        align-items: center;
+    }
+    
+    .news-cta-headline,
+    .news-cta-subhead {
+        text-align: center !important;
+    }
+    
+    .news-cta-image {
+        max-width: 100%;
     }
 }
 
