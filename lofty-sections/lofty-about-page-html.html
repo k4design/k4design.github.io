@@ -385,24 +385,26 @@
 .apex-founder-quote-container {
     position: relative;
     display: grid;
-    grid-template-columns: 1fr;
-    gap: 0;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
     min-height: 600px;
+    align-items: center;
 }
 
 .apex-founder-image-wrapper {
     position: relative;
     display: flex;
     align-items: center;
-    justify-content: center;
-    grid-column: 1;
+    justify-content: flex-end;
+    grid-column: 2;
     grid-row: 1;
     z-index: 1;
+    align-self: center;
 }
 
 .apex-founder-image {
-    width: 400px;
-    height: 500px;
+    width: 600px;
+    height: 750px;
     object-fit: cover;
     position: relative;
     z-index: 2;
@@ -422,27 +424,31 @@
     filter: blur(40px);
 }
 
-.apex-founder-text-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+.apex-founder-content-wrapper {
+    position: relative;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 4rem 4rem 4rem 0;
     grid-column: 1;
     grid-row: 1;
+    max-width: 100%;
+    align-self: center;
+}
+
+.apex-founder-text-overlay {
+    position: relative;
     z-index: 3;
     pointer-events: none;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
-    padding: 4rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    margin-bottom: 2rem;
 }
 
 .apex-founder-text-top-left {
-    grid-column: 1;
-    grid-row: 1;
-    align-self: start;
-    justify-self: start;
     font-family: 'Inter', sans-serif;
     font-size: clamp(3rem, 8vw, 8rem);
     font-weight: 700;
@@ -451,28 +457,14 @@
     letter-spacing: -0.02em;
     text-transform: uppercase;
     mix-blend-mode: normal;
+    margin-bottom: 1rem;
 }
 
 .apex-founder-text-top-right {
-    grid-column: 2;
-    grid-row: 1;
-    align-self: start;
-    justify-self: end;
-    font-family: 'Inter', sans-serif;
-    font-size: clamp(3rem, 8vw, 8rem);
-    font-weight: 700;
-    color: #ffffff;
-    line-height: 0.9;
-    letter-spacing: -0.02em;
-    text-transform: uppercase;
-    mix-blend-mode: normal;
+    display: none;
 }
 
 .apex-founder-text-bottom-left {
-    grid-column: 1;
-    grid-row: 2;
-    align-self: end;
-    justify-self: start;
     font-family: 'Inter', sans-serif;
     font-size: clamp(3rem, 8vw, 8rem);
     font-weight: 700;
@@ -484,25 +476,11 @@
 }
 
 .apex-founder-text-bottom-right {
-    grid-column: 2;
-    grid-row: 2;
-    align-self: end;
-    justify-self: end;
-    font-family: 'Inter', sans-serif;
-    font-size: clamp(3rem, 8vw, 8rem);
-    font-weight: 700;
-    color: #ffffff;
-    line-height: 0.9;
-    letter-spacing: -0.02em;
-    text-transform: uppercase;
-    mix-blend-mode: normal;
+    display: none;
 }
 
 .apex-founder-quote {
-    position: absolute;
-    bottom: 4rem;
-    left: 4rem;
-    right: 4rem;
+    position: relative;
     z-index: 4;
     pointer-events: none;
     max-width: 800px;
@@ -694,26 +672,29 @@
         padding: 4rem 1rem;
     }
     
+    .apex-founder-quote-container {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    .apex-founder-image-wrapper {
+        grid-column: 1;
+        justify-content: center;
+    }
+    
     .apex-founder-image {
         width: 300px;
         height: 400px;
     }
     
-    .apex-founder-text-overlay {
-        padding: 2rem;
+    .apex-founder-content-wrapper {
+        padding: 2rem 0;
+        grid-column: 1;
     }
     
     .apex-founder-text-top-left,
-    .apex-founder-text-top-right,
-    .apex-founder-text-bottom-left,
-    .apex-founder-text-bottom-right {
+    .apex-founder-text-bottom-left {
         font-size: clamp(2rem, 6vw, 5rem);
-    }
-    
-    .apex-founder-quote {
-        bottom: 2rem;
-        left: 2rem;
-        right: 2rem;
     }
     
     .apex-split-image {
@@ -791,30 +772,29 @@
         padding: 3rem 1rem;
     }
     
+    .apex-founder-quote-container {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    .apex-founder-image-wrapper {
+        grid-column: 1;
+        justify-content: center;
+    }
+    
     .apex-founder-image {
         width: 250px;
         height: 320px;
     }
     
-    .apex-founder-text-overlay {
-        padding: 1.5rem;
+    .apex-founder-content-wrapper {
+        padding: 1.5rem 0;
+        grid-column: 1;
     }
     
     .apex-founder-text-top-left,
-    .apex-founder-text-top-right,
-    .apex-founder-text-bottom-left,
-    .apex-founder-text-bottom-right {
+    .apex-founder-text-bottom-left {
         font-size: clamp(1.5rem, 5vw, 3rem);
-    }
-    
-    .apex-founder-quote {
-        bottom: 1.5rem;
-        left: 1.5rem;
-        right: 1.5rem;
-    }
-    
-    .apex-founder-content {
-        padding: 2rem;
     }
     
     .apex-hero {
@@ -876,16 +856,9 @@
 <!-- Hero Section -->
 <section class="apex-hero">
     <div class="apex-hero-content">
-        <h1>APERTURE GLOBAL</h1>
+        <h1>Your vision, your focus, your exposure –<br>You are Aperture.</h1>
         <p class="apex-hero-slogan">The ultimate luxury real estate experience, better than the rest.</p>
-        <div class="apex-hero-cta">
-            <a href="#projects" class="apex-hero-btn">Get Started Now</a>
-            <a href="#projects" class="apex-hero-btn-arrow">
-                <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M5 12h14M12 5l7 7-7 7"/>
-                </svg>
-            </a>
-        </div>
+        
         <div class="apex-hero-image-wrapper">
             <div class="apex-hero-image">
                 <img src="https://k4design.github.io/lofty-sections/img/abouthero.jpeg" alt="Aperture Global Luxury Real Estate">
@@ -907,6 +880,15 @@
     </div>
 </section>
 
+<!-- Wistia Video Section -->
+<section class="apex-section apex-section-light" style="padding: 2rem 0;">
+    <div class="apex-container">
+        <div style="max-width: 1200px; margin: 0 auto; position: relative; padding-top: 56.25%; background: #000;">
+            <wistia-player media-id="x0hojml0gz" wistia-popover="true" aspect="1.7777777777777777" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></wistia-player>
+        </div>
+    </div>
+</section>
+
 <!-- Our Vision & Mission Section -->
 <section class="apex-section apex-section-light">
     <div class="apex-container">
@@ -924,7 +906,7 @@
 </section>
 
 <!-- Messages From The Founder Section -->
-<section class="apex-section apex-section-dark">
+<section class="apex-section apex-section-dark" style="padding: 0;">
     <div class="apex-founder-section">
         <div class="apex-founder-content">
             <h2>MESSAGES FROM THE FOUNDER</h2>
@@ -932,16 +914,18 @@
                 <div class="apex-founder-image-wrapper">
                     <img src="https://apertureglobal.com/about/rp.png" alt="Robert Palmer" class="apex-founder-image">
                 </div>
-                <div class="apex-founder-text-overlay">
-                    <div class="apex-founder-text-top-left">ROBERT</div>
-                    <div class="apex-founder-text-top-right">PALMER • FOUNDER</div>
-                    <div class="apex-founder-text-bottom-left">MESSAGES FROM</div>
-                    <div class="apex-founder-text-bottom-right">THE FOUNDER</div>
-                </div>
-                <div class="apex-founder-quote">
-                    <div class="apex-founder-quote-label">FOUNDER'S MESSAGE</div>
-                    <div class="apex-founder-quote-text">"At Aperture Global, we believe that every luxury property deserves to be presented at its absolute finest. Our mission is to empower real estate professionals with the tools, technology, and support they need to succeed in today's competitive market. We're not just building a brokerage – we're building the future of luxury real estate."</div>
-                    <div class="apex-founder-name">Robert Palmer, Founder & CEO, Aperture Global</div>
+                <div class="apex-founder-content-wrapper">
+                    <div class="apex-founder-text-overlay">
+                        <div class="apex-founder-text-top-left"></div>
+                        <div class="apex-founder-text-top-right"></div>
+                        <div class="apex-founder-text-bottom-left">Message from the founder.</div>
+                        <div class="apex-founder-text-bottom-right"></div>
+                    </div>
+                    <div class="apex-founder-quote">
+                        <div class="apex-founder-quote-label">FOUNDER'S MESSAGE</div>
+                        <div class="apex-founder-quote-text">"At Aperture Global, we believe that every luxury property deserves to be presented at its absolute finest. Our mission is to empower real estate professionals with the tools, technology, and support they need to succeed in today's competitive market. We're not just building a brokerage – we're building the future of luxury real estate."</div>
+                        <div class="apex-founder-name">Robert Palmer, Founder & CEO, Aperture Global</div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -949,7 +933,7 @@
 </section>
 
 <!-- Unmatched Momentum Section -->
-<section class="apex-section apex-section-dark">
+<section class="apex-section apex-section-dark" style="background: #141d41;">
     <div class="apex-container">
         <h2 class="apex-section-title">Unmatched Momentum. Unrivaled Support.</h2>
         <p class="apex-section-text">Aperture Global is proudly backed by LPTA, ranked #2 among the fastest-growing companies on the Deloitte Fast 500. This achievement underscores the power, stability, and rapid expansion that fuel our brokerage—empowering us to deliver world-class service, breakthrough technology, and exceptional results for luxury clients and agents worldwide.</p>
@@ -980,52 +964,23 @@
             <div class="apex-team-member">
                 <img src="https://k4design.github.io/lofty-sections/img/leadership/danielmcpeake.jpeg" alt="Team Member" class="apex-team-image">
                 <div class="apex-team-name">Daniel McPeake</div>
-                <div class="apex-team-title">VP of Marketing</div>
+                <div class="apex-team-title">UK & Portugal Director</div>
             </div>
         </div>
-        <div style="text-align: center; margin-top: 3rem;">
-            <a href="#team" class="apex-btn">VIEW ALL TEAM</a>
-        </div>
-    </div>
-</section>
-
-<!-- Join Our Community Section -->
-<section class="apex-section apex-section-dark">
-    <div class="apex-container">
-        <h2 class="apex-section-title">JOIN OUR COMMUNITY</h2>
-        <p class="apex-section-text">Stay connected with Aperture Global and receive the latest insights, market updates, and exclusive opportunities in luxury real estate.</p>
-        <form class="apex-community-form">
-            <input type="email" placeholder="Enter your email address" class="apex-community-input" required>
-            <button type="submit" class="apex-community-btn">SUBSCRIBE</button>
-        </form>
     </div>
 </section>
 
 <!-- Transform Ideas Into Reality Section -->
-<section class="apex-section apex-section-light">
+<section class="apex-section apex-section-light" style="padding: 3rem 0;">
     <div class="apex-container">
-        <div class="apex-cta-section">
+        <div class="apex-cta-section" style="padding: 2rem 0;">
             <h2 class="apex-section-title">TRANSFORM IDEAS INTO REALITY</h2>
             <p class="apex-section-text">Ready to elevate your luxury real estate business? Let's collaborate to create exceptional experiences and deliver outstanding results.</p>
-            <div class="apex-cta-circle">
-                <a href="#contact" style="color: inherit; text-decoration: none;">→</a>
-            </div>
-            <div style="text-align: center;">
-                <a href="#contact" class="apex-btn" style="font-size: 0.85rem; padding: 0.75rem 1.5rem;">CONTACT US</a>
-            </div>
         </div>
     </div>
 </section>
 
 <script>
-// Form submission handler
-document.querySelector('.apex-community-form')?.addEventListener('submit', function(e) {
-    e.preventDefault();
-    const email = this.querySelector('input[type="email"]').value;
-    alert('Thank you for subscribing! We\'ll be in touch soon.');
-    this.reset();
-});
-
 // Smooth scroll for anchor links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
