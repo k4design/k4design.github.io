@@ -8,7 +8,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background: #000000;
+            background: #141d41;
             padding: 5vh 0 0 0;
             overflow: hidden;
             position: relative;
@@ -107,49 +107,86 @@
         
       @media (max-width: 768px) {
           #deloitte-award {
-              height: 20vh;
-              min-height: 20vh;
+              height: auto;
+              min-height: auto;
+              padding: 5vh 0 3rem 0;
+              background: #141d41;
           }
           
           #deloitte-award .award-container {
+              flex-direction: column;
+              align-items: flex-start;
+              text-align: left;
               padding: 0 2rem;
-              gap: 1.5rem;
+              gap: 2rem;
           }
           
           #deloitte-award .award-image {
-              height: 7vh;
+              height: auto;
+              width: 70vw;
+              max-width: 70vw;
+              object-fit: contain;
+              order: 1;
+              margin-top: 6vh;
           }
           
           #deloitte-award .award-content {
-              gap: 0.5rem;
+              align-items: flex-start;
+              gap: 1rem;
+              order: 2;
           }
           
           #deloitte-award .award-headline {
               font-size: 1.5rem;
+              text-align: left;
+          }
+          
+          #deloitte-award .award-description {
+              text-align: left;
+              max-width: 100%;
           }
       }
         
       @media (max-width: 480px) {
           #deloitte-award {
-              height: 20vh;
-              min-height: 20vh;
+              height: auto;
+              min-height: auto;
+              padding: 5vh 0 2.5rem 0;
+              background: #141d41;
           }
           
           #deloitte-award .award-container {
+              flex-direction: column;
+              align-items: flex-start;
+              text-align: left;
               padding: 0 1.5rem;
-              gap: 1rem;
+              gap: 1.5rem;
           }
           
           #deloitte-award .award-image {
-              height: 7vh;
+              height: auto;
+              width: 70vw;
+              max-width: 70vw;
+              object-fit: contain;
+              order: 1;
+              margin-top: 6vh;
+          }
+          
+          #deloitte-award .award-content {
+              align-items: flex-start;
+              gap: 0.75rem;
+              order: 2;
           }
           
           #deloitte-award .award-headline {
-              font-size: 1.5rem;
+              font-size: 1.25rem;
+              text-align: left;
           }
           
           #deloitte-award .award-description {
-              font-size: 1.25rem;
+              font-size: 1rem;
+              text-align: left;
+              max-width: 100%;
           }
       }
         </style>

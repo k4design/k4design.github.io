@@ -845,7 +845,7 @@ section.dev-projects-section .project-card .project-overlay .overlay-content p {
     right: 1.5rem;
     width: max(4vw, 100px);
     height: max(4vw, 100px);
-    background: #000000;
+    background: #10172d;
     border: none;
     border-radius: 50%;
     display: flex;
@@ -959,7 +959,7 @@ section.dev-projects-section .project-card .project-overlay .overlay-content p {
 }
 
 .carousel-indicator.active {
-    background: #000000;
+    background: #10172d;
     height: 60px;
 }
 

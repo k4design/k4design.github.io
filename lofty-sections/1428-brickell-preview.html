@@ -85,13 +85,14 @@
         /* Premium Hero Section */
         .new-dev-hero {
             height: auto;
-            padding: 8rem 0 6rem 0;
+            padding: 8rem 0 0 0;
             position: relative;
             overflow: visible;
             display: flex;
             align-items: center;
             z-index: 1;
             background: #0a0e1a;
+            padding-bottom: min(40vh, 400px);
         }
 
         .hero-background {
@@ -170,18 +171,36 @@
 
         /* Video Section */
         .property-video-section {
-            padding: 4rem 0;
+            padding: 0;
             background: var(--primary-white);
+            position: relative;
+            z-index: 2;
+            margin-top: min(-20vh, -200px);
+            padding-top: min(20vh, 200px);
+            padding-bottom: 4rem;
         }
 
         .property-video-section .container {
             max-width: 1400px;
+            padding: 0 2rem;
+            position: relative;
         }
-
+        
         .property-video-section wistia-player {
             width: 100%;
             height: auto;
             display: block;
+            position: relative;
+            z-index: 9999 !important;
+        }
+        
+        .property-video-section wistia-player iframe,
+        .property-video-section wistia-player > div,
+        .property-video-section wistia-player > div > iframe,
+        .property-video-section .wistia_embed,
+        .property-video-section .wistia_embed iframe {
+            position: relative !important;
+            z-index: 9999 !important;
         }
 
         /* Location Section */
@@ -621,11 +640,17 @@
 
         @media (max-width: 768px) {
             .new-dev-hero {
-                padding: 6rem 0 4rem 0;
+                padding: 6rem 0 0 0;
+                padding-bottom: min(30vh, 250px);
             }
             
             .hero-text {
                 text-align: left;
+            }
+            
+            .property-video-section {
+                margin-top: min(-15vh, -150px);
+                padding-top: min(15vh, 150px);
             }
             
             .property-video-section,
@@ -720,7 +745,7 @@
                     <p class="text-elegant">Nestled in the heart of Brickell, Miami's vibrant financial district, lies an exclusive urban enclave that redefines luxury living. Surrounded by the city's iconic skyline and offering panoramic views of Biscayne Bay, this sophisticated neighborhood blends cosmopolitan energy with serene residential elegance. With a thoughtfully designed, low-density layout and resort-style ambiance, Brickell offers a private, upscale lifestyle within a secure, walkable environment. Centrally located, it provides effortless access to world-class dining, shopping, and cultural attractions while maintaining a sense of exclusivity and refined tranquility.</p>
                 </div>
                 <div class="location-image">
-                    <img src="https://k4design.github.io/lofty-sections/img/1428.jpg" alt="Brickell, Miami">
+                    <img src="https://k4design.github.io/lofty-sections/img/1428/casestudy4_1.jpg" alt="Brickell, Miami">
                 </div>
             </div>
         </div>
@@ -810,45 +835,45 @@
         <div class="container">
             <div class="carousel-vip">
                 <!-- Slide 1 -->
-                <div class="slide active" style="background-image: url('https://k4design.github.io/lofty-sections/img/1428.jpg');"></div>
+                <div class="slide active" style="background-image: url('https://k4design.github.io/lofty-sections/img/1428/casestudy4_1.jpg');"></div>
                 <!-- Slide 2 -->
-                <div class="slide" style="background-image: url('https://k4design.github.io/lofty-sections/img/1428.jpg');"></div>
+                <div class="slide" style="background-image: url('https://k4design.github.io/lofty-sections/img/1428/casestudy4_2.jpg');"></div>
                 <!-- Slide 3 -->
-                <div class="slide" style="background-image: url('https://k4design.github.io/lofty-sections/img/1428.jpg');"></div>
+                <div class="slide" style="background-image: url('https://k4design.github.io/lofty-sections/img/1428/casestudy4_3.jpg');"></div>
                 <!-- Slide 4 -->
-                <div class="slide" style="background-image: url('https://k4design.github.io/lofty-sections/img/1428.jpg');"></div>
+                <div class="slide" style="background-image: url('https://k4design.github.io/lofty-sections/img/1428/casestudy4_4.jpg');"></div>
                 <!-- Slide 5 -->
-                <div class="slide" style="background-image: url('https://k4design.github.io/lofty-sections/img/1428.jpg');"></div>
+                <div class="slide" style="background-image: url('https://k4design.github.io/lofty-sections/img/1428/casestudy4_5.jpg');"></div>
                 <!-- Slide 6 -->
-                <div class="slide" style="background-image: url('https://k4design.github.io/lofty-sections/img/1428.jpg');"></div>
+                <div class="slide" style="background-image: url('https://k4design.github.io/lofty-sections/img/1428/casestudy4_6.jpg');"></div>
                 <!-- Slide 7 -->
-                <div class="slide" style="background-image: url('https://k4design.github.io/lofty-sections/img/1428.jpg');"></div>
+                <div class="slide" style="background-image: url('https://k4design.github.io/lofty-sections/img/1428/casestudy4_7.jpg');"></div>
                 <!-- Slide 8 -->
-                <div class="slide" style="background-image: url('https://k4design.github.io/lofty-sections/img/1428.jpg');"></div>
+                <div class="slide" style="background-image: url('https://k4design.github.io/lofty-sections/img/1428/casestudy4_8.jpg');"></div>
                 <!-- Slide 9 -->
-                <div class="slide" style="background-image: url('https://k4design.github.io/lofty-sections/img/1428.jpg');"></div>
+                <div class="slide" style="background-image: url('https://k4design.github.io/lofty-sections/img/1428/casestudy4_9.jpg');"></div>
                 <!-- Slide 10 -->
-                <div class="slide" style="background-image: url('https://k4design.github.io/lofty-sections/img/1428.jpg');"></div>
+                <div class="slide" style="background-image: url('https://k4design.github.io/lofty-sections/img/1428/casestudy4_10.jpg');"></div>
                 <!-- Slide 11 -->
-                <div class="slide" style="background-image: url('https://k4design.github.io/lofty-sections/img/1428.jpg');"></div>
+                <div class="slide" style="background-image: url('https://k4design.github.io/lofty-sections/img/1428/casestudy4_11.jpg');"></div>
                 <!-- Slide 12 -->
-                <div class="slide" style="background-image: url('https://k4design.github.io/lofty-sections/img/1428.jpg');"></div>
+                <div class="slide" style="background-image: url('https://k4design.github.io/lofty-sections/img/1428/casestudy4_12.jpg');"></div>
                 <!-- Slide 13 -->
-                <div class="slide" style="background-image: url('https://k4design.github.io/lofty-sections/img/1428.jpg');"></div>
+                <div class="slide" style="background-image: url('https://k4design.github.io/lofty-sections/img/1428/casestudy4_13.jpg');"></div>
                 <!-- Slide 14 -->
-                <div class="slide" style="background-image: url('https://k4design.github.io/lofty-sections/img/1428.jpg');"></div>
+                <div class="slide" style="background-image: url('https://k4design.github.io/lofty-sections/img/1428/casestudy4_14.jpg');"></div>
                 <!-- Slide 15 -->
-                <div class="slide" style="background-image: url('https://k4design.github.io/lofty-sections/img/1428.jpg');"></div>
+                <div class="slide" style="background-image: url('https://k4design.github.io/lofty-sections/img/1428/casestudy4_15.jpg');"></div>
                 <!-- Slide 16 -->
-                <div class="slide" style="background-image: url('https://k4design.github.io/lofty-sections/img/1428.jpg');"></div>
+                <div class="slide" style="background-image: url('https://k4design.github.io/lofty-sections/img/1428/casestudy4_16.jpg');"></div>
                 <!-- Slide 17 -->
-                <div class="slide" style="background-image: url('https://k4design.github.io/lofty-sections/img/1428.jpg');"></div>
+                <div class="slide" style="background-image: url('https://k4design.github.io/lofty-sections/img/1428/casestudy4_17.jpg');"></div>
                 <!-- Slide 18 -->
-                <div class="slide" style="background-image: url('https://k4design.github.io/lofty-sections/img/1428.jpg');"></div>
+                <div class="slide" style="background-image: url('https://k4design.github.io/lofty-sections/img/1428/casestudy4_18.jpg');"></div>
                 <!-- Slide 19 -->
-                <div class="slide" style="background-image: url('https://k4design.github.io/lofty-sections/img/1428.jpg');"></div>
+                <div class="slide" style="background-image: url('https://k4design.github.io/lofty-sections/img/1428/casestudy4_19.jpg');"></div>
                 <!-- Slide 20 -->
-                <div class="slide" style="background-image: url('https://k4design.github.io/lofty-sections/img/1428.jpg');"></div>
+                <div class="slide" style="background-image: url('https://k4design.github.io/lofty-sections/img/1428/casestudy4_20.jpg');"></div>
                 
                 <!-- Carousel Controls -->
                 <button class="carousel-prev" aria-label="Previous slide">

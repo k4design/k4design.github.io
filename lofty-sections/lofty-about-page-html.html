@@ -12,80 +12,187 @@
     --apex-accent: #0092ff;
 }
 
-/* Hero Section - Dark Background */
+/* Hero Section - Light Gray Minimalist */
 .apex-hero {
-    min-height: 90vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #000000;
+    min-height: 100vh;
     position: relative;
-    padding: 8rem 0 6rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    background: #e8e8e8;
+    padding: 4rem 2rem 2rem;
+    overflow: hidden;
 }
 
 .apex-hero-content {
     position: relative;
     z-index: 2;
-    max-width: 1200px;
+    max-width: 1400px;
+    width: 100%;
     margin: 0 auto;
-    padding: 0 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
     text-align: center;
 }
 
 .apex-hero h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(3rem, 8vw, 5.5rem);
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(3rem, 8vw, 6rem);
     font-weight: 700;
-    color: var(--apex-text-light);
-    margin-bottom: 2rem;
+    color: #000000;
+    margin-bottom: 1.5rem;
     line-height: 1.1;
     letter-spacing: -0.02em;
-    width: 75%;
-    margin: auto;
+    text-transform: uppercase;
 }
 
-.apex-hero p {
+.apex-hero-slogan {
     font-family: 'Inter', sans-serif;
-    font-size: clamp(1rem, 2vw, 1.25rem);
+    font-size: clamp(1rem, 2vw, 1.5rem);
     font-weight: 300;
-    color: rgba(255, 255, 255, 0.9);
+    color: #4a4a4a;
+    margin-bottom: 3rem;
+    line-height: 1.6;
     max-width: 800px;
-    margin: 0 auto 3rem;
-    line-height: 1.7;
+}
+
+.apex-hero-cta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 4rem;
 }
 
 .apex-hero-btn {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
     padding: 1rem 2.5rem;
-    border: 2px solid var(--apex-white);
-    color: var(--apex-white);
-    background: transparent;
+    background: #000000;
+    color: #ffffff;
     font-family: 'Inter', sans-serif;
-    font-size: 0.95rem;
-    font-weight: 500;
+    font-size: clamp(0.875rem, 1.5vw, 1rem);
+    font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.05em;
     text-decoration: none;
+    border-radius: 8px;
     transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
 }
 
 .apex-hero-btn:hover {
-    background: var(--apex-white);
-    color: var(--apex-dark);
+    background: #1a1a1a;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.apex-hero-btn-arrow {
+    width: 50px;
+    height: 50px;
+    background: #000000;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.3s ease;
+}
+
+.apex-hero-btn-arrow:hover {
+    background: #1a1a1a;
+    transform: scale(1.05);
+}
+
+.apex-hero-btn-arrow svg {
+    width: 24px;
+    height: 24px;
+    stroke: #ffffff;
+    fill: none;
+}
+
+.apex-hero-image-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 1200px;
+    margin: 2rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .apex-hero-image {
+    position: relative;
     width: 100%;
-    max-width: 1400px;
-    margin: 4rem auto 0;
-    border-radius: 0;
-    overflow: hidden;
+    max-width: 1000px;
+    height: auto;
+    z-index: 1;
 }
 
 .apex-hero-image img {
     width: 100%;
     height: auto;
     display: block;
+    border-radius: 0;
+}
+
+.apex-hero-scroll-indicator {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 60px;
+    background: #000000;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 10;
+    animation: bounce 2s infinite;
+}
+
+.apex-hero-scroll-indicator:hover {
+    background: #1a1a1a;
+    transform: translateX(-50%) translateY(-5px);
+}
+
+.apex-hero-scroll-indicator svg {
+    width: 24px;
+    height: 24px;
+    stroke: #ffffff;
+    fill: none;
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateX(-50%) translateY(0);
+    }
+    50% {
+        transform: translateX(-50%) translateY(10px);
+    }
+}
+
+.apex-hero p {
+    display: none;
+}
+
+.apex-hero-description {
+    display: none;
+}
+
+.apex-hero-label {
+    display: none;
+}
+
+.apex-hero-text-overlay {
+    display: none;
 }
 
 /* Section Styles */
@@ -212,102 +319,219 @@
     margin-bottom: 2rem;
 }
 
-/* Image Gallery */
-.apex-image-gallery {
+/* Vision & Mission Grid */
+.apex-vision-mission-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 2rem;
-    margin-top: 3rem;
+    gap: 4rem;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
-.apex-gallery-image {
-    width: 100%;
-    height: 400px;
-    object-fit: cover;
-    border-radius: 0;
+.apex-vision-column,
+.apex-mission-column {
+    display: flex;
+    flex-direction: column;
 }
 
-/* Timeline Section */
-.apex-timeline {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 3rem;
-    margin-top: 3rem;
-}
-
-.apex-timeline-item {
-    text-align: center;
-}
-
-.apex-timeline-year {
+.apex-vision-column h2,
+.apex-mission-column h2 {
     font-family: 'Playfair Display', serif;
     font-size: clamp(2rem, 4vw, 3rem);
     font-weight: 700;
-    margin-bottom: 0.5rem;
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.02em;
+    color: var(--apex-text-dark);
 }
 
-.apex-timeline-title {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(1.25rem, 2vw, 1.5rem);
-    font-weight: 600;
-    margin-bottom: 1rem;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-}
-
-.apex-timeline-text {
+.apex-vision-column p,
+.apex-mission-column p {
     font-family: 'Inter', sans-serif;
-    font-size: 1rem;
+    font-size: clamp(1rem, 1.5vw, 1.1rem);
     font-weight: 300;
-    line-height: 1.6;
+    line-height: 1.8;
+    color: var(--apex-text-dark);
+    margin: 0;
 }
 
 /* Founder Message Section */
 .apex-founder-section {
+    position: relative;
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #1a1a1a;
+    background-image: 
+        radial-gradient(circle at 20% 50%, rgba(150, 150, 150, 0.15) 0%, transparent 50%),
+        url("data:image/svg+xml,%3Csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.1'/%3E%3C/svg%3E");
+    background-size: cover, 200px 200px;
+    overflow: hidden;
+    padding: 6rem 2rem;
+}
+
+.apex-founder-content {
+    position: relative;
+    z-index: 2;
+    max-width: 1400px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.apex-founder-content h2 {
+    display: none;
+}
+
+.apex-founder-quote-container {
+    position: relative;
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
     gap: 0;
     min-height: 600px;
 }
 
-.apex-founder-content {
+.apex-founder-image-wrapper {
+    position: relative;
     display: flex;
-    flex-direction: column;
+    align-items: center;
     justify-content: center;
+    grid-column: 1;
+    grid-row: 1;
+    z-index: 1;
+}
+
+.apex-founder-image {
+    width: 400px;
+    height: 500px;
+    object-fit: cover;
+    position: relative;
+    z-index: 2;
+    filter: sepia(0.3) saturate(1.2) brightness(0.9);
+    box-shadow: 0 0 80px rgba(150, 150, 150, 0.4), 0 0 120px rgba(150, 150, 150, 0.2);
+}
+
+.apex-founder-image::before {
+    content: '';
+    position: absolute;
+    top: -20%;
+    left: -20%;
+    right: -20%;
+    bottom: -20%;
+    background: radial-gradient(circle, rgba(150, 150, 150, 0.3) 0%, transparent 70%);
+    z-index: -1;
+    filter: blur(40px);
+}
+
+.apex-founder-text-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    grid-column: 1;
+    grid-row: 1;
+    z-index: 3;
+    pointer-events: none;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
     padding: 4rem;
 }
 
-.apex-founder-content h2 {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(2rem, 4vw, 3rem);
+.apex-founder-text-top-left {
+    grid-column: 1;
+    grid-row: 1;
+    align-self: start;
+    justify-self: start;
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(3rem, 8vw, 8rem);
     font-weight: 700;
-    margin-bottom: 2rem;
+    color: #ffffff;
+    line-height: 0.9;
     letter-spacing: -0.02em;
-    color: var(--apex-text-light);
+    text-transform: uppercase;
+    mix-blend-mode: normal;
+}
+
+.apex-founder-text-top-right {
+    grid-column: 2;
+    grid-row: 1;
+    align-self: start;
+    justify-self: end;
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(3rem, 8vw, 8rem);
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 0.9;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    mix-blend-mode: normal;
+}
+
+.apex-founder-text-bottom-left {
+    grid-column: 1;
+    grid-row: 2;
+    align-self: end;
+    justify-self: start;
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(3rem, 8vw, 8rem);
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 0.9;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    mix-blend-mode: normal;
+}
+
+.apex-founder-text-bottom-right {
+    grid-column: 2;
+    grid-row: 2;
+    align-self: end;
+    justify-self: end;
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(3rem, 8vw, 8rem);
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 0.9;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    mix-blend-mode: normal;
 }
 
 .apex-founder-quote {
+    position: absolute;
+    bottom: 4rem;
+    left: 4rem;
+    right: 4rem;
+    z-index: 4;
+    pointer-events: none;
+    max-width: 800px;
+}
+
+.apex-founder-quote-label {
     font-family: 'Inter', sans-serif;
-    font-size: clamp(1.25rem, 2vw, 1.75rem);
+    font-size: clamp(0.875rem, 1.5vw, 1.125rem);
+    font-weight: 600;
+    color: #999999;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 1rem;
+}
+
+.apex-founder-quote-text {
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(1rem, 2vw, 1.25rem);
     font-weight: 300;
-    line-height: 1.6;
-    margin-bottom: 2rem;
+    line-height: 1.8;
     color: rgba(255, 255, 255, 0.95);
-    font-style: italic;
 }
 
 .apex-founder-name {
     font-family: 'Inter', sans-serif;
-    font-size: 1.1rem;
+    font-size: clamp(0.875rem, 1.5vw, 1rem);
     font-weight: 600;
-    color: var(--apex-text-light);
-    margin-top: 1rem;
-}
-
-.apex-founder-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+    color: rgba(255, 255, 255, 0.8);
+    margin-top: 1.5rem;
 }
 
 /* Awards Section */
@@ -459,13 +683,40 @@
 
 /* Responsive Design */
 @media (max-width: 1024px) {
-    .apex-split-section,
-    .apex-founder-section {
+    .apex-vision-mission-grid {
         grid-template-columns: 1fr;
+        gap: 3rem;
     }
     
-    .apex-split-image,
+    .apex-split-section,
+    .apex-founder-section {
+        min-height: 70vh;
+        padding: 4rem 1rem;
+    }
+    
     .apex-founder-image {
+        width: 300px;
+        height: 400px;
+    }
+    
+    .apex-founder-text-overlay {
+        padding: 2rem;
+    }
+    
+    .apex-founder-text-top-left,
+    .apex-founder-text-top-right,
+    .apex-founder-text-bottom-left,
+    .apex-founder-text-bottom-right {
+        font-size: clamp(2rem, 6vw, 5rem);
+    }
+    
+    .apex-founder-quote {
+        bottom: 2rem;
+        left: 2rem;
+        right: 2rem;
+    }
+    
+    .apex-split-image {
         order: -1;
         height: 400px;
     }
@@ -474,24 +725,52 @@
         grid-template-columns: repeat(2, 1fr);
     }
     
-    .apex-timeline {
-        grid-template-columns: 1fr;
-    }
 }
 
 @media (max-width: 768px) {
     .apex-hero {
-        min-height: 70vh;
-        padding: 6rem 0 4rem;
+        min-height: 90vh;
+        padding: 3rem 1rem 1rem;
+    }
+    
+    .apex-hero h1 {
+        font-size: clamp(2.5rem, 6vw, 4rem);
+        margin-bottom: 1rem;
+    }
+    
+    .apex-hero-slogan {
+        font-size: clamp(0.95rem, 1.8vw, 1.25rem);
+        margin-bottom: 2rem;
+    }
+    
+    .apex-hero-cta {
+        margin-bottom: 3rem;
+    }
+    
+    .apex-hero-btn {
+        padding: 0.875rem 2rem;
+        font-size: 0.875rem;
+    }
+    
+    .apex-hero-btn-arrow {
+        width: 36px;
+        height: 36px;
+    }
+    
+    .apex-hero-image-wrapper {
+        margin: 1.5rem 0;
+    }
+    
+    .apex-hero-scroll-indicator {
+        width: 50px;
+        height: 50px;
+        bottom: 1.5rem;
     }
     
     .apex-section {
         padding: 4rem 0;
     }
     
-    .apex-image-gallery {
-        grid-template-columns: 1fr;
-    }
     
     .apex-team-grid {
         grid-template-columns: 1fr;
@@ -501,9 +780,90 @@
         flex-direction: column;
     }
     
+    .apex-vision-mission-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
     .apex-split-content,
+    .apex-founder-section {
+        min-height: 60vh;
+        padding: 3rem 1rem;
+    }
+    
+    .apex-founder-image {
+        width: 250px;
+        height: 320px;
+    }
+    
+    .apex-founder-text-overlay {
+        padding: 1.5rem;
+    }
+    
+    .apex-founder-text-top-left,
+    .apex-founder-text-top-right,
+    .apex-founder-text-bottom-left,
+    .apex-founder-text-bottom-right {
+        font-size: clamp(1.5rem, 5vw, 3rem);
+    }
+    
+    .apex-founder-quote {
+        bottom: 1.5rem;
+        left: 1.5rem;
+        right: 1.5rem;
+    }
+    
     .apex-founder-content {
         padding: 2rem;
+    }
+    
+    .apex-hero {
+        min-height: 85vh;
+        padding: 2rem 1rem 1rem;
+    }
+    
+    .apex-hero h1 {
+        font-size: clamp(2rem, 5vw, 3.5rem);
+        margin-bottom: 0.75rem;
+    }
+    
+    .apex-hero-slogan {
+        font-size: clamp(0.875rem, 1.5vw, 1.125rem);
+        margin-bottom: 1.5rem;
+    }
+    
+    .apex-hero-cta {
+        margin-bottom: 2rem;
+    }
+    
+    .apex-hero-btn {
+        padding: 0.75rem 1.5rem;
+        font-size: 0.8rem;
+    }
+    
+    .apex-hero-btn-arrow {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .apex-hero-btn-arrow svg {
+        width: 20px;
+        height: 20px;
+    }
+    
+    .apex-hero-image-wrapper {
+        margin: 1rem 0;
+    }
+    
+    .apex-hero-scroll-indicator {
+        width: 45px;
+        height: 45px;
+        bottom: 1rem;
+    }
+    
+    .apex-hero-scroll-indicator svg {
+        width: 20px;
+        height: 20px;
     }
 }
 </style>
@@ -516,12 +876,26 @@
 <!-- Hero Section -->
 <section class="apex-hero">
     <div class="apex-hero-content">
-        <h1>ARCHIVING DREAMS, BUILDING REALITY.</h1>
-        <p>At Aperture Global, we are more than just a luxury real estate brokerage – we are the architects of your vision and the builders of your reality. With a global presence spanning 6 continents and 20+ countries, we bring unparalleled expertise, innovation, and service to the world's most prestigious markets.</p>
-        <a href="#projects" class="apex-hero-btn">VIEW OUR PROJECTS</a>
+        <h1>APERTURE GLOBAL</h1>
+        <p class="apex-hero-slogan">The ultimate luxury real estate experience, better than the rest.</p>
+        <div class="apex-hero-cta">
+            <a href="#projects" class="apex-hero-btn">Get Started Now</a>
+            <a href="#projects" class="apex-hero-btn-arrow">
+                <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+            </a>
+        </div>
+        <div class="apex-hero-image-wrapper">
+            <div class="apex-hero-image">
+                <img src="https://k4design.github.io/lofty-sections/img/abouthero.jpeg" alt="Aperture Global Luxury Real Estate">
+            </div>
+        </div>
     </div>
-    <div class="apex-hero-image">
-        <img src="https://k4design.github.io/lofty-sections/img/abouthero.jpeg" alt="Luxury Real Estate">
+    <div class="apex-hero-scroll-indicator" onclick="window.scrollTo({top: window.innerHeight, behavior: 'smooth'})">
+        <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 5v14M19 12l-7 7-7-7"/>
+        </svg>
     </div>
 </section>
 
@@ -530,50 +904,20 @@
     <div class="apex-container">
         <h2 class="apex-section-title">ABOUT APERTURE GLOBAL</h2>
         <p class="apex-section-text">Founded with a vision to transform the luxury real estate landscape, Aperture Global emerged from a recognition that the industry needed a new standard of excellence. Our team brings decades of industry experience and a proven track record of building successful real estate brands that empower agents and deliver exceptional results.</p>
-        <div class="apex-image-gallery">
-            <img src="https://k4design.github.io/lofty-sections/img/skyline.jpg" alt="Modern Architecture" class="apex-gallery-image">
-            <img src="https://k4design.github.io/lofty-sections/img/resort.jpg" alt="Luxury Property" class="apex-gallery-image">
-        </div>
     </div>
 </section>
 
-<!-- Our Vision Section -->
-<section class="apex-section apex-section-light">
-    <div class="apex-split-section">
-        <wistia-player media-id="x0hojml0gz" aspect="1.7777777777777777"></wistia-player>
-        <div class="apex-split-content">
-            <h2>OUR VISION</h2>
-            <p>To be the world's most trusted and innovative luxury real estate brokerage, setting new standards for excellence in property marketing, client service, and global market presence. We envision a future where every luxury property receives the sophisticated presentation and strategic marketing it deserves, connecting discerning buyers with exceptional homes across the globe.</p>
-        </div>
-    </div>
-</section>
-
-<!-- Our Mission Section -->
-<section class="apex-section apex-section-light">
-    <div class="apex-split-section">
-        <div class="apex-split-content">
-            <h2>OUR MISSION</h2>
-            <p>To empower luxury real estate professionals with cutting-edge technology, world-class marketing capabilities, and unparalleled support, enabling them to deliver exceptional results for their clients. We are committed to elevating the industry through innovation, integrity, and an unwavering dedication to excellence in every transaction.</p>
-        </div>
-        <wistia-player media-id="x0hojml0gz" aspect="1.7777777777777777"></wistia-player>
-    </div>
-</section>
-
-<!-- Our Journey Section -->
+<!-- Our Vision & Mission Section -->
 <section class="apex-section apex-section-light">
     <div class="apex-container">
-        <h2 class="apex-section-title">OUR JOURNEY</h2>
-        <p class="apex-section-text">From our founding to becoming a global leader in luxury real estate, our journey has been marked by innovation, growth, and an unwavering commitment to excellence.</p>
-        <div class="apex-timeline">
-            <div class="apex-timeline-item">
-                <div class="apex-timeline-year">2022</div>
-                <div class="apex-timeline-title">GETTING OUR START</div>
-                <div class="apex-timeline-text">Founded with a vision to transform luxury real estate through innovation and excellence, launching with a focus on empowering agents and delivering exceptional results.</div>
+        <div class="apex-vision-mission-grid">
+            <div class="apex-vision-column">
+                <h2>OUR VISION</h2>
+                <p>To be the world's most trusted and innovative luxury real estate brokerage, setting new standards for excellence in property marketing, client service, and global market presence. We envision a future where every luxury property receives the sophisticated presentation and strategic marketing it deserves, connecting discerning buyers with exceptional homes across the globe.</p>
             </div>
-            <div class="apex-timeline-item">
-                <div class="apex-timeline-year">2025</div>
-                <div class="apex-timeline-title">GROWING TO STRONG</div>
-                <div class="apex-timeline-text">Expanded to become the first independent luxury brokerage with a global launch at inception, spanning 6 continents and 20+ countries with over 100 top brokers.</div>
+            <div class="apex-mission-column">
+                <h2>OUR MISSION</h2>
+                <p>To empower luxury real estate professionals with cutting-edge technology, world-class marketing capabilities, and unparalleled support, enabling them to deliver exceptional results for their clients. We are committed to elevating the industry through innovation, integrity, and an unwavering dedication to excellence in every transaction.</p>
             </div>
         </div>
     </div>
@@ -584,10 +928,23 @@
     <div class="apex-founder-section">
         <div class="apex-founder-content">
             <h2>MESSAGES FROM THE FOUNDER</h2>
-            <div class="apex-founder-quote">"At Aperture Global, we believe that every luxury property deserves to be presented at its absolute finest. Our mission is to empower real estate professionals with the tools, technology, and support they need to succeed in today's competitive market. We're not just building a brokerage – we're building the future of luxury real estate."</div>
-            <div class="apex-founder-name">Robert Palmer, Founder & CEO, Aperture Global</div>
+            <div class="apex-founder-quote-container">
+                <div class="apex-founder-image-wrapper">
+                    <img src="https://apertureglobal.com/about/rp.png" alt="Robert Palmer" class="apex-founder-image">
+                </div>
+                <div class="apex-founder-text-overlay">
+                    <div class="apex-founder-text-top-left">ROBERT</div>
+                    <div class="apex-founder-text-top-right">PALMER • FOUNDER</div>
+                    <div class="apex-founder-text-bottom-left">MESSAGES FROM</div>
+                    <div class="apex-founder-text-bottom-right">THE FOUNDER</div>
+                </div>
+                <div class="apex-founder-quote">
+                    <div class="apex-founder-quote-label">FOUNDER'S MESSAGE</div>
+                    <div class="apex-founder-quote-text">"At Aperture Global, we believe that every luxury property deserves to be presented at its absolute finest. Our mission is to empower real estate professionals with the tools, technology, and support they need to succeed in today's competitive market. We're not just building a brokerage – we're building the future of luxury real estate."</div>
+                    <div class="apex-founder-name">Robert Palmer, Founder & CEO, Aperture Global</div>
+                </div>
+            </div>
         </div>
-        <img src="https://apertureglobal.com/about/rp.png" alt="Robert Palmer" class="apex-founder-image">
     </div>
 </section>
 

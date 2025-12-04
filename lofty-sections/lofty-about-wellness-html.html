@@ -24,7 +24,7 @@
           display: flex;
           flex-direction: column;
           justify-content: center;
-          padding: 3rem 4rem 0 15vw;
+          padding: 3rem 4rem 0 10vw;
           position: relative;
           z-index: 2;
           border-right: 1px solid rgba(0, 0, 0, 0.08);
@@ -57,6 +57,11 @@
           margin-bottom: 3rem;
           letter-spacing: 0.01em;
           max-width: 480px;
+      }
+      
+      #wellness-amenities .text-panel .text-elegant {
+          width: 75%;
+          max-width: none;
       }
       
       #wellness-amenities .images-container {
@@ -116,6 +121,7 @@
           #wellness-amenities .wellness-container {
               grid-template-columns: 1fr;
               grid-template-rows: auto 1fr;
+              position: relative;
           }
           
           #wellness-amenities .text-panel {
@@ -125,14 +131,22 @@
           
           #wellness-amenities .images-container {
               min-height: 60vh;
+              position: relative;
           }
           
+          /* Mobile: Position video to only overlay the image section */
+          /* Center it horizontally and vertically within the images-container area */
           #wellness-amenities .overlay-video {
+              position: absolute;
+              left: 50%;
+              top: 70%;
+              transform: translate(-50%, -50%);
               width: 75%;
               max-width: 600px;
               height: auto;
-              left: 50%;
-              transform: translate(-50%, -50%);
+              margin: 0;
+              aspect-ratio: 16 / 9;
+              z-index: 3;
           }
       }
       
@@ -150,11 +164,16 @@
           }
           
           #wellness-amenities .overlay-video {
+              position: absolute;
+              left: 50%;
+              top: 50%;
+              transform: translate(-50%, -50%);
               width: 82.5%;
               max-width: 450px;
               height: auto;
-              left: 50%;
-              transform: translate(-50%, -50%);
+              margin: 0;
+              aspect-ratio: 16 / 9;
+              z-index: 3;
           }
       }
       
@@ -175,7 +194,7 @@
       </div><!-- Right Images Container -->
       <div class="images-container"><!-- Background Image (Architectural Space) -->
         <img src="https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=1200&#x26;h=800&#x26;fit=crop" alt="Modern architectural space" class="background-image" />
-      </div><!-- Overlay Video (Wistia Player) - Positioned to overlay both sections -->
+      </div><!-- Overlay Video (Wistia Player) - Positioned to overlay both sections on desktop, centered over image on mobile -->
       <div class="overlay-video">
         <div class="video-inner-container">
           <script src="https://fast.wistia.com/player.js" async></script>
