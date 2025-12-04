@@ -1,0 +1,1164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Residences at 1428 Brickell Ave - Preview</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@200;300;400;500;600;700&family=Inter:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Wistia Player Scripts -->
+    <script src="https://fast.wistia.com/player.js" async></script>
+    <script src="https://fast.wistia.com/embed/tkdudkmxx3.js" async type="module"></script>
+    <style>wistia-player[media-id='tkdudkmxx3']:not(:defined) { background: center / contain no-repeat url('https://fast.wistia.com/embed/medias/tkdudkmxx3/swatch'); display: block; filter: blur(5px); padding-top:56.25%; }</style>
+    
+    <style>
+        /* CSS Variables for Easy Customization */
+        :root {
+            --primary-white: #ffffff;
+            --secondary-white: #f8f9fa;
+            --tertiary-white: #f1f3f4;
+            --accent-blue: #0092ff;
+            --accent-blue-light: #4db8ff;
+            --accent-blue-dark: #007acc;
+            --text-primary: #1a1a1a;
+            --text-secondary: #4a4a4a;
+            --text-muted: #6b7280;
+            --text-accent: #0092ff;
+            --border-subtle: rgba(0, 146, 255, 0.15);
+            --border-blue: rgba(0, 146, 255, 0.3);
+            --gradient-primary: linear-gradient(135deg, #ffffff 0%, #f8f9fa 50%, #f1f3f4 100%);
+            --gradient-accent: linear-gradient(135deg, #0092ff 0%, #4db8ff 50%, #007acc 100%);
+            --shadow-soft: 0 30px 80px rgba(0, 0, 0, 0.1);
+            --shadow-glow: 0 0 60px rgba(0, 146, 255, 0.15);
+        }
+
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--primary-white);
+            color: var(--text-primary);
+            line-height: 1.7;
+            overflow-x: hidden;
+            font-weight: 200;
+        }
+
+        /* Typography */
+        .display-font {
+            font-family: 'Playfair Display', serif;
+            font-weight: 300;
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+        }
+
+        .text-luxury {
+            font-family: 'Playfair Display', serif;
+            font-weight: 300;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--accent-blue);
+        }
+
+        .text-elegant {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-weight: 200;
+            letter-spacing: 0.02em;
+            line-height: 1.8;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Premium Hero Section */
+        .new-dev-hero {
+            height: auto;
+            padding: 8rem 0 6rem 0;
+            position: relative;
+            overflow: visible;
+            display: flex;
+            align-items: center;
+            z-index: 1;
+            background: #0a0e1a;
+        }
+
+        .hero-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 120%;
+            z-index: 1;
+            overflow: hidden;
+            will-change: transform;
+        }
+
+        .hero-background::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(10, 14, 26, 0.95) 0%, rgba(10, 14, 26, 0.9) 50%, rgba(10, 14, 26, 0.95) 100%);
+            z-index: 2;
+        }
+
+        .hero-background img {
+            width: 100%;
+            height: 120%;
+            object-fit: cover;
+            filter: grayscale(20%) contrast(1.1);
+            transform: translateY(0);
+            will-change: transform;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 3;
+            width: 100%;
+        }
+
+        .hero-text {
+            max-width: 1000px;
+            margin: 0 auto;
+            text-align: center;
+            padding: 0 2rem;
+        }
+
+        .hero-text h1 {
+            font-family: 'Playfair Display', serif !important;
+            font-size: clamp(3rem, 8vw, 6rem) !important;
+            font-weight: 200 !important;
+            line-height: 0.95 !important;
+            margin-bottom: 2rem !important;
+            color: #ffffff !important;
+            letter-spacing: -0.04em !important;
+        }
+
+        .hero-subtitle {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.25rem, 3vw, 1.75rem);
+            font-weight: 300;
+            color: var(--accent-blue-light);
+            margin-bottom: 2rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .hero-description {
+            font-size: clamp(1.125rem, 2.5vw, 1.5rem);
+            font-weight: 200;
+            color: rgba(255, 255, 255, 0.95);
+            max-width: 800px;
+            margin: 0 auto 4rem;
+            line-height: 1.6;
+            letter-spacing: 0.01em;
+        }
+
+        /* Video Section */
+        .property-video-section {
+            padding: 4rem 0;
+            background: var(--primary-white);
+        }
+
+        .property-video-section .container {
+            max-width: 1400px;
+        }
+
+        .property-video-section wistia-player {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* Location Section */
+        .property-location-section {
+            padding: 6rem 0;
+            background: var(--secondary-white);
+        }
+
+        .location-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .location-content h2 {
+            font-size: clamp(2.5rem, 5vw, 4rem) !important;
+            font-weight: 300 !important;
+            margin-bottom: 2rem !important;
+            color: var(--text-primary) !important;
+        }
+
+        .location-content p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        .location-image {
+            width: 100%;
+            border-radius: 0;
+            overflow: hidden;
+        }
+
+        .location-image img {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+        }
+
+        /* Rep Disclosure Section */
+        .rep-disclosure-section {
+            padding: 4rem 0;
+            background: var(--primary-white);
+            border-top: 1px solid var(--border-subtle);
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .rep-disclosure {
+            text-align: center;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .rep-disclosure p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            line-height: 1.8;
+        }
+
+        .rep-disclosure h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.5rem, 3vw, 2.5rem);
+            font-weight: 300;
+            color: var(--text-primary);
+        }
+
+        /* Stats Section */
+        .property-stats-section {
+            padding: 6rem 0;
+            background: var(--primary-white);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 2rem;
+            background: var(--secondary-white);
+            border-radius: 0;
+            border: 1px solid var(--border-subtle);
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 146, 255, 0.1);
+            border-color: var(--border-blue);
+        }
+
+        .stat-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.5rem, 3vw, 2.5rem);
+            font-weight: 300;
+            color: var(--accent-blue);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-card p {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            font-weight: 300;
+        }
+
+        /* Feature Sections */
+        .property-features-section,
+        .property-estate-section,
+        .property-amenities-section {
+            padding: 6rem 0;
+        }
+
+        .property-features-section {
+            background: var(--primary-white);
+        }
+
+        .property-estate-section {
+            background: var(--secondary-white);
+        }
+
+        .property-amenities-section {
+            background: var(--primary-white);
+        }
+
+        .feature-grid,
+        .estate-grid,
+        .amenities-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .feature-content h2,
+        .estate-content h2,
+        .amenities-content h2 {
+            font-size: clamp(2.5rem, 5vw, 4rem) !important;
+            font-weight: 300 !important;
+            margin-bottom: 2rem !important;
+            color: var(--text-primary) !important;
+        }
+
+        .feature-content p,
+        .estate-content p,
+        .amenities-content p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        .feature-image,
+        .estate-image,
+        .amenities-image {
+            width: 100%;
+            border-radius: 0;
+            overflow: hidden;
+        }
+
+        .feature-image img,
+        .estate-image img,
+        .amenities-image img {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+        }
+
+        /* Carousel Section */
+        .property-carousel-section {
+            padding: 6rem 0;
+            background: #0a0e1a;
+        }
+
+        .carousel-vip {
+            position: relative;
+            width: 100%;
+            height: 80vh;
+            min-height: 600px;
+            max-height: 900px;
+            overflow: hidden;
+            border-radius: 0;
+        }
+
+        .carousel-vip .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+
+        .carousel-vip .slide.active {
+            opacity: 1;
+        }
+
+        .carousel-prev,
+        .carousel-next {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.6);
+            border: none;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .carousel-prev {
+            left: 2rem;
+        }
+
+        .carousel-next {
+            right: 2rem;
+        }
+
+        .carousel-prev:hover,
+        .carousel-next:hover {
+            background: rgba(0, 0, 0, 0.8);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .carousel-prev svg,
+        .carousel-next svg {
+            width: 24px;
+            height: 24px;
+            stroke: #ffffff;
+            fill: none;
+        }
+
+        .indicators {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 0.5rem;
+            z-index: 10;
+        }
+
+        .indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.4);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .indicator.active {
+            background: #ffffff;
+            width: 24px;
+            border-radius: 4px;
+        }
+
+        /* Property Features List Section */
+        .property-features-list-section {
+            padding: 6rem 0;
+            background: var(--secondary-white);
+        }
+
+        .features-list-header {
+            text-align: center;
+            max-width: 900px;
+            margin: 0 auto 4rem;
+        }
+
+        .features-list-header h2 {
+            font-size: clamp(2.5rem, 5vw, 4rem) !important;
+            font-weight: 300 !important;
+            margin-bottom: 2rem !important;
+            color: var(--text-primary) !important;
+        }
+
+        .features-list-header p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        .featurelist {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            max-width: 1200px;
+            margin: 0 auto 4rem;
+        }
+
+        .featurelist ul {
+            list-style: none;
+        }
+
+        .featurelist li {
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border-subtle);
+            font-size: 1rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .featurelist li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--accent-blue);
+            font-weight: 600;
+        }
+
+        .features-cta {
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        .cta-btn {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            cursor: pointer;
+            border: none;
+        }
+
+        .cta-btn.primary {
+            background: var(--gradient-accent);
+            color: white !important;
+            box-shadow: 0 10px 30px rgba(0, 146, 255, 0.3);
+        }
+
+        .cta-btn.primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0, 146, 255, 0.4);
+        }
+
+        /* Developer Section */
+        .developer-section {
+            padding: 6rem 0;
+            background: var(--primary-white);
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        .developer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .developer-content h2 {
+            font-size: clamp(2.5rem, 5vw, 4rem) !important;
+            font-weight: 300 !important;
+            margin-bottom: 2rem !important;
+            color: var(--text-primary) !important;
+        }
+
+        .developer-content p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        .developer-image-container {
+            width: 100%;
+            border-radius: 0;
+            overflow: hidden;
+        }
+
+        .developer-image {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+        }
+
+        /* Animation Styles */
+        section {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        section.animate-in {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .stat-card {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease;
+        }
+
+        .stat-card.animate-in {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .location-grid,
+            .feature-grid,
+            .estate-grid,
+            .amenities-grid,
+            .developer-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .featurelist {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .new-dev-hero {
+                padding: 6rem 0 4rem 0;
+            }
+            
+            .hero-text {
+                text-align: left;
+            }
+            
+            .property-video-section,
+            .property-location-section,
+            .rep-disclosure-section,
+            .property-stats-section,
+            .property-features-section,
+            .property-estate-section,
+            .property-amenities-section,
+            .property-carousel-section,
+            .property-features-list-section,
+            .developer-section {
+                padding: 4rem 0;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .carousel-vip {
+                height: 60vh;
+                min-height: 400px;
+            }
+            
+            .carousel-prev,
+            .carousel-next {
+                width: 40px;
+                height: 40px;
+            }
+            
+            .carousel-prev {
+                left: 1rem;
+            }
+            
+            .carousel-next {
+                right: 1rem;
+            }
+            
+            .features-list-header,
+            .rep-disclosure {
+                text-align: left;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-text h1 {
+                font-size: 2.5rem !important;
+            }
+            
+            .stat-card {
+                padding: 1.5rem;
+            }
+            
+            .carousel-vip {
+                height: 50vh;
+                min-height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="new-dev-hero">
+        <div class="hero-background">
+            <img src="https://k4design.github.io/lofty-sections/img/1428.jpg" alt="The Residences at 1428 Brickell Ave">
+            <div class="hero-overlay"></div>
+        </div>
+        <div class="hero-content">
+            <div class="container">
+                <div class="hero-text">
+                    <h1 class="display-font">The Residences at 1428 Brickell Ave</h1>
+                    <p class="hero-subtitle text-luxury">Miami, Florida</p>
+                    <p class="hero-description text-elegant">Nestled in the heart of Brickell, Miami's vibrant financial district, lies an exclusive urban enclave that redefines luxury living. Surrounded by the city's iconic skyline and offering panoramic views of Biscayne Bay, this sophisticated neighborhood blends cosmopolitan energy with serene residential elegance.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Video Section -->
+    <section class="property-video-section">
+        <div class="container">
+            <wistia-player media-id="tkdudkmxx3" aspect="1.7777777777777777" style="width: 100%;height: auto;"></wistia-player>
+        </div>
+    </section>
+
+    <!-- Location Section -->
+    <section class="property-location-section">
+        <div class="container">
+            <div class="location-grid">
+                <div class="location-content">
+                    <h2 class="display-font">Brickell, Miami</h2>
+                    <p class="text-elegant">Nestled in the heart of Brickell, Miami's vibrant financial district, lies an exclusive urban enclave that redefines luxury living. Surrounded by the city's iconic skyline and offering panoramic views of Biscayne Bay, this sophisticated neighborhood blends cosmopolitan energy with serene residential elegance. With a thoughtfully designed, low-density layout and resort-style ambiance, Brickell offers a private, upscale lifestyle within a secure, walkable environment. Centrally located, it provides effortless access to world-class dining, shopping, and cultural attractions while maintaining a sense of exclusivity and refined tranquility.</p>
+                </div>
+                <div class="location-image">
+                    <img src="https://k4design.github.io/lofty-sections/img/1428.jpg" alt="Brickell, Miami">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Rep Disclosure Section -->
+    <section class="rep-disclosure-section">
+        <div class="container">
+            <div class="rep-disclosure">
+                <p class="text-elegant">Aperture Global has a marketing partnership with Cervera Real Estate and The Residences at 1428 Brickell Ave.<br><br> Through this relationship we offer the following residences for sale:</p>
+                <h3>Unit 5802 &nbsp; &nbsp; &nbsp;|&nbsp; &nbsp; &nbsp;   Unit 6101</h3>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="property-stats-section">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>Penthouse</h3>
+                    <p>Collection</p>
+                </div>
+                <div class="stat-card">
+                    <h3>$8,947,900</h3>
+                    <p>6101 Listing Price</p>
+                </div>
+                <div class="stat-card">
+                    <h3>$16,473,000</h3>
+                    <p>5802 Listing Price</p>
+                </div>
+                <div class="stat-card">
+                    <h3>2 Units</h3>
+                    <p>Listed</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Building Features Section -->
+    <section class="property-features-section">
+        <div class="container">
+            <div class="feature-grid">
+                <div class="feature-image">
+                    <img src="https://k4design.github.io/lofty-sections/img/1428.jpg" alt="A Vertical Masterpiece">
+                </div>
+                <div class="feature-content">
+                    <h2 class="display-font">A Vertical Masterpiece: Unrivaled Innovation</h2>
+                    <p class="text-elegant">Rising 70 stories above the Miami skyline, this iconic tower is a limited collection of just 189 exclusive residences, offering unparalleled luxury and privacy. As the world's first high-rise residential building partially powered by the sun, its striking solar backbone on the west façade sets a new standard in sustainable living. Residents enjoy 80,000 square feet of private amenities, high-speed elevators, and a dedicated lobby, all within a fully gated, resident-only enclave. Each home includes valet-serviced parking with private loading bays, EV charging stations, and superior soundproofing through enhanced concrete wall construction—ensuring both comfort and serenity in the heart of the city.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Estate Living Section -->
+    <section class="property-estate-section">
+        <div class="container">
+            <div class="estate-grid">
+                <div class="estate-content">
+                    <h2 class="display-font">Estate-Inspired Living</h2>
+                    <p class="text-elegant">This is the promise and guiding concept for the lifestyle at The Residences at 1428 Brickell Ave. Like every element of this unique property, services are bespoke. They are tailored to elevate experiences from lobby to rooftop, to respond perfectly to each resident's preferences and needs at any given moment. From valet and concierge, back-of-house porters to poolside attendants, staff are both experienced and passionate about providing service that is discreet, thoughtful, and personalized. The result is an atmosphere that is as elegant as it is comforting.</p>
+                </div>
+                <div class="estate-image">
+                    <img src="https://k4design.github.io/lofty-sections/img/1428.jpg" alt="Estate-Inspired Living">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Amenities Section -->
+    <section class="property-amenities-section">
+        <div class="container">
+            <div class="amenities-grid">
+                <div class="amenities-image">
+                    <img src="https://k4design.github.io/lofty-sections/img/1428.jpg" alt="Amenities">
+                </div>
+                <div class="amenities-content">
+                    <h2 class="display-font">Amenities</h2>
+                    <p class="text-elegant">An unprecedented 80,000 square feet of amenities is dedicated exclusively to the 189 residences. These purposefully designed spaces serve as extensions of the home. They feature both intimate places for private contemplation and expansive areas for social gatherings. At the uppermost levels of the tower, where views are the most spectacular, the two-story Owners Club and the full floor Wellness Club are thoughtfully designed for socializing, entertaining, tending to business, and caring for your wellbeing. Personalized services, including the sommelier, building concierge, and wellness concierge, enable residents to make the most of every moment.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Image Carousel Section -->
+    <section class="property-carousel-section">
+        <div class="container">
+            <div class="carousel-vip">
+                <!-- Slide 1 -->
+                <div class="slide active" style="background-image: url('https://k4design.github.io/lofty-sections/img/1428.jpg');"></div>
+                <!-- Slide 2 -->
+                <div class="slide" style="background-image: url('https://k4design.github.io/lofty-sections/img/1428.jpg');"></div>
+                <!-- Slide 3 -->
+                <div class="slide" style="background-image: url('https://k4design.github.io/lofty-sections/img/1428.jpg');"></div>
+                <!-- Slide 4 -->
+                <div class="slide" style="background-image: url('https://k4design.github.io/lofty-sections/img/1428.jpg');"></div>
+                <!-- Slide 5 -->
+                <div class="slide" style="background-image: url('https://k4design.github.io/lofty-sections/img/1428.jpg');"></div>
+                <!-- Slide 6 -->
+                <div class="slide" style="background-image: url('https://k4design.github.io/lofty-sections/img/1428.jpg');"></div>
+                <!-- Slide 7 -->
+                <div class="slide" style="background-image: url('https://k4design.github.io/lofty-sections/img/1428.jpg');"></div>
+                <!-- Slide 8 -->
+                <div class="slide" style="background-image: url('https://k4design.github.io/lofty-sections/img/1428.jpg');"></div>
+                <!-- Slide 9 -->
+                <div class="slide" style="background-image: url('https://k4design.github.io/lofty-sections/img/1428.jpg');"></div>
+                <!-- Slide 10 -->
+                <div class="slide" style="background-image: url('https://k4design.github.io/lofty-sections/img/1428.jpg');"></div>
+                <!-- Slide 11 -->
+                <div class="slide" style="background-image: url('https://k4design.github.io/lofty-sections/img/1428.jpg');"></div>
+                <!-- Slide 12 -->
+                <div class="slide" style="background-image: url('https://k4design.github.io/lofty-sections/img/1428.jpg');"></div>
+                <!-- Slide 13 -->
+                <div class="slide" style="background-image: url('https://k4design.github.io/lofty-sections/img/1428.jpg');"></div>
+                <!-- Slide 14 -->
+                <div class="slide" style="background-image: url('https://k4design.github.io/lofty-sections/img/1428.jpg');"></div>
+                <!-- Slide 15 -->
+                <div class="slide" style="background-image: url('https://k4design.github.io/lofty-sections/img/1428.jpg');"></div>
+                <!-- Slide 16 -->
+                <div class="slide" style="background-image: url('https://k4design.github.io/lofty-sections/img/1428.jpg');"></div>
+                <!-- Slide 17 -->
+                <div class="slide" style="background-image: url('https://k4design.github.io/lofty-sections/img/1428.jpg');"></div>
+                <!-- Slide 18 -->
+                <div class="slide" style="background-image: url('https://k4design.github.io/lofty-sections/img/1428.jpg');"></div>
+                <!-- Slide 19 -->
+                <div class="slide" style="background-image: url('https://k4design.github.io/lofty-sections/img/1428.jpg');"></div>
+                <!-- Slide 20 -->
+                <div class="slide" style="background-image: url('https://k4design.github.io/lofty-sections/img/1428.jpg');"></div>
+                
+                <!-- Carousel Controls -->
+                <button class="carousel-prev" aria-label="Previous slide">
+                    <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M15 18l-6-6 6-6"/>
+                    </svg>
+                </button>
+                <button class="carousel-next" aria-label="Next slide">
+                    <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M9 18l6-6-6-6"/>
+                    </svg>
+                </button>
+                
+                <!-- Indicators -->
+                <div class="indicators">
+                    <div class="indicator active" data-index="0"></div>
+                    <div class="indicator" data-index="1"></div>
+                    <div class="indicator" data-index="2"></div>
+                    <div class="indicator" data-index="3"></div>
+                    <div class="indicator" data-index="4"></div>
+                    <div class="indicator" data-index="5"></div>
+                    <div class="indicator" data-index="6"></div>
+                    <div class="indicator" data-index="7"></div>
+                    <div class="indicator" data-index="8"></div>
+                    <div class="indicator" data-index="9"></div>
+                    <div class="indicator" data-index="10"></div>
+                    <div class="indicator" data-index="11"></div>
+                    <div class="indicator" data-index="12"></div>
+                    <div class="indicator" data-index="13"></div>
+                    <div class="indicator" data-index="14"></div>
+                    <div class="indicator" data-index="15"></div>
+                    <div class="indicator" data-index="16"></div>
+                    <div class="indicator" data-index="17"></div>
+                    <div class="indicator" data-index="18"></div>
+                    <div class="indicator" data-index="19"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Property Features List Section -->
+    <section class="property-features-list-section">
+        <div class="container">
+            <div class="features-list-header">
+                <h2 class="display-font">Property Features</h2>
+                <p class="text-elegant">Designed for those who appreciate timeless design, privacy, and wellness, The Residences at 1428 Brickell offer a curated lifestyle that blends cutting-edge sustainability with refined living. From panoramic views to private spa experiences, every feature is crafted to elevate everyday life above and beyond expectation.</p>
+            </div>
+            <div class="featurelist">
+                <ul>
+                    <li>Rooftop Sky Atrium & Adults-Only Pool with Ocean Views</li>
+                    <li>80,000 Sq. Ft. of Exclusive Indoor & Outdoor Amenities</li>
+                    <li>Technogym-Equipped Fitness Center with Bay Views</li>
+                    <li>Yoga Room, Meditation Space & Oceanfront Pavilion</li>
+                    <li>Full-Service Spa with Sauna, Steam & Beauty Suite</li>
+                    <li>Private Wine Cellars & Spirits Lounge with Sommelier</li>
+                    <li>Club Bar Serving Seasonal Fare & Craft Cocktails</li>
+                    <li>Cinema Room with Private Screening Options</li>
+                    <li>Fully Furnished Guest Suites for Residents' Visitors</li>
+                    <li>Private Dining Room with Chef's Kitchen</li>
+                </ul>
+                <ul>
+                    <li>Pool for All Ages with Cabanas & Poolside Service</li>
+                    <li>Events Pavilion with Catering & Concierge Planning</li>
+                    <li>Imaginarium Kids' Playroom & Outdoor Splash Pad</li>
+                    <li>Dog Park & Pet Spa with Grooming Services</li>
+                    <li>24/7 Valet, Concierge, Porter & Security</li>
+                    <li>Smart Home Automation & Keyless Entry</li>
+                    <li>LEED Certified with 500+ Solar Glass Panels</li>
+                    <li>Expansive Terraces with Summer Kitchens</li>
+                    <li>Kitchens by Antonio Citterio with Gaggenau Appliances</li>
+                    <li>Private Elevator Foyers & 11–30 ft Ceiling Heights</li>
+                </ul>
+            </div>
+            <div class="features-cta">
+                <a href="https://1428brickell.com/" target="_blank" class="cta-btn primary">View Project</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Developer Section -->
+    <section class="developer-section">
+        <div class="container">
+            <div class="developer-grid">
+                <div class="developer-content">
+                    <h2 class="display-font">Developer</h2>
+                    <p class="text-elegant">Founded by Yamal Yidios in 2006, Ytech is a Miami-based real estate development firm renowned for its design-centric approach and commitment to innovation. The company has established a significant presence across 25 markets in the southeastern United States, developing and owning over 10 million square feet of property.<br><br>
+
+Ytech's portfolio includes landmark projects such as The Residences at 1428 Brickell, a 70-story luxury condominium tower in Miami's Brickell Financial District. This development is notable for being the first high-rise residential tower to integrate photovoltaic glazing within its façade, creating a "Solar Backbone" that generates clean energy while setting a new benchmark in sustainable architecture. Designed by Arquitectonica with interiors by ACPV ARCHITECTS, the tower features 195 exclusive residences and over 80,000 square feet of private amenities.<br><br>
+
+With a development pipeline exceeding $3 billion in luxury condominium projects within Brickell alone, Ytech continues to redefine urban living through superior design, exceptional craftsmanship, and a relentless pursuit of meaningful innovation.</p>
+                </div>
+                <div class="developer-image-container">
+                    <img class="developer-image" src="https://k4design.github.io/lofty-sections/img/1428.jpg" alt="Ytech Developer">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Initialize page functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            init1428BrickellPage();
+        });
+
+        function init1428BrickellPage() {
+            // Initialize carousel
+            initCarousel();
+            
+            // Initialize animations
+            initAnimations();
+            
+            // Initialize smooth scrolling
+            initSmoothScrolling();
+            
+            // Initialize parallax
+            initParallaxHero();
+        }
+
+        // Carousel functionality
+        function initCarousel() {
+            const carousel = document.querySelector('.carousel-vip');
+            if (!carousel) return;
+            
+            const slides = carousel.querySelectorAll('.slide');
+            const indicators = carousel.querySelectorAll('.indicator');
+            const prevBtn = carousel.querySelector('.carousel-prev');
+            const nextBtn = carousel.querySelector('.carousel-next');
+            let currentIndex = 0;
+            let autoplayInterval;
+            
+            function showSlide(index) {
+                slides.forEach((slide, i) => {
+                    slide.classList.toggle('active', i === index);
+                });
+                indicators.forEach((indicator, i) => {
+                    indicator.classList.toggle('active', i === index);
+                });
+                currentIndex = index;
+            }
+            
+            function nextSlide() {
+                const nextIndex = (currentIndex + 1) % slides.length;
+                showSlide(nextIndex);
+            }
+            
+            function prevSlide() {
+                const prevIndex = (currentIndex - 1 + slides.length) % slides.length;
+                showSlide(prevIndex);
+            }
+            
+            if (nextBtn) {
+                nextBtn.addEventListener('click', nextSlide);
+            }
+            
+            if (prevBtn) {
+                prevBtn.addEventListener('click', prevSlide);
+            }
+            
+            indicators.forEach((indicator, index) => {
+                indicator.addEventListener('click', () => showSlide(index));
+            });
+            
+            // Autoplay
+            function startAutoplay() {
+                autoplayInterval = setInterval(nextSlide, 5000);
+            }
+            
+            function stopAutoplay() {
+                clearInterval(autoplayInterval);
+            }
+            
+            startAutoplay();
+            carousel.addEventListener('mouseenter', stopAutoplay);
+            carousel.addEventListener('mouseleave', startAutoplay);
+            
+            // Keyboard navigation
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowLeft') {
+                    prevSlide();
+                }
+                if (e.key === 'ArrowRight') {
+                    nextSlide();
+                }
+            });
+            
+            // Touch/swipe support
+            let touchStartX = 0;
+            let touchEndX = 0;
+            
+            carousel.addEventListener('touchstart', (e) => {
+                touchStartX = e.changedTouches[0].screenX;
+            });
+            
+            carousel.addEventListener('touchend', (e) => {
+                touchEndX = e.changedTouches[0].screenX;
+                handleSwipe();
+            });
+            
+            function handleSwipe() {
+                const swipeThreshold = 50;
+                const diff = touchStartX - touchEndX;
+                
+                if (Math.abs(diff) > swipeThreshold) {
+                    if (diff > 0) {
+                        nextSlide();
+                    } else {
+                        prevSlide();
+                    }
+                }
+            }
+        }
+
+        // Animations
+        function initAnimations() {
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry, index) => {
+                    if (entry.isIntersecting) {
+                        setTimeout(() => {
+                            entry.target.classList.add('animate-in');
+                        }, index * 100);
+                    }
+                });
+            }, observerOptions);
+            
+            // Observe sections
+            const sections = document.querySelectorAll('section');
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+            
+            // Observe stat cards
+            const statCards = document.querySelectorAll('.stat-card');
+            statCards.forEach(card => {
+                observer.observe(card);
+            });
+        }
+
+        // Smooth scrolling for anchor links
+        function initSmoothScrolling() {
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    const href = this.getAttribute('href');
+                    if (href === '#') return;
+                    
+                    const target = document.querySelector(href);
+                    if (target) {
+                        e.preventDefault();
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+        }
+
+        // Parallax effect for hero section
+        function initParallaxHero() {
+            const heroBackground = document.querySelector('.hero-background img');
+            const heroSection = document.querySelector('.new-dev-hero');
+            
+            if (!heroBackground || !heroSection) return;
+            
+            const isMobile = window.innerWidth <= 768;
+            if (isMobile) return;
+            
+            let ticking = false;
+            
+            function updateParallax() {
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                const heroHeight = heroSection.offsetHeight;
+                const heroTop = heroSection.getBoundingClientRect().top;
+                const heroBottom = heroTop + heroHeight;
+                
+                if (heroBottom > 0 && heroTop < window.innerHeight) {
+                    const parallaxSpeed = 0.5;
+                    const offset = (scrollTop - heroTop) * parallaxSpeed;
+                    heroBackground.style.transform = `translateY(${offset}px)`;
+                } else {
+                    heroBackground.style.transform = 'translateY(0)';
+                }
+                
+                ticking = false;
+            }
+            
+            function requestTick() {
+                if (!ticking) {
+                    requestAnimationFrame(updateParallax);
+                    ticking = true;
+                }
+            }
+            
+            window.addEventListener('scroll', requestTick, { passive: true });
+            
+            let resizeTimeout;
+            window.addEventListener('resize', () => {
+                clearTimeout(resizeTimeout);
+                resizeTimeout = setTimeout(() => {
+                    updateParallax();
+                }, 100);
+            }, { passive: true });
+            
+            updateParallax();
+        }
+    </script>
+</body>
+</html>
+

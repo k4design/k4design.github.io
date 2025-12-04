@@ -1,204 +1,188 @@
 <!-- HTML Snippet for Lofty.com - Wellness-Centered Amenities Section -->
 <section id="wellness-amenities" class="wellness-amenities">
     <style>
-    /* Scoped styles for Lofty Wellness Amenities Section */
-    #wellness-amenities {
-        min-height: 100vh;
-        display: flex;
-        align-items: center;
-        background: #ffffff;
-        padding: 0;
-        overflow: hidden;
-    }
-    
-    #wellness-amenities .wellness-container {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        width: 100%;
-        min-height: 100vh;
-        position: relative;
-    }
-    
-    #wellness-amenities .text-panel {
-        background: #ffffff;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        padding: 6rem 4rem;
-        position: relative;
-        z-index: 2;
-        border-right: 1px solid rgba(0, 0, 0, 0.08);
-    }
-    
-    #wellness-amenities .text-panel h2 {
-        font-family: 'Playfair Display', serif;
-        font-size: clamp(2.25rem, 4.5vw, 4rem);
-        font-weight: 300;
-        color: #000000;
-        line-height: 1.1;
-        margin-bottom: 2rem;
-        letter-spacing: -0.02em;
-    }
-    
-    #wellness-amenities .text-panel h2 .line-break {
-        display: block;
-    }
-    
-    #wellness-amenities .text-panel h2 .italic {
-        font-style: italic;
-    }
-    
-    #wellness-amenities .text-panel p {
-        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-        font-size: clamp(1rem, 2vw, 1.15rem);
-        font-weight: 200;
-        color: #1a1a1a;
-        line-height: 1.8;
-        margin-bottom: 3rem;
-        letter-spacing: 0.01em;
-        max-width: 480px;
-    }
-    
-    #wellness-amenities .images-container {
-        position: relative;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        min-height: 100vh;
-        overflow: hidden;
-    }
-    
-    #wellness-amenities .background-image {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        z-index: 1;
-    }
-    
-    #wellness-amenities .overlay-video {
-        position: absolute;
-        left: 65%;
-        top: 50%;
-        transform: translate(-50%, -50%);
-        width: 40vw;
-        height: 80vh;
-        z-index: 3;
-        border-radius: 8px;
-        overflow: hidden;
-        box-shadow: 0 30px 80px rgba(0, 0, 0, 0.2);
-        background: #000000;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    
-    #wellness-amenities .video-inner-container {
-        width: 100%;
-        height: auto;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        position: relative;
-    }
-    
-    #wellness-amenities .video-inner-container wistia-player {
-        width: 100%;
-        height: 100%;
-        border-radius: 8px;
-        display: block;
-    }
-    
-    /* Responsive Design */
-    @media (max-width: 1024px) {
-        #wellness-amenities .wellness-container {
-            grid-template-columns: 1fr;
-            grid-template-rows: auto 1fr;
-        }
-        
-        #wellness-amenities .text-panel {
-            padding: 4rem 3rem;
-            min-height: auto;
-        }
-        
-        #wellness-amenities .images-container {
-            min-height: 60vh;
-        }
-        
-        #wellness-amenities .overlay-video {
-            width: 75%;
-            max-width: 600px;
-            height: auto;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-    }
-    
-    @media (max-width: 768px) {
-        #wellness-amenities .text-panel {
-            padding: 3rem 2rem;
-        }
-        
-        #wellness-amenities .text-panel h2 {
-            font-size: clamp(1.875rem, 7vw, 2.75rem);
-        }
-        
-        #wellness-amenities .text-panel p {
-            font-size: 1rem;
-        }
-        
-        #wellness-amenities .overlay-video {
-            width: 82.5%;
-            max-width: 450px;
-            height: auto;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-    }
-    
-    @media (max-width: 480px) {
-        #wellness-amenities .text-panel {
-            padding: 2.5rem 1.5rem;
-        }
-        
-        #wellness-amenities .images-container {
-            min-height: 50vh;
-        }
-    }
-    </style>
-    
-    <div class="wellness-container">
-        <!-- Left Text Panel -->
-        <div class="text-panel">
-            <h2 class="display-font">
-                International <br>
-                Luxury<br>
-                Real Estate<br>
-                Brokerage
-            </h2>
-            <p class="text-elegant">
-                Aperture Global is pioneering a new era in the international real estate market as the first of its kind in the global luxury space. With a vision to become the premier name in high-end real estate, Aperture Global operates with a presence concentrated on the greatest luxury cities around the world, spanning 6 continents and 20+ countries.
-            </p>
+      /* Scoped styles for Lofty Wellness Amenities Section */
+      #wellness-amenities {
+          min-height: 100vh;
+          display: flex;
+          align-items: center;
+          background: #ffffff;
+          padding: 0;
+          overflow: hidden;
+      }
+      
+      #wellness-amenities .wellness-container {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          width: 100%;
+          min-height: 100vh;
+          position: relative;
+      }
+      
+      #wellness-amenities .text-panel {
+          background: #ffffff;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          padding: 3rem 4rem 0 15vw;
+          position: relative;
+          z-index: 2;
+          border-right: 1px solid rgba(0, 0, 0, 0.08);
+      }
+      
+      #wellness-amenities .text-panel h2 {
+          font-family: 'Playfair Display', serif;
+          font-size: clamp(2.25rem, 4.5vw, 4rem);
+          font-weight: 300;
+          color: #000000;
+          line-height: 1.1;
+          margin-bottom: 2rem;
+          letter-spacing: -0.02em;
+      }
+      
+      #wellness-amenities .text-panel h2 .line-break {
+          display: block;
+      }
+      
+      #wellness-amenities .text-panel h2 .italic {
+          font-style: italic;
+      }
+      
+      #wellness-amenities .text-panel p {
+          font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+          font-size: clamp(1rem, 2vw, 1.15rem);
+          font-weight: 200;
+          color: #1a1a1a;
+          line-height: 1.8;
+          margin-bottom: 3rem;
+          letter-spacing: 0.01em;
+          max-width: 480px;
+      }
+      
+      #wellness-amenities .images-container {
+          position: relative;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          min-height: 100vh;
+          overflow: hidden;
+      }
+      
+      #wellness-amenities .background-image {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          z-index: 1;
+      }
+      
+      #wellness-amenities .overlay-video {
+          position: absolute;
+          left: 55%;
+          top: 50%;
+          transform: translate(-50%, -50%);
+          width: 30vw;
+          height: 80vh;
+          z-index: 3;
+          border-radius: 8px;
+          overflow: hidden;
+          box-shadow: 0 30px 80px rgba(0, 0, 0, 0.2);
+          background: #000000;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+      }
+      
+      #wellness-amenities .video-inner-container {
+          width: 100%;
+          height: auto;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          position: relative;
+      }
+      
+      #wellness-amenities .video-inner-container wistia-player {
+          width: 100%;
+          height: 100%;
+          border-radius: 8px;
+          display: block;
+      }
+      
+      /* Responsive Design */
+      @media (max-width: 1024px) {
+          #wellness-amenities .wellness-container {
+              grid-template-columns: 1fr;
+              grid-template-rows: auto 1fr;
+          }
+          
+          #wellness-amenities .text-panel {
+              padding: 4rem 3rem;
+              min-height: auto;
+          }
+          
+          #wellness-amenities .images-container {
+              min-height: 60vh;
+          }
+          
+          #wellness-amenities .overlay-video {
+              width: 75%;
+              max-width: 600px;
+              height: auto;
+              left: 50%;
+              transform: translate(-50%, -50%);
+          }
+      }
+      
+      @media (max-width: 768px) {
+          #wellness-amenities .text-panel {
+              padding: 3rem 2rem;
+          }
+          
+          #wellness-amenities .text-panel h2 {
+              font-size: clamp(1.875rem, 7vw, 2.75rem);
+          }
+          
+          #wellness-amenities .text-panel p {
+              font-size: 1rem;
+          }
+          
+          #wellness-amenities .overlay-video {
+              width: 82.5%;
+              max-width: 450px;
+              height: auto;
+              left: 50%;
+              transform: translate(-50%, -50%);
+          }
+      }
+      
+      @media (max-width: 480px) {
+          #wellness-amenities .text-panel {
+              padding: 2.5rem 1.5rem;
+          }
+          
+          #wellness-amenities .images-container {
+              min-height: 50vh;
+          }
+      }
+      </style>
+    <div class="wellness-container"><!-- Left Text Panel -->
+      <div class="text-panel">
+        <h2 class="display-font">International<br />Luxury<br />Real Estate<br />Brokerage</h2>
+        <p class="text-elegant">Aperture Global is pioneering a new era in the international real estate market as the first of its kind in the global luxury space. With a vision to become the premier name in high-end real estate, Aperture Global operates with a presence concentrated on the greatest luxury cities around the world, spanning 6 continents and 20+ countries.</p>
+      </div><!-- Right Images Container -->
+      <div class="images-container"><!-- Background Image (Architectural Space) -->
+        <img src="https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=1200&#x26;h=800&#x26;fit=crop" alt="Modern architectural space" class="background-image" />
+      </div><!-- Overlay Video (Wistia Player) - Positioned to overlay both sections -->
+      <div class="overlay-video">
+        <div class="video-inner-container">
+          <script src="https://fast.wistia.com/player.js" async></script>
+          <script src="https://fast.wistia.com/embed/cg5nzzz5q5.js" async type="module"></script>
+          <style>wistia-player[media-id='cg5nzzz5q5']:not(:defined) { background: center / contain no-repeat url('https://fast.wistia.com/embed/medias/cg5nzzz5q5/swatch'); display: block; filter: blur(5px); padding-top:56.25%; }</style>
+          <wistia-player media-id="cg5nzzz5q5" wistia-popover="true" aspect="1.7777777777777777"></wistia-player>
         </div>
-        
-        <!-- Right Images Container -->
-        <div class="images-container">
-            <!-- Background Image (Architectural Space) -->
-            <img src="https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=1200&h=800&fit=crop" 
-                 alt="Modern architectural space" 
-                 class="background-image">
-        </div>
-        
-        <!-- Overlay Video (Wistia Player) - Positioned to overlay both sections -->
-        <div class="overlay-video">
-            <div class="video-inner-container">
-                <script src="https://fast.wistia.com/player.js" async></script>
-                <script src="https://fast.wistia.com/embed/cg5nzzz5q5.js" async type="module"></script>
-                <style>wistia-player[media-id='cg5nzzz5q5']:not(:defined) { background: center / contain no-repeat url('https://fast.wistia.com/embed/medias/cg5nzzz5q5/swatch'); display: block; filter: blur(5px); padding-top:56.25%; }</style>
-                <wistia-player media-id="cg5nzzz5q5" wistia-popover="true" aspect="1.7777777777777777"></wistia-player>
-            </div>
-        </div>
+      </div>
     </div>
-</section>
+  </section>
