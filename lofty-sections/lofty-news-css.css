@@ -313,12 +313,12 @@ body {
     align-items: flex-start;
     justify-content: center;
     text-align: left;
-    flex: 1;
+    flex: 0 0 35%;
 }
 
 .news-cta-image {
-    flex: 1;
-    max-width: 500px;
+    flex: 0 0 35%;
+    max-width: none;
 }
 
 .news-cta-image img {
