@@ -317,7 +317,7 @@ body {
 }
 
 .news-cta-image {
-    flex: 0 0 35%;
+    flex: 0 0 65%;
     max-width: none;
     background-image: url('https://k4design.github.io/lofty-sections/img/allnews.jpg');
     background-size: cover;
