@@ -2131,17 +2131,17 @@ section.dev-projects-section .project-card .project-overlay .overlay-content p {
         min-height: 500px;
     }
     
-    /* Reorder panels on mobile: Left (1), Right (2), Center (3) */
+    /* Reorder panels on mobile: Left (1), Center (2), Right (3) */
     .advantage-panel:first-child {
         order: 1;
     }
     
     .advantage-panel.center-panel {
-        order: 3;
+        order: 2;
     }
     
     .advantage-panel:last-child {
-        order: 2;
+        order: 3;
         border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
     
@@ -2505,17 +2505,17 @@ section.dev-projects-section .project-card .project-overlay .overlay-content p {
         min-height: 400px;
     }
     
-    /* Reorder panels on mobile: Left (1), Right (2), Center (3) */
+    /* Reorder panels on mobile: Left (1), Center (2), Right (3) */
     .advantage-panel:first-child {
         order: 1;
     }
     
     .advantage-panel.center-panel {
-        order: 3;
+        order: 2;
     }
     
     .advantage-panel:last-child {
-        order: 2;
+        order: 3;
         border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
     

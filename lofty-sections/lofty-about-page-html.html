@@ -223,6 +223,7 @@
     text-align: center;
     margin-bottom: 2rem;
     letter-spacing: -0.02em;
+    line-height: 1.2;
 }
 
 .apex-section-light .apex-section-title {
@@ -309,6 +310,7 @@
     font-weight: 700;
     margin-bottom: 1.5rem;
     letter-spacing: -0.02em;
+    line-height: 1.2;
 }
 
 .apex-split-content p {
@@ -342,6 +344,7 @@
     margin-bottom: 1.5rem;
     letter-spacing: -0.02em;
     color: var(--apex-text-dark);
+    line-height: 1.2;
 }
 
 .apex-vision-column p,
@@ -380,6 +383,7 @@
 
 .apex-founder-content h2 {
     display: none;
+    line-height: 1.2;
 }
 
 .apex-founder-quote-container {
@@ -675,11 +679,15 @@
     .apex-founder-quote-container {
         grid-template-columns: 1fr;
         gap: 2rem;
+        display: flex;
+        flex-direction: column;
     }
     
     .apex-founder-image-wrapper {
         grid-column: 1;
-        justify-content: center;
+        justify-content: flex-start;
+        align-self: flex-start;
+        order: 2;
     }
     
     .apex-founder-image {
@@ -690,6 +698,7 @@
     .apex-founder-content-wrapper {
         padding: 2rem 0;
         grid-column: 1;
+        order: 3;
     }
     
     .apex-founder-text-top-left,
@@ -775,11 +784,15 @@
     .apex-founder-quote-container {
         grid-template-columns: 1fr;
         gap: 2rem;
+        display: flex;
+        flex-direction: column;
     }
     
     .apex-founder-image-wrapper {
         grid-column: 1;
-        justify-content: center;
+        justify-content: flex-start;
+        align-self: flex-start;
+        order: 2;
     }
     
     .apex-founder-image {
@@ -790,6 +803,7 @@
     .apex-founder-content-wrapper {
         padding: 1.5rem 0;
         grid-column: 1;
+        order: 3;
     }
     
     .apex-founder-text-top-left,
@@ -861,7 +875,7 @@
         
         <div class="apex-hero-image-wrapper">
             <div class="apex-hero-image">
-                <img src="https://k4design.github.io/lofty-sections/img/abouthero.jpeg" alt="Aperture Global Luxury Real Estate">
+                <img src="https://k4design.github.io/lofty-sections/img/lens.gif" alt="Aperture Global Luxury Real Estate">
             </div>
         </div>
     </div>
@@ -909,7 +923,6 @@
 <section class="apex-section apex-section-dark" style="padding: 0;">
     <div class="apex-founder-section">
         <div class="apex-founder-content">
-            <h2>MESSAGES FROM THE FOUNDER</h2>
             <div class="apex-founder-quote-container">
                 <div class="apex-founder-image-wrapper">
                     <img src="https://apertureglobal.com/about/rp.png" alt="Robert Palmer" class="apex-founder-image">
