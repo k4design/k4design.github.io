@@ -1900,6 +1900,7 @@ section.dev-projects-section .project-card .project-overlay .overlay-content p {
     .events-grid {
         grid-template-columns: 1fr;
         gap: 1.5rem;
+        padding: 0;
     }
     
     .event-panel-1,
