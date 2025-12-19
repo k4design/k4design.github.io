@@ -221,6 +221,45 @@ section.lifestyle-section .lifestyle-header p {
     border-color: rgba(0, 146, 255, 0.3) !important;
 }
 
+/* Coming Soon Cards */
+.lifestyle-card.coming-soon {
+    cursor: not-allowed !important;
+    opacity: 0.85 !important;
+    pointer-events: none !important;
+}
+
+.lifestyle-card.coming-soon:hover {
+    transform: none !important;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1) !important;
+    border-color: rgba(0, 0, 0, 0.1) !important;
+}
+
+.lifestyle-card.coming-soon .lifestyle-image img {
+    filter: grayscale(20%) brightness(0.9) !important;
+}
+
+.lifestyle-card.coming-soon:hover .lifestyle-image img {
+    transform: none !important;
+}
+
+.lifestyle-card.coming-soon:hover .lifestyle-overlay {
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.5) 50%, rgba(0, 146, 255, 0.3) 100%) !important;
+}
+
+.coming-soon-badge {
+    display: inline-block !important;
+    background: rgba(0, 146, 255, 0.9) !important;
+    color: #ffffff !important;
+    padding: 0.5rem 1.25rem !important;
+    border-radius: 50px !important;
+    font-size: 0.85rem !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.1em !important;
+    margin-top: 1rem !important;
+    box-shadow: 0 4px 15px rgba(0, 146, 255, 0.3) !important;
+}
+
 .lifestyle-image {
     position: relative !important;
     width: 100% !important;

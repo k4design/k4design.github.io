@@ -5,6 +5,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const lifestyleCards = document.querySelectorAll('.lifestyle-card');
     
     lifestyleCards.forEach(card => {
+        // Skip coming-soon cards
+        if (card.classList.contains('coming-soon')) {
+            return;
+        }
+        
         // Enhanced hover effects
         card.addEventListener('mouseenter', function() {
             this.style.transform = 'translateY(-12px) scale(1.03)';
