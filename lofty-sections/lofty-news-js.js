@@ -3,7 +3,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     initNewsCarousel();
     initNewsImages();
-    initNewsAnimations();
 });
 
 // Initialize infinite carousel with drag and swipe
@@ -484,35 +483,3 @@ async function getImageFromArticle(url) {
     }
 }
 
-// News card animations
-function initNewsAnimations() {
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -100px 0px'
-    };
-    
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('animate-in');
-                // Stop observing once animated
-                observer.unobserve(entry.target);
-            }
-        });
-    }, observerOptions);
-    
-    // Observe all visible news cards (not hidden)
-    const newsCards = document.querySelectorAll('.news-card:not([style*="display: none"])');
-    newsCards.forEach((card) => {
-        // Only observe if not already animated
-        if (!card.classList.contains('animate-in')) {
-            observer.observe(card);
-        }
-    });
-    
-    // Also observe the CTA section
-    const ctaSection = document.querySelector('.news-cta-section');
-    if (ctaSection && !ctaSection.classList.contains('animate-in')) {
-        observer.observe(ctaSection);
-    }
-}

@@ -239,16 +239,10 @@ body {
     transform: translateX(5px);
 }
 
-/* News Card Animations */
+/* News Card */
 .news-card {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.8s ease, transform 0.8s ease;
-}
-
-.news-card.animate-in {
     opacity: 1;
-    transform: translateY(0);
+    transform: none;
 }
 
 /* See More Button */
@@ -336,14 +330,8 @@ body {
     z-index: 2;
     display: flex;
     justify-content: center;
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.8s ease, transform 0.8s ease;
-}
-
-.news-cta-section.animate-in {
     opacity: 1;
-    transform: translateY(0);
+    transform: none;
 }
 
 .news-cta-content {

@@ -256,16 +256,10 @@
             transform: translateX(5px);
         }
 
-        /* News Card Animations */
+        /* News Card */
         .news-card {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.8s ease, transform 0.8s ease;
-        }
-
-        .news-card.animate-in {
             opacity: 1;
-            transform: translateY(0);
+            transform: none;
         }
 
 
@@ -339,14 +333,8 @@
             z-index: 2;
             display: flex;
             justify-content: center;
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.8s ease, transform 0.8s ease;
-        }
-
-        .news-cta-section.animate-in {
             opacity: 1;
-            transform: translateY(0);
+            transform: none;
         }
 
         .news-cta-content {
@@ -910,42 +898,7 @@
     </section>
 
     <script>
-        // News card animations
-        document.addEventListener('DOMContentLoaded', function() {
-            initNewsAnimations();
-        });
-
-        function initNewsAnimations() {
-            const observerOptions = {
-                threshold: 0.1,
-                rootMargin: '0px 0px -100px 0px'
-            };
-            
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('animate-in');
-                        // Stop observing once animated
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, observerOptions);
-            
-            // Observe all visible news cards (not hidden)
-            const newsCards = document.querySelectorAll('.news-card:not([style*="display: none"])');
-            newsCards.forEach((card) => {
-                // Only observe if not already animated
-                if (!card.classList.contains('animate-in')) {
-                    observer.observe(card);
-                }
-            });
-            
-            // Also observe the CTA section
-            const ctaSection = document.querySelector('.news-cta-section');
-            if (ctaSection && !ctaSection.classList.contains('animate-in')) {
-                observer.observe(ctaSection);
-            }
-        }
+        // No animations needed
     </script>
 </body>
 </html>
