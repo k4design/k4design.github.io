@@ -84,8 +84,19 @@
         /* News Section */
         .news {
             padding: 120px 0;
-            background: var(--primary-bg);
+            background: #000000;
             position: relative;
+        }
+
+        .news::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 25%;
+            background: #ffffff;
+            z-index: 0;
         }
 
         .news::before {
@@ -94,13 +105,14 @@
             top: 0;
             left: 0;
             right: 0;
-            bottom: 0;
+            height: 25%;
             background: radial-gradient(circle at 80% 20%, rgba(0, 212, 255, 0.03) 0%, transparent 50%);
             pointer-events: none;
+            z-index: 1;
         }
 
         .news h2 {
-            color: #ffffff !important;
+            color: #000000 !important;
             margin-bottom: 2rem !important;
             position: relative;
             z-index: 2;
@@ -112,57 +124,23 @@
             text-align: center;
             max-width: 700px;
             margin: 0 auto 4rem;
-            color: var(--text-secondary);
+            color: #000000;
             font-size: 1.2rem;
             position: relative;
             z-index: 2;
         }
 
-        /* News Carousel */
-        .news-carousel-wrapper {
-            position: relative;
-            width: 100%;
-            overflow: hidden;
-            z-index: 2;
-            cursor: grab;
-            user-select: none;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-        }
-
-        .news-carousel-wrapper:active {
-            cursor: grabbing;
-        }
-
-        .news-carousel-container {
-            overflow: hidden;
-            width: 100%;
-            position: relative;
-        }
-
-        .news-carousel-track {
-            display: flex;
-            gap: 2.5rem;
-            transition: transform 0.3s ease-out;
-            will-change: transform;
-        }
-
-        .news-carousel-track.dragging {
-            transition: none;
-            cursor: grabbing;
-        }
-
-        /* Legacy grid class for backward compatibility */
+        /* News Grid */
         .news-grid {
-            display: flex;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
             gap: 2.5rem;
             position: relative;
             z-index: 2;
         }
 
         .news-card {
-            background: var(--card-bg);
+            background: #000000;
             border-radius: 0;
             overflow: hidden;
             box-shadow: 0 8px 32px var(--shadow-dark);
@@ -170,9 +148,7 @@
             border: 1px solid var(--border-color);
             backdrop-filter: blur(10px);
             cursor: pointer;
-            flex: 0 0 auto;
-            width: calc(33.333% - 1.67rem);
-            min-width: 320px;
+            width: 100%;
         }
 
         .news-card:hover:not(.news-card-cta) {
@@ -282,14 +258,60 @@
 
         /* News Card Animations */
         .news-card {
-            opacity: 1;
-            transform: translateY(0);
-            transition: all 0.6s ease;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
         }
 
         .news-card.animate-in {
             opacity: 1;
             transform: translateY(0);
+        }
+
+        /* Hide articles beyond the first 6 */
+        .news-card:nth-child(n+7) {
+            display: none;
+        }
+
+        /* See More Button */
+        .news-load-more-container {
+            text-align: center;
+            margin: 3rem 0;
+            position: relative;
+            z-index: 2;
+        }
+
+        .news-load-more-button {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: transparent;
+            color: var(--accent-blue);
+            border: 2px solid var(--accent-blue);
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            text-align: center;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .news-load-more-button:hover {
+            background: var(--accent-blue);
+            color: #ffffff !important;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 146, 255, 0.3);
+        }
+
+        .news-load-more-button:active {
+            transform: translateY(0);
+        }
+
+        .news-load-more-button.hidden {
+            display: none;
         }
 
         /* News Card Hover Effects */
@@ -311,29 +333,53 @@
             opacity: 1;
         }
 
-        /* News CTA Card with Gradient Background */
-        .news-card-cta {
-            background: var(--gradient-accent) !important;
-            min-height: 400px;
+        /* News CTA Section Below Grid */
+        .news-cta-section {
+            margin-top: 4rem;
+            padding: 4rem 2rem;
+            background: var(--gradient-accent);
+            border-radius: 0;
+            position: relative;
+            z-index: 2;
             display: flex;
-            align-items: center;
             justify-content: center;
-            padding: 3rem 2rem;
-            border: none !important;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
         }
 
-        .news-card-cta::before {
-            display: none;
+        .news-cta-section.animate-in {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .news-cta-content {
             display: flex;
-            flex-direction: column;
+            flex-direction: row;
             align-items: center;
-            justify-content: center;
-            text-align: center;
+            justify-content: space-between;
+            gap: 3rem;
             width: 100%;
-            max-width: 600px;
+            max-width: 1200px;
+        }
+
+        .news-cta-text-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: center;
+            text-align: left;
+            flex: 0 0 35%;
+        }
+
+        .news-cta-image {
+            flex: 0 0 65%;
+            max-width: none;
+            background-image: url('https://k4design.github.io/lofty-sections/img/allnews.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            min-height: 300px;
         }
 
         .news-cta-headline {
@@ -344,6 +390,7 @@
             margin-bottom: 1rem !important;
             line-height: 1.2 !important;
             letter-spacing: -0.02em !important;
+            text-align: left !important;
         }
 
         .news-cta-subhead {
@@ -354,6 +401,7 @@
             margin-bottom: 2rem !important;
             line-height: 1.6 !important;
             letter-spacing: 0.02em !important;
+            text-align: left !important;
         }
 
         .news-cta-text {
@@ -415,12 +463,8 @@
 
         /* Responsive Design */
         @media (max-width: 1024px) {
-            .news-card {
-                width: calc(50% - 1.25rem);
-                min-width: 300px;
-            }
-            
-            .news-carousel-track {
+            .news-grid {
+                grid-template-columns: repeat(2, 1fr);
                 gap: 2rem;
             }
             
@@ -430,12 +474,8 @@
         }
 
         @media (max-width: 768px) {
-            .news-card {
-                width: calc(100% - 1rem);
-                min-width: 280px;
-            }
-            
-            .news-carousel-track {
+            .news-grid {
+                grid-template-columns: 1fr;
                 gap: 1.5rem;
             }
             
@@ -460,9 +500,30 @@
                 height: 200px;
             }
             
-            .news-card-cta {
-                min-height: 350px;
-                padding: 2.5rem 1.5rem;
+            .news-cta-section {
+                margin-top: 3rem;
+                padding: 3rem 1.5rem;
+            }
+            
+            .news-cta-content {
+                flex-direction: column;
+                gap: 2rem;
+            }
+            
+            .news-cta-text-wrapper {
+                text-align: center;
+                align-items: center;
+            }
+            
+            .news-cta-headline,
+            .news-cta-subhead {
+                text-align: center !important;
+            }
+            
+            .news-cta-image {
+                max-width: 100%;
+                min-height: 250px;
+                flex: 0 0 100%;
             }
         }
 
@@ -496,9 +557,30 @@
                 font-size: 0.85rem;
             }
             
-            .news-card-cta {
-                min-height: 300px;
-                padding: 2rem 1.25rem;
+            .news-cta-section {
+                margin-top: 2rem;
+                padding: 2.5rem 1.25rem;
+            }
+            
+            .news-cta-content {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+            
+            .news-cta-text-wrapper {
+                text-align: center;
+                align-items: center;
+            }
+            
+            .news-cta-headline,
+            .news-cta-subhead {
+                text-align: center !important;
+            }
+            
+            .news-cta-image {
+                max-width: 100%;
+                min-height: 250px;
+                flex: 0 0 100%;
             }
         }
     </style>
@@ -510,546 +592,417 @@
             <h2 class="display-font">Aperture News</h2>
             <p class="text-elegant">Get a curated glimpse into the brand's global expansion, marquee listings, elite agent achievements, and the latest innovations redefining luxury real estate.</p>
             
-            <div class="news-carousel-wrapper">
-                <div class="news-carousel-container">
-                    <div class="news-carousel-track">
-                        <div class="news-card">
-                            <div class="news-image">
-                                <img src="https://k4design.github.io/lofty-sections/img/news/housingwire.webp" alt="HousingWire">
-                            </div>
-                            <div class="news-content">
-                                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem; font-size: 0.9rem; color: #888;">
-                                    <i class="fas fa-newspaper"></i>
-                                    <span>HousingWire</span>
-                                    <span style="color: #666;">•</span>
-                                    <span>May 8, 2025</span>
-                                </div>
-                                <h3>LPT Launches International Luxury Brand Aperture Global</h3>
-                                <p>LPT Holdings announces the launch of Aperture Global Real Estate, LPT's new independent global luxury brand. The brokerage currently operates in 15 states and four international locations with over 100 top brokers representing $1 billion in annual sales.</p>
-                                <a href="https://www.housingwire.com/articles/lpt-realty-launches-international-luxury-brand-aperture-global/" class="read-more" target="_blank">Read More</a>
-                            </div>
+            <div class="news-grid">
+                <div class="news-card">
+                    <div class="news-image">
+                        <img src="https://k4design.github.io/lofty-sections/img/mansionglobal.png" alt="Mansion Global" onerror="this.parentElement.style.background='linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%)'; this.parentElement.innerHTML='<div style=\'display: flex; align-items: center; justify-content: center; height: 100%; color: white; font-size: 1.5rem; font-weight: 600;\'>Mansion Global</div>'">
+                    </div>
+                    <div class="news-content">
+                        <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem; font-size: 0.9rem; color: #888;">
+                            <i class="fas fa-newspaper"></i>
+                            <span>Mansion Global</span>
+                            <span style="color: #666;">•</span>
+                            <span>Recent</span>
                         </div>
-                        
-                        <div class="news-card">
-                            <div class="news-image">
-                                <img src="https://k4design.github.io/lofty-sections/img/news/ris.jpg" alt="RISMedia">
-                            </div>
-                            <div class="news-content">
-                                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem; font-size: 0.9rem; color: #888;">
-                                    <i class="fas fa-newspaper"></i>
-                                    <span>RISMedia</span>
-                                    <span style="color: #666;">•</span>
-                                    <span>May 8, 2025</span>
-                                </div>
-                                <h3>LPT Realty Launches Independent International Luxury Brokerage</h3>
-                                <p>Aperture Global Real Estate kicks off with over 100 agents with more than $1B in listings in 15 states and four countries, with plans for an IPO in Q1 2026. Led by former Sotheby's executive Michael Valdes and Compass founding agent Mercedes Saewitz.</p>
-                                <a href="https://www.rismedia.com/2025/05/08/lpt-realty-announces-launch-aperture-global-luxury-real-estate/" class="read-more" target="_blank">Read More</a>
-                            </div>
+                        <h3>Megamansion Sells in Record for Osceola County, Florida</h3>
+                        <p>A luxury megamansion just south of Disney World in Osceola County, Florida has sold for a record-breaking price, setting a new benchmark for luxury real estate in the region and showcasing the continued strength of the Florida luxury market.</p>
+                        <a href="https://www.mansionglobal.com/articles/megamansion-sells-in-a-record-for-osceola-county-florida-just-south-of-disney-world-bdd657ce" class="read-more" target="_blank">Read More</a>
+                    </div>
+                </div>
+                
+                <div class="news-card">
+                    <div class="news-image">
+                        <img src="https://k4design.github.io/lofty-sections/img/realtorcom.png" alt="Realtor.com" onerror="this.parentElement.style.background='linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%)'; this.parentElement.innerHTML='<div style=\'display: flex; align-items: center; justify-content: center; height: 100%; color: white; font-size: 1.5rem; font-weight: 600;\'>Realtor.com</div>'">
+                    </div>
+                    <div class="news-content">
+                        <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem; font-size: 0.9rem; color: #888;">
+                            <i class="fas fa-newspaper"></i>
+                            <span>Realtor.com</span>
+                            <span style="color: #666;">•</span>
+                            <span>Recent</span>
                         </div>
-                        
-                        <div class="news-card">
-                            <div class="news-image">
-                                <img src="https://k4design.github.io/lofty-sections/img/news/inman.jpg" alt="Inman">
-                            </div>
-                            <div class="news-content">
-                                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem; font-size: 0.9rem; color: #888;">
-                                    <i class="fas fa-newspaper"></i>
-                                    <span>Inman</span>
-                                    <span style="color: #666;">•</span>
-                                    <span>May 8, 2025</span>
-                                </div>
-                                <h3>LPT Holdings Launches Luxury Firm Aperture Global Real Estate</h3>
-                                <p>The new luxury brand is designed to meet agents where they are in their careers, offering a stronger brand with more rigorous guidelines and standards. Aperture Global represents a new vision for exceptional marketing and seamless client experiences worldwide.</p>
-                                <a href="https://www.inman.com/2025/05/08/lpt-holdings-launches-luxury-firm-aperture-global-real-estate/" class="read-more" target="_blank">Read More</a>
-                            </div>
+                        <h3>NFL's Jalen Ramsey Sells Nashville Condo</h3>
+                        <p>Pittsburgh Steelers cornerback Jalen Ramsey has sold his luxury Nashville condo, highlighting the intersection of professional sports and high-end real estate. The transaction showcases the premium property market in Music City.</p>
+                        <a href="https://www.realtor.com/news/celebrity-real-estate/nfl-pittsburgh-steelers-jalen-ramsey-sells-nashville-condo/" class="read-more" target="_blank">Read More</a>
+                    </div>
+                </div>
+                
+                <div class="news-card">
+                    <div class="news-image">
+                        <img src="https://k4design.github.io/lofty-sections/img/news/inman.jpg" alt="Inman">
+                    </div>
+                    <div class="news-content">
+                        <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem; font-size: 0.9rem; color: #888;">
+                            <i class="fas fa-newspaper"></i>
+                            <span>Inman</span>
+                            <span style="color: #666;">•</span>
+                            <span>May 8, 2025</span>
                         </div>
-                        
-                        <div class="news-card">
-                            <div class="news-image">
-                                <img src="https://k4design.github.io/lofty-sections/img/news/res.webp" alt="Real Estate News">
-                            </div>
-                            <div class="news-content">
-                                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem; font-size: 0.9rem; color: #888;">
-                                    <i class="fas fa-newspaper"></i>
-                                    <span>Real Estate News</span>
-                                    <span style="color: #666;">•</span>
-                                    <span>May 8, 2025</span>
-                                </div>
-                                <h3>LPT Realty Launches Luxury Offshoot Aperture Global</h3>
-                                <p>Aperture Global represents the first independent luxury brokerage to have a global launch at its inception. The company is built on a battle-tested, performance-driven platform, giving it the ability to scale and maintain operational efficiencies from day one.</p>
-                                <a href="https://www.realestatenews.com/2025/05/08/lpt-realty-launches-luxury-offshoot-aperture-global" class="read-more" target="_blank">Read More</a>
-                            </div>
+                        <h3>LPT Holdings Launches Luxury Firm Aperture Global Real Estate</h3>
+                        <p>The new luxury brand is designed to meet agents where they are in their careers, offering a stronger brand with more rigorous guidelines and standards. Aperture Global represents a new vision for exceptional marketing and seamless client experiences worldwide.</p>
+                        <a href="https://www.inman.com/2025/05/08/lpt-holdings-launches-luxury-firm-aperture-global-real-estate/" class="read-more" target="_blank">Read More</a>
+                    </div>
+                </div>
+                
+                <div class="news-card">
+                    <div class="news-image">
+                        <img src="https://k4design.github.io/lofty-sections/img/news/housingwire.webp" alt="HousingWire">
+                    </div>
+                    <div class="news-content">
+                        <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem; font-size: 0.9rem; color: #888;">
+                            <i class="fas fa-newspaper"></i>
+                            <span>HousingWire</span>
+                            <span style="color: #666;">•</span>
+                            <span>May 8, 2025</span>
                         </div>
-                        
-                        <div class="news-card">
-                            <div class="news-image" style="background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem; font-weight: 600;">
-                                <div style="text-align: center;">
-                                    <div style="font-size: 2rem; margin-bottom: 0.5rem;">🌟</div>
-                                    <div>Luxury Living</div>
-                                </div>
-                            </div>
-                            <div class="news-content">
-                                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem; font-size: 0.9rem; color: #888;">
-                                    <i class="fas fa-newspaper"></i>
-                                    <span>Luxury Living</span>
-                                    <span style="color: #666;">•</span>
-                                    <span>May 7, 2025</span>
-                                </div>
-                                <h3>Aperture Global Expands to European Markets</h3>
-                                <p>Following successful launches in North America, Aperture Global announces strategic expansion into key European luxury markets including London, Paris, and Monaco, bringing world-class real estate services to discerning international clients.</p>
-                                <a href="#" class="read-more" target="_blank">Read More</a>
-                            </div>
+                        <h3>LPT Launches International Luxury Brand Aperture Global</h3>
+                        <p>LPT Holdings announces the launch of Aperture Global Real Estate, LPT's new independent global luxury brand. The brokerage currently operates in 15 states and four international locations with over 100 top brokers representing $1 billion in annual sales.</p>
+                        <a href="https://www.housingwire.com/articles/lpt-realty-launches-international-luxury-brand-aperture-global/" class="read-more" target="_blank">Read More</a>
+                    </div>
+                </div>
+                
+                <div class="news-card">
+                    <div class="news-image">
+                        <img src="https://k4design.github.io/lofty-sections/img/news/ris.jpg" alt="RISMedia">
+                    </div>
+                    <div class="news-content">
+                        <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem; font-size: 0.9rem; color: #888;">
+                            <i class="fas fa-newspaper"></i>
+                            <span>RISMedia</span>
+                            <span style="color: #666;">•</span>
+                            <span>May 8, 2025</span>
                         </div>
-                        
-                        <div class="news-card news-card-cta">
-                            <div class="news-cta-content">
-                                <h3 class="news-cta-headline">Go Beyond the Headlines</h3>
-                                <p class="news-cta-subhead">Browse our complete collection of news, stories, and press coverage.</p>
-                                <a href="#" class="news-cta-button">See All Updates</a>
-                            </div>
+                        <h3>LPT Realty Launches Independent International Luxury Brokerage</h3>
+                        <p>Aperture Global Real Estate kicks off with over 100 agents with more than $1B in listings in 15 states and four countries, with plans for an IPO in Q1 2026. Led by former Sotheby's executive Michael Valdes and Compass founding agent Mercedes Saewitz.</p>
+                        <a href="https://www.rismedia.com/2025/05/08/lpt-realty-announces-launch-aperture-global-luxury-real-estate/" class="read-more" target="_blank">Read More</a>
+                    </div>
+                </div>
+                
+                <div class="news-card">
+                    <div class="news-image" style="background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem; font-weight: 600;">
+                        <div style="text-align: center;">
+                            <div style="font-size: 2rem; margin-bottom: 0.5rem;">🏠</div>
+                            <div>Luxury Real Estate</div>
                         </div>
                     </div>
+                    <div class="news-content">
+                        <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem; font-size: 0.9rem; color: #888;">
+                            <i class="fas fa-newspaper"></i>
+                            <span>Luxury Real Estate</span>
+                            <span style="color: #666;">•</span>
+                            <span>May 7, 2025</span>
+                        </div>
+                        <h3>Record-Breaking Sale in Manhattan's Billionaire's Row</h3>
+                        <p>A penthouse in one of Manhattan's most prestigious buildings has sold for a record-breaking price, setting new benchmarks for luxury real estate in New York City and demonstrating the continued strength of the ultra-luxury market.</p>
+                        <a href="#" class="read-more" target="_blank">Read More</a>
+                    </div>
+                </div>
+                
+                <div class="news-card">
+                    <div class="news-image" style="background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem; font-weight: 600;">
+                        <div style="text-align: center;">
+                            <div style="font-size: 2rem; margin-bottom: 0.5rem;">🌴</div>
+                            <div>Miami Herald</div>
+                        </div>
+                    </div>
+                    <div class="news-content">
+                        <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem; font-size: 0.9rem; color: #888;">
+                            <i class="fas fa-newspaper"></i>
+                            <span>Miami Herald</span>
+                            <span style="color: #666;">•</span>
+                            <span>May 6, 2025</span>
+                        </div>
+                        <h3>Waterfront Estate Sells for $45 Million in Miami Beach</h3>
+                        <p>A stunning waterfront estate in Miami Beach has sold for $45 million, featuring over 12,000 square feet of living space, a private dock, and panoramic ocean views. The sale highlights the continued demand for luxury waterfront properties in South Florida.</p>
+                        <a href="#" class="read-more" target="_blank">Read More</a>
+                    </div>
+                </div>
+                
+                <div class="news-card">
+                    <div class="news-image" style="background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem; font-weight: 600;">
+                        <div style="text-align: center;">
+                            <div style="font-size: 2rem; margin-bottom: 0.5rem;">🏔️</div>
+                            <div>Aspen Times</div>
+                        </div>
+                    </div>
+                    <div class="news-content">
+                        <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem; font-size: 0.9rem; color: #888;">
+                            <i class="fas fa-newspaper"></i>
+                            <span>Aspen Times</span>
+                            <span style="color: #666;">•</span>
+                            <span>May 5, 2025</span>
+                        </div>
+                        <h3>Luxury Ski Chalet Breaks Records in Aspen</h3>
+                        <p>A magnificent ski chalet in Aspen has sold for a record price, featuring world-class amenities, ski-in/ski-out access, and breathtaking mountain views. The property represents the pinnacle of mountain luxury living.</p>
+                        <a href="#" class="read-more" target="_blank">Read More</a>
+                    </div>
+                </div>
+                
+                <div class="news-card">
+                    <div class="news-image" style="background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem; font-weight: 600;">
+                        <div style="text-align: center;">
+                            <div style="font-size: 2rem; margin-bottom: 0.5rem;">🌊</div>
+                            <div>Coastal Living</div>
+                        </div>
+                    </div>
+                    <div class="news-content">
+                        <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem; font-size: 0.9rem; color: #888;">
+                            <i class="fas fa-newspaper"></i>
+                            <span>Coastal Living</span>
+                            <span style="color: #666;">•</span>
+                            <span>May 4, 2025</span>
+                        </div>
+                        <h3>Historic Estate on Nantucket Sells for Premium Price</h3>
+                        <p>A historic waterfront estate on Nantucket has sold for a premium price, preserving its architectural heritage while offering modern luxury amenities. The sale demonstrates the enduring appeal of New England coastal properties.</p>
+                        <a href="#" class="read-more" target="_blank">Read More</a>
+                    </div>
+                </div>
+                
+                <div class="news-card">
+                    <div class="news-image" style="background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem; font-weight: 600;">
+                        <div style="text-align: center;">
+                            <div style="font-size: 2rem; margin-bottom: 0.5rem;">🏖️</div>
+                            <div>Beverly Hills</div>
+                        </div>
+                    </div>
+                    <div class="news-content">
+                        <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem; font-size: 0.9rem; color: #888;">
+                            <i class="fas fa-newspaper"></i>
+                            <span>Beverly Hills</span>
+                            <span style="color: #666;">•</span>
+                            <span>May 3, 2025</span>
+                        </div>
+                        <h3>Beverly Hills Mansion Sets New Price Record</h3>
+                        <p>A spectacular mansion in Beverly Hills has sold for a record-breaking price, featuring state-of-the-art amenities, expansive grounds, and unparalleled privacy. The sale highlights the continued strength of the Los Angeles luxury market.</p>
+                        <a href="#" class="read-more" target="_blank">Read More</a>
+                    </div>
+                </div>
+                
+                <div class="news-card">
+                    <div class="news-image" style="background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem; font-weight: 600;">
+                        <div style="text-align: center;">
+                            <div style="font-size: 2rem; margin-bottom: 0.5rem;">🏰</div>
+                            <div>Architectural Digest</div>
+                        </div>
+                    </div>
+                    <div class="news-content">
+                        <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem; font-size: 0.9rem; color: #888;">
+                            <i class="fas fa-newspaper"></i>
+                            <span>Architectural Digest</span>
+                            <span style="color: #666;">•</span>
+                            <span>May 2, 2025</span>
+                        </div>
+                        <h3>Designer-Designed Penthouse Sells in Record Time</h3>
+                        <p>A stunning penthouse designed by a world-renowned architect has sold in record time, showcasing the intersection of exceptional design and luxury living. The property features custom finishes and panoramic city views.</p>
+                        <a href="#" class="read-more" target="_blank">Read More</a>
+                    </div>
+                </div>
+                
+                <div class="news-card">
+                    <div class="news-image" style="background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem; font-weight: 600;">
+                        <div style="text-align: center;">
+                            <div style="font-size: 2rem; margin-bottom: 0.5rem;">🌉</div>
+                            <div>San Francisco Chronicle</div>
+                        </div>
+                    </div>
+                    <div class="news-content">
+                        <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem; font-size: 0.9rem; color: #888;">
+                            <i class="fas fa-newspaper"></i>
+                            <span>San Francisco Chronicle</span>
+                            <span style="color: #666;">•</span>
+                            <span>May 1, 2025</span>
+                        </div>
+                        <h3>Pacific Heights Estate Commands Premium Price</h3>
+                        <p>A magnificent estate in San Francisco's Pacific Heights has sold for a premium price, featuring classic architecture, modern updates, and stunning bay views. The sale demonstrates the resilience of the Bay Area luxury market.</p>
+                        <a href="#" class="read-more" target="_blank">Read More</a>
+                    </div>
+                </div>
+                
+                <div class="news-card">
+                    <div class="news-image" style="background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem; font-weight: 600;">
+                        <div style="text-align: center;">
+                            <div style="font-size: 2rem; margin-bottom: 0.5rem;">🌴</div>
+                            <div>Palm Beach Post</div>
+                        </div>
+                    </div>
+                    <div class="news-content">
+                        <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem; font-size: 0.9rem; color: #888;">
+                            <i class="fas fa-newspaper"></i>
+                            <span>Palm Beach Post</span>
+                            <span style="color: #666;">•</span>
+                            <span>April 30, 2025</span>
+                        </div>
+                        <h3>Oceanfront Estate in Palm Beach Sells for $38 Million</h3>
+                        <p>An exquisite oceanfront estate in Palm Beach has sold for $38 million, featuring direct beach access, a private pool, and over 8,000 square feet of luxury living space. The property represents the pinnacle of Florida coastal living.</p>
+                        <a href="#" class="read-more" target="_blank">Read More</a>
+                    </div>
+                </div>
+                
+                <div class="news-card">
+                    <div class="news-image" style="background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem; font-weight: 600;">
+                        <div style="text-align: center;">
+                            <div style="font-size: 2rem; margin-bottom: 0.5rem;">🏡</div>
+                            <div>Hamptons Magazine</div>
+                        </div>
+                    </div>
+                    <div class="news-content">
+                        <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem; font-size: 0.9rem; color: #888;">
+                            <i class="fas fa-newspaper"></i>
+                            <span>Hamptons Magazine</span>
+                            <span style="color: #666;">•</span>
+                            <span>April 29, 2025</span>
+                        </div>
+                        <h3>Historic Hamptons Estate Sells for Record Price</h3>
+                        <p>A historic estate in the Hamptons has sold for a record price, featuring classic architecture, expansive grounds, and private beach access. The sale highlights the continued appeal of East Coast luxury properties.</p>
+                        <a href="#" class="read-more" target="_blank">Read More</a>
+                    </div>
+                </div>
+                
+                <div class="news-card">
+                    <div class="news-image" style="background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem; font-weight: 600;">
+                        <div style="text-align: center;">
+                            <div style="font-size: 2rem; margin-bottom: 0.5rem;">🏛️</div>
+                            <div>Wall Street Journal</div>
+                        </div>
+                    </div>
+                    <div class="news-content">
+                        <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem; font-size: 0.9rem; color: #888;">
+                            <i class="fas fa-newspaper"></i>
+                            <span>Wall Street Journal</span>
+                            <span style="color: #666;">•</span>
+                            <span>April 28, 2025</span>
+                        </div>
+                        <h3>Luxury Real Estate Market Shows Strong Growth</h3>
+                        <p>The luxury real estate market continues to show strong growth, with record-breaking sales across major metropolitan areas. High-net-worth buyers are driving demand for premium properties with exceptional amenities and prime locations.</p>
+                        <a href="#" class="read-more" target="_blank">Read More</a>
+                    </div>
+                </div>
+                
+                <div class="news-card">
+                    <div class="news-image" style="background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem; font-weight: 600;">
+                        <div style="text-align: center;">
+                            <div style="font-size: 2rem; margin-bottom: 0.5rem;">🌟</div>
+                            <div>Forbes</div>
+                        </div>
+                    </div>
+                    <div class="news-content">
+                        <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem; font-size: 0.9rem; color: #888;">
+                            <i class="fas fa-newspaper"></i>
+                            <span>Forbes</span>
+                            <span style="color: #666;">•</span>
+                            <span>April 27, 2025</span>
+                        </div>
+                        <h3>Ultra-Luxury Properties Attract International Buyers</h3>
+                        <p>Ultra-luxury properties are attracting increasing interest from international buyers, with transactions reaching new heights. The trend reflects growing confidence in premium real estate as a stable investment and lifestyle choice.</p>
+                        <a href="#" class="read-more" target="_blank">Read More</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- See More Button -->
+            <div class="news-load-more-container">
+                <button class="news-load-more-button" id="newsLoadMoreBtn">See More Articles</button>
+            </div>
+            
+            <!-- CTA Section Below Grid -->
+            <div class="news-cta-section">
+                <div class="news-cta-content">
+                    <div class="news-cta-text-wrapper">
+                        <h3 class="news-cta-headline">Go Beyond the Headlines</h3>
+                        <p class="news-cta-subhead">Browse our complete collection of news, stories, and press coverage.</p>
+                        <a href="#" class="news-cta-button">See All Updates</a>
+                    </div>
+                    <div class="news-cta-image"></div>
                 </div>
             </div>
         </div>
     </section>
 
     <script>
-        // JavaScript Snippet for Lofty.com - News Section Infinite Carousel
-
+        // News card animations and load more functionality
         document.addEventListener('DOMContentLoaded', function() {
-            initNewsCarousel();
+            initNewsLoadMore();
             initNewsAnimations();
         });
 
-        // Initialize infinite carousel with drag and swipe
-        function initNewsCarousel() {
-            const wrapper = document.querySelector('.news-carousel-wrapper');
-            const container = document.querySelector('.news-carousel-container');
-            const track = document.querySelector('.news-carousel-track');
-            
-            if (!wrapper || !track) return;
-            
-            const cards = Array.from(track.querySelectorAll('.news-card'));
-            if (cards.length === 0) return;
-            
-            // Clone cards for infinite loop
-            const clonedCardsStart = cards.slice().map(card => card.cloneNode(true));
-            const clonedCardsEnd = cards.slice().map(card => card.cloneNode(true));
-            
-            clonedCardsStart.forEach(card => {
-                card.setAttribute('data-cloned', 'start');
-                track.insertBefore(card, track.firstChild);
-            });
-            
-            clonedCardsEnd.forEach(card => {
-                card.setAttribute('data-cloned', 'end');
-                track.appendChild(card);
-            });
-            
-            // Get card width including gap
-            const cardWidth = cards[0].offsetWidth;
-            const gap = parseFloat(getComputedStyle(track).gap) || 40;
-            const cardWidthWithGap = cardWidth + gap;
-            
-            // Calculate initial position (center on original cards)
-            const originalCardsWidth = cards.length * cardWidthWithGap;
-            const startOffset = originalCardsWidth;
-            let currentPosition = startOffset;
-            let isDragging = false;
-            let startX = 0;
-            let currentX = 0;
-            let animationId = null;
-            let velocity = 0;
-            let lastPosition = 0;
-            let lastTime = Date.now();
-            
-            // Auto-scroll variables
-            let autoScrollAnimationId = null;
-            let autoScrollTimeout = null;
-            let isAutoScrolling = false;
-            const autoScrollSpeed = 0.25; // pixels per frame (slower, smoother)
-            const autoScrollDelay = 3000; // 3 seconds delay after user stops
-            
-            // Set initial position
-            track.style.transform = `translateX(-${currentPosition}px)`;
-            
-            // Smooth drag tracking variables
-            let targetDragPosition = currentPosition;
-            let dragAnimationId = null;
-            
-            // Auto-scroll functions
-            function stopAutoScroll() {
-                if (autoScrollTimeout) {
-                    clearTimeout(autoScrollTimeout);
-                    autoScrollTimeout = null;
-                }
-                
-                if (autoScrollAnimationId) {
-                    cancelAnimationFrame(autoScrollAnimationId);
-                    autoScrollAnimationId = null;
-                }
-                
-                isAutoScrolling = false;
-                track.style.transition = 'transform 0.3s ease-out';
+        // Load More functionality
+        function initNewsLoadMore() {
+            const loadMoreBtn = document.getElementById('newsLoadMoreBtn');
+            const newsCards = document.querySelectorAll('.news-card');
+            const articlesPerLoad = 6;
+            let currentlyVisible = 6;
+
+            if (!loadMoreBtn) {
+                return;
             }
-            
-            function startAutoScroll() {
-                // Clear any existing auto-scroll
-                stopAutoScroll();
-                
-                // Wait 3 seconds before starting
-                autoScrollTimeout = setTimeout(() => {
-                    if (isDragging || isTouching) return;
-                    
-                    isAutoScrolling = true;
-                    track.style.transition = 'none';
-                    
-                    function autoScroll() {
-                        if (isDragging || isTouching || !isAutoScrolling) {
-                            stopAutoScroll();
-                            return;
-                        }
-                        
-                        // Smooth continuous scrolling
-                        currentPosition += autoScrollSpeed;
-                        track.style.transform = `translateX(-${currentPosition}px)`;
-                        
-                        // Check and handle infinite loop
-                        checkAndLoop();
-                        
-                        // Continue animation
-                        autoScrollAnimationId = requestAnimationFrame(autoScroll);
-                    }
-                    
-                    autoScroll();
-                }, autoScrollDelay);
+
+            // Hide button if there are 6 or fewer articles
+            if (newsCards.length <= currentlyVisible) {
+                loadMoreBtn.classList.add('hidden');
+                return;
             }
-            
-            // Smooth drag position update function
-            function updateDragPosition() {
-                if (!isDragging && !isTouching) {
-                    dragAnimationId = null;
-                    return;
+
+            loadMoreBtn.addEventListener('click', function() {
+                const nextBatch = currentlyVisible + articlesPerLoad;
+                
+                // Show next 6 articles
+                for (let i = currentlyVisible; i < nextBatch && i < newsCards.length; i++) {
+                    newsCards[i].style.display = 'block';
+                    // Reset animation state for newly revealed cards
+                    newsCards[i].classList.remove('animate-in');
+                    newsCards[i].style.opacity = '0';
+                    newsCards[i].style.transform = 'translateY(30px)';
                 }
-                
-                // Smooth interpolation towards target position
-                const smoothingFactor = 0.25; // Higher = smoother but more lag, lower = more responsive
-                const diff = targetDragPosition - currentPosition;
-                currentPosition += diff * smoothingFactor;
-                
-                track.style.transform = `translateX(-${currentPosition}px)`;
-                
-                // Calculate velocity for momentum scrolling
-                const now = Date.now();
-                const timeDelta = now - lastTime;
-                if (timeDelta > 0) {
-                    velocity = (currentPosition - lastPosition) / timeDelta;
-                    lastPosition = currentPosition;
-                    lastTime = now;
+
+                currentlyVisible = Math.min(nextBatch, newsCards.length);
+
+                // Hide button if all articles are shown
+                if (currentlyVisible >= newsCards.length) {
+                    loadMoreBtn.classList.add('hidden');
                 }
-                
-                // Continue smoothing animation
-                if (isDragging || isTouching) {
-                    dragAnimationId = requestAnimationFrame(updateDragPosition);
-                }
-            }
-            
-            // Mouse drag handlers
-            wrapper.addEventListener('mousedown', (e) => {
-                if (e.target.closest('a') || e.target.closest('button')) return;
-                
-                stopAutoScroll(); // Stop auto-scroll when user interacts
-                
-                // Cancel any existing drag animation
-                if (dragAnimationId) {
-                    cancelAnimationFrame(dragAnimationId);
-                    dragAnimationId = null;
-                }
-                
-                isDragging = true;
-                wrapper.style.cursor = 'grabbing';
-                track.classList.add('dragging');
-                startX = e.clientX;
-                lastPosition = currentPosition;
-                targetDragPosition = currentPosition;
-                lastTime = Date.now();
-                velocity = 0;
-                
-                // Cancel any ongoing animation
-                if (animationId) {
-                    cancelAnimationFrame(animationId);
-                }
-                
-                e.preventDefault();
-            });
-            
-            document.addEventListener('mousemove', (e) => {
-                if (!isDragging) return;
-                
-                const deltaX = e.clientX - startX;
-                currentX = deltaX;
-                
-                // Apply damping factor for less sensitive movement (0.55 = 55% of mouse movement)
-                const dragSensitivity = 0.55;
-                const dampedDelta = deltaX * dragSensitivity;
-                
-                // Update target position (will be smoothly interpolated)
-                targetDragPosition = lastPosition - dampedDelta;
-                
-                // Start smooth animation loop if not already running
-                if (!dragAnimationId) {
-                    dragAnimationId = requestAnimationFrame(updateDragPosition);
-                }
-            });
-            
-            document.addEventListener('mouseup', () => {
-                if (!isDragging) return;
-                
-                isDragging = false;
-                wrapper.style.cursor = 'grab';
-                track.classList.remove('dragging');
-                
-                // Stop drag animation
-                if (dragAnimationId) {
-                    cancelAnimationFrame(dragAnimationId);
-                    dragAnimationId = null;
-                }
-                
-                // Update lastPosition to current smoothed position
-                lastPosition = currentPosition;
-                
-                // Apply momentum scrolling
-                if (Math.abs(velocity) > 0.5) {
-                    applyMomentum(velocity);
-                    // Restart auto-scroll after momentum ends
-                    setTimeout(() => {
-                        startAutoScroll();
-                    }, 500);
-                } else {
-                    snapToNearestCard();
-                    // Restart auto-scroll after snap completes
-                    setTimeout(() => {
-                        startAutoScroll();
-                    }, 300);
-                }
-            });
-            
-            // Touch swipe handlers
-            let touchStartX = 0;
-            let touchStartY = 0;
-            let touchCurrentX = 0;
-            let isTouching = false;
-            
-            wrapper.addEventListener('touchstart', (e) => {
-                if (e.target.closest('a') || e.target.closest('button')) return;
-                
-                stopAutoScroll(); // Stop auto-scroll when user interacts
-                
-                // Cancel any existing drag animation
-                if (dragAnimationId) {
-                    cancelAnimationFrame(dragAnimationId);
-                    dragAnimationId = null;
-                }
-                
-                const touch = e.touches[0];
-                touchStartX = touch.clientX;
-                touchStartY = touch.clientY;
-                isTouching = true;
-                lastPosition = currentPosition;
-                targetDragPosition = currentPosition;
-                lastTime = Date.now();
-                velocity = 0;
-                
-                // Cancel any ongoing animation
-                if (animationId) {
-                    cancelAnimationFrame(animationId);
-                }
-                
-                e.preventDefault();
-            }, { passive: false });
-            
-            wrapper.addEventListener('touchmove', (e) => {
-                if (!isTouching) return;
-                
-                const touch = e.touches[0];
-                touchCurrentX = touch.clientX;
-                
-                const deltaX = touchCurrentX - touchStartX;
-                const deltaY = touch.clientY - touchStartY;
-                
-                // Only scroll horizontally if horizontal movement is greater
-                if (Math.abs(deltaX) > Math.abs(deltaY)) {
-                    currentX = deltaX;
-                    
-                    // Apply damping factor for less sensitive movement (0.55 = 55% of touch movement)
-                    const dragSensitivity = 0.55;
-                    const dampedDelta = deltaX * dragSensitivity;
-                    
-                    // Update target position (will be smoothly interpolated)
-                    targetDragPosition = lastPosition - dampedDelta;
-                    
-                    track.style.transition = 'none';
-                    
-                    // Start smooth animation loop if not already running
-                    if (!dragAnimationId) {
-                        dragAnimationId = requestAnimationFrame(updateDragPosition);
-                    }
-                    
-                    e.preventDefault();
-                }
-            }, { passive: false });
-            
-            wrapper.addEventListener('touchend', () => {
-                if (!isTouching) return;
-                
-                isTouching = false;
-                track.style.transition = 'transform 0.3s ease-out';
-                
-                // Stop drag animation
-                if (dragAnimationId) {
-                    cancelAnimationFrame(dragAnimationId);
-                    dragAnimationId = null;
-                }
-                
-                // Update lastPosition to current smoothed position
-                lastPosition = currentPosition;
-                
-                // Apply momentum scrolling
-                if (Math.abs(velocity) > 0.5) {
-                    applyMomentum(velocity);
-                    // Restart auto-scroll after momentum ends
-                    setTimeout(() => {
-                        startAutoScroll();
-                    }, 500);
-                } else {
-                    snapToNearestCard();
-                    // Restart auto-scroll after snap completes
-                    setTimeout(() => {
-                        startAutoScroll();
-                    }, 300);
-                }
-            });
-            
-            // Momentum scrolling function
-            function applyMomentum(initialVelocity) {
-                stopAutoScroll(); // Stop auto-scroll during momentum
-                
-                let currentVelocity = initialVelocity;
-                const friction = 0.96; // Increased friction for slower, smoother deceleration
-                const minVelocity = 0.3; // Lower threshold for smoother stopping
-                
-                function animate() {
-                    if (Math.abs(currentVelocity) < minVelocity) {
-                        snapToNearestCard();
-                        return;
-                    }
-                    
-                    currentPosition -= currentVelocity;
-                    track.style.transform = `translateX(-${currentPosition}px)`;
-                    currentVelocity *= friction;
-                    
-                    // Check boundaries and loop
-                    checkAndLoop();
-                    
-                    animationId = requestAnimationFrame(animate);
-                }
-                
-                animate();
-            }
-            
-            // Snap to nearest card
-            function snapToNearestCard() {
-                stopAutoScroll(); // Stop auto-scroll during snap
-                
-                const totalCardWidth = cardWidthWithGap;
-                const snappedPosition = Math.round(currentPosition / totalCardWidth) * totalCardWidth;
-                
-                currentPosition = snappedPosition;
-                track.style.transition = 'transform 0.5s ease-out'; // Slower, smoother transition
-                track.style.transform = `translateX(-${currentPosition}px)`;
-                
-                // Check and loop after transition
+
+                // Trigger animations for newly revealed cards
                 setTimeout(() => {
-                    checkAndLoop();
-                }, 500);
-            }
-            
-            // Infinite loop logic
-            function checkAndLoop() {
-                const totalCards = cards.length;
-                const totalWidth = totalCards * cardWidthWithGap;
-                
-                // If we've scrolled past the end clones, jump to start
-                if (currentPosition >= totalWidth * 2) {
-                    currentPosition -= totalWidth;
-                    track.style.transition = 'none';
-                    track.style.transform = `translateX(-${currentPosition}px)`;
-                }
-                // If we've scrolled before the start clones, jump to end
-                else if (currentPosition < totalWidth) {
-                    currentPosition += totalWidth;
-                    track.style.transition = 'none';
-                    track.style.transform = `translateX(-${currentPosition}px)`;
-                }
-            }
-            
-            // Prevent clicks during drag
-            wrapper.addEventListener('click', (e) => {
-                if (Math.abs(currentX) > 10) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                }
-                currentX = 0;
-            }, true);
-            
-            // Handle window resize
-            let resizeTimeout;
-            window.addEventListener('resize', () => {
-                stopAutoScroll(); // Stop auto-scroll during resize
-                clearTimeout(resizeTimeout);
-                resizeTimeout = setTimeout(() => {
-                    const newCardWidth = cards[0].offsetWidth;
-                    const newGap = parseFloat(getComputedStyle(track).gap) || 40;
-                    const newCardWidthWithGap = newCardWidth + newGap;
-                    const newTotalWidth = cards.length * newCardWidthWithGap;
-                    
-                    // Recalculate position
-                    const cardIndex = Math.round((currentPosition - startOffset) / cardWidthWithGap);
-                    currentPosition = startOffset + (cardIndex * newCardWidthWithGap);
-                    
-                    track.style.transform = `translateX(-${currentPosition}px)`;
-                    
-                    // Restart auto-scroll after resize
-                    startAutoScroll();
-                }, 250);
+                    initNewsAnimations();
+                }, 50);
             });
-            
-            // Start auto-scroll when page loads
-            startAutoScroll();
         }
 
-        // News card animations
         function initNewsAnimations() {
             const observerOptions = {
                 threshold: 0.1,
-                rootMargin: '0px 0px -50px 0px'
+                rootMargin: '0px 0px -100px 0px'
             };
             
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach((entry) => {
                     if (entry.isIntersecting) {
                         entry.target.classList.add('animate-in');
+                        // Stop observing once animated
+                        observer.unobserve(entry.target);
                     }
                 });
             }, observerOptions);
             
-            const newsCards = document.querySelectorAll('.news-card');
-            newsCards.forEach(card => {
-                observer.observe(card);
+            // Observe all visible news cards (not hidden)
+            const newsCards = document.querySelectorAll('.news-card:not([style*="display: none"])');
+            newsCards.forEach((card, index) => {
+                // Only add delay if card doesn't already have one
+                if (!card.style.transitionDelay) {
+                    card.style.transitionDelay = `${(index % 6) * 0.1}s`;
+                }
+                // Only observe if not already animated
+                if (!card.classList.contains('animate-in')) {
+                    observer.observe(card);
+                }
             });
+            
+            // Also observe the CTA section
+            const ctaSection = document.querySelector('.news-cta-section');
+            if (ctaSection && !ctaSection.classList.contains('animate-in')) {
+                observer.observe(ctaSection);
+            }
         }
     </script>
 </body>
 </html>
-

@@ -3,6 +3,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     initNewsCarousel();
     initNewsImages();
+    initNewsLoadMore();
     initNewsAnimations();
 });
 
@@ -484,23 +485,82 @@ async function getImageFromArticle(url) {
     }
 }
 
+// Load More functionality
+function initNewsLoadMore() {
+    const loadMoreBtn = document.getElementById('newsLoadMoreBtn');
+    const newsCards = document.querySelectorAll('.news-card');
+    const articlesPerLoad = 6;
+    let currentlyVisible = 6;
+
+    if (!loadMoreBtn) {
+        return;
+    }
+
+    // Hide button if there are 6 or fewer articles
+    if (newsCards.length <= currentlyVisible) {
+        loadMoreBtn.classList.add('hidden');
+        return;
+    }
+
+    loadMoreBtn.addEventListener('click', function() {
+        const nextBatch = currentlyVisible + articlesPerLoad;
+        
+        // Show next 6 articles
+        for (let i = currentlyVisible; i < nextBatch && i < newsCards.length; i++) {
+            newsCards[i].style.display = 'block';
+            // Reset animation state for newly revealed cards
+            newsCards[i].classList.remove('animate-in');
+            newsCards[i].style.opacity = '0';
+            newsCards[i].style.transform = 'translateY(30px)';
+        }
+
+        currentlyVisible = Math.min(nextBatch, newsCards.length);
+
+        // Hide button if all articles are shown
+        if (currentlyVisible >= newsCards.length) {
+            loadMoreBtn.classList.add('hidden');
+        }
+
+        // Trigger animations for newly revealed cards
+        setTimeout(() => {
+            initNewsAnimations();
+        }, 50);
+    });
+}
+
 // News card animations
 function initNewsAnimations() {
     const observerOptions = {
         threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
+        rootMargin: '0px 0px -100px 0px'
     };
     
     const observer = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('animate-in');
+                // Stop observing once animated
+                observer.unobserve(entry.target);
             }
         });
     }, observerOptions);
     
-    const newsCards = document.querySelectorAll('.news-card');
-    newsCards.forEach(card => {
-        observer.observe(card);
+    // Observe all visible news cards (not hidden)
+    const newsCards = document.querySelectorAll('.news-card:not([style*="display: none"])');
+    newsCards.forEach((card, index) => {
+        // Only add delay if card doesn't already have one
+        if (!card.style.transitionDelay) {
+            card.style.transitionDelay = `${(index % 6) * 0.1}s`;
+        }
+        // Only observe if not already animated
+        if (!card.classList.contains('animate-in')) {
+            observer.observe(card);
+        }
     });
+    
+    // Also observe the CTA section
+    const ctaSection = document.querySelector('.news-cta-section');
+    if (ctaSection && !ctaSection.classList.contains('animate-in')) {
+        observer.observe(ctaSection);
+    }
 }
