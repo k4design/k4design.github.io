@@ -933,11 +933,7 @@
             
             // Observe all visible news cards (not hidden)
             const newsCards = document.querySelectorAll('.news-card:not([style*="display: none"])');
-            newsCards.forEach((card, index) => {
-                // Only add delay if card doesn't already have one
-                if (!card.style.transitionDelay) {
-                    card.style.transitionDelay = `${(index % 6) * 0.1}s`;
-                }
+            newsCards.forEach((card) => {
                 // Only observe if not already animated
                 if (!card.classList.contains('animate-in')) {
                     observer.observe(card);
