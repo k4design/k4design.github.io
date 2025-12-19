@@ -251,11 +251,6 @@ body {
     transform: translateY(0);
 }
 
-/* Hide articles beyond the first 6 */
-.news-card:nth-child(n+7) {
-    display: none;
-}
-
 /* See More Button */
 .news-load-more-container {
     text-align: center;

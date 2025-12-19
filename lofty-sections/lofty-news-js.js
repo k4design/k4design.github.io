@@ -3,7 +3,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     initNewsCarousel();
     initNewsImages();
-    initNewsLoadMore();
     initNewsAnimations();
 });
 
@@ -483,49 +482,6 @@ async function getImageFromArticle(url) {
         console.error('Error getting image from article:', error);
         return null;
     }
-}
-
-// Load More functionality
-function initNewsLoadMore() {
-    const loadMoreBtn = document.getElementById('newsLoadMoreBtn');
-    const newsCards = document.querySelectorAll('.news-card');
-    const articlesPerLoad = 6;
-    let currentlyVisible = 6;
-
-    if (!loadMoreBtn) {
-        return;
-    }
-
-    // Hide button if there are 6 or fewer articles
-    if (newsCards.length <= currentlyVisible) {
-        loadMoreBtn.classList.add('hidden');
-        return;
-    }
-
-    loadMoreBtn.addEventListener('click', function() {
-        const nextBatch = currentlyVisible + articlesPerLoad;
-        
-        // Show next 6 articles
-        for (let i = currentlyVisible; i < nextBatch && i < newsCards.length; i++) {
-            newsCards[i].style.display = 'block';
-            // Reset animation state for newly revealed cards
-            newsCards[i].classList.remove('animate-in');
-            newsCards[i].style.opacity = '0';
-            newsCards[i].style.transform = 'translateY(30px)';
-        }
-
-        currentlyVisible = Math.min(nextBatch, newsCards.length);
-
-        // Hide button if all articles are shown
-        if (currentlyVisible >= newsCards.length) {
-            loadMoreBtn.classList.add('hidden');
-        }
-
-        // Trigger animations for newly revealed cards
-        setTimeout(() => {
-            initNewsAnimations();
-        }, 50);
-    });
 }
 
 // News card animations
