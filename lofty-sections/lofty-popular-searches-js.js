@@ -27,3 +27,5 @@ function initPopularSearchesAnimations() {
         observer.observe(content);
     }
 }
+
+
