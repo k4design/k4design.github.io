@@ -3,6 +3,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     initNewsCarousel();
     initNewsImages();
+    initNewsDates();
 });
 
 // Initialize infinite carousel with drag and swipe
@@ -480,6 +481,79 @@ async function getImageFromArticle(url) {
     } catch (error) {
         console.error('Error getting image from article:', error);
         return null;
+    }
+}
+
+// Get publication date from article URL
+async function getDateFromArticle(url) {
+    try {
+        const proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(url);
+        const response = await fetch(proxyUrl);
+        if (!response.ok) {
+            throw new Error('Failed to fetch article');
+        }
+        
+        const html = await response.text();
+        
+        // Try various date meta tags
+        const patterns = [
+            /<meta\s+property=["']article:published_time["']\s+content=["']([^"']+)["']/i,
+            /<meta\s+name=["']publish-date["']\s+content=["']([^"']+)["']/i,
+            /<meta\s+property=["']og:published_time["']\s+content=["']([^"']+)["']/i,
+            /<time\s+[^>]*datetime=["']([^"']+)["']/i,
+            /<meta\s+name=["']date["']\s+content=["']([^"']+)["']/i,
+            /<meta\s+itemprop=["']datePublished["']\s+content=["']([^"']+)["']/i
+        ];
+        
+        for (const pattern of patterns) {
+            const match = html.match(pattern);
+            if (match && match[1]) {
+                const date = new Date(match[1]);
+                if (!isNaN(date.getTime())) {
+                    return formatDate(date);
+                }
+            }
+        }
+        
+        return null;
+    } catch (error) {
+        console.error('Error getting date from article:', error);
+        return null;
+    }
+}
+
+// Format date as "Month Day, Year"
+function formatDate(date) {
+    const months = ['January', 'February', 'March', 'April', 'May', 'June', 
+                   'July', 'August', 'September', 'October', 'November', 'December'];
+    return `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
+}
+
+// Initialize news dates
+async function initNewsDates() {
+    const newsCards = document.querySelectorAll('.news-card:not([data-cloned])');
+    
+    for (const card of newsCards) {
+        const dateSpan = card.querySelector('.news-content > div > span:last-child');
+        if (!dateSpan || dateSpan.textContent.trim() !== 'Recent') {
+            continue;
+        }
+        
+        const readMoreLink = card.querySelector('.read-more');
+        if (!readMoreLink || !readMoreLink.href || readMoreLink.href === '#') {
+            continue;
+        }
+        
+        const articleUrl = readMoreLink.href;
+        
+        try {
+            const date = await getDateFromArticle(articleUrl);
+            if (date) {
+                dateSpan.textContent = date;
+            }
+        } catch (error) {
+            console.error('Error loading date for:', articleUrl, error);
+        }
     }
 }
 

@@ -54,9 +54,35 @@
           font-weight: 200;
           color: #1a1a1a;
           line-height: 1.8;
-          margin-bottom: 3rem;
+          margin-bottom: 2rem;
           letter-spacing: 0.01em;
           max-width: 480px;
+      }
+      
+      #wellness-amenities .text-panel .learn-more-button {
+          display: block;
+          width: 100%;
+          max-width: 240px;
+          padding: 1rem 2.5rem;
+          background: #000000;
+          color: #ffffff;
+          border: 2px solid #000000;
+          border-radius: 0;
+          font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+          font-size: clamp(0.875rem, 1.5vw, 1rem);
+          font-weight: 400;
+          text-decoration: none;
+          text-align: center;
+          transition: all 0.3s ease;
+          text-transform: uppercase;
+          letter-spacing: 0.1em;
+          margin-top: 1rem;
+      }
+      
+      #wellness-amenities .text-panel .learn-more-button:hover {
+          background: #0092ff;
+          border-color: #0092ff;
+          color: #ffffff;
       }
       
       #wellness-amenities .text-panel .text-elegant {
@@ -126,7 +152,25 @@
           
           #wellness-amenities .text-panel {
               padding: 4rem 3rem;
+              padding-bottom: 12rem;
               min-height: auto;
+              text-align: center;
+              align-items: center;
+          }
+          
+          #wellness-amenities .text-panel h2 {
+              text-align: center;
+          }
+          
+          #wellness-amenities .text-panel p {
+              text-align: center;
+              margin-left: auto;
+              margin-right: auto;
+          }
+          
+          #wellness-amenities .text-panel .learn-more-button {
+              margin-left: auto;
+              margin-right: auto;
           }
           
           #wellness-amenities .images-container {
@@ -141,8 +185,8 @@
               left: 50%;
               top: 70%;
               transform: translate(-50%, -50%);
-              width: 75%;
-              max-width: 600px;
+              width: 90vw;
+              max-width: none;
               height: auto;
               margin: 0;
               aspect-ratio: 16 / 9;
@@ -153,6 +197,7 @@
       @media (max-width: 768px) {
           #wellness-amenities .text-panel {
               padding: 3rem 2rem;
+              padding-bottom: 10rem;
           }
           
           #wellness-amenities .text-panel h2 {
@@ -168,8 +213,8 @@
               left: 50%;
               top: 70%;
               transform: translate(-50%, -50%);
-              width: 82.5%;
-              max-width: 450px;
+              width: 90vw;
+              max-width: none;
               height: auto;
               margin: 0;
               aspect-ratio: 16 / 9;
@@ -180,6 +225,7 @@
       @media (max-width: 480px) {
           #wellness-amenities .text-panel {
               padding: 2.5rem 1.5rem;
+              padding-bottom: 8rem;
           }
           
           #wellness-amenities .images-container {
@@ -191,6 +237,7 @@
       <div class="text-panel">
         <h2 class="display-font">International<br />Luxury<br />Real Estate<br />Brokerage</h2>
         <p class="text-elegant">Aperture Global is pioneering a new era in the international real estate market as the first of its kind in the global luxury space. With a vision to become the premier name in high-end real estate, Aperture Global operates with a presence concentrated on the greatest luxury cities around the world, spanning 6 continents and 20+ countries.</p>
+        <a href="https://apertureglobal.com/about" class="learn-more-button" target="_blank">Learn More</a>
       </div><!-- Right Images Container -->
       <div class="images-container"><!-- Background Image (Architectural Space) -->
         <img src="https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=1200&#x26;h=800&#x26;fit=crop" alt="Modern architectural space" class="background-image" />
