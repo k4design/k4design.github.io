@@ -2380,9 +2380,9 @@ section.dev-projects-section .project-card .project-overlay .overlay-content p {
         display: inline-block !important;
         margin-top: 1.5rem;
         padding: 0.875rem 2rem;
-        background: var(--gradient-accent);
+        background: #000000;
         color: white !important;
-        border-radius: 50px;
+        border-radius: 0;
         font-size: 0.95rem;
         font-weight: 600;
         text-decoration: none;
@@ -2390,15 +2390,16 @@ section.dev-projects-section .project-card .project-overlay .overlay-content p {
         transition: all 0.3s ease;
         text-transform: uppercase;
         letter-spacing: 0.1em;
-        box-shadow: 0 8px 25px rgba(0, 146, 255, 0.3);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
         border: none;
         cursor: pointer;
     }
 
     .project-learn-more-btn.mobile-only:hover {
         transform: translateY(-2px);
-        box-shadow: 0 15px 35px rgba(0, 146, 255, 0.4);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
         opacity: 0.9;
+        background: #1a1a1a;
     }
     
     /* Left align all text on mobile */
