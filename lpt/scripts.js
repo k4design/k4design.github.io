@@ -745,3 +745,208 @@ document.querySelectorAll('input, select').forEach((field) => {
   carouselTrack.addEventListener('touchcancel', handleTouchEnd, { passive: true });
 })();
 
+// Map SVG Animation - Start when viewport reaches it
+(function initMapAnimation() {
+  const mapContainer = document.getElementById('map-container');
+  const mapWrapper = document.getElementById('usa-map-wrapper');
+  if (!mapContainer || !mapWrapper) return;
+
+  // Check for reduced motion preference
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (prefersReducedMotion) {
+    // Just load the SVG without animation
+    mapWrapper.innerHTML = '<img src="img/usa_map.svg" alt="United States map showing LPT Realty coverage" width="959" height="593" style="width: 100%; height: auto; display: block;" />';
+    return;
+  }
+
+  // Load the SVG inline and animate states one by one
+  const loadSVGAndAnimate = () => {
+    fetch('img/usa_map.svg')
+      .then(response => response.text())
+      .then(svgText => {
+        // Parse the SVG
+        const parser = new DOMParser();
+        const svgDoc = parser.parseFromString(svgText, 'image/svg+xml');
+        const svgElement = svgDoc.querySelector('svg');
+        
+        if (!svgElement) return;
+
+        // Remove existing animation styles and set all states to grey initially
+        const styleElement = svgDoc.querySelector('style');
+        if (styleElement) {
+          let styleText = styleElement.textContent;
+          
+          // Remove the animation from the base state path rule
+          styleText = styleText.replace(
+            /\.state path \{fill:#D0D0D0; animation: fillColor 0\.15s ease-in-out forwards\}/,
+            '.state path {fill:#D0D0D0;}'
+          );
+          
+          // Remove animation from DC circle
+          styleText = styleText.replace(
+            /circle\.dc \{ fill: #D0D0D0; animation: fillColor 0\.15s ease-in-out forwards; animation-delay: 4\.95s; \}/,
+            'circle.dc { fill: #D0D0D0; }'
+          );
+          
+          // Remove all the nth-child animation delays
+          styleText = styleText.replace(/\.state path:nth-child\(\d+\) \{ animation-delay: [\d.]+s; \}\s*/g, '');
+          
+          styleElement.textContent = styleText;
+        }
+        
+        // Add an id to the SVG so we can reference it
+        svgElement.setAttribute('id', 'usa-map-svg');
+
+        // Set SVG to be responsive
+        svgElement.setAttribute('width', '959');
+        svgElement.setAttribute('height', '593');
+        svgElement.setAttribute('style', 'width: 100%; height: auto; display: block;');
+        svgElement.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+
+        // Import the SVG element into the current document
+        const importedSvg = document.importNode(svgElement, true);
+
+        // Insert the modified SVG into the wrapper
+        mapWrapper.innerHTML = '';
+        mapWrapper.appendChild(importedSvg);
+        
+        // Get all state elements for reuse
+        let allStates = null;
+        let animationTimeout = null;
+        
+        const getStateElements = () => {
+          if (allStates) return allStates;
+          
+          const svg = mapWrapper.querySelector('#usa-map-svg');
+          if (!svg) return null;
+          
+          // Get all state paths and the DC circle
+          const statePaths = Array.from(svg.querySelectorAll('.state path'));
+          const dcCircle = svg.querySelector('circle.dc');
+          
+          // Combine all elements to animate
+          allStates = [...statePaths];
+          if (dcCircle) {
+            allStates.push(dcCircle);
+          }
+          
+          return allStates;
+        };
+        
+        // Function to reset states to grey
+        const resetStates = () => {
+          const states = getStateElements();
+          if (!states) return;
+          
+          states.forEach(state => {
+            state.style.transition = 'fill 0.3s ease-in-out';
+            state.style.fill = '#D0D0D0';
+          });
+        };
+        
+        // Function to check if fade-up animation has completed
+        const waitForFadeUpAnimation = (callback) => {
+          // Find the parent element with fade-up class (mission-image)
+          const parentElement = mapContainer.closest('.fade-up');
+          
+          if (!parentElement) {
+            // No fade-up parent, proceed immediately
+            callback();
+            return;
+          }
+          
+          // Check if parent has animate-in class
+          const hasAnimateIn = parentElement.classList.contains('animate-in');
+          
+          if (!hasAnimateIn) {
+            // Wait for animate-in class to be added
+            const checkInterval = setInterval(() => {
+              if (parentElement.classList.contains('animate-in')) {
+                clearInterval(checkInterval);
+                // Wait for animation to complete (0.1s delay + 0.8s duration = 0.9s)
+                setTimeout(callback, 900);
+              }
+            }, 50);
+            
+            // Fallback timeout in case animate-in never gets added
+            setTimeout(() => {
+              clearInterval(checkInterval);
+              callback();
+            }, 5000);
+          } else {
+            // Already has animate-in, wait for animation to complete
+            // Animation duration is 0.8s with 0.1s delay = 0.9s total
+            // Wait the full duration to ensure animation has completed
+            setTimeout(callback, 900);
+          }
+        };
+        
+        // Function to animate states one by one
+        const animateStates = () => {
+          const states = getStateElements();
+          if (!states) return;
+          
+          // Clear any pending animation timeout
+          if (animationTimeout) {
+            clearTimeout(animationTimeout);
+            animationTimeout = null;
+          }
+          
+          // Reset all states to grey first
+          resetStates();
+          
+          // Wait for fade-up animation to complete, then delay by 1.5 seconds
+          waitForFadeUpAnimation(() => {
+            // Additional 1.5 second delay after fade-up completes
+            animationTimeout = setTimeout(() => {
+              // Animate each state with a delay
+              states.forEach((state, index) => {
+                setTimeout(() => {
+                  state.style.transition = 'fill 0.3s ease-in-out';
+                  state.style.fill = '#04b3ff';
+                }, index * 80); // 80ms delay between each state
+              });
+            }, 1500); // 1.5 second delay after fade-up completes
+          });
+        };
+        
+        // Now observe the container
+        const observerOptions = {
+          root: null,
+          rootMargin: '0px 0px -75% 0px', // Trigger when map is at least 75% from bottom of viewport
+          threshold: 1.0 // Start animation when 100% of map is visible
+        };
+
+        const mapObserver = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              // Map entered viewport - start animation after fade-up completes
+              animateStates();
+            } else {
+              // Map left viewport - reset states and clear timeout
+              if (animationTimeout) {
+                clearTimeout(animationTimeout);
+                animationTimeout = null;
+              }
+              resetStates();
+            }
+          });
+        }, observerOptions);
+
+        mapObserver.observe(mapContainer);
+      })
+      .catch(error => {
+        console.warn('Could not load SVG for animation:', error);
+        // Fallback to regular image
+        mapWrapper.innerHTML = '<img src="img/usa_map.svg" alt="United States map showing LPT Realty coverage" width="959" height="593" style="width: 100%; height: auto; display: block;" />';
+      });
+  };
+
+  // Start loading when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', loadSVGAndAnimate);
+  } else {
+    loadSVGAndAnimate();
+  }
+})();
+

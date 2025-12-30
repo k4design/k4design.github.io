@@ -2269,10 +2269,10 @@ section.dev-projects-section .project-card .project-overlay .overlay-content p {
         display: none !important;
     }
 
-    /* Keep carousel indicators on the left side (beside cards) on mobile */
+    /* Keep carousel indicators on the right side (beside cards) on mobile */
     .carousel-indicators {
         position: absolute;
-        left: 0.5rem;
+        right: 0.5rem;
         top: 50%;
         transform: translateY(-50%);
         flex-direction: column;
