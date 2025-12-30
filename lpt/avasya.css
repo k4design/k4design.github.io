@@ -473,6 +473,7 @@ body.is-locked {
   line-height: 1.1;
   color: white;
   letter-spacing: -0.02em;
+  padding-bottom: 24px;
 }
 
 .hero-description {
@@ -657,6 +658,10 @@ body.is-locked {
   background-color: var(--color-bg-white);
 }
 
+.awards-section .container {
+  max-width: none;
+}
+
 .awards-header {
   text-align: center;
   max-width: 900px;
@@ -692,7 +697,7 @@ body.is-locked {
   display: flex;
   gap: 24px;
   width: fit-content;
-  animation: scroll-awards 120s linear infinite;
+  animation: scroll-awards 60s linear infinite;
 }
 
 @keyframes scroll-awards {
@@ -720,7 +725,6 @@ body.is-locked {
   border-radius: 12px;
   padding: 32px 24px;
   position: relative;
-  min-height: 320px;
   min-width: 300px;
   flex-shrink: 0;
   display: flex;
