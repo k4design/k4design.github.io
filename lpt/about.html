@@ -20,43 +20,61 @@
   <body>
     <!-- Top Navigation -->
     <header class="site-header">
-      <div class="header-container">
-        <a href="/" class="logo" aria-label="LPT Realty home">
-          <img
-            src="https://lpt.com/assets/images/lptrealty_logo_horizontal.svg"
-            alt="LPT Realty"
-            width="162"
-            height="36"
-            style="height: 32px; width: auto;"
-          />
-        </a>
-        <nav class="main-nav" aria-label="Main navigation">
-          <a href="/#hero" class="nav-link">Overview</a>
-          <a href="/#agent-experience" class="nav-link">Agent Success</a>
-          <a href="/#dezzy-ai" class="nav-link">dezzy.ai</a>
-          <a href="/#compensation" class="nav-link">Comp Plans</a>
-          <a href="/#contact" class="nav-link">Let's Talk</a>
-        </nav>
-        <div class="header-utils">
-          <a class="login-btn" href="/onboard">Join Now</a>
-          <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="nav-drawer">
-            <span class="nav-toggle__icon">
-              <span></span>
-              <span></span>
-              <span></span>
-            </span>
-            <span class="nav-toggle__label">Menu</span>
-          </button>
+      <div class="header-main-nav">
+        <div class="header-container">
+          <a href="/" class="logo" aria-label="LPT Realty home">
+            <img
+              src="https://lpt.com/assets/images/lptrealty_logo_horizontal.svg"
+              alt="LPT Realty"
+              width="162"
+              height="36"
+              style="height: 32px; width: auto;"
+            />
+          </a>
+          <nav class="main-nav" aria-label="Main navigation">
+            <a href="/" class="nav-link">Home</a>
+            <a href="/about.html" class="nav-link">About</a>
+          </nav>
+          <div class="header-utils">
+            <a class="login-btn" href="/onboard">Join Now</a>
+            <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="nav-drawer">
+              <span class="nav-toggle__icon">
+                <span></span>
+                <span></span>
+                <span></span>
+              </span>
+              <span class="nav-toggle__label">Menu</span>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="header-secondary-nav">
+        <div class="header-container">
+          <nav class="secondary-nav" aria-label="Page sections navigation">
+            <a href="#hero" class="secondary-nav-link">Overview</a>
+            <a href="#story" class="secondary-nav-link">Our Story</a>
+            <a href="#values" class="secondary-nav-link">Values</a>
+            <a href="#advantage" class="secondary-nav-link">Advantage</a>
+            <a href="#support" class="secondary-nav-link">Support</a>
+            <a href="#momentum" class="secondary-nav-link">Momentum</a>
+            <a href="#leadership" class="secondary-nav-link">Leadership</a>
+            <a href="#contact" class="secondary-nav-link">Contact</a>
+          </nav>
         </div>
       </div>
       <div class="nav-overlay" id="nav-overlay" aria-hidden="true"></div>
       <nav id="nav-drawer" class="nav-drawer" aria-label="Mobile navigation" aria-hidden="true">
         <div class="nav-drawer__content">
-          <a href="/#hero" class="nav-drawer__link">Overview</a>
-          <a href="/#agent-experience" class="nav-drawer__link">Agent Success</a>
-          <a href="/#dezzy-ai" class="nav-drawer__link">dezzy.ai</a>
-          <a href="/#compensation" class="nav-drawer__link">Comp Plans</a>
-          <a href="/#contact" class="nav-drawer__link">Let's Talk</a>
+          <a href="/" class="nav-drawer__link">Home</a>
+          <a href="/about.html" class="nav-drawer__link">About</a>
+          <div style="border-top: 1px solid rgba(0, 0, 0, 0.1); margin: 16px 0; padding-top: 16px;">
+            <a href="#hero" class="nav-drawer__link">Our Story</a>
+            <a href="#values" class="nav-drawer__link">Values</a>
+            <a href="#advantage" class="nav-drawer__link">Advantage</a>
+            <a href="#support" class="nav-drawer__link">Support</a>
+            <a href="#leadership" class="nav-drawer__link">Leadership</a>
+            <a href="#contact" class="nav-drawer__link">Contact</a>
+          </div>
           <a class="nav-drawer__button" href="/onboard">Join Now</a>
         </div>
       </nav>
@@ -87,7 +105,7 @@
       </section>
 
       <!-- Our Story Section -->
-      <section class="mission-section">
+      <section class="mission-section" id="story">
         <div class="container">
           <div class="mission-content">
             <div class="mission-text fade-up">
@@ -117,7 +135,7 @@
       </section>
 
       <!-- What We Believe Section -->
-      <section class="feature-cards-section">
+      <section class="feature-cards-section" id="values">
         <div class="container">
           <h2 class="feature-cards-headline fade-up">What We Believe</h2>
           <div class="feature-cards-grid stagger-container">
@@ -188,7 +206,7 @@
       </section>
 
       <!-- The LPT Advantage Section -->
-      <section class="escapes-section">
+      <section class="escapes-section" id="advantage">
         <div class="container">
           <div class="escapes-layout">
             <div class="escapes-intro">
@@ -282,7 +300,7 @@
       </section>
 
       <!-- Support & Resources Section -->
-      <section class="mission-section" style="background: linear-gradient(160deg, rgba(255, 255, 255, 0.96) 0%, rgba(219, 229, 255, 0.75) 100%);">
+      <section class="mission-section" id="support" style="background: linear-gradient(160deg, rgba(255, 255, 255, 0.96) 0%, rgba(219, 229, 255, 0.75) 100%);">
         <div class="container">
           <div class="mission-content">
             <div class="mission-text fade-up">
@@ -329,7 +347,7 @@
       </section>
 
       <!-- Brand Momentum Section -->
-      <section class="mission-section">
+      <section class="mission-section" id="momentum">
         <div class="container">
           <div class="mission-content">
             <div class="mission-text fade-up">
@@ -370,7 +388,7 @@
       </section>
 
       <!-- Leadership Team Section -->
-      <section class="leadership-team-section">
+      <section class="leadership-team-section" id="leadership">
         <div class="container">
           <div class="leadership-team-header fade-up">
             <div class="leadership-team-tag">
@@ -604,6 +622,78 @@
 
     <script src="scripts.js" defer></script>
     <script>
+      // Navigation Active State Management
+      (function initNavigationActiveStates() {
+        // Set active page in main nav
+        const currentPath = window.location.pathname;
+        const mainNavLinks = document.querySelectorAll('.main-nav .nav-link');
+        mainNavLinks.forEach(link => {
+          const href = link.getAttribute('href');
+          if (href === currentPath || (href === '/' && currentPath === '/index.html') || (currentPath === '/' && href === '/')) {
+            link.classList.add('active');
+          }
+        });
+
+        // Detect active section for secondary nav
+        const secondaryNavLinks = document.querySelectorAll('.secondary-nav-link');
+        if (secondaryNavLinks.length === 0) return;
+
+        const sections = Array.from(secondaryNavLinks).map(link => {
+          const href = link.getAttribute('href');
+          if (href.startsWith('#')) {
+            const id = href.substring(1);
+            const element = document.getElementById(id);
+            return { link, element, id };
+          }
+          return null;
+        }).filter(Boolean);
+
+        const updateActiveSection = () => {
+          const scrollPosition = window.scrollY + 150; // Offset for better UX
+
+          sections.forEach(({ link, element }) => {
+            if (!element) return;
+            
+            const rect = element.getBoundingClientRect();
+            const elementTop = rect.top + window.scrollY;
+            const elementBottom = elementTop + rect.height;
+
+            if (scrollPosition >= elementTop && scrollPosition < elementBottom) {
+              link.classList.add('active');
+            } else {
+              link.classList.remove('active');
+            }
+          });
+        };
+
+        // Show/hide secondary nav on scroll
+        const secondaryNav = document.querySelector('.header-secondary-nav');
+        const showSecondaryNav = () => {
+          if (window.scrollY > 100) {
+            secondaryNav?.classList.add('visible');
+          } else {
+            secondaryNav?.classList.remove('visible');
+          }
+        };
+
+        // Update on scroll
+        let ticking = false;
+        window.addEventListener('scroll', () => {
+          if (!ticking) {
+            window.requestAnimationFrame(() => {
+              updateActiveSection();
+              showSecondaryNav();
+              ticking = false;
+            });
+            ticking = true;
+          }
+        });
+
+        // Initial update
+        updateActiveSection();
+        showSecondaryNav();
+      })();
+
       // Scroll Animation System
       (function initScrollAnimations() {
         // Check for reduced motion preference
