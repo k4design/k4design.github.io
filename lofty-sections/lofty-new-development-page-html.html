@@ -152,6 +152,8 @@
             this.nextButton = document.getElementById('nextButton');
             this.currentIndex = 0;
             this.isTransitioning = false;
+            this.autoRotateInterval = null;
+            this.autoRotateDelay = 3000; // 3 seconds
 
             // Check if all required elements exist
             if (!this.carousel || !this.prevButton || !this.nextButton) {
@@ -208,22 +210,38 @@
             this.updateCarouselPosition();
             
             // Event listeners
-            this.prevButton.addEventListener('click', () => this.prev());
-            this.nextButton.addEventListener('click', () => this.next());
+            this.prevButton.addEventListener('click', () => {
+                this.pauseAutoRotate();
+                this.prev();
+                this.resumeAutoRotate();
+            });
+            this.nextButton.addEventListener('click', () => {
+                this.pauseAutoRotate();
+                this.next();
+                this.resumeAutoRotate();
+            });
             
             // Indicator clicks
             this.indicators.forEach((indicator, index) => {
-                indicator.addEventListener('click', () => this.goToSlide(index));
+                indicator.addEventListener('click', () => {
+                    this.pauseAutoRotate();
+                    this.goToSlide(index);
+                    this.resumeAutoRotate();
+                });
             });
 
             // Keyboard navigation
             document.addEventListener('keydown', (e) => {
                 if (e.key === 'ArrowUp') {
                     e.preventDefault();
+                    this.pauseAutoRotate();
                     this.prev();
+                    this.resumeAutoRotate();
                 } else if (e.key === 'ArrowDown') {
                     e.preventDefault();
+                    this.pauseAutoRotate();
                     this.next();
+                    this.resumeAutoRotate();
                 }
             });
 
@@ -233,11 +251,22 @@
 
             this.carousel.addEventListener('touchstart', (e) => {
                 touchStartY = e.changedTouches[0].screenY;
+                this.pauseAutoRotate();
             });
 
             this.carousel.addEventListener('touchend', (e) => {
                 touchEndY = e.changedTouches[0].screenY;
                 this.handleSwipe();
+                this.resumeAutoRotate();
+            });
+
+            // Pause auto-rotate on hover
+            this.carousel.addEventListener('mouseenter', () => {
+                this.pauseAutoRotate();
+            });
+
+            this.carousel.addEventListener('mouseleave', () => {
+                this.resumeAutoRotate();
             });
 
             // Update on window resize
@@ -249,6 +278,9 @@
                     this.updateCarouselPosition();
                 }, 250);
             });
+
+            // Start auto-rotation
+            this.startAutoRotate();
         }
 
         updateCarouselHeight() {
@@ -330,6 +362,33 @@
 
         updateButtons() {
             // Buttons are always enabled for circular navigation
+        }
+
+        startAutoRotate() {
+            this.stopAutoRotate();
+            this.autoRotateInterval = setInterval(() => {
+                if (!this.isTransitioning) {
+                    this.next();
+                }
+            }, this.autoRotateDelay);
+        }
+
+        stopAutoRotate() {
+            if (this.autoRotateInterval) {
+                clearInterval(this.autoRotateInterval);
+                this.autoRotateInterval = null;
+            }
+        }
+
+        pauseAutoRotate() {
+            this.stopAutoRotate();
+        }
+
+        resumeAutoRotate() {
+            // Resume after a short delay to allow transition to complete
+            setTimeout(() => {
+                this.startAutoRotate();
+            }, 100);
         }
     }
 
