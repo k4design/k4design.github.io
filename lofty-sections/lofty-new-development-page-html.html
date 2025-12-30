@@ -46,6 +46,8 @@
                         <!-- Mobile location - shown only on mobile -->
                         <div class="project-location mobile-location">Sint Maarten, Caribbean</div>
                         <p class="project-description">The first luxury branded villas in the Caribbean. Perched amidst the azure waters, these exclusive villas feature bespoke interiors by Elie Saab Maison, offering a captivating blend of tropical beauty and haute couture design.</p>
+                        <!-- Mobile Learn More button - shown only on mobile -->
+                        <a href="https://www.eliesaabvillasstmaarten.com/" target="_blank" rel="noopener noreferrer" class="project-learn-more-btn mobile-only">Learn More</a>
                     </div>
                     <div class="project-image-wrapper">
                         <div class="project-image-container">
@@ -75,6 +77,8 @@
                         <!-- Mobile location - shown only on mobile -->
                         <div class="project-location mobile-location">1428 Brickell Avenue, Miami, Florida</div>
                         <p class="project-description">An exquisite collection of 195 limited-edition ultra-luxury homes. A celebration of light and space featuring breathtaking panoramic views, designed by Antonio Citterio Patricia Viel with 80,000 square feet of world-class amenities.</p>
+                        <!-- Mobile Learn More button - shown only on mobile -->
+                        <a href="https://1428brickell.com/" target="_blank" rel="noopener noreferrer" class="project-learn-more-btn mobile-only">Learn More</a>
                     </div>
                     <div class="project-image-wrapper">
                         <div class="project-image-container">
@@ -104,6 +108,8 @@
                         <!-- Mobile location - shown only on mobile -->
                         <div class="project-location mobile-location">Big Sky, Montana</div>
                         <p class="project-description">Life built on more than land—it's built on legacy. Carved from canyon stone, these thoughtfully designed 2-4 bedroom homes offer a connected, trail-forward lifestyle with future mixed-use commercial destinations on the horizon.</p>
+                        <!-- Mobile Learn More button - shown only on mobile -->
+                        <a href="https://bigskyquarry.com/" target="_blank" rel="noopener noreferrer" class="project-learn-more-btn mobile-only">Learn More</a>
                     </div>
                     <div class="project-image-wrapper">
                         <div class="project-image-container">
@@ -154,6 +160,8 @@
             this.isTransitioning = false;
             this.autoRotateInterval = null;
             this.autoRotateDelay = 3000; // 3 seconds
+            this.resumeTimeout = null;
+            this.resumeDelay = 3000; // 3 seconds delay after user interaction
 
             // Check if all required elements exist
             if (!this.carousel || !this.prevButton || !this.nextButton) {
@@ -213,12 +221,10 @@
             this.prevButton.addEventListener('click', () => {
                 this.pauseAutoRotate();
                 this.prev();
-                this.resumeAutoRotate();
             });
             this.nextButton.addEventListener('click', () => {
                 this.pauseAutoRotate();
                 this.next();
-                this.resumeAutoRotate();
             });
             
             // Indicator clicks
@@ -226,7 +232,6 @@
                 indicator.addEventListener('click', () => {
                     this.pauseAutoRotate();
                     this.goToSlide(index);
-                    this.resumeAutoRotate();
                 });
             });
 
@@ -236,12 +241,10 @@
                     e.preventDefault();
                     this.pauseAutoRotate();
                     this.prev();
-                    this.resumeAutoRotate();
                 } else if (e.key === 'ArrowDown') {
                     e.preventDefault();
                     this.pauseAutoRotate();
                     this.next();
-                    this.resumeAutoRotate();
                 }
             });
 
@@ -257,7 +260,6 @@
             this.carousel.addEventListener('touchend', (e) => {
                 touchEndY = e.changedTouches[0].screenY;
                 this.handleSwipe();
-                this.resumeAutoRotate();
             });
 
             // Pause auto-rotate on hover
@@ -382,13 +384,23 @@
 
         pauseAutoRotate() {
             this.stopAutoRotate();
+            // Clear any existing resume timeout
+            if (this.resumeTimeout) {
+                clearTimeout(this.resumeTimeout);
+                this.resumeTimeout = null;
+            }
         }
 
         resumeAutoRotate() {
-            // Resume after a short delay to allow transition to complete
-            setTimeout(() => {
+            // Clear any existing resume timeout
+            if (this.resumeTimeout) {
+                clearTimeout(this.resumeTimeout);
+            }
+            // Resume after 3 seconds delay from last interaction
+            this.resumeTimeout = setTimeout(() => {
                 this.startAutoRotate();
-            }, 100);
+                this.resumeTimeout = null;
+            }, this.resumeDelay);
         }
     }
 

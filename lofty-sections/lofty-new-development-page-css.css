@@ -432,6 +432,11 @@ span:not(h1 span):not(h2 span):not(h3 span):not(h4 span):not(h5 span):not(h6 spa
     display: none !important;
 }
 
+/* Hide mobile Learn More button on desktop */
+.project-learn-more-btn.mobile-only {
+    display: none !important;
+}
+
 /* Ensure desktop location only shows on desktop and is in the right column */
 .project-image-wrapper .desktop-location {
     display: block;
@@ -2368,6 +2373,32 @@ section.dev-projects-section .project-card .project-overlay .overlay-content p {
         letter-spacing: -0.03em !important;
         margin: 0 0 1.5rem 0;
         padding: 0;
+    }
+
+    /* Mobile Learn More button - shown only on mobile */
+    .project-learn-more-btn.mobile-only {
+        display: inline-block !important;
+        margin-top: 1.5rem;
+        padding: 0.875rem 2rem;
+        background: var(--gradient-accent);
+        color: white !important;
+        border-radius: 50px;
+        font-size: 0.95rem;
+        font-weight: 600;
+        text-decoration: none;
+        text-align: center;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        box-shadow: 0 8px 25px rgba(0, 146, 255, 0.3);
+        border: none;
+        cursor: pointer;
+    }
+
+    .project-learn-more-btn.mobile-only:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 15px 35px rgba(0, 146, 255, 0.4);
+        opacity: 0.9;
     }
     
     /* Left align all text on mobile */
