@@ -877,8 +877,14 @@ document.querySelectorAll('input, select').forEach((field) => {
           if (!states) return;
           
           states.forEach(state => {
-            state.style.transition = 'fill 0.3s ease-in-out';
+            // Force reset by removing transition temporarily, setting color, then re-adding transition
+            const originalTransition = state.style.transition;
+            state.style.transition = 'none';
             state.style.fill = '#D0D0D0';
+            // Force reflow to ensure the color change is applied
+            void state.offsetWidth;
+            // Re-apply transition for smooth animation
+            state.style.transition = 'fill 0.3s ease-in-out';
           });
         };
         
@@ -920,7 +926,10 @@ document.querySelectorAll('input, select').forEach((field) => {
         };
         
         // Function to animate states one by one
-        const animateStates = () => {
+        let loopInterval = null;
+        let isLooping = false;
+        
+        const animateStates = (shouldLoop = false, skipFadeUpWait = false) => {
           const states = getStateElements();
           if (!states) return;
           
@@ -930,22 +939,66 @@ document.querySelectorAll('input, select').forEach((field) => {
             animationTimeout = null;
           }
           
-          // Reset all states to grey first
-          resetStates();
+          // Clear any existing loop
+          if (loopInterval) {
+            clearInterval(loopInterval);
+            loopInterval = null;
+          }
           
-          // Wait for fade-up animation to complete, then delay by 1.5 seconds
-          waitForFadeUpAnimation(() => {
-            // Additional 1.5 second delay after fade-up completes
+          // Function to start the animation
+          const startAnimation = (skipReset = false) => {
+            // Reset all states to grey first (before animating) unless we're skipping reset
+            if (!skipReset) {
+              resetStates();
+            }
+            // Animate each state with a delay
+            const transitionDuration = 300; // 0.3s transition duration
+            const delayBetweenStates = 80; // 80ms delay between each state
+            const lastStateIndex = states.length - 1;
+            
+            // Calculate when the last state finishes animating
+            // Last state starts at: lastStateIndex * delayBetweenStates
+            // Last state finishes at: lastStateIndex * delayBetweenStates + transitionDuration
+            const totalAnimationTime = (lastStateIndex * delayBetweenStates) + transitionDuration;
+            
+            // Animate all states
+            states.forEach((state, index) => {
+              setTimeout(() => {
+                state.style.transition = 'fill 0.3s ease-in-out';
+                state.style.fill = '#04b3ff';
+              }, index * delayBetweenStates);
+            });
+            
+            // If looping, wait for animation to complete, then wait 2 seconds, then reset and animate again
+            if (shouldLoop) {
+              const pauseTime = 2000; // Pause for 2 seconds after all states finish animating
+              const totalTime = totalAnimationTime + pauseTime;
+              
+              // Set timeout to loop after animation completes + 2 second pause
+              animationTimeout = setTimeout(() => {
+                // Reset and animate again (infinite loop)
+                animateStates(true, true); // Skip fade-up wait on subsequent loops
+              }, totalTime);
+            }
+          };
+          
+          // Wait for fade-up animation to complete only on first run
+          if (skipFadeUpWait) {
+            // Skip fade-up wait on subsequent loops
+            // Reset states first, then wait for reset to complete before animating
+            resetStates();
             animationTimeout = setTimeout(() => {
-              // Animate each state with a delay
-              states.forEach((state, index) => {
-                setTimeout(() => {
-                  state.style.transition = 'fill 0.3s ease-in-out';
-                  state.style.fill = '#04b3ff';
-                }, index * 80); // 80ms delay between each state
-              });
-            }, 1500); // 1.5 second delay after fade-up completes
-          });
+              startAnimation(true); // Skip reset since we already did it
+            }, 350); // Wait for reset transition to complete (300ms + 50ms buffer)
+          } else {
+            // Wait for fade-up animation to complete, then delay by 1.5 seconds
+            waitForFadeUpAnimation(() => {
+              // Additional 1.5 second delay after fade-up completes
+              animationTimeout = setTimeout(() => {
+                startAnimation();
+              }, 1500); // 1.5 second delay after fade-up completes
+            });
+          }
         };
         
         // Check when map center reaches viewport center using scroll
@@ -958,13 +1011,18 @@ document.querySelectorAll('input, select').forEach((field) => {
           const mapCenter = rect.top + (rect.height / 2);
           const isInViewport = rect.bottom > 0 && rect.top < window.innerHeight;
           
-          // If map is not in viewport, reset animation state
+          // If map is not in viewport, stop looping and reset animation state
           if (!isInViewport) {
             if (hasAnimated) {
               hasAnimated = false;
+              isLooping = false;
               if (animationTimeout) {
                 clearTimeout(animationTimeout);
                 animationTimeout = null;
+              }
+              if (loopInterval) {
+                clearInterval(loopInterval);
+                loopInterval = null;
               }
               resetStates();
             }
@@ -975,7 +1033,8 @@ document.querySelectorAll('input, select').forEach((field) => {
           // Trigger when map center is at or past viewport center
           if (!hasAnimated && mapCenter <= viewportCenter) {
             hasAnimated = true;
-            animateStates();
+            isLooping = true;
+            animateStates(true); // Start looping animation
           }
         };
         
