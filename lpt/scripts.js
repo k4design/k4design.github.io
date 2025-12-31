@@ -404,9 +404,28 @@ document.querySelectorAll('input, select').forEach((field) => {
   // Get total width of one set of cards
   const getScrollDistance = () => {
     if (cards.length === 0) return 0;
+    
+    // Try to get width from the first original card (which should be in the DOM)
     const firstCard = cards[0];
+    if (!firstCard) return 0;
+    
     const cardRect = firstCard.getBoundingClientRect();
     const gap = 32;
+    
+    // If card width is 0 or invalid, try to get from any visible card
+    if (cardRect.width === 0 || isNaN(cardRect.width)) {
+      // Try to find any card that has a valid width
+      const allCards = carouselTrack.querySelectorAll('.testimonial-card');
+      for (let card of allCards) {
+        const rect = card.getBoundingClientRect();
+        if (rect.width > 0 && !isNaN(rect.width)) {
+          return rect.width + gap;
+        }
+      }
+      // Fallback: use getCardWidth calculation
+      return getCardWidth();
+    }
+    
     return cardRect.width + gap;
   };
 
@@ -416,6 +435,10 @@ document.querySelectorAll('input, select').forEach((field) => {
   // Update carousel position
   const updatePosition = () => {
     const scrollDistance = getScrollDistance();
+    if (scrollDistance === 0 || isNaN(scrollDistance)) {
+      // Cards not measured yet, skip this update
+      return;
+    }
     const totalOffset = scrollDistance * currentIndex;
     carouselTrack.style.transform = `translateX(-${totalOffset}px)`;
     // Update clickability after position changes
@@ -511,20 +534,34 @@ document.querySelectorAll('input, select').forEach((field) => {
 
   // Initialize
   // Wait for DOM to be fully ready and cards to be measured
+  const initializeCarousel = () => {
+    // Check if cards are properly measured
+    const scrollDistance = getScrollDistance();
+    if (scrollDistance === 0 || isNaN(scrollDistance)) {
+      // Cards not measured yet, retry after a short delay
+      setTimeout(initializeCarousel, 100);
+      return;
+    }
+    
+    updatePosition();
+    startRotation();
+  };
+  
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
-      setTimeout(() => {
-        updatePosition();
-        startRotation();
-      }, 100);
+      setTimeout(initializeCarousel, 200);
     });
   } else {
     // Use setTimeout to ensure cards are measured
-    setTimeout(() => {
-      updatePosition();
-      startRotation();
-    }, 100);
+    setTimeout(initializeCarousel, 200);
   }
+  
+  // Also reinitialize on window load to catch any late-loading content
+  window.addEventListener('load', () => {
+    if (!rotationInterval) {
+      setTimeout(initializeCarousel, 100);
+    }
+  });
 
   // Add click handlers using event delegation
   carouselTrack.addEventListener('click', (e) => {
@@ -570,11 +607,12 @@ document.querySelectorAll('input, select').forEach((field) => {
     }
   });
 
-  // Update clickability on resize
+  // Update clickability and position on resize
   let resizeTimeout;
   window.addEventListener('resize', () => {
     clearTimeout(resizeTimeout);
     resizeTimeout = setTimeout(() => {
+      updatePosition(); // Recalculate position with new card widths
       updateCardClickability();
     }, 250);
   });
@@ -910,30 +948,57 @@ document.querySelectorAll('input, select').forEach((field) => {
           });
         };
         
-        // Now observe the container
-        const observerOptions = {
-          root: null,
-          rootMargin: '0px 0px -75% 0px', // Trigger when map is at least 75% from bottom of viewport
-          threshold: 1.0 // Start animation when 100% of map is visible
-        };
-
-        const mapObserver = new IntersectionObserver((entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              // Map entered viewport - start animation after fade-up completes
-              animateStates();
-            } else {
-              // Map left viewport - reset states and clear timeout
+        // Check when map center reaches viewport center using scroll
+        let hasAnimated = false;
+        let scrollTicking = false;
+        
+        const checkMapPosition = () => {
+          const rect = mapContainer.getBoundingClientRect();
+          const viewportCenter = window.innerHeight / 2;
+          const mapCenter = rect.top + (rect.height / 2);
+          const isInViewport = rect.bottom > 0 && rect.top < window.innerHeight;
+          
+          // If map is not in viewport, reset animation state
+          if (!isInViewport) {
+            if (hasAnimated) {
+              hasAnimated = false;
               if (animationTimeout) {
                 clearTimeout(animationTimeout);
                 animationTimeout = null;
               }
               resetStates();
             }
-          });
-        }, observerOptions);
-
-        mapObserver.observe(mapContainer);
+            return;
+          }
+          
+          // Check if map center has crossed viewport center
+          // Trigger when map center is at or past viewport center
+          if (!hasAnimated && mapCenter <= viewportCenter) {
+            hasAnimated = true;
+            animateStates();
+          }
+        };
+        
+        const handleScroll = () => {
+          if (!scrollTicking) {
+            window.requestAnimationFrame(() => {
+              checkMapPosition();
+              scrollTicking = false;
+            });
+            scrollTicking = true;
+          }
+        };
+        
+        // Check on initial load
+        checkMapPosition();
+        
+        // Listen for scroll events
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        
+        // Also check on resize
+        window.addEventListener('resize', () => {
+          checkMapPosition();
+        }, { passive: true });
       })
       .catch(error => {
         console.warn('Could not load SVG for animation:', error);
