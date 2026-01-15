@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Designer Admin Panel - Real Estate Data Collector</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container admin-container">
+    <header>
+      <div class="admin-header">
+        <div>
+          <h1>Designer Admin Panel</h1>
+          <p>View and download property data packages</p>
+        </div>
+        <a href="/index.html" class="btn btn-secondary">Back to Form</a>
+      </div>
+    </header>
+
+    <main>
+      <div id="loading" class="empty-state">Loading submissions...</div>
+      
+      <!-- Active Submissions -->
+      <div id="activeContainer" style="display: none;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+          <h2 style="margin: 0; color: var(--text-primary);">Active Submissions</h2>
+          <div>
+            <input type="file" id="resubmitZipInput" accept=".zip" style="display: none;">
+            <button id="resubmitZipBtn" class="btn btn-primary">Resubmit from ZIP</button>
+          </div>
+        </div>
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Property</th>
+              <th>Address</th>
+              <th>Price</th>
+              <th>Bed/Bath</th>
+              <th>Submitted</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="activeTableBody">
+          </tbody>
+        </table>
+        <div id="activeEmptyState" class="empty-state" style="display: none; margin-top: 1rem;">
+          <p>No active submissions.</p>
+        </div>
+      </div>
+      
+      <!-- Completed Submissions -->
+      <div id="completedContainer" class="completed-section" style="display: none; margin-top: 3rem;">
+        <h2 style="margin-bottom: 1rem; color: var(--text-secondary);">Completed Submissions</h2>
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Property</th>
+              <th>Address</th>
+              <th>Price</th>
+              <th>Bed/Bath</th>
+              <th>Submitted</th>
+              <th>Completed</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="completedTableBody">
+          </tbody>
+        </table>
+        <div id="completedEmptyState" class="empty-state" style="display: none; margin-top: 1rem;">
+          <p>No completed submissions.</p>
+        </div>
+      </div>
+      
+      <div id="emptyState" class="empty-state" style="display: none;">
+        <p>No submissions yet. Property data will appear here once submitted.</p>
+      </div>
+    </main>
+  </div>
+
+  <script src="admin.js"></script>
+</body>
+</html>

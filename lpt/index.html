@@ -23,61 +23,43 @@
   <body>
     <!-- Top Navigation -->
     <header class="site-header">
-      <div class="header-main-nav">
-        <div class="header-container">
-          <a href="/" class="logo" aria-label="LPT Realty home">
-            <img
-              src="https://lpt.com/assets/images/lptrealty_logo_horizontal.svg"
-              alt="LPT Realty"
-              width="162"
-              height="36"
-              style="height: 32px; width: auto;"
-            />
-          </a>
-          <nav class="main-nav" aria-label="Main navigation">
-            <a href="/" class="nav-link">Home</a>
-            <a href="/about.html" class="nav-link">About</a>
-          </nav>
-          <div class="header-utils">
-            <a class="login-btn" href="/onboard">Join Now</a>
-            <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="nav-drawer">
-              <span class="nav-toggle__icon">
-                <span></span>
-                <span></span>
-                <span></span>
-              </span>
-              <span class="nav-toggle__label">Menu</span>
-            </button>
-          </div>
-        </div>
-      </div>
-      <div class="header-secondary-nav">
-        <div class="header-container">
-          <nav class="secondary-nav" aria-label="Page sections navigation">
-            <a href="#hero" class="secondary-nav-link">Overview</a>
-            <a href="#awards" class="secondary-nav-link">Awards</a>
-            <a href="#growth" class="secondary-nav-link">Growth</a>
-            <a href="#why-choose" class="secondary-nav-link">Why Choose LPT</a>
-            <a href="#agent-experience" class="secondary-nav-link">Agent Success</a>
-            <a href="#dezzy-ai" class="secondary-nav-link">dezzy.ai</a>
-            <a href="#agent-wins" class="secondary-nav-link">Agent Wins</a>
-            <a href="#compensation" class="secondary-nav-link">Comp Plans</a>
-            <a href="#contact" class="secondary-nav-link">Let's Talk</a>
-          </nav>
+      <div class="header-container">
+        <a href="/" class="logo" aria-label="LPT Realty home">
+          <img
+            src="https://lpt.com/assets/images/lptrealty_logo_horizontal.svg"
+            alt="LPT Realty"
+            width="162"
+            height="36"
+            style="height: 32px; width: auto;"
+          />
+        </a>
+        <nav class="main-nav" aria-label="Main navigation">
+          <a href="#hero" class="nav-link">Overview</a>
+          <a href="#agent-experience" class="nav-link">Agent Success</a>
+          <a href="#dezzy-ai" class="nav-link">dezzy.ai</a>
+          <a href="#compensation" class="nav-link">Comp Plans</a>
+          <a href="#contact" class="nav-link">Let's Talk</a>
+        </nav>
+        <div class="header-utils">
+          <a class="login-btn" href="/onboard">Join Now</a>
+          <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="nav-drawer">
+            <span class="nav-toggle__icon">
+              <span></span>
+              <span></span>
+              <span></span>
+            </span>
+            <span class="nav-toggle__label">Menu</span>
+          </button>
         </div>
       </div>
       <div class="nav-overlay" id="nav-overlay" aria-hidden="true"></div>
       <nav id="nav-drawer" class="nav-drawer" aria-label="Mobile navigation" aria-hidden="true">
         <div class="nav-drawer__content">
-          <a href="/" class="nav-drawer__link">Home</a>
-          <a href="/about.html" class="nav-drawer__link">About</a>
-          <div style="border-top: 1px solid rgba(0, 0, 0, 0.1); margin: 16px 0; padding-top: 16px;">
-            <a href="#hero" class="nav-drawer__link">Overview</a>
-            <a href="#agent-experience" class="nav-drawer__link">Agent Success</a>
-            <a href="#dezzy-ai" class="nav-drawer__link">dezzy.ai</a>
-            <a href="#compensation" class="nav-drawer__link">Comp Plans</a>
-            <a href="#contact" class="nav-drawer__link">Let's Talk</a>
-          </div>
+          <a href="#hero" class="nav-drawer__link">Overview</a>
+          <a href="#agent-experience" class="nav-drawer__link">Agent Success</a>
+          <a href="#dezzy-ai" class="nav-drawer__link">dezzy.ai</a>
+          <a href="#compensation" class="nav-drawer__link">Comp Plans</a>
+          <a href="#contact" class="nav-drawer__link">Let's Talk</a>
           <a class="nav-drawer__button" href="/onboard">Join Now</a>
         </div>
       </nav>
@@ -183,7 +165,7 @@
       </section>
 
       <!-- Awards Section -->
-      <section class="awards-section" id="awards" aria-label="Awards and recognition">
+      <section class="awards-section" aria-label="Awards and recognition">
         <div class="container">
           <div class="awards-header fade-up">
             <h2 class="awards-headline">Awards & Recognition</h2>
@@ -359,7 +341,7 @@
       </section>
 
       <!-- Mission Statement Section -->
-      <section class="mission-section" id="growth">
+      <section class="mission-section">
         <div class="container">
           <div class="mission-content">
             <div class="mission-text fade-up">
@@ -372,120 +354,154 @@
               </p>
             </div>
             <div class="mission-image fade-up fade-up-delay-1">
-              <div class="us-map-container" id="map-container">
-                <div id="usa-map-wrapper" style="width: 100%; height: auto;">
-                  <!-- SVG will be loaded here -->
-                </div>
+              <div class="us-map-container">
+                <img
+                  src="img/map.png"
+                  alt="United States map showing LPT Realty coverage"
+                  width="959"
+                  height="593"
+                  loading="lazy"
+                  style="width: 100%; height: auto; display: block;"
+                />
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- Video Background Section -->
-      <section class="video-bg-section">
-        <video class="video-bg-section__video" autoplay muted loop playsinline>
-          <source src="vid/agent.mp4" type="video/mp4">
-        </video>
-      </section>
-
-      <!-- Feature Cards Section -->
-      <section class="feature-cards-section" id="dezzy-ai">
+      <!-- Robert Palmer Founder Section -->
+      <section class="leadership-team-section">
         <div class="container">
-          <h2 class="feature-cards-headline fade-up">LPT's Mission Model<br> and Tools Explained</h2>
-          <div class="feature-cards-grid stagger-container">
-            <article class="feature-card">
-              <div class="feature-card-icon">
-                <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <rect width="48" height="48" rx="12" fill="rgba(4, 179, 255, 0.1)"/>
-                  <path d="M18 16L30 24L18 32V16Z" fill="#04b3ff"/>
-                </svg>
-              </div>
-              <h3>CEO Robert Palmer explains the LPT model</h3>
-              <p>CEO Robert Palmer explains the LPT model in depth including the vision, the tools, the origin, and the marketing systems—dive into the full walkthrough in the video.</p>
-            </article>
-            <article class="feature-card">
-              <div class="feature-card-icon">
-                <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <rect width="48" height="48" rx="12" fill="rgba(4, 179, 255, 0.1)"/>
-                  <path d="M24 14C18.48 14 14 18.48 14 24C14 29.52 18.48 34 24 34C29.52 34 34 29.52 34 24C34 18.48 29.52 14 24 14ZM24 30C20.69 30 18 27.31 18 24C18 20.69 20.69 18 24 18C27.31 18 30 20.69 30 24C30 27.31 27.31 30 24 30ZM26 20H22V22H26V20ZM26 24H22V28H26V24Z" fill="#04b3ff"/>
-                </svg>
-              </div>
-              <h3>Choose your own comp plan</h3>
-              <p>Choosing your own comp plan with our cutting edge Hybrid Model. $500 per file with a $5,000 cap or 80/20 with a $15,000 cap.</p>
-            </article>
-            <article class="feature-card">
-              <div class="feature-card-icon">
-                <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <rect width="48" height="48" rx="12" fill="rgba(4, 179, 255, 0.1)"/>
-                  <path d="M24 16C20.69 16 18 18.69 18 22C18 25.31 20.69 28 24 28C27.31 28 30 25.31 30 22C30 18.69 27.31 16 24 16ZM24 26C22.9 26 22 25.1 22 24C22 22.9 22.9 22 24 22C25.1 22 26 22.9 26 24C26 25.1 25.1 26 24 26ZM32 30H16C15.45 30 15 30.45 15 31V33H33V31C33 30.45 32.55 30 32 30Z" fill="#04b3ff"/>
-                </svg>
-              </div>
-              <h3>Control your own agent centric brand</h3>
-              <p>Controlling your own agent centric brand (including choosing the color of our logo) and how you put our state of the art collateral marketing system™ to work for you.</p>
-            </article>
+          <div class="leadership-team-header fade-up">
+            <div class="leadership-team-tag">
+              <svg class="flame-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2C8 2 6 5 6 9C6 11 7 12 8 13C7 14 6 15 6 17C6 20 8 22 12 22C16 22 18 20 18 17C18 15 17 14 16 13C17 12 18 11 18 9C18 5 16 2 12 2Z" fill="#04b3ff"/>
+              </svg>
+              <span>Founder & Leadership Team</span>
+            </div>
+            <h2 class="leadership-team-title">Meet the People Behind LPT</h2>
+            <p class="leadership-team-description">
+              From strategy to culture, our leadership team inspires innovation and growth every step of the way.
+            </p>
           </div>
-          <div class="feature-cards-video fade-up fade-up-delay-2" style="margin-top: 64px; max-width: 1200px; margin-left: auto; margin-right: auto;">
-            <wistia-player media-id="sm4mracms7" aspect="1.7777777777777777"></wistia-player>
-          </div>
-          <div class="feature-cards-cta fade-up fade-up-delay-3" style="text-align: center; margin-top: 32px;">
-            <a href="/about.html" class="accommodation-learn-more-btn" style="display: block; margin: auto;">
-              Learn more about the fastest growing brokerage ever
-            </a>
-          </div>
-        </div>
-      </section>
-
-      <!-- Featured Listing Hero -->
-      <section class="featured-hero dezzy-ai-section" id="agent-experience" aria-labelledby="agent-experience-title">
-        <div class="dezzy-ai-background">
-          <canvas id="ai-background-canvas" class="ai-background-canvas"></canvas>
-          <div class="ai-background-overlay"></div>
-        </div>
-        <div class="container">
-          <div class="dezzy-ai-layout">
-            <div class="dezzy-ai-content fade-up">
-              <p class="section-tag">Agent Technology Stack</p>
-              <h2 id="agent-experience-title" class="dezzy-ai-headline">
-                Streamline Your Workflow with dezzy.ai
-              </h2>
-              <p class="dezzy-ai-description">
-                dezzy.ai is a cutting-edge AI bot that revolutionizes real estate workflows and is available exclusively
-                for LPT Realty agents.
-              </p>
-              <ul class="dezzy-checklist">
-                <li>Lead generation</li>
-                <li>Seamless dotloop integration</li>
-                <li>Automated creation of CDAs</li>
-                <li>High quality, agent branded marketing materials in minutes</li>
-              </ul>
-              <div class="dezzy-ai-actions">
-                <button
-                  type="button"
-                  class="see-more-btn"
-                  id="dezzy-ai-video-btn"
-                  style="text-decoration: none; display: inline-block; cursor: pointer;"
-                >
-                  Learn More About dezzy.ai
-                </button>
+          <div class="leadership-team-grid stagger-container">
+            <div class="leadership-card fade-up">
+              <div class="leadership-card-image">
+                <img
+                  src="img/leadership/robertpalmer.png"
+                  alt="Robert Palmer"
+                  loading="lazy"
+                />
+              </div>
+              <div class="leadership-card-overlay">
+                <h3 class="leadership-card-name">Robert Palmer</h3>
+                <p class="leadership-card-title">Founder and CEO</p>
               </div>
             </div>
-            <div class="dezzy-ai-visual fade-up fade-up-delay-1">
-              <img
-                src="https://lpt.com/assets/images/dezzy-bot.webp"
-                class="dezzy-bot-image"
-                width="240"
-                height="556"
-                alt="dezzy.ai bot"
-                loading="lazy"
-              />
+            
+            <div class="leadership-card fade-up fade-up-delay-1">
+              <div class="leadership-card-image">
+                <img
+                  src="img/leadership/matthewlevy.jpg"
+                  alt="Matthew Levy"
+                  loading="lazy"
+                />
+              </div>
+              <div class="leadership-card-overlay">
+                <h3 class="leadership-card-name">Matthew Levy</h3>
+                <p class="leadership-card-title">Chief Strategy Officer</p>
+              </div>
+            </div>
+            
+            <div class="leadership-card fade-up fade-up-delay-2">
+              <div class="leadership-card-image">
+                <img
+                  src="img/leadership/michaelvaldes.png"
+                  alt="Michael Valdes"
+                  loading="lazy"
+                />
+              </div>
+              <div class="leadership-card-overlay">
+                <h3 class="leadership-card-name">Michael Valdes</h3>
+                <p class="leadership-card-title">CEO of International</p>
+              </div>
+            </div>
+            
+            <div class="leadership-card fade-up fade-up-delay-3">
+              <div class="leadership-card-image">
+                <img
+                  src="img/leadership/allisonadams.png"
+                  alt="Alison Adams"
+                  loading="lazy"
+                />
+              </div>
+              <div class="leadership-card-overlay">
+                <h3 class="leadership-card-name">Alison Adams</h3>
+                <p class="leadership-card-title">Chief of Staff</p>
+              </div>
+            </div>
+            
+            <div class="leadership-card fade-up fade-up-delay-4">
+              <div class="leadership-card-image">
+                <img
+                  src="img/leadership/matthewhodge.png"
+                  alt="Matthew Hodge"
+                  loading="lazy"
+                />
+              </div>
+              <div class="leadership-card-overlay">
+                <h3 class="leadership-card-name">Matthew Hodge</h3>
+                <p class="leadership-card-title">Executive Vice President</p>
+              </div>
+            </div>
+            
+            <div class="leadership-card fade-up fade-up-delay-1">
+              <div class="leadership-card-image">
+                <img
+                  src="img/leadership/luisfermin.jpg"
+                  alt="Luis Fermin"
+                  loading="lazy"
+                />
+              </div>
+              <div class="leadership-card-overlay">
+                <h3 class="leadership-card-name">Luis Fermin</h3>
+                <p class="leadership-card-title">Chief Legal Counsel</p>
+              </div>
+            </div>
+            
+            <div class="leadership-card fade-up fade-up-delay-2">
+              <div class="leadership-card-image">
+                <img
+                  src="img/leadership/shainamotes.jpg"
+                  alt="Shaina Motes"
+                  loading="lazy"
+                />
+              </div>
+              <div class="leadership-card-overlay">
+                <h3 class="leadership-card-name">Shaina Motes</h3>
+                <p class="leadership-card-title">VP of Corporate Operations Implementation</p>
+              </div>
+            </div>
+            
+            <div class="leadership-card fade-up fade-up-delay-3">
+              <div class="leadership-card-image">
+                <img
+                  src="img/leadership/nataliecox.jpg"
+                  alt="Natalie Cox"
+                  loading="lazy"
+                />
+              </div>
+              <div class="leadership-card-overlay">
+                <h3 class="leadership-card-name">Natalie Cox</h3>
+                <p class="leadership-card-title">VP of Eastern Broker Operations</p>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
       <!-- Handpicked Escapes Section -->
-      <section class="escapes-section" id="why-choose">
+      <section class="escapes-section">
         <div class="container">
           <div class="escapes-layout">
             <div class="escapes-intro">
@@ -553,8 +569,141 @@
         </div>
       </section>
 
-<!-- Agent Stories Section -->
-      <section class="escapes-section" id="agent-wins" style="background: linear-gradient(180deg, rgba(247, 250, 255, 0.96) 0%, rgba(233, 239, 255, 0.8) 100%);">
+      <!-- Featured Listing Hero -->
+      <section class="featured-hero dezzy-ai-section" id="agent-experience" aria-labelledby="agent-experience-title">
+        <div class="dezzy-ai-background">
+          <canvas id="ai-background-canvas" class="ai-background-canvas"></canvas>
+          <div class="ai-background-overlay"></div>
+        </div>
+        <div class="container">
+          <div class="dezzy-ai-layout">
+            <div class="dezzy-ai-content fade-up">
+              <p class="section-tag">Agent Technology Stack</p>
+              <h2 id="agent-experience-title" class="dezzy-ai-headline">
+                Streamline Your Workflow with dezzy.ai
+              </h2>
+              <p class="dezzy-ai-description">
+                dezzy.ai is a cutting-edge AI bot that revolutionizes real estate workflows and is available exclusively
+                for LPT Realty agents.
+              </p>
+              <ul class="dezzy-checklist">
+                <li>Lead generation</li>
+                <li>Seamless dotloop integration</li>
+                <li>Automated creation of CDAs</li>
+                <li>High quality, agent branded marketing materials in minutes</li>
+              </ul>
+              <div class="dezzy-ai-actions">
+                <button
+                  type="button"
+                  class="see-more-btn"
+                  id="dezzy-ai-video-btn"
+                  style="text-decoration: none; display: inline-block; cursor: pointer;"
+                >
+                  Learn More About dezzy.ai
+                </button>
+              </div>
+            </div>
+            <div class="dezzy-ai-visual fade-up fade-up-delay-1">
+              <img
+                src="https://lpt.com/assets/images/dezzy-bot.webp"
+                class="dezzy-bot-image"
+                width="240"
+                height="556"
+                alt="dezzy.ai bot"
+                loading="lazy"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Feature Cards Section -->
+      <section class="feature-cards-section" id="dezzy-ai">
+        <div class="container">
+          <h2 class="feature-cards-headline fade-up">LPT's Mission Model<br> and Tools Explained</h2>
+          <div class="feature-cards-grid stagger-container">
+            <article class="feature-card">
+              <div class="feature-card-icon">
+                <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect width="48" height="48" rx="12" fill="rgba(4, 179, 255, 0.1)"/>
+                  <path d="M18 16L30 24L18 32V16Z" fill="#04b3ff"/>
+                </svg>
+              </div>
+              <h3>CEO Robert Palmer explains the LPT model</h3>
+              <p>CEO Robert Palmer explains the LPT model in depth including the vision, the tools, the origin, and the marketing systems—dive into the full walkthrough in the video.</p>
+            </article>
+            <article class="feature-card">
+              <div class="feature-card-icon">
+                <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect width="48" height="48" rx="12" fill="rgba(4, 179, 255, 0.1)"/>
+                  <path d="M24 14C18.48 14 14 18.48 14 24C14 29.52 18.48 34 24 34C29.52 34 34 29.52 34 24C34 18.48 29.52 14 24 14ZM24 30C20.69 30 18 27.31 18 24C18 20.69 20.69 18 24 18C27.31 18 30 20.69 30 24C30 27.31 27.31 30 24 30ZM26 20H22V22H26V20ZM26 24H22V28H26V24Z" fill="#04b3ff"/>
+                </svg>
+              </div>
+              <h3>Choose your own comp plan</h3>
+              <p>Choosing your own comp plan with our cutting edge Hybrid Model. $500 per file with a $5,000 cap or 80/20 with a $15,000 cap.</p>
+            </article>
+            <article class="feature-card">
+              <div class="feature-card-icon">
+                <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect width="48" height="48" rx="12" fill="rgba(4, 179, 255, 0.1)"/>
+                  <path d="M24 16C20.69 16 18 18.69 18 22C18 25.31 20.69 28 24 28C27.31 28 30 25.31 30 22C30 18.69 27.31 16 24 16ZM24 26C22.9 26 22 25.1 22 24C22 22.9 22.9 22 24 22C25.1 22 26 22.9 26 24C26 25.1 25.1 26 24 26ZM32 30H16C15.45 30 15 30.45 15 31V33H33V31C33 30.45 32.55 30 32 30Z" fill="#04b3ff"/>
+                </svg>
+              </div>
+              <h3>Control your own agent centric brand</h3>
+              <p>Controlling your own agent centric brand (including choosing the color of our logo) and how you put our state of the art collateral marketing system™ to work for you.</p>
+            </article>
+          </div>
+          <div class="feature-cards-video fade-up fade-up-delay-2" style="margin-top: 64px; max-width: 1200px; margin-left: auto; margin-right: auto;">
+            <wistia-player media-id="sm4mracms7" aspect="1.7777777777777777"></wistia-player>
+          </div>
+          <div class="feature-cards-cta">
+            
+          </div>
+        </div>
+      </section>
+
+      <!-- Support Section -->
+      <section class="mission-section" style="background: linear-gradient(160deg, rgba(255, 255, 255, 0.96) 0%, rgba(219, 229, 255, 0.75) 100%);">
+        <div class="container">
+          <div class="mission-content">
+            <div class="mission-text fade-up">
+              <p style="display: inline-flex; padding: 6px 16px; border-radius: 999px; background: rgba(4, 179, 255, 0.18); color: #04b3ff; font-weight: 700; font-size: 12px; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 16px;">Agent Success Team</p>
+              <h2 class="mission-headline">Fast, Reliable Support</h2>
+              <p class="mission-description">
+                Tap into LPT Connect, dotloop, and Lofty with live concierge support, 1:1 mentorship, and a national community
+                engineered to keep you on offense.
+              </p>
+              <div class="stagger-container" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 32px;">
+                <div style="padding: 20px; border-radius: 8px; background: rgba(4, 179, 255, 0.08); border: 1px solid rgba(4, 179, 255, 0.18); text-align: center;">
+                  <strong style="display: block; font-size: 24px; font-weight: 900; color: #04b3ff; margin-bottom: 8px;">24/7</strong>
+                  <span style="font-size: 14px; color: rgba(15, 23, 42, 0.65);">Live agent escalation</span>
+                </div>
+                <div style="padding: 20px; border-radius: 8px; background: rgba(4, 179, 255, 0.08); border: 1px solid rgba(4, 179, 255, 0.18); text-align: center;">
+                  <strong style="display: block; font-size: 24px; font-weight: 900; color: #04b3ff; margin-bottom: 8px;">90%</strong>
+                  <span style="font-size: 14px; color: rgba(15, 23, 42, 0.65);">Tickets solved in under an hour</span>
+                </div>
+                <div style="padding: 20px; border-radius: 8px; background: rgba(4, 179, 255, 0.08); border: 1px solid rgba(4, 179, 255, 0.18); text-align: center;">
+                  <strong style="display: block; font-size: 24px; font-weight: 900; color: #04b3ff; margin-bottom: 8px;">4.9/5</strong>
+                  <span style="font-size: 14px; color: rgba(15, 23, 42, 0.65);">Support satisfaction score</span>
+                </div>
+              </div>
+            </div>
+            <div class="mission-image fade-up fade-up-delay-2">
+              <img
+                src="img/customersupport.png"
+                alt="LPT Realty customer support"
+                width="527"
+                height="641"
+                loading="lazy"
+                style="width: 100%; height: auto; border-radius: 8px;"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Agent Stories Section -->
+      <section class="escapes-section" style="background: linear-gradient(180deg, rgba(247, 250, 255, 0.96) 0%, rgba(233, 239, 255, 0.8) 100%);">
         <div class="container">
           <div class="fade-up" style="margin-bottom: 48px;">
             <p style="display: inline-flex; padding: 6px 16px; border-radius: 999px; background: rgba(4, 179, 255, 0.18); color: #04b3ff; font-weight: 700; font-size: 12px; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 16px;">Agent Wins</p>
@@ -922,80 +1071,6 @@
 
     <script src="scripts.js" defer></script>
     <script>
-      // Navigation Active State Management
-      (function initNavigationActiveStates() {
-        // Set active page in main nav
-        const currentPath = window.location.pathname;
-        const currentPage = currentPath === '/' || currentPath.endsWith('/index.html') ? '/' : currentPath;
-        const mainNavLinks = document.querySelectorAll('.main-nav .nav-link');
-        mainNavLinks.forEach(link => {
-          const href = link.getAttribute('href');
-          const linkPath = href === '/' || href === '/index.html' ? '/' : href;
-          if (linkPath === currentPage || (currentPage === '/' && (href === '/' || href === '/index.html'))) {
-            link.classList.add('active');
-          }
-        });
-
-        // Detect active section for secondary nav
-        const secondaryNavLinks = document.querySelectorAll('.secondary-nav-link');
-        if (secondaryNavLinks.length === 0) return;
-
-        const sections = Array.from(secondaryNavLinks).map(link => {
-          const href = link.getAttribute('href');
-          if (href.startsWith('#')) {
-            const id = href.substring(1);
-            const element = document.getElementById(id);
-            return { link, element, id };
-          }
-          return null;
-        }).filter(Boolean);
-
-        const updateActiveSection = () => {
-          const scrollPosition = window.scrollY + 150; // Offset for better UX
-
-          sections.forEach(({ link, element }) => {
-            if (!element) return;
-            
-            const rect = element.getBoundingClientRect();
-            const elementTop = rect.top + window.scrollY;
-            const elementBottom = elementTop + rect.height;
-
-            if (scrollPosition >= elementTop && scrollPosition < elementBottom) {
-              link.classList.add('active');
-            } else {
-              link.classList.remove('active');
-            }
-          });
-        };
-
-        // Show/hide secondary nav on scroll
-        const secondaryNav = document.querySelector('.header-secondary-nav');
-        const showSecondaryNav = () => {
-          if (window.scrollY > 100) {
-            secondaryNav?.classList.add('visible');
-          } else {
-            secondaryNav?.classList.remove('visible');
-          }
-        };
-
-        // Update on scroll
-        let ticking = false;
-        window.addEventListener('scroll', () => {
-          if (!ticking) {
-            window.requestAnimationFrame(() => {
-              updateActiveSection();
-              showSecondaryNav();
-              ticking = false;
-            });
-            ticking = true;
-          }
-        });
-
-        // Initial update
-        updateActiveSection();
-        showSecondaryNav();
-      })();
-
       // Scroll Animation System
       (function initScrollAnimations() {
         // Check for reduced motion preference

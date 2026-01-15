@@ -404,28 +404,9 @@ document.querySelectorAll('input, select').forEach((field) => {
   // Get total width of one set of cards
   const getScrollDistance = () => {
     if (cards.length === 0) return 0;
-    
-    // Try to get width from the first original card (which should be in the DOM)
     const firstCard = cards[0];
-    if (!firstCard) return 0;
-    
     const cardRect = firstCard.getBoundingClientRect();
     const gap = 32;
-    
-    // If card width is 0 or invalid, try to get from any visible card
-    if (cardRect.width === 0 || isNaN(cardRect.width)) {
-      // Try to find any card that has a valid width
-      const allCards = carouselTrack.querySelectorAll('.testimonial-card');
-      for (let card of allCards) {
-        const rect = card.getBoundingClientRect();
-        if (rect.width > 0 && !isNaN(rect.width)) {
-          return rect.width + gap;
-        }
-      }
-      // Fallback: use getCardWidth calculation
-      return getCardWidth();
-    }
-    
     return cardRect.width + gap;
   };
 
@@ -435,10 +416,6 @@ document.querySelectorAll('input, select').forEach((field) => {
   // Update carousel position
   const updatePosition = () => {
     const scrollDistance = getScrollDistance();
-    if (scrollDistance === 0 || isNaN(scrollDistance)) {
-      // Cards not measured yet, skip this update
-      return;
-    }
     const totalOffset = scrollDistance * currentIndex;
     carouselTrack.style.transform = `translateX(-${totalOffset}px)`;
     // Update clickability after position changes
@@ -534,34 +511,20 @@ document.querySelectorAll('input, select').forEach((field) => {
 
   // Initialize
   // Wait for DOM to be fully ready and cards to be measured
-  const initializeCarousel = () => {
-    // Check if cards are properly measured
-    const scrollDistance = getScrollDistance();
-    if (scrollDistance === 0 || isNaN(scrollDistance)) {
-      // Cards not measured yet, retry after a short delay
-      setTimeout(initializeCarousel, 100);
-      return;
-    }
-    
-    updatePosition();
-    startRotation();
-  };
-  
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
-      setTimeout(initializeCarousel, 200);
+      setTimeout(() => {
+        updatePosition();
+        startRotation();
+      }, 100);
     });
   } else {
     // Use setTimeout to ensure cards are measured
-    setTimeout(initializeCarousel, 200);
+    setTimeout(() => {
+      updatePosition();
+      startRotation();
+    }, 100);
   }
-  
-  // Also reinitialize on window load to catch any late-loading content
-  window.addEventListener('load', () => {
-    if (!rotationInterval) {
-      setTimeout(initializeCarousel, 100);
-    }
-  });
 
   // Add click handlers using event delegation
   carouselTrack.addEventListener('click', (e) => {
@@ -607,12 +570,11 @@ document.querySelectorAll('input, select').forEach((field) => {
     }
   });
 
-  // Update clickability and position on resize
+  // Update clickability on resize
   let resizeTimeout;
   window.addEventListener('resize', () => {
     clearTimeout(resizeTimeout);
     resizeTimeout = setTimeout(() => {
-      updatePosition(); // Recalculate position with new card widths
       updateCardClickability();
     }, 250);
   });
@@ -781,296 +743,5 @@ document.querySelectorAll('input, select').forEach((field) => {
   carouselTrack.addEventListener('touchmove', handleTouchMove, { passive: false });
   carouselTrack.addEventListener('touchend', handleTouchEnd, { passive: true });
   carouselTrack.addEventListener('touchcancel', handleTouchEnd, { passive: true });
-})();
-
-// Map SVG Animation - Start when viewport reaches it
-(function initMapAnimation() {
-  const mapContainer = document.getElementById('map-container');
-  const mapWrapper = document.getElementById('usa-map-wrapper');
-  if (!mapContainer || !mapWrapper) return;
-
-  // Check for reduced motion preference
-  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (prefersReducedMotion) {
-    // Just load the SVG without animation
-    mapWrapper.innerHTML = '<img src="img/usa_map.svg" alt="United States map showing LPT Realty coverage" width="959" height="593" style="width: 100%; height: auto; display: block;" />';
-    return;
-  }
-
-  // Load the SVG inline and animate states one by one
-  const loadSVGAndAnimate = () => {
-    fetch('img/usa_map.svg')
-      .then(response => response.text())
-      .then(svgText => {
-        // Parse the SVG
-        const parser = new DOMParser();
-        const svgDoc = parser.parseFromString(svgText, 'image/svg+xml');
-        const svgElement = svgDoc.querySelector('svg');
-        
-        if (!svgElement) return;
-
-        // Remove existing animation styles and set all states to grey initially
-        const styleElement = svgDoc.querySelector('style');
-        if (styleElement) {
-          let styleText = styleElement.textContent;
-          
-          // Remove the animation from the base state path rule
-          styleText = styleText.replace(
-            /\.state path \{fill:#D0D0D0; animation: fillColor 0\.15s ease-in-out forwards\}/,
-            '.state path {fill:#D0D0D0;}'
-          );
-          
-          // Remove animation from DC circle
-          styleText = styleText.replace(
-            /circle\.dc \{ fill: #D0D0D0; animation: fillColor 0\.15s ease-in-out forwards; animation-delay: 4\.95s; \}/,
-            'circle.dc { fill: #D0D0D0; }'
-          );
-          
-          // Remove all the nth-child animation delays
-          styleText = styleText.replace(/\.state path:nth-child\(\d+\) \{ animation-delay: [\d.]+s; \}\s*/g, '');
-          
-          styleElement.textContent = styleText;
-        }
-        
-        // Add an id to the SVG so we can reference it
-        svgElement.setAttribute('id', 'usa-map-svg');
-
-        // Set SVG to be responsive
-        svgElement.setAttribute('width', '959');
-        svgElement.setAttribute('height', '593');
-        svgElement.setAttribute('style', 'width: 100%; height: auto; display: block;');
-        svgElement.setAttribute('preserveAspectRatio', 'xMidYMid meet');
-
-        // Import the SVG element into the current document
-        const importedSvg = document.importNode(svgElement, true);
-
-        // Insert the modified SVG into the wrapper
-        mapWrapper.innerHTML = '';
-        mapWrapper.appendChild(importedSvg);
-        
-        // Get all state elements for reuse
-        let allStates = null;
-        let animationTimeout = null;
-        
-        const getStateElements = () => {
-          if (allStates) return allStates;
-          
-          const svg = mapWrapper.querySelector('#usa-map-svg');
-          if (!svg) return null;
-          
-          // Get all state paths and the DC circle
-          const statePaths = Array.from(svg.querySelectorAll('.state path'));
-          const dcCircle = svg.querySelector('circle.dc');
-          
-          // Combine all elements to animate
-          allStates = [...statePaths];
-          if (dcCircle) {
-            allStates.push(dcCircle);
-          }
-          
-          return allStates;
-        };
-        
-        // Function to reset states to grey
-        const resetStates = () => {
-          const states = getStateElements();
-          if (!states) return;
-          
-          states.forEach(state => {
-            // Force reset by removing transition temporarily, setting color, then re-adding transition
-            const originalTransition = state.style.transition;
-            state.style.transition = 'none';
-            state.style.fill = '#D0D0D0';
-            // Force reflow to ensure the color change is applied
-            void state.offsetWidth;
-            // Re-apply transition for smooth animation
-            state.style.transition = 'fill 0.3s ease-in-out';
-          });
-        };
-        
-        // Function to check if fade-up animation has completed
-        const waitForFadeUpAnimation = (callback) => {
-          // Find the parent element with fade-up class (mission-image)
-          const parentElement = mapContainer.closest('.fade-up');
-          
-          if (!parentElement) {
-            // No fade-up parent, proceed immediately
-            callback();
-            return;
-          }
-          
-          // Check if parent has animate-in class
-          const hasAnimateIn = parentElement.classList.contains('animate-in');
-          
-          if (!hasAnimateIn) {
-            // Wait for animate-in class to be added
-            const checkInterval = setInterval(() => {
-              if (parentElement.classList.contains('animate-in')) {
-                clearInterval(checkInterval);
-                // Wait for animation to complete (0.1s delay + 0.8s duration = 0.9s)
-                setTimeout(callback, 900);
-              }
-            }, 50);
-            
-            // Fallback timeout in case animate-in never gets added
-            setTimeout(() => {
-              clearInterval(checkInterval);
-              callback();
-            }, 5000);
-          } else {
-            // Already has animate-in, wait for animation to complete
-            // Animation duration is 0.8s with 0.1s delay = 0.9s total
-            // Wait the full duration to ensure animation has completed
-            setTimeout(callback, 900);
-          }
-        };
-        
-        // Function to animate states one by one
-        let loopInterval = null;
-        let isLooping = false;
-        
-        const animateStates = (shouldLoop = false, skipFadeUpWait = false) => {
-          const states = getStateElements();
-          if (!states) return;
-          
-          // Clear any pending animation timeout
-          if (animationTimeout) {
-            clearTimeout(animationTimeout);
-            animationTimeout = null;
-          }
-          
-          // Clear any existing loop
-          if (loopInterval) {
-            clearInterval(loopInterval);
-            loopInterval = null;
-          }
-          
-          // Function to start the animation
-          const startAnimation = (skipReset = false) => {
-            // Reset all states to grey first (before animating) unless we're skipping reset
-            if (!skipReset) {
-              resetStates();
-            }
-            // Animate each state with a delay
-            const transitionDuration = 300; // 0.3s transition duration
-            const delayBetweenStates = 80; // 80ms delay between each state
-            const lastStateIndex = states.length - 1;
-            
-            // Calculate when the last state finishes animating
-            // Last state starts at: lastStateIndex * delayBetweenStates
-            // Last state finishes at: lastStateIndex * delayBetweenStates + transitionDuration
-            const totalAnimationTime = (lastStateIndex * delayBetweenStates) + transitionDuration;
-            
-            // Animate all states
-            states.forEach((state, index) => {
-              setTimeout(() => {
-                state.style.transition = 'fill 0.3s ease-in-out';
-                state.style.fill = '#04b3ff';
-              }, index * delayBetweenStates);
-            });
-            
-            // If looping, wait for animation to complete, then wait 2 seconds, then reset and animate again
-            if (shouldLoop) {
-              const pauseTime = 2000; // Pause for 2 seconds after all states finish animating
-              const totalTime = totalAnimationTime + pauseTime;
-              
-              // Set timeout to loop after animation completes + 2 second pause
-              animationTimeout = setTimeout(() => {
-                // Reset and animate again (infinite loop)
-                animateStates(true, true); // Skip fade-up wait on subsequent loops
-              }, totalTime);
-            }
-          };
-          
-          // Wait for fade-up animation to complete only on first run
-          if (skipFadeUpWait) {
-            // Skip fade-up wait on subsequent loops
-            // Reset states first, then wait for reset to complete before animating
-            resetStates();
-            animationTimeout = setTimeout(() => {
-              startAnimation(true); // Skip reset since we already did it
-            }, 350); // Wait for reset transition to complete (300ms + 50ms buffer)
-          } else {
-            // Wait for fade-up animation to complete, then delay by 1.5 seconds
-            waitForFadeUpAnimation(() => {
-              // Additional 1.5 second delay after fade-up completes
-              animationTimeout = setTimeout(() => {
-                startAnimation();
-              }, 1500); // 1.5 second delay after fade-up completes
-            });
-          }
-        };
-        
-        // Check when map center reaches viewport center using scroll
-        let hasAnimated = false;
-        let scrollTicking = false;
-        
-        const checkMapPosition = () => {
-          const rect = mapContainer.getBoundingClientRect();
-          const viewportCenter = window.innerHeight / 2;
-          const mapCenter = rect.top + (rect.height / 2);
-          const isInViewport = rect.bottom > 0 && rect.top < window.innerHeight;
-          
-          // If map is not in viewport, stop looping and reset animation state
-          if (!isInViewport) {
-            if (hasAnimated) {
-              hasAnimated = false;
-              isLooping = false;
-              if (animationTimeout) {
-                clearTimeout(animationTimeout);
-                animationTimeout = null;
-              }
-              if (loopInterval) {
-                clearInterval(loopInterval);
-                loopInterval = null;
-              }
-              resetStates();
-            }
-            return;
-          }
-          
-          // Check if map center has crossed viewport center
-          // Trigger when map center is at or past viewport center
-          if (!hasAnimated && mapCenter <= viewportCenter) {
-            hasAnimated = true;
-            isLooping = true;
-            animateStates(true); // Start looping animation
-          }
-        };
-        
-        const handleScroll = () => {
-          if (!scrollTicking) {
-            window.requestAnimationFrame(() => {
-              checkMapPosition();
-              scrollTicking = false;
-            });
-            scrollTicking = true;
-          }
-        };
-        
-        // Check on initial load
-        checkMapPosition();
-        
-        // Listen for scroll events
-        window.addEventListener('scroll', handleScroll, { passive: true });
-        
-        // Also check on resize
-        window.addEventListener('resize', () => {
-          checkMapPosition();
-        }, { passive: true });
-      })
-      .catch(error => {
-        console.warn('Could not load SVG for animation:', error);
-        // Fallback to regular image
-        mapWrapper.innerHTML = '<img src="img/usa_map.svg" alt="United States map showing LPT Realty coverage" width="959" height="593" style="width: 100%; height: auto; display: block;" />';
-      });
-  };
-
-  // Start loading when DOM is ready
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', loadSVGAndAnimate);
-  } else {
-    loadSVGAndAnimate();
-  }
 })();
 
