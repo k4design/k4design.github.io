@@ -1,0 +1,2658 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <style>
+    body { font: 12px system-ui; margin: 0; padding-top: 50px; }
+    .wrap { padding: 20px; display: flex; flex-direction: column; gap: 20px; }
+    .tabs { 
+      display: flex; 
+      gap: 0; 
+      border-bottom: 2px solid #e0e0e0; 
+      margin-bottom: 16px;
+      background: #fafafa;
+      padding: 0;
+      border-radius: 0;
+      overflow: hidden;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+    }
+    .tab { 
+      padding: 12px 20px; 
+      border: none;
+      border-right: 1px solid #e0e0e0;
+      cursor: pointer; 
+      background: transparent;
+      color: #666;
+      font-weight: 500;
+      font-size: 13px;
+      transition: all 0.2s ease;
+      position: relative;
+      flex: 1;
+      text-align: center;
+      white-space: nowrap;
+    }
+    .tab:last-child { 
+      border-right: none; 
+    }
+    .tab:hover {
+      background: #f0f0f0;
+      color: #333;
+    }
+    .tab.active { 
+      background: #fff; 
+      color: #0066ff;
+      font-weight: 600;
+    }
+    .tab.active::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: #0066ff;
+    }
+    .panel { display: none; padding-top: 8px; }
+    .panel.active { display: block; }
+    .data-tab-buttons {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    #data.panel.active {
+      padding-bottom: 80px;
+    }
+    .apply-data-button-container {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: #fff;
+      padding: 16px 20px;
+      display: none;
+      justify-content: center;
+      border-top: 1px solid #e0e0e0;
+      z-index: 99;
+      box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+    }
+    #data.panel.active .apply-data-button-container {
+      display: flex;
+    }
+    .apply-data-button-container button {
+      width: 100%;
+      max-width: 400px;
+    }
+    .apply-images-button-container {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: #fff;
+      padding: 16px 20px;
+      display: none;
+      justify-content: center;
+      border-top: 1px solid #e0e0e0;
+      z-index: 99;
+      box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+    }
+    #images.panel.active .apply-images-button-container {
+      display: flex;
+    }
+    .apply-images-button-container button {
+      width: 100%;
+      max-width: 400px;
+    }
+    #images.panel.active {
+      padding-bottom: 80px;
+    }
+    .sub-tabs { display: flex; gap: 0; border-bottom: 2px solid #e0e0e0; margin-bottom: 16px; }
+    .sub-tab { padding: 10px 16px; border: none; border-right: 1px solid #e0e0e0; background: #f5f5f5; color: #666; cursor: pointer; font-size: 12px; position: relative; }
+    .sub-tab:last-child { border-right: none; }
+    .sub-tab:hover { background: #f0f0f0; }
+    .sub-tab.active { background: #fff; color: #0066ff; font-weight: 600; }
+    .sub-tab.active::after { content: ''; position: absolute; bottom: -2px; left: 0; right: 0; height: 2px; background: #0066ff; }
+    .sub-panel { display: none; }
+    .sub-panel.active { display: block; }
+    label { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
+    input, textarea, select { font: inherit; padding: 8px; border-radius: 8px; border: 1px solid #ddd; background: #fff; }
+    textarea { resize: vertical; min-height: 60px; }
+    /* Base button styles - separate from inputs */
+    button { 
+      font: inherit; 
+      padding: 10px 20px; 
+      border-radius: 8px; 
+      border: none; 
+      cursor: pointer; 
+      font-weight: 600; 
+      font-size: 13px;
+      transition: all 0.2s ease;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      display: inline-block;
+    }
+    
+    /* Primary buttons (default - no class) */
+    button:not(.secondary):not(.preview-upload-btn):not(.preview-delete-btn):not(.preview-arrow-btn):not(.zoom-btn):not(.tag-filter-btn) { 
+      background: #0066ff; 
+      color: #fff; 
+    }
+    button:not(.secondary):not(.preview-upload-btn):not(.preview-delete-btn):not(.preview-arrow-btn):not(.zoom-btn):not(.tag-filter-btn):hover {
+      background: #0052cc;
+      box-shadow: 0 2px 6px rgba(0, 102, 255, 0.3);
+      transform: translateY(-1px);
+    }
+    button:not(.secondary):not(.preview-upload-btn):not(.preview-delete-btn):not(.preview-arrow-btn):not(.zoom-btn):not(.tag-filter-btn):active {
+      transform: translateY(0);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* Secondary buttons */
+    button.secondary { 
+      background: #f5f5f5; 
+      color: #333; 
+      border: 1px solid #ddd;
+      font-weight: 500;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    }
+    button.secondary:hover {
+      background: #e8e8e8;
+      border-color: #0066ff;
+      color: #0066ff;
+      box-shadow: 0 2px 4px rgba(0, 102, 255, 0.15);
+      transform: translateY(-1px);
+    }
+    button.secondary:active {
+      transform: translateY(0);
+    }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 8px; }
+    .status { color: #555; margin: 12px 0; }
+    .hint { color: #777; font-size: 11px; line-height: 1.5; margin-top: 8px; margin-bottom: 4px; }
+    .preview-grid { display: flex; flex-direction: column; gap: 12px; margin-top: 16px; margin-bottom: 16px; }
+    .preview-item { position: relative; border: 2px solid #ddd; border-radius: 8px; overflow: hidden; background: #f5f5f5; display: flex; align-items: center; gap: 8px; padding: 8px; }
+    .preview-item.matched { border-color: #0066ff; }
+    .preview-item.unmatched { border-color: #ff9900; opacity: 0.6; }
+    .preview-position { flex-shrink: 0; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; background: #0066ff; color: #fff; font-size: 14px; font-weight: bold; border-radius: 4px; }
+    .preview-img { width: 80px; height: 80px; object-fit: cover; display: block; flex-shrink: 0; border-radius: 4px; position: relative; }
+    .preview-img.drag-over { background: rgba(0, 102, 255, 0.1); border: 2px dashed #0066ff; box-sizing: border-box; }
+    .preview-item.drag-over { border-color: #0066ff; background: rgba(0, 102, 255, 0.05); }
+    .preview-label-container { flex: 1; display: flex; flex-direction: column; gap: 4px; }
+    .preview-label { font-size: 12px; color: #333; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .preview-delete-btn { padding: 4px 8px; font-size: 11px; border-radius: 4px; border: 1px solid #ddd; background: #fff; color: #ff4444; cursor: pointer; width: fit-content; }
+    .preview-delete-btn:hover { background: #ffe0e0; border-color: #ff4444; }
+    .preview-upload-btn { padding: 4px 8px; font-size: 11px; border-radius: 4px; border: 1px solid #ddd; background: #fff; color: #0066ff; cursor: pointer; width: fit-content; }
+    .preview-upload-btn:hover { background: #e6f0ff; border-color: #0066ff; }
+    .preview-arrows { display: flex; flex-direction: column; gap: 4px; flex-shrink: 0; }
+    .preview-arrow-btn { width: 24px; height: 24px; padding: 0; border: 1px solid #ddd; background: #fff; color: #000; border-radius: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 12px; }
+    .preview-arrow-btn:hover:not(:disabled) { background: #f0f0f0; border-color: #0066ff; }
+    .preview-arrow-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+    .preview-badge { position: absolute; top: 4px; right: 4px; background: #0066ff; color: #fff; font-size: 10px; font-weight: bold; padding: 2px 6px; border-radius: 4px; display: none; }
+    .delete-all-btn { margin-top: 12px; padding: 8px 16px; font-size: 12px; border-radius: 4px; border: 1px solid #ff4444; background: #fff; color: #ff4444; cursor: pointer; }
+    .delete-all-btn:hover { background: #ffe0e0; }
+    .frame-preview-container { position: relative; border: 1px solid #ddd; border-radius: 8px; overflow: auto; background: #f5f5f5; margin-top: 16px; margin-bottom: 20px; max-height: 400px; }
+    .frame-preview-container.dragging { cursor: grabbing; }
+    .frame-preview-container.draggable { cursor: grab; }
+    .frame-preview-wrapper { position: relative; display: inline-block; transform-origin: top left; }
+    .frame-preview-img { display: block; user-select: none; pointer-events: none; }
+    .frame-preview-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; transform-origin: top left; }
+    .zoom-controls { display: flex; gap: 6px; margin-top: 20px; margin-bottom: 20px; align-items: center; }
+    .zoom-btn { padding: 6px 10px; font-size: 16px; border-radius: 4px; border: 1px solid #ddd; background: #fff; color: #000; cursor: pointer; line-height: 1; min-width: 32px; display: flex; align-items: center; justify-content: center; }
+    .zoom-btn:hover { background: #f0f0f0; border-color: #0066ff; }
+    .zoom-level { font-size: 11px; color: #666; margin-left: 4px; }
+    .frame-highlight { position: absolute; border: 2px solid #0066ff; background: rgba(0, 102, 255, 0.2); box-sizing: border-box; }
+    .tag-filters { display: flex; flex-direction: column; gap: 16px; margin-top: 16px; margin-bottom: 8px; }
+    .tag-filter-group { display: flex; flex-direction: column; gap: 6px; }
+    .tag-filter-label { font-size: 11px; font-weight: 600; color: #333; text-transform: uppercase; letter-spacing: 0.5px; }
+    .tag-filter-row { display: flex; flex-wrap: wrap; gap: 6px; }
+    .tag-filter-btn { padding: 4px 8px; font-size: 11px; border-radius: 4px; border: 1px solid #ddd; background: #fff; color: #000; cursor: pointer; }
+    .tag-filter-btn.active { background: #0066ff; color: #fff; border-color: #0066ff; }
+    .tag-filter-btn:hover { background: #f0f0f0; }
+    .tag-filter-btn.active:hover { background: #0052cc; }
+    .hero-line { height: 2px; background: #0066ff; border-radius: 999px; margin: 20px 0 16px 0; opacity: 0.9; }
+    .section-title { font-size: 12px; font-weight: 700; color: #111; margin: 0 0 12px 0; }
+    .preview-loading { padding: 20px; text-align: center; color: #777; }
+    .frame-info { padding: 8px 12px; background: #f0f0f0; border-bottom: 1px solid #ddd; border-radius: 8px 8px 0 0; font-size: 11px; color: #333; display: flex; justify-content: space-between; align-items: center; }
+    .frame-info-label { font-weight: bold; color: #0066ff; }
+    .frame-info-value { color: #666; }
+    .loading-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(255, 255, 255, 0.9); display: flex; align-items: center; justify-content: center; z-index: 1000; flex-direction: column; gap: 16px; }
+    .loading-overlay.hidden { display: none !important; }
+    .loading-spinner { width: 40px; height: 40px; border: 4px solid #f0f0f0; border-top-color: #0066ff; border-radius: 50%; animation: spin 0.8s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .loading-text { font-size: 14px; color: #333; font-weight: 500; }
+    .loading-subtext { font-size: 12px; color: #666; margin-top: 4px; }
+    .tag-select-wrapper { position: relative; display: flex; align-items: center; gap: 8px; }
+    .tag-select-preview { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; padding: 8px; background: #f5f5f5; border-radius: 4px; }
+    .tag-select-preview-item { position: relative; aspect-ratio: 1; border-radius: 3px; overflow: hidden; background: #ddd; border: 1px solid #ccc; transition: all 0.2s ease; }
+    .tag-select-preview-item:hover { border-color: #0066ff; border-width: 2px; transform: scale(1.05); box-shadow: 0 2px 8px rgba(0, 102, 255, 0.3); }
+    .tag-select-preview-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .tag-select-preview-label { position: absolute; bottom: 0; left: 0; right: 0; background: rgba(0, 0, 0, 0.7); color: #fff; font-size: 9px; padding: 2px 4px; text-align: center; }
+    .tag-select-option-preview { display: inline-block; width: 20px; height: 20px; margin-right: 6px; vertical-align: middle; border-radius: 2px; overflow: hidden; background: #ddd; }
+    .tag-select-option-preview img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .refresh-icon-btn { 
+      padding: 10px; 
+      width: 40px; 
+      height: 40px; 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      font-size: 18px; 
+      position: relative;
+      border-radius: 8px;
+    }
+    .refresh-icon-btn .tooltip {
+      position: absolute;
+      bottom: 100%;
+      right: 0;
+      margin-bottom: 8px;
+      padding: 8px 12px;
+      background: #333;
+      color: #fff;
+      border-radius: 6px;
+      font-size: 12px;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+      z-index: 1000;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+    .refresh-icon-btn .tooltip::after {
+      content: '';
+      position: absolute;
+      top: 100%;
+      right: 12px;
+      border: 6px solid transparent;
+      border-top-color: #333;
+    }
+    .refresh-icon-btn:hover .tooltip {
+      opacity: 1;
+    }
+    .apply-all-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .confirmation-dialog {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+    }
+    .confirmation-dialog.active {
+      display: flex;
+    }
+    .confirmation-content {
+      background: #fff;
+      padding: 24px;
+      border-radius: 12px;
+      max-width: 400px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+    .confirmation-title {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: #333;
+    }
+    .confirmation-message {
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+    .confirmation-buttons {
+      display: flex;
+      gap: 8px;
+      justify-content: flex-end;
+    }
+    .confirmation-buttons button {
+      padding: 8px 16px;
+      font-size: 13px;
+    }
+    .confirmation-buttons .cancel-btn {
+      background: #f5f5f5;
+      color: #333;
+      border: 1px solid #ddd;
+    }
+    .confirmation-buttons .cancel-btn:hover {
+      background: #e8e8e8;
+    }
+    .confirmation-buttons .confirm-btn {
+      background: #0066ff;
+      color: #fff;
+    }
+    .confirmation-buttons .confirm-btn:hover {
+      background: #0052cc;
+    }
+    .custom-tags-section {
+      margin-top: 16px;
+      padding: 12px;
+      background: #f9f9f9;
+      border-radius: 8px;
+      border: 1px solid #e0e0e0;
+    }
+    .custom-tags-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }
+    .custom-tag-item {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 8px;
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 11px;
+    }
+    .custom-tag-item .delete-tag-btn {
+      padding: 2px 4px;
+      font-size: 10px;
+      line-height: 1;
+      background: transparent;
+      border: none;
+      color: #ff4444;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .custom-tag-item .delete-tag-btn:hover {
+      background: #ffe0e0;
+      border-radius: 2px;
+    }
+    .add-tag-dialog {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+    }
+    .add-tag-dialog.active {
+      display: flex;
+    }
+    .add-tag-content {
+      background: #fff;
+      padding: 24px;
+      border-radius: 12px;
+      max-width: 400px;
+      width: 90%;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+    .add-tag-title {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: #333;
+    }
+    .add-tag-input {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 14px;
+      margin-bottom: 16px;
+      box-sizing: border-box;
+    }
+    .add-tag-buttons {
+      display: flex;
+      gap: 8px;
+      justify-content: flex-end;
+    }
+    .text-range-info {
+      font-size: 11px;
+      color: #666;
+      margin-top: 8px;
+      padding: 8px;
+      background: #f0f0f0;
+      border-radius: 4px;
+    }
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+</head>
+
+<body>
+<div id="loadingOverlay" class="loading-overlay">
+  <div class="loading-spinner"></div>
+  <div>
+    <div class="loading-text" id="loadingText">Scanning file...</div>
+    <div class="loading-subtext" id="loadingSubtext">Please wait</div>
+  </div>
+</div>
+<div class="wrap">
+
+  <div class="tabs">
+    <div class="tab active" data-tab="data">Data</div>
+    <div class="tab" data-tab="images">Images</div>
+    <div class="tab" data-tab="tags">Tagging</div>
+  </div>
+
+  <!-- DATA -->
+  <div id="data" class="panel active">
+    <div id="applyDataButtonContainer" class="apply-data-button-container">
+      <button id="applyData">Apply Data to ALL tagged text</button>
+    </div>
+    <div id="dataTabButtons" class="data-tab-buttons">
+      <button id="uploadCsv" class="secondary">Upload CSV</button>
+      <button id="downloadTemplate" class="secondary">Download CSV Template</button>
+    </div>
+    <div class="hint" style="margin-bottom: 20px; padding: 12px; background: #f0f0f0; border-radius: 6px; border-left: 3px solid #0066ff;">
+      <strong>Instructions:</strong> Fill in the property data fields below. Use the "Refresh from File" button in the Tagging tab to automatically load existing data from tagged text layers. You can also upload a CSV file or manually enter data. Click "Apply Data to ALL tagged text" to update all tagged text layers on the current page.
+    </div>
+    <div class="grid">
+      <label>Bedrooms <input id="bedrooms"></label>
+      <label>Bathrooms <input id="bathrooms"></label>
+      <label>Sq Ft <input id="sqft"></label>
+      <label>Price <input id="price"></label>
+    </div>
+
+    <label style="margin-top: 8px;">Street <input id="street"></label>
+    <label>Street 2 <input id="street2"></label>
+    <label>City + State <input id="cityState"></label>
+
+    <label style="margin-top: 8px;">Tagline <input id="tagline"></label>
+    <label>Description <textarea id="description"></textarea></label>
+    <label>Headline <input id="headline"></label>
+    <label>Disclaimer <textarea id="disclaimer"></textarea></label>
+
+    <label style="margin-top: 8px;">Feature 1 <input id="feature1"></label>
+    <label>Feature 2 <input id="feature2"></label>
+    <label>Feature 3 <input id="feature3"></label>
+    <label>Feature 4 <input id="feature4"></label>
+    <label>Feature 5 <input id="feature5"></label>
+    <label>Feature 6 <input id="feature6"></label>
+
+    <label style="margin-top: 8px;">Name <input id="name"></label>
+    <label>Agent Title <input id="agentTitle"></label>
+    <label>Phone <input id="phone"></label>
+    <label>Email <input id="email"></label>
+
+    <input id="csvFile" type="file" accept=".csv" hidden>
+    <div id="csvStatus" class="status" style="margin-top: 8px; margin-bottom: 24px;"></div>
+    <div class="hint" style="margin-top: 12px;">No selection needed. This updates every text layer on the page that has a tag matching these field names.</div>
+  </div>
+
+  <!-- IMAGES -->
+  <div id="images" class="panel">
+    <div id="applyImagesButtonContainer" class="apply-images-button-container">
+      <button id="applyImages">Apply Images to ALL tagged shapes</button>
+    </div>
+    
+    <!-- Sub-navigation tabs -->
+    <div class="sub-tabs">
+      <div class="sub-tab active" data-sub-tab="property-photos">Property Photos</div>
+      <div class="sub-tab" data-sub-tab="other">Other</div>
+    </div>
+    
+    <!-- Property Photos Sub-panel -->
+    <div id="property-photos" class="sub-panel active">
+      <div class="hint" style="margin-bottom: 16px; padding: 12px; background: #f0f0f0; border-radius: 6px; border-left: 3px solid #0066ff;">
+        <strong>Upload Options:</strong> You can either drag and drop image files directly onto any image slot, or click the "Upload" button on each slot to browse and select files.
+      </div>
+      <div id="imgStatus" class="status" style="margin: 0 0 16px 0;"></div>
+      <div id="previewContainer" class="preview-grid"></div>
+      <div class="hint" style="margin-top: 16px;">Each image slot has its own upload button. Use the arrow buttons to reorder images. Position determines the tag (<b>img:1</b>, <b>img:2</b>, etc.). Image layers should be tagged accordingly. You can upload unlimited images. Logo can be uploaded separately and uses the <b>img:logo</b> tag.</div>
+    </div>
+    
+    <!-- Other Sub-panel -->
+    <div id="other" class="sub-panel">
+      <!-- Logo Upload Section -->
+      <div style="margin-bottom: 24px; padding: 16px; background: #f9f9f9; border-radius: 8px; border: 2px solid #e0e0e0;">
+        <div style="font-weight: 600; margin-bottom: 8px; color: #333;">Logo</div>
+        <div id="logoPreviewContainer" style="width: 120px; height: 120px; border: 2px dashed #ddd; border-radius: 8px; display: flex; align-items: center; justify-content: center; background: #fff; margin-bottom: 8px; position: relative; overflow: hidden;">
+          <div style="text-align: center; color: #999; font-size: 12px; padding: 8px;">No logo uploaded</div>
+        </div>
+        <div style="display: flex; gap: 8px; align-items: center;">
+          <input id="logoFileInput" type="file" accept="image/*" hidden>
+          <button id="logoUploadBtn" class="secondary" style="padding: 6px 12px; font-size: 12px;">Upload Logo</button>
+          <button id="logoDeleteBtn" class="secondary" style="padding: 6px 12px; font-size: 12px; display: none; color: #ff4444; border-color: #ff4444;">Delete</button>
+        </div>
+        <div class="hint" style="margin-top: 8px; font-size: 11px;">Logo will be applied to layers tagged <b>img:logo</b></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAGGING -->
+  <div id="tags" class="panel">
+    <label>Tag for current selection (auto-applies)
+      <div class="tag-select-wrapper">
+        <span style="font-weight: 500;">Tag:</span>
+        <select id="tagSelect" style="flex: 1;">
+          <option value="">(no tag)</option>
+        </select>
+        <button id="addCustomTagBtn" class="secondary" style="padding: 8px 12px; font-size: 12px; white-space: nowrap;" title="Add custom tag">+ Add</button>
+      </div>
+      <div style="margin-top: 12px;">
+        <div style="font-weight: 500; margin-bottom: 8px;">Image Preview: <span style="font-weight: 400; color: #777; font-size: 12px;">(Click to select img tags)</span></div>
+        <div id="tagSelectPreview" class="tag-select-preview"></div>
+      </div>
+    </label>
+
+    <div class="status" id="tagStatus" style="margin-top: 12px; margin-bottom: 8px;">Select a layer (or multiple) in Figma. Changing this dropdown will tag them and rename layers to the tag.</div>
+    <div class="text-range-info" id="textRangeInfo" style="display: none;">
+      <strong>Text Range Selected:</strong> You can tag specific portions of text. Select text within a text layer, then choose a tag.
+    </div>
+    <div class="hint" style="margin-bottom: 20px;">If multiple layers are selected with different tags, dropdown shows (no tag) until you set one. For text nodes, you can tag the entire text layer. Partial text tagging is supported via stored ranges in plugin data.</div>
+    
+    <div class="custom-tags-section">
+      <div style="font-weight: 600; margin-bottom: 8px; color: #333; font-size: 12px;">Custom Tags</div>
+      <div id="customTagsList" class="custom-tags-list"></div>
+      <div class="hint" style="margin-top: 8px; font-size: 11px;">Add custom tags using the "+ Add" button above. Custom tags work just like built-in tags.</div>
+    </div>
+
+    <div class="apply-all-container" style="margin-top: 24px; margin-bottom: 20px;">
+      <button id="applyAllFromTagging" class="secondary">Apply All Data and Images</button>
+      <button id="loadFromZip" class="refresh-icon-btn secondary" title="Load from ZIP">
+        <span style="display: inline-block; font-size: 18px; line-height: 1;">📦</span>
+        <span class="tooltip">Load from ZIP</span>
+      </button>
+    </div>
+    <input id="zipFileInput" type="file" accept=".zip" hidden>
+    <div class="hero-line"></div>
+    <div class="section-title">Tag Overview</div>
+    <div class="tag-filters" id="tagFilters"></div>
+    <div class="zoom-controls" style="display: flex; align-items: center; justify-content: space-between; gap: 6px;">
+      <div style="display: flex; gap: 6px; align-items: center;">
+        <button id="zoomIn" class="zoom-btn" title="Zoom In">⊕</button>
+        <button id="zoomOut" class="zoom-btn" title="Zoom Out">⊖</button>
+        <span id="zoomLevel" class="zoom-level">100%</span>
+      </div>
+      <button id="refreshPreview" class="secondary">Generate Preview</button>
+    </div>
+    <div id="frameInfo" class="frame-info" style="display: none;">
+      <span class="frame-info-label">Frame:</span>
+      <span id="frameInfoValue" class="frame-info-value"></span>
+    </div>
+    <div class="frame-preview-container" id="framePreviewContainer">
+      <div class="preview-loading">Click "Generate Preview" to see tagged elements</div>
+    </div>
+  </div>
+
+  <div id="status" class="status" style="margin-top: 8px;"></div>
+</div>
+
+<!-- Add Custom Tag Dialog -->
+<div id="addTagDialog" class="add-tag-dialog">
+  <div class="add-tag-content">
+    <div class="add-tag-title">Add Custom Tag</div>
+    <input type="text" id="customTagInput" class="add-tag-input" placeholder="Enter tag name (e.g., customField, img:custom)">
+    <div class="hint" style="margin-bottom: 16px; font-size: 11px;">Tag names should not contain spaces. Image tags should start with "img:"</div>
+    <div class="add-tag-buttons">
+      <button class="cancel-btn secondary" id="cancelAddTag">Cancel</button>
+      <button class="confirm-btn" id="confirmAddTag">Add Tag</button>
+    </div>
+  </div>
+</div>
+
+
+<script>
+  // Tabs
+  var tabs = document.querySelectorAll(".tab");
+  for (var i = 0; i < tabs.length; i++) {
+    tabs[i].onclick = function () {
+      for (var j = 0; j < tabs.length; j++) tabs[j].classList.remove("active");
+      var panels = document.querySelectorAll(".panel");
+      for (var k = 0; k < panels.length; k++) panels[k].classList.remove("active");
+
+      this.classList.add("active");
+      var tabId = this.getAttribute("data-tab");
+      document.getElementById(tabId).classList.add("active");
+      
+      // Initialize empty image slots when switching to images tab
+      if (tabId === "images" && imageList.length === 0) {
+        initializeImageSlots();
+      }
+      
+      // Note: Removed auto-refresh on tab switch to prevent lag
+      // Users can manually refresh using the "Refresh from File" button if needed
+      
+      // Auto-refresh preview when switching to tags tab
+      if (tabId === "tags" && !currentPreviewData) {
+        parent.postMessage({ pluginMessage: { type: "GET_FRAME_PREVIEW" } }, "*");
+      }
+    };
+  }
+
+  // Sub-tabs (within Images panel)
+  var subTabs = document.querySelectorAll(".sub-tab");
+  for (var i = 0; i < subTabs.length; i++) {
+    subTabs[i].onclick = function () {
+      // Remove active from all sub-tabs
+      var allSubTabs = document.querySelectorAll(".sub-tab");
+      for (var j = 0; j < allSubTabs.length; j++) {
+        allSubTabs[j].classList.remove("active");
+      }
+      // Remove active from all sub-panels
+      var allSubPanels = document.querySelectorAll(".sub-panel");
+      for (var k = 0; k < allSubPanels.length; k++) {
+        allSubPanels[k].classList.remove("active");
+      }
+      
+      // Add active to clicked sub-tab
+      this.classList.add("active");
+      var subTabId = this.getAttribute("data-sub-tab");
+      var subPanel = document.getElementById(subTabId);
+      if (subPanel) {
+        subPanel.classList.add("active");
+      }
+    };
+  }
+
+  // Show loading on initial load - it will remain until both data and images detection complete
+  showLoading("Initializing plugin...", "Scanning file for existing data and images");
+  
+  // Fallback timeout to hide loading if detection takes too long (15 seconds)
+  // This ensures the UI doesn't stay blocked if something goes wrong
+  var loadingTimeout = setTimeout(function() {
+    if (initialLoadInProgress) {
+      hideLoading();
+      initialLoadInProgress = false;
+      dataDetected = true; // Mark as detected to prevent further checks
+      imagesDetected = true;
+      document.getElementById("status").textContent = "Plugin ready. Use 'Refresh from File' to scan again.";
+    }
+  }, 15000);
+
+  var fields = [
+    "bedrooms","bathrooms","sqft","price",
+    "street","street2","cityState",
+    "tagline","description","disclaimer","headline",
+    "feature1","feature2","feature3","feature4","feature5","feature6",
+    "name","agentTitle","phone","email"
+  ];
+
+  // Custom tags management
+  var customTags = JSON.parse(localStorage.getItem("customTags") || "[]");
+  
+  function saveCustomTags() {
+    localStorage.setItem("customTags", JSON.stringify(customTags));
+  }
+  
+  function addCustomTag(tagName) {
+    tagName = tagName.trim();
+    if (!tagName) return false;
+    if (customTags.indexOf(tagName) !== -1) return false; // Already exists
+    customTags.push(tagName);
+    saveCustomTags();
+    updateTagSelect();
+    updateCustomTagsList();
+    return true;
+  }
+  
+  function removeCustomTag(tagName) {
+    var index = customTags.indexOf(tagName);
+    if (index !== -1) {
+      customTags.splice(index, 1);
+      saveCustomTags();
+      updateTagSelect();
+      updateCustomTagsList();
+      return true;
+    }
+    return false;
+  }
+  
+  function updateCustomTagsList() {
+    var container = document.getElementById("customTagsList");
+    if (!container) return;
+    
+    container.innerHTML = "";
+    if (customTags.length === 0) {
+      container.innerHTML = '<div style="color: #999; font-size: 11px;">No custom tags yet</div>';
+      return;
+    }
+    
+    for (var i = 0; i < customTags.length; i++) {
+      var tag = customTags[i];
+      var item = document.createElement("div");
+      item.className = "custom-tag-item";
+      item.innerHTML = '<span>' + tag + '</span><button class="delete-tag-btn" data-tag="' + tag + '">×</button>';
+      container.appendChild(item);
+      
+      var deleteBtn = item.querySelector(".delete-tag-btn");
+      deleteBtn.onclick = function(t) {
+        return function() {
+          if (confirm('Remove custom tag "' + t + '"?')) {
+            removeCustomTag(t);
+          }
+        };
+      }(tag);
+    }
+  }
+  
+  function updateTagSelect() {
+    var selectEl = document.getElementById("tagSelect");
+    if (!selectEl) return;
+    
+    var currentValue = selectEl.value;
+    
+    // Clear existing options except "(no tag)"
+    selectEl.innerHTML = '<option value="">(no tag)</option>';
+    
+    // Built-in text tags
+    var textTags = [
+      "agentTitle", "bathrooms", "bedrooms", "cityState", "description", "disclaimer",
+      "email", "feature1", "feature2", "feature3", "feature4", "feature5", "feature6",
+      "featuresBulleted", "headline", "name", "phone", "price", "sqft", "statsCombo",
+      "street", "street2", "tagline"
+    ];
+    
+    var textGroup = document.createElement("optgroup");
+    textGroup.label = "Text tags";
+    for (var i = 0; i < textTags.length; i++) {
+      var option = document.createElement("option");
+      option.value = textTags[i];
+      option.textContent = textTags[i];
+      textGroup.appendChild(option);
+    }
+    selectEl.appendChild(textGroup);
+    
+    // Built-in image tags (dynamic - will be populated based on uploaded images)
+    var imageGroup = document.createElement("optgroup");
+    imageGroup.label = "Image tags";
+    
+    // Add logo
+    var logoOption = document.createElement("option");
+    logoOption.value = "img:logo";
+    logoOption.textContent = "img:logo";
+    imageGroup.appendChild(logoOption);
+    
+    // Add img tags for all images in the list
+    for (var j = 0; j < imageList.length; j++) {
+      var pos = j + 1;
+      var imgOption = document.createElement("option");
+      imgOption.value = "img:" + pos;
+      imgOption.textContent = "img:" + pos;
+      imageGroup.appendChild(imgOption);
+    }
+    selectEl.appendChild(imageGroup);
+    
+    // Custom tags
+    if (customTags.length > 0) {
+      var customTextGroup = document.createElement("optgroup");
+      customTextGroup.label = "Custom Text Tags";
+      var customImageGroup = document.createElement("optgroup");
+      customImageGroup.label = "Custom Image Tags";
+      
+      for (var k = 0; k < customTags.length; k++) {
+        var customTag = customTags[k];
+        var option = document.createElement("option");
+        option.value = customTag;
+        option.textContent = customTag;
+        
+        if (customTag.startsWith("img:")) {
+          customImageGroup.appendChild(option);
+        } else {
+          customTextGroup.appendChild(option);
+        }
+      }
+      
+      if (customTextGroup.children.length > 0) {
+        selectEl.appendChild(customTextGroup);
+      }
+      if (customImageGroup.children.length > 0) {
+        selectEl.appendChild(customImageGroup);
+      }
+    }
+    
+    // Restore selection
+    selectEl.value = currentValue;
+  }
+  
+  // Custom tag dialog
+  var addTagDialog = document.getElementById("addTagDialog");
+  var customTagInput = document.getElementById("customTagInput");
+  var addCustomTagBtn = document.getElementById("addCustomTagBtn");
+  var cancelAddTagBtn = document.getElementById("cancelAddTag");
+  var confirmAddTagBtn = document.getElementById("confirmAddTag");
+  
+  if (addCustomTagBtn) {
+    addCustomTagBtn.onclick = function() {
+      if (addTagDialog) {
+        addTagDialog.classList.add("active");
+        if (customTagInput) {
+          customTagInput.value = "";
+          customTagInput.focus();
+        }
+      }
+    };
+  }
+  
+  if (cancelAddTagBtn) {
+    cancelAddTagBtn.onclick = function() {
+      if (addTagDialog) {
+        addTagDialog.classList.remove("active");
+      }
+    };
+  }
+  
+  if (confirmAddTagBtn) {
+    confirmAddTagBtn.onclick = function() {
+      var tagName = customTagInput ? customTagInput.value.trim() : "";
+      if (!tagName) {
+        alert("Please enter a tag name");
+        return;
+      }
+      if (tagName.indexOf(" ") !== -1) {
+        alert("Tag names cannot contain spaces");
+        return;
+      }
+      if (addCustomTag(tagName)) {
+        addTagDialog.classList.remove("active");
+        if (customTagInput) {
+          customTagInput.value = "";
+        }
+      } else {
+        alert("This tag already exists");
+      }
+    };
+  }
+  
+  if (customTagInput) {
+    customTagInput.onkeypress = function(e) {
+      if (e.key === "Enter") {
+        confirmAddTagBtn.click();
+      }
+      if (e.key === "Escape") {
+        cancelAddTagBtn.click();
+      }
+    };
+  }
+  
+  // Click outside to close dialog
+  if (addTagDialog) {
+    addTagDialog.onclick = function(e) {
+      if (e.target === addTagDialog) {
+        addTagDialog.classList.remove("active");
+      }
+    };
+  }
+  
+  // Initialize custom tags list
+  updateCustomTagsList();
+
+  function readData() {
+    var d = {};
+    for (var i = 0; i < fields.length; i++) {
+      var id = fields[i];
+      d[id] = document.getElementById(id).value || "";
+    }
+    return d;
+  }
+
+  document.getElementById("applyData").onclick = function () {
+    parent.postMessage({ pluginMessage: { type: "APPLY_DATA_ALL", data: readData() } }, "*");
+  };
+
+  // Loading overlay functions
+  var loadingOverlay = document.getElementById("loadingOverlay");
+  var loadingText = document.getElementById("loadingText");
+  var loadingSubtext = document.getElementById("loadingSubtext");
+  
+  function showLoading(text, subtext) {
+    if (loadingText) loadingText.textContent = text || "Scanning file...";
+    if (loadingSubtext) loadingSubtext.textContent = subtext || "Please wait";
+    if (loadingOverlay) {
+      loadingOverlay.classList.remove("hidden");
+    }
+  }
+  
+  function hideLoading() {
+    if (loadingOverlay) {
+      loadingOverlay.classList.add("hidden");
+    }
+    // Clear timeout if loading is hidden
+    if (loadingTimeout) {
+      clearTimeout(loadingTimeout);
+      loadingTimeout = null;
+    }
+  }
+
+
+  // CSV Upload functionality
+  var csvFileInput = document.getElementById("csvFile");
+  var csvStatus = document.getElementById("csvStatus");
+
+  document.getElementById("uploadCsv").onclick = function () {
+    csvFileInput.click();
+  };
+
+  document.getElementById("downloadTemplate").onclick = function () {
+    // Create CSV content
+    var csvContent = "bedrooms,bathrooms,sqft,price,street,street2,cityState,tagline,description,feature1,feature2,feature3,feature4,feature5,feature6,name,agentTitle,phone,email\n";
+    csvContent += "3,2,1500,500000,123 Main St,Apt 4B,New York NY,Beautiful Downtown Apartment,\"Spacious 3-bedroom apartment with modern amenities in the heart of the city.\",Hardwood Floors,Updated Kitchen,Granite Countertops,Stainless Steel Appliances,In-Unit Laundry,Pet Friendly,John Smith,Real Estate Agent,(555) 123-4567,john.smith@example.com";
+    
+    // Create blob and download
+    var blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    var link = document.createElement("a");
+    var url = URL.createObjectURL(blob);
+    link.setAttribute("href", url);
+    link.setAttribute("download", "property_data_template.csv");
+    link.style.visibility = "hidden";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+    
+    csvStatus.textContent = "Template downloaded!";
+    setTimeout(function() { csvStatus.textContent = ""; }, 3000);
+  };
+
+  function parseCSVLine(line) {
+    var fields = [];
+    var inQuotes = false;
+    var currentField = "";
+    
+    for (var i = 0; i < line.length; i++) {
+      var char = line[i];
+      if (char === '"') {
+        if (inQuotes && line[i + 1] === '"') {
+          // Escaped quote
+          currentField += '"';
+          i++; // Skip next quote
+        } else {
+          inQuotes = !inQuotes;
+        }
+      } else if (char === ',' && !inQuotes) {
+        fields.push(currentField.trim());
+        currentField = "";
+      } else {
+        currentField += char;
+      }
+    }
+    fields.push(currentField.trim());
+    return fields;
+  }
+
+  function parseCSV(text) {
+    var lines = text.split(/\r?\n/).filter(function(line) {
+      return line.trim().length > 0;
+    });
+    
+    if (lines.length < 2) {
+      throw new Error("CSV must have at least a header row and one data row");
+    }
+
+    // Parse header
+    var headers = parseCSVLine(lines[0]);
+    
+    // Parse first data row
+    var values = parseCSVLine(lines[1]);
+
+    // Map headers to values
+    var data = {};
+    for (var k = 0; k < headers.length; k++) {
+      var header = headers[k].toLowerCase().trim();
+      var value = k < values.length ? values[k] : "";
+      // Remove surrounding quotes if present
+      if (value.length >= 2 && value.charAt(0) === '"' && value.charAt(value.length - 1) === '"') {
+        value = value.slice(1, -1);
+      }
+      // Replace escaped quotes
+      value = value.replace(/""/g, '"');
+      data[header] = value;
+    }
+
+    return data;
+  }
+
+  function populateFieldsFromCSV(data) {
+    // Mapping of lowercase CSV headers to actual field IDs (for camelCase fields)
+    var fieldMapping = {
+      "citystate": "cityState",
+      "agenttitle": "agentTitle"
+    };
+    
+    for (var field in data) {
+      if (Object.prototype.hasOwnProperty.call(data, field)) {
+        // Try the mapped field name first, then the original field name
+        var fieldId = fieldMapping[field] || field;
+        var element = document.getElementById(fieldId);
+        if (element) {
+          element.value = data[field] || "";
+        }
+      }
+    }
+  }
+
+  csvFileInput.onchange = function () {
+    var file = csvFileInput.files[0];
+    if (!file) return;
+
+    var reader = new FileReader();
+    reader.onload = function (e) {
+      try {
+        var csvData = parseCSV(e.target.result);
+        populateFieldsFromCSV(csvData);
+        csvStatus.textContent = "CSV loaded successfully!";
+        csvStatus.style.color = "#0066ff";
+        setTimeout(function() { csvStatus.textContent = ""; }, 3000);
+      } catch (error) {
+        csvStatus.textContent = "Error: " + error.message;
+        csvStatus.style.color = "#ff0000";
+      }
+    };
+    reader.onerror = function () {
+      csvStatus.textContent = "Error reading file";
+      csvStatus.style.color = "#ff0000";
+    };
+    reader.readAsText(file);
+    csvFileInput.value = "";
+  };
+
+  // Images
+  var previewContainer = document.getElementById("previewContainer");
+  var imageList = []; // Array of { filename, dataUrl, bytes, element, fileInput }
+  var applyImagesBtn = document.getElementById("applyImages");
+  var applyImagesBtnOriginalText = applyImagesBtn.textContent;
+  var imagesLoading = false;
+  var imagesDetected = false; // Track if images have been detected to avoid redundant processing
+  var dataDetected = false; // Track if data has been detected
+  var initialLoadInProgress = true; // Track if initial load is in progress
+  
+  // Function to check if initial load is complete and hide loading if so
+  function checkInitialLoadComplete() {
+    if (initialLoadInProgress && dataDetected && imagesDetected) {
+      hideLoading();
+      initialLoadInProgress = false;
+      if (loadingTimeout) {
+        clearTimeout(loadingTimeout);
+        loadingTimeout = null;
+      }
+    }
+  }
+
+  function clearPreviews() {
+    previewContainer.innerHTML = "";
+    imageList = [];
+    updateDeleteAllButton();
+    // Reinitialize empty slots
+    initializeImageSlots();
+  }
+
+  function updatePreviewPositions() {
+    // Batch DOM updates for better performance
+    var fragment = document.createDocumentFragment();
+    var needsReorder = false;
+    
+    for (var i = 0; i < imageList.length; i++) {
+      var item = imageList[i];
+      if (item.element) {
+        var positionEl = item.element.querySelector(".preview-position");
+        if (positionEl) {
+          var newPosition = i + 1;
+          if (positionEl.textContent !== String(newPosition)) {
+            positionEl.textContent = newPosition;
+          }
+        }
+        // Update class based on position (all images are matched)
+        var shouldBeMatched = true; // No limit - all images are valid
+        var isMatched = item.element.classList.contains("matched");
+        if (shouldBeMatched !== isMatched) {
+          item.element.classList.remove("matched", "unmatched");
+          if (shouldBeMatched) {
+            item.element.classList.add("matched");
+          } else {
+            item.element.classList.add("unmatched");
+          }
+        }
+        
+        // Update arrow button states
+        var upBtn = item.element.querySelector(".arrow-up");
+        var downBtn = item.element.querySelector(".arrow-down");
+        if (upBtn) {
+          upBtn.disabled = (i === 0);
+        }
+        if (downBtn) {
+          downBtn.disabled = (i === imageList.length - 1);
+        }
+      }
+    }
+    // Send updated order to backend (debounced)
+    sendImageOrder();
+    // Update tag select to reflect new positions
+    updateTagSelect();
+  }
+
+  function moveImageUp(index) {
+    if (index <= 0) return;
+    var temp = imageList[index];
+    imageList[index] = imageList[index - 1];
+    imageList[index - 1] = temp;
+    
+    // Update DOM order
+    var elements = previewContainer.querySelectorAll(".preview-item");
+    if (elements[index] && elements[index - 1]) {
+      previewContainer.insertBefore(elements[index], elements[index - 1]);
+    }
+    
+    updatePreviewPositions();
+  }
+
+  function moveImageDown(index) {
+    if (index >= imageList.length - 1) return;
+    var temp = imageList[index];
+    imageList[index] = imageList[index + 1];
+    imageList[index + 1] = temp;
+    
+    // Update DOM order
+    var elements = previewContainer.querySelectorAll(".preview-item");
+    if (elements[index] && elements[index + 1]) {
+      previewContainer.insertBefore(elements[index + 1], elements[index]);
+    }
+    
+    updatePreviewPositions();
+  }
+
+  function createPreviewFromBytes(position, dataUrl, bytes, filename) {
+    // Create a preview item from bytes (for existing images) or empty slot
+    var item = document.createElement("div");
+    item.className = "preview-item";
+    var displayName = filename || (position ? "Slot " + position : "Empty slot");
+    item.setAttribute("data-filename", displayName);
+
+    var positionEl = document.createElement("div");
+    positionEl.className = "preview-position";
+    // Position will be set correctly in updatePreviewPositions
+
+    var imgContainer = document.createElement("div");
+    imgContainer.className = "preview-img";
+    imgContainer.style.width = "80px";
+    imgContainer.style.height = "80px";
+    imgContainer.style.borderRadius = "4px";
+    
+    var img = null;
+    if (dataUrl) {
+      img = document.createElement("img");
+      img.src = dataUrl;
+      img.alt = displayName;
+      img.style.width = "100%";
+      img.style.height = "100%";
+      img.style.objectFit = "cover";
+      img.style.display = "block";
+      img.style.borderRadius = "4px";
+      imgContainer.appendChild(img);
+    } else {
+      // Empty slot - show placeholder
+      imgContainer.style.backgroundColor = "#f0f0f0";
+      imgContainer.style.display = "flex";
+      imgContainer.style.alignItems = "center";
+      imgContainer.style.justifyContent = "center";
+      imgContainer.style.color = "#999";
+      imgContainer.style.fontSize = "11px";
+      imgContainer.textContent = "No image";
+    }
+
+    // Create hidden file input for this image slot
+    var fileInput = document.createElement("input");
+    fileInput.type = "file";
+    fileInput.accept = "image/*";
+    fileInput.style.display = "none";
+
+    // Label container with filename, upload/reupload button, and delete button
+    var labelContainer = document.createElement("div");
+    labelContainer.className = "preview-label-container";
+    
+    var label = document.createElement("div");
+    label.className = "preview-label";
+    if (dataUrl) {
+      label.textContent = displayName;
+    } else {
+      label.textContent = position ? "Slot " + position + " (empty)" : "Empty slot";
+      label.style.color = "#999";
+    }
+    
+    var buttonContainer = document.createElement("div");
+    buttonContainer.style.display = "flex";
+    buttonContainer.style.gap = "6px";
+    buttonContainer.style.marginTop = "4px";
+    
+    var uploadBtn = document.createElement("button");
+    uploadBtn.className = "preview-upload-btn";
+    uploadBtn.textContent = dataUrl ? "Reupload" : "Upload";
+    uploadBtn.title = "Upload or replace this image";
+    
+    buttonContainer.appendChild(uploadBtn);
+    
+    labelContainer.appendChild(label);
+    labelContainer.appendChild(buttonContainer);
+
+    // Arrow buttons container
+    var arrows = document.createElement("div");
+    arrows.className = "preview-arrows";
+    
+    var upBtn = document.createElement("button");
+    upBtn.className = "preview-arrow-btn arrow-up";
+    upBtn.innerHTML = "↑";
+    upBtn.title = "Move up";
+    
+    var downBtn = document.createElement("button");
+    downBtn.className = "preview-arrow-btn arrow-down";
+    downBtn.innerHTML = "↓";
+    downBtn.title = "Move down";
+
+    arrows.appendChild(upBtn);
+    arrows.appendChild(downBtn);
+
+    item.appendChild(positionEl);
+    item.appendChild(imgContainer);
+    item.appendChild(labelContainer);
+    item.appendChild(arrows);
+    
+    var imageData = {
+      filename: displayName,
+      dataUrl: dataUrl,
+      bytes: bytes,
+      element: item,
+      fileInput: fileInput,
+      imgContainer: imgContainer,
+      originalPosition: position // Store original position for reference
+    };
+
+    // Always append to array - updatePreviewPositions will handle ordering
+    imageList.push(imageData);
+    previewContainer.appendChild(item);
+
+    // Upload button handler
+    uploadBtn.onclick = function() {
+      fileInput.click();
+    };
+
+    // Helper function to process a file (used by both file input and drag & drop)
+    function processFile(file) {
+      if (!file || !file.type.match('image.*')) {
+        return; // Only accept image files
+      }
+
+      var index = imageList.indexOf(imageData);
+      if (index === -1) return;
+
+      // Read as ArrayBuffer for plugin
+      var reader = new FileReader();
+      reader.onload = function() {
+        var fileBytes = new Uint8Array(reader.result);
+        // Optimize array conversion using Array.from() which is much faster than manual loop
+        // Defer heavy conversion to next tick to keep UI responsive
+        setTimeout(function() {
+          var arr = Array.from(fileBytes);
+          
+          // Read as DataURL for preview (can happen in parallel)
+          var previewReader = new FileReader();
+          previewReader.onload = function() {
+            // Update existing image data
+            imageData.filename = file.name;
+            imageData.dataUrl = previewReader.result;
+            imageData.bytes = arr;
+            
+            // Batch DOM updates for better performance
+            requestAnimationFrame(function() {
+              // Update preview - replace placeholder with image
+              imgContainer.innerHTML = "";
+              imgContainer.style.backgroundColor = "";
+              imgContainer.style.display = "";
+              imgContainer.style.alignItems = "";
+              imgContainer.style.justifyContent = "";
+              imgContainer.style.color = "";
+              imgContainer.style.fontSize = "";
+              
+              var newImg = document.createElement("img");
+              newImg.src = previewReader.result;
+              newImg.alt = file.name;
+              newImg.style.width = "100%";
+              newImg.style.height = "100%";
+              newImg.style.objectFit = "cover";
+              newImg.style.display = "block";
+              newImg.style.borderRadius = "4px";
+              imgContainer.appendChild(newImg);
+              imageData.imgContainer = imgContainer;
+              
+              label.textContent = file.name;
+              label.style.color = ""; // Remove gray color if it was an empty slot
+              uploadBtn.textContent = "Reupload";
+              
+              // Send updated order to backend (already debounced)
+              sendImageOrder();
+              updateTagSelectPreview();
+            });
+          };
+          previewReader.readAsDataURL(file);
+        }, 0);
+      };
+      reader.readAsArrayBuffer(file);
+    }
+
+    // File input change handler
+    fileInput.onchange = function() {
+      var file = fileInput.files[0];
+      if (!file) return;
+      processFile(file);
+      // Reset file input
+      fileInput.value = "";
+    };
+
+    // Drag and drop handlers - attach to entire preview item for better UX
+    item.addEventListener('dragenter', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      imgContainer.classList.add('drag-over');
+      item.classList.add('drag-over');
+    });
+
+    item.addEventListener('dragover', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      // Check if the dragged item contains files
+      if (e.dataTransfer.types.indexOf('Files') !== -1) {
+        e.dataTransfer.dropEffect = 'copy';
+      }
+    });
+
+    item.addEventListener('dragleave', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      // Only remove drag-over if we're leaving the item itself
+      if (!item.contains(e.relatedTarget)) {
+        imgContainer.classList.remove('drag-over');
+        item.classList.remove('drag-over');
+      }
+    });
+
+    item.addEventListener('drop', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      imgContainer.classList.remove('drag-over');
+      item.classList.remove('drag-over');
+
+      var files = e.dataTransfer.files;
+      if (files.length > 0) {
+        processFile(files[0]); // Process the first file if multiple are dropped
+      }
+    });
+
+    // Arrow button handlers - find index dynamically each time
+    upBtn.onclick = function() {
+      var index = imageList.indexOf(imageData);
+      if (index !== -1) {
+        moveImageUp(index);
+      }
+    };
+
+    downBtn.onclick = function() {
+      var index = imageList.indexOf(imageData);
+      if (index !== -1) {
+        moveImageDown(index);
+      }
+    };
+
+    // Update positions after adding to list
+    updatePreviewPositions();
+    updateDeleteAllButton();
+    updateTagSelectPreview();
+  }
+
+  function createPreview(file, dataUrl, bytes) {
+    // Use createPreviewFromBytes with null position to append
+    createPreviewFromBytes(null, dataUrl, bytes, file.name);
+  }
+
+  function createEmptySlot(position) {
+    // Create an empty slot with upload button
+    createPreviewFromBytes(position, null, null, "");
+  }
+
+  function deleteImage(index) {
+    if (index < 0 || index >= imageList.length) return;
+    
+    var imageData = imageList[index];
+    
+    // If it's an empty slot, just remove it
+    if (!imageData.dataUrl) {
+      if (imageData.element) {
+        imageData.element.remove();
+      }
+      imageList.splice(index, 1);
+      updatePreviewPositions();
+      updateDeleteAllButton();
+      updateTagSelectPreview();
+      return;
+    }
+    
+    // For images with data, clear the image but keep the slot
+    imageData.filename = "";
+    imageData.dataUrl = null;
+    imageData.bytes = null;
+    
+    // Reset preview to empty slot
+    var label = imageData.element.querySelector(".preview-label");
+    var uploadBtn = imageData.element.querySelector(".preview-upload-btn");
+    var imgContainer = imageData.imgContainer;
+    
+    if (label) {
+      var position = index + 1;
+      label.textContent = "Slot " + position + " (empty)";
+      label.style.color = "#999";
+    }
+    
+    if (uploadBtn) {
+      uploadBtn.textContent = "Upload";
+    }
+    
+    if (imgContainer) {
+      imgContainer.innerHTML = "";
+      imgContainer.style.backgroundColor = "#f0f0f0";
+      imgContainer.style.display = "flex";
+      imgContainer.style.alignItems = "center";
+      imgContainer.style.justifyContent = "center";
+      imgContainer.style.color = "#999";
+      imgContainer.style.fontSize = "11px";
+      imgContainer.textContent = "No image";
+    }
+    
+    updatePreviewPositions();
+    updateDeleteAllButton();
+    updateTagSelectPreview();
+    sendImageOrder();
+  }
+
+  function updateDeleteAllButton() {
+    // No-op: delete all button has been removed
+  }
+
+  // Update tag dropdown preview with image thumbnails
+  function updateTagSelectPreview() {
+    var previewContainer = document.getElementById("tagSelectPreview");
+    if (!previewContainer) return;
+    
+    var selectEl = document.getElementById("tagSelect");
+    if (!selectEl) return;
+    
+    // Get current tag from dropdown to check if it's an image tag
+    var currentTag = selectEl.value || "";
+    var currentImageTagPos = null;
+    var isLogoTag = (currentTag === "img:logo");
+    if (currentTag && currentTag.startsWith("img:")) {
+      var match = currentTag.match(/img:(\d+)/);
+      if (match && match[1]) {
+        currentImageTagPos = parseInt(match[1], 10);
+      }
+    }
+    
+    previewContainer.innerHTML = "";
+    
+    // Create a map of position -> image data (no limit)
+    var imageMap = {};
+    for (var i = 0; i < imageList.length; i++) {
+      if (imageList[i] && imageList[i].dataUrl) {
+        imageMap[i + 1] = imageList[i];
+      }
+    }
+    
+      // Create preview items for all uploaded images (no limit)
+      var maxImagePos = Math.max(10, imageList.length); // Show at least 10 slots, or more if images exist
+      for (var pos = 1; pos <= maxImagePos; pos++) {
+      var item = document.createElement("div");
+      item.className = "tag-select-preview-item";
+      item.title = "img:" + pos + " - Click to select";
+      
+      var isCurrentTag = (currentImageTagPos === pos);
+      
+      if (imageMap[pos] && imageMap[pos].dataUrl) {
+        var img = document.createElement("img");
+        img.src = imageMap[pos].dataUrl;
+        img.alt = "img:" + pos;
+        item.appendChild(img);
+        
+        var label = document.createElement("div");
+        label.className = "tag-select-preview-label";
+        label.textContent = pos;
+        // Add blue background if this is the current tag
+        if (isCurrentTag) {
+          label.style.background = "#0066ff";
+        }
+        item.appendChild(label);
+      } else {
+        item.style.display = "flex";
+        item.style.alignItems = "center";
+        item.style.justifyContent = "center";
+        item.style.fontSize = "10px";
+        item.style.color = "#999";
+        item.textContent = pos;
+        // Add blue background if this is the current tag (for empty slots)
+        if (isCurrentTag) {
+          item.style.background = "#0066ff";
+          item.style.color = "#fff";
+        }
+      }
+      
+      // Make clickable to select the tag
+      item.style.cursor = "pointer";
+      item.onclick = function(position) {
+        return function() {
+          selectEl.value = "img:" + position;
+          selectEl.dispatchEvent(new Event("change"));
+        };
+      }(pos);
+      
+      previewContainer.appendChild(item);
+    }
+    
+    // Add logo icon if logoData exists
+    if (logoData) {
+      var logoItem = document.createElement("div");
+      logoItem.className = "tag-select-preview-item";
+      logoItem.title = "img:logo - Click to select";
+      
+      if (logoData.dataUrl) {
+        var logoImg = document.createElement("img");
+        logoImg.src = logoData.dataUrl;
+        logoImg.alt = "img:logo";
+        logoImg.style.objectFit = "contain";
+        logoItem.appendChild(logoImg);
+        
+        var logoLabel = document.createElement("div");
+        logoLabel.className = "tag-select-preview-label";
+        logoLabel.textContent = "logo";
+        // Add blue background if this is the current tag
+        if (isLogoTag) {
+          logoLabel.style.background = "#0066ff";
+        }
+        logoItem.appendChild(logoLabel);
+      } else {
+        logoItem.style.display = "flex";
+        logoItem.style.alignItems = "center";
+        logoItem.style.justifyContent = "center";
+        logoItem.style.fontSize = "10px";
+        logoItem.style.color = "#999";
+        logoItem.textContent = "logo";
+        // Add blue background if this is the current tag (for empty slots)
+        if (isLogoTag) {
+          logoItem.style.background = "#0066ff";
+          logoItem.style.color = "#fff";
+        }
+      }
+      
+      // Make clickable to select the tag
+      logoItem.style.cursor = "pointer";
+      logoItem.onclick = function() {
+        selectEl.value = "img:logo";
+        selectEl.dispatchEvent(new Event("change"));
+      };
+      
+      previewContainer.appendChild(logoItem);
+    }
+  }
+
+  // Throttle sendImageOrder to prevent excessive messages
+  var sendImageOrderTimeout = null;
+  function sendImageOrder() {
+    // Clear any pending send
+    if (sendImageOrderTimeout) {
+      clearTimeout(sendImageOrderTimeout);
+    }
+    
+    // Debounce: wait 300ms before sending to batch multiple updates
+    sendImageOrderTimeout = setTimeout(function() {
+      // Only send images that have data (not empty slots) - no limit
+      var itemsToSend = [];
+      for (var i = 0; i < imageList.length; i++) {
+        var img = imageList[i];
+        if (img.dataUrl && img.bytes) {
+          itemsToSend.push({
+            name: img.filename,
+            bytes: img.bytes,
+            position: i + 1
+          });
+        }
+      }
+      
+      parent.postMessage({ 
+        pluginMessage: { 
+          type: "IMAGES_SELECTED", 
+          items: itemsToSend 
+        } 
+      }, "*");
+      
+      sendImageOrderTimeout = null;
+    }, 300);
+  }
+
+  function initializeImageSlots() {
+    // Initialize at least 10 empty slots, or more if images exist
+    var minSlots = Math.max(10, imageList.length);
+    if (imageList.length === 0) {
+      for (var i = 1; i <= minSlots; i++) {
+        createEmptySlot(i);
+      }
+    } else {
+      // Fill in empty slots up to the number of images or 10, whichever is larger
+      var currentMaxPosition = imageList.length;
+      var targetSlots = Math.max(10, currentMaxPosition);
+      if (currentMaxPosition < targetSlots) {
+        for (var j = currentMaxPosition + 1; j <= targetSlots; j++) {
+          createEmptySlot(j);
+        }
+      }
+    }
+    // Update tag select to include all image positions
+    updateTagSelect();
+  }
+
+  document.getElementById("applyImages").onclick = function () {
+    parent.postMessage({ pluginMessage: { type: "APPLY_IMAGES_ALL" } }, "*");
+  };
+
+
+  // Logo upload functionality
+  var logoFileInput = document.getElementById("logoFileInput");
+  var logoUploadBtn = document.getElementById("logoUploadBtn");
+  var logoDeleteBtn = document.getElementById("logoDeleteBtn");
+  var logoPreviewContainer = document.getElementById("logoPreviewContainer");
+  var logoData = null; // { filename, dataUrl, bytes }
+
+  logoUploadBtn.onclick = function() {
+    logoFileInput.click();
+  };
+
+  logoFileInput.onchange = function() {
+    var file = logoFileInput.files[0];
+    if (!file || !file.type.match('image.*')) {
+      return;
+    }
+
+    var reader = new FileReader();
+    reader.onload = function() {
+      var fileBytes = new Uint8Array(reader.result);
+      setTimeout(function() {
+        var arr = Array.from(fileBytes);
+
+        var previewReader = new FileReader();
+        previewReader.onload = function() {
+          logoData = {
+            filename: file.name,
+            dataUrl: previewReader.result,
+            bytes: arr
+          };
+
+          // Update preview
+          logoPreviewContainer.innerHTML = "";
+          var img = document.createElement("img");
+          img.src = previewReader.result;
+          img.alt = file.name;
+          img.style.width = "100%";
+          img.style.height = "100%";
+          img.style.objectFit = "contain";
+          img.style.display = "block";
+          logoPreviewContainer.appendChild(img);
+
+          logoDeleteBtn.style.display = "inline-block";
+          logoUploadBtn.textContent = "Change Logo";
+
+          // Send logo to backend
+          parent.postMessage({
+            pluginMessage: {
+              type: "LOGO_SELECTED",
+              name: file.name,
+              bytes: arr
+            }
+          }, "*");
+          
+          // Update tag selector preview to show logo
+          updateTagSelectPreview();
+        };
+        previewReader.readAsDataURL(file);
+      }, 0);
+    };
+    reader.readAsArrayBuffer(file);
+    logoFileInput.value = "";
+  };
+
+  logoDeleteBtn.onclick = function() {
+    logoData = null;
+    logoPreviewContainer.innerHTML = '<div style="text-align: center; color: #999; font-size: 12px; padding: 8px;">No logo uploaded</div>';
+    logoDeleteBtn.style.display = "none";
+    logoUploadBtn.textContent = "Upload Logo";
+    
+    // Notify backend to clear logo
+    parent.postMessage({
+      pluginMessage: {
+        type: "LOGO_SELECTED",
+        name: "",
+        bytes: null
+      }
+    }, "*");
+    
+    // Update tag selector preview to remove logo
+    updateTagSelectPreview();
+  };
+
+  // Tagging (auto-apply on change)
+  var tagSelectEl = document.getElementById("tagSelect");
+  if (tagSelectEl) {
+    tagSelectEl.onchange = function () {
+      var tag = tagSelectEl.value || "";
+      // Request text selection info from plugin
+      parent.postMessage({ 
+        pluginMessage: { 
+          type: "SET_TAG_FROM_UI", 
+          tag: tag,
+          textRange: null // Plugin will detect text selection if available
+        } 
+      }, "*");
+      // Update preview to highlight current image tag
+      updateTagSelectPreview();
+    };
+  }
+  
+  // Periodically check for text selection changes
+  setInterval(function() {
+    // Request selection update from plugin
+    parent.postMessage({ 
+      pluginMessage: { 
+        type: "GET_SELECTION_INFO"
+      } 
+    }, "*");
+  }, 500); // Check every 500ms
+  
+  // Initialize tag select on page load
+  updateTagSelect();
+  
+  // Initialize tag select preview on page load
+  updateTagSelectPreview();
+
+  // Frame preview
+  var framePreviewContainer = document.getElementById("framePreviewContainer");
+  var tagFiltersContainer = document.getElementById("tagFilters");
+  var currentPreviewData = null;
+  var activeFilterTag = null;
+  var currentZoom = 1.0;
+  var previewWrapper = null;
+  var isDragging = false;
+  var dragStartX = 0;
+  var dragStartY = 0;
+  var scrollStartX = 0;
+  var scrollStartY = 0;
+
+  // Tag options for preview filters (rendered as Data vs Images groups)
+  // These are used as reference, but we'll dynamically get all tags from the preview data
+  function getDataTagOptions() {
+    var baseTags = [
+      "agentTitle",
+      "bathrooms",
+      "bedrooms",
+      "cityState",
+      "description",
+      "email",
+      "feature1", "feature2", "feature3", "feature4", "feature5", "feature6",
+      "name",
+      "phone",
+      "price",
+      "sqft",
+      "statsCombo",
+      "street",
+      "street2",
+      "tagline"
+    ];
+    // Add custom tags that aren't image tags
+    for (var i = 0; i < customTags.length; i++) {
+      if (!customTags[i].startsWith("img:") && baseTags.indexOf(customTags[i]) === -1) {
+        baseTags.push(customTags[i]);
+      }
+    }
+    return baseTags.slice().sort();
+  }
+
+  function getImageTagOptions() {
+    // Dynamically get image tags from imageList and custom tags
+    var imgTags = [];
+    // Add img:1, img:2, etc. based on imageList length
+    for (var i = 0; i < imageList.length; i++) {
+      imgTags.push("img:" + (i + 1));
+    }
+    // Add img:logo if logo exists
+    if (logoData) {
+      imgTags.push("img:logo");
+    }
+    // Add custom image tags
+    for (var j = 0; j < customTags.length; j++) {
+      if (customTags[j].startsWith("img:") && imgTags.indexOf(customTags[j]) === -1) {
+        imgTags.push(customTags[j]);
+      }
+    }
+    return imgTags;
+  }
+
+  function createFilterButtons() {
+    tagFiltersContainer.innerHTML = "";
+    
+    // Get tags that are actually present in the current preview
+    var presentTags = {};
+    if (currentPreviewData && currentPreviewData.highlights) {
+      for (var h = 0; h < currentPreviewData.highlights.length; h++) {
+        var tag = currentPreviewData.highlights[h].tag;
+        if (tag) {
+          presentTags[tag] = true;
+        }
+      }
+    }
+    
+    // Filter to only tags present in preview
+    var presentDataTags = [];
+    var presentImageTags = [];
+    
+    var dataTagOptions = getDataTagOptions();
+    var imageTagOptions = getImageTagOptions();
+    
+    for (var d = 0; d < dataTagOptions.length; d++) {
+      if (presentTags[dataTagOptions[d]]) {
+        presentDataTags.push(dataTagOptions[d]);
+      }
+    }
+    
+    for (var im = 0; im < imageTagOptions.length; im++) {
+      if (presentTags[imageTagOptions[im]]) {
+        presentImageTags.push(imageTagOptions[im]);
+      }
+    }
+    
+    // Also check for any other tags not in our known lists (might be custom tags from previous sessions)
+    for (var tagKey in presentTags) {
+      if (presentTags.hasOwnProperty(tagKey)) {
+        if (tagKey.startsWith("img:")) {
+          if (presentImageTags.indexOf(tagKey) === -1) {
+            presentImageTags.push(tagKey);
+          }
+        } else {
+          if (presentDataTags.indexOf(tagKey) === -1) {
+            presentDataTags.push(tagKey);
+          }
+        }
+      }
+    }
+    
+    // Sort both arrays
+    presentDataTags.sort();
+    presentImageTags.sort();
+    
+    // If no tags present, show message
+    if (presentDataTags.length === 0 && presentImageTags.length === 0) {
+      var noTagsMsg = document.createElement("div");
+      noTagsMsg.className = "hint";
+      noTagsMsg.textContent = "No tagged elements found in preview.";
+      tagFiltersContainer.appendChild(noTagsMsg);
+      return;
+    }
+    
+    // Create a container for All Tags and Clear Filter buttons
+    var topButtonsRow = document.createElement("div");
+    topButtonsRow.style.display = "flex";
+    topButtonsRow.style.gap = "6px";
+    topButtonsRow.style.marginBottom = "12px";
+    
+    // All Tags button
+    var allBtn = document.createElement("button");
+    allBtn.className = "tag-filter-btn" + (activeFilterTag === null ? " active" : "");
+    allBtn.textContent = "All Tags";
+    allBtn.onclick = function () {
+      activeFilterTag = null;
+      updateFilterButtons();
+      renderHighlights();
+    };
+    topButtonsRow.appendChild(allBtn);
+    
+    // Clear Filter button (shows no tags)
+    var clearBtn = document.createElement("button");
+    clearBtn.className = "tag-filter-btn" + (activeFilterTag === "CLEAR" ? " active" : "");
+    clearBtn.textContent = "Clear Filter";
+    clearBtn.onclick = function () {
+      activeFilterTag = "CLEAR";
+      updateFilterButtons();
+      renderHighlights();
+    };
+    topButtonsRow.appendChild(clearBtn);
+    
+    tagFiltersContainer.appendChild(topButtonsRow);
+
+    function addGroup(label, tags) {
+      if (tags.length === 0) return; // Don't show empty groups
+      
+      var group = document.createElement("div");
+      group.className = "tag-filter-group";
+      
+      var labelEl = document.createElement("div");
+      labelEl.className = "tag-filter-label";
+      labelEl.textContent = label;
+      group.appendChild(labelEl);
+      
+      var row = document.createElement("div");
+      row.className = "tag-filter-row";
+
+      for (var i = 0; i < tags.length; i++) {
+        (function (tag) {
+          var btn = document.createElement("button");
+          btn.className = "tag-filter-btn" + (activeFilterTag === tag ? " active" : "");
+          btn.textContent = tag;
+          btn.onclick = function () {
+            activeFilterTag = activeFilterTag === tag ? null : tag;
+            updateFilterButtons();
+            renderHighlights();
+          };
+          row.appendChild(btn);
+        })(tags[i]);
+      }
+      
+      group.appendChild(row);
+      tagFiltersContainer.appendChild(group);
+    }
+
+    addGroup("Data Tags", presentDataTags);
+    addGroup("Image Tags", presentImageTags);
+  }
+
+  function updateFilterButtons() {
+    var buttons = tagFiltersContainer.querySelectorAll(".tag-filter-btn");
+    for (var i = 0; i < buttons.length; i++) {
+      var btn = buttons[i];
+      var btnTag = btn.textContent === "All Tags" ? null : (btn.textContent === "Clear Filter" ? "CLEAR" : btn.textContent);
+      if (btnTag === activeFilterTag || (btnTag === null && activeFilterTag === null)) {
+        btn.classList.add("active");
+      } else {
+        btn.classList.remove("active");
+      }
+    }
+  }
+
+  function updateZoom(zoom) {
+    currentZoom = Math.max(0.25, Math.min(4.0, zoom)); // Clamp between 25% and 400%
+    
+    if (previewWrapper) {
+      previewWrapper.style.transform = "scale(" + currentZoom + ")";
+    }
+    
+    var zoomLevelEl = document.getElementById("zoomLevel");
+    if (zoomLevelEl) {
+      zoomLevelEl.textContent = Math.round(currentZoom * 100) + "%";
+    }
+    
+    // Update draggable state - only draggable when zoomed in
+    if (currentZoom > 1.0) {
+      framePreviewContainer.classList.add("draggable");
+    } else {
+      framePreviewContainer.classList.remove("draggable");
+      framePreviewContainer.classList.remove("dragging");
+    }
+    
+    // Re-render highlights with new zoom
+    renderHighlights();
+  }
+
+  // Drag to pan functionality
+  function setupDragToPan() {
+    framePreviewContainer.addEventListener("mousedown", function(e) {
+      if (currentZoom <= 1.0) return; // Only allow dragging when zoomed in
+      if (e.button !== 0) return; // Only left mouse button
+      
+      isDragging = true;
+      dragStartX = e.clientX;
+      dragStartY = e.clientY;
+      scrollStartX = framePreviewContainer.scrollLeft;
+      scrollStartY = framePreviewContainer.scrollTop;
+      
+      framePreviewContainer.classList.add("dragging");
+      framePreviewContainer.classList.remove("draggable");
+      
+      e.preventDefault();
+    });
+
+    document.addEventListener("mousemove", function(e) {
+      if (!isDragging) return;
+      
+      var deltaX = dragStartX - e.clientX;
+      var deltaY = dragStartY - e.clientY;
+      
+      framePreviewContainer.scrollLeft = scrollStartX + deltaX;
+      framePreviewContainer.scrollTop = scrollStartY + deltaY;
+    });
+
+    document.addEventListener("mouseup", function(e) {
+      if (!isDragging) return;
+      
+      isDragging = false;
+      framePreviewContainer.classList.remove("dragging");
+      
+      if (currentZoom > 1.0) {
+        framePreviewContainer.classList.add("draggable");
+      }
+    });
+
+    // Also handle mouse leave to stop dragging
+    framePreviewContainer.addEventListener("mouseleave", function(e) {
+      if (isDragging) {
+        isDragging = false;
+        framePreviewContainer.classList.remove("dragging");
+        if (currentZoom > 1.0) {
+          framePreviewContainer.classList.add("draggable");
+        }
+      }
+    });
+  }
+
+  // Initialize drag to pan
+  setupDragToPan();
+
+  function renderHighlights() {
+    if (!currentPreviewData || !currentPreviewData.baseWidth) return;
+
+    var overlay = framePreviewContainer.querySelector(".frame-preview-overlay");
+    if (!overlay) return;
+
+    overlay.innerHTML = "";
+
+    var img = framePreviewContainer.querySelector(".frame-preview-img");
+    if (!img || !img.complete) return;
+
+    // Calculate scale based on base image size (before zoom transform)
+    // The zoom transform is applied to the wrapper, so highlights scale automatically
+    var baseWidth = currentPreviewData.baseWidth;
+    var baseHeight = currentPreviewData.baseHeight;
+    
+    var scaleX = baseWidth / currentPreviewData.pageWidth;
+    var scaleY = baseHeight / currentPreviewData.pageHeight;
+
+    var highlights = currentPreviewData.highlights || [];
+    
+    // If "Clear Filter" is active, don't render any highlights
+    if (activeFilterTag === "CLEAR") {
+      return;
+    }
+    
+    for (var i = 0; i < highlights.length; i++) {
+      var h = highlights[i];
+      
+      // Apply filter
+      if (activeFilterTag !== null && h.tag !== activeFilterTag) continue;
+
+      var highlight = document.createElement("div");
+      highlight.className = "frame-highlight";
+      highlight.style.left = (h.x * scaleX) + "px";
+      highlight.style.top = (h.y * scaleY) + "px";
+      highlight.style.width = (h.width * scaleX) + "px";
+      highlight.style.height = (h.height * scaleY) + "px";
+      highlight.title = h.tag + " (" + h.name + ")";
+      overlay.appendChild(highlight);
+    }
+  }
+
+  document.getElementById("refreshPreview").onclick = function () {
+    framePreviewContainer.innerHTML = '<div class="preview-loading">Loading preview...</div>';
+    currentZoom = 1.0;
+    previewWrapper = null;
+    updateZoom(1.0);
+    parent.postMessage({ pluginMessage: { type: "GET_FRAME_PREVIEW" } }, "*");
+  };
+
+  document.getElementById("applyAllFromTagging").onclick = function () {
+    // Apply data first
+    parent.postMessage({ pluginMessage: { type: "APPLY_DATA_ALL", data: readData() } }, "*");
+    // Then apply images
+    parent.postMessage({ pluginMessage: { type: "APPLY_IMAGES_ALL" } }, "*");
+  };
+
+  // Load from ZIP button
+  var zipFileInput = document.getElementById("zipFileInput");
+  
+  document.getElementById("loadFromZip").onclick = function () {
+    zipFileInput.click();
+  };
+  
+  zipFileInput.onchange = async function () {
+    var file = zipFileInput.files[0];
+    if (!file) return;
+    
+    if (!file.name.toLowerCase().endsWith('.zip')) {
+      document.getElementById("status").textContent = "Error: Please select a ZIP file.";
+      document.getElementById("status").style.color = "#ff0000";
+      zipFileInput.value = "";
+      return;
+    }
+    
+    showLoading("Loading ZIP file...", "Extracting data and images");
+    
+    try {
+      // Load ZIP file
+      var zip = new JSZip();
+      var zipData = await zip.loadAsync(file);
+      
+      // Find and parse CSV file
+      var csvFile = null;
+      var csvFileName = null;
+      for (var fileName in zipData.files) {
+        if (fileName.toLowerCase().endsWith('.csv')) {
+          csvFile = zipData.files[fileName];
+          csvFileName = fileName;
+          break;
+        }
+      }
+      
+      if (!csvFile) {
+        throw new Error("No CSV file found in ZIP");
+      }
+      
+      // Read CSV content
+      var csvText = await csvFile.async("string");
+      var csvData = parseCSV(csvText);
+      
+      // Populate form fields with CSV data
+      populateFieldsFromCSV(csvData);
+      
+      // Find and load images (files ending with _1, _2, etc. before extension)
+      var imageFiles = [];
+      var imageMap = {}; // position -> file data
+      
+      for (var fileName in zipData.files) {
+        var file = zipData.files[fileName];
+        if (file.dir) continue; // Skip directories
+        
+        // Check if it's an image file
+        if (!fileName.match(/\.(jpg|jpeg|png|gif|webp)$/i)) continue;
+        
+        // Extract position from filename (e.g., "image_1.jpg" or "house_2.png")
+        var match = fileName.match(/_(\d+)\.(jpg|jpeg|png|gif|webp)$/i);
+        if (match) {
+          var position = parseInt(match[1], 10);
+          if (position >= 1 && position <= 10) {
+            imageMap[position] = file;
+          }
+        }
+      }
+      
+      // Clear existing images first
+      previewContainer.innerHTML = "";
+      // Clean up old blob URLs
+      for (var cleanup = 0; cleanup < imageList.length; cleanup++) {
+        if (imageList[cleanup] && imageList[cleanup].dataUrl && imageList[cleanup].dataUrl.startsWith("blob:")) {
+          try {
+            URL.revokeObjectURL(imageList[cleanup].dataUrl);
+          } catch (e) {
+            // Ignore errors
+          }
+        }
+      }
+      imageList = [];
+      
+      // Initialize slots (at least 10, or more based on images found)
+      var maxSlot = Math.max(10, Object.keys(imageMap).length);
+      for (var slot = 1; slot <= maxSlot; slot++) {
+        createEmptySlot(slot);
+      }
+      
+      // Load images in order (no limit)
+      var loadedImages = 0;
+      var sortedPositions = Object.keys(imageMap).map(function(p) { return parseInt(p, 10); }).sort(function(a, b) { return a - b; });
+      for (var idx = 0; idx < sortedPositions.length; idx++) {
+        var pos = sortedPositions[idx];
+        if (imageMap[pos]) {
+          try {
+            var imageBytes = await imageMap[pos].async("uint8array");
+            var bytesArray = Array.from(imageBytes);
+            
+            // Find the slot at this position (0-indexed)
+            var slotIndex = pos - 1;
+            if (slotIndex < imageList.length) {
+              var imageData = imageList[slotIndex];
+              
+              // Create a blob URL for preview
+              var blob = new Blob([imageBytes], { type: "image/png" });
+              var dataUrl = URL.createObjectURL(blob);
+              
+              // Update the image data
+              imageData.filename = imageMap[pos].name;
+              imageData.dataUrl = dataUrl;
+              imageData.bytes = bytesArray;
+              
+              // Update the preview
+              var imgContainer = imageData.imgContainer;
+              if (imgContainer) {
+                imgContainer.innerHTML = "";
+                imgContainer.style.backgroundColor = "";
+                imgContainer.style.display = "";
+                imgContainer.style.alignItems = "";
+                imgContainer.style.justifyContent = "";
+                imgContainer.style.color = "";
+                imgContainer.style.fontSize = "";
+                
+                var img = document.createElement("img");
+                img.src = dataUrl;
+                img.alt = imageMap[pos].name;
+                img.style.width = "100%";
+                img.style.height = "100%";
+                img.style.objectFit = "cover";
+                img.style.display = "block";
+                img.style.borderRadius = "4px";
+                imgContainer.appendChild(img);
+              }
+              
+              var label = imageData.element.querySelector(".preview-label");
+              if (label) {
+                label.textContent = imageMap[pos].name;
+                label.style.color = "";
+              }
+              
+              var uploadBtn = imageData.element.querySelector(".preview-upload-btn");
+              if (uploadBtn) {
+                uploadBtn.textContent = "Reupload";
+              }
+              
+              loadedImages++;
+            }
+          } catch (e) {
+            console.error("Error loading image at position " + pos + ":", e);
+          }
+        }
+      }
+      
+      // Send images to backend (no limit)
+      var itemsToSend = [];
+      for (var i = 0; i < imageList.length; i++) {
+        var img = imageList[i];
+        if (img.dataUrl && img.bytes) {
+          itemsToSend.push({
+            name: img.filename,
+            bytes: img.bytes,
+            position: i + 1
+          });
+        }
+      }
+      
+      if (itemsToSend.length > 0) {
+        parent.postMessage({ 
+          pluginMessage: { 
+            type: "IMAGES_SELECTED", 
+            items: itemsToSend 
+          } 
+        }, "*");
+      }
+      
+      updatePreviewPositions();
+      updateTagSelectPreview();
+      
+      hideLoading();
+      document.getElementById("status").textContent = "ZIP loaded successfully! Loaded " + loadedImages + " image(s) and populated data fields.";
+      document.getElementById("status").style.color = "#0066ff";
+      
+      if (loadedImages > 0) {
+        document.getElementById("imgStatus").textContent = "Loaded " + loadedImages + " image(s) from ZIP file.";
+        document.getElementById("imgStatus").style.color = "#0066ff";
+      }
+      
+    } catch (error) {
+      hideLoading();
+      document.getElementById("status").textContent = "Error loading ZIP: " + error.message;
+      document.getElementById("status").style.color = "#ff0000";
+      console.error("ZIP loading error:", error);
+    }
+    
+    zipFileInput.value = "";
+  };
+
+  // Zoom controls
+  document.getElementById("zoomIn").onclick = function () {
+    updateZoom(currentZoom * 1.25);
+  };
+
+  document.getElementById("zoomOut").onclick = function () {
+    updateZoom(currentZoom / 1.25);
+  };
+
+  onmessage = function (e) {
+    var m = e.data.pluginMessage;
+    if (!m) return;
+
+    if (m.type === "STATUS") document.getElementById("status").textContent = m.text;
+    if (m.type === "IMG_STATUS") document.getElementById("imgStatus").textContent = m.text;
+
+    // Existing data detected
+    if (m.type === "EXISTING_DATA_DETECTED") {
+      dataDetected = true;
+      var detectedData = m.data || {};
+      if (Object.keys(detectedData).length > 0) {
+        // Populate form fields with detected data
+        for (var field in detectedData) {
+          if (Object.prototype.hasOwnProperty.call(detectedData, field)) {
+            var element = document.getElementById(field);
+            if (element) {
+              element.value = detectedData[field] || "";
+            }
+          }
+        }
+        document.getElementById("status").textContent = "Loaded existing data from " + Object.keys(detectedData).length + " tagged field(s).";
+      } else {
+        document.getElementById("status").textContent = "No tagged data found in file.";
+      }
+      
+      // Update tag select preview
+      updateTagSelectPreview();
+      
+      // Check if initial load is complete (both data and images must be detected)
+      if (initialLoadInProgress) {
+        checkInitialLoadComplete();
+      } else {
+        // Manual refresh - hide loading when this detection completes
+        hideLoading();
+      }
+    }
+
+    // Existing images detected
+    if (m.type === "EXISTING_IMAGES_DETECTED") {
+      imagesDetected = true;
+      // Only process if we haven't already detected images or if this is a manual refresh
+      var detectedImages = m.images || [];
+      
+      // Clear existing images first
+      previewContainer.innerHTML = "";
+      // Clean up old blob URLs to prevent memory leaks
+      for (var cleanup = 0; cleanup < imageList.length; cleanup++) {
+        if (imageList[cleanup] && imageList[cleanup].dataUrl && imageList[cleanup].dataUrl.startsWith("blob:")) {
+          try {
+            URL.revokeObjectURL(imageList[cleanup].dataUrl);
+          } catch (e) {
+            // Ignore errors when revoking URLs
+          }
+        }
+      }
+      imageList = [];
+      
+      // Find max position to determine array size
+      var maxPosition = 0;
+      for (var detectIdx = 0; detectIdx < detectedImages.length; detectIdx++) {
+        var imgPos = detectedImages[detectIdx].position;
+        if (typeof imgPos === "number" && imgPos > maxPosition) {
+          maxPosition = imgPos;
+        }
+      }
+      // At least 10 slots, or more if images exist
+      maxPosition = Math.max(10, maxPosition);
+      
+      // Create an array to hold slots
+      var slots = new Array(maxPosition);
+      
+      // Initialize all slots as empty first
+      for (var slot = 1; slot <= maxPosition; slot++) {
+        slots[slot - 1] = {
+          position: slot,
+          dataUrl: null,
+          bytes: null,
+          filename: null
+        };
+      }
+      
+      // Place detected images at their correct positions based on tag number
+      if (detectedImages.length > 0) {
+        for (var i = 0; i < detectedImages.length; i++) {
+          var imgData = detectedImages[i];
+          var tagPosition = imgData.position; // This is the tag number (1-10) or "logo"
+          
+          // Handle logo separately
+          if (tagPosition === "logo" || tagPosition === "img:logo") {
+            // Convert bytes array to Uint8Array then to blob URL
+            var logoBytes = new Uint8Array(imgData.bytes);
+            var logoBlob = new Blob([logoBytes], { type: "image/png" });
+            var logoDataUrl = URL.createObjectURL(logoBlob);
+            
+            // Update logo data
+            logoData = {
+              filename: "logo.png",
+              dataUrl: logoDataUrl,
+              bytes: imgData.bytes
+            };
+            
+            // Update logo preview
+            logoPreviewContainer.innerHTML = "";
+            var logoImg = document.createElement("img");
+            logoImg.src = logoDataUrl;
+            logoImg.alt = "logo";
+            logoImg.style.width = "100%";
+            logoImg.style.height = "100%";
+            logoImg.style.objectFit = "contain";
+            logoImg.style.display = "block";
+            logoPreviewContainer.appendChild(logoImg);
+            
+            logoDeleteBtn.style.display = "inline-block";
+            logoUploadBtn.textContent = "Change Logo";
+            
+            // Send logo to backend
+            parent.postMessage({
+              pluginMessage: {
+                type: "LOGO_SELECTED",
+                name: "logo.png",
+                bytes: imgData.bytes
+              }
+            }, "*");
+          } else if (typeof tagPosition === "number" && tagPosition >= 1) {
+            // Convert bytes array to Uint8Array then to blob URL
+            var bytes = new Uint8Array(imgData.bytes);
+            var blob = new Blob([bytes], { type: "image/png" });
+            var dataUrl = URL.createObjectURL(blob);
+            
+            // Update the slot at this position
+            slots[tagPosition - 1] = {
+              position: tagPosition,
+              dataUrl: dataUrl,
+              bytes: imgData.bytes,
+              filename: "image_" + tagPosition + ".png"
+            };
+          }
+        }
+      }
+      
+      // Update tag select to reflect new image positions
+      updateTagSelect();
+      
+      // Now create preview items for all slots in order
+      for (var j = 0; j < slots.length; j++) {
+        var slot = slots[j];
+        if (slot.dataUrl) {
+          createPreviewFromBytes(slot.position, slot.dataUrl, slot.bytes, slot.filename);
+        } else {
+          createEmptySlot(slot.position);
+        }
+      }
+      
+      // Reorder imageList to match positions (1-10)
+      imageList.sort(function(a, b) {
+        var posA = a.originalPosition || 999;
+        var posB = b.originalPosition || 999;
+        return posA - posB;
+      });
+      
+      // Reorder DOM elements to match sorted list
+      previewContainer.innerHTML = "";
+      for (var k = 0; k < imageList.length; k++) {
+        if (imageList[k] && imageList[k].element) {
+          previewContainer.appendChild(imageList[k].element);
+        }
+      }
+      
+      updatePreviewPositions();
+      updateTagSelectPreview();
+      
+      // Check if initial load is complete (both data and images must be detected)
+      if (initialLoadInProgress) {
+        checkInitialLoadComplete();
+      } else {
+        // Manual refresh - hide loading when this detection completes
+        hideLoading();
+      }
+      
+      if (detectedImages.length > 0) {
+        document.getElementById("imgStatus").textContent = "Loaded " + detectedImages.length + " existing image(s) from file.";
+        document.getElementById("imgStatus").style.color = "#0066ff";
+      } else {
+        document.getElementById("imgStatus").textContent = "No tagged images found in file.";
+        document.getElementById("imgStatus").style.color = "#777";
+      }
+    }
+
+    // Selection tag sync (plugin -> UI)
+    if (m.type === "SELECTION_TAG") {
+      if (tagSelectEl) {
+        tagSelectEl.value = m.tag || "";
+      }
+      var statusEl = document.getElementById("tagStatus");
+      if (statusEl) {
+        statusEl.textContent = m.text || "";
+      }
+      
+      // Show text range info if text selection exists
+      var textRangeInfo = document.getElementById("textRangeInfo");
+      if (textRangeInfo && m.hasTextSelection) {
+        textRangeInfo.style.display = "block";
+        if (m.textRange) {
+          textRangeInfo.innerHTML = '<strong>Text Range Selected:</strong> Characters ' + m.textRange.start + '-' + m.textRange.end + ' of "' + (m.nodeName || "text") + '"';
+        }
+      } else if (textRangeInfo) {
+        textRangeInfo.style.display = "none";
+      }
+      
+      // Update preview to highlight current image tag
+      updateTagSelectPreview();
+    }
+
+    // Frame preview data
+    if (m.type === "FRAME_PREVIEW") {
+      framePreviewContainer.innerHTML = "";
+      
+      // Update frame info display
+      var frameInfoEl = document.getElementById("frameInfo");
+      var frameInfoValueEl = document.getElementById("frameInfoValue");
+      
+      if (m.frameName && m.totalFrames > 0) {
+        var frameText = m.frameName;
+        if (m.totalFrames > 1) {
+          frameText += " (" + m.frameIndex + " of " + m.totalFrames + ")";
+        }
+        if (frameInfoValueEl) {
+          frameInfoValueEl.textContent = frameText;
+        }
+        if (frameInfoEl) {
+          frameInfoEl.style.display = "flex";
+        }
+      } else {
+        if (frameInfoEl) {
+          frameInfoEl.style.display = "none";
+        }
+      }
+      
+      if (m.error || !m.imageData) {
+        framePreviewContainer.innerHTML = '<div class="preview-loading">' + (m.error || "No preview available") + '</div>';
+        currentPreviewData = null;
+        return;
+      }
+      
+      // Reset zoom when loading new preview
+      currentZoom = 1.0;
+      updateZoom(1.0);
+
+      // Create wrapper for zoom transform
+      previewWrapper = document.createElement("div");
+      previewWrapper.className = "frame-preview-wrapper";
+
+      var img = document.createElement("img");
+      img.className = "frame-preview-img";
+      img.src = "data:image/png;base64," + m.imageData;
+      img.onload = function () {
+        currentPreviewData = {
+          pageWidth: m.pageWidth,
+          pageHeight: m.pageHeight,
+          highlights: m.highlights || [],
+          baseWidth: null // Will be set below
+        };
+        
+        // Set initial image size (fit to container width, maintain aspect ratio)
+        var containerWidth = framePreviewContainer.clientWidth || 300;
+        var aspectRatio = m.pageHeight / m.pageWidth;
+        var baseWidth = containerWidth;
+        var baseHeight = containerWidth * aspectRatio;
+        
+        img.style.width = baseWidth + "px";
+        img.style.height = baseHeight + "px";
+        
+        // Store base dimensions for zoom calculations
+        currentPreviewData.baseWidth = baseWidth;
+        currentPreviewData.baseHeight = baseHeight;
+        
+        // Update wrapper size to match image
+        previewWrapper.style.width = baseWidth + "px";
+        previewWrapper.style.height = baseHeight + "px";
+        
+        // Set overlay size to match image
+        overlay.style.width = baseWidth + "px";
+        overlay.style.height = baseHeight + "px";
+        
+        // Update filter buttons with tags from preview
+        createFilterButtons();
+        
+        renderHighlights();
+        // Re-render on resize
+        var resizeTimer;
+        window.addEventListener("resize", function () {
+          clearTimeout(resizeTimer);
+          resizeTimer = setTimeout(function() {
+            var newContainerWidth = framePreviewContainer.clientWidth || 300;
+            var newAspectRatio = m.pageHeight / m.pageWidth;
+            var newBaseWidth = newContainerWidth;
+            var newBaseHeight = newContainerWidth * newAspectRatio;
+            
+            img.style.width = newBaseWidth + "px";
+            img.style.height = newBaseHeight + "px";
+            previewWrapper.style.width = newBaseWidth + "px";
+            previewWrapper.style.height = newBaseHeight + "px";
+            overlay.style.width = newBaseWidth + "px";
+            overlay.style.height = newBaseHeight + "px";
+            
+            currentPreviewData.baseWidth = newBaseWidth;
+            currentPreviewData.baseHeight = newBaseHeight;
+            renderHighlights();
+          }, 100);
+        });
+      };
+      img.onerror = function () {
+        framePreviewContainer.innerHTML = '<div class="preview-loading">Failed to load preview</div>';
+        currentPreviewData = null;
+        previewWrapper = null;
+      };
+
+      var overlay = document.createElement("div");
+      overlay.className = "frame-preview-overlay";
+
+      previewWrapper.appendChild(img);
+      previewWrapper.appendChild(overlay);
+      framePreviewContainer.appendChild(previewWrapper);
+    }
+
+    // Auto-refresh preview when tags change
+    if (m.type === "REFRESH_PREVIEW_IF_ACTIVE") {
+      if (currentPreviewData) {
+        parent.postMessage({ pluginMessage: { type: "GET_FRAME_PREVIEW" } }, "*");
+      }
+    }
+  };
+
+  // Initialize filter buttons (will be updated when preview loads)
+  // createFilterButtons(); // Commented out - will be called after preview loads
+</script>
+</body>
+</html>
+

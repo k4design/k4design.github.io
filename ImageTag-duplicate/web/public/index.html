@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Real Estate Data Collector</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Real Estate Property Data Collector</h1>
+      <p>Submit property information and images for the Real Estate Autofill plugin</p>
+    </header>
+
+    <main>
+      <form id="propertyForm" enctype="multipart/form-data">
+        <div class="form-section">
+          <h2>Property Details</h2>
+          
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="bedrooms">Bedrooms</label>
+              <input type="text" id="bedrooms" name="bedrooms" placeholder="e.g., 3">
+            </div>
+
+            <div class="form-group">
+              <label for="bathrooms">Bathrooms</label>
+              <input type="text" id="bathrooms" name="bathrooms" placeholder="e.g., 2">
+            </div>
+
+            <div class="form-group">
+              <label for="sqft">Square Feet</label>
+              <input type="text" id="sqft" name="sqft" placeholder="e.g., 1500">
+            </div>
+
+            <div class="form-group">
+              <label for="price">Price</label>
+              <input type="text" id="price" name="price" placeholder="e.g., 500000">
+            </div>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <h2>Address</h2>
+          
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="street">Street Address</label>
+              <input type="text" id="street" name="street" placeholder="e.g., 123 Main St" required>
+            </div>
+
+            <div class="form-group">
+              <label for="street2">Street Address 2 (Optional)</label>
+              <input type="text" id="street2" name="street2" placeholder="e.g., Apt 4B">
+            </div>
+
+            <div class="form-group">
+              <label for="cityState">City, State</label>
+              <input type="text" id="cityState" name="cityState" placeholder="e.g., New York NY" required>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <h2>Property Description</h2>
+          
+          <div class="form-group">
+            <label for="tagline">Tagline</label>
+            <input type="text" id="tagline" name="tagline" placeholder="e.g., Beautiful Downtown Apartment">
+          </div>
+
+          <div class="form-group">
+            <label for="description">Description</label>
+            <textarea id="description" name="description" rows="4" placeholder="Enter a detailed property description..."></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="headline">Headline</label>
+            <input type="text" id="headline" name="headline" placeholder="e.g., Luxury Living in the Heart of the City">
+          </div>
+
+          <div class="form-group">
+            <label for="disclaimer">Disclaimer</label>
+            <textarea id="disclaimer" name="disclaimer" rows="3" placeholder="Enter any disclaimers or legal text..."></textarea>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <h2>Features (Optional)</h2>
+          
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="feature1">Feature 1</label>
+              <input type="text" id="feature1" name="feature1" placeholder="e.g., Hardwood Floors">
+            </div>
+
+            <div class="form-group">
+              <label for="feature2">Feature 2</label>
+              <input type="text" id="feature2" name="feature2" placeholder="e.g., Updated Kitchen">
+            </div>
+
+            <div class="form-group">
+              <label for="feature3">Feature 3</label>
+              <input type="text" id="feature3" name="feature3" placeholder="e.g., Granite Countertops">
+            </div>
+
+            <div class="form-group">
+              <label for="feature4">Feature 4</label>
+              <input type="text" id="feature4" name="feature4" placeholder="e.g., Stainless Steel Appliances">
+            </div>
+
+            <div class="form-group">
+              <label for="feature5">Feature 5</label>
+              <input type="text" id="feature5" name="feature5" placeholder="e.g., In-Unit Laundry">
+            </div>
+
+            <div class="form-group">
+              <label for="feature6">Feature 6</label>
+              <input type="text" id="feature6" name="feature6" placeholder="e.g., Pet Friendly">
+            </div>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <h2>Agent Information</h2>
+          
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="name">Agent Name</label>
+              <input type="text" id="name" name="name" placeholder="e.g., John Smith">
+            </div>
+
+            <div class="form-group">
+              <label for="agentTitle">Agent Title</label>
+              <input type="text" id="agentTitle" name="agentTitle" placeholder="e.g., Real Estate Agent">
+            </div>
+
+            <div class="form-group">
+              <label for="phone">Phone</label>
+              <input type="text" id="phone" name="phone" placeholder="e.g., (555) 123-4567">
+            </div>
+
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" placeholder="e.g., john.smith@example.com">
+            </div>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <h2>Property Images <span class="required-badge">Required</span></h2>
+          <p class="help-text">Upload exactly 10 images. Images will be automatically numbered for the plugin.</p>
+          
+          <div class="upload-area" id="uploadArea">
+            <input type="file" id="images" name="images" multiple accept="image/*" style="display: none;">
+            <div class="upload-content">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="17 8 12 3 7 8"></polyline>
+                <line x1="12" y1="3" x2="12" y2="15"></line>
+              </svg>
+              <p>Click to select images or drag and drop</p>
+              <p class="upload-hint">Exactly 10 images required, max 10MB each</p>
+              <p class="image-count" id="imageCount">0 / 10 images</p>
+            </div>
+          </div>
+
+          <div id="imagePreview" class="image-preview"></div>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary" id="submitBtn">
+            <span>Submit Property Data</span>
+            <span class="spinner" style="display: none;">Processing...</span>
+          </button>
+          <button type="reset" class="btn btn-secondary">Clear Form</button>
+        </div>
+
+        <div id="message" class="message" style="display: none;"></div>
+      </form>
+    </main>
+
+    <footer>
+      <p><a href="/admin.html">Designer/Admin Panel</a></p>
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

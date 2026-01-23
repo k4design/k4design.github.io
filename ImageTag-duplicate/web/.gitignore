@@ -1,0 +1,6 @@
+node_modules/
+uploads/
+zips/
+submissions.db
+.env
+*.log
