@@ -4,6 +4,7 @@
 <style>
 :root { --color-bg-white:#fff; --color-bg-light:#f5f7fa; --color-text-dark:#1a1a1a; --color-text-gray:#666; --color-text-light:#999; --font-primary:'Inter',-apple-system,sans-serif; }
 * { box-sizing: border-box; margin: 0; padding: 0; }
+.lpt-combined-snippet { overflow-x: hidden; width: 100%; }
 .container { max-width: 1200px; margin: 0 auto; padding: 0 40px; }
 .fade-up { opacity: 0; transform: translateY(30px); transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1); }
 .fade-up.animate-in { opacity: 1; transform: translateY(0); }
@@ -19,6 +20,7 @@
 .mission-section { padding: 120px 0; background-color: var(--color-bg-white); overflow: visible; }
 .mission-section .container { overflow: visible; }
 .mission-content { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; overflow: visible; }
+.mission-headline, .escapes-headline, .leadership-team-title, .leadership-team-description { word-wrap: break-word; overflow-wrap: break-word; }
 .mission-headline { font-size: clamp(36px, 4vw, 48px); font-weight: 800; line-height: 1.2; color: var(--color-text-dark); letter-spacing: -0.02em; margin-bottom: 24px; }
 .mission-description { font-size: 18px; line-height: 1.7; color: var(--color-text-gray); font-weight: 400; }
 .mission-image { width: 100%; min-width: 0; overflow: visible; }
@@ -31,7 +33,7 @@
 .leadership-team-tag { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; border-radius: 999px; background-color: rgba(4,179,255,0.1); color: #04b3ff; font-size: 14px; font-weight: 600; margin-bottom: 24px; }
 .leadership-team-title { font-size: clamp(42px, 5vw, 56px); font-weight: 800; line-height: 1.2; color: var(--color-text-dark); letter-spacing: -0.02em; margin-bottom: 16px; }
 .leadership-team-description { font-size: 18px; line-height: 1.7; color: var(--color-text-gray); font-weight: 400; max-width: 700px; margin: 0 auto; }
-.leadership-team-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; max-width: 1400px; margin: 0 auto; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 24px rgba(0,0,0,0.08); }
+.leadership-team-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; max-width: 100%; margin: 0 auto; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 24px rgba(0,0,0,0.08); }
 .leadership-card { position: relative; aspect-ratio: 3/4; overflow: hidden; cursor: pointer; transition: transform 0.3s ease; }
 .leadership-card:hover { transform: scale(1.02); z-index: 1; }
 .leadership-card-image { width: 100%; height: 100%; position: relative; }
@@ -42,28 +44,29 @@
 
 /* Why Agents Choose */
 .escapes-section { padding: 120px 0; background-color: var(--color-bg-white); }
-.escapes-layout { max-width: 100%; }
+.escapes-layout { max-width: 100%; min-width: 0; overflow: hidden; }
 .escapes-headline { font-size: clamp(42px, 5vw, 56px); font-weight: 800; line-height: 1.2; color: var(--color-text-dark); letter-spacing: -0.02em; margin-bottom: 24px; }
 .accommodations-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
 .accommodation-card { display: flex; flex-direction: column; }
 .accommodation-image { width: 100%; margin-bottom: 16px; aspect-ratio: 3/4; overflow: hidden; border-radius: 8px; }
 .accommodation-image img { width: 100%; height: 100%; object-fit: cover; }
-.accommodation-info h3 { font-size: 20px; font-weight: 700; color: var(--color-text-dark); margin-bottom: 8px; }
+.accommodation-info h3 { font-size: 20px; font-weight: 700; color: var(--color-text-dark); margin-bottom: 8px; word-wrap: break-word; overflow-wrap: break-word; }
 .accommodation-info p { font-size: 14px; color: var(--color-text-gray); line-height: 1.5; margin-bottom: 4px; }
+.accommodation-card { min-width: 0; }
 
 /* dezzy.ai */
 .dezzy-ai-section { background: #0a0e27; min-height: 700px; overflow: hidden; position: relative; }
 .dezzy-ai-background { position: absolute; top: 0; left: 0; right: 0; bottom: 0; width: 100%; height: 100%; min-height: 700px; z-index: 1; overflow: hidden; background: #0a0e27; }
 .ai-background-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: block; z-index: 1; }
 .ai-background-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to left, rgba(10,14,39,0) 0%, rgba(10,14,39,0.3) 50%, rgba(10,14,39,0.7) 70%, rgba(10,14,39,0.95) 100%); z-index: 2; pointer-events: none; }
-.dezzy-ai-layout { position: relative; z-index: 10; max-width: 1400px; margin: 0 auto; padding: 100px 40px; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+.dezzy-ai-layout { position: relative; z-index: 10; max-width: 1400px; margin: 0 auto; padding: 100px 40px; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; min-width: 0; }
 .dezzy-ai-content { position: relative; z-index: 3; color: white; }
 .dezzy-ai-content .section-tag { display: inline-flex; padding: 6px 16px; border-radius: 999px; background: rgba(255,255,255,0.15); color: white; font-weight: 700; font-size: 12px; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 16px; }
 .dezzy-ai-headline { font-size: clamp(36px, 4vw, 48px); font-weight: 800; line-height: 1.2; color: white; letter-spacing: -0.02em; margin-bottom: 24px; }
 .dezzy-ai-description { font-size: 18px; line-height: 1.7; color: rgba(255,255,255,0.9); margin-bottom: 32px; }
 .dezzy-checklist { list-style: none; padding: 0; margin: 24px 0 32px; display: grid; gap: 16px; }
 .dezzy-checklist li { position: relative; padding-left: 36px; font-size: 16px; line-height: 1.6; color: rgba(255,255,255,0.9); }
-.dezzy-checklist li::before { content: ''; position: absolute; left: 0; top: 0.35em; width: 18px; height: 18px; border-radius: 50%; background: rgba(255,255,255,0.9); }
+.dezzy-checklist li::before { content: ''; position: absolute; left: 0; top: 0.35em; width: 18px; height: 18px; border-radius: 50%; background: rgba(255,255,255,0.9); box-shadow: none; }
 .dezzy-ai-content .see-more-btn { background: transparent; color: white; border: 1px solid rgba(255,255,255,0.3); padding: 12px 24px; border-radius: 6px; font-weight: 500; font-size: 14px; cursor: pointer; text-decoration: none; display: inline-block; }
 .dezzy-ai-content .see-more-btn:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.5); }
 .dezzy-ai-visual { position: relative; z-index: 5; display: flex; align-items: center; justify-content: center; }
@@ -74,19 +77,19 @@
 .feature-cards-section > .container { position: relative; z-index: 1; }
 .feature-cards-headline { font-size: clamp(42px, 5vw, 56px); font-weight: 800; line-height: 1.2; color: var(--color-text-dark); letter-spacing: -0.02em; margin-bottom: 64px; max-width: 900px; }
 .feature-cards-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 48px; margin-bottom: 64px; }
-.feature-card { padding: 0; }
+.feature-card { padding: 0; min-width: 0; }
 .feature-card-icon { width: 48px; height: 48px; margin-bottom: 20px; display: block; flex-shrink: 0; }
 .feature-card-icon svg { width: 100%; height: 100%; display: block; }
 .feature-card h3 { font-size: 24px; font-weight: 700; color: var(--color-text-dark); margin-bottom: 16px; letter-spacing: -0.01em; display: inline-block; background: linear-gradient(to right, rgba(0, 191, 255, 0.4), rgba(0, 191, 255, 0.4)); background-position: 0 calc(50% + 8px); background-size: 100% 60%; background-repeat: no-repeat; padding: 4px 0; }
 .feature-card p { font-size: 16px; line-height: 1.7; color: var(--color-text-gray); }
-.feature-cards-video { width: 100%; margin-top: 64px; margin-bottom: 48px; position: relative; z-index: 1; }
-.feature-cards-video wistia-player { width: 100%; height: auto; display: block; border-radius: 12px; overflow: hidden; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12); }
+.feature-cards-video { width: 100%; max-width: 100%; margin-top: 64px; margin-bottom: 48px; position: relative; z-index: 1; overflow: hidden; }
+.feature-cards-video wistia-player { width: 100%; max-width: 100%; height: auto; display: block; border-radius: 12px; overflow: hidden; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12); }
 .feature-cards-cta { display: flex; justify-content: flex-end; }
 
 /* Testimonial carousel */
-.testimonial-carousel-container { position: relative; width: 100vw; margin-left: calc(-50vw + 50%); padding: 20px 0; overflow: hidden; touch-action: pan-y pinch-zoom; }
-.testimonial-carousel-track { display: flex; gap: 32px; transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1); will-change: transform; padding: 0 190px; touch-action: pan-y pan-x; user-select: none; -webkit-user-select: none; }
-.testimonial-card { flex: 0 0 380px; min-width: 0; flex-shrink: 0; transition: transform 0.3s ease, opacity 0.3s ease; touch-action: manipulation; user-select: none; -webkit-tap-highlight-color: transparent; }
+.testimonial-carousel-container { position: relative; width: 100%; max-width: 100vw; margin-left: 0; padding: 20px 0; overflow: hidden; touch-action: pan-y pinch-zoom; }
+.testimonial-carousel-track { display: flex; gap: 32px; transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1); will-change: transform; padding: 0 24px; touch-action: pan-y pan-x; user-select: none; -webkit-user-select: none; }
+.testimonial-card { flex: 0 0 380px; min-width: 0; flex-shrink: 0; transition: transform 0.3s ease, opacity 0.3s ease; touch-action: manipulation; user-select: none; -webkit-tap-highlight-color: transparent; max-width: calc(100vw - 48px); }
 .testimonial-card:hover { transform: translateY(-4px); }
 .accommodation-learn-more-btn { display: inline-block; background-color: var(--color-text-dark); color: white; text-decoration: none; padding: 12px 24px; border-radius: 6px; font-weight: 500; font-size: 14px; margin-top: 16px; transition: background-color 0.2s ease, transform 0.2s ease; width: fit-content; }
 .accommodation-learn-more-btn:hover { background-color: #04b3ff; transform: translateY(-1px); }
@@ -99,8 +102,8 @@
 .compensation-summary { margin-top: 0; text-align: left; color: var(--color-text-gray); display: grid; gap: 8px; }
 .compensation-summary h3 { font-size: 72px; line-height: 1.2; font-weight: 800; letter-spacing: -0.02em; text-transform: uppercase; color: var(--color-text-dark); margin: 0 0 8px; display: inline-block; background: linear-gradient(to right, rgba(4, 179, 255, 0.4), rgba(4, 179, 255, 0.4)); background-position: 0 calc(50% + 8px); background-size: 100% 60%; background-repeat: no-repeat; padding: 4px 0; }
 .compensation-summary p { font-size: 48px; line-height: 1.6; letter-spacing: -0.01em; font-weight: 400; margin: 4px 0; }
-.compensation-table { margin-top: 0; overflow-x: auto; border-radius: 20px; border: 1px solid rgba(0, 0, 0, 0.08); background: white; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08); }
-.compensation-table table { width: 100%; border-collapse: collapse; font-family: var(--font-primary); }
+.compensation-table { margin-top: 0; overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 20px; border: 1px solid rgba(0, 0, 0, 0.08); background: white; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08); max-width: 100%; }
+.compensation-table table { width: 100%; min-width: 560px; border-collapse: collapse; font-family: var(--font-primary); }
 .compensation-table thead { background: rgba(4, 179, 255, 0.08); }
 .compensation-table th, .compensation-table td { font-size: 16px; line-height: 1.5; letter-spacing: -0.01em; font-weight: 400; padding: 20px 24px; text-align: left; border-bottom: 1px solid rgba(0, 0, 0, 0.05); }
 .compensation-table th { font-weight: 700; color: var(--color-text-dark); }
@@ -110,24 +113,81 @@
 .icon-check { display: inline-flex; width: 24px; height: 24px; border-radius: 50%; background: #04b3ff; box-shadow: 0 4px 12px rgba(4, 179, 255, 0.3); align-items: center; justify-content: center; position: relative; }
 .icon-check::after { content: ''; width: 8px; height: 5px; border: 2px solid white; border-top: none; border-right: none; transform: rotate(-45deg); position: absolute; top: 50%; left: 50%; margin-top: -3px; margin-left: -5px; }
 
-/* CTA */
-.cta-section { padding: 120px 0; background-color: var(--color-bg-white); }
-.cta-content { display: flex; justify-content: space-between; align-items: center; background-image: url('https://k4design.github.io/lpt/img/team.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat; position: relative; padding: 80px 60px; border-radius: 12px; overflow: hidden; }
-.cta-content::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(to right, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0.6) 60%, rgba(255, 255, 255, 0.3) 100%); z-index: 0; }
-.cta-content > * { position: relative; z-index: 1; }
-.cta-headline { font-size: clamp(42px, 5vw, 56px); font-weight: 800; line-height: 1.2; color: var(--color-text-dark); letter-spacing: -0.02em; margin-bottom: 16px; }
-.cta-description { font-size: 18px; line-height: 1.6; color: var(--color-text-gray); }
-.cta-button { background-color: var(--color-text-dark); color: white; border: none; padding: 16px 40px; border-radius: 6px; font-weight: 600; font-size: 16px; cursor: pointer; transition: background-color 0.2s ease, transform 0.2s ease; }
-.cta-button:hover { background-color: #04b3ff; transform: translateY(-2px); }
-
-@media (max-width: 1024px) { .mission-content, .cta-content { grid-template-columns: 1fr; gap: 40px; } .leadership-team-grid { grid-template-columns: repeat(2, 1fr); } .dezzy-ai-layout { grid-template-columns: 1fr; text-align: center; gap: 40px; } .dezzy-ai-visual { order: -1; } }
-@media (max-width: 768px) { .mission-content { grid-template-columns: 1fr; } .leadership-team-section { padding: 80px 0; } .leadership-team-grid { grid-template-columns: 1fr; } .leadership-card { aspect-ratio: 4/3; } .accommodations-grid, .feature-cards-grid { grid-template-columns: 1fr; } .feature-cards-grid { gap: 32px; } .testimonial-card:hover { transform: none; } .testimonial-carousel-track { padding: 0 20px; } .testimonial-card { flex: 0 0 calc(85vw - 20px); } }
-@media (max-width: 1400px) { .testimonial-carousel-track { padding: 0 calc(50vw - 190px); } }
-@media (max-width: 1024px) { .testimonial-carousel-track { padding: 0 40px; } .testimonial-card { flex: 0 0 calc((100vw - 80px - 32px) / 2); max-width: 400px; } }
-@media (max-width: 768px) { .compensation-summary h3 { font-size: 48px; } .compensation-summary p { font-size: 36px; } }
+@media (max-width: 1024px) { .mission-content { grid-template-columns: 1fr; gap: 40px; } .leadership-team-grid { grid-template-columns: repeat(2, 1fr); } .dezzy-ai-layout { grid-template-columns: 1fr; text-align: center; gap: 40px; } .dezzy-ai-visual { order: -1; } .testimonial-carousel-track { padding: 0 24px; } .testimonial-card { flex: 0 0 min(380px, calc(50vw - 40px)); max-width: 380px; } }
+@media (max-width: 768px) {
+  .container { padding: 0 20px; }
+  .mission-section, .leadership-team-section, .escapes-section, .feature-cards-section, .compensation-section { padding: 60px 0; }
+  .mission-content { grid-template-columns: 1fr; gap: 24px; }
+  .leadership-team-section { padding: 60px 0; }
+  .leadership-team-grid { grid-template-columns: 1fr; }
+  .leadership-card { aspect-ratio: 4/3; min-width: 0; }
+  .leadership-card-overlay { padding: 20px 16px 16px; }
+  .leadership-card-name { font-size: 18px; }
+  .leadership-card-title { font-size: 12px; }
+  .accommodations-grid, .feature-cards-grid { grid-template-columns: 1fr; gap: 24px; }
+  .feature-cards-grid { gap: 32px; margin-bottom: 40px; }
+  .feature-cards-headline { margin-bottom: 40px; font-size: clamp(32px, 8vw, 42px); }
+  .feature-cards-video { margin-top: 40px; margin-bottom: 32px; }
+  .feature-card h3 { font-size: 20px; word-wrap: break-word; overflow-wrap: break-word; }
+  .dezzy-ai-section { min-height: auto; }
+  .dezzy-ai-layout { padding: 60px 20px; gap: 32px; }
+  .dezzy-ai-headline { font-size: clamp(28px, 7vw, 36px); }
+  .dezzy-bot-image { max-width: 200px; }
+  .testimonial-card:hover { transform: none; }
+  .testimonial-carousel-track { padding: 0 20px; gap: 20px; }
+  .testimonial-card { flex: 0 0 calc(100vw - 40px); max-width: calc(100vw - 40px); padding: 24px !important; }
+  .compensation-summary h3 { font-size: 36px; word-wrap: break-word; overflow-wrap: break-word; }
+  .compensation-summary p { font-size: 28px; }
+  .compensation-headline { margin-bottom: 32px; }
+  .compensation-table th, .compensation-table td { padding: 14px 12px; font-size: 14px; }
+  .support-stats-grid { grid-template-columns: 1fr !important; gap: 12px !important; }
+}
+@media (max-width: 480px) {
+  .container { padding: 0 16px; }
+  .mission-section, .leadership-team-section, .escapes-section, .feature-cards-section, .compensation-section { padding: 48px 0; }
+  .compensation-summary h3 { font-size: 28px; }
+  .compensation-summary p { font-size: 22px; }
+  .testimonial-card { flex: 0 0 calc(100vw - 32px); max-width: calc(100vw - 32px); }
+  .testimonial-carousel-track { padding: 0 16px; }
+}
 </style>
 <script src="https://fast.wistia.com/player.js" async></script>
 <script src="https://fast.wistia.com/embed/sm4mracms7.js" async type="module"></script>
+
+<div class="lpt-combined-snippet">
+<!-- 08 Feature Cards - LPT's Mission Model -->
+<section class="feature-cards-section" id="dezzy-ai">
+  <div class="container">
+    <h2 class="feature-cards-headline fade-up">LPT's Mission Model<br> and Tools Explained</h2>
+    <div class="feature-cards-grid stagger-container">
+      <article class="feature-card">
+        <div class="feature-card-icon">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="48" height="48" rx="12" fill="rgba(4, 179, 255, 0.1)"/><path d="M18 16L30 24L18 32V16Z" fill="#04b3ff"/></svg>
+        </div>
+        <h3>CEO Robert Palmer explains the LPT model</h3>
+        <p>CEO Robert Palmer explains the LPT model in depth including the vision, the tools, the origin, and the marketing systems—dive into the full walkthrough in the video.</p>
+      </article>
+      <article class="feature-card">
+        <div class="feature-card-icon">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="48" height="48" rx="12" fill="rgba(4, 179, 255, 0.1)"/><path d="M24 14C18.48 14 14 18.48 14 24C14 29.52 18.48 34 24 34C29.52 34 34 29.52 34 24C34 18.48 29.52 14 24 14ZM24 30C20.69 30 18 27.31 18 24C18 20.69 20.69 18 24 18C27.31 18 30 20.69 30 24C30 27.31 27.31 30 24 30ZM26 20H22V22H26V20ZM26 24H22V28H26V24Z" fill="#04b3ff"/></svg>
+        </div>
+        <h3>Choose your own comp plan</h3>
+        <p>Choosing your own comp plan with our cutting edge Hybrid Model. $500 per file with a $5,000 cap or 80/20 with a $15,000 cap.</p>
+      </article>
+      <article class="feature-card">
+        <div class="feature-card-icon">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="48" height="48" rx="12" fill="rgba(4, 179, 255, 0.1)"/><path d="M24 16C20.69 16 18 18.69 18 22C18 25.31 20.69 28 24 28C27.31 28 30 25.31 30 22C30 18.69 27.31 16 24 16ZM24 26C22.9 26 22 25.1 22 24C22 22.9 22.9 22 24 22C25.1 22 26 22.9 26 24C26 25.1 25.1 26 24 26ZM32 30H16C15.45 30 15 30.45 15 31V33H33V31C33 30.45 32.55 30 32 30Z" fill="#04b3ff"/></svg>
+        </div>
+        <h3>Control your own agent centric brand</h3>
+        <p>Controlling your own agent centric brand (including choosing the color of our logo) and how you put our state of the art collateral marketing system™ to work for you.</p>
+      </article>
+    </div>
+    <div class="feature-cards-video fade-up fade-up-delay-2" style="margin-top: 64px; max-width: 1200px; margin-left: auto; margin-right: auto;">
+      <wistia-player media-id="sm4mracms7" aspect="1.7777777777777777"></wistia-player>
+    </div>
+    <div class="feature-cards-cta"></div>
+  </div>
+</section>
 
 <!-- 04 Mission -->
 <section class="mission-section">
@@ -165,7 +225,7 @@
       <div class="leadership-card fade-up fade-up-delay-4"><div class="leadership-card-image"><img src="https://k4design.github.io/lpt/img/leadership/matthewhodge.png" alt="Matthew Hodge" loading="lazy" /></div><div class="leadership-card-overlay"><h3 class="leadership-card-name">Matthew Hodge</h3><p class="leadership-card-title">Executive Vice President</p></div></div>
       <div class="leadership-card fade-up fade-up-delay-1"><div class="leadership-card-image"><img src="https://k4design.github.io/lpt/img/leadership/luisfermin.jpg" alt="Luis Fermin" loading="lazy" /></div><div class="leadership-card-overlay"><h3 class="leadership-card-name">Luis Fermin</h3><p class="leadership-card-title">Chief Legal Counsel</p></div></div>
       <div class="leadership-card fade-up fade-up-delay-2"><div class="leadership-card-image"><img src="https://k4design.github.io/lpt/img/leadership/shainamotes.jpg" alt="Shaina Motes" loading="lazy" /></div><div class="leadership-card-overlay"><h3 class="leadership-card-name">Shaina Motes</h3><p class="leadership-card-title">VP of Corporate Operations Implementation</p></div></div>
-      <div class="leadership-card fade-up fade-up-delay-3"><div class="leadership-card-image"><img src="https://k4design.github.io/lpt/img/leadership/nataliecox.jpg" alt="Natalie Cox" loading="lazy" /></div><div class="leadership-card-overlay"><h3 class="leadership-card-name">Natalie Cox</h3><p class="leadership-card-title">VP of Eastern Broker Operations</p></div></div>
+      <div class="leadership-card fade-up fade-up-delay-3"><div class="leadership-card-image"><img src="https://k4design.github.io/lpt/img/leadership/jodylavoie.jpg" alt="Jody Lavoie" loading="lazy" /></div><div class="leadership-card-overlay"><h3 class="leadership-card-name">Jody Lavoie</h3><p class="leadership-card-title">Regional Director, Canada</p></div></div>
     </div>
   </div>
 </section>
@@ -225,40 +285,6 @@
   </div>
 </section>
 
-<!-- 08 Feature Cards -->
-<section class="feature-cards-section" id="dezzy-ai">
-  <div class="container">
-    <h2 class="feature-cards-headline fade-up">LPT's Mission Model<br> and Tools Explained</h2>
-    <div class="feature-cards-grid stagger-container">
-      <article class="feature-card">
-        <div class="feature-card-icon">
-          <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="48" height="48" rx="12" fill="rgba(4, 179, 255, 0.1)"/><path d="M18 16L30 24L18 32V16Z" fill="#04b3ff"/></svg>
-        </div>
-        <h3>CEO Robert Palmer explains the LPT model</h3>
-        <p>CEO Robert Palmer explains the LPT model in depth including the vision, the tools, the origin, and the marketing systems—dive into the full walkthrough in the video.</p>
-      </article>
-      <article class="feature-card">
-        <div class="feature-card-icon">
-          <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="48" height="48" rx="12" fill="rgba(4, 179, 255, 0.1)"/><path d="M24 14C18.48 14 14 18.48 14 24C14 29.52 18.48 34 24 34C29.52 34 34 29.52 34 24C34 18.48 29.52 14 24 14ZM24 30C20.69 30 18 27.31 18 24C18 20.69 20.69 18 24 18C27.31 18 30 20.69 30 24C30 27.31 27.31 30 24 30ZM26 20H22V22H26V20ZM26 24H22V28H26V24Z" fill="#04b3ff"/></svg>
-        </div>
-        <h3>Choose your own comp plan</h3>
-        <p>Choosing your own comp plan with our cutting edge Hybrid Model. $500 per file with a $5,000 cap or 80/20 with a $15,000 cap.</p>
-      </article>
-      <article class="feature-card">
-        <div class="feature-card-icon">
-          <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="48" height="48" rx="12" fill="rgba(4, 179, 255, 0.1)"/><path d="M24 16C20.69 16 18 18.69 18 22C18 25.31 20.69 28 24 28C27.31 28 30 25.31 30 22C30 18.69 27.31 16 24 16ZM24 26C22.9 26 22 25.1 22 24C22 22.9 22.9 22 24 22C25.1 22 26 22.9 26 24C26 25.1 25.1 26 24 26ZM32 30H16C15.45 30 15 30.45 15 31V33H33V31C33 30.45 32.55 30 32 30Z" fill="#04b3ff"/></svg>
-        </div>
-        <h3>Control your own agent centric brand</h3>
-        <p>Controlling your own agent centric brand (including choosing the color of our logo) and how you put our state of the art collateral marketing system™ to work for you.</p>
-      </article>
-    </div>
-    <div class="feature-cards-video fade-up fade-up-delay-2" style="margin-top: 64px; max-width: 1200px; margin-left: auto; margin-right: auto;">
-      <wistia-player media-id="sm4mracms7" aspect="1.7777777777777777"></wistia-player>
-    </div>
-    <div class="feature-cards-cta"></div>
-  </div>
-</section>
-
 <!-- 09 Support -->
 <section class="mission-section" style="background: linear-gradient(160deg, rgba(255, 255, 255, 0.96) 0%, rgba(219, 229, 255, 0.75) 100%);">
   <div class="container">
@@ -267,7 +293,7 @@
         <p style="display: inline-flex; padding: 6px 16px; border-radius: 999px; background: rgba(4, 179, 255, 0.18); color: #04b3ff; font-weight: 700; font-size: 12px; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 16px;">Agent Success Team</p>
         <h2 class="mission-headline">Fast, Reliable Support</h2>
         <p class="mission-description">Tap into LPT Connect, dotloop, and Lofty with live concierge support, 1:1 mentorship, and a national community engineered to keep you on offense.</p>
-        <div class="stagger-container" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 32px;">
+        <div class="stagger-container support-stats-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 32px;">
           <div style="padding: 20px; border-radius: 8px; background: rgba(4, 179, 255, 0.08); border: 1px solid rgba(4, 179, 255, 0.18); text-align: center;"><strong style="display: block; font-size: 24px; font-weight: 900; color: #04b3ff; margin-bottom: 8px;">24/7</strong><span style="font-size: 14px; color: rgba(15, 23, 42, 0.65);">Live agent escalation</span></div>
           <div style="padding: 20px; border-radius: 8px; background: rgba(4, 179, 255, 0.08); border: 1px solid rgba(4, 179, 255, 0.18); text-align: center;"><strong style="display: block; font-size: 24px; font-weight: 900; color: #04b3ff; margin-bottom: 8px;">90%</strong><span style="font-size: 14px; color: rgba(15, 23, 42, 0.65);">Tickets solved in under an hour</span></div>
           <div style="padding: 20px; border-radius: 8px; background: rgba(4, 179, 255, 0.08); border: 1px solid rgba(4, 179, 255, 0.18); text-align: center;"><strong style="display: block; font-size: 24px; font-weight: 900; color: #04b3ff; margin-bottom: 8px;">4.9/5</strong><span style="font-size: 14px; color: rgba(15, 23, 42, 0.65);">Support satisfaction score</span></div>
@@ -362,99 +388,7 @@
     </div>
   </div>
 </section>
-
-<!-- 12 CTA -->
-<section class="cta-section" id="contact">
-  <div class="container">
-    <div class="cta-content">
-      <div class="fade-up">
-        <p style="display: inline-flex; padding: 6px 16px; border-radius: 999px; background: rgba(4, 179, 255, 0.18); color: #04b3ff; font-weight: 700; font-size: 12px; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 16px;">Next Step</p>
-        <h2 class="cta-headline">Ready to<br> Level Up<br> Your Business?</h2>
-        <p class="cta-description">Share a few details and our team will reach out to architect your growth plan.</p>
-      </div>
-      <div class="fade-up fade-up-delay-1" style="width: 100%; max-width: 500px;">
-        <form id="contact-form" style="display: grid; gap: 20px; background: white; padding: 32px; border-radius: 12px; box-shadow: 0 20px 40px rgba(15, 23, 42, 0.12);">
-          <label style="display: flex; flex-direction: column; gap: 8px;"><span style="font-size: 14px; font-weight: 500; color: var(--color-text-dark);">First Name</span><input type="text" id="firstName" name="firstName" placeholder="John" required style="padding: 12px 16px; border: 1px solid rgba(0, 0, 0, 0.1); border-radius: 6px; font-size: 15px;" /></label>
-          <label style="display: flex; flex-direction: column; gap: 8px;"><span style="font-size: 14px; font-weight: 500; color: var(--color-text-dark);">Last Name</span><input type="text" id="lastName" name="lastName" placeholder="Smith" required style="padding: 12px 16px; border: 1px solid rgba(0, 0, 0, 0.1); border-radius: 6px; font-size: 15px;" /></label>
-          <label style="display: flex; flex-direction: column; gap: 8px;"><span style="font-size: 14px; font-weight: 500; color: var(--color-text-dark);">Email</span><input type="email" id="email" name="email" placeholder="johnsmith@test.com" required style="padding: 12px 16px; border: 1px solid rgba(0, 0, 0, 0.1); border-radius: 6px; font-size: 15px;" /></label>
-          <label style="display: flex; flex-direction: column; gap: 8px;"><span style="font-size: 14px; font-weight: 500; color: var(--color-text-dark);">Phone</span><input type="tel" id="phone" name="phone" placeholder="(XXX) XXX-XXXX" required style="padding: 12px 16px; border: 1px solid rgba(0, 0, 0, 0.1); border-radius: 6px; font-size: 15px;" /></label>
-          <label style="display: flex; flex-direction: column; gap: 8px;"><span style="font-size: 14px; font-weight: 500; color: var(--color-text-dark);">Zip</span><input type="text" id="zip" name="zip" placeholder="XXXXX" required style="padding: 12px 16px; border: 1px solid rgba(0, 0, 0, 0.1); border-radius: 6px; font-size: 15px;" /></label>
-          <label style="display: flex; flex-direction: column; gap: 8px;"><span style="font-size: 14px; font-weight: 500; color: var(--color-text-dark);">Team Size</span><input type="number" id="size" name="size" placeholder="0" min="0" required style="padding: 12px 16px; border: 1px solid rgba(0, 0, 0, 0.1); border-radius: 6px; font-size: 15px;" /></label>
-          <label style="display: flex; align-items: flex-start; gap: 12px;"><input type="checkbox" id="privacy" name="privacy" required checked style="margin-top: 4px;" /><span style="font-size: 14px; color: var(--color-text-gray);">I agree to the <a href="privacy" style="color: #04b3ff;">Privacy Policy</a>, call recording, emails, and texts from LPT Realty and LPT.</span></label>
-          <button class="cta-button" type="submit" style="grid-column: 1 / -1; margin-top: 8px;">Request a Call</button>
-        </form>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- 13 Google Reviews carousel -->
-<section class="escapes-section" style="background: linear-gradient(180deg, rgba(247, 250, 255, 0.96) 0%, rgba(233, 239, 255, 0.8) 100%);">
-  <div class="container">
-    <div class="fade-up" style="margin-bottom: 48px;">
-      <p style="display: inline-flex; padding: 6px 16px; border-radius: 999px; background: rgba(4, 179, 255, 0.18); color: #04b3ff; font-weight: 700; font-size: 12px; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 16px;">Google Reviews</p>
-      <h2 class="escapes-headline" style="margin-bottom: 16px;">What People Are <span style="display: inline-block; background: linear-gradient(to right, rgba(4, 179, 255, 0.6) 0%, rgba(4, 179, 255, 0.6) 100%); background-position: 0 calc(50% + 8px); background-size: 100% 60%; background-repeat: no-repeat; padding: 4px 0;">Saying About LPT</span></h2>
-      <p style="font-size: 18px; line-height: 1.7; color: var(--color-text-gray); max-width: 800px;">Real feedback from clients and agents. See why they chose LPT Realty.</p>
-    </div>
-  </div>
-  <div class="testimonial-carousel-container">
-    <div class="testimonial-carousel-track" id="google-reviews-carousel">
-      <article class="testimonial-card google-review-card" style="background: white; padding: 32px; border-radius: 12px; box-shadow: 0 20px 40px rgba(15, 23, 42, 0.12);">
-        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 16px;"><span style="color: #fbbc04;" aria-hidden="true">★★★★★</span><span style="font-size: 12px; color: var(--color-text-gray);">Google</span></div>
-        <p style="font-size: 15px; line-height: 1.7; color: rgba(15, 23, 42, 0.8); margin: 0 0 20px;">Professional from start to finish. Our agent was responsive, knowledgeable, and made selling our home stress-free. Highly recommend LPT Realty.</p>
-        <p style="font-size: 14px; font-weight: 700; color: var(--color-text-dark); margin: 0;">Jennifer M.</p>
-      </article>
-      <article class="testimonial-card google-review-card" style="background: white; padding: 32px; border-radius: 12px; box-shadow: 0 20px 40px rgba(15, 23, 42, 0.12);">
-        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 16px;"><span style="color: #fbbc04;" aria-hidden="true">★★★★★</span><span style="font-size: 12px; color: var(--color-text-gray);">Google</span></div>
-        <p style="font-size: 15px; line-height: 1.7; color: rgba(15, 23, 42, 0.8); margin: 0 0 20px;">Joined as an agent six months ago. The tools, support, and culture are exactly what I was looking for. Best brokerage decision I've made.</p>
-        <p style="font-size: 14px; font-weight: 700; color: var(--color-text-dark); margin: 0;">David R.</p>
-      </article>
-      <article class="testimonial-card google-review-card" style="background: white; padding: 32px; border-radius: 12px; box-shadow: 0 20px 40px rgba(15, 23, 42, 0.12);">
-        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 16px;"><span style="color: #fbbc04;" aria-hidden="true">★★★★★</span><span style="font-size: 12px; color: var(--color-text-gray);">Google</span></div>
-        <p style="font-size: 15px; line-height: 1.7; color: rgba(15, 23, 42, 0.8); margin: 0 0 20px;">We bought our first home with an LPT agent. She walked us through every step and never made us feel rushed. Couldn't be happier.</p>
-        <p style="font-size: 14px; font-weight: 700; color: var(--color-text-dark); margin: 0;">Michael T.</p>
-      </article>
-      <article class="testimonial-card google-review-card" style="background: white; padding: 32px; border-radius: 12px; box-shadow: 0 20px 40px rgba(15, 23, 42, 0.12);">
-        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 16px;"><span style="color: #fbbc04;" aria-hidden="true">★★★★★</span><span style="font-size: 12px; color: var(--color-text-gray);">Google</span></div>
-        <p style="font-size: 15px; line-height: 1.7; color: rgba(15, 23, 42, 0.8); margin: 0 0 20px;">The Power Pack and marketing materials helped me win listings over bigger teams. LPT gives agents real leverage.</p>
-        <p style="font-size: 14px; font-weight: 700; color: var(--color-text-dark); margin: 0;">Sarah K.</p>
-      </article>
-      <article class="testimonial-card google-review-card" style="background: white; padding: 32px; border-radius: 12px; box-shadow: 0 20px 40px rgba(15, 23, 42, 0.12);">
-        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 16px;"><span style="color: #fbbc04;" aria-hidden="true">★★★★★</span><span style="font-size: 12px; color: var(--color-text-gray);">Google</span></div>
-        <p style="font-size: 15px; line-height: 1.7; color: rgba(15, 23, 42, 0.8); margin: 0 0 20px;">Sold our house in under two weeks. The team was on top of everything—staging, photos, and open houses. First-class experience.</p>
-        <p style="font-size: 14px; font-weight: 700; color: var(--color-text-dark); margin: 0;">Lisa and Tom B.</p>
-      </article>
-      <article class="testimonial-card google-review-card" style="background: white; padding: 32px; border-radius: 12px; box-shadow: 0 20px 40px rgba(15, 23, 42, 0.12);">
-        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 16px;"><span style="color: #fbbc04;" aria-hidden="true">★★★★★</span><span style="font-size: 12px; color: var(--color-text-gray);">Google</span></div>
-        <p style="font-size: 15px; line-height: 1.7; color: rgba(15, 23, 42, 0.8); margin: 0 0 20px;">Switched to LPT from a traditional brokerage. Better splits, better tech, and people who actually care about agent success.</p>
-        <p style="font-size: 14px; font-weight: 700; color: var(--color-text-dark); margin: 0;">Chris L.</p>
-      </article>
-      <article class="testimonial-card google-review-card" style="background: white; padding: 32px; border-radius: 12px; box-shadow: 0 20px 40px rgba(15, 23, 42, 0.12);">
-        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 16px;"><span style="color: #fbbc04;" aria-hidden="true">★★★★★</span><span style="font-size: 12px; color: var(--color-text-gray);">Google</span></div>
-        <p style="font-size: 15px; line-height: 1.7; color: rgba(15, 23, 42, 0.8); margin: 0 0 20px;">Our realtor went above and beyond—even helped us with the loan process. Felt like we had a true partner, not just an agent.</p>
-        <p style="font-size: 14px; font-weight: 700; color: var(--color-text-dark); margin: 0;">Amanda P.</p>
-      </article>
-      <article class="testimonial-card google-review-card" style="background: white; padding: 32px; border-radius: 12px; box-shadow: 0 20px 40px rgba(15, 23, 42, 0.12);">
-        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 16px;"><span style="color: #fbbc04;" aria-hidden="true">★★★★★</span><span style="font-size: 12px; color: var(--color-text-gray);">Google</span></div>
-        <p style="font-size: 15px; line-height: 1.7; color: rgba(15, 23, 42, 0.8); margin: 0 0 20px;">I've been in real estate for 10 years. LPT's hybrid model and agent-first approach are the future. Glad I made the move.</p>
-        <p style="font-size: 14px; font-weight: 700; color: var(--color-text-dark); margin: 0;">Robert H.</p>
-      </article>
-      <article class="testimonial-card google-review-card" style="background: white; padding: 32px; border-radius: 12px; box-shadow: 0 20px 40px rgba(15, 23, 42, 0.12);">
-        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 16px;"><span style="color: #fbbc04;" aria-hidden="true">★★★★★</span><span style="font-size: 12px; color: var(--color-text-gray);">Google</span></div>
-        <p style="font-size: 15px; line-height: 1.7; color: rgba(15, 23, 42, 0.8); margin: 0 0 20px;">Quick closing, clear communication, and no surprises. Our LPT agent made buying in a competitive market feel manageable.</p>
-        <p style="font-size: 14px; font-weight: 700; color: var(--color-text-dark); margin: 0;">James W.</p>
-      </article>
-      <article class="testimonial-card google-review-card" style="background: white; padding: 32px; border-radius: 12px; box-shadow: 0 20px 40px rgba(15, 23, 42, 0.12);">
-        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 16px;"><span style="color: #fbbc04;" aria-hidden="true">★★★★★</span><span style="font-size: 12px; color: var(--color-text-gray);">Google</span></div>
-        <p style="font-size: 15px; line-height: 1.7; color: rgba(15, 23, 42, 0.8); margin: 0 0 20px;">The support team is incredible. Anytime I have a question about contracts or marketing, someone gets back to me fast. Real partnership.</p>
-        <p style="font-size: 14px; font-weight: 700; color: var(--color-text-dark); margin: 0;">Nicole F.</p>
-      </article>
-    </div>
-  </div>
-  <div class="container" style="margin-top: 24px; text-align: center;">
-    <a href="https://www.google.com/search?q=LPT+Realty+Lake+Mary+FL" target="_blank" rel="noopener noreferrer" class="accommodation-learn-more-btn" style="display: inline-block;">See more on Google</a>
-  </div>
-</section>
+</div>
 
 <script>
 (function() {
@@ -469,7 +403,7 @@
     var obs = new IntersectionObserver(function(entries) {
       entries.forEach(function(e) { if (e.isIntersecting) { e.target.classList.add('animate-in'); obs.unobserve(e.target); } });
     }, { rootMargin: rootMargin, threshold: threshold });
-    document.querySelectorAll('.mission-section .fade-up, .mission-section .stagger-container, .leadership-team-section .fade-up, .leadership-team-section .stagger-container, .escapes-section .fade-up, .escapes-section .stagger-container, .dezzy-ai-section .fade-up, .feature-cards-section .fade-up, .feature-cards-section .stagger-container, .compensation-section .fade-up, .cta-section .fade-up').forEach(function(el) { obs.observe(el); });
+    document.querySelectorAll('.mission-section .fade-up, .mission-section .stagger-container, .leadership-team-section .fade-up, .leadership-team-section .stagger-container, .escapes-section .fade-up, .escapes-section .stagger-container, .dezzy-ai-section .fade-up, .feature-cards-section .fade-up, .feature-cards-section .stagger-container, .compensation-section .fade-up').forEach(function(el) { obs.observe(el); });
   }
   runScrollAnimations();
 
@@ -616,6 +550,5 @@
   }
 
   initCarousel('testimonial-carousel');
-  initCarousel('google-reviews-carousel');
 })();
 </script>
