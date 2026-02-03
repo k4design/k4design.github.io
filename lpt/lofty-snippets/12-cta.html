@@ -1,0 +1,50 @@
+<!-- HTML Snippet for Lofty.com - LPT CTA / Contact Form Section -->
+<!-- Form submit handling may need to be configured in Lofty (e.g. form action or integration). -->
+<section class="cta-section" id="contact">
+  <div class="container">
+    <div class="cta-content">
+      <div class="fade-up">
+        <p style="display: inline-flex; padding: 6px 16px; border-radius: 999px; background: rgba(4, 179, 255, 0.18); color: #04b3ff; font-weight: 700; font-size: 12px; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 16px;">Next Step</p>
+        <h2 class="cta-headline">Ready to<br> Level Up<br> Your Business?</h2>
+        <p class="cta-description">Share a few details and our team will reach out to architect your growth plan.</p>
+      </div>
+      <div class="fade-up fade-up-delay-1" style="width: 100%; max-width: 500px;">
+        <form id="contact-form" style="display: grid; gap: 20px; background: white; padding: 32px; border-radius: 12px; box-shadow: 0 20px 40px rgba(15, 23, 42, 0.12);">
+          <label style="display: flex; flex-direction: column; gap: 8px;">
+            <span style="font-size: 14px; font-weight: 500; color: var(--color-text-dark);">First Name</span>
+            <input type="text" id="firstName" name="firstName" placeholder="John" required style="padding: 12px 16px; border: 1px solid rgba(0, 0, 0, 0.1); border-radius: 6px; font-size: 15px;" />
+          </label>
+          <label style="display: flex; flex-direction: column; gap: 8px;">
+            <span style="font-size: 14px; font-weight: 500; color: var(--color-text-dark);">Last Name</span>
+            <input type="text" id="lastName" name="lastName" placeholder="Smith" required style="padding: 12px 16px; border: 1px solid rgba(0, 0, 0, 0.1); border-radius: 6px; font-size: 15px;" />
+          </label>
+          <label style="display: flex; flex-direction: column; gap: 8px;">
+            <span style="font-size: 14px; font-weight: 500; color: var(--color-text-dark);">Email</span>
+            <input type="email" id="email" name="email" placeholder="johnsmith@test.com" required style="padding: 12px 16px; border: 1px solid rgba(0, 0, 0, 0.1); border-radius: 6px; font-size: 15px;" />
+          </label>
+          <label style="display: flex; flex-direction: column; gap: 8px;">
+            <span style="font-size: 14px; font-weight: 500; color: var(--color-text-dark);">Phone</span>
+            <input type="tel" id="phone" name="phone" placeholder="(XXX) XXX-XXXX" required style="padding: 12px 16px; border: 1px solid rgba(0, 0, 0, 0.1); border-radius: 6px; font-size: 15px;" />
+          </label>
+          <label style="display: flex; flex-direction: column; gap: 8px;">
+            <span style="font-size: 14px; font-weight: 500; color: var(--color-text-dark);">Zip</span>
+            <input type="text" id="zip" name="zip" placeholder="XXXXX" required style="padding: 12px 16px; border: 1px solid rgba(0, 0, 0, 0.1); border-radius: 6px; font-size: 15px;" />
+          </label>
+          <label style="display: flex; flex-direction: column; gap: 8px;">
+            <span style="font-size: 14px; font-weight: 500; color: var(--color-text-dark);">Team Size</span>
+            <input type="number" id="size" name="size" placeholder="0" min="0" required style="padding: 12px 16px; border: 1px solid rgba(0, 0, 0, 0.1); border-radius: 6px; font-size: 15px;" />
+          </label>
+          <label style="display: flex; align-items: flex-start; gap: 12px;">
+            <input type="checkbox" id="privacy" name="privacy" required checked style="margin-top: 4px;" />
+            <span style="font-size: 14px; color: var(--color-text-gray);">
+              I agree to the <a href="privacy" style="color: #04b3ff;">Privacy Policy</a>, call recording, emails, and texts from LPT Realty and LPT.
+            </span>
+          </label>
+          <button class="cta-button" type="submit" style="grid-column: 1 / -1; margin-top: 8px;">
+            Request a Call
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>

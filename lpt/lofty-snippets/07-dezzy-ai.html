@@ -1,0 +1,106 @@
+<!-- HTML Snippet for Lofty.com - LPT dezzy.ai Section (self-contained: CSS + JS included) -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" />
+<style>
+:root { --color-text-dark:#1a1a1a; --font-primary:'Inter',-apple-system,sans-serif; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+.fade-up { opacity: 0; transform: translateY(30px); transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1); }
+.fade-up.animate-in { opacity: 1; transform: translateY(0); }
+.fade-up-delay-1 { transition-delay: 0.1s; }
+@media (prefers-reduced-motion: reduce) { .fade-up { opacity: 1; transform: none; transition: none; } }
+.dezzy-ai-section { background: #0a0e27; min-height: 700px; overflow: hidden; position: relative; }
+.dezzy-ai-background { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; overflow: hidden; background: #0a0e27; }
+.ai-background-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: block; z-index: 1; }
+.ai-background-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to left, rgba(10,14,39,0) 0%, rgba(10,14,39,0.3) 50%, rgba(10,14,39,0.7) 70%, rgba(10,14,39,0.95) 100%); z-index: 2; pointer-events: none; }
+.container { max-width: 1200px; margin: 0 auto; padding: 0 40px; }
+.dezzy-ai-layout { position: relative; z-index: 10; max-width: 1400px; margin: 0 auto; padding: 100px 40px; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+.dezzy-ai-content { position: relative; z-index: 3; color: white; }
+.section-tag { display: inline-flex; padding: 6px 16px; border-radius: 999px; background: rgba(255,255,255,0.15); color: white; font-weight: 700; font-size: 12px; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 16px; }
+.dezzy-ai-headline { font-size: clamp(36px, 4vw, 48px); font-weight: 800; line-height: 1.2; color: white; letter-spacing: -0.02em; margin-bottom: 24px; }
+.dezzy-ai-description { font-size: 18px; line-height: 1.7; color: rgba(255,255,255,0.9); margin-bottom: 32px; }
+.dezzy-checklist { list-style: none; padding: 0; margin: 24px 0 32px; display: grid; gap: 16px; }
+.dezzy-checklist li { position: relative; padding-left: 32px; font-size: 16px; line-height: 1.6; color: rgba(255,255,255,0.9); }
+.dezzy-checklist li::before { content: ''; position: absolute; left: 0; top: 6px; width: 18px; height: 18px; border-radius: 50%; background: #04b3ff; box-shadow: 0 0 0 6px rgba(4,179,255,0.15); }
+.dezzy-ai-content .see-more-btn { background: transparent; color: white; border: 1px solid rgba(255,255,255,0.3); padding: 12px 24px; border-radius: 6px; font-weight: 500; font-size: 14px; cursor: pointer; text-decoration: none; display: inline-block; }
+.dezzy-ai-content .see-more-btn:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.5); }
+.dezzy-ai-visual { position: relative; z-index: 5; display: flex; align-items: center; justify-content: center; }
+.dezzy-bot-image { filter: drop-shadow(0 24px 56px rgba(4,179,255,0.2)); max-width: 100%; height: auto; }
+@media (max-width: 1024px) { .dezzy-ai-layout { grid-template-columns: 1fr; text-align: center; gap: 40px; } .dezzy-ai-visual { order: -1; } }
+</style>
+<section class="featured-hero dezzy-ai-section" id="agent-experience" aria-labelledby="agent-experience-title">
+  <div class="dezzy-ai-background">
+    <canvas id="ai-background-canvas" class="ai-background-canvas"></canvas>
+    <div class="ai-background-overlay"></div>
+  </div>
+  <div class="container">
+    <div class="dezzy-ai-layout">
+      <div class="dezzy-ai-content fade-up">
+        <p class="section-tag">Agent Technology Stack</p>
+        <h2 id="agent-experience-title" class="dezzy-ai-headline">Streamline Your Workflow with dezzy.ai</h2>
+        <p class="dezzy-ai-description">dezzy.ai is a cutting-edge AI bot that revolutionizes real estate workflows and is available exclusively for LPT Realty agents.</p>
+        <ul class="dezzy-checklist">
+          <li>Lead generation</li>
+          <li>Seamless dotloop integration</li>
+          <li>Automated creation of CDAs</li>
+          <li>High quality, agent branded marketing materials in minutes</li>
+        </ul>
+        <div class="dezzy-ai-actions">
+          <button type="button" class="see-more-btn" id="dezzy-ai-video-btn">Learn More About dezzy.ai</button>
+        </div>
+      </div>
+      <div class="dezzy-ai-visual fade-up fade-up-delay-1">
+        <img src="https://lpt.com/assets/images/dezzy-bot.webp" class="dezzy-bot-image" width="240" height="556" alt="dezzy.ai bot" loading="lazy" />
+      </div>
+    </div>
+  </div>
+</section>
+<script>
+(function(){
+  var canvas = document.getElementById('ai-background-canvas');
+  if (canvas && canvas.getContext) {
+    var ctx = canvas.getContext('2d');
+    var time = 0;
+    function resize(){ var p = canvas.parentElement; if(!p) return; var r = p.getBoundingClientRect(); canvas.width = r.width; canvas.height = r.height; }
+    resize();
+    window.addEventListener('resize', resize);
+    function animate() {
+      time++;
+      if (time > 1e6) time = 0;
+      var w = canvas.width, h = canvas.height;
+      ctx.fillStyle = '#0a0e27';
+      ctx.fillRect(0,0,w,h);
+      var cx = w*0.75, cy = h*0.5, pulse = time*0.0015;
+      for (var i = 7; i >= 0; i--) {
+        var r = 80 + i*35, ph = time*0.001 + i*0.3;
+        ctx.beginPath();
+        for (var a = 0; a <= Math.PI*2; a += 0.05) {
+          var rad = r + Math.sin(a*3 + ph)*25;
+          var x = cx + Math.cos(a)*rad, y = cy + Math.sin(a)*rad;
+          if (a === 0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+        }
+        ctx.closePath();
+        var op = (0.4 - i*0.04);
+        ctx.strokeStyle = 'rgba(0,255,255,'+op+')';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+      }
+      var pr = 40 + Math.sin(pulse)*15;
+      var g = ctx.createRadialGradient(cx,cy,0,cx,cy,pr*2);
+      g.addColorStop(0,'rgba(0,255,255,0.5)');
+      g.addColorStop(1,'transparent');
+      ctx.fillStyle = g;
+      ctx.beginPath();
+      ctx.arc(cx,cy,pr*2,0,Math.PI*2);
+      ctx.fill();
+      requestAnimationFrame(animate);
+    }
+    var section = canvas.closest('.dezzy-ai-section');
+    if (section) {
+      var io = new IntersectionObserver(function(entries){ if (entries[0].isIntersecting) animate(); }, { threshold: 0.1 });
+      io.observe(section);
+    } else animate();
+  }
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { document.querySelectorAll('.dezzy-ai-section .fade-up').forEach(function(e){ e.classList.add('animate-in'); }); return; }
+  var obs = new IntersectionObserver(function(entries){ entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('animate-in'); obs.unobserve(e.target); } }); }, { rootMargin: '0px 0px -80px 0px', threshold: 0.1 });
+  document.querySelectorAll('.dezzy-ai-section .fade-up').forEach(function(el){ obs.observe(el); });
+})();
+</script>

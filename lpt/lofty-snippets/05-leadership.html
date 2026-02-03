@@ -1,0 +1,57 @@
+<!-- HTML Snippet for Lofty.com - LPT Leadership Team (self-contained: CSS + JS included) -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" />
+<style>
+:root { --color-bg-white:#fff; --color-text-dark:#1a1a1a; --color-text-gray:#666; --font-primary:'Inter',-apple-system,sans-serif; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+.container { max-width: 1200px; margin: 0 auto; padding: 0 40px; }
+.fade-up { opacity: 0; transform: translateY(30px); transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1); }
+.fade-up.animate-in { opacity: 1; transform: translateY(0); }
+.fade-up-delay-1,.fade-up-delay-2,.fade-up-delay-3,.fade-up-delay-4 { transition-delay: 0.1s; }
+.stagger-container > * { opacity: 0; transform: translateY(50px) scale(0.9); transition: opacity 0.9s cubic-bezier(0.34,1.56,0.64,1), transform 0.9s cubic-bezier(0.34,1.56,0.64,1); }
+.stagger-container.animate-in > * { opacity: 1; transform: translateY(0) scale(1); }
+@media (prefers-reduced-motion: reduce) { .fade-up, .stagger-container > * { opacity: 1; transform: none; transition: none; } }
+.leadership-team-section { padding: 120px 0; background-color: var(--color-bg-white); }
+.leadership-team-header { text-align: center; max-width: 900px; margin: 0 auto 64px; }
+.leadership-team-tag { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; border-radius: 999px; background-color: rgba(4,179,255,0.1); color: #04b3ff; font-size: 14px; font-weight: 600; margin-bottom: 24px; }
+.leadership-team-title { font-size: clamp(42px, 5vw, 56px); font-weight: 800; line-height: 1.2; color: var(--color-text-dark); letter-spacing: -0.02em; margin-bottom: 16px; }
+.leadership-team-description { font-size: 18px; line-height: 1.7; color: var(--color-text-gray); font-weight: 400; max-width: 700px; margin: 0 auto; }
+.leadership-team-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; max-width: 1400px; margin: 0 auto; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 24px rgba(0,0,0,0.08); }
+.leadership-card { position: relative; aspect-ratio: 3/4; overflow: hidden; cursor: pointer; transition: transform 0.3s ease; }
+.leadership-card:hover { transform: scale(1.02); z-index: 1; }
+.leadership-card-image { width: 100%; height: 100%; position: relative; }
+.leadership-card-image img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.leadership-card-overlay { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.5) 60%, transparent 100%); padding: 32px 24px 24px; color: white; }
+.leadership-card-name { font-size: 20px; font-weight: 700; color: white; margin: 0 0 4px; line-height: 1.2; }
+.leadership-card-title { font-size: 14px; font-weight: 400; color: rgba(255,255,255,0.9); margin: 0; line-height: 1.4; }
+@media (max-width: 1024px) { .leadership-team-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 768px) { .leadership-team-section { padding: 80px 0; } .leadership-team-grid { grid-template-columns: 1fr; } .leadership-card { aspect-ratio: 4/3; } }
+</style>
+<section class="leadership-team-section">
+  <div class="container">
+    <div class="leadership-team-header fade-up">
+      <div class="leadership-team-tag">
+        <svg class="flame-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C8 2 6 5 6 9C6 11 7 12 8 13C7 14 6 15 6 17C6 20 8 22 12 22C16 22 18 20 18 17C18 15 17 14 16 13C17 12 18 11 18 9C18 5 16 2 12 2Z" fill="#04b3ff"/></svg>
+        <span>Founder & Leadership Team</span>
+      </div>
+      <h2 class="leadership-team-title">Meet the People Behind LPT</h2>
+      <p class="leadership-team-description">From strategy to culture, our leadership team inspires innovation and growth every step of the way.</p>
+    </div>
+    <div class="leadership-team-grid stagger-container">
+      <div class="leadership-card fade-up"><div class="leadership-card-image"><img src="https://k4design.github.io/lpt/img/leadership/robertpalmer.png" alt="Robert Palmer" loading="lazy" /></div><div class="leadership-card-overlay"><h3 class="leadership-card-name">Robert Palmer</h3><p class="leadership-card-title">Founder and CEO</p></div></div>
+      <div class="leadership-card fade-up fade-up-delay-1"><div class="leadership-card-image"><img src="https://k4design.github.io/lpt/img/leadership/matthewlevy.jpg" alt="Matthew Levy" loading="lazy" /></div><div class="leadership-card-overlay"><h3 class="leadership-card-name">Matthew Levy</h3><p class="leadership-card-title">Chief Strategy Officer</p></div></div>
+      <div class="leadership-card fade-up fade-up-delay-2"><div class="leadership-card-image"><img src="https://k4design.github.io/lpt/img/leadership/michaelvaldes.png" alt="Michael Valdes" loading="lazy" /></div><div class="leadership-card-overlay"><h3 class="leadership-card-name">Michael Valdes</h3><p class="leadership-card-title">CEO of International</p></div></div>
+      <div class="leadership-card fade-up fade-up-delay-3"><div class="leadership-card-image"><img src="https://k4design.github.io/lpt/img/leadership/allisonadams.png" alt="Alison Adams" loading="lazy" /></div><div class="leadership-card-overlay"><h3 class="leadership-card-name">Alison Adams</h3><p class="leadership-card-title">Chief of Staff</p></div></div>
+      <div class="leadership-card fade-up fade-up-delay-4"><div class="leadership-card-image"><img src="https://k4design.github.io/lpt/img/leadership/matthewhodge.png" alt="Matthew Hodge" loading="lazy" /></div><div class="leadership-card-overlay"><h3 class="leadership-card-name">Matthew Hodge</h3><p class="leadership-card-title">Executive Vice President</p></div></div>
+      <div class="leadership-card fade-up fade-up-delay-1"><div class="leadership-card-image"><img src="https://k4design.github.io/lpt/img/leadership/luisfermin.jpg" alt="Luis Fermin" loading="lazy" /></div><div class="leadership-card-overlay"><h3 class="leadership-card-name">Luis Fermin</h3><p class="leadership-card-title">Chief Legal Counsel</p></div></div>
+      <div class="leadership-card fade-up fade-up-delay-2"><div class="leadership-card-image"><img src="https://k4design.github.io/lpt/img/leadership/shainamotes.jpg" alt="Shaina Motes" loading="lazy" /></div><div class="leadership-card-overlay"><h3 class="leadership-card-name">Shaina Motes</h3><p class="leadership-card-title">VP of Corporate Operations Implementation</p></div></div>
+      <div class="leadership-card fade-up fade-up-delay-3"><div class="leadership-card-image"><img src="https://k4design.github.io/lpt/img/leadership/nataliecox.jpg" alt="Natalie Cox" loading="lazy" /></div><div class="leadership-card-overlay"><h3 class="leadership-card-name">Natalie Cox</h3><p class="leadership-card-title">VP of Eastern Broker Operations</p></div></div>
+    </div>
+  </div>
+</section>
+<script>
+(function(){
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { document.querySelectorAll('.leadership-team-section .fade-up, .leadership-team-section .stagger-container').forEach(function(e){ e.classList.add('animate-in'); }); return; }
+  var obs = new IntersectionObserver(function(entries){ entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('animate-in'); obs.unobserve(e.target); } }); }, { rootMargin: '0px 0px -80px 0px', threshold: 0.1 });
+  document.querySelectorAll('.leadership-team-section .fade-up, .leadership-team-section .stagger-container').forEach(function(el){ obs.observe(el); });
+})();
+</script>

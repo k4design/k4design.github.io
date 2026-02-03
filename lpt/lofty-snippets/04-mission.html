@@ -1,0 +1,42 @@
+<!-- HTML Snippet for Lofty.com - LPT Mission / Fastest Growing (self-contained: CSS + JS included) -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" />
+<style>
+:root { --color-bg-white:#fff; --color-text-dark:#1a1a1a; --color-text-gray:#666; --font-primary:'Inter',-apple-system,sans-serif; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+.container { max-width: 1200px; margin: 0 auto; padding: 0 40px; }
+.fade-up { opacity: 0; transform: translateY(30px); transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1); }
+.fade-up.animate-in { opacity: 1; transform: translateY(0); }
+.fade-up-delay-1 { transition-delay: 0.1s; }
+@media (prefers-reduced-motion: reduce) { .fade-up { opacity: 1; transform: none; transition: none; } }
+.mission-section { padding: 120px 0; background-color: var(--color-bg-white); overflow: visible; }
+.mission-section .container { overflow: visible; }
+.mission-content { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; overflow: visible; }
+.mission-headline { font-size: clamp(36px, 4vw, 48px); font-weight: 800; line-height: 1.2; color: var(--color-text-dark); letter-spacing: -0.02em; margin-bottom: 24px; }
+.mission-description { font-size: 18px; line-height: 1.7; color: var(--color-text-gray); font-weight: 400; }
+.mission-image { width: 100%; min-width: 0; overflow: visible; }
+.us-map-container { width: 100%; min-width: 0; overflow: visible; position: relative; }
+.us-map-container img { width: 100%; height: auto; display: block; }
+@media (max-width: 768px) { .mission-content { grid-template-columns: 1fr; } }
+</style>
+<section class="mission-section">
+  <div class="container">
+    <div class="mission-content">
+      <div class="mission-text fade-up">
+        <h2 class="mission-headline">Fastest Growing<br> Brokerage Ever</h2>
+        <p class="mission-description">After reaching over 10,000 agents in just 19 states, LPT Realty then began its national expansion reaching 47 states by the end of 2024, offering more agents our unfair advantage than ever.</p>
+      </div>
+      <div class="mission-image fade-up fade-up-delay-1">
+        <div class="us-map-container">
+          <img src="https://k4design.github.io/lpt/img/map.png" alt="United States map showing LPT Realty coverage" width="959" height="593" loading="lazy" />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<script>
+(function(){
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { document.querySelectorAll('.mission-section .fade-up').forEach(function(e){ e.classList.add('animate-in'); }); return; }
+  var obs = new IntersectionObserver(function(entries){ entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('animate-in'); obs.unobserve(e.target); } }); }, { rootMargin: '0px 0px -80px 0px', threshold: 0.1 });
+  document.querySelectorAll('.mission-section .fade-up').forEach(function(el){ obs.observe(el); });
+})();
+</script>

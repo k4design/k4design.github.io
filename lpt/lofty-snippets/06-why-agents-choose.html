@@ -1,0 +1,54 @@
+<!-- HTML Snippet for Lofty.com - LPT Why Agents Choose (self-contained: CSS + JS included) -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" />
+<style>
+:root { --color-bg-white:#fff; --color-text-dark:#1a1a1a; --color-text-gray:#666; --font-primary:'Inter',-apple-system,sans-serif; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+.container { max-width: 1200px; margin: 0 auto; padding: 0 40px; }
+.fade-up { opacity: 0; transform: translateY(30px); transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1); }
+.fade-up.animate-in { opacity: 1; transform: translateY(0); }
+.fade-up-delay-1 { transition-delay: 0.1s; }
+.stagger-container > * { opacity: 0; transform: translateY(50px) scale(0.9); transition: opacity 0.9s cubic-bezier(0.34,1.56,0.64,1), transform 0.9s cubic-bezier(0.34,1.56,0.64,1); }
+.stagger-container.animate-in > * { opacity: 1; transform: translateY(0) scale(1); }
+@media (prefers-reduced-motion: reduce) { .fade-up, .stagger-container > * { opacity: 1; transform: none; transition: none; } }
+.escapes-section { padding: 120px 0; background-color: var(--color-bg-white); }
+.escapes-layout { max-width: 100%; }
+.escapes-headline { font-size: clamp(42px, 5vw, 56px); font-weight: 800; line-height: 1.2; color: var(--color-text-dark); letter-spacing: -0.02em; margin-bottom: 24px; }
+.accommodations-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+.accommodation-card { display: flex; flex-direction: column; }
+.accommodation-image { width: 100%; margin-bottom: 16px; aspect-ratio: 3/4; overflow: hidden; border-radius: 8px; }
+.accommodation-image img { width: 100%; height: 100%; object-fit: cover; }
+.accommodation-info h3 { font-size: 20px; font-weight: 700; color: var(--color-text-dark); margin-bottom: 8px; }
+.accommodation-info p { font-size: 14px; color: var(--color-text-gray); line-height: 1.5; margin-bottom: 4px; }
+@media (max-width: 768px) { .accommodations-grid { grid-template-columns: 1fr; } }
+</style>
+<section class="escapes-section">
+  <div class="container">
+    <div class="escapes-layout">
+      <div class="escapes-content">
+        <h2 class="escapes-headline fade-up">A brokerage engineered for scale with a <span style="display:inline-block;background:linear-gradient(to right,rgba(4,179,255,0.6),rgba(4,179,255,0.6));background-position:0 calc(50% + 8px);background-size:100% 60%;background-repeat:no-repeat;padding:4px 0;">human touch</span></h2>
+        <p class="fade-up fade-up-delay-1" style="font-size:18px;line-height:1.7;color:var(--color-text-gray);margin-bottom:48px;max-width:800px;">Every touchpoint is designed around agent autonomy. LPT Realty equips you with cinematic marketing, automated operations, and relentless support so you can move faster, close more, and grow without limits.</p>
+        <div class="accommodations-grid stagger-container">
+          <article class="accommodation-card">
+            <div class="accommodation-image"><img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=600&h=800&fit=crop&crop=center" alt="Agent Centric Branding" width="600" height="800" loading="lazy" /></div>
+            <div class="accommodation-info"><h3>Agent Centric Branding</h3><p>Showcase your personal brand at scale with a turnkey design system, property storytelling, and premium print collateral tailored to every market.</p></div>
+          </article>
+          <article class="accommodation-card">
+            <div class="accommodation-image"><img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=800&fit=crop&crop=center" alt="Brokerage powered marketing" width="600" height="800" loading="lazy" /></div>
+            <div class="accommodation-info"><h3>Brokerage Powered Marketing</h3><p>Launch paid and organic campaigns with pre-built funnels, retargeting journeys, and dynamic creative all managed inside a single agent cockpit.</p></div>
+          </article>
+          <article class="accommodation-card">
+            <div class="accommodation-image"><img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=600&h=800&fit=crop&crop=center" alt="LPT Collateral Marketing System" width="600" height="800" loading="lazy" /></div>
+            <div class="accommodation-info"><h3>LPT Collateral Marketing System&trade;</h3><p>Command every listing with the Listing Power Pack, cinematic property brochures, and hyperlocal market reports delivered in minutes.</p></div>
+          </article>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<script>
+(function(){
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { document.querySelectorAll('.escapes-section .fade-up, .escapes-section .stagger-container').forEach(function(e){ e.classList.add('animate-in'); }); return; }
+  var obs = new IntersectionObserver(function(entries){ entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('animate-in'); obs.unobserve(e.target); } }); }, { rootMargin: '0px 0px -80px 0px', threshold: 0.1 });
+  document.querySelectorAll('.escapes-section .fade-up, .escapes-section .stagger-container').forEach(function(el){ obs.observe(el); });
+})();
+</script>
