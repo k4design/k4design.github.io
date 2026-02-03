@@ -31,8 +31,9 @@ Copy-paste these snippets into Lofty's embedded HTML modules. Each file is one s
 | `11-compensation.html` | Compensation Architecture / comp table |
 | `12-cta.html` | Ready to Level Up / contact form |
 | `13-google-reviews.html` | Google Reviews carousel (10 reviews, auto-rotating) |
+| `04-13-combined.html` | **Single combined snippet**: sections 4–13 (Mission through CTA + Google Reviews) in one paste-ready file |
 
-Order matches the index page. Use any subset in any order in Lofty.
+Order matches the index page. Use `04-13-combined.html` to paste Mission through Google Reviews in one go. Use any subset in any order in Lofty.
 
 ## One-time setup (if Lofty allows)
 
