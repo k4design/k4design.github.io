@@ -724,6 +724,7 @@
       /* Set background color for sections below hero - must come after transparent rule */
       #award-categories,
       #about-the-dezzy-awards,
+      #faq,
       #presented-by-lpt-realty,
       #categories,
       #gallery,
@@ -764,6 +765,7 @@
       /* Force background color for sections below hero with maximum specificity */
       section#award-categories,
       section#about-the-dezzy-awards,
+      section#faq,
       section#presented-by-lpt-realty,
       section#categories,
       section#gallery,
@@ -800,6 +802,51 @@
       }
       #presented-by-lpt-realty .presented-by-learn-more {
         transition: color 0.35s ease-in-out, background-color 0.35s ease-in-out, border-color 0.35s ease-in-out, transform 0.35s ease-in-out !important;
+      }
+      /* FAQ section */
+      #faq .faq-item {
+        border: 1px solid hsl(var(--primary) / 0.1);
+        border-radius: 0.5rem;
+        background-color: hsla(221.8, 67.3%, 9.6%, 0.25);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        margin-bottom: 0.75rem;
+        overflow: hidden;
+        transition: border-color 0.35s ease-in-out;
+      }
+      #faq .faq-item:hover { border-color: hsl(var(--primary) / 0.25); }
+      #faq .faq-item summary {
+        font-family: 'Playfair Display', serif;
+        font-size: 1.125rem;
+        font-weight: 500;
+        color: hsl(var(--foreground));
+        padding: 1.25rem 1.5rem;
+        cursor: pointer;
+        list-style: none;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+      }
+      #faq .faq-item summary::-webkit-details-marker { display: none; }
+      #faq .faq-item summary::after {
+        content: '+';
+        font-size: 1.5rem;
+        color: hsl(var(--primary));
+        flex-shrink: 0;
+        transition: transform 0.35s ease-in-out;
+      }
+      #faq .faq-item[open] summary::after { transform: rotate(45deg); }
+      #faq .faq-item .faq-answer {
+        padding: 0 1.5rem 1.25rem;
+        border-top: 1px solid hsl(var(--primary) / 0.1);
+      }
+      #faq .faq-item .faq-answer p {
+        margin: 0;
+        font-weight: 100;
+        color: hsl(var(--muted-foreground, 215 20% 65%));
+        font-size: 1rem;
+        line-height: 1.6;
       }
     </style>
     <style>
@@ -3449,6 +3496,7 @@ style="position: fixed; top: 0; left: 0; right: 0; z-index: 50; background-color
 <a href="#" class="nav-link nav-link-home">Home</a>
 <a href="#award-categories" class="nav-link nav-link-categories">Categories</a>
 <a href="#about-the-dezzy-awards" class="nav-link nav-link-about">About</a>
+<a href="#faq" class="nav-link nav-link-faq">FAQ</a>
 </div>
 <a
 href="https://connect.lpt.com/login?ReturnUrl=%2fspaces%2f16%2fmain-stage%2fvideos%2fMichelle.Simons%2fmotivational-monday%2f5615%2fmotivational-monday-january-12-2026%3flanguage%3d"
@@ -3487,6 +3535,7 @@ aria-expanded="false"
 <a href="#" class="nav-link nav-link-home block py-3 px-4 border-t border-primary/10">Home</a>
 <a href="#award-categories" class="nav-link nav-link-categories block py-3 px-4 border-t border-primary/10">Categories</a>
 <a href="#about-the-dezzy-awards" class="nav-link nav-link-about block py-3 px-4 border-t border-primary/10">About</a>
+<a href="#faq" class="nav-link nav-link-faq block py-3 px-4 border-t border-primary/10">FAQ</a>
 <a
 href="https://connect.lpt.com/login?ReturnUrl=%2fspaces%2f16%2fmain-stage%2fvideos%2fMichelle.Simons%2fmotivational-monday%2f5615%2fmotivational-monday-january-12-2026%3flanguage%3d"
 target="_blank"
@@ -4279,6 +4328,50 @@ class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8"
  </div>
  </section>
  <section
+ id="faq"
+ class="py-20 md:py-32 px-6 relative overflow-hidden border-t border-primary/10"
+ >
+ <div class="absolute inset-0 bg-gradient-to-b from-transparent via-primary/5 to-transparent pointer-events-none"></div>
+ <div class="container mx-auto relative max-w-3xl">
+ <div class="scroll-intro text-center mb-12">
+ <h2 class="font-serif text-3xl md:text-4xl lg:text-5xl text-foreground mb-4">FAQ</h2>
+ <div class="gold-line w-24 mx-auto"></div>
+ </div>
+ <div class="scroll-intro space-y-0">
+ <details class="faq-item">
+ <summary>What are the Dezzy Awards?</summary>
+ <div class="faq-answer">
+ <p>The Dezzy Awards are LPT Realty’s recognition program celebrating top-performing agents at the most meaningful level—ZIP code, city, and state/nationwide—plus specialty categories like growth, marketing, education, and more.</p>
+ </div>
+ </details>
+ <details class="faq-item">
+ <summary>When and where is the award ceremony?</summary>
+ <div class="faq-answer">
+ <p>Join us for the Dezzy Awards on Monday, January 26 at 11:00 am EST during a special one-hour edition of Motivational Monday on LPT Connect. You can watch live via the link in the navigation or hero section.</p>
+ </div>
+ </details>
+ <details class="faq-item">
+ <summary>How are winners determined?</summary>
+ <div class="faq-answer">
+ <p>Winners are based on 2025 transaction data and performance within their category—geographical (ZIP, city, state/nationwide) or specialty (e.g., Top 3 Year Growth Realtor®, Top Digital Marketing Realtor®).</p>
+ </div>
+ </details>
+ <details class="faq-item">
+ <summary>How many award categories are there?</summary>
+ <div class="faq-answer">
+ <p>There are 3 geographical categories (Zip-Code-Wide, Citywide, State/Nationwide) and 10 specialty categories, with thousands of nominees across the LPT network.</p>
+ </div>
+ </details>
+ <details class="faq-item">
+ <summary>Will honorees be featured elsewhere?</summary>
+ <div class="faq-answer">
+ <p>Yes. Top honorees will be featured in The Wall Street Journal, with additional recognitions in select local newspapers. Recipients also get access to award graphics through their Dezzy profiles in LPT Connect.</p>
+ </div>
+ </details>
+ </div>
+ </div>
+ </section>
+ <section
  id="presented-by-lpt-realty"
  class="py-20 md:py-32 px-6 relative border-t border-primary/10"
  >
@@ -4475,7 +4568,8 @@ function initNavIndicators() {
     var navLinks = [
         { sectionId: 'hero', link: document.querySelector('.nav-link-home') },
         { sectionId: 'award-categories', link: document.querySelector('.nav-link-categories') },
-        { sectionId: 'about-the-dezzy-awards', link: document.querySelector('.nav-link-about') }
+        { sectionId: 'about-the-dezzy-awards', link: document.querySelector('.nav-link-about') },
+        { sectionId: 'faq', link: document.querySelector('.nav-link-faq') }
     ].filter(function (x) { return x.link; });
 
     function setActive(idx) {

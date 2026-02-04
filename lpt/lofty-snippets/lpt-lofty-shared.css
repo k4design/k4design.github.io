@@ -70,3 +70,11 @@
   .fade-up, .stagger-container > * { opacity: 1; transform: none; transition: none; }
   .stagger-container > *:hover { transform: none; }
 }
+
+/* Mobile: Lofty search grid */
+@media (max-width: 767px) {
+  .md-search.md-search-grid-list.template4.grid {
+    width: 90vw !important;
+    margin: auto !important;
+  }
+}
