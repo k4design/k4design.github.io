@@ -10,11 +10,20 @@
 @media (prefers-reduced-motion: reduce) { .fade-up { opacity: 1; transform: none; transition: none; } }
 .featured-in-section { padding: 80px 0; background-color: var(--color-bg-white); border-bottom: 1px solid rgba(0,0,0,0.05); }
 .featured-in-label { text-align: center; font-size: 14px; font-weight: 600; color: var(--color-text-gray); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 40px; }
-.featured-in-logos { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 48px; max-width: 1200px; margin: 0 auto; }
-.featured-in-item { display: flex; align-items: center; justify-content: center; opacity: 0.6; transition: opacity 0.3s ease, transform 0.3s ease; filter: grayscale(100%); }
+.featured-in-logos { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); justify-items: center; justify-content: center; align-items: center; gap: 48px 64px; max-width: 1200px; margin: 0 auto; }
+.featured-in-item { width: 100%; display: flex; align-items: center; justify-content: center; text-align: center; opacity: 0.6; transition: opacity 0.3s ease, transform 0.3s ease; filter: grayscale(100%); padding: 0 12px; }
 .featured-in-item:hover { opacity: 1; transform: translateY(-2px); filter: grayscale(0%); }
-.featured-in-item img { max-width: 225px; height: auto; object-fit: contain; }
-@media (max-width: 768px) { .featured-in-logos { gap: 32px; } .featured-in-item { flex: 0 0 calc(50% - 16px); } .featured-in-item img { max-width: 150px; } }
+.featured-in-item img { max-width: 200px; width: 100%; height: auto; object-fit: contain; display: block; margin: 0 auto; }
+@media (max-width: 768px) {
+  .container { padding: 0 24px; }
+  .featured-in-logos { grid-template-columns: repeat(2, minmax(140px, max-content)); justify-content: center; gap: 32px 24px; }
+  .featured-in-item { padding: 0; }
+  .featured-in-item img { max-width: 150px; }
+}
+@media (max-width: 480px) {
+  .featured-in-logos { grid-template-columns: repeat(2, minmax(120px, max-content)); justify-content: center; gap: 24px; }
+  .featured-in-item img { max-width: 130px; }
+}
 </style>
 <section class="featured-in-section" aria-label="Featured in publications">
   <div class="container">

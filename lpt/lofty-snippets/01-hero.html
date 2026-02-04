@@ -31,6 +31,14 @@
 .scrolling-item span { color: rgba(255,255,255,0.5); }
 @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 @media (prefers-reduced-motion: reduce) { .hero::before { animation: none; } .scrolling-track { animation: none; } }
+@media (max-width: 640px) {
+  .hero { padding: 60px 0 0; }
+  .hero-content { padding: 0 20px; }
+  .hero-content > div { padding: 0; }
+  .hero-content dl { grid-template-columns: 1fr; gap: 16px; }
+  .scrolling-list { margin-top: 32px; padding: 16px 0; }
+  .scrolling-track { gap: 24px; }
+}
 </style>
 <section class="hero" id="hero">
   <video class="hero-video" autoplay muted loop playsinline>
