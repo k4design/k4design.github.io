@@ -1,5 +1,5 @@
-<!-- HTML Snippet for Lofty.com - LPT Combined Sections 4-13 (Mission through CTA + Google Reviews) -->
-<!-- Includes: Mission, Leadership, Why Agents Choose, dezzy.ai, Feature Cards, Support, Agent Stories carousel, Compensation, CTA, Google Reviews carousel -->
+<!-- HTML Snippet for Lofty.com - LPT Combined Sections (Hero + Mission through CTA + Google Reviews) -->
+<!-- Includes: Hero, Leadership, Why Agents Choose, dezzy.ai, Feature Cards, Support, Agent Stories carousel, Compensation, CTA, Google Reviews carousel -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" />
 <style>
 :root { --color-bg-white:#fff; --color-bg-light:#f5f7fa; --color-text-dark:#1a1a1a; --color-text-gray:#666; --color-text-light:#999; --font-primary:'Inter',-apple-system,sans-serif; }
@@ -15,6 +15,19 @@
 .stagger-container.animate-in > *:nth-child(2){ transition-delay: 0.15s; }
 .stagger-container.animate-in > *:nth-child(3){ transition-delay: 0.25s; }
 @media (prefers-reduced-motion: reduce) { .fade-up, .stagger-container > * { opacity: 1; transform: none; transition: none; } }
+
+/* Hero */
+.hero-section { position: relative; padding: 100px 0; overflow: hidden; min-height: 320px; display: flex; align-items: center; }
+.hero-section-video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0 !important; }
+.hero-section::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  background: radial-gradient(circle at 30% 40%, rgba(0,150,255,0.76) 0%, transparent 50%), radial-gradient(circle at 70% 60%, rgba(0,50,200,0.76) 0%, transparent 50%), linear-gradient(180deg, rgba(0,150,255,0.6) 0%, rgba(0,30,120,0.64) 50%, rgba(0,50,200,0.6) 100%);
+  z-index: 1; animation: heroGradientMove 15s ease-in-out infinite; }
+.hero-section > .container { position: relative; z-index: 2; }
+.hero-section .hero-inner { text-align: center; max-width: 800px; margin: 0 auto; }
+.hero-section .hero-headline { font-size: clamp(40px, 5vw, 56px); font-weight: 800; line-height: 1.15; color: white; letter-spacing: -0.02em; margin-bottom: 20px; }
+.hero-section .hero-description { font-size: 18px; line-height: 1.6; color: rgba(255,255,255,0.95); font-weight: 400; margin: 0; }
+@keyframes heroGradientMove { 0%{ background-position: 30% 40%, 70% 60%, center; } 25%{ background-position: 80% 20%, 20% 80%, center; } 50%{ background-position: 20% 80%, 80% 20%, center; } 75%{ background-position: 70% 70%, 30% 30%, center; } 100%{ background-position: 30% 40%, 70% 60%, center; } }
+@media (prefers-reduced-motion: reduce) { .hero-section::before { animation: none; } }
 
 /* Mission */
 .mission-section { padding: 120px 0; background-color: var(--color-bg-white); overflow: visible; }
@@ -64,9 +77,8 @@
 .dezzy-ai-content .section-tag { display: inline-flex; padding: 6px 16px; border-radius: 999px; background: rgba(255,255,255,0.15); color: white; font-weight: 700; font-size: 12px; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 16px; }
 .dezzy-ai-headline { font-size: clamp(36px, 4vw, 48px); font-weight: 800; line-height: 1.2; color: white; letter-spacing: -0.02em; margin-bottom: 24px; }
 .dezzy-ai-description { font-size: 18px; line-height: 1.7; color: rgba(255,255,255,0.9); margin-bottom: 32px; }
-.dezzy-checklist { list-style: none; padding: 0; margin: 24px 0 32px; display: grid; gap: 16px; }
-.dezzy-checklist li { position: relative; padding-left: 36px; font-size: 16px; line-height: 1.6; color: rgba(255,255,255,0.9); }
-.dezzy-checklist li::before { content: ''; position: absolute; left: 0; top: 0.35em; width: 18px; height: 18px; border-radius: 50%; background: rgba(255,255,255,0.9); box-shadow: none; }
+.dezzy-checklist { padding: 0; margin: 24px 0 32px; list-style: none; }
+.dezzy-checklist li { padding-left: 0; font-size: 16px; color: rgba(255,255,255,0.9); }
 .dezzy-ai-content .see-more-btn { background: transparent; color: white; border: 1px solid rgba(255,255,255,0.3); padding: 12px 24px; border-radius: 6px; font-weight: 500; font-size: 14px; cursor: pointer; text-decoration: none; display: inline-block; }
 .dezzy-ai-content .see-more-btn:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.5); }
 .dezzy-ai-visual { position: relative; z-index: 5; display: flex; align-items: center; justify-content: center; }
@@ -91,15 +103,12 @@
 .testimonial-carousel-track { display: flex; gap: 32px; transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1); will-change: transform; padding: 0 24px; touch-action: pan-y pan-x; user-select: none; -webkit-user-select: none; }
 .testimonial-card { flex: 0 0 380px; min-width: 0; flex-shrink: 0; transition: transform 0.3s ease, opacity 0.3s ease; touch-action: manipulation; user-select: none; -webkit-tap-highlight-color: transparent; max-width: calc(100vw - 48px); }
 .testimonial-card:hover { transform: translateY(-4px); }
-.accommodation-learn-more-btn { display: inline-block; background-color: var(--color-text-dark); color: white; text-decoration: none; padding: 12px 24px; border-radius: 6px; font-weight: 500; font-size: 14px; margin-top: 16px; transition: background-color 0.2s ease, transform 0.2s ease; width: fit-content; }
-.accommodation-learn-more-btn:hover { background-color: #04b3ff; transform: translateY(-1px); }
-
 /* Compensation */
 .compensation-section { padding: 120px 0; background-color: var(--color-bg-white); border-top: 1px solid rgba(0, 0, 0, 0.05); border-bottom: 1px solid rgba(0, 0, 0, 0.05); }
 .section-tag { display: inline-flex; padding: 6px 16px; border-radius: 999px; background: rgba(4, 179, 255, 0.18); color: #04b3ff; font-weight: 700; font-size: 12px; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 16px; }
 .compensation-section .section-tag { display: flex; margin-left: auto; margin-right: auto; justify-content: center; }
 .compensation-headline { font-size: clamp(36px, 4vw, 48px); font-weight: 800; line-height: 1.2; color: var(--color-text-dark); letter-spacing: -0.02em; text-align: center; margin-bottom: 48px; }
-.compensation-summary { margin-top: 0; text-align: left; color: var(--color-text-gray); display: grid; gap: 8px; }
+.compensation-summary { margin-top: 0; margin-bottom: 56px; text-align: center; color: var(--color-text-gray); display: grid; gap: 8px; }
 .compensation-summary h3 { font-size: 72px; line-height: 1.2; font-weight: 800; letter-spacing: -0.02em; text-transform: uppercase; color: var(--color-text-dark); margin: 0 0 8px; display: inline-block; background: linear-gradient(to right, rgba(4, 179, 255, 0.4), rgba(4, 179, 255, 0.4)); background-position: 0 calc(50% + 8px); background-size: 100% 60%; background-repeat: no-repeat; padding: 4px 0; }
 .compensation-summary p { font-size: 48px; line-height: 1.6; letter-spacing: -0.01em; font-weight: 400; margin: 4px 0; }
 .compensation-table { margin-top: 0; overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 20px; border: 1px solid rgba(0, 0, 0, 0.08); background: white; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08); max-width: 100%; }
@@ -155,6 +164,19 @@
 <script src="https://fast.wistia.com/embed/sm4mracms7.js" async type="module"></script>
 
 <div class="lpt-combined-snippet">
+<!-- Hero -->
+<section class="hero-section">
+  <video class="hero-section-video" autoplay muted loop playsinline>
+    <source src="https://k4design.github.io/lpt/vid/hero.mp4" type="video/mp4">
+  </video>
+  <div class="container">
+    <div class="hero-inner">
+      <h1 class="hero-headline fade-up">Build Your Business Your Way</h1>
+      <p class="hero-description fade-up fade-up-delay-1">Flexible compensation, full control over your brand, and the tools to achieve your individual idea of success.</p>
+    </div>
+  </div>
+</section>
+
 <!-- 08 Feature Cards - LPT's Mission Model -->
 <section class="feature-cards-section" id="dezzy-ai">
   <div class="container">
@@ -186,23 +208,6 @@
       <wistia-player media-id="sm4mracms7" aspect="1.7777777777777777"></wistia-player>
     </div>
     <div class="feature-cards-cta"></div>
-  </div>
-</section>
-
-<!-- 04 Mission -->
-<section class="mission-section">
-  <div class="container">
-    <div class="mission-content">
-      <div class="mission-text fade-up">
-        <h2 class="mission-headline">Fastest Growing<br> Brokerage Ever</h2>
-        <p class="mission-description">After reaching over 10,000 agents in just 19 states, LPT Realty then began its national expansion reaching 47 states by the end of 2024, offering more agents our unfair advantage than ever.</p>
-      </div>
-      <div class="mission-image fade-up fade-up-delay-1">
-        <div class="us-map-container">
-          <img src="https://k4design.github.io/lpt/img/map.png" alt="United States map showing LPT Realty coverage" width="959" height="593" loading="lazy" />
-        </div>
-      </div>
-    </div>
   </div>
 </section>
 
@@ -274,9 +279,7 @@
           <li>Automated creation of CDAs</li>
           <li>High quality, agent branded marketing materials in minutes</li>
         </ul>
-        <div class="dezzy-ai-actions">
-          <button type="button" class="see-more-btn" id="dezzy-ai-video-btn">Learn More About dezzy.ai</button>
-        </div>
+        <div class="dezzy-ai-actions"></div>
       </div>
       <div class="dezzy-ai-visual fade-up fade-up-delay-1">
         <img src="https://lpt.com/assets/images/dezzy-bot.webp" class="dezzy-bot-image" width="240" height="556" alt="dezzy.ai bot" loading="lazy" />
@@ -320,27 +323,22 @@
       <article class="testimonial-card" style="background: white; padding: 32px; border-radius: 12px; box-shadow: 0 20px 40px rgba(15, 23, 42, 0.12);">
         <div style="display: flex; gap: 16px; align-items: center; margin-bottom: 20px;"><img src="https://lpt.com/assets/images/reeka-christmann.webp" alt="Reeka Christmann" width="64" height="64" style="width: 64px; height: 64px; border-radius: 50%; object-fit: cover;" /><div><p style="font-size: 16px; font-weight: 700; color: var(--color-text-dark); margin: 0;">Reeka Christmann</p><p style="font-size: 12px; color: rgba(4, 179, 255, 0.65); margin: 4px 0 0; text-transform: uppercase; letter-spacing: 0.5px;">Southwest Florida Team</p></div></div>
         <p style="font-size: 15px; line-height: 1.7; color: rgba(15, 23, 42, 0.7); margin: 0;">We (domestic team serving SW FL) had 2 back to back listings due to the Power Pack presentation alone competing against large local teams and agents...</p>
-        <a href="#" class="accommodation-learn-more-btn" style="margin-top: 20px;">Learn More</a>
       </article>
       <article class="testimonial-card" style="background: white; padding: 32px; border-radius: 12px; box-shadow: 0 20px 40px rgba(15, 23, 42, 0.12);">
         <div style="display: flex; gap: 16px; align-items: center; margin-bottom: 20px;"><img src="https://lpt.com/assets/images/chance-pircher.webp" alt="Chance Pircher" width="64" height="64" style="width: 64px; height: 64px; border-radius: 50%; object-fit: cover;" /><div><p style="font-size: 16px; font-weight: 700; color: var(--color-text-dark); margin: 0;">Chance Pircher</p><p style="font-size: 12px; color: rgba(4, 179, 255, 0.65); margin: 4px 0 0; text-transform: uppercase; letter-spacing: 0.5px;">Listing Power Pack</p></div></div>
         <p style="font-size: 15px; line-height: 1.7; color: rgba(15, 23, 42, 0.7); margin: 0;">Converting a prospective buyer after meeting them at an open last month...</p>
-        <a href="#" class="accommodation-learn-more-btn" style="margin-top: 20px;">Learn More</a>
       </article>
       <article class="testimonial-card" style="background: white; padding: 32px; border-radius: 12px; box-shadow: 0 20px 40px rgba(15, 23, 42, 0.12);">
         <div style="display: flex; gap: 16px; align-items: center; margin-bottom: 20px;"><img src="https://lpt.com/assets/images/kristen-smith.webp" alt="Kristen Smith" width="64" height="64" style="width: 64px; height: 64px; border-radius: 50%; object-fit: cover;" /><div><p style="font-size: 16px; font-weight: 700; color: var(--color-text-dark); margin: 0;">Kristen Smith</p><p style="font-size: 12px; color: rgba(4, 179, 255, 0.65); margin: 4px 0 0; text-transform: uppercase; letter-spacing: 0.5px;">Agent Billboard</p></div></div>
         <p style="font-size: 15px; line-height: 1.7; color: rgba(15, 23, 42, 0.7); margin: 0;">I received 3 referrals from my billboard social media post. Two came from out of state agents and one from my SOI.</p>
-        <a href="#" class="accommodation-learn-more-btn" style="margin-top: 20px;">Learn More</a>
       </article>
       <article class="testimonial-card" style="background: white; padding: 32px; border-radius: 12px; box-shadow: 0 20px 40px rgba(15, 23, 42, 0.12);">
         <div style="display: flex; gap: 16px; align-items: center; margin-bottom: 20px;"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=128&h=128&fit=crop&crop=faces" alt="Michael Chen" width="64" height="64" style="width: 64px; height: 64px; border-radius: 50%; object-fit: cover;" /><div><p style="font-size: 16px; font-weight: 700; color: var(--color-text-dark); margin: 0;">Michael Chen</p><p style="font-size: 12px; color: rgba(4, 179, 255, 0.65); margin: 4px 0 0;">Power Pack User</p></div></div>
         <p style="font-size: 15px; line-height: 1.7; color: rgba(15, 23, 42, 0.7); margin: 0;">The Listing Power Pack helped me close 5 deals in my first month with LPT.</p>
-        <a href="#" class="accommodation-learn-more-btn" style="margin-top: 20px;">Learn More</a>
       </article>
       <article class="testimonial-card" style="background: white; padding: 32px; border-radius: 12px; box-shadow: 0 20px 40px rgba(15, 23, 42, 0.12);">
         <div style="display: flex; gap: 16px; align-items: center; margin-bottom: 20px;"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=128&h=128&fit=crop&crop=faces" alt="Sarah Johnson" width="64" height="64" style="width: 64px; height: 64px; border-radius: 50%; object-fit: cover;" /><div><p style="font-size: 16px; font-weight: 700; color: var(--color-text-dark); margin: 0;">Sarah Johnson</p><p style="font-size: 12px; color: rgba(4, 179, 255, 0.65); margin: 4px 0 0;">dezzy.ai Power User</p></div></div>
         <p style="font-size: 15px; line-height: 1.7; color: rgba(15, 23, 42, 0.7); margin: 0;">dezzy.ai has transformed my workflow. It's like having a full-time assistant.</p>
-        <a href="#" class="accommodation-learn-more-btn" style="margin-top: 20px;">Learn More</a>
       </article>
     </div>
   </div>
@@ -352,12 +350,9 @@
     <p class="section-tag fade-up">Compensation Architecture</p>
     <h2 id="compensation-title" class="compensation-headline fade-up fade-up-delay-1">Built On Agent Choice</h2>
     <div class="compensation-summary fade-up fade-up-delay-2">
-      <h3>No signup fees.</h3>
-      <h3>No monthly fees.</h3>
-      <p>$500 Annual Fee Paid</p>
-      <p>from First Transaction</p>
-      <p>All transactions have a</p>
-      <p>$195 Transaction Fee</p>
+      <h3>No signup or monthly fees.</h3>
+      <p><strong>$500 annual fee</strong> — paid from your first transaction.</p>
+      <p><strong>$195 per transaction</strong> — simple and transparent.</p>
     </div>
     <div class="compensation-table fade-up fade-up-delay-3">
       <table>
@@ -403,7 +398,7 @@
     var obs = new IntersectionObserver(function(entries) {
       entries.forEach(function(e) { if (e.isIntersecting) { e.target.classList.add('animate-in'); obs.unobserve(e.target); } });
     }, { rootMargin: rootMargin, threshold: threshold });
-    document.querySelectorAll('.mission-section .fade-up, .mission-section .stagger-container, .leadership-team-section .fade-up, .leadership-team-section .stagger-container, .escapes-section .fade-up, .escapes-section .stagger-container, .dezzy-ai-section .fade-up, .feature-cards-section .fade-up, .feature-cards-section .stagger-container, .compensation-section .fade-up').forEach(function(el) { obs.observe(el); });
+    document.querySelectorAll('.hero-section .fade-up, .mission-section .fade-up, .mission-section .stagger-container, .leadership-team-section .fade-up, .leadership-team-section .stagger-container, .escapes-section .fade-up, .escapes-section .stagger-container, .dezzy-ai-section .fade-up, .feature-cards-section .fade-up, .feature-cards-section .stagger-container, .compensation-section .fade-up').forEach(function(el) { obs.observe(el); });
   }
   runScrollAnimations();
 

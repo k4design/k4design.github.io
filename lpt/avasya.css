@@ -1884,7 +1884,8 @@ body.is-locked {
 
 .compensation-summary {
   margin-top: 0;
-  text-align: left;
+  margin-bottom: 56px;
+  text-align: center;
   color: var(--color-text-gray);
   display: grid;
   gap: 8px;
@@ -1944,7 +1945,7 @@ body.is-locked {
 @media (max-width: 768px) {
   .compensation-summary {
     gap: 12px;
-    text-align: left;
+    text-align: center;
   }
   
   .compensation-summary h3 {
