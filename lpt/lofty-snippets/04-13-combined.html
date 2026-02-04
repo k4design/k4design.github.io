@@ -244,7 +244,7 @@
         <p class="fade-up fade-up-delay-1" style="font-size:18px;line-height:1.7;color:var(--color-text-gray);margin-bottom:48px;max-width:800px;">Every touchpoint is designed around agent autonomy. LPT Realty equips you with cinematic marketing, automated operations, and relentless support so you can move faster, close more, and grow without limits.</p>
         <div class="accommodations-grid stagger-container">
           <article class="accommodation-card">
-            <div class="accommodation-image"><img src="https://k4design.github.io/lpt/img/lpt-collateral-system.webp" alt="Agent Centric Branding" width="600" height="800" loading="lazy" /></div>
+            <div class="accommodation-image"><img src="https://k4design.github.io/lpt/img/lpt-collateral-system.png" alt="Agent Centric Branding" width="600" height="800" loading="lazy" /></div>
             <div class="accommodation-info"><h3>Agent Centric Branding</h3><p>Showcase your personal brand at scale with a turnkey design system, property storytelling, and premium print collateral tailored to every market.</p></div>
           </article>
           <article class="accommodation-card">
@@ -402,57 +402,263 @@
   }
   runScrollAnimations();
 
-  var canvas = document.getElementById('ai-background-canvas');
-  if (canvas && canvas.getContext) {
+  (function initAIBackground() {
+    var canvas = document.getElementById('ai-background-canvas');
+    if (!canvas) return;
     var ctx = canvas.getContext('2d');
+    var animationId = null;
     var time = 0;
-    function resize() { var p = canvas.parentElement; if (!p) return; var r = p.getBoundingClientRect(); if (r.width > 0 && r.height > 0) { canvas.width = r.width; canvas.height = r.height; } }
-    function doResizeAndDraw() { resize(); if (canvas.width > 0 && canvas.height > 0) { ctx.fillStyle = '#0a0e27'; ctx.fillRect(0, 0, canvas.width, canvas.height); } }
-    resize();
-    window.addEventListener('resize', function() { resize(); });
-    setTimeout(doResizeAndDraw, 50);
-    var section = canvas.closest('.dezzy-ai-section');
-    if (section) {
-      var ro = new ResizeObserver(function() { resize(); });
-      ro.observe(section);
+    var mouseX = 0, mouseY = 0, targetMouseX = 0, targetMouseY = 0;
+    var isInteracting = false;
+    var interactionIntensity = 0;
+    var config = {
+      baseColor: '#0a0e27',
+      colors: { cyan: '#00ffff', blue: '#0066ff', purple: '#6600ff', deepBlue: '#001a33' },
+      pulseSpeed: 0.0015,
+      waveSpeed: 0.001,
+      maxRadius: 400,
+      layers: 8,
+      particles: 40,
+      interactionRadius: 200,
+      interactionStrength: 0.8
+    };
+    function resizeCanvas() {
+      var container = canvas.parentElement;
+      if (!container) return;
+      var rect = container.getBoundingClientRect();
+      canvas.width = rect.width;
+      canvas.height = rect.height;
+    }
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+    function handleMove(e) {
+      var rect = canvas.getBoundingClientRect();
+      var clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      var clientY = e.touches ? e.touches[0].clientY : e.clientY;
+      targetMouseX = clientX - rect.left;
+      targetMouseY = clientY - rect.top;
+      isInteracting = true;
+      interactionIntensity = Math.min(1, interactionIntensity + 0.1);
+    }
+    function handleLeave() { isInteracting = false; }
+    function updateMousePosition() {
+      var smoothing = 0.15;
+      mouseX += (targetMouseX - mouseX) * smoothing;
+      mouseY += (targetMouseY - mouseY) * smoothing;
+      if (!isInteracting) interactionIntensity = Math.max(0, interactionIntensity - 0.05);
+    }
+    canvas.addEventListener('mousemove', handleMove);
+    canvas.addEventListener('touchmove', handleMove, { passive: true });
+    canvas.addEventListener('mouseleave', handleLeave);
+    canvas.addEventListener('touchend', handleLeave);
+    function createGradient(x1, y1, x2, y2, stops) {
+      var g = ctx.createLinearGradient(x1, y1, x2, y2);
+      stops.forEach(function(s) { g.addColorStop(s.offset, s.color); });
+      return g;
+    }
+    function createRadialGradient(x, y, r, stops) {
+      var g = ctx.createRadialGradient(x, y, 0, x, y, r);
+      stops.forEach(function(s) { g.addColorStop(s.offset, s.color); });
+      return g;
+    }
+    function hexOpacity(val) { return Math.floor(val * 255).toString(16).padStart(2, '0'); }
+    function drawWaveLayer(centerX, centerY, radius, phase, layerIndex, pulse, globalInteractionBoost) {
+      var points = 120, angleStep = (Math.PI * 2) / points;
+      var baseAmplitude = 25 + layerIndex * 5, pulseAmplitude = Math.sin(pulse * 2) * 10;
+      var waveAmplitude = baseAmplitude + pulseAmplitude, waveFrequency = 3 + layerIndex * 0.5;
+      var dx = mouseX - centerX, dy = mouseY - centerY;
+      var distance = Math.sqrt(dx * dx + dy * dy);
+      var layerInteractionEffect = Math.max(0, 1 - distance / (config.interactionRadius + layerIndex * 20));
+      var interactionBoost = layerInteractionEffect * interactionIntensity * config.interactionStrength;
+      ctx.beginPath();
+      for (var i = 0; i <= points; i++) {
+        var angle = i * angleStep;
+        var baseWaveOffset = Math.sin(angle * waveFrequency + phase) * waveAmplitude;
+        var interactionOffset = 0;
+        if (interactionBoost > 0) {
+          var angleToMouse = Math.atan2(dy, dx);
+          var angleDiff = Math.abs(angle - angleToMouse);
+          var proximity = Math.cos(Math.min(angleDiff, Math.PI)) * interactionBoost;
+          interactionOffset = proximity * 30 * (1 - distance / config.interactionRadius);
+        }
+        var dynamicOffset = Math.sin(angle * 2 + phase * 1.5) * 8 * interactionBoost;
+        var totalOffset = baseWaveOffset + interactionOffset + dynamicOffset;
+        var currentRadius = radius + totalOffset;
+        var rotation = interactionBoost * 0.1;
+        var x = centerX + Math.cos(angle + rotation) * currentRadius;
+        var y = centerY + Math.sin(angle + rotation) * currentRadius;
+        if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+      }
+      var baseOpacity = 0.4 - (layerIndex * 0.04);
+      var pulseOpacity = Math.sin(pulse * 1.5) * 0.15;
+      var interactionOpacity = interactionBoost * 0.2;
+      var opacity = Math.min(1, baseOpacity + pulseOpacity + interactionOpacity);
+      var colorIndex = Math.floor(layerIndex / 2);
+      var color1, color2;
+      if (colorIndex === 0) { color1 = config.colors.cyan; color2 = config.colors.blue; }
+      else if (colorIndex === 1) { color1 = config.colors.blue; color2 = config.colors.purple; }
+      else { color1 = config.colors.purple; color2 = config.colors.cyan; }
+      var gradient = createGradient(centerX - radius, centerY - radius, centerX + radius, centerY + radius,
+        [{ offset: 0, color: color1 + hexOpacity(opacity) }, { offset: 0.5, color: color2 + hexOpacity(opacity * 0.8) }, { offset: 1, color: color1 + hexOpacity(opacity * 0.6) }]);
+      ctx.strokeStyle = gradient;
+      ctx.lineWidth = (2 - (layerIndex * 0.12)) + Math.sin(pulse + layerIndex) * 0.3 + interactionBoost * 0.5;
+      ctx.stroke();
+      if (layerIndex < 3) {
+        ctx.shadowBlur = 15 + interactionBoost * 10;
+        ctx.shadowColor = config.colors.cyan;
+        ctx.stroke();
+        ctx.shadowBlur = 0;
+      }
+    }
+    function drawCentralGlow(centerX, centerY, pulse, globalInteractionBoost) {
+      var baseRadius = 40;
+      var pulseRadius = baseRadius + Math.sin(pulse) * 25 + Math.sin(pulse * 2) * 10;
+      var baseIntensity = 0.8 + Math.sin(pulse * 1.5) * 0.4;
+      var interactionIntensityBoost = globalInteractionBoost * 0.3;
+      var intensity = Math.min(1, baseIntensity + interactionIntensityBoost);
+      var interactionShiftX = (mouseX - centerX) * globalInteractionBoost * 0.3;
+      var interactionShiftY = (mouseY - centerY) * globalInteractionBoost * 0.3;
+      var glowX = centerX + interactionShiftX, glowY = centerY + interactionShiftY;
+      var outerGradient = createRadialGradient(glowX, glowY, pulseRadius * 4, [
+        { offset: 0, color: config.colors.cyan + hexOpacity(intensity * 0.5) },
+        { offset: 0.4, color: config.colors.blue + hexOpacity(intensity * 0.3) },
+        { offset: 0.7, color: config.colors.purple + hexOpacity(intensity * 0.15) },
+        { offset: 1, color: config.colors.cyan + '00' }
+      ]);
+      ctx.fillStyle = outerGradient;
+      ctx.beginPath();
+      ctx.arc(glowX, glowY, pulseRadius * 4, 0, Math.PI * 2);
+      ctx.fill();
+      var middleGradient = createRadialGradient(glowX, glowY, pulseRadius * 2, [
+        { offset: 0, color: config.colors.cyan + hexOpacity(intensity * 0.7) },
+        { offset: 0.6, color: config.colors.blue + hexOpacity(intensity * 0.4) },
+        { offset: 1, color: config.colors.cyan + '00' }
+      ]);
+      ctx.fillStyle = middleGradient;
+      ctx.beginPath();
+      ctx.arc(glowX, glowY, pulseRadius * 2, 0, Math.PI * 2);
+      ctx.fill();
+      var coreGradient = createRadialGradient(glowX, glowY, pulseRadius, [
+        { offset: 0, color: config.colors.cyan + 'ff' },
+        { offset: 0.4, color: config.colors.blue + hexOpacity(intensity * 0.9) },
+        { offset: 0.8, color: config.colors.purple + hexOpacity(intensity * 0.5) },
+        { offset: 1, color: config.colors.cyan + '00' }
+      ]);
+      ctx.fillStyle = coreGradient;
+      ctx.beginPath();
+      ctx.arc(glowX, glowY, pulseRadius, 0, Math.PI * 2);
+      ctx.fill();
+      if (globalInteractionBoost > 0.3) {
+        for (var i = 0; i < 8; i++) {
+          var sparkleAngle = (Math.PI * 2 / 8) * i + pulse;
+          var sparkleDist = pulseRadius * 1.5;
+          var sparkleX = glowX + Math.cos(sparkleAngle) * sparkleDist;
+          var sparkleY = glowY + Math.sin(sparkleAngle) * sparkleDist;
+          var sparkleSize = 2 + Math.sin(pulse * 3 + i) * 1;
+          ctx.fillStyle = config.colors.cyan + hexOpacity(globalInteractionBoost);
+          ctx.beginPath();
+          ctx.arc(sparkleX, sparkleY, sparkleSize, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+    }
+    function drawParticles(pulse, globalInteractionBoost) {
+      for (var i = 0; i < config.particles; i++) {
+        var seed = i * 137.5;
+        var x = (canvas.width * 0.7) + (Math.cos(seed) * canvas.width * 0.3);
+        var y = (canvas.height * 0.5) + (Math.sin(seed) * canvas.height * 0.4);
+        if (isInteracting) {
+          var dx = mouseX - x, dy = mouseY - y;
+          var dist = Math.sqrt(dx * dx + dy * dy);
+          var force = Math.max(0, 1 - dist / 150) * interactionIntensity;
+          x += dx * force * 0.1;
+          y += dy * force * 0.1;
+        }
+        var size = 1.5 + Math.sin(pulse + seed) * 1 + globalInteractionBoost * 0.5;
+        var baseOpacity = 0.4 + Math.sin(pulse * 2 + seed) * 0.3;
+        var opacity = Math.min(1, baseOpacity + globalInteractionBoost * 0.3);
+        ctx.fillStyle = config.colors.cyan + hexOpacity(opacity);
+        ctx.beginPath();
+        ctx.arc(x, y, size, 0, Math.PI * 2);
+        ctx.fill();
+        if (isInteracting) {
+          var dx = mouseX - x, dy = mouseY - y;
+          var dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 80) {
+            ctx.shadowBlur = 8;
+            ctx.shadowColor = config.colors.cyan;
+            ctx.fill();
+            ctx.shadowBlur = 0;
+          }
+        }
+      }
+    }
+    function drawCircuitPattern() {
+      ctx.strokeStyle = config.colors.blue + '30';
+      ctx.lineWidth = 1;
+      for (var i = 0; i < 5; i++) {
+        var y = canvas.height * (0.2 + i * 0.15);
+        ctx.beginPath();
+        ctx.moveTo(canvas.width * 0.7, y);
+        ctx.lineTo(canvas.width * 0.9, y);
+        ctx.stroke();
+        ctx.fillStyle = config.colors.cyan + '60';
+        ctx.beginPath();
+        ctx.arc(canvas.width * 0.7, y, 2, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.beginPath();
+        ctx.arc(canvas.width * 0.9, y, 2, 0, Math.PI * 2);
+        ctx.fill();
+      }
     }
     function animate() {
       time++;
-      if (time > 1e6) time = 0;
-      var w = canvas.width, h = canvas.height;
-      ctx.fillStyle = '#0a0e27';
-      ctx.fillRect(0, 0, w, h);
-      var cx = w * 0.75, cy = h * 0.5, pulse = time * 0.0015;
-      for (var i = 7; i >= 0; i--) {
-        var r = 80 + i * 35, ph = time * 0.001 + i * 0.3;
-        ctx.beginPath();
-        for (var a = 0; a <= Math.PI * 2; a += 0.05) {
-          var rad = r + Math.sin(a * 3 + ph) * 25;
-          var x = cx + Math.cos(a) * rad, y = cy + Math.sin(a) * rad;
-          if (a === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
-        }
-        ctx.closePath();
-        ctx.strokeStyle = 'rgba(0,255,255,' + (0.4 - i * 0.04) + ')';
-        ctx.lineWidth = 2;
-        ctx.stroke();
+      if (time > 1000000) time = 0;
+      updateMousePosition();
+      var pulse = time * config.pulseSpeed;
+      var wavePhase = time * config.waveSpeed;
+      ctx.fillStyle = config.baseColor;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      var baseCenterX = canvas.width * 0.75, baseCenterY = canvas.height * 0.5;
+      var dx = mouseX - baseCenterX, dy = mouseY - baseCenterY;
+      var distance = Math.sqrt(dx * dx + dy * dy);
+      var interactionEffect = Math.max(0, 1 - distance / config.interactionRadius);
+      var globalInteractionBoost = interactionEffect * interactionIntensity * config.interactionStrength;
+      var centerShiftX = (mouseX - baseCenterX) * globalInteractionBoost * 0.1;
+      var centerShiftY = (mouseY - baseCenterY) * globalInteractionBoost * 0.1;
+      var centerX = baseCenterX + centerShiftX, centerY = baseCenterY + centerShiftY;
+      drawCircuitPattern();
+      drawParticles(pulse, globalInteractionBoost);
+      for (var i = config.layers - 1; i >= 0; i--) {
+        var radius = 80 + i * 35, phase = wavePhase + i * 0.3;
+        drawWaveLayer(centerX, centerY, radius, phase, i, pulse, globalInteractionBoost);
       }
-      var pr = 40 + Math.sin(pulse) * 15;
-      var g = ctx.createRadialGradient(cx, cy, 0, cx, cy, pr * 2);
-      g.addColorStop(0, 'rgba(0,255,255,0.5)');
-      g.addColorStop(1, 'transparent');
-      ctx.fillStyle = g;
-      ctx.beginPath();
-      ctx.arc(cx, cy, pr * 2, 0, Math.PI * 2);
-      ctx.fill();
-      requestAnimationFrame(animate);
+      drawCentralGlow(centerX, centerY, pulse, globalInteractionBoost);
+      animationId = requestAnimationFrame(animate);
     }
+    var section = canvas.closest('.dezzy-ai-section');
     if (section) {
-      var io = new IntersectionObserver(function(entries) {
-        if (entries[0].isIntersecting) { doResizeAndDraw(); animate(); }
+      var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            if (!animationId) animate();
+          } else {
+            if (animationId) {
+              cancelAnimationFrame(animationId);
+              animationId = null;
+            }
+          }
+        });
       }, { threshold: 0.1 });
-      io.observe(section);
-    } else { doResizeAndDraw(); animate(); }
-  }
+      observer.observe(section);
+      animate();
+    } else {
+      animate();
+    }
+    window.addEventListener('beforeunload', function() {
+      if (animationId) cancelAnimationFrame(animationId);
+    });
+  })();
 
   function initCarousel(trackId) {
     var carouselTrack = document.getElementById(trackId);
