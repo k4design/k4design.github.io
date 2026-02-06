@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Email Signature Generator</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <h1>Email Signature Generator</h1>
+      <p class="tagline">Enter your details and get a copy-paste-ready signature for Gmail, Outlook, and Apple Mail.</p>
+    </header>
+
+    <main class="main">
+      <!-- Template selector -->
+      <section class="section template-section">
+        <h2>Layout template</h2>
+        <div class="template-tabs" role="tablist" aria-label="Signature layout templates">
+          <button type="button" class="template-tab active" role="tab" aria-selected="true" data-template="figma">Signature with logo</button>
+          <button type="button" class="template-tab" role="tab" aria-selected="false" data-template="aperture_dark_luxury">Aperture Dark Luxury</button>
+          <button type="button" class="template-tab" role="tab" aria-selected="false" data-template="classic">Classic</button>
+          <button type="button" class="template-tab" role="tab" aria-selected="false" data-template="modern">Modern</button>
+          <button type="button" class="template-tab" role="tab" aria-selected="false" data-template="compact">Compact</button>
+        </div>
+        <p class="template-desc" id="template-desc">Dark card layout: circular headshot, name & title, vertical divider, company logo, phone/email, disclaimer, social links.</p>
+      </section>
+
+      <!-- Form -->
+      <section class="section form-section">
+        <h2>Your information</h2>
+        <form id="signature-form" class="form" novalidate>
+          <div class="form-row">
+            <label for="fullName">Full name <span class="required">*</span></label>
+            <input type="text" id="fullName" name="fullName" required autocomplete="name" placeholder="Jane Smith">
+          </div>
+
+          <div class="form-row">
+            <label for="title">Title / Role</label>
+            <input type="text" id="title" name="title" placeholder="Senior Sales Associate">
+          </div>
+
+          <div class="form-row">
+            <label for="company">Company</label>
+            <input type="text" id="company" name="company" placeholder="Acme Realty">
+          </div>
+
+          <div class="form-row">
+            <label for="companyTagline">Company tagline <span class="optional">(optional)</span></label>
+            <input type="text" id="companyTagline" name="companyTagline" placeholder="e.g. GLOBAL REAL ESTATE">
+            <span class="hint small">Used in Aperture Dark Luxury template under the company name.</span>
+          </div>
+
+          <div class="form-row">
+            <label for="email">Email <span class="required">*</span></label>
+            <input type="email" id="email" name="email" required placeholder="jane@example.com">
+            <span class="hint" id="email-hint" aria-live="polite"></span>
+          </div>
+
+          <div class="form-row">
+            <label for="phone">Phone</label>
+            <input type="tel" id="phone" name="phone" placeholder="(555) 123-4567">
+            <span class="hint" id="phone-hint" aria-live="polite"></span>
+          </div>
+
+          <div class="form-row">
+            <label for="website">Website</label>
+            <input type="url" id="website" name="website" placeholder="https://example.com">
+            <span class="hint" id="website-hint" aria-live="polite"></span>
+          </div>
+
+          <div class="form-row">
+            <label for="address">Office address <span class="optional">(optional)</span></label>
+            <input type="text" id="address" name="address" placeholder="123 Main St, City, State">
+          </div>
+
+          <div class="form-row">
+            <label for="linkedin">LinkedIn URL <span class="optional">(optional)</span></label>
+            <input type="url" id="linkedin" name="linkedin" placeholder="https://linkedin.com/in/username">
+            <span class="hint" id="linkedin-hint" aria-live="polite"></span>
+          </div>
+
+          <div class="form-row">
+            <label for="instagram">Instagram URL <span class="optional">(optional)</span></label>
+            <input type="url" id="instagram" name="instagram" placeholder="https://instagram.com/username">
+            <span class="hint" id="instagram-hint" aria-live="polite"></span>
+          </div>
+
+          <div class="form-row">
+            <label for="facebook">Facebook URL <span class="optional">(optional)</span></label>
+            <input type="url" id="facebook" name="facebook" placeholder="https://facebook.com/username">
+            <span class="hint" id="facebook-hint" aria-live="polite"></span>
+          </div>
+
+          <div class="form-row">
+            <label for="twitter">Twitter / X URL <span class="optional">(optional)</span></label>
+            <input type="url" id="twitter" name="twitter" placeholder="https://x.com/username">
+            <span class="hint" id="twitter-hint" aria-live="polite"></span>
+          </div>
+
+          <div class="form-row">
+            <label for="disclaimer">Disclaimer / legal text <span class="optional">(optional)</span></label>
+            <textarea id="disclaimer" name="disclaimer" rows="4" placeholder="e.g. Aperture Global Real Estate is a licensed real estate broker..."></textarea>
+          </div>
+
+          <div class="form-row">
+            <label for="equalHousingUrl">Equal Housing Opportunity logo URL <span class="optional">(optional)</span></label>
+            <input type="url" id="equalHousingUrl" name="equalHousingUrl" placeholder="https://yoursite.com/equal-housing-logo.png">
+            <span class="hint small">Used in Signature with logo and Aperture Dark Luxury templates.</span>
+          </div>
+
+          <div class="form-row">
+            <label>Social icon image URLs <span class="optional">(optional, 15×15px)</span></label>
+            <p class="hint small">For Aperture Dark Luxury: use image URLs for &lt;a&gt;&lt;img&gt;&lt;/a&gt; links. Leave blank to use text links.</p>
+            <input type="url" id="facebookIconUrl" name="facebookIconUrl" placeholder="Facebook icon image URL">
+            <input type="url" id="twitterIconUrl" name="twitterIconUrl" placeholder="Twitter icon image URL" class="input-mt">
+            <input type="url" id="linkedinIconUrl" name="linkedinIconUrl" placeholder="LinkedIn icon image URL" class="input-mt">
+          </div>
+
+          <div class="form-row">
+            <label for="brandColor">Primary brand color</label>
+            <div class="color-input-wrap">
+              <input type="color" id="brandColor" name="brandColor" value="#2563eb" aria-label="Primary brand color">
+              <input type="text" id="brandColorText" value="#2563eb" class="color-text" aria-label="Primary brand color hex">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <label for="fontFamily">Font</label>
+            <select id="fontFamily" name="fontFamily" aria-label="Font choice">
+              <option value="Arial, sans-serif">Arial</option>
+              <option value="Georgia, serif">Georgia</option>
+              <option value="'Times New Roman', Times, serif">Times New Roman</option>
+              <option value="Verdana, sans-serif">Verdana</option>
+              <option value="Tahoma, sans-serif">Tahoma</option>
+              <option value="'Trebuchet MS', sans-serif">Trebuchet MS</option>
+              <option value="Helvetica, Arial, sans-serif">Helvetica</option>
+            </select>
+          </div>
+
+          <div class="form-row">
+            <label for="headshot">Headshot <span class="optional">(optional)</span></label>
+            <input type="file" id="headshot" name="headshot" accept="image/*">
+            <span class="hint small">PNG or JPG recommended. Max ~200KB for base64.</span>
+          </div>
+
+          <div class="form-row">
+            <label for="logo">Company logo <span class="optional">(optional)</span></label>
+            <input type="file" id="logo" name="logo" accept="image/*">
+          </div>
+
+          <fieldset class="hosted-urls-fieldset">
+            <legend>Image URLs (optional)</legend>
+            <p class="hosted-explainer">Some email clients strip base64 images. If your images break, host them online and enter URLs here, then toggle below.</p>
+            <div class="form-row">
+              <label for="headshotUrl">Headshot URL</label>
+              <input type="url" id="headshotUrl" name="headshotUrl" placeholder="https://yoursite.com/headshot.jpg">
+            </div>
+            <div class="form-row">
+              <label for="logoUrl">Logo URL</label>
+              <input type="url" id="logoUrl" name="logoUrl" placeholder="https://yoursite.com/logo.png">
+            </div>
+            <div class="form-row checkbox-row">
+              <input type="checkbox" id="useHostedUrls" name="useHostedUrls" aria-describedby="hosted-desc">
+              <label for="useHostedUrls">Use hosted image URLs instead of embedded (base64)</label>
+            </div>
+            <p id="hosted-desc" class="hint small">Base64: works when pasting into Gmail/Outlook but can be stripped in some clients. Hosted URLs: more reliable long-term but require images to stay online.</p>
+          </fieldset>
+
+          <div class="form-actions">
+            <button type="button" id="reset-btn" class="btn btn-secondary">Reset</button>
+          </div>
+        </form>
+      </section>
+
+      <!-- Preview -->
+      <section class="section preview-section">
+        <h2>Preview</h2>
+        <p class="preview-note">What it will look like in email (table-based layout for Gmail, Outlook).</p>
+        <div class="preview-wrapper">
+          <div id="preview-container" class="preview-container" role="region" aria-label="Signature preview">
+            <div id="preview-inner" class="preview-inner"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Output -->
+      <section class="section output-section">
+        <h2>Generated signature</h2>
+        <div class="output-actions">
+          <button type="button" id="copy-html-btn" class="btn btn-primary" aria-label="Copy signature HTML to clipboard">Copy HTML</button>
+          <button type="button" id="copy-rich-btn" class="btn btn-primary" aria-label="Copy rich signature for pasting into Gmail">Copy Rich Signature</button>
+          <button type="button" id="download-btn" class="btn btn-secondary" aria-label="Download signature as HTML file">Download HTML file</button>
+        </div>
+        <div class="code-wrap">
+          <textarea id="output-code" class="output-code" readonly spellcheck="false" aria-label="Generated signature HTML"></textarea>
+        </div>
+      </section>
+
+      <!-- How to install -->
+      <section class="section install-section">
+        <h2>How to install</h2>
+        <div class="install-accordion">
+          <details class="install-detail">
+            <summary>Gmail</summary>
+            <ol>
+              <li>Click the gear icon → See all settings.</li>
+              <li>Under “General”, scroll to “Signature”.</li>
+              <li>Create or select a signature, then paste your signature in the box (use <strong>Copy Rich Signature</strong> for best results).</li>
+              <li>Save changes.</li>
+            </ol>
+          </details>
+          <details class="install-detail">
+            <summary>Outlook desktop</summary>
+            <ol>
+              <li>File → Options → Mail → Signatures.</li>
+              <li>Create or edit a signature.</li>
+              <li>Paste your HTML (paste into the editor; Outlook will accept the formatting). Use <strong>Copy Rich Signature</strong> or paste from the HTML code if needed.</li>
+              <li>OK to save.</li>
+            </ol>
+          </details>
+          <details class="install-detail">
+            <summary>Outlook on the web</summary>
+            <ol>
+              <li>Click the gear icon → View all Outlook settings.</li>
+              <li>Mail → Compose and reply → Email signature.</li>
+              <li>Paste your signature (use <strong>Copy Rich Signature</strong>).</li>
+              <li>Save.</li>
+            </ol>
+          </details>
+          <details class="install-detail">
+            <summary>Apple Mail</summary>
+            <ol>
+              <li>Mail → Settings (or Preferences) → Signatures.</li>
+              <li>Select an account and create or edit a signature.</li>
+              <li>Paste your signature. Use <strong>Copy Rich Signature</strong> so formatting is preserved.</li>
+            </ol>
+          </details>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>Email Signature Generator — runs locally in your browser. No data is sent to any server.</p>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

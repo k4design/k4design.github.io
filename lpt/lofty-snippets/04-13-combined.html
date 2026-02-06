@@ -103,6 +103,13 @@
 .testimonial-carousel-track { display: flex; gap: 32px; transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1); will-change: transform; padding: 0 24px; touch-action: pan-y pan-x; user-select: none; -webkit-user-select: none; }
 .testimonial-card { flex: 0 0 380px; min-width: 0; flex-shrink: 0; transition: transform 0.3s ease, opacity 0.3s ease; touch-action: manipulation; user-select: none; -webkit-tap-highlight-color: transparent; max-width: calc(100vw - 48px); }
 .testimonial-card:hover { transform: translateY(-4px); }
+.testimonial-card--expandable .testimonial-more { display: none; }
+.testimonial-card--expandable.is-expanded .testimonial-more { display: inline; }
+.testimonial-card--expandable.is-expanded .testimonial-read-more .text-more { display: none; }
+.testimonial-card--expandable.is-expanded .testimonial-read-more .text-less { display: inline; }
+.testimonial-card--expandable .testimonial-read-more .text-less { display: none; }
+.testimonial-read-more { color: #04b3ff; font-weight: 600; font-size: 15px; cursor: pointer; text-decoration: none; background: none; border: none; padding: 0; margin-left: 2px; }
+.testimonial-read-more:hover { text-decoration: underline; }
 /* Compensation */
 .compensation-section { padding: 120px 0; background-color: var(--color-bg-white); border-top: 1px solid rgba(0, 0, 0, 0.05); border-bottom: 1px solid rgba(0, 0, 0, 0.05); }
 .section-tag { display: inline-flex; padding: 6px 16px; border-radius: 999px; background: rgba(4, 179, 255, 0.18); color: #04b3ff; font-weight: 700; font-size: 12px; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 16px; }
@@ -321,25 +328,29 @@
   </div>
   <div class="testimonial-carousel-container">
     <div class="testimonial-carousel-track" id="testimonial-carousel">
-      <article class="testimonial-card" style="background: white; padding: 32px; border-radius: 12px; box-shadow: 0 20px 40px rgba(15, 23, 42, 0.12);">
-        <div style="display: flex; gap: 16px; align-items: center; margin-bottom: 20px;"><img src="https://lpt.com/assets/images/reeka-christmann.webp" alt="Reeka Christmann" width="64" height="64" style="width: 64px; height: 64px; border-radius: 50%; object-fit: cover;" /><div><p style="font-size: 16px; font-weight: 700; color: var(--color-text-dark); margin: 0;">Reeka Christmann</p><p style="font-size: 12px; color: rgba(4, 179, 255, 0.65); margin: 4px 0 0; text-transform: uppercase; letter-spacing: 0.5px;">Southwest Florida Team</p></div></div>
-        <p style="font-size: 15px; line-height: 1.7; color: rgba(15, 23, 42, 0.7); margin: 0;">We (domestic team serving SW FL) had 2 back to back listings due to the Power Pack presentation alone competing against large local teams and agents...</p>
+      <article class="testimonial-card testimonial-card--expandable" style="background: white; padding: 32px; border-radius: 12px; box-shadow: 0 20px 40px rgba(15, 23, 42, 0.12);">
+        <div style="display: flex; gap: 16px; align-items: center; margin-bottom: 20px;"><img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=128&h=128&fit=crop&crop=faces" alt="Shawn Getty" width="64" height="64" style="width: 64px; height: 64px; border-radius: 50%; object-fit: cover;" /><div><p style="font-size: 16px; font-weight: 700; color: var(--color-text-dark); margin: 0;">Shawn Getty</p><p style="font-size: 12px; color: rgba(4, 179, 255, 0.65); margin: 4px 0 0; text-transform: uppercase; letter-spacing: 0.5px;">Team Leader</p></div></div>
+        <p class="testimonial-body" style="font-size: 15px; line-height: 1.7; color: rgba(15, 23, 42, 0.7); margin: 0;">We moved our team of nearly 90 agents to LPT for more than just the model. It was about the growth path for agents as well as the additional marketing and systems. With 3 different growth paths starting from the $5k cap <button type="button" class="testimonial-read-more" aria-expanded="false"><span class="text-more">Read more</span><span class="text-less">Read less</span></button><span class="testimonial-more"> where agents can build a foundation, to the $15k cap where they grow and scale their business and onto Aperture where agents can give the highest level of service expected with luxury clients. LPT is a model we saw that meets agents where they are at with a clear path to grow with impactful tools that help agents close more deals. As a team leader, one of the cornerstones of our team is to take agents to a level they couldn't get on their own, and LPT was the best platform out there to help support that vision!</span></p>
       </article>
       <article class="testimonial-card" style="background: white; padding: 32px; border-radius: 12px; box-shadow: 0 20px 40px rgba(15, 23, 42, 0.12);">
-        <div style="display: flex; gap: 16px; align-items: center; margin-bottom: 20px;"><img src="https://lpt.com/assets/images/chance-pircher.webp" alt="Chance Pircher" width="64" height="64" style="width: 64px; height: 64px; border-radius: 50%; object-fit: cover;" /><div><p style="font-size: 16px; font-weight: 700; color: var(--color-text-dark); margin: 0;">Chance Pircher</p><p style="font-size: 12px; color: rgba(4, 179, 255, 0.65); margin: 4px 0 0; text-transform: uppercase; letter-spacing: 0.5px;">Listing Power Pack</p></div></div>
-        <p style="font-size: 15px; line-height: 1.7; color: rgba(15, 23, 42, 0.7); margin: 0;">Converting a prospective buyer after meeting them at an open last month...</p>
+        <div style="display: flex; gap: 16px; align-items: center; margin-bottom: 20px;"><img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=128&h=128&fit=crop&crop=faces" alt="Abe Elhage" width="64" height="64" style="width: 64px; height: 64px; border-radius: 50%; object-fit: cover;" /><div><p style="font-size: 16px; font-weight: 700; color: var(--color-text-dark); margin: 0;">Abe Elhage</p></div></div>
+        <p style="font-size: 15px; line-height: 1.7; color: rgba(15, 23, 42, 0.7); margin: 0;">LPT Realty solved a problem for me most brokerages like to pretend doesn't exist. Grateful❤️</p>
       </article>
       <article class="testimonial-card" style="background: white; padding: 32px; border-radius: 12px; box-shadow: 0 20px 40px rgba(15, 23, 42, 0.12);">
-        <div style="display: flex; gap: 16px; align-items: center; margin-bottom: 20px;"><img src="https://lpt.com/assets/images/kristen-smith.webp" alt="Kristen Smith" width="64" height="64" style="width: 64px; height: 64px; border-radius: 50%; object-fit: cover;" /><div><p style="font-size: 16px; font-weight: 700; color: var(--color-text-dark); margin: 0;">Kristen Smith</p><p style="font-size: 12px; color: rgba(4, 179, 255, 0.65); margin: 4px 0 0; text-transform: uppercase; letter-spacing: 0.5px;">Agent Billboard</p></div></div>
-        <p style="font-size: 15px; line-height: 1.7; color: rgba(15, 23, 42, 0.7); margin: 0;">I received 3 referrals from my billboard social media post. Two came from out of state agents and one from my SOI.</p>
+        <div style="display: flex; gap: 16px; align-items: center; margin-bottom: 20px;"><img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=128&h=128&fit=crop&crop=faces" alt="Tarek Hageahmad" width="64" height="64" style="width: 64px; height: 64px; border-radius: 50%; object-fit: cover;" /><div><p style="font-size: 16px; font-weight: 700; color: var(--color-text-dark); margin: 0;">Tarek Hageahmad</p></div></div>
+        <p style="font-size: 15px; line-height: 1.7; color: rgba(15, 23, 42, 0.7); margin: 0;">Robert Palmer is a G. — He pitched his brokerage model in front of a Biggy Poster! — If you don't know yet, better call somebody.</p>
       </article>
       <article class="testimonial-card" style="background: white; padding: 32px; border-radius: 12px; box-shadow: 0 20px 40px rgba(15, 23, 42, 0.12);">
-        <div style="display: flex; gap: 16px; align-items: center; margin-bottom: 20px;"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=128&h=128&fit=crop&crop=faces" alt="Michael Chen" width="64" height="64" style="width: 64px; height: 64px; border-radius: 50%; object-fit: cover;" /><div><p style="font-size: 16px; font-weight: 700; color: var(--color-text-dark); margin: 0;">Michael Chen</p><p style="font-size: 12px; color: rgba(4, 179, 255, 0.65); margin: 4px 0 0;">Power Pack User</p></div></div>
-        <p style="font-size: 15px; line-height: 1.7; color: rgba(15, 23, 42, 0.7); margin: 0;">The Listing Power Pack helped me close 5 deals in my first month with LPT.</p>
+        <div style="display: flex; gap: 16px; align-items: center; margin-bottom: 20px;"><img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=128&h=128&fit=crop&crop=faces" alt="Jason Clarke" width="64" height="64" style="width: 64px; height: 64px; border-radius: 50%; object-fit: cover;" /><div><p style="font-size: 16px; font-weight: 700; color: var(--color-text-dark); margin: 0;">Jason Clarke</p><p style="font-size: 12px; color: rgba(4, 179, 255, 0.65); margin: 4px 0 0; text-transform: uppercase; letter-spacing: 0.5px;">Kingston, Ontario</p></div></div>
+        <p style="font-size: 15px; line-height: 1.7; color: rgba(15, 23, 42, 0.7); margin: 0;">The second I saw the Listing Power Tool Box, I was sold. The marketing and support that LPT provides have helped me secure more business and confidently add new team members.</p>
       </article>
       <article class="testimonial-card" style="background: white; padding: 32px; border-radius: 12px; box-shadow: 0 20px 40px rgba(15, 23, 42, 0.12);">
-        <div style="display: flex; gap: 16px; align-items: center; margin-bottom: 20px;"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=128&h=128&fit=crop&crop=faces" alt="Sarah Johnson" width="64" height="64" style="width: 64px; height: 64px; border-radius: 50%; object-fit: cover;" /><div><p style="font-size: 16px; font-weight: 700; color: var(--color-text-dark); margin: 0;">Sarah Johnson</p><p style="font-size: 12px; color: rgba(4, 179, 255, 0.65); margin: 4px 0 0;">dezzy.ai Power User</p></div></div>
-        <p style="font-size: 15px; line-height: 1.7; color: rgba(15, 23, 42, 0.7); margin: 0;">dezzy.ai has transformed my workflow. It's like having a full-time assistant.</p>
+        <div style="display: flex; gap: 16px; align-items: center; margin-bottom: 20px;"><img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=128&h=128&fit=crop&crop=faces" alt="Nick Chuong" width="64" height="64" style="width: 64px; height: 64px; border-radius: 50%; object-fit: cover;" /><div><p style="font-size: 16px; font-weight: 700; color: var(--color-text-dark); margin: 0;">Nick Chuong</p><p style="font-size: 12px; color: rgba(4, 179, 255, 0.65); margin: 4px 0 0; text-transform: uppercase; letter-spacing: 0.5px;">Toronto, Ontario</p></div></div>
+        <p style="font-size: 15px; line-height: 1.7; color: rgba(15, 23, 42, 0.7); margin: 0;">LPT gave me the confidence and materials to show up prepared in every listing presentation. It's become a real edge in competitive Canadian markets when it comes to winning the business.</p>
+      </article>
+      <article class="testimonial-card" style="background: white; padding: 32px; border-radius: 12px; box-shadow: 0 20px 40px rgba(15, 23, 42, 0.12);">
+        <div style="display: flex; gap: 16px; align-items: center; margin-bottom: 20px;"><img src="https://images.unsplash.com/photo-1580489944761-15a19d654f0e?w=128&h=128&fit=crop&crop=faces" alt="Robyn Schidlowsky" width="64" height="64" style="width: 64px; height: 64px; border-radius: 50%; object-fit: cover;" /><div><p style="font-size: 16px; font-weight: 700; color: var(--color-text-dark); margin: 0;">Robyn Schidlowsky</p><p style="font-size: 12px; color: rgba(4, 179, 255, 0.65); margin: 4px 0 0; text-transform: uppercase; letter-spacing: 0.5px;">Calgary, Alberta</p></div></div>
+        <p style="font-size: 15px; line-height: 1.7; color: rgba(15, 23, 42, 0.7); margin: 0;">I love LPT because it gives agents the freedom to choose a compensation structure that actually fits their business. It's a brokerage that lets you grow at your own pace while supporting how you want to work.</p>
       </article>
     </div>
   </div>
@@ -675,6 +686,14 @@
       return rect.width + gap;
     };
 
+    function collapseExpandableCards() {
+      carouselTrack.querySelectorAll('.testimonial-card--expandable.is-expanded').forEach(function(card) {
+        card.classList.remove('is-expanded');
+        var btn = card.querySelector('.testimonial-read-more');
+        if (btn) btn.setAttribute('aria-expanded', 'false');
+      });
+    }
+
     cards.forEach(function(card) {
       var cloneStart = card.cloneNode(true);
       cloneStart.classList.add('carousel-clone', 'carousel-clone-start');
@@ -686,6 +705,16 @@
       carouselTrack.appendChild(cloneEnd);
     });
 
+    carouselTrack.addEventListener('click', function(e) {
+      var readMore = e.target.closest('.testimonial-read-more');
+      if (!readMore) return;
+      e.preventDefault();
+      var card = readMore.closest('.testimonial-card--expandable');
+      if (!card) return;
+      var expanded = card.classList.toggle('is-expanded');
+      readMore.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+    });
+
     var currentIndex = cards.length + Math.floor(cards.length / 2);
     var rotationInterval = null;
     carouselTrack.style.transition = 'transform 1s cubic-bezier(0.4, 0, 0.2, 1)';
@@ -695,6 +724,7 @@
     };
 
     var moveForward = function() {
+      collapseExpandableCards();
       currentIndex++;
       if (currentIndex >= cards.length * 2) {
         carouselTrack.style.transition = 'none';
@@ -708,6 +738,7 @@
     };
 
     var moveBackward = function() {
+      collapseExpandableCards();
       currentIndex--;
       if (currentIndex < cards.length) {
         carouselTrack.style.transition = 'none';
@@ -744,7 +775,7 @@
     carouselTrack.addEventListener('touchend', function(e) {
       var delta = touchStartX - touchCurrentX;
       carouselTrack.style.transition = 'transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
-      if (Math.abs(delta) > 50) { if (delta > 0) moveForward(); else moveBackward(); setTimeout(resumeRotation, 5000); }
+      if (Math.abs(delta) > 50) { collapseExpandableCards(); if (delta > 0) moveForward(); else moveBackward(); setTimeout(resumeRotation, 5000); }
       else { updatePosition(); setTimeout(resumeRotation, 1000); }
     }, { passive: true });
 
