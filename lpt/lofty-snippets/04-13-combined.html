@@ -99,7 +99,8 @@
 .feature-cards-cta { display: flex; justify-content: flex-end; }
 
 /* Testimonial carousel */
-.testimonial-carousel-container { position: relative; width: 100%; max-width: 100vw; margin-left: 0; padding: 20px 0; overflow: hidden; touch-action: pan-y pinch-zoom; }
+.testimonial-carousel-container { position: relative; width: 100%; max-width: 100vw; margin-left: 0; padding: 20px 0; overflow: hidden; touch-action: pan-y pinch-zoom; cursor: grab; }
+.testimonial-carousel-container.is-dragging { cursor: grabbing; }
 .testimonial-carousel-track { display: flex; gap: 32px; transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1); will-change: transform; padding: 0 24px; touch-action: pan-y pan-x; user-select: none; -webkit-user-select: none; }
 .testimonial-card { flex: 0 0 380px; min-width: 0; flex-shrink: 0; transition: transform 0.3s ease, opacity 0.3s ease; touch-action: manipulation; user-select: none; -webkit-tap-highlight-color: transparent; max-width: calc(100vw - 48px); }
 .testimonial-card:hover { transform: translateY(-4px); }
@@ -232,8 +233,8 @@
     </div>
     <div class="leadership-team-grid stagger-container">
       <div class="leadership-card fade-up"><div class="leadership-card-image"><img src="https://k4design.github.io/lpt/img/leadership/robertpalmer.png" alt="Robert Palmer" loading="lazy" /></div><div class="leadership-card-overlay"><h3 class="leadership-card-name">Robert Palmer</h3><p class="leadership-card-title">Founder and CEO</p></div></div>
-      <div class="leadership-card fade-up fade-up-delay-1"><div class="leadership-card-image"><img src="https://k4design.github.io/lpt/img/leadership/matthewlevy.jpg" alt="Matthew Levy" loading="lazy" /></div><div class="leadership-card-overlay"><h3 class="leadership-card-name">Matthew Levy</h3><p class="leadership-card-title">Chief Strategy Officer</p></div></div>
-      <div class="leadership-card fade-up fade-up-delay-2"><div class="leadership-card-image"><img src="https://k4design.github.io/lpt/img/leadership/michaelvaldes.png" alt="Michael Valdes" loading="lazy" /></div><div class="leadership-card-overlay"><h3 class="leadership-card-name">Michael Valdes</h3><p class="leadership-card-title">CEO of International</p></div></div>
+      <div class="leadership-card fade-up fade-up-delay-1"><div class="leadership-card-image"><img src="https://k4design.github.io/lpt/img/leadership/michaelvaldes.png" alt="Michael Valdes" loading="lazy" /></div><div class="leadership-card-overlay"><h3 class="leadership-card-name">Michael Valdes</h3><p class="leadership-card-title">CEO of International</p></div></div>
+      <div class="leadership-card fade-up fade-up-delay-2"><div class="leadership-card-image"><img src="https://k4design.github.io/lpt/img/leadership/matthewlevy.jpg" alt="Matthew Levy" loading="lazy" /></div><div class="leadership-card-overlay"><h3 class="leadership-card-name">Matthew Levy</h3><p class="leadership-card-title">Chief Strategy Officer</p></div></div>
       <div class="leadership-card fade-up fade-up-delay-3"><div class="leadership-card-image"><img src="https://k4design.github.io/lpt/img/leadership/allisonadams.png" alt="Alison Adams" loading="lazy" /></div><div class="leadership-card-overlay"><h3 class="leadership-card-name">Alison Adams</h3><p class="leadership-card-title">Chief of Staff</p></div></div>
       <div class="leadership-card fade-up fade-up-delay-4"><div class="leadership-card-image"><img src="https://k4design.github.io/lpt/img/leadership/matthewhodge.png" alt="Matthew Hodge" loading="lazy" /></div><div class="leadership-card-overlay"><h3 class="leadership-card-name">Matthew Hodge</h3><p class="leadership-card-title">Executive Vice President</p></div></div>
       <div class="leadership-card fade-up fade-up-delay-1"><div class="leadership-card-image"><img src="https://k4design.github.io/lpt/img/leadership/luisfermin.jpg" alt="Luis Fermin" loading="lazy" /></div><div class="leadership-card-overlay"><h3 class="leadership-card-name">Luis Fermin</h3><p class="leadership-card-title">Chief Legal Counsel</p></div></div>
@@ -351,6 +352,14 @@
       <article class="testimonial-card" style="background: white; padding: 32px; border-radius: 12px; box-shadow: 0 20px 40px rgba(15, 23, 42, 0.12);">
         <div style="display: flex; gap: 16px; align-items: center; margin-bottom: 20px;"><img src="https://k4design.github.io/lpt/lofty-snippets/testimonial/robynschidlowsky.png" alt="Robyn Schidlowsky" width="64" height="64" style="width: 64px; height: 64px; border-radius: 50%; object-fit: cover;" /><div><p style="font-size: 16px; font-weight: 700; color: var(--color-text-dark); margin: 0;">Robyn Schidlowsky</p><p style="font-size: 12px; color: rgba(4, 179, 255, 0.65); margin: 4px 0 0; text-transform: uppercase; letter-spacing: 0.5px;">Calgary, Alberta</p></div></div>
         <p style="font-size: 15px; line-height: 1.7; color: rgba(15, 23, 42, 0.7); margin: 0;">I love LPT because it gives agents the freedom to choose a compensation structure that actually fits their business. It's a brokerage that lets you grow at your own pace while supporting how you want to work.</p>
+      </article>
+      <article class="testimonial-card" style="background: white; padding: 32px; border-radius: 12px; box-shadow: 0 20px 40px rgba(15, 23, 42, 0.12);">
+        <div style="display: flex; gap: 16px; align-items: center; margin-bottom: 20px;"><img src="https://k4design.github.io/lpt/lofty-snippets/testimonial/jenniferjones.png" alt="Jennifer Jones" width="64" height="64" style="width: 64px; height: 64px; border-radius: 50%; object-fit: cover;" onerror="this.src='https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=128&h=128&fit=crop&crop=faces'" /><div><p style="font-size: 16px; font-weight: 700; color: var(--color-text-dark); margin: 0;">Jennifer Jones</p><p style="font-size: 12px; color: rgba(4, 179, 255, 0.65); margin: 4px 0 0; text-transform: uppercase; letter-spacing: 0.5px;">Toronto, Ontario</p></div></div>
+        <p style="font-size: 15px; line-height: 1.7; color: rgba(15, 23, 42, 0.7); margin: 0;">In a challenging economic climate, LPT Realty is a spotlight in the darkness…an abundance-minded brokerage that invests in agents first. Through coaching, training, and real support, agents don't pay a dime until they make money. From a complimentary listing marketing box to hands-on guidance, LPT is built to set Realtors up for real success.</p>
+      </article>
+      <article class="testimonial-card" style="background: white; padding: 32px; border-radius: 12px; box-shadow: 0 20px 40px rgba(15, 23, 42, 0.12);">
+        <div style="display: flex; gap: 16px; align-items: center; margin-bottom: 20px;"><img src="https://k4design.github.io/lpt/lofty-snippets/testimonial/davekadun.jpg" alt="Dave Kadun" width="64" height="64" style="width: 64px; height: 64px; border-radius: 50%; object-fit: cover;" onerror="this.src='https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=128&h=128&fit=crop&crop=faces'" /><div><p style="font-size: 16px; font-weight: 700; color: var(--color-text-dark); margin: 0;">Dave Kadun</p><p style="font-size: 12px; color: rgba(4, 179, 255, 0.65); margin: 4px 0 0; text-transform: uppercase; letter-spacing: 0.5px;">Lloydminster, SK</p></div></div>
+        <p style="font-size: 15px; line-height: 1.7; color: rgba(15, 23, 42, 0.7); margin: 0;">The Listing Power Pack has been an excellent tool to help my team and I secure 6 listings in one month.</p>
       </article>
     </div>
   </div>
@@ -705,7 +714,9 @@
       carouselTrack.appendChild(cloneEnd);
     });
 
+    var hasDragged = false;
     carouselTrack.addEventListener('click', function(e) {
+      if (hasDragged) return;
       var readMore = e.target.closest('.testimonial-read-more');
       if (!readMore) return;
       e.preventDefault();
@@ -778,6 +789,42 @@
       if (Math.abs(delta) > 50) { collapseExpandableCards(); if (delta > 0) moveForward(); else moveBackward(); setTimeout(resumeRotation, 5000); }
       else { updatePosition(); setTimeout(resumeRotation, 1000); }
     }, { passive: true });
+
+    var container = carouselTrack.closest('.testimonial-carousel-container');
+    var mouseStartX = 0, mouseCurrentX = 0, isMouseDragging = false;
+    carouselTrack.addEventListener('mousedown', function(e) {
+      if (e.button !== 0) return;
+      mouseStartX = e.clientX;
+      mouseCurrentX = e.clientX;
+      isMouseDragging = true;
+      hasDragged = false;
+      if (container) container.classList.add('is-dragging');
+      carouselTrack.style.transition = 'none';
+    });
+    document.addEventListener('mousemove', function(e) {
+      if (!isMouseDragging) return;
+      hasDragged = true;
+      mouseCurrentX = e.clientX;
+      var delta = mouseCurrentX - mouseStartX;
+      var baseOffset = getScrollDistance() * currentIndex;
+      carouselTrack.style.transform = 'translateX(-' + (baseOffset - delta) + 'px)';
+    });
+    document.addEventListener('mouseup', function(e) {
+      if (!isMouseDragging) return;
+      isMouseDragging = false;
+      if (container) container.classList.remove('is-dragging');
+      var delta = mouseCurrentX - mouseStartX;
+      carouselTrack.style.transition = 'transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
+      if (Math.abs(delta) > 50) {
+        collapseExpandableCards();
+        if (delta > 0) moveBackward(); else moveForward();
+        setTimeout(resumeRotation, 5000);
+      } else {
+        updatePosition();
+        setTimeout(resumeRotation, 1000);
+      }
+      setTimeout(function() { hasDragged = false; }, 50);
+    });
 
     var resizeTimeout;
     window.addEventListener('resize', function() { clearTimeout(resizeTimeout); resizeTimeout = setTimeout(updatePosition, 250); });
