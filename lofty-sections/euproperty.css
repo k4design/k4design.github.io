@@ -18,9 +18,10 @@
   /* Accent */
   --accent: var(--accent-blue, var(--color-accent, var(--primary)));
   --accent-hover: var(--accent-blue-dark, var(--color-accent-hover, var(--primary)));
-  /* Typography (reference only; no font names) */
+  /* Typography: serif by default; override via --font-display / --font-body if needed */
+  --font-serif: Georgia, "Times New Roman", serif;
   --display: var(--font-display, var(--font-serif));
-  --body: var(--font-body, var(--font-sans));
+  --body: var(--font-body, var(--font-serif));
   /* Borders & shadows */
   --border: var(--border-color, var(--border-subtle, var(--border)));
   --shadow: var(--shadow-soft, var(--shadow));
