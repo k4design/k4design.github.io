@@ -103,91 +103,23 @@
             <a href="#gallery-grid" class="gallery-link">View full gallery</a>
           </div>
           <figure class="gallery-featured reveal">
-            <button type="button" class="gallery-thumb" aria-label="View full size: Main farmhouse and grounds">
+            <button type="button" class="gallery-thumb" id="gallery-featured-thumb" aria-label="View full size">
               <img
-                src="https://k4design.github.io/lofty-sections/img/euproperties/euproperties/hazelnutfarm/2.jpg"
+                src="https://k4design.github.io/lofty-sections/img/euproperties/euproperties/hazelnutfarm/1.jpg"
                 sizes="(min-width: 64rem) 90vw, 100vw"
-                alt="Hazelhurst Farm main farmhouse and grounds"
+                alt="Hazelhurst Farm"
                 width="1200"
                 height="800"
               >
             </button>
-            <figcaption>Main farmhouse and grounds</figcaption>
+            <figcaption id="gallery-featured-caption">Hazelhurst Farm</figcaption>
           </figure>
-          <div id="gallery-grid" class="gallery-grid reveal-stagger">
-            <figure>
-              <button type="button" class="gallery-thumb" aria-label="View full size">
-                <img
-                  src="https://k4design.github.io/lofty-sections/img/euproperties/euproperties/hazelnutfarm/3.jpg"
-                sizes="(min-width: 48rem) 33vw, 100vw"
-                alt="Hazelhurst Farm interior"
-                width="600"
-                height="400"
-              >
-              </button>
-              <figcaption>Interior</figcaption>
-            </figure>
-            <figure>
-              <button type="button" class="gallery-thumb" aria-label="View full size">
-                <img
-                  src="https://k4design.github.io/lofty-sections/img/euproperties/euproperties/hazelnutfarm/4.jpg"
-                sizes="(min-width: 48rem) 33vw, 100vw"
-                alt="Hazelhurst Farm"
-                width="600"
-                height="400"
-              >
-              </button>
-              <figcaption>Estate view</figcaption>
-            </figure>
-            <figure>
-              <button type="button" class="gallery-thumb" aria-label="View full size">
-                <img
-                  src="https://k4design.github.io/lofty-sections/img/euproperties/euproperties/hazelnutfarm/5.jpg"
-                sizes="(min-width: 48rem) 33vw, 100vw"
-                alt="Hazelhurst Farm"
-                width="600"
-                height="400"
-              >
-              </button>
-              <figcaption>Grounds</figcaption>
-            </figure>
-            <figure>
-              <button type="button" class="gallery-thumb" aria-label="View full size">
-                <img
-                  src="https://k4design.github.io/lofty-sections/img/euproperties/euproperties/hazelnutfarm/6.jpg"
-                sizes="(min-width: 48rem) 33vw, 100vw"
-                alt="Hazelhurst Farm"
-                width="600"
-                height="400"
-              >
-              </button>
-              <figcaption>Property</figcaption>
-            </figure>
-            <figure>
-              <button type="button" class="gallery-thumb" aria-label="View full size">
-                <img
-                  src="https://k4design.github.io/lofty-sections/img/euproperties/euproperties/hazelnutfarm/7.jpg"
-                sizes="(min-width: 48rem) 33vw, 100vw"
-                alt="Hazelhurst Farm"
-                width="600"
-                height="400"
-              >
-              </button>
-              <figcaption>Estate</figcaption>
-            </figure>
-            <figure>
-              <button type="button" class="gallery-thumb" aria-label="View full size">
-                <img
-                  src="https://k4design.github.io/lofty-sections/img/euproperties/euproperties/hazelnutfarm/8.jpg"
-                  sizes="(min-width: 48rem) 33vw, 100vw"
-                  alt="Hazelhurst Farm"
-                  width="600"
-                  height="400"
-                >
-              </button>
-              <figcaption>Hazelhurst Farm</figcaption>
-            </figure>
-          </div>
+          <div id="gallery-grid" class="gallery-grid reveal-stagger" aria-label="Gallery images"></div>
+          <nav class="gallery-pagination" aria-label="Gallery pages">
+            <button type="button" class="gallery-pagination-prev" aria-label="Previous page">Previous</button>
+            <div class="gallery-pagination-pages"></div>
+            <button type="button" class="gallery-pagination-next" aria-label="Next page">Next</button>
+          </nav>
         </div>
       </section>
 
@@ -202,11 +134,87 @@
 
       <script>
         (function () {
+          var BASE = 'https://k4design.github.io/lofty-sections/img/euproperties/euproperties/hazelnutfarm/';
+          var GALLERY = [
+            { num: 1, caption: 'Hazelhurst Farm' },
+            { num: 2, caption: 'Main farmhouse and grounds' },
+            { num: 3, caption: 'Interior' },
+            { num: 4, caption: 'Estate view' },
+            { num: 5, caption: 'Grounds' },
+            { num: 6, caption: 'Property' },
+            { num: 7, caption: 'Estate' },
+            { num: 8, caption: 'Hazelhurst Farm' },
+            { num: 9, caption: 'Farmhouse ground floor' },
+            { num: 10, caption: 'Farmhouse first floor' }
+          ];
+          for (var i = 11; i <= 61; i++) {
+            GALLERY.push({ num: i, caption: 'Hazelhurst Farm' });
+          }
+          var PER_PAGE = 6;
+          var grid = document.getElementById('gallery-grid');
+          var featuredThumb = document.getElementById('gallery-featured-thumb');
+          var featuredCaption = document.getElementById('gallery-featured-caption');
+          var featuredImg = featuredThumb && featuredThumb.querySelector('img');
+          var pagesEl = document.querySelector('.gallery-pagination-pages');
+          var prevBtn = document.querySelector('.gallery-pagination-prev');
+          var nextBtn = document.querySelector('.gallery-pagination-next');
+          var currentPage = 1;
+          var totalPages = Math.max(1, Math.ceil(GALLERY.length / PER_PAGE));
+
+          function src(n) { return BASE + n + '.jpg'; }
+
+          function renderPage(page) {
+            currentPage = Math.max(1, Math.min(page, totalPages));
+            var start = (currentPage - 1) * PER_PAGE;
+            var slice = GALLERY.slice(start, start + PER_PAGE);
+            if (!grid) return;
+            grid.innerHTML = slice.map(function (item) {
+              var s = src(item.num);
+              var alt = 'Hazelhurst Farm – ' + (item.caption || '');
+              return '<figure><button type="button" class="gallery-thumb" aria-label="View full size: ' + (item.caption || '') + '">' +
+                '<img src="' + s + '" sizes="(min-width: 48rem) 33vw, 100vw" alt="' + alt.replace(/"/g, '&quot;') + '" width="600" height="400">' +
+                '</button><figcaption>' + (item.caption || '') + '</figcaption></figure>';
+            }).join('');
+            updatePaginationUI();
+            if (typeof window.IntersectionObserver !== 'undefined') {
+              var obs = new IntersectionObserver(function (entries) {
+                entries.forEach(function (e) { if (e.isIntersecting) e.target.classList.add('in-view'); });
+              }, { rootMargin: '0px 0px -8% 0px', threshold: 0 });
+              grid.querySelectorAll('figure').forEach(function (el) { obs.observe(el); });
+            }
+          }
+
+          function updatePaginationUI() {
+            if (prevBtn) prevBtn.disabled = currentPage <= 1;
+            if (nextBtn) nextBtn.disabled = currentPage >= totalPages;
+            if (pagesEl) {
+              var html = '';
+              for (var i = 1; i <= totalPages; i++) {
+                var active = i === currentPage;
+                html += '<button type="button" class="gallery-pagination-page' + (active ? ' is-current' : '') + '" data-page="' + i + '" ' + (active ? 'aria-current="page"' : '') + '>' + i + '</button>';
+              }
+              pagesEl.innerHTML = html;
+            }
+          }
+
+          if (grid) {
+            renderPage(1);
+            if (pagesEl) {
+              pagesEl.addEventListener('click', function (e) {
+                var p = e.target.getAttribute('data-page');
+                if (p) renderPage(parseInt(p, 10));
+              });
+            }
+            if (prevBtn) prevBtn.addEventListener('click', function () { renderPage(currentPage - 1); });
+            if (nextBtn) nextBtn.addEventListener('click', function () { renderPage(currentPage + 1); });
+          }
+
+          /* Modal: use delegation so dynamically added thumbs work */
           var modal = document.getElementById('gallery-modal');
           var modalImg = modal && modal.querySelector('.gallery-modal-img');
           var closeBtn = modal && modal.querySelector('.gallery-modal-close');
           var backdrop = modal && modal.querySelector('.gallery-modal-backdrop');
-          var thumbs = document.querySelectorAll('.property-page .gallery-thumb');
+          var propertyPage = document.querySelector('.property-page');
 
           function openModal(src, alt) {
             if (!modal || !modalImg) return;
@@ -223,12 +231,12 @@
             document.body.style.overflow = '';
           }
 
-          if (thumbs.length) {
-            thumbs.forEach(function (btn) {
-              btn.addEventListener('click', function () {
-                var img = this.querySelector('img');
-                if (img && img.src) openModal(img.src, img.alt);
-              });
+          if (propertyPage) {
+            propertyPage.addEventListener('click', function (e) {
+              var thumb = e.target.closest('.gallery-thumb');
+              if (!thumb) return;
+              var img = thumb.querySelector('img');
+              if (img && img.src) openModal(img.src, img.alt);
             });
           }
           if (closeBtn) closeBtn.addEventListener('click', closeModal);
@@ -236,6 +244,12 @@
           document.addEventListener('keydown', function (e) {
             if (e.key === 'Escape' && modal && !modal.hidden) closeModal();
           });
+
+          if (featuredThumb && featuredImg && featuredCaption) {
+            featuredThumb.addEventListener('click', function () {
+              openModal(featuredImg.src, featuredImg.alt);
+            });
+          }
         })();
       </script>
 
@@ -272,10 +286,10 @@
         </div>
       </section>
 
-      <!-- 7) Location & Lifestyle -->
+      <!-- 7) Location -->
       <section class="location" aria-labelledby="location-heading">
         <div class="location-inner reveal">
-          <h2 id="location-heading">Location & Lifestyle</h2>
+          <h2 id="location-heading">Location</h2>
           <div class="map-placeholder">
             <iframe
               src="https://www.openstreetmap.org/export/embed.html?bbox=-2.0%2C50.5%2C-1.0%2C51.1&amp;layer=mapnik&amp;marker=50.8%2C-1.55"
