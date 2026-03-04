@@ -18,7 +18,7 @@
   /* Accent */
   --accent: var(--accent-blue, var(--color-accent, var(--primary)));
   --accent-hover: var(--accent-blue-dark, var(--color-accent-hover, var(--primary)));
-  /* Typography: serif by default; override via --font-display / --font-body if needed */
+  /* Typography: serif (override Lofty’s native font stack) */
   --font-serif: Georgia, "Times New Roman", serif;
   --display: var(--font-display, var(--font-serif));
   --body: var(--font-body, var(--font-serif));
@@ -61,9 +61,15 @@
   --breakpoint-sm: 48rem;
   --breakpoint-md: 64rem;
 
-  font-family: var(--body);
+  font-family: Georgia, "Times New Roman", serif !important;
   color: var(--text);
   background: var(--bg);
+}
+
+/* Override Lofty native fonts so serifs apply to all property-page text */
+.property-page,
+.property-page * {
+  font-family: Georgia, "Times New Roman", serif !important;
 }
 
 /* --------------------------------------------------------------------------
