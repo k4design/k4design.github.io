@@ -2,6 +2,7 @@
    EU Luxury Single-Property Page — Scoped under .property-page
    Uses only CSS variable tokens (alias layer); no hex or font names.
    ========================================================================== */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap');
 
 /* --------------------------------------------------------------------------
    Alias layer: map to likely global tokens. Fallbacks are variable names only.
@@ -20,7 +21,7 @@
   --accent-hover: var(--accent-blue-dark, var(--color-accent-hover, var(--primary)));
   /* Typography: serif (override Lofty’s native font stack) */
   --font-serif: Georgia, "Times New Roman", serif;
-  --display: var(--font-display, var(--font-serif));
+  --display: 'Playfair Display', serif;
   --body: var(--font-body, var(--font-serif));
   /* Borders & shadows */
   --border: var(--border-color, var(--border-subtle, var(--border)));
@@ -66,10 +67,23 @@
   background: var(--bg);
 }
 
-/* Override Lofty native fonts so serifs apply to all property-page text */
+/* Override Lofty native fonts: body text = Georgia, headlines = Playfair Display */
 .property-page,
 .property-page * {
   font-family: Georgia, "Times New Roman", serif !important;
+}
+
+.property-page .wordmark,
+.property-page .hero-title,
+.property-page .editorial h2,
+.property-page .highlights-heading,
+.property-page .gallery h2,
+.property-page .amenities h2,
+.property-page .location h2,
+.property-page .architecture h2,
+.property-page .advisor h2,
+.property-page .inquiry-footer h2 {
+  font-family: 'Playfair Display', serif !important;
 }
 
 /* --------------------------------------------------------------------------
