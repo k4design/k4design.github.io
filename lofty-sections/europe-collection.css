@@ -2,9 +2,10 @@
    Europe Collection Listing Page — Scoped under .collection-page
    Uses only CSS variable tokens (alias layer); no hex or font names.
    ========================================================================== */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap');
 
 /* --------------------------------------------------------------------------
-   Alias layer: map to likely global tokens. No hex codes. No font names.
+   Alias layer: map to likely global tokens. Serif overrides for Lofty native.
    -------------------------------------------------------------------------- */
 .collection-page {
   --bg: var(--color-bg, var(--background));
@@ -12,7 +13,9 @@
   --muted: var(--color-muted, var(--muted));
   --border: var(--color-border, var(--border));
   --accent: var(--color-accent, var(--primary));
-  --display: var(--font-display, var(--font-serif));
+  /* Typography: serif display (override Lofty’s native font stack) */
+  --font-serif: Georgia, "Times New Roman", serif;
+  --display: var(--font-display, 'Playfair Display', serif);
   --body: var(--font-body, var(--font-sans));
 
   /* Spacing scale */
@@ -48,6 +51,17 @@
   font-family: var(--body);
   color: var(--text);
   background: var(--bg);
+}
+
+/* Override Lofty native fonts: display/headings use Playfair Display (serif) */
+.collection-page .wordmark,
+.collection-page .collection-header h1,
+.collection-page .featured-carousel-header h2,
+.collection-page .featured-property .featured-content h2,
+.collection-page .country-section h2,
+.collection-page .property-card h3,
+.collection-page .conversion-band h2 {
+  font-family: var(--display) !important;
 }
 
 /* --------------------------------------------------------------------------
