@@ -198,22 +198,31 @@
 .collection-page .collection-header {
   position: relative;
   padding: var(--space-8) var(--space-4) var(--space-6);
-  background-image: url("https://picsum.photos/seed/europe-hero/1920/800");
+}
+
+.collection-page .collection-header::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-image: url("https://as1.ftcdn.net/v2/jpg/03/85/08/44/1000_F_385084457_tB4OHp7x2w62REsfxeqUT37aeaxxEmNy.jpg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  filter: grayscale(100%);
 }
 
 .collection-page .collection-header-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+  background: rgba(0, 0, 0, 0.6);
   pointer-events: none;
 }
 
 .collection-page .collection-header-inner {
   position: relative;
-  z-index: 1;
+  z-index: 2;
 }
 
 .collection-page .collection-header .breadcrumb {
@@ -239,7 +248,7 @@
 
 .collection-page .collection-header h1 {
   font-family: var(--display);
-  font-size: var(--heading-collection);
+  font-size: calc(2 * var(--heading-collection));
   font-weight: 400;
   color: #fff;
   margin: 0 0 var(--space-4);
@@ -404,6 +413,19 @@
   padding: var(--space-8) 0;
   border-bottom: 1px solid var(--border);
   margin-bottom: var(--space-8);
+}
+
+.collection-page .featured-carousel-header {
+  margin-bottom: var(--space-6);
+}
+
+.collection-page .featured-carousel-header h2 {
+  font-family: var(--display);
+  font-size: var(--heading-section);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  margin: 0;
+  color: var(--text);
 }
 
 .collection-page .featured-carousel-viewport {
