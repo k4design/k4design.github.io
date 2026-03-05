@@ -243,31 +243,26 @@
         </div>
       </div>
 
-      <!-- Conversion band -->
-      <section id="conversion" class="conversion-band" aria-labelledby="conversion-heading">
-        <div class="conversion-band-inner">
-          <h2 id="conversion-heading">Request the Europe Collection Brochure</h2>
-          <p class="conversion-cta">
-            <a href="/brochure-request/?collection=europe" class="btn-brochure">Request Brochure</a>
-          </p>
-          <p class="conversion-secondary">
-            <a href="/contact/#advisor">Speak to an advisor</a>
-          </p>
-        </div>
-      </section>
-
     </main>
 
-    <footer class="site-footer" role="contentinfo">
-      <div class="footer-inner">
-        <p class="footer-offices">London · New York · Dubai · Singapore</p>
-        <p class="footer-legal">
-          <a href="/privacy/">Privacy</a>
-          <a href="/terms/">Terms</a>
-        </p>
-      </div>
-    </footer>
-
   </div>
+  <script>
+    (function () {
+      var page = document.querySelector('.collection-page');
+      var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (prefersReducedMotion) {
+        document.querySelectorAll('.collection-page .country-section').forEach(function (el) { el.classList.add('in-view'); });
+        return;
+      }
+      if (page) page.classList.add('intro-js');
+      var sections = document.querySelectorAll('.collection-page .country-section');
+      var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) entry.target.classList.add('in-view');
+        });
+      }, { rootMargin: '0px 0px -8% 0px', threshold: 0 });
+      sections.forEach(function (el) { observer.observe(el); });
+    })();
+  </script>
 </body>
 </html>

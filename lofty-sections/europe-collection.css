@@ -65,6 +65,99 @@
 }
 
 /* --------------------------------------------------------------------------
+   Intro animations (respect prefers-reduced-motion)
+   -------------------------------------------------------------------------- */
+@keyframes intro-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(1.25rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes intro-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .collection-page .collection-header .breadcrumb {
+    animation: intro-fade-up 0.55s ease-out both;
+  }
+  .collection-page .collection-header h1 {
+    animation: intro-fade-up 0.55s ease-out 0.1s both;
+  }
+  .collection-page .controls-row {
+    animation: intro-fade 0.5s ease-out 0.25s both;
+  }
+  .collection-page .filter-chips a:nth-child(1) {
+    animation: intro-fade 0.4s ease-out 0.35s both;
+  }
+  .collection-page .filter-chips a:nth-child(2) {
+    animation: intro-fade 0.4s ease-out 0.42s both;
+  }
+  .collection-page .filter-chips a:nth-child(3) {
+    animation: intro-fade 0.4s ease-out 0.49s both;
+  }
+  .collection-page .featured-carousel-header h2 {
+    animation: intro-fade-up 0.5s ease-out 0.35s both;
+  }
+  .collection-page .featured-carousel-viewport {
+    animation: intro-fade-up 0.6s ease-out 0.45s both;
+  }
+  .collection-page .featured-carousel-controls {
+    animation: intro-fade 0.4s ease-out 0.55s both;
+  }
+  /* Scroll-triggered: sections start hidden only when JS has run (.intro-js) */
+  .collection-page.intro-js .country-section:not(.in-view) {
+    opacity: 0;
+    transform: translateY(1rem);
+  }
+  .collection-page .country-section.in-view {
+    animation: intro-fade-up 0.5s ease-out both;
+  }
+  .collection-page .country-section.in-view .property-grid article {
+    opacity: 0;
+    transform: translateY(0.75rem);
+  }
+  .collection-page .country-section.in-view .property-grid article:nth-child(1) {
+    animation: intro-fade-up 0.45s ease-out 0.05s both;
+  }
+  .collection-page .country-section.in-view .property-grid article:nth-child(2) {
+    animation: intro-fade-up 0.45s ease-out 0.12s both;
+  }
+  .collection-page .country-section.in-view .property-grid article:nth-child(3) {
+    animation: intro-fade-up 0.45s ease-out 0.19s both;
+  }
+  .collection-page .country-section.in-view .property-grid article:nth-child(4) {
+    animation: intro-fade-up 0.45s ease-out 0.26s both;
+  }
+  .collection-page .country-section.in-view .property-grid article:nth-child(5) {
+    animation: intro-fade-up 0.45s ease-out 0.33s both;
+  }
+  .collection-page .country-section.in-view .property-grid article:nth-child(6) {
+    animation: intro-fade-up 0.45s ease-out 0.4s both;
+  }
+  .collection-page .site-footer.in-view {
+    animation: intro-fade 0.5s ease-out both;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .collection-page .country-section:not(.in-view) {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* --------------------------------------------------------------------------
    Skip link
    -------------------------------------------------------------------------- */
 .collection-page .skip-link {
@@ -308,58 +401,86 @@
 }
 
 /* --------------------------------------------------------------------------
-   Refined controls (anchor chips, sort)
+   Refined controls (region nav) — sans-serif, generous spacing, hover states
    -------------------------------------------------------------------------- */
 .collection-page .controls-row {
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
-  gap: var(--space-4);
-  padding: var(--space-4) 0;
+  align-items: stretch;
+  gap: 0;
+  padding: var(--space-6) 0;
+  margin-bottom: var(--space-8);
   border-bottom: 1px solid var(--border);
-  margin-bottom: var(--space-6);
+  background: var(--bg);
 }
 
 .collection-page .filter-chips {
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
 .collection-page .filter-chips a {
-  padding: var(--space-2) var(--space-4);
-  font-size: var(--text-sm);
-  color: var(--text);
+  display: inline-block;
+  padding: var(--space-4) var(--space-6);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: var(--text-base);
+  font-weight: 500;
+  color: var(--muted);
   text-decoration: none;
-  border: 1px solid var(--border);
-  transition: border-color 0.2s ease, color 0.2s ease;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  border-radius: var(--space-1, 0.25rem);
+  transition: color 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
 }
 
-.collection-page .filter-chips a:hover,
-.collection-page .filter-chips a:focus-visible {
-  border-color: var(--accent);
+.collection-page .filter-chips a:hover {
   color: var(--text);
+  background-color: color-mix(in srgb, var(--text) 10%, transparent);
+  border-bottom-color: var(--border);
 }
 
 .collection-page .filter-chips a:focus-visible {
+  color: var(--text);
   outline: 2px solid var(--accent);
   outline-offset: 2px;
 }
 
+.collection-page .filter-chips a:active,
+.collection-page .filter-chips a.is-active {
+  color: var(--text);
+  border-bottom-color: var(--accent);
+}
+
+.collection-page .filter-chips a.is-active:hover {
+  border-bottom-color: var(--accent);
+}
+
 .collection-page .view-options {
   margin-left: auto;
+  padding: var(--space-4) 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   font-size: var(--text-sm);
   color: var(--muted);
 }
 
 .collection-page .view-options a {
+  display: inline-block;
+  padding: var(--space-2) var(--space-3);
+  margin: calc(-1 * var(--space-2)) calc(-1 * var(--space-3));
   color: var(--muted);
   text-decoration: none;
+  border-radius: var(--space-1, 0.25rem);
+  transition: color 0.2s ease, background-color 0.2s ease;
 }
 
 .collection-page .view-options a:hover,
 .collection-page .view-options a:focus-visible {
   color: var(--text);
+  background-color: color-mix(in srgb, var(--muted) 12%, transparent);
 }
 
 .collection-page .view-options a:focus-visible {
@@ -579,17 +700,19 @@
 
 .collection-page .featured-property .btn-featured {
   display: inline-block;
-  padding: var(--space-3) var(--space-5);
+  padding: var(--space-3) var(--space-5) var(--space-4);
   font-size: var(--text-sm);
   letter-spacing: 0.05em;
   color: var(--text);
   text-decoration: none;
   border: 1px solid var(--border);
+  border-bottom: 2px solid #000;
   transition: border-color 0.2s ease, background 0.2s ease;
 }
 
 .collection-page .featured-property .btn-featured:hover {
   border-color: var(--accent);
+  border-bottom-color: #000;
 }
 
 .collection-page .featured-property .btn-featured:focus-visible {
