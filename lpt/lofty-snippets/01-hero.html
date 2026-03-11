@@ -14,7 +14,7 @@
 .hero { position: relative; display: flex; flex-direction: column; justify-content: space-between; padding: 80px 0 0; overflow: hidden; }
 .hero-video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0 !important; }
 .hero::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-  background: radial-gradient(circle at 30% 40%, rgba(0,150,255,0.76) 0%, transparent 50%), radial-gradient(circle at 70% 60%, rgba(0,50,200,0.76) 0%, transparent 50%), linear-gradient(180deg, rgba(0,150,255,0.6) 0%, rgba(0,30,120,0.64) 50%, rgba(0,50,200,0.6) 100%);
+  background: radial-gradient(circle at 30% 40%, rgba(180,40,40,0.76) 0%, transparent 50%), radial-gradient(circle at 70% 60%, rgba(120,30,30,0.76) 0%, transparent 50%), linear-gradient(180deg, rgba(180,50,50,0.6) 0%, rgba(80,20,20,0.64) 50%, rgba(140,30,30,0.6) 100%);
   z-index: 1; animation: gradientMove 15s ease-in-out infinite; }
 .hero > *:not(.hero-video) { position: relative; z-index: 2; }
 @keyframes gradientMove { 0%{ background-position: 30% 40%, 70% 60%, center; } 25%{ background-position: 80% 20%, 20% 80%, center; } 50%{ background-position: 20% 80%, 80% 20%, center; } 75%{ background-position: 70% 70%, 30% 30%, center; } 100%{ background-position: 30% 40%, 70% 60%, center; } }
@@ -41,7 +41,7 @@
 </style>
 <section class="hero" id="hero">
   <video class="hero-video" autoplay muted loop playsinline>
-    <source src="https://k4design.github.io/lpt/vid/hero.mp4" type="video/mp4">
+    <source src="https://k4design.github.io/lpt/vid/canada_hero.mp4" type="video/mp4">
   </video>
   <div class="hero-content" style="grid-template-columns: 1fr; max-width: 900px; text-align: center;">
     <div>
