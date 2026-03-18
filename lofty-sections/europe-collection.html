@@ -7,7 +7,10 @@
   <link rel="stylesheet" href="europe-collection.css">
 </head>
 <body>
-  <div class="collection-page">
+  <div class="page-loader" aria-hidden="true" aria-label="Loading">
+    <span class="page-loader-spinner"></span>
+  </div>
+  <div class="collection-page collection-page-content">
 
     <a href="#main" class="skip-link">Skip to main content</a>
 
@@ -136,7 +139,7 @@
               <article>
                 <a href="https://www.apertureglobal.com/54ashfordcres" class="property-card">
                   <figure class="card-figure">
-                    <img src="https://k4design.github.io/lofty-sections/img/euproperties/54ashfordcres/1000034790.jpg" srcset="https://k4design.github.io/lofty-sections/img/euproperties/54ashfordcres/1000034790.jpg 1x" sizes="(min-width: 64rem) 33vw, (min-width: 48rem) 50vw, 100vw" alt="54 Ashford Crescent, Grange Farm, Milton Keynes" width="600" height="450">
+                    <img src="https://k4design.github.io/lofty-sections/img/euproperties/54ashfordcres/1000034790.png" srcset="https://k4design.github.io/lofty-sections/img/euproperties/54ashfordcres/1000034790.png 1x" sizes="(min-width: 64rem) 33vw, (min-width: 48rem) 50vw, 100vw" alt="54 Ashford Crescent, Grange Farm, Milton Keynes" width="600" height="450">
                   </figure>
                   <div class="card-body">
                     <h3>54 Ashford Crescent</h3>
@@ -292,7 +295,7 @@
               <article>
                 <a href="https://www.apertureglobal.com/flat1yorkmansions215" class="property-card">
                   <figure class="card-figure">
-                    <img src="https://k4design.github.io/lofty-sections/img/euproperties/flat1yorkmansions21/1_63354.JPG" srcset="https://k4design.github.io/lofty-sections/img/euproperties/flat1yorkmansions21/1_63354.JPG 1x" sizes="(min-width: 64rem) 33vw, (min-width: 48rem) 50vw, 100vw" alt="Flat 1 York Mansions, Earl's Court" width="600" height="450">
+                    <img src="https://k4design.github.io/lofty-sections/img/euproperties/flat1yorkmansions21/1_63354.jpg" srcset="https://k4design.github.io/lofty-sections/img/euproperties/flat1yorkmansions21/1_63354.jpg 1x" sizes="(min-width: 64rem) 33vw, (min-width: 48rem) 50vw, 100vw" alt="Flat 1 York Mansions, Earl's Court" width="600" height="450">
                   </figure>
                   <div class="card-body">
                     <h3>Flat 1 York Mansions</h3>
@@ -356,20 +359,30 @@
   </div>
   <script>
     (function () {
-      var page = document.querySelector('.collection-page');
+      function onPageLoad() {
+        document.body.classList.add('page-loaded');
+      }
       var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       if (prefersReducedMotion) {
-        document.querySelectorAll('.collection-page .country-section').forEach(function (el) { el.classList.add('in-view'); });
-        return;
+        onPageLoad();
+      } else if (document.readyState === 'complete') {
+        onPageLoad();
+      } else {
+        window.addEventListener('load', onPageLoad);
       }
-      if (page) page.classList.add('intro-js');
-      var sections = document.querySelectorAll('.collection-page .country-section');
-      var observer = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-          if (entry.isIntersecting) entry.target.classList.add('in-view');
-        });
-      }, { rootMargin: '0px 0px -8% 0px', threshold: 0 });
-      sections.forEach(function (el) { observer.observe(el); });
+      var page = document.querySelector('.collection-page');
+      if (prefersReducedMotion) {
+        document.querySelectorAll('.collection-page .country-section').forEach(function (el) { el.classList.add('in-view'); });
+      } else if (page) {
+        page.classList.add('intro-js');
+        var sections = document.querySelectorAll('.collection-page .country-section');
+        var observer = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) entry.target.classList.add('in-view');
+          });
+        }, { rootMargin: '0px 0px -8% 0px', threshold: 0 });
+        sections.forEach(function (el) { observer.observe(el); });
+      }
     })();
   </script>
 </body>
