@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>54 Ashford Crescent, Grange Farm, Milton Keynes | Luxury Property</title>
+  <link rel="stylesheet" href="hazelhurstfarm.css">
+</head>
+<body>
+  <div class="property-page">
+
+    <!-- Skip link -->
+    <a href="#main" class="skip-link">Skip to main content</a>
+
+    <main id="main">
+      <!-- 2) Cinematic Hero — 54 Ashford Crescent -->
+      <section class="hero" aria-label="Property hero">
+        <div class="hero-media">
+          <img
+            src="https://k4design.github.io/lofty-sections/img/euproperties/54ashfordcres/1000034790.png"
+            srcset="https://k4design.github.io/lofty-sections/img/euproperties/54ashfordcres/1000034790.png 1x"
+            sizes="100vw"
+            alt="54 Ashford Crescent, an executive six-bedroom residence in Grange Farm, Milton Keynes"
+            width="1920"
+            height="1080"
+            class="hero-img"
+          >
+        </div>
+        <div class="hero-overlay">
+          <div class="hero-content">
+            <p class="hero-label">Grange Farm, Milton Keynes</p>
+            <h1 class="hero-title">54 Ashford Crescent</h1>
+            <p class="hero-location">54 Ashford Cres, Grange Farm, Milton Keynes MK8 0LZ</p>
+            <p class="hero-price">£1,600,000</p>
+            <p class="hero-tagline">An exceptional six-bedroom, seven-bathroom executive home with over 4,500 sq ft of meticulously designed space, electric gated driveway, chef's kitchen, home gym with infra-red sauna, and spa-inspired master suite.</p>
+            <div class="hero-ctas">
+              <a href="#advisor" class="btn btn-primary">Request Brochure</a>
+              <a href="#advisor" class="btn btn-secondary">Schedule a Private Viewing</a>
+            </div>
+            <a href="#stats" class="hero-scroll-cue" aria-label="Scroll to content">
+              <span class="scroll-cue-line"></span>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3) At-a-Glance Stats Band -->
+      <section id="stats" class="stats-band" aria-labelledby="stats-heading">
+        <h2 id="stats-heading" class="visually-hidden">Property at a glance</h2>
+        <div class="stats-inner reveal reveal-stagger">
+          <dl class="stat">
+            <dd>4,550 sq ft</dd>
+            <dt>Living area</dt>
+          </dl>
+          <dl class="stat">
+            <dd>6</dd>
+            <dt>Bedrooms</dt>
+          </dl>
+          <dl class="stat">
+            <dd>7</dd>
+            <dt>Bathrooms</dt>
+          </dl>
+          <dl class="stat">
+            <dd>Executive</dd>
+            <dt>Style</dt>
+          </dl>
+        </div>
+      </section>
+
+      <!-- 4) Editorial Story + Highlights -->
+      <section class="editorial" aria-labelledby="story-heading">
+        <div class="editorial-inner reveal">
+          <div class="story-col">
+            <h2 id="story-heading">The Story</h2>
+            <p>Welcome to 54 Ashford Crescent, an exceptional residence nestled in the heart of Grange Farm, one of Milton Keynes's most prestigious and well-connected neighbourhoods. This expansive six-bedroom, seven-bathroom executive home is a masterclass in luxury living, offering over 4,500 sq ft of meticulously designed space.</p>
+            <p>Beyond its grand entrance and electric gated driveway lies a haven of elegance, featuring a bespoke chef's kitchen, multiple sunrooms, a state-of-the-art home gym with an infra-red sauna, and a sumptuous master suite with a private walk-in wardrobe and spa-inspired en-suite.</p>
+            <p>Perfectly positioned near top-rated schools, lush parks, boutique shops, and key commuter routes, this property seamlessly blends exclusivity, comfort, and convenience—making it a truly rare offering in today's market.</p>
+          </div>
+          <div class="highlights-col">
+            <h2 class="highlights-heading">Highlights</h2>
+            <ul class="highlights-list">
+              <li>Expansive Living Space</li>
+              <li>High-End Fixtures &amp; Finishes</li>
+              <li>Walk-in Wardrobe</li>
+              <li>Sunroom &amp; Home Gym</li>
+              <li>Electric Gated Entrance</li>
+              <li>Spacious Primary Suite</li>
+              <li>Premium Location</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- 5) Gallery -->
+      <section id="gallery" class="gallery" aria-labelledby="gallery-heading">
+        <div class="gallery-inner">
+          <div class="gallery-header reveal">
+            <h2 id="gallery-heading">Gallery</h2>
+            <a href="#gallery-grid" class="gallery-link">View full gallery</a>
+          </div>
+          <figure class="gallery-featured reveal">
+            <button type="button" class="gallery-thumb" id="gallery-featured-thumb" aria-label="View full size">
+              <img
+                src="https://k4design.github.io/lofty-sections/img/euproperties/54ashfordcres/1000034790.png"
+                sizes="(min-width: 64rem) 90vw, 100vw"
+                alt="54 Ashford Crescent"
+                width="1200"
+                height="800"
+              >
+            </button>
+            <figcaption id="gallery-featured-caption">54 Ashford Crescent</figcaption>
+          </figure>
+          <div id="gallery-grid" class="gallery-grid reveal-stagger" aria-label="Gallery images"></div>
+          <nav class="gallery-pagination" aria-label="Gallery pages">
+            <button type="button" class="gallery-pagination-prev" aria-label="Previous page">Previous</button>
+            <div class="gallery-pagination-pages"></div>
+            <button type="button" class="gallery-pagination-next" aria-label="Next page">Next</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- Gallery lightbox modal -->
+      <div id="gallery-modal" class="gallery-modal" role="dialog" aria-modal="true" aria-label="Enlarged image" hidden>
+        <div class="gallery-modal-backdrop"></div>
+        <div class="gallery-modal-content">
+          <button type="button" class="gallery-modal-close" aria-label="Close">×</button>
+          <img class="gallery-modal-img" src="" alt="">
+        </div>
+      </div>
+
+      <script>
+        (function () {
+          var BASE = 'https://k4design.github.io/lofty-sections/img/euproperties/54ashfordcres/';
+          var GALLERY = [
+            { file: '1000034790.png', caption: '54 Ashford Crescent' },
+            { file: '1000034791.jpg', caption: 'Exterior and approach' },
+            { file: '1000034792.jpg', caption: 'Reception and living space' },
+            { file: '1000034793.jpg', caption: 'Interior' },
+            { file: '1000034794.jpg', caption: '54 Ashford Crescent' },
+            { file: '1000034795.jpg', caption: 'Interior' },
+            { file: '1000034796.jpg', caption: '54 Ashford Crescent' },
+            { file: '1000034797.jpg', caption: 'Interior' },
+            { file: '1000034798.jpg', caption: '54 Ashford Crescent' },
+            { file: '1000034799.jpg', caption: 'Interior' },
+            { file: '1000034800.jpg', caption: '54 Ashford Crescent' },
+            { file: '1000034801.jpg', caption: 'Interior' },
+            { file: '1000034802.jpg', caption: '54 Ashford Crescent' },
+            { file: '1000034803.jpg', caption: 'Interior' },
+            { file: '1000034804.jpg', caption: '54 Ashford Crescent' }
+          ];
+          var PER_PAGE = 6;
+          var grid = document.getElementById('gallery-grid');
+          var featuredThumb = document.getElementById('gallery-featured-thumb');
+          var featuredCaption = document.getElementById('gallery-featured-caption');
+          var featuredImg = featuredThumb && featuredThumb.querySelector('img');
+          var pagesEl = document.querySelector('.gallery-pagination-pages');
+          var prevBtn = document.querySelector('.gallery-pagination-prev');
+          var nextBtn = document.querySelector('.gallery-pagination-next');
+          var currentPage = 1;
+          var totalPages = Math.max(1, Math.ceil(GALLERY.length / PER_PAGE));
+
+          function src(item) { return BASE + item.file; }
+
+          function renderPage(page) {
+            currentPage = Math.max(1, Math.min(page, totalPages));
+            var start = (currentPage - 1) * PER_PAGE;
+            var slice = GALLERY.slice(start, start + PER_PAGE);
+            if (!grid) return;
+            grid.innerHTML = slice.map(function (item) {
+              var s = src(item);
+              var alt = '54 Ashford Crescent – ' + (item.caption || '');
+              return '<figure><button type="button" class="gallery-thumb" aria-label="View full size: ' + (item.caption || '') + '">' +
+                '<img src="' + s + '" sizes="(min-width: 48rem) 33vw, 100vw" alt="' + alt.replace(/"/g, '&quot;') + '" width="600" height="400">' +
+                '</button><figcaption>' + (item.caption || '') + '</figcaption></figure>';
+            }).join('');
+            updatePaginationUI();
+            if (typeof window.IntersectionObserver !== 'undefined') {
+              var obs = new IntersectionObserver(function (entries) {
+                entries.forEach(function (e) { if (e.isIntersecting) e.target.classList.add('in-view'); });
+              }, { rootMargin: '0px 0px -8% 0px', threshold: 0 });
+              grid.querySelectorAll('figure').forEach(function (el) { obs.observe(el); });
+            }
+          }
+
+          function updatePaginationUI() {
+            if (prevBtn) prevBtn.disabled = currentPage <= 1;
+            if (nextBtn) nextBtn.disabled = currentPage >= totalPages;
+            if (pagesEl) {
+              var html = '';
+              for (var i = 1; i <= totalPages; i++) {
+                var active = i === currentPage;
+                html += '<button type="button" class="gallery-pagination-page' + (active ? ' is-current' : '') + '" data-page="' + i + '" ' + (active ? 'aria-current="page"' : '') + '>' + i + '</button>';
+              }
+              pagesEl.innerHTML = html;
+            }
+          }
+
+          if (grid) {
+            renderPage(1);
+            if (pagesEl) {
+              pagesEl.addEventListener('click', function (e) {
+                var p = e.target.getAttribute('data-page');
+                if (p) renderPage(parseInt(p, 10));
+              });
+            }
+            if (prevBtn) prevBtn.addEventListener('click', function () { renderPage(currentPage - 1); });
+            if (nextBtn) nextBtn.addEventListener('click', function () { renderPage(currentPage + 1); });
+          }
+
+          /* Modal: use delegation so dynamically added thumbs work */
+          var modal = document.getElementById('gallery-modal');
+          var modalImg = modal && modal.querySelector('.gallery-modal-img');
+          var closeBtn = modal && modal.querySelector('.gallery-modal-close');
+          var backdrop = modal && modal.querySelector('.gallery-modal-backdrop');
+          var propertyPage = document.querySelector('.property-page');
+
+          function openModal(src, alt) {
+            if (!modal || !modalImg) return;
+            modalImg.src = src;
+            modalImg.alt = alt || '';
+            modal.hidden = false;
+            document.body.style.overflow = 'hidden';
+            if (closeBtn) closeBtn.focus();
+          }
+
+          function closeModal() {
+            if (!modal) return;
+            modal.hidden = true;
+            document.body.style.overflow = '';
+          }
+
+          if (propertyPage) {
+            propertyPage.addEventListener('click', function (e) {
+              var thumb = e.target.closest('.gallery-thumb');
+              if (!thumb) return;
+              var img = thumb.querySelector('img');
+              if (img && img.src) openModal(img.src, img.alt);
+            });
+          }
+          if (closeBtn) closeBtn.addEventListener('click', closeModal);
+          if (backdrop) backdrop.addEventListener('click', closeModal);
+          document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape' && modal && !modal.hidden) closeModal();
+          });
+
+          if (featuredThumb && featuredImg && featuredCaption) {
+            featuredThumb.addEventListener('click', function () {
+              openModal(featuredImg.src, featuredImg.alt);
+            });
+          }
+        })();
+      </script>
+
+      <!-- 6) Signature Amenities -->
+      <section class="amenities" aria-labelledby="amenities-heading">
+        <div class="amenities-inner reveal">
+          <h2 id="amenities-heading">Signature Amenities</h2>
+          <ul class="amenities-list reveal-stagger">
+            <li>
+              <span class="amenity-title">Expansive Living Space</span>
+              <span class="amenity-desc">Over 4,500 sq ft of meticulously designed space across six bedrooms and seven bathrooms.</span>
+            </li>
+            <li>
+              <span class="amenity-title">High-End Fixtures &amp; Finishes</span>
+              <span class="amenity-desc">Bespoke chef's kitchen and premium fittings throughout this executive home.</span>
+            </li>
+            <li>
+              <span class="amenity-title">Walk-in Wardrobe &amp; Spacious Primary Suite</span>
+              <span class="amenity-desc">Sumptuous master suite with private walk-in wardrobe and spa-inspired en-suite.</span>
+            </li>
+            <li>
+              <span class="amenity-title">Sunroom &amp; Home Gym</span>
+              <span class="amenity-desc">Multiple sunrooms and a state-of-the-art home gym with infra-red sauna.</span>
+            </li>
+            <li>
+              <span class="amenity-title">Electric Gated Entrance</span>
+              <span class="amenity-desc">Grand entrance with electric gated driveway for privacy and security.</span>
+            </li>
+            <li>
+              <span class="amenity-title">Premium Location</span>
+              <span class="amenity-desc">Grange Farm, Milton Keynes—near top-rated schools, parks, boutique shops and key commuter routes.</span>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- 7) Location -->
+      <section class="location" aria-labelledby="location-heading">
+        <div class="location-inner reveal">
+          <h2 id="location-heading">Location</h2>
+          <div class="map-placeholder">
+            <iframe
+              src="https://www.openstreetmap.org/export/embed.html?bbox=-0.8%2C51.9%2C-0.6%2C52.1&amp;layer=mapnik&amp;marker=52.0%2C-0.7"
+              title="Map: Grange Farm, Milton Keynes MK8 0LZ"
+              width="100%"
+              height="100%"
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+            ></iframe>
+          </div>
+          <div class="location-content">
+            <h3 class="location-subhead">Nearby</h3>
+            <ul class="nearby-list">
+              <li><span class="nearby-name">Milton Keynes Central</span> <span class="nearby-time">Short drive</span></li>
+              <li><span class="nearby-name">Grange Farm</span> <span class="nearby-time">Local</span></li>
+              <li><span class="nearby-name">Top-rated schools</span> <span class="nearby-time">Nearby</span></li>
+              <li><span class="nearby-name">Parks &amp; shops</span> <span class="nearby-time">Convenient</span></li>
+              <li><span class="nearby-name">Commuter routes</span> <span class="nearby-time">Key access</span></li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- 8) Architecture & Details -->
+      <section class="architecture" aria-labelledby="architecture-heading">
+        <div class="architecture-inner reveal">
+          <div class="architecture-copy">
+            <h2 id="architecture-heading">Architecture &amp; Details</h2>
+            <p class="architecture-intro">This executive home offers over 4,500 sq ft of meticulously designed space with a grand entrance and electric gated driveway. The interior features a bespoke chef's kitchen, multiple sunrooms, and a state-of-the-art home gym with infra-red sauna. The sumptuous master suite includes a private walk-in wardrobe and spa-inspired en-suite, with high-end fixtures and finishes throughout.</p>
+          <ul class="architecture-details">
+            <li><strong>Living space:</strong><br>Over 4,550 sq ft; six bedrooms, seven bathrooms; bespoke chef's kitchen, multiple sunrooms</li>
+            <li><strong>Master suite:</strong><br>Spacious primary suite with private walk-in wardrobe and spa-inspired en-suite</li>
+            <li><strong>Wellness &amp; lifestyle:</strong><br>Home gym with infra-red sauna; electric gated entrance and driveway</li>
+          </ul>
+          </div>
+          <div class="floorplans">
+            <figure>
+              <img
+                src="https://k4design.github.io/lofty-sections/img/euproperties/54ashfordcres/1000034792.jpg"
+                sizes="(min-width: 48rem) 50vw, 100vw"
+                alt="54 Ashford Crescent interior"
+                width="800"
+                height="600"
+              >
+              <figcaption>Interior</figcaption>
+            </figure>
+            <figure>
+              <img
+                src="https://k4design.github.io/lofty-sections/img/euproperties/54ashfordcres/1000034794.jpg"
+                sizes="(min-width: 48rem) 50vw, 100vw"
+                alt="54 Ashford Crescent"
+                width="800"
+                height="600"
+              >
+              <figcaption>54 Ashford Crescent</figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <!-- 9) Advisor Module -->
+      <section id="advisor" class="advisor" aria-labelledby="advisor-heading">
+        <div class="advisor-inner reveal">
+          <h2 id="advisor-heading">Your Advisor</h2>
+          <div class="advisor-card">
+            <div class="advisor-photo">
+              <img src="https://k4design.github.io/lofty-sections/img/euproperties/agent/krishnanmistry.jpg" alt="Krishan Mistry" width="192" height="192">
+            </div>
+            <div class="advisor-info">
+              <p class="advisor-name">Krishan Mistry</p>
+              <p class="advisor-title">Listing Agent</p>
+              <p class="advisor-contact">
+                <a href="mailto:Krishan.Minstry@ApertureGlobal.com">Krishan.Minstry@ApertureGlobal.com</a><br>
+                <a href="tel:+447904644426">+44 79 0464 4426</a>
+              </p>
+              <p class="advisor-trust">Discreet representation · Off-market access · Local expertise</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- ========== SWAP-READY LISTING 2: Tuscan Estate ========== -->
+    <!--
+    Replace hero + stats + story/gallery/amenities/location/architecture content with the block below when showcasing this listing.
+
+    HERO: Title "Tenuta dei Cipressi", Location "Val d'Orcia, Tuscany, Italy", Price "Price upon request", Tagline "A working estate where Renaissance order meets the soul of the land."
+    STATS: 850 sqm · 45 hectares · 10 bedrooms · 10 bathrooms · 16th century / Restored 2019 · Vineyard · Olive grove
+    STORY: 2–3 paragraphs on history, vineyards, olive oil, restoration.
+    HIGHLIGHTS: Vineyard, olive grove, pool, chapel, guest cottages, Siena 40 min, Florence 90 min, etc.
+    GALLERY: /images/listings/tuscany/hero.jpg, featured, g1–g6.
+    AMENITIES: Wine production, olive oil, pool, chapel, guest cottages, staff, helipad.
+    LOCATION: Map placeholder. Nearby: Siena 40 min, Florence 90 min, Montalcino 25 min, Pienza 15 min. Seasons note.
+    ARCHITECTURE: Stone, terracotta, oak; 16th-c restoration; floor plan placeholders.
+    ADVISOR: Different name/title/contact for Italy.
+    -->
+
+    <!-- ========== SWAP-READY LISTING 3: Swiss Alpine Chalet ========== -->
+    <!--
+    Replace hero + stats + story/gallery/amenities/location/architecture content with the block below when showcasing this listing.
+
+    HERO: Title "Chalet des Étoiles", Location "Verbier, Valais, Switzerland", Price "CHF 22,000,000", Tagline "Above the village, under the stars—a sanctuary of timber and stone."
+    STATS: 680 sqm · 0.4 hectares · 7 bedrooms · 8 bathrooms · 2018 · Ski-in/ski-out · Alpine
+    STORY: 2–3 paragraphs on position, materials, ski access, wellness.
+    HIGHLIGHTS: Ski-in/ski-out, spa, cinema, Geneva 90 min, Sion 35 min, Verbier lifts 2 min.
+    GALLERY: /images/listings/verbier/hero.jpg, featured, g1–g6.
+    AMENITIES: Spa, cinema, wine cellar, boot room, elevator, staff accommodation.
+    LOCATION: Map placeholder. Nearby: Verbier Médran lift 2 min, Geneva Airport 90 min, Sion 35 min. Seasons: winter ski, summer hiking.
+    ARCHITECTURE: Larch, local stone, copper; 2018 build; floor plan placeholders.
+    ADVISOR: Different name/title/contact for Switzerland.
+    -->
+
+  </div>
+
+  <script>
+    (function () {
+      var root = document.querySelector('.property-page');
+      if (!root) return;
+
+      var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reducedMotion) return;
+
+      var targets = root.querySelectorAll('.reveal, .reveal-stagger');
+      if (!targets.length) return;
+
+      var observer = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('in-view');
+            }
+          });
+        },
+        { rootMargin: '0px 0px -8% 0px', threshold: 0 }
+      );
+
+      targets.forEach(function (el) {
+        observer.observe(el);
+      });
+    })();
+  </script>
+</body>
+</html>

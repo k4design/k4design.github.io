@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Villa Èze-bord-de-Mer — Monaco | Luxury Property</title>
+  <link rel="stylesheet" href="ezemonaco.css">
+</head>
+<body>
+  <div class="property-page">
+
+    <!-- Skip link -->
+    <a href="#main" class="skip-link">Skip to main content</a>
+
+    <main id="main">
+      <!-- 2) Cinematic Hero — Villa Èze-bord-de-Mer -->
+      <section class="hero" aria-label="Property hero">
+        <div class="hero-media">
+          <img
+            src="https://k4design.github.io/lofty-sections/img/euproperties/ezemonaco/a-1.jpg"
+            srcset="https://k4design.github.io/lofty-sections/img/euproperties/ezemonaco/a-1.jpg 1x"
+            sizes="100vw"
+            alt="Villa Èze-bord-de-Mer, Èze-Bord-de-Mer, Monaco"
+            width="1920"
+            height="1080"
+            class="hero-img"
+          >
+        </div>
+        <div class="hero-overlay">
+          <div class="hero-content">
+            <p class="hero-label">Monaco</p>
+            <h1 class="hero-title">Villa Èze-bord-de-Mer</h1>
+            <p class="hero-location">Èze-Bord-de-Mer, Monaco</p>
+            <p class="hero-price">€22,000,000</p>
+            <p class="hero-tagline">An extraordinary villa in the prestigious enclave of Èze-Bord-de-Mer—meticulously restored with period details, panoramic Mediterranean views, and rare privacy moments from the beach.</p>
+            <div class="hero-ctas">
+              <a href="#advisor" class="btn btn-primary">Request Brochure</a>
+              <a href="#advisor" class="btn btn-secondary">Schedule a Private Viewing</a>
+            </div>
+            <a href="#stats" class="hero-scroll-cue" aria-label="Scroll to content">
+              <span class="scroll-cue-line"></span>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3) At-a-Glance Stats Band -->
+      <section id="stats" class="stats-band" aria-labelledby="stats-heading">
+        <h2 id="stats-heading" class="visually-hidden">Property at a glance</h2>
+        <div class="stats-inner reveal reveal-stagger">
+          <dl class="stat">
+            <dd>3</dd>
+            <dt>Bedrooms</dt>
+          </dl>
+          <dl class="stat">
+            <dd>3</dd>
+            <dt>Bathrooms</dt>
+          </dl>
+          <dl class="stat">
+            <dd>400 m²</dd>
+            <dt>Living space</dt>
+          </dl>
+          <dl class="stat">
+            <dd>€22,000,000</dd>
+            <dt>Price</dt>
+          </dl>
+        </div>
+      </section>
+
+      <!-- 4) Editorial Story + Highlights -->
+      <section class="editorial" aria-labelledby="story-heading">
+        <div class="editorial-inner reveal">
+          <div class="story-col">
+            <h2 id="story-heading">The Story</h2>
+            <p>Introducing an extraordinary villa in the prestigious enclave of Èze-Bord-de-Mer, offering approximately 570 m² of elegant living space. Meticulously restored to preserve its historic character, the residence showcases remarkable period details, including original Venetian mosaic flooring and preserved frescoes. Refined interiors are designed for both comfort and entertaining, featuring a professional chef's kitchen, formal dining room, and a spectacular primary suite with a luxurious en-suite bath and private dressing area.</p>
+            <p>Expansive windows and terraces invite natural light throughout the home, seamlessly blending indoor and outdoor living. Every space has been thoughtfully curated to balance timeless elegance with modern comfort. Set within 2,933 m² of landscaped grounds, the estate captures panoramic Mediterranean Sea views while offering rare privacy just moments from the beach. A newly rebuilt guest house, ideal as a music or art studio, provides stylish independent accommodation. Additional highlights include a renovated swimming pool with pool house, two newly constructed garages, a private historic chapel, and a greenhouse—creating a timeless Riviera retreat near Monaco and Nice Airport.</p>
+            <p>For further details, brochure or a private viewing, please contact the listing agents.</p>
+          </div>
+          <div class="highlights-col">
+            <h2 class="highlights-heading">Highlights</h2>
+            <ul class="highlights-list">
+              <li>Original Features; Venetian Mosaic Floors</li>
+              <li>Panoramic Mediterranean Views</li>
+              <li>Historic Private Chapel</li>
+              <li>Renovated Pool and Cabana</li>
+              <li>Greenhouse; Independent Guest House</li>
+              <li>2-Car Garage</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- 5) Gallery -->
+      <section id="gallery" class="gallery" aria-labelledby="gallery-heading">
+        <div class="gallery-inner">
+          <div class="gallery-header reveal">
+            <h2 id="gallery-heading">Gallery</h2>
+            <a href="#gallery-grid" class="gallery-link">View full gallery</a>
+          </div>
+          <figure class="gallery-featured reveal">
+            <button type="button" class="gallery-thumb" id="gallery-featured-thumb" aria-label="View full size">
+              <img
+                src="https://k4design.github.io/lofty-sections/img/euproperties/ezemonaco/a-1.jpg"
+                sizes="(min-width: 64rem) 90vw, 100vw"
+                alt="Villa Èze-bord-de-Mer, Èze-Bord-de-Mer, Monaco"
+                width="1200"
+                height="800"
+              >
+            </button>
+            <figcaption id="gallery-featured-caption">Villa Èze-bord-de-Mer, Èze-Bord-de-Mer, Monaco</figcaption>
+          </figure>
+          <div id="gallery-grid" class="gallery-grid reveal-stagger" aria-label="Gallery images"></div>
+          <nav class="gallery-pagination" aria-label="Gallery pages">
+            <button type="button" class="gallery-pagination-prev" aria-label="Previous page">Previous</button>
+            <div class="gallery-pagination-pages"></div>
+            <button type="button" class="gallery-pagination-next" aria-label="Next page">Next</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- Gallery lightbox modal -->
+      <div id="gallery-modal" class="gallery-modal" role="dialog" aria-modal="true" aria-label="Enlarged image" hidden>
+        <div class="gallery-modal-backdrop"></div>
+        <div class="gallery-modal-content">
+          <button type="button" class="gallery-modal-close" aria-label="Close">×</button>
+          <img class="gallery-modal-img" src="" alt="">
+        </div>
+      </div>
+
+      <script>
+        (function () {
+          var BASE = 'https://k4design.github.io/lofty-sections/img/euproperties/ezemonaco/';
+          var GALLERY = [
+            { num: 1, caption: 'Villa Èze-bord-de-Mer, Èze-Bord-de-Mer, Monaco' },
+            { num: 2, caption: 'Villa exterior and grounds' },
+            { num: 3, caption: 'Venetian mosaic flooring and period details' },
+            { num: 4, caption: 'Panoramic Mediterranean views' },
+            { num: 5, caption: 'Living and entertaining spaces' },
+            { num: 6, caption: 'Primary suite and en-suite bath' },
+            { num: 7, caption: 'Renovated pool and cabana' },
+            { num: 8, caption: 'Guest house and gardens' },
+            { num: 9, caption: 'Historic chapel and landscaped grounds' },
+            { num: 10, caption: 'Greenhouse and terraces' },
+            { num: 11, caption: 'Chef\'s kitchen and dining' },
+            { num: 12, caption: 'Villa Èze-bord-de-Mer' }
+          ];
+          for (var i = 13; i <= 42; i++) {
+            GALLERY.push({ num: i, caption: 'Villa Èze-bord-de-Mer, Èze-Bord-de-Mer, Monaco' });
+          }
+          var PER_PAGE = 6;
+          var grid = document.getElementById('gallery-grid');
+          var featuredThumb = document.getElementById('gallery-featured-thumb');
+          var featuredCaption = document.getElementById('gallery-featured-caption');
+          var featuredImg = featuredThumb && featuredThumb.querySelector('img');
+          var pagesEl = document.querySelector('.gallery-pagination-pages');
+          var prevBtn = document.querySelector('.gallery-pagination-prev');
+          var nextBtn = document.querySelector('.gallery-pagination-next');
+          var currentPage = 1;
+          var totalPages = Math.max(1, Math.ceil(GALLERY.length / PER_PAGE));
+
+          function src(n) { return BASE + 'a-' + n + '.jpg'; }
+
+          function renderPage(page) {
+            currentPage = Math.max(1, Math.min(page, totalPages));
+            var start = (currentPage - 1) * PER_PAGE;
+            var slice = GALLERY.slice(start, start + PER_PAGE);
+            if (!grid) return;
+            grid.innerHTML = slice.map(function (item) {
+              var s = src(item.num);
+              var alt = 'Villa Èze-bord-de-Mer – ' + (item.caption || '');
+              return '<figure><button type="button" class="gallery-thumb" aria-label="View full size: ' + (item.caption || '').replace(/"/g, '&quot;') + '">' +
+                '<img src="' + s + '" sizes="(min-width: 48rem) 33vw, 100vw" alt="' + alt.replace(/"/g, '&quot;') + '" width="600" height="400">' +
+                '</button><figcaption>' + (item.caption || '').replace(/</g, '&lt;') + '</figcaption></figure>';
+            }).join('');
+            updatePaginationUI();
+            if (typeof window.IntersectionObserver !== 'undefined') {
+              var obs = new IntersectionObserver(function (entries) {
+                entries.forEach(function (e) { if (e.isIntersecting) e.target.classList.add('in-view'); });
+              }, { rootMargin: '0px 0px -8% 0px', threshold: 0 });
+              grid.querySelectorAll('figure').forEach(function (el) { obs.observe(el); });
+            }
+          }
+
+          function updatePaginationUI() {
+            if (prevBtn) prevBtn.disabled = currentPage <= 1;
+            if (nextBtn) nextBtn.disabled = currentPage >= totalPages;
+            if (pagesEl) {
+              var html = '';
+              for (var i = 1; i <= totalPages; i++) {
+                var active = i === currentPage;
+                html += '<button type="button" class="gallery-pagination-page' + (active ? ' is-current' : '') + '" data-page="' + i + '" ' + (active ? 'aria-current="page"' : '') + '>' + i + '</button>';
+              }
+              pagesEl.innerHTML = html;
+            }
+          }
+
+          if (grid) {
+            renderPage(1);
+            if (pagesEl) {
+              pagesEl.addEventListener('click', function (e) {
+                var p = e.target.getAttribute('data-page');
+                if (p) renderPage(parseInt(p, 10));
+              });
+            }
+            if (prevBtn) prevBtn.addEventListener('click', function () { renderPage(currentPage - 1); });
+            if (nextBtn) nextBtn.addEventListener('click', function () { renderPage(currentPage + 1); });
+          }
+
+          /* Modal: use delegation so dynamically added thumbs work */
+          var modal = document.getElementById('gallery-modal');
+          var modalImg = modal && modal.querySelector('.gallery-modal-img');
+          var closeBtn = modal && modal.querySelector('.gallery-modal-close');
+          var backdrop = modal && modal.querySelector('.gallery-modal-backdrop');
+          var propertyPage = document.querySelector('.property-page');
+
+          function openModal(src, alt) {
+            if (!modal || !modalImg) return;
+            modalImg.src = src;
+            modalImg.alt = alt || '';
+            modal.hidden = false;
+            document.body.style.overflow = 'hidden';
+            if (closeBtn) closeBtn.focus();
+          }
+
+          function closeModal() {
+            if (!modal) return;
+            modal.hidden = true;
+            document.body.style.overflow = '';
+          }
+
+          if (propertyPage) {
+            propertyPage.addEventListener('click', function (e) {
+              var thumb = e.target.closest('.gallery-thumb');
+              if (!thumb) return;
+              var img = thumb.querySelector('img');
+              if (img && img.src) openModal(img.src, img.alt);
+            });
+          }
+          if (closeBtn) closeBtn.addEventListener('click', closeModal);
+          if (backdrop) backdrop.addEventListener('click', closeModal);
+          document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape' && modal && !modal.hidden) closeModal();
+          });
+
+          if (featuredThumb && featuredImg && featuredCaption) {
+            featuredThumb.addEventListener('click', function () {
+              openModal(featuredImg.src, featuredImg.alt);
+            });
+          }
+        })();
+      </script>
+
+      <!-- 6) Signature Amenities -->
+      <section class="amenities" aria-labelledby="amenities-heading">
+        <div class="amenities-inner reveal">
+          <h2 id="amenities-heading">Signature Amenities</h2>
+          <ul class="amenities-list reveal-stagger">
+            <li>
+              <span class="amenity-title">Original Features & Venetian Mosaic Floors</span>
+              <span class="amenity-desc">Meticulously restored period details including original Venetian mosaic flooring and preserved frescoes throughout the residence.</span>
+            </li>
+            <li>
+              <span class="amenity-title">Panoramic Mediterranean Views</span>
+              <span class="amenity-desc">Expansive windows and terraces with panoramic sea views across 2,933 m² of landscaped grounds; rare privacy moments from the beach.</span>
+            </li>
+            <li>
+              <span class="amenity-title">Pool, Guest House & Chapel</span>
+              <span class="amenity-desc">Renovated swimming pool with pool house, independent guest house (ideal as music or art studio), private historic chapel, greenhouse, and two newly constructed garages.</span>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- 7) Location -->
+      <section class="location" aria-labelledby="location-heading">
+        <div class="location-inner reveal">
+          <h2 id="location-heading">Location</h2>
+          <div class="map-placeholder">
+            <iframe
+              src="https://www.openstreetmap.org/export/embed.html?bbox=7.41%2C43.72%2C7.44%2C43.74&amp;layer=mapnik&amp;marker=43.73%2C7.42"
+              title="Map: Èze-Bord-de-Mer, Monaco"
+              width="100%"
+              height="100%"
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+            ></iframe>
+          </div>
+          <div class="location-content">
+            <h3 class="location-subhead">Nearby</h3>
+            <ul class="nearby-list">
+              <li><span class="nearby-name">Monaco</span> <span class="nearby-time">Minutes</span></li>
+              <li><span class="nearby-name">Nice Airport</span> <span class="nearby-time">Convenient access</span></li>
+              <li><span class="nearby-name">Beach</span> <span class="nearby-time">Moments away</span></li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- 8) Architecture & Details -->
+      <section class="architecture" aria-labelledby="architecture-heading">
+        <div class="architecture-inner reveal">
+          <div class="architecture-copy">
+            <h2 id="architecture-heading">Architecture & Details</h2>
+            <p class="architecture-intro">Villa Èze-bord-de-Mer is an extraordinary villa in the prestigious enclave of Èze-Bord-de-Mer, offering approximately 570 m² of elegant living space with period details, Venetian mosaic flooring, and panoramic Mediterranean views. For full details, floor plans and specifications, please contact the listing agents.</p>
+          <ul class="architecture-details">
+            <li><strong>Address:</strong><br>Villa Èze-bord-de-Mer, Èze-Bord-de-Mer, Monaco</li>
+            <li><strong>Representation:</strong><br>Caroline de Havillande and Anna Cosio, Aperture Global</li>
+          </ul>
+          </div>
+          <div class="floorplans">
+            <figure>
+              <img
+                src="https://k4design.github.io/lofty-sections/img/euproperties/ezemonaco/a-2.jpg"
+                sizes="(min-width: 48rem) 50vw, 100vw"
+                alt="Villa Èze-bord-de-Mer, Èze-Bord-de-Mer, Monaco"
+                width="800"
+                height="600"
+              >
+              <figcaption>Villa Èze-bord-de-Mer</figcaption>
+            </figure>
+            <figure>
+              <img
+                src="https://k4design.github.io/lofty-sections/img/euproperties/ezemonaco/a-3.jpg"
+                sizes="(min-width: 48rem) 50vw, 100vw"
+                alt="Villa Èze-bord-de-Mer, Èze-Bord-de-Mer, Monaco"
+                width="800"
+                height="600"
+              >
+              <figcaption>Villa Èze-bord-de-Mer</figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <!-- 9) Advisor Module -->
+      <section id="advisor" class="advisor" aria-labelledby="advisor-heading">
+        <div class="advisor-inner reveal">
+          <h2 id="advisor-heading">Listing Agents</h2>
+          <div class="advisor-cards">
+            <div class="advisor-card">
+              <div class="advisor-photo">
+                <img src="https://k4design.github.io/lofty-sections/img/euproperties/agent/carolinedehavillande.jpg" alt="Caroline de Havillande" width="192" height="192">
+              </div>
+              <div class="advisor-info">
+                <p class="advisor-name">Caroline de Havillande</p>
+                <p class="advisor-title">Listing Agent</p>
+                <p class="advisor-contact">
+                  <a href="mailto:caroline.dehavillande@apertureglobal.com">caroline.dehavillande@apertureglobal.com</a><br>
+                  <a href="tel:+447725575757">+44 77 2557 5757</a>
+                </p>
+                <p class="advisor-trust">Discreet representation · Off-market access · Local expertise</p>
+              </div>
+            </div>
+            <div class="advisor-card">
+              <div class="advisor-photo">
+                <img src="https://k4design.github.io/lofty-sections/img/euproperties/agent/annacosio.jpg" alt="Anna Cosio" width="192" height="192">
+              </div>
+              <div class="advisor-info">
+                <p class="advisor-name">Anna Cosio</p>
+                <p class="advisor-title">Listing Agent</p>
+                <p class="advisor-contact">
+                  <a href="mailto:Anna.Cosio@ApertureGlobal.com">Anna.Cosio@ApertureGlobal.com</a><br>
+                  <a href="tel:+19177966394">+1 917 796 6394</a>
+                </p>
+                <p class="advisor-trust">Discreet representation · Off-market access · Local expertise</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- ========== SWAP-READY LISTING 2: Tuscan Estate ========== -->
+    <!--
+    Replace hero + stats + story/gallery/amenities/location/architecture content with the block below when showcasing this listing.
+
+    HERO: Title "Tenuta dei Cipressi", Location "Val d'Orcia, Tuscany, Italy", Price "Price upon request", Tagline "A working estate where Renaissance order meets the soul of the land."
+    STATS: 850 sqm · 45 hectares · 10 bedrooms · 10 bathrooms · 16th century / Restored 2019 · Vineyard · Olive grove
+    STORY: 2–3 paragraphs on history, vineyards, olive oil, restoration.
+    HIGHLIGHTS: Vineyard, olive grove, pool, chapel, guest cottages, Siena 40 min, Florence 90 min, etc.
+    GALLERY: /images/listings/tuscany/hero.jpg, featured, g1–g6.
+    AMENITIES: Wine production, olive oil, pool, chapel, guest cottages, staff, helipad.
+    LOCATION: Map placeholder. Nearby: Siena 40 min, Florence 90 min, Montalcino 25 min, Pienza 15 min. Seasons note.
+    ARCHITECTURE: Stone, terracotta, oak; 16th-c restoration; floor plan placeholders.
+    ADVISOR: Different name/title/contact for Italy.
+    -->
+
+    <!-- ========== SWAP-READY LISTING 3: Swiss Alpine Chalet ========== -->
+    <!--
+    Replace hero + stats + story/gallery/amenities/location/architecture content with the block below when showcasing this listing.
+
+    HERO: Title "Chalet des Étoiles", Location "Verbier, Valais, Switzerland", Price "CHF 22,000,000", Tagline "Above the village, under the stars—a sanctuary of timber and stone."
+    STATS: 680 sqm · 0.4 hectares · 7 bedrooms · 8 bathrooms · 2018 · Ski-in/ski-out · Alpine
+    STORY: 2–3 paragraphs on position, materials, ski access, wellness.
+    HIGHLIGHTS: Ski-in/ski-out, spa, cinema, Geneva 90 min, Sion 35 min, Verbier lifts 2 min.
+    GALLERY: /images/listings/verbier/hero.jpg, featured, g1–g6.
+    AMENITIES: Spa, cinema, wine cellar, boot room, elevator, staff accommodation.
+    LOCATION: Map placeholder. Nearby: Verbier Médran lift 2 min, Geneva Airport 90 min, Sion 35 min. Seasons: winter ski, summer hiking.
+    ARCHITECTURE: Larch, local stone, copper; 2018 build; floor plan placeholders.
+    ADVISOR: Different name/title/contact for Switzerland.
+    -->
+
+  </div>
+
+  <script>
+    (function () {
+      var root = document.querySelector('.property-page');
+      if (!root) return;
+
+      var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reducedMotion) return;
+
+      var targets = root.querySelectorAll('.reveal, .reveal-stagger');
+      if (!targets.length) return;
+
+      var observer = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('in-view');
+            }
+          });
+        },
+        { rootMargin: '0px 0px -8% 0px', threshold: 0 }
+      );
+
+      targets.forEach(function (el) {
+        observer.observe(el);
+      });
+    })();
+  </script>
+</body>
+</html>
