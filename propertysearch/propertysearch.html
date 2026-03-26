@@ -77,6 +77,18 @@
 					<p class="search-meta">
 						17 listings match <span class="search-meta__page-info">· Page 1 of 2 · 15 per page</span>
 					</p>
+					<div class="search-meta-controls">
+					<div class="search-perpage" id="search-perpage">
+						<button type="button" class="search-sort__btn" id="perpage-btn" aria-haspopup="listbox" aria-expanded="false">
+							<span id="perpage-btn-label">25 / page</span>
+							<svg class="search-sort__caret" viewBox="0 0 10 6" width="10" height="6" fill="currentColor" aria-hidden="true"><path d="M0 0l5 6 5-6z"></path></svg>
+						</button>
+						<ul class="search-sort__menu" id="perpage-menu" role="listbox" hidden="">
+							<li role="option" data-val="25" aria-selected="true">25 per page</li>
+							<li role="option" data-val="50">50 per page</li>
+							<li role="option" data-val="100">100 per page</li>
+						</ul>
+					</div>
 					<div class="search-sort" id="search-sort">
 						<button type="button" class="search-sort__btn" id="sort-btn" aria-haspopup="listbox" aria-expanded="false">
 							<svg class="search-sort__icon" viewBox="0 0 16 16" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M3.5 2.5a.5.5 0 0 1 1 0v9.793l1.146-1.147a.5.5 0 0 1 .708.708l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 0 1 .708-.708L3.5 12.293V2.5zm9.5 1a.5.5 0 0 1-.5.5h-5a.5.5 0 0 1 0-1h5a.5.5 0 0 1 .5.5zm-2 3a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1 0-1h3a.5.5 0 0 1 .5.5zm-2 3a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1 0-1h1a.5.5 0 0 1 .5.5z"></path></svg>
@@ -96,8 +108,9 @@
 							<li role="option" data-val="yearBuilt|desc">Year Built: Newest First</li>
 						</ul>
 					</div>
+					</div>
 				</div>
-				
+
 					<nav class="search-paging" aria-label="Results pages">
 						<span class="search-paging__link search-paging__link--disabled" aria-disabled="true">Previous</span>
 						<span class="search-paging__indicator">Page 1 of 2</span>
