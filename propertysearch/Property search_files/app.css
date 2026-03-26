@@ -1690,11 +1690,6 @@ body.search-page {
 @media (max-width: 899px) {
 	.search-view-toggle {
 		display: flex;
-		position: fixed;
-		top: 64px;
-		left: 0;
-		right: 0;
-		z-index: 900;
 		background: var(--bg);
 		padding: 0.5rem 1rem;
 		border-bottom: 1px solid var(--border);
@@ -1705,7 +1700,6 @@ body.search-page {
 		min-height: 0;
 		display: flex;
 		flex-direction: column;
-		padding-top: 52px;
 	}
 
 	.search-hybrid {
