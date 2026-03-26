@@ -24,7 +24,10 @@
 			<span class="ha-logo-text">HomeAlerts</span>
 		</a>
 		<nav class="ha-nav" id="ha-nav">
-			<a href="https://ww9.homealerts.com/search.cfm">Search</a>
+			<form class="ha-search-form" action="https://ww9.homealerts.com/search.cfm" method="get">
+				<input class="ha-search-input" type="text" name="location" placeholder="City, zip, address…" aria-label="Search">
+				<button class="ha-search-btn" type="submit">Search</button>
+			</form>
 			<span id="ha-auth-slot">
 				<a href="##" class="ha-nav-cta" id="ha-signin-btn">Sign In</a>
 			</span>
