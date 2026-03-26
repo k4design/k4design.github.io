@@ -157,7 +157,7 @@
 	display: block;
 	width: 24px;
 	height: 2px;
-	background: #333;
+	background: #fff;
 	border-radius: 2px;
 	transition: transform 0.2s;
 }
@@ -166,6 +166,8 @@
 	.ha-nav { display: none; }
 	.ha-mobile-toggle { display: flex; }
 
+	.ha-search-form { display: none; }
+
 	.ha-nav.open {
 		display: flex;
 		flex-direction: column;
@@ -173,10 +175,10 @@
 		top: 64px;
 		left: 0;
 		right: 0;
-		background: #fff;
+		background: var(--bg);
 		padding: 16px 20px;
-		border-bottom: 2px solid #1a73e8;
-		box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+		border-bottom: 1px solid var(--border);
+		box-shadow: 0 4px 12px rgba(0,0,0,0.3);
 		gap: 14px;
 		z-index: 999;
 	}
@@ -184,6 +186,16 @@
 	.ha-nav.open a {
 		font-size: 16px;
 		padding: 6px 0;
+		color: #fff;
+	}
+
+	.ha-nav.open .ha-search-form {
+		display: flex;
+		width: 100%;
+	}
+
+	.ha-nav.open .ha-search-input {
+		width: 100%;
 	}
 
 	.ha-nav.open .ha-nav-cta {
@@ -1394,6 +1406,7 @@ body.search-page {
 	grid-template-columns: minmax(375px, 550px) 1fr;
 	grid-template-rows: minmax(0, 1fr);
 	min-height: calc(100vh - 11rem);
+	min-height: calc(100dvh - 11rem);
 	width: 100%;
 }
 
@@ -1627,6 +1640,22 @@ body.search-page {
 }
 @media (max-width: 600px) {
 	.search-card__tag { max-width: 120px; }
+
+	.search-card {
+		grid-template-columns: 110px 1fr;
+	}
+
+	.search-card__info {
+		margin: 0.65rem 0.75rem 0.65rem 0.65rem;
+	}
+
+	.search-card__meta {
+		padding-bottom: 0.75rem;
+	}
+
+	.search-card__bottom {
+		padding-bottom: 0.75rem;
+	}
 }
 
 .search-empty {
@@ -1704,6 +1733,7 @@ body.search-page {
 	.search-hybrid.search-mode-map .search-map-panel {
 		display: block;
 		height: calc(100vh - 116px);
+		height: calc(100dvh - 116px);
 	}
 
 	.search-hybrid.search-mode-map .search-map {
@@ -1725,6 +1755,7 @@ body.search-page {
 		align-items: stretch;
 		gap: 0;
 		min-height: calc(100vh - 11rem);
+		min-height: calc(100dvh - 11rem);
 	}
 
 	.search-list-panel {
@@ -1735,6 +1766,7 @@ body.search-page {
 		position: sticky;
 		top: 64px;
 		height: calc(100vh - 64px);
+		height: calc(100dvh - 64px);
 		overflow: hidden;
 	}
 
