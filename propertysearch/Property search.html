@@ -1,0 +1,1148 @@
+<!DOCTYPE html>
+<html lang="en" class="js"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Property search</title>
+	<meta name="description" content="Search MLS listings by city, zip, county, or subdivision. Filter by beds, baths, pool, waterfront, and more.">
+	<link rel="preconnect" href="https://img.homealerts.com/" crossorigin="">
+	<link rel="preconnect" href="https://a.tile.openstreetmap.org/" crossorigin="">
+	<link rel="dns-prefetch" href="https://www.googletagmanager.com/">
+	<link rel="dns-prefetch" href="https://connect.facebook.net/">
+	<link rel="stylesheet" href="Property%20search_files/app.css">
+<script async="" src="Property%20search_files/fbevents.js"></script><script src="Property%20search_files/js" async=""></script><link rel="stylesheet" href="Property%20search_files/leaflet.css"><script src="Property%20search_files/leaflet.js" async=""></script></head>
+
+
+<body class="search-page">
+<link rel="preload" as="image" href="Property%20search_files/photo_1_009.avif" imagesrcset="https://img.homealerts.com/mfrmls/MFR774496946/photo_1.jpg?w=100&amp;q=70&amp;v=2 100w, https://img.homealerts.com/mfrmls/MFR774496946/photo_1.jpg?w=200&amp;q=70&amp;v=2 200w" imagesizes="100px" fetchpriority="high">
+<header class="ha-header">
+	<div class="ha-header-inner">
+		<a href="https://ww9.homealerts.com/search.cfm" class="ha-logo">
+			<svg class="ha-bell-icon" viewBox="0 0 24 24" width="28" height="28" fill="currentColor">
+				<path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"></path>
+			</svg>
+			<span class="ha-logo-text">HomeAlerts</span>
+		</a>
+		<nav class="ha-nav" id="ha-nav">
+			<a href="https://ww9.homealerts.com/search.cfm">Search</a>
+			<span id="ha-auth-slot">
+				<a href="##" class="ha-nav-cta" id="ha-signin-btn">Sign In</a>
+			</span>
+		</nav>
+		<button class="ha-mobile-toggle" id="ha-mobile-toggle" aria-label="Menu">
+			<span></span><span></span><span></span>
+		</button>
+	</div>
+</header>
+
+<div class="search-shell">
+	<header class="search-header wrap wrap--narrow">
+		<div id="auth-error-slot"></div>
+		
+	</header>
+
+	
+	<main class="search-main">
+	<div class="search-view-toggle" role="tablist" aria-label="List or map view" id="search-view-toggle">
+		<button type="button" class="search-view-toggle__btn is-active" data-view="list" id="search-tab-list" role="tab" aria-selected="true" aria-controls="search-panel-list">List</button>
+		<button type="button" class="search-view-toggle__btn" data-view="map" id="search-tab-map" role="tab" aria-selected="false" aria-controls="search-panel-map">Map</button>
+	</div>
+	<div class="search-hybrid search-mode-list" id="search-hybrid">
+		<div class="search-list-panel" id="search-panel-list" role="tabpanel" aria-labelledby="search-tab-list">
+			<div class="search-list-panel__sticky">
+				<div class="search-title-row">
+					<h1 class="search-title">Search listings</h1>
+					<button type="button" class="btn-advanced-hero" id="adv-search-btn">Advanced Search</button>
+				</div>
+
+				<form class="search-filters" method="get" action="search.cfm">
+					<input type="hidden" name="market" value="mfrmls">
+					<input type="hidden" name="pageNumber" value="1">
+					<div class="search-filters__row">
+						<label class="search-filters__field search-filters__field--location">
+							<span>Location</span>
+							<input type="text" name="location" value="longwood" placeholder="City, zip, county, subdivisionâ€¦" data-format="propercase">
+						</label>
+						<button type="submit" class="btn-lead">Search</button>
+					</div>
+				</form>
+
+				
+				<div class="filter-pills" id="filter-pills"><span class="filter-pill" data-keys="city">longwood<button type="button" class="filter-pill__dismiss" aria-label="Remove filter: longwood">×</button></span><span class="filter-pill" data-keys="keyword">Keyword: golf<button type="button" class="filter-pill__dismiss" aria-label="Remove filter: Keyword: golf">×</button></span><a href="#" class="filter-pills__clear">Clear all filters</a></div>
+
+				<div class="search-meta-row">
+					<p class="search-meta">
+						17 listings match <span class="search-meta__page-info">· Page 1 of 2 · 15 per page</span>
+					</p>
+					<div class="search-sort" id="search-sort">
+						<button type="button" class="search-sort__btn" id="sort-btn" aria-haspopup="listbox" aria-expanded="false">
+							<svg class="search-sort__icon" viewBox="0 0 16 16" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M3.5 2.5a.5.5 0 0 1 1 0v9.793l1.146-1.147a.5.5 0 0 1 .708.708l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 0 1 .708-.708L3.5 12.293V2.5zm9.5 1a.5.5 0 0 1-.5.5h-5a.5.5 0 0 1 0-1h5a.5.5 0 0 1 .5.5zm-2 3a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1 0-1h3a.5.5 0 0 1 .5.5zm-2 3a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1 0-1h1a.5.5 0 0 1 .5.5z"></path></svg>
+							<span id="sort-btn-label">Price ↑</span>
+							<svg class="search-sort__caret" viewBox="0 0 10 6" width="10" height="6" fill="currentColor" aria-hidden="true"><path d="M0 0l5 6 5-6z"></path></svg>
+						</button>
+						<ul class="search-sort__menu" id="sort-menu" role="listbox" hidden="">
+							<li role="option" data-val="listPrice|asc" aria-selected="true">Price: Low to High</li>
+							<li role="option" data-val="listPrice|desc">Price: High to Low</li>
+							<li class="search-sort__divider" role="separator"></li>
+							<li role="option" data-val="listedDate|desc">Newest Listed</li>
+							<li role="option" data-val="listedDate|asc">Oldest Listed</li>
+							<li class="search-sort__divider" role="separator"></li>
+							<li role="option" data-val="beds|desc">Beds: Most First</li>
+							<li role="option" data-val="size|desc">Sq Ft: Largest First</li>
+							<li role="option" data-val="lotSize.acres|desc">Lot Size: Largest First</li>
+							<li role="option" data-val="yearBuilt|desc">Year Built: Newest First</li>
+						</ul>
+					</div>
+				</div>
+				
+					<nav class="search-paging" aria-label="Results pages">
+						<span class="search-paging__link search-paging__link--disabled" aria-disabled="true">Previous</span>
+						<a class="search-paging__link search-paging__link--next" href="https://ww9.homealerts.com/search.cfm?#qsCommon#&amp;pageNumber=#pn%20+%201#">Next</a>
+					</nav>
+				
+			</div>
+
+			<div class="search-list-inner">
+				
+					<ul class="search-card-list">
+						
+							<li class="search-card-wrap" data-listing-id="O6358727">
+								
+								
+								<a class="search-card" href="https://ww9.homealerts.com/listingdetail.cfm?id=O6358727&amp;market=mfrmls">
+									
+										<div class="search-card__img"><img src="Property%20search_files/photo_1_009.avif" srcset="Property%20search_files/photo_1_014.avif 100w, Property%20search_files/photo_1_009.avif 200w" sizes="100px" width="200" height="150" loading="eager" fetchpriority="high" alt="Property photo"></div>
+									
+									<div class="search-card__info">
+									<div class="search-card__meta">
+										<p class="search-card__price">
+											$248,700.00 
+										</p>
+										<p class="search-card__facts">
+											<span>3 bd</span> 
+												<span>2 ba</span>
+											
+												<span>1,025 sq ft</span>
+											
+										</p>
+										
+											<span class="search-card__type">Single Family Residence</span>
+										
+										<div class="search-card__status-row">
+											
+												<span class="search-card__status">Active</span>
+											<span class="search-card__tag">Keyword: golf</span>
+										</div>
+									</div><div class="search-card__bottom"><p class="search-card__addr">1841 North St</p>
+										
+											<p class="search-card__city">Longwood, FL 32750</p>
+										
+									</div>
+								</div>
+								</a>
+							</li>
+						
+							<li class="search-card-wrap" data-listing-id="O6358122">
+								
+								
+								<a class="search-card" href="https://ww9.homealerts.com/listingdetail.cfm?id=O6358122&amp;market=mfrmls">
+									
+										<div class="search-card__img"><img src="Property%20search_files/photo_1.avif" srcset="Property%20search_files/photo_1_013.avif 100w, Property%20search_files/photo_1.avif 200w" sizes="100px" width="200" height="150" loading="eager" fetchpriority="high" alt="Property photo"></div>
+									
+									<div class="search-card__info">
+									<div class="search-card__meta">
+										<p class="search-card__price">
+											$250,000.00 
+										</p>
+										<p class="search-card__facts">
+											<span>2 bd</span> 
+												<span>2 ba</span>
+											
+												<span>1,427 sq ft</span>
+											
+										</p>
+										
+											<span class="search-card__type">Condominium</span>
+										
+										<div class="search-card__status-row">
+											
+												<span class="search-card__status">Active</span>
+											<span class="search-card__tag">Keyword: golf</span>
+										</div>
+									</div><div class="search-card__bottom"><p class="search-card__addr">3996 Radley CT</p>
+										
+											<p class="search-card__city">Longwood, FL 32779</p>
+										
+									</div>
+								</div>
+								</a>
+							</li>
+						
+							<li class="search-card-wrap" data-listing-id="O6358179">
+								
+								
+								<a class="search-card" href="https://ww9.homealerts.com/listingdetail.cfm?id=O6358179&amp;market=mfrmls">
+									
+										<div class="search-card__img"><img src="Property%20search_files/photo_1_007.avif" srcset="Property%20search_files/photo_1_011.avif 100w, Property%20search_files/photo_1_007.avif 200w" sizes="100px" width="200" height="150" loading="eager" fetchpriority="high" alt="Property photo"></div>
+									
+									<div class="search-card__info">
+									<div class="search-card__meta">
+										<p class="search-card__price">
+											$395,000.00 
+										</p>
+										<p class="search-card__facts">
+											<span>4 bd</span> 
+												<span>2 ba</span>
+											
+												<span>1,695 sq ft</span>
+											
+										</p>
+										
+											<span class="search-card__type">Single Family Residence</span>
+										
+										<div class="search-card__status-row">
+											
+												<span class="search-card__status">Active</span>
+											<span class="search-card__tag">Keyword: golf</span>
+										</div>
+									</div><div class="search-card__bottom"><p class="search-card__addr">100 E Wyndham CT</p>
+										
+											<p class="search-card__city">Longwood, FL 32779</p>
+										
+									</div>
+								</div>
+								</a>
+							</li>
+						
+							<li class="search-card-wrap" data-listing-id="O6345743">
+								
+								
+								<a class="search-card" href="https://ww9.homealerts.com/listingdetail.cfm?id=O6345743&amp;market=mfrmls">
+									
+										<div class="search-card__img"><img src="Property%20search_files/photo_1_003.avif" srcset="Property%20search_files/photo_1_012.avif 100w, Property%20search_files/photo_1_003.avif 200w" sizes="100px" width="200" height="150" loading="eager" fetchpriority="high" alt="Property photo"></div>
+									
+									<div class="search-card__info">
+									<div class="search-card__meta">
+										<p class="search-card__price">
+											$454,000.00 
+										</p>
+										<p class="search-card__facts">
+											<span>4 bd</span> 
+												<span>3 ba</span>
+											
+												<span>2,047 sq ft</span>
+											
+										</p>
+										
+											<span class="search-card__type">Single Family Residence</span>
+										
+										<div class="search-card__status-row">
+											
+												<span class="search-card__status">Active</span>
+											<span class="search-card__tag">Keyword: golf</span>
+										</div>
+									</div><div class="search-card__bottom"><p class="search-card__addr">140 W York CT</p>
+										
+											<p class="search-card__city">Longwood, FL 32779</p>
+										
+									</div>
+								</div>
+								</a>
+							</li>
+						
+							<li class="search-card-wrap" data-listing-id="O6392490">
+								
+								
+								<a class="search-card" href="https://ww9.homealerts.com/listingdetail.cfm?id=O6392490&amp;market=mfrmls">
+									
+										<div class="search-card__img"><img src="Property%20search_files/photo_1_004.avif" srcset="Property%20search_files/photo_1_020.avif 100w, Property%20search_files/photo_1_004.avif 200w" sizes="100px" width="200" height="150" loading="lazy" decoding="async" alt="Property photo"></div>
+									
+									<div class="search-card__info">
+									<div class="search-card__meta">
+										<p class="search-card__price">
+											$475,000.00 
+										</p>
+										<p class="search-card__facts">
+											<span>3 bd</span> 
+												<span>2 ba</span>
+											
+												<span>2,391 sq ft</span>
+											
+										</p>
+										
+											<span class="search-card__type">Single Family Residence</span>
+										
+										<div class="search-card__status-row">
+											
+												<span class="search-card__status">Active</span>
+											<span class="search-card__tag">Keyword: golf</span>
+										</div>
+									</div><div class="search-card__bottom"><p class="search-card__addr">305 Palm Springs Dr</p>
+										
+											<p class="search-card__city">Longwood, FL 32750</p>
+										
+									</div>
+								</div>
+								</a>
+							</li>
+						
+							<li class="search-card-wrap" data-listing-id="O6380947">
+								
+								
+								<a class="search-card" href="https://ww9.homealerts.com/listingdetail.cfm?id=O6380947&amp;market=mfrmls">
+									
+										<div class="search-card__img"><img src="Property%20search_files/photo_1_010.avif" srcset="Property%20search_files/photo_1_022.avif 100w, Property%20search_files/photo_1_010.avif 200w" sizes="100px" width="200" height="150" loading="lazy" decoding="async" alt="Property photo"></div>
+									
+									<div class="search-card__info">
+									<div class="search-card__meta">
+										<p class="search-card__price">
+											$480,000.00 
+										</p>
+										<p class="search-card__facts">
+											<span>4 bd</span> 
+												<span>2 ba</span>
+											
+												<span>1,987 sq ft</span>
+											
+										</p>
+										
+											<span class="search-card__type">Single Family Residence</span>
+										
+										<div class="search-card__status-row">
+											
+												<span class="search-card__status">Active</span>
+											<span class="search-card__tag">Keyword: golf</span>
+										</div>
+									</div><div class="search-card__bottom"><p class="search-card__addr">307 Coble Dr</p>
+										
+											<p class="search-card__city">Longwood, FL 32779</p>
+										
+									</div>
+								</div>
+								</a>
+							</li>
+						
+							<li class="search-card-wrap" data-listing-id="O6386794">
+								
+								
+								<a class="search-card" href="https://ww9.homealerts.com/listingdetail.cfm?id=O6386794&amp;market=mfrmls">
+									
+										<div class="search-card__img"><img src="Property%20search_files/photo_1_002.avif" srcset="Property%20search_files/photo_1_030.avif 100w, Property%20search_files/photo_1_002.avif 200w" sizes="100px" width="200" height="150" loading="lazy" decoding="async" alt="Property photo"></div>
+									
+									<div class="search-card__info">
+									<div class="search-card__meta">
+										<p class="search-card__price">
+											$514,000.00 
+										</p>
+										<p class="search-card__facts">
+											<span>4 bd</span> 
+												<span>2 ba</span>
+											
+												<span>2,147 sq ft</span>
+											
+										</p>
+										
+											<span class="search-card__type">Single Family Residence</span>
+										
+										<div class="search-card__status-row">
+											
+												<span class="search-card__status">Active</span>
+											<span class="search-card__tag">Keyword: golf</span>
+										</div>
+									</div><div class="search-card__bottom"><p class="search-card__addr">302 Needles Trl</p>
+										
+											<p class="search-card__city">Longwood, FL 32779</p>
+										
+									</div>
+								</div>
+								</a>
+							</li>
+						
+							<li class="search-card-wrap" data-listing-id="O6325785">
+								
+								
+								<a class="search-card" href="https://ww9.homealerts.com/listingdetail.cfm?id=O6325785&amp;market=mfrmls">
+									
+										<div class="search-card__img"><img src="Property%20search_files/photo_1_005.avif" srcset="Property%20search_files/photo_1_017.avif 100w, Property%20search_files/photo_1_005.avif 200w" sizes="100px" width="200" height="150" loading="lazy" decoding="async" alt="Property photo"></div>
+									
+									<div class="search-card__info">
+									<div class="search-card__meta">
+										<p class="search-card__price">
+											$539,000.00 
+										</p>
+										<p class="search-card__facts">
+											<span>4 bd</span> 
+												<span>2 ba</span>
+											
+												<span>2,085 sq ft</span>
+											
+										</p>
+										
+											<span class="search-card__type">Single Family Residence</span>
+										
+										<div class="search-card__status-row">
+											
+												<span class="search-card__status">Active</span>
+											<span class="search-card__tag">Keyword: golf</span>
+										</div>
+									</div><div class="search-card__bottom"><p class="search-card__addr">334 Maple Dr</p>
+										
+											<p class="search-card__city">Longwood, FL 32750</p>
+										
+									</div>
+								</div>
+								</a>
+							</li>
+						
+							<li class="search-card-wrap" data-listing-id="O6359535">
+								
+								
+								<a class="search-card" href="https://ww9.homealerts.com/listingdetail.cfm?id=O6359535&amp;market=mfrmls">
+									
+										<div class="search-card__img"><img src="Property%20search_files/photo_1_008.avif" srcset="Property%20search_files/photo_1_029.avif 100w, Property%20search_files/photo_1_008.avif 200w" sizes="100px" width="200" height="150" loading="lazy" decoding="async" alt="Property photo"></div>
+									
+									<div class="search-card__info">
+									<div class="search-card__meta">
+										<p class="search-card__price">
+											$550,000.00 
+										</p>
+										<p class="search-card__facts">
+											<span>4 bd</span> 
+												<span>3 ba</span>
+											
+												<span>2,268 sq ft</span>
+											
+										</p>
+										
+											<span class="search-card__type">Single Family Residence</span>
+										
+										<div class="search-card__status-row">
+											
+												<span class="search-card__status">Active</span>
+											<span class="search-card__tag">Keyword: golf</span>
+										</div>
+									</div><div class="search-card__bottom"><p class="search-card__addr">366 Wekiva Cove Rd</p>
+										
+											<p class="search-card__city">Longwood, FL 32779</p>
+										
+									</div>
+								</div>
+								</a>
+							</li>
+						
+							<li class="search-card-wrap" data-listing-id="O6389594">
+								
+								
+								<a class="search-card" href="https://ww9.homealerts.com/listingdetail.cfm?id=O6389594&amp;market=mfrmls">
+									
+										<div class="search-card__img"><img src="Property%20search_files/photo_1_006.avif" srcset="Property%20search_files/photo_1_021.avif 100w, Property%20search_files/photo_1_006.avif 200w" sizes="100px" width="200" height="150" loading="lazy" decoding="async" alt="Property photo"></div>
+									
+									<div class="search-card__info">
+									<div class="search-card__meta">
+										<p class="search-card__price">
+											$585,000.00 
+										</p>
+										<p class="search-card__facts">
+											<span>4 bd</span> 
+												<span>3 ba</span>
+											
+												<span>2,074 sq ft</span>
+											
+										</p>
+										
+											<span class="search-card__type">Single Family Residence</span>
+										
+										<div class="search-card__status-row">
+											
+												<span class="search-card__status">Active</span>
+											<span class="search-card__tag">Keyword: golf</span>
+										</div>
+									</div><div class="search-card__bottom"><p class="search-card__addr">300 E Sweetwater Creek Dr</p>
+										
+											<p class="search-card__city">Longwood, FL 32779</p>
+										
+									</div>
+								</div>
+								</a>
+							</li>
+						
+							<li class="search-card-wrap" data-listing-id="O6387465">
+								
+								
+								<a class="search-card" href="https://ww9.homealerts.com/listingdetail.cfm?id=O6387465&amp;market=mfrmls">
+									
+										<div class="search-card__img"><img src="Property%20search_files/photo_1_016.avif" srcset="Property%20search_files/photo_1_027.avif 100w, Property%20search_files/photo_1_016.avif 200w" sizes="100px" width="200" height="150" loading="lazy" decoding="async" alt="Property photo"></div>
+									
+									<div class="search-card__info">
+									<div class="search-card__meta">
+										<p class="search-card__price">
+											$689,000.00 
+										</p>
+										<p class="search-card__facts">
+											<span>4 bd</span> 
+												<span>2 ba</span>
+											
+												<span>2,352 sq ft</span>
+											
+										</p>
+										
+											<span class="search-card__type">Single Family Residence</span>
+										
+										<div class="search-card__status-row">
+											
+												<span class="search-card__status">Active</span>
+											<span class="search-card__tag">Keyword: golf</span>
+										</div>
+									</div><div class="search-card__bottom"><p class="search-card__addr">308 Smokerise Blvd</p>
+										
+											<p class="search-card__city">Longwood, FL 32779</p>
+										
+									</div>
+								</div>
+								</a>
+							</li>
+						
+							<li class="search-card-wrap" data-listing-id="O6378315">
+								
+								
+								<a class="search-card" href="https://ww9.homealerts.com/listingdetail.cfm?id=O6378315&amp;market=mfrmls">
+									
+										<div class="search-card__img"><img src="Property%20search_files/photo_1_018.avif" srcset="Property%20search_files/photo_1_023.avif 100w, Property%20search_files/photo_1_018.avif 200w" sizes="100px" width="200" height="150" loading="lazy" decoding="async" alt="Property photo"></div>
+									
+									<div class="search-card__info">
+									<div class="search-card__meta">
+										<p class="search-card__price">
+											$850,000.00 
+										</p>
+										<p class="search-card__facts">
+											<span>4 bd</span> 
+												<span>3 ba</span>
+											
+												<span>2,486 sq ft</span>
+											
+										</p>
+										
+											<span class="search-card__type">Single Family Residence</span>
+										
+										<div class="search-card__status-row">
+											
+												<span class="search-card__status">Active</span>
+											<span class="search-card__tag">Keyword: golf</span>
+										</div>
+									</div><div class="search-card__bottom"><p class="search-card__addr">202 Jasmine Ln</p>
+										
+											<p class="search-card__city">Longwood, FL 32779</p>
+										
+									</div>
+								</div>
+								</a>
+							</li>
+						
+							<li class="search-card-wrap" data-listing-id="O6391386">
+								
+								
+								<a class="search-card" href="https://ww9.homealerts.com/listingdetail.cfm?id=O6391386&amp;market=mfrmls">
+									
+										<div class="search-card__img"><img src="Property%20search_files/photo_1_019.avif" srcset="Property%20search_files/photo_1_015.avif 100w, Property%20search_files/photo_1_019.avif 200w" sizes="100px" width="200" height="150" loading="lazy" decoding="async" alt="Property photo"></div>
+									
+									<div class="search-card__info">
+									<div class="search-card__meta">
+										<p class="search-card__price">
+											$1,235,000.00 
+										</p>
+										<p class="search-card__facts">
+											<span>5 bd</span> 
+												<span>4 ba</span>
+											
+												<span>3,488 sq ft</span>
+											
+										</p>
+										
+											<span class="search-card__type">Single Family Residence</span>
+										
+										<div class="search-card__status-row">
+											
+												<span class="search-card__status">Active</span>
+											<span class="search-card__tag">Keyword: golf</span>
+										</div>
+									</div><div class="search-card__bottom"><p class="search-card__addr">3345 Park Grove CT</p>
+										
+											<p class="search-card__city">Longwood, FL 32779</p>
+										
+									</div>
+								</div>
+								</a>
+							</li>
+						
+							<li class="search-card-wrap" data-listing-id="O6359825">
+								
+								
+								<a class="search-card" href="https://ww9.homealerts.com/listingdetail.cfm?id=O6359825&amp;market=mfrmls">
+									
+										<div class="search-card__img"><img src="Property%20search_files/photo_1_025.avif" srcset="Property%20search_files/photo_1_024.avif 100w, Property%20search_files/photo_1_025.avif 200w" sizes="100px" width="200" height="150" loading="lazy" decoding="async" alt="Property photo"></div>
+									
+									<div class="search-card__info">
+									<div class="search-card__meta">
+										<p class="search-card__price">
+											$1,250,000.00 
+										</p>
+										<p class="search-card__facts">
+											<span>4 bd</span> 
+												<span>6 ba</span>
+											
+												<span>4,262 sq ft</span>
+											
+										</p>
+										
+											<span class="search-card__type">Single Family Residence</span>
+										
+										<div class="search-card__status-row">
+											
+												<span class="search-card__status">Active</span>
+											<span class="search-card__tag">Keyword: golf</span>
+										</div>
+									</div><div class="search-card__bottom"><p class="search-card__addr">3235 Winding Pine Trl</p>
+										
+											<p class="search-card__city">Longwood, FL 32779</p>
+										
+									</div>
+								</div>
+								</a>
+							</li>
+						
+							<li class="search-card-wrap" data-listing-id="O6376694">
+								
+								
+								<a class="search-card" href="https://ww9.homealerts.com/listingdetail.cfm?id=O6376694&amp;market=mfrmls">
+									
+										<div class="search-card__img"><img src="Property%20search_files/photo_1_026.avif" srcset="Property%20search_files/photo_1_028.avif 100w, Property%20search_files/photo_1_026.avif 200w" sizes="100px" width="200" height="150" loading="lazy" decoding="async" alt="Property photo"></div>
+									
+									<div class="search-card__info">
+									<div class="search-card__meta">
+										<p class="search-card__price">
+											$1,400,000.00 
+										</p>
+										<p class="search-card__facts">
+											<span>4 bd</span> 
+												<span>6 ba</span>
+											
+												<span>4,975 sq ft</span>
+											
+										</p>
+										
+											<span class="search-card__type">Single Family Residence</span>
+										
+										<div class="search-card__status-row">
+											
+												<span class="search-card__status">Active</span>
+											<span class="search-card__tag">Keyword: golf</span>
+										</div>
+									</div><div class="search-card__bottom"><p class="search-card__addr">305 Sweetwater Club Cir</p>
+										
+											<p class="search-card__city">Longwood, FL 32779</p>
+										
+									</div>
+								</div>
+								</a>
+							</li>
+						
+					</ul>
+				
+			</div>
+		</div>
+		<div class="search-map-panel" id="search-panel-map" role="tabpanel" aria-labelledby="search-tab-map"><div id="search-map" class="search-map leaflet-container leaflet-touch leaflet-retina leaflet-fade-anim leaflet-grab leaflet-touch-drag leaflet-touch-zoom" aria-label="Listings map" tabindex="0"><div class="leaflet-pane leaflet-map-pane" style="transform: translate3d(0px, 0px, 0px);"><div class="leaflet-pane leaflet-tile-pane"><div class="leaflet-layer " style="z-index: 1; opacity: 1;"><div class="leaflet-tile-container leaflet-zoom-animated" style="z-index: 19; transform: translate3d(0px, 0px, 0px) scale(1);"><img alt="" src="Property%20search_files/3412_002.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(461px, 76px, 0px); opacity: 1;"><img alt="" src="Property%20search_files/3413.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(461px, 332px, 0px); opacity: 1;"><img alt="" src="Property%20search_files/3412_003.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(205px, 76px, 0px); opacity: 1;"><img alt="" src="Property%20search_files/3412_005.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(717px, 76px, 0px); opacity: 1;"><img alt="" src="Property%20search_files/3413_005.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(205px, 332px, 0px); opacity: 1;"><img alt="" src="Property%20search_files/3413_003.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(717px, 332px, 0px); opacity: 1;"><img alt="" src="Property%20search_files/3411_003.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(461px, -180px, 0px); opacity: 1;"><img alt="" src="Property%20search_files/3414_004.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(461px, 588px, 0px); opacity: 1;"><img alt="" src="Property%20search_files/3411_005.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(205px, -180px, 0px); opacity: 1;"><img alt="" src="Property%20search_files/3411.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(717px, -180px, 0px); opacity: 1;"><img alt="" src="Property%20search_files/3414_002.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(205px, 588px, 0px); opacity: 1;"><img alt="" src="Property%20search_files/3414_005.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(717px, 588px, 0px); opacity: 1;"><img alt="" src="Property%20search_files/3412.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(-51px, 76px, 0px); opacity: 1;"><img alt="" src="Property%20search_files/3412_004.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(973px, 76px, 0px); opacity: 1;"><img alt="" src="Property%20search_files/3413_002.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(-51px, 332px, 0px); opacity: 1;"><img alt="" src="Property%20search_files/3413_004.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(973px, 332px, 0px); opacity: 1;"><img alt="" src="Property%20search_files/3411_002.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(-51px, -180px, 0px); opacity: 1;"><img alt="" src="Property%20search_files/3411_004.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(973px, -180px, 0px); opacity: 1;"><img alt="" src="Property%20search_files/3414.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(-51px, 588px, 0px); opacity: 1;"><img alt="" src="Property%20search_files/3414_003.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(973px, 588px, 0px); opacity: 1;"></div></div></div><div class="leaflet-pane leaflet-overlay-pane"></div><div class="leaflet-pane leaflet-shadow-pane"><img src="Property%20search_files/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -12px; margin-top: -41px; width: 41px; height: 41px; transform: translate3d(755px, 636px, 0px);" alt=""><img src="Property%20search_files/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -12px; margin-top: -41px; width: 41px; height: 41px; transform: translate3d(363px, 575px, 0px);" alt=""><img src="Property%20search_files/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -12px; margin-top: -41px; width: 41px; height: 41px; transform: translate3d(420px, 577px, 0px);" alt=""><img src="Property%20search_files/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -12px; margin-top: -41px; width: 41px; height: 41px; transform: translate3d(408px, 570px, 0px);" alt=""><img src="Property%20search_files/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -12px; margin-top: -41px; width: 41px; height: 41px; transform: translate3d(809px, 577px, 0px);" alt=""><img src="Property%20search_files/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -12px; margin-top: -41px; width: 41px; height: 41px; transform: translate3d(318px, 590px, 0px);" alt=""><img src="Property%20search_files/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -12px; margin-top: -41px; width: 41px; height: 41px; transform: translate3d(400px, 568px, 0px);" alt=""><img src="Property%20search_files/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -12px; margin-top: -41px; width: 41px; height: 41px; transform: translate3d(796px, 571px, 0px);" alt=""><img src="Property%20search_files/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -12px; margin-top: -41px; width: 41px; height: 41px; transform: translate3d(327px, 619px, 0px);" alt=""><img src="Property%20search_files/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -12px; margin-top: -41px; width: 41px; height: 41px; transform: translate3d(474px, 484px, 0px);" alt=""><img src="Property%20search_files/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -12px; margin-top: -41px; width: 41px; height: 41px; transform: translate3d(391px, 515px, 0px);" alt=""><img src="Property%20search_files/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -12px; margin-top: -41px; width: 41px; height: 41px; transform: translate3d(678px, 551px, 0px);" alt=""><img src="Property%20search_files/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -12px; margin-top: -41px; width: 41px; height: 41px; transform: translate3d(685px, 176px, 0px);" alt=""><img src="Property%20search_files/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -12px; margin-top: -41px; width: 41px; height: 41px; transform: translate3d(709px, 215px, 0px);" alt=""><img src="Property%20search_files/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" style="margin-left: -12px; margin-top: -41px; width: 41px; height: 41px; transform: translate3d(320px, 492px, 0px);" alt=""></div><div class="leaflet-pane leaflet-marker-pane"><img src="Property%20search_files/marker-icon-2x.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" style="margin-left: -12px; margin-top: -41px; width: 25px; height: 41px; transform: translate3d(755px, 636px, 0px); z-index: 636;" alt="Marker" tabindex="0" role="button"><img src="Property%20search_files/marker-icon-2x.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" style="margin-left: -12px; margin-top: -41px; width: 25px; height: 41px; transform: translate3d(363px, 575px, 0px); z-index: 575;" alt="Marker" tabindex="0" role="button"><img src="Property%20search_files/marker-icon-2x.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" style="margin-left: -12px; margin-top: -41px; width: 25px; height: 41px; transform: translate3d(420px, 577px, 0px); z-index: 577;" alt="Marker" tabindex="0" role="button"><img src="Property%20search_files/marker-icon-2x.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" style="margin-left: -12px; margin-top: -41px; width: 25px; height: 41px; transform: translate3d(408px, 570px, 0px); z-index: 570;" alt="Marker" tabindex="0" role="button"><img src="Property%20search_files/marker-icon-2x.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" style="margin-left: -12px; margin-top: -41px; width: 25px; height: 41px; transform: translate3d(809px, 577px, 0px); z-index: 577;" alt="Marker" tabindex="0" role="button"><img src="Property%20search_files/marker-icon-2x.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" style="margin-left: -12px; margin-top: -41px; width: 25px; height: 41px; transform: translate3d(318px, 590px, 0px); z-index: 590;" alt="Marker" tabindex="0" role="button"><img src="Property%20search_files/marker-icon-2x.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" style="margin-left: -12px; margin-top: -41px; width: 25px; height: 41px; transform: translate3d(400px, 568px, 0px); z-index: 568;" alt="Marker" tabindex="0" role="button"><img src="Property%20search_files/marker-icon-2x.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" style="margin-left: -12px; margin-top: -41px; width: 25px; height: 41px; transform: translate3d(796px, 571px, 0px); z-index: 571;" alt="Marker" tabindex="0" role="button"><img src="Property%20search_files/marker-icon-2x.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" style="margin-left: -12px; margin-top: -41px; width: 25px; height: 41px; transform: translate3d(327px, 619px, 0px); z-index: 619;" alt="Marker" tabindex="0" role="button"><img src="Property%20search_files/marker-icon-2x.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" style="margin-left: -12px; margin-top: -41px; width: 25px; height: 41px; transform: translate3d(474px, 484px, 0px); z-index: 484;" alt="Marker" tabindex="0" role="button"><img src="Property%20search_files/marker-icon-2x.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" style="margin-left: -12px; margin-top: -41px; width: 25px; height: 41px; transform: translate3d(391px, 515px, 0px); z-index: 515;" alt="Marker" tabindex="0" role="button"><img src="Property%20search_files/marker-icon-2x.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" style="margin-left: -12px; margin-top: -41px; width: 25px; height: 41px; transform: translate3d(678px, 551px, 0px); z-index: 551;" alt="Marker" tabindex="0" role="button"><img src="Property%20search_files/marker-icon-2x.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" style="margin-left: -12px; margin-top: -41px; width: 25px; height: 41px; transform: translate3d(685px, 176px, 0px); z-index: 176;" alt="Marker" tabindex="0" role="button"><img src="Property%20search_files/marker-icon-2x.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" style="margin-left: -12px; margin-top: -41px; width: 25px; height: 41px; transform: translate3d(709px, 215px, 0px); z-index: 215;" alt="Marker" tabindex="0" role="button"><img src="Property%20search_files/marker-icon-2x.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" style="margin-left: -12px; margin-top: -41px; width: 25px; height: 41px; transform: translate3d(320px, 492px, 0px); z-index: 492;" alt="Marker" tabindex="0" role="button"></div><div class="leaflet-pane leaflet-tooltip-pane"></div><div class="leaflet-pane leaflet-popup-pane"></div><div class="leaflet-proxy leaflet-zoom-animated" style="transform: translate3d(574311px, 873802px, 0px) scale(4096);"></div></div><div class="leaflet-control-container"><div class="leaflet-top leaflet-left"><div class="leaflet-control-zoom leaflet-bar leaflet-control"><a class="leaflet-control-zoom-in" href="#" title="Zoom in" role="button" aria-label="Zoom in" aria-disabled="false"><span aria-hidden="true">+</span></a><a class="leaflet-control-zoom-out" href="#" title="Zoom out" role="button" aria-label="Zoom out" aria-disabled="false"><span aria-hidden="true">−</span></a></div></div><div class="leaflet-top leaflet-right"></div><div class="leaflet-bottom leaflet-left"></div><div class="leaflet-bottom leaflet-right"><div class="leaflet-control-attribution leaflet-control"><a href="https://leafletjs.com/" title="A JavaScript library for interactive maps"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="12" height="8" viewBox="0 0 12 8" class="leaflet-attribution-flag"><path fill="#4C7BE1" d="M0 0h12v4H0z"></path><path fill="#FFD500" d="M0 4h12v3H0z"></path><path fill="#E0BC00" d="M0 7h12v1H0z"></path></svg> Leaflet</a> <span aria-hidden="true">|</span> © OpenStreetMap contributors</div></div></div></div></div>
+	</div>
+	</main>
+	
+</div>
+
+
+<script type="application/json" id="search-map-data">[{"market":"mfrmls","lng":-81.380218,"id":"O6358727","lat":28.683398},{"market":"mfrmls","lng":-81.447547,"id":"O6358122","lat":28.692575},{"market":"mfrmls","lng":-81.437701,"id":"O6358179","lat":28.692188},{"market":"mfrmls","lng":-81.439709,"id":"O6345743","lat":28.693368},{"market":"mfrmls","lng":-81.370904,"id":"O6392490","lat":28.692307},{"market":"mfrmls","lng":-81.455174,"id":"O6380947","lat":28.690248},{"market":"mfrmls","lng":-81.441198,"id":"O6386794","lat":28.693666},{"market":"mfrmls","lng":-81.373105,"id":"O6325785","lat":28.693202},{"market":"mfrmls","lng":-81.453689,"id":"O6359535","lat":28.685951},{"market":"mfrmls","lng":-81.428427,"id":"O6389594","lat":28.706244},{"market":"mfrmls","lng":-81.442724,"id":"O6387465","lat":28.701644},{"market":"mfrmls","lng":-81.393459,"id":"O6378315","lat":28.696197},{"market":"mfrmls","lng":-81.392248,"id":"O6391386","lat":28.7526},{"market":"mfrmls","lng":-81.388024,"id":"O6359825","lat":28.746724},{"market":"mfrmls","lng":-81.45483,"id":"O6376694","lat":28.705076}]</script>
+
+<div id="lead-modal" class="lead-modal" role="dialog" aria-modal="true" aria-labelledby="lead-modal-title" hidden="">
+	<div class="lead-modal__backdrop" data-lead-dismiss="" tabindex="-1"></div>
+	<div class="lead-modal__panel lead-modal__panel--search">
+		<button type="button" class="lead-modal__close" id="lead-close-btn" aria-label="Close registration form">×</button>
+		<div class="lead-modal__hero">
+			<div class="lead-modal__brand">
+				<svg viewBox="0 0 24 24" width="24" height="24" fill="#ff6d00"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"></path></svg>
+				<span style="font-size:16px;font-weight:700;color:#1a73e8;">HomeAlerts</span>
+			</div>
+			<h2 id="lead-modal-title" class="lead-modal__hero-title">Unlock the full search</h2>
+			<p class="lead-modal__hero-sub">Free registration gives you instant access to every filter in the MLS — plus early alerts before listings go public.</p>
+			<ul class="lead-modal__perks">
+				<li><strong>Waterfront &amp; pool</strong> — find lakefront homes, heated pools, boat docks</li>
+				<li><strong>RV &amp; parking</strong> — filter by RV hookups, oversized garages, covered parking</li>
+				<li><strong>Custom areas</strong> — search by subdivision, school district, or county</li>
+				<li><strong>60+ filters</strong> — beds, baths, lot size, year built, new construction, HOA, and more</li>
+				<li><strong>Early alerts</strong> — get notified when new inventory hits, often before the MLS</li>
+			</ul>
+		</div>
+		<div id="lead-modal-form-wrap" class="lead-modal__form-side">
+			<h3 class="lead-modal__form-heading">Create your free account</h3>
+			<form id="lead-form" class="lead-form" method="post" action="lead-register.cfm" novalidate="">
+				<input type="hidden" name="csrf" id="lead-csrf" value="B884FD72-FB7C-36D3-01EF8A66FDA93499">
+				<input type="hidden" name="listingId" value="">
+				<input type="hidden" name="market" value="mfrmls">
+				<input type="hidden" name="listingAddress" value="">
+				<input type="hidden" name="returnTo" value="search.cfm">
+				<div class="lead-field">
+					<label for="lead-name">Full name</label>
+					<input type="text" id="lead-name" name="name" autocomplete="name" autocapitalize="words" spellcheck="false" required="" maxlength="120">
+				</div>
+				<div class="lead-field">
+					<label for="lead-email">Email</label>
+					<input type="email" id="lead-email" name="email" autocomplete="email" autocapitalize="none" autocorrect="off" spellcheck="false" inputmode="email" required="" maxlength="200">
+					<span class="field-hint" data-hint="We'll send listing alerts to this address.">We'll send listing alerts to this address.</span>
+				</div>
+				<div class="lead-field">
+					<label for="lead-phone">Phone number</label>
+					<input type="tel" id="lead-phone" name="phone" autocomplete="tel-national" inputmode="tel" spellcheck="false" required="" maxlength="14" data-format="phone">
+					<span class="field-hint" data-hint="Mobile number required for verification.">Mobile number required for verification.</span>
+				</div>
+				<p class="lead-form__error" id="lead-form-error" role="alert" hidden=""></p>
+				<button type="submit" class="btn-lead btn-lead--submit" id="lead-submit-btn">Unlock Advanced Search</button>
+			</form>
+			<p class="lead-modal__fine">No spam, no fees. We just need to verify you're a real person.</p>
+		</div>
+	</div>
+</div>
+
+
+<div id="adv-modal" class="adv-modal" hidden="">
+	<div class="adv-modal__backdrop" id="adv-backdrop"></div>
+	<div class="adv-modal__panel">
+		<div class="adv-modal__header">
+			<h2 class="adv-modal__title">Advanced Search</h2>
+			<button type="button" class="adv-modal__close" id="adv-close-btn">×</button>
+		</div>
+		<form class="adv-form" id="adv-form" method="get" action="search.cfm">
+			<input type="hidden" name="market" value="mfrmls">
+			<input type="hidden" name="pageNumber" value="1">
+			<input type="hidden" name="beds" id="adv-beds-val" value="">
+			<input type="hidden" name="baths" id="adv-baths-val" value="">
+			<input type="hidden" name="propertyType" id="adv-proptype-val" value="">
+			<input type="hidden" name="status" id="adv-status-val" value="">
+			<input type="hidden" name="distressed" id="adv-distressed-val" value="">
+			<input type="hidden" name="poolYN" id="adv-poolYN-val" value="">
+			<input type="hidden" name="waterfrontYN" id="adv-waterfrontYN-val" value="">
+			<input type="hidden" name="fireplaceYN" id="adv-fireplaceYN-val" value="">
+			<input type="hidden" name="garageYN" id="adv-garageYN-val" value="">
+			<input type="hidden" name="basementYN" id="adv-basementYN-val" value="">
+			<input type="hidden" name="associationYN" id="adv-associationYN-val" value="">
+			<input type="hidden" name="newConstruction" id="adv-newConstruction-val" value="">
+
+			<div class="adv-form__body">
+				
+				<fieldset class="adv-section" data-section="essentials">
+					<legend class="adv-section__header">Essentials</legend>
+
+					<div class="adv-row">
+						<label class="adv-field adv-field--wide">Location
+							<input type="text" inputmode="text" autocomplete="off" autocapitalize="words" spellcheck="false" name="location" placeholder="City, ZIP, neighborhood, or subdivision" data-format="propercase">
+						</label>
+					</div>
+					<div class="adv-row">
+						<label class="adv-field adv-field--wide">Keyword
+							<input type="text" inputmode="text" autocomplete="off" autocapitalize="none" spellcheck="false" name="keyword" placeholder="e.g., corner lot, fenced yard, renovated">
+						</label>
+					</div>
+					<div class="adv-row">
+						<label class="adv-field">Price min
+							<input type="text" inputmode="numeric" pattern="[0-9,]*" autocomplete="off" name="priceMin" placeholder="$0" data-format="price">
+						</label>
+						<label class="adv-field">Price max
+							<input type="text" inputmode="numeric" pattern="[0-9,]*" autocomplete="off" name="priceMax" placeholder="No max" data-format="price">
+						</label>
+					</div>
+
+					<div class="adv-group">
+						<span class="adv-group__label">Beds</span>
+						<div class="adv-tap-group" data-target="adv-beds-val">
+							<button type="button" class="adv-tap is-active" data-val="">Any</button>
+							<button type="button" class="adv-tap" data-val="1">1+</button>
+							<button type="button" class="adv-tap" data-val="2">2+</button>
+							<button type="button" class="adv-tap" data-val="3">3+</button>
+							<button type="button" class="adv-tap" data-val="4">4+</button>
+							<button type="button" class="adv-tap" data-val="5">5+</button>
+						</div>
+					</div>
+					<div class="adv-group">
+						<span class="adv-group__label">Baths</span>
+						<div class="adv-tap-group" data-target="adv-baths-val">
+							<button type="button" class="adv-tap is-active" data-val="">Any</button>
+							<button type="button" class="adv-tap" data-val="1">1+</button>
+							<button type="button" class="adv-tap" data-val="2">2+</button>
+							<button type="button" class="adv-tap" data-val="3">3+</button>
+							<button type="button" class="adv-tap" data-val="4">4+</button>
+							<button type="button" class="adv-tap" data-val="5">5+</button>
+						</div>
+					</div>
+
+					<div class="adv-group">
+						<span class="adv-group__label">Property Type</span>
+						<div class="adv-pill-group" data-target="adv-proptype-val">
+							<button type="button" class="adv-pill" data-val="Single Family Residence">House</button>
+							<button type="button" class="adv-pill" data-val="Condominium">Condo</button>
+							<button type="button" class="adv-pill" data-val="Townhouse">Townhouse</button>
+							<button type="button" class="adv-pill" data-val="Villa">Villa</button>
+							<button type="button" class="adv-pill" data-val="Mobile Home">Mobile Home</button>
+							<button type="button" class="adv-pill" data-val="Farm">Farm</button>
+						</div>
+						<div class="adv-pill-group adv-pill-group--more" data-target="adv-proptype-val" hidden="">
+							<button type="button" class="adv-pill" data-val="Half Duplex">Half Duplex</button>
+							<button type="button" class="adv-pill" data-val="Manufactured Home">Manufactured</button>
+							<button type="button" class="adv-pill" data-val="Manufactured Home - Post 1977">Manufactured (Post-77)</button>
+							<button type="button" class="adv-pill" data-val="Mobile Home - Pre 1976">Mobile (Pre-76)</button>
+							<button type="button" class="adv-pill" data-val="Condo - Hotel">Condo-Hotel</button>
+							<button type="button" class="adv-pill" data-val="Dock-Rackominium">Dock-Rack</button>
+							<button type="button" class="adv-pill" data-val="Garage Condo">Garage Condo</button>
+							<button type="button" class="adv-pill" data-val="Modular Home">Modular</button>
+						</div>
+						<button type="button" class="adv-more-toggle" data-expand="adv-proptype-val">+more types</button>
+					</div>
+
+					<div class="adv-group">
+						<span class="adv-group__label">Status</span>
+						<div class="adv-pill-group" data-target="adv-status-val">
+							<button type="button" class="adv-pill" data-val="Active">Active</button>
+							<button type="button" class="adv-pill" data-val="Pending">Pending</button>
+						</div>
+					</div>
+
+					<div class="adv-row">
+						<label class="adv-field">Listing type
+							<select name="listingType">
+								<option value="residential" selected="selected">Residential</option>
+								<option value="rental">Rental</option>
+								<option value="commercial">Commercial</option>
+								<option value="land">Land</option>
+								<option value="farm">Farm</option>
+								<option value="multifamily">Multifamily</option>
+							</select>
+						</label>
+					</div>
+				</fieldset>
+
+				
+				<fieldset class="adv-section adv-section--collapsible" data-section="size">
+					<legend class="adv-section__header" aria-expanded="false" aria-controls="adv-body-size">Size &amp; Structure <span class="adv-chevron"></span></legend>
+					<div class="adv-section__body" id="adv-body-size" role="region" hidden="">
+						<div class="adv-row">
+							<label class="adv-field">Sq ft min
+								<input type="text" inputmode="numeric" pattern="[0-9,]*" autocomplete="off" name="size_min" placeholder="No min" data-format="number">
+							</label>
+							<label class="adv-field">Sq ft max
+								<input type="text" inputmode="numeric" pattern="[0-9,]*" autocomplete="off" name="size_max" placeholder="No max" data-format="number">
+							</label>
+						</div>
+						<div class="adv-row">
+							<label class="adv-field">Lot acres min
+								<input type="text" inputmode="decimal" autocomplete="off" name="lotsize_acres_min" placeholder="No min">
+							</label>
+							<label class="adv-field">Lot acres max
+								<input type="text" inputmode="decimal" autocomplete="off" name="lotsize_acres_max" placeholder="No max">
+							</label>
+						</div>
+						<div class="adv-row">
+							<label class="adv-field">Year built min
+								<input type="text" inputmode="numeric" pattern="[0-9,]*" autocomplete="off" name="yearBuilt_min" placeholder="No min">
+							</label>
+							<label class="adv-field">Year built max
+								<input type="text" inputmode="numeric" pattern="[0-9,]*" autocomplete="off" name="yearBuilt_max" placeholder="No max">
+							</label>
+						</div>
+						<div class="adv-row">
+							<label class="adv-field">Full baths
+								<input type="text" inputmode="numeric" pattern="[0-9,]*" autocomplete="off" name="baths_full" placeholder="Any">
+							</label>
+							<label class="adv-field">Half baths
+								<input type="text" inputmode="numeric" pattern="[0-9,]*" autocomplete="off" name="baths_half" placeholder="Any">
+							</label>
+						</div>
+						<div class="adv-row">
+							<label class="adv-field">Floors / Stories
+								<input type="text" inputmode="text" autocomplete="off" autocapitalize="none" spellcheck="false" name="floors" placeholder="e.g., 1 Story, Split Level">
+							</label>
+							<label class="adv-field">Style
+								<input type="text" inputmode="text" autocomplete="off" autocapitalize="none" spellcheck="false" name="style" placeholder="e.g., Colonial, Ranch">
+							</label>
+						</div>
+					</div>
+				</fieldset>
+
+				
+				<fieldset class="adv-section adv-section--collapsible" data-section="features">
+					<legend class="adv-section__header" aria-expanded="false" aria-controls="adv-body-features">Property Features <span class="adv-chevron"></span></legend>
+					<div class="adv-section__body" id="adv-body-features" role="region" hidden="">
+						<div class="adv-toggle-grid">
+							<button type="button" class="adv-toggle" data-target="adv-poolYN-val" aria-label="Pool: any">Pool</button>
+							<button type="button" class="adv-toggle" data-target="adv-waterfrontYN-val" aria-label="Waterfront: any">Waterfront</button>
+							<button type="button" class="adv-toggle" data-target="adv-fireplaceYN-val" aria-label="Fireplace: any">Fireplace</button>
+							<button type="button" class="adv-toggle" data-target="adv-garageYN-val" aria-label="Garage: any">Garage</button>
+							<button type="button" class="adv-toggle" data-target="adv-basementYN-val" aria-label="Basement: any">Basement</button>
+							<button type="button" class="adv-toggle" data-target="adv-associationYN-val" aria-label="HOA: any">HOA</button>
+							<button type="button" class="adv-toggle" data-target="adv-newConstruction-val" aria-label="New Construction: any">New Construction</button>
+						</div>
+						<div class="adv-group">
+							<span class="adv-group__label">Distressed</span>
+							<div class="adv-pill-group" data-target="adv-distressed-val">
+								<button type="button" class="adv-pill" data-val="REO">REO</button>
+								<button type="button" class="adv-pill" data-val="Short Sale">Short Sale</button>
+							</div>
+						</div>
+					</div>
+				</fieldset>
+
+				
+				<fieldset class="adv-section adv-section--collapsible" data-section="schools">
+					<legend class="adv-section__header" aria-expanded="false" aria-controls="adv-body-schools">Schools <span class="adv-chevron"></span></legend>
+					<div class="adv-section__body" id="adv-body-schools" role="region" hidden="">
+						<div class="adv-row">
+							<label class="adv-field">Elementary school
+								<input type="text" inputmode="text" autocomplete="off" autocapitalize="none" spellcheck="false" name="schoolElementary" placeholder="School name">
+							</label>
+							<label class="adv-field">Middle school
+								<input type="text" inputmode="text" autocomplete="off" autocapitalize="none" spellcheck="false" name="schoolMiddle" placeholder="School name">
+							</label>
+						</div>
+						<div class="adv-row">
+							<label class="adv-field">High school
+								<input type="text" inputmode="text" autocomplete="off" autocapitalize="none" spellcheck="false" name="schoolHigh" placeholder="School name">
+							</label>
+							<label class="adv-field">School district
+								<input type="text" inputmode="text" autocomplete="off" autocapitalize="none" spellcheck="false" name="schoolDistrict" placeholder="District name">
+							</label>
+						</div>
+					</div>
+				</fieldset>
+
+				
+				<fieldset class="adv-section adv-section--collapsible" data-section="location">
+					<legend class="adv-section__header" aria-expanded="false" aria-controls="adv-body-location">Location Details <span class="adv-chevron"></span></legend>
+					<div class="adv-section__body" id="adv-body-location" role="region" hidden="">
+						<div class="adv-row">
+							<label class="adv-field">Subdivision
+								<input type="text" inputmode="text" autocomplete="off" autocapitalize="none" spellcheck="false" name="subdivision" placeholder="Subdivision name">
+							</label>
+							<label class="adv-field">County
+								<input type="text" inputmode="text" autocomplete="off" autocapitalize="none" spellcheck="false" name="county" placeholder="County name">
+							</label>
+						</div>
+					</div>
+				</fieldset>
+
+				
+				<fieldset class="adv-section adv-section--collapsible" data-section="construction">
+					<legend class="adv-section__header" aria-expanded="false" aria-controls="adv-body-construction">Construction &amp; Details <span class="adv-chevron"></span></legend>
+					<div class="adv-section__body" id="adv-body-construction" role="region" hidden="">
+						<div class="adv-row">
+							<label class="adv-field">View
+								<input type="text" inputmode="text" autocomplete="off" autocapitalize="none" spellcheck="false" name="view">
+							</label>
+							<label class="adv-field">Construction
+								<input type="text" inputmode="text" autocomplete="off" autocapitalize="none" spellcheck="false" name="constructionMaterials">
+							</label>
+						</div>
+						<div class="adv-row">
+							<label class="adv-field">Roof
+								<input type="text" inputmode="text" autocomplete="off" autocapitalize="none" spellcheck="false" name="roof">
+							</label>
+							<label class="adv-field">Cooling
+								<input type="text" inputmode="text" autocomplete="off" autocapitalize="none" spellcheck="false" name="cooling">
+							</label>
+						</div>
+						<div class="adv-row">
+							<label class="adv-field">Heating
+								<input type="text" inputmode="text" autocomplete="off" autocapitalize="none" spellcheck="false" name="heating">
+							</label>
+							<label class="adv-field">Fencing
+								<input type="text" inputmode="text" autocomplete="off" autocapitalize="none" spellcheck="false" name="fencing">
+							</label>
+						</div>
+						<div class="adv-row">
+							<label class="adv-field">Pool features
+								<input type="text" inputmode="text" autocomplete="off" autocapitalize="none" spellcheck="false" name="poolFeatures">
+							</label>
+							<label class="adv-field">Parking
+								<input type="text" inputmode="text" autocomplete="off" autocapitalize="none" spellcheck="false" name="parkingFeatures">
+							</label>
+						</div>
+						<div class="adv-row">
+							<label class="adv-field">Community
+								<input type="text" inputmode="text" autocomplete="off" autocapitalize="none" spellcheck="false" name="communityFeatures">
+							</label>
+							<label class="adv-field">Interior
+								<input type="text" inputmode="text" autocomplete="off" autocapitalize="none" spellcheck="false" name="interiorFeatures">
+							</label>
+						</div>
+						<div class="adv-row">
+							<label class="adv-field">Exterior
+								<input type="text" inputmode="text" autocomplete="off" autocapitalize="none" spellcheck="false" name="exteriorFeatures">
+							</label>
+						</div>
+					</div>
+				</fieldset>
+			</div>
+
+			<div class="adv-form__footer">
+				<a href="#" class="adv-reset-link" id="adv-reset-btn">Reset all filters</a>
+				<button type="submit" class="btn-lead" id="adv-submit-btn" data-loading-text="Searchingâ€¦">Search</button>
+			</div>
+		</form>
+	</div>
+</div>
+
+<div id="login-modal" class="login-modal" hidden="">
+	<div class="login-modal__backdrop" id="login-backdrop"></div>
+	<div class="login-modal__panel">
+		<button type="button" class="login-modal__close" id="login-close-btn">×</button>
+		<h2 class="login-modal__title">Log in</h2>
+		<p class="login-modal__sub">Enter the email and phone number you registered with.</p>
+		<form id="login-form" class="login-form" method="post" action="login.cfm" novalidate="">
+			<input type="hidden" name="returnTo" value="search.cfm">
+			<div class="lead-field">
+				<label for="login-email">Email</label>
+				<input type="email" id="login-email" name="email" autocomplete="email" autocapitalize="none" autocorrect="off" spellcheck="false" inputmode="email" required="" maxlength="200">
+				<span class="field-hint" data-hint="The email you registered with.">The email you registered with.</span>
+			</div>
+			<div class="lead-field">
+				<label for="login-phone">Phone number</label>
+				<input type="tel" id="login-phone" name="phone" autocomplete="tel-national" inputmode="tel" spellcheck="false" required="" maxlength="14" data-format="phone">
+				<span class="field-hint" data-hint="The phone number you registered with.">The phone number you registered with.</span>
+			</div>
+			<p class="lead-form__error" id="login-form-error" role="alert" hidden=""></p>
+			<button type="submit" class="btn-lead btn-lead--submit">Log in</button>
+		</form>
+	</div>
+</div>
+
+<footer class="ha-footer">
+	<div class="ha-footer-inner">
+		<div class="ha-footer-grid">
+			<div class="ha-footer-brand">
+				<div class="ha-footer-logo">
+					<svg viewBox="0 0 24 24" width="24" height="24" fill="#ff6d00">
+						<path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"></path>
+					</svg>
+					<span>HomeAlerts</span>
+				</div>
+				<p class="ha-footer-tagline">Real-Time Property Alerts &amp; Search</p>
+				<p class="ha-footer-powered">Powered by LPT Realty</p>
+			</div>
+		<div class="ha-footer-links">
+			<h4>Resources</h4>
+			<a href="https://ww9.homealerts.com/search.cfm">Property Search</a>
+			<a href="https://ww9.homealerts.com/search.cfm">Set Up Alerts</a>
+			<a href="https://ww9.homealerts.com/about.cfm">About Us</a>
+			<a href="https://ww9.homealerts.com/contact.cfm">Contact</a>
+		</div>
+		<div class="ha-footer-links">
+			<h4>Legal</h4>
+			<a href="https://ww9.homealerts.com/privacy.cfm">Privacy Policy</a>
+			<a href="https://ww9.homealerts.com/terms.cfm">Terms of Service</a>
+			<a href="https://ww9.homealerts.com/dmca.cfm">DMCA</a>
+		</div>
+			<div class="ha-footer-cta-block">
+				<h4>Never Miss a Listing</h4>
+				<p>Get instant alerts when homes matching your criteria hit the market.</p>
+				<a href="https://ww9.homealerts.com/search.cfm" class="ha-footer-cta-btn">Create Free Alert</a>
+			</div>
+		</div>
+		<div class="ha-footer-mls">
+			<p>Listing Information © 2026 Stellar MLS. All Rights Reserved. 
+Listings courtesy of Stellar MLS as distributed by MLS GRID. Information
+ is provided exclusively for consumers’ personal noncommercial use and 
+may not be used for any purpose other than to identify prospective 
+properties consumers may be interested in purchasing. Data is deemed 
+reliable but is not guaranteed by MLS GRID. Some properties which appear
+ for sale on this web site may subsequently have sold or may no longer 
+be available.</p>
+		</div>
+		<div class="ha-footer-bottom">
+			<p>© 2026 HomeAlerts. All rights reserved. A service of LPT Holdings.</p>
+		</div>
+	</div>
+</footer>
+
+<script>
+document.getElementById('ha-mobile-toggle')?.addEventListener('click', function() {
+	document.getElementById('ha-nav')?.classList.toggle('open');
+});
+document.addEventListener('click', function(e) {
+	if (e.target && e.target.id === 'ha-signin-btn') {
+		e.preventDefault();
+		if (typeof window.idxOpenLoginModal === 'function') {
+			window.idxOpenLoginModal();
+		} else if (typeof window.idxOpenLeadModal === 'function') {
+			window.idxOpenLeadModal();
+		}
+	}
+});
+(function(){
+	function loadTrackingPixels(){
+		var g=document.createElement('script');
+		g.src='https://www.googletagmanager.com/gtag/js?id=AW-1065748206';
+		g.async=true;
+		document.head.appendChild(g);
+		window.dataLayer=window.dataLayer||[];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js',new Date());
+		gtag('config','AW-1065748206');
+		!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+		n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+		if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+		n.queue=[];t=b.createElement(e);t.async=!0;
+		t.src=v;s=b.getElementsByTagName(e)[0];
+		s.parentNode.insertBefore(t,s)}(window,document,'script',
+		'https://connect.facebook.net/en_US/fbevents.js');
+		fbq('init','126134081226273');
+		fbq('track','PageView');
+	}
+	if('requestIdleCallback' in window){requestIdleCallback(loadTrackingPixels);}
+	else{setTimeout(loadTrackingPixels,3500);}
+})();
+</script>
+
+
+<script src="Property%20search_files/form-utils.js" defer="defer"></script>
+<script src="Property%20search_files/search.js" defer="defer"></script>
+<script src="Property%20search_files/listing.js" defer="defer"></script>
+<script src="Property%20search_files/login.js" defer="defer"></script>
+<script>
+(function(){
+	var CDN = 'img.homealerts.com';
+	var ORIGIN = 'listing-images.homejunction.com';
+	document.addEventListener('error', function(e) {
+		var img = e.target;
+		if (img.tagName !== 'IMG') return;
+		var src = img.src || '';
+		if (src.indexOf(CDN) === -1) return;
+		if (img.dataset.fallback) return;
+		img.dataset.fallback = '1';
+		var direct = src.replace(CDN, ORIGIN).replace(/\?.*$/, '');
+		img.removeAttribute('srcset');
+		img.src = direct;
+	}, true);
+})();
+</script>
+<script>
+(function(){
+	var fd = new FormData();
+	fd.append('type', 'search');
+	fd.append('market', 'mfrmls');
+	fd.append('location', 'longwood');
+	fd.append('params', location.search.slice(1));
+	fd.append('resultCount', '17');
+	if (navigator.sendBeacon) {
+		navigator.sendBeacon('track.cfm', fd);
+	} else {
+		var x = new XMLHttpRequest();
+		x.open('POST', 'track.cfm', true);
+		x.send(fd);
+	}
+})();
+</script>
+
+
+</body></html>
