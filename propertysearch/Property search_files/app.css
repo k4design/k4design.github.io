@@ -1414,9 +1414,29 @@ body.search-page {
 .search-list-inner {
 	flex: 1;
 	min-height: 0;
-	overflow-y: auto;
+	overflow-y: scroll;
+	scrollbar-gutter: stable;
 	-webkit-overflow-scrolling: touch;
 	padding-bottom: 1.5rem;
+	padding-right: 8px;
+}
+
+.search-list-inner::-webkit-scrollbar {
+	width: 6px;
+}
+
+.search-list-inner::-webkit-scrollbar-track {
+	background: var(--surface2);
+	border-radius: 999px;
+}
+
+.search-list-inner::-webkit-scrollbar-thumb {
+	background: rgba(255, 255, 255, 0.2);
+	border-radius: 999px;
+}
+
+.search-list-inner::-webkit-scrollbar-thumb:hover {
+	background: rgba(255, 255, 255, 0.35);
 }
 
 .search-card-list {
