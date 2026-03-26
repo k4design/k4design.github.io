@@ -1301,6 +1301,11 @@ body.search-page {
 	color: #fff;
 }
 
+.search-paging__indicator {
+	font-size: 0.8rem;
+	color: rgba(255, 255, 255, 0.55);
+}
+
 .search-paging__link--next:hover {
 	opacity: 0.7;
 }
