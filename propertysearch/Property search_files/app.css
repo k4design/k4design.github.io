@@ -1472,6 +1472,34 @@ body.search-page {
 	inset: 0 -4px;
 }
 
+
+.panel-resize-tip {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	white-space: nowrap;
+	background: rgba(20, 20, 40, 0.92);
+	color: rgba(255, 255, 255, 0.9);
+	font-size: 0.72rem;
+	font-weight: 500;
+	letter-spacing: 0.02em;
+	padding: 0.45rem 0.75rem;
+	border-radius: 6px;
+	border: 1px solid rgba(255, 255, 255, 0.12);
+	display: flex;
+	align-items: center;
+	gap: 0.4rem;
+	pointer-events: none;
+	opacity: 0;
+	transition: opacity 0.4s ease;
+	z-index: 10;
+	box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+}
+.panel-resize-tip.visible {
+	opacity: 1;
+}
+
 .search-list-panel {
 	display: flex;
 	flex-direction: column;

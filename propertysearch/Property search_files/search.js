@@ -953,11 +953,18 @@
 		var maxWidth = 1100;
 		var startX, startWidth;
 
+		var tip = document.getElementById('panel-resize-tip');
+		if (tip) {
+			setTimeout(function () { tip.classList.add('visible'); }, 800);
+			setTimeout(function () { tip.classList.remove('visible'); }, 4000);
+		}
+
 		handle.addEventListener('mousedown', function (e) {
 			e.preventDefault();
 			startX = e.clientX;
 			startWidth = parseInt(getComputedStyle(grid).getPropertyValue('--list-width'), 10) || 650;
 			handle.classList.add('dragging');
+			if (tip) { tip.classList.remove('visible'); tip = null; }
 			document.body.style.cursor = 'col-resize';
 			document.body.style.userSelect = 'none';
 
