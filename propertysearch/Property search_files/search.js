@@ -955,7 +955,11 @@
 
 		var tip = document.getElementById('panel-resize-tip');
 		if (tip) {
-			setTimeout(function () { tip.classList.add('visible'); }, 800);
+			setTimeout(function () {
+				tip.classList.add('visible');
+				handle.classList.add('flashing');
+				setTimeout(function () { handle.classList.remove('flashing'); }, 3000);
+			}, 800);
 			setTimeout(function () { tip.classList.remove('visible'); }, 4000);
 		}
 

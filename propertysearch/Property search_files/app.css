@@ -1452,6 +1452,15 @@ body.search-page {
 	width: 100%;
 }
 
+
+@keyframes panel-handle-flash {
+	0%, 100% { background: var(--border); }
+	50% { background: rgba(46, 204, 113, 0.7); }
+}
+.panel-resize-handle.flashing {
+	animation: panel-handle-flash 1s ease-in-out 3;
+}
+
 .panel-resize-handle {
 	grid-column: 2;
 	width: 6px;
@@ -1486,7 +1495,7 @@ body.search-page {
 	letter-spacing: 0.02em;
 	padding: 0.9rem 1.5rem;
 	border-radius: 10px;
-	border: 1px solid rgba(255, 255, 255, 0.12);
+	border: 1px solid rgba(46, 204, 113, 0.7);
 	display: flex;
 	align-items: center;
 	gap: 0.4rem;
@@ -1684,7 +1693,7 @@ body.search-page {
 }
 
 .search-card__price {
-	font-size: 1.05rem;
+	font-size: 1.12rem;
 	font-weight: 700;
 	color: #fff;
 	margin: 0;
@@ -1709,7 +1718,7 @@ body.search-page {
 	display: flex;
 	flex-wrap: wrap;
 	gap: 0.25rem 0.65rem;
-	font-size: 0.85rem;
+	font-size: 1.12rem;
 	color: #fff;
 	margin: 0;
 }
