@@ -949,20 +949,21 @@
 		var handle = document.getElementById('panel-resize-handle');
 		var grid = document.querySelector('.search-hybrid');
 		if (!handle || !grid) return;
-		var minWidth = 375;
+		var minWidth = 650;
+		var maxWidth = 1100;
 		var startX, startWidth;
 
 		handle.addEventListener('mousedown', function (e) {
 			e.preventDefault();
 			startX = e.clientX;
-			startWidth = parseInt(getComputedStyle(grid).getPropertyValue('--list-width'), 10) || 550;
+			startWidth = parseInt(getComputedStyle(grid).getPropertyValue('--list-width'), 10) || 650;
 			handle.classList.add('dragging');
 			document.body.style.cursor = 'col-resize';
 			document.body.style.userSelect = 'none';
 
 			function onMove(e) {
 				var delta = e.clientX - startX;
-				var newWidth = Math.max(minWidth, startWidth + delta);
+				var newWidth = Math.min(maxWidth, Math.max(minWidth, startWidth + delta));
 				grid.style.setProperty('--list-width', newWidth + 'px');
 			}
 

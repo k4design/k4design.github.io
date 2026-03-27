@@ -238,7 +238,7 @@
 }
 
 .ha-footer-tagline {
-	font-size: 14px;
+	font-size: 14px;  
 	color: #999;
 	margin: 0 0 4px;
 }
@@ -1442,7 +1442,7 @@ body.search-page {
 }
 
 .search-hybrid {
-	--list-width: 550px;
+	--list-width: 650px;
 	display: grid;
 	flex: 1;
 	grid-template-columns: var(--list-width) 6px 1fr;
@@ -1838,7 +1838,7 @@ body.search-page {
 	}
 
 	.search-hybrid {
-		--list-width: 550px;
+		--list-width: 650px;
 		display: grid;
 		flex: 1;
 		grid-template-columns: var(--list-width) 6px 1fr;
