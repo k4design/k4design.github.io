@@ -1374,6 +1374,12 @@ body.search-page {
 	padding-top: 1rem;
 }
 
+.search-paging--bottom {
+	margin-top: 0;
+	padding: 1rem 0.85rem 1.5rem;
+	border-top: 1px solid var(--border);
+}
+
 .search-paging__link {
 	font-weight: 600;
 	text-decoration: none;
