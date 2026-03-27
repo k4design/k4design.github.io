@@ -1481,11 +1481,11 @@ body.search-page {
 	white-space: nowrap;
 	background: rgba(20, 20, 40, 0.92);
 	color: rgba(255, 255, 255, 0.9);
-	font-size: 0.72rem;
+	font-size: 1.44rem;
 	font-weight: 500;
 	letter-spacing: 0.02em;
-	padding: 0.45rem 0.75rem;
-	border-radius: 6px;
+	padding: 0.9rem 1.5rem;
+	border-radius: 10px;
 	border: 1px solid rgba(255, 255, 255, 0.12);
 	display: flex;
 	align-items: center;
