@@ -920,6 +920,8 @@
 			initAdvancedSearch();
 			initPerPageControl();
 			initSortControl();
+			initPanelResize();
+
 		});
 
 		var desktop = window.matchMedia('(min-width: 900px)');
@@ -940,6 +942,43 @@
 			if (mapApi && mapApi.map) {
 				setTimeout(function () { mapApi.map.invalidateSize(); }, 200);
 			}
+		});
+	}
+
+	function initPanelResize() {
+		var handle = document.getElementById('panel-resize-handle');
+		var grid = document.querySelector('.search-hybrid');
+		if (!handle || !grid) return;
+		var minWidth = 375;
+		var startX, startWidth;
+
+		handle.addEventListener('mousedown', function (e) {
+			e.preventDefault();
+			startX = e.clientX;
+			startWidth = parseInt(getComputedStyle(grid).getPropertyValue('--list-width'), 10) || 550;
+			handle.classList.add('dragging');
+			document.body.style.cursor = 'col-resize';
+			document.body.style.userSelect = 'none';
+
+			function onMove(e) {
+				var delta = e.clientX - startX;
+				var newWidth = Math.max(minWidth, startWidth + delta);
+				grid.style.setProperty('--list-width', newWidth + 'px');
+			}
+
+			function onUp() {
+				handle.classList.remove('dragging');
+				document.body.style.cursor = '';
+				document.body.style.userSelect = '';
+				document.removeEventListener('mousemove', onMove);
+				document.removeEventListener('mouseup', onUp);
+				if (window.mapApi && window.mapApi.map) {
+					setTimeout(function () { window.mapApi.map.invalidateSize(); }, 50);
+				}
+			}
+
+			document.addEventListener('mousemove', onMove);
+			document.addEventListener('mouseup', onUp);
 		});
 	}
 
