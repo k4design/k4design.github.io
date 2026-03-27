@@ -1577,21 +1577,51 @@ body.search-page {
 	padding-bottom: 1.5rem;
 }
 
-.search-card__facts {
+.search-card__label {
+	font-size: 0.6rem;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.07em;
+	color: var(--muted);
+	align-self: end;
+}
+
+.search-card__label--price {
+	grid-column: 2;
+	grid-row: 1;
+}
+
+.search-card__label--type {
+	grid-column: 1 / -1;
+	grid-row: 3;
+}
+
+/* "Details" label — first label (col 1) */
+.search-card__meta > .search-card__label:not(.search-card__label--price):not(.search-card__label--type) {
 	grid-column: 1;
 	grid-row: 1;
-	align-self: start;
 }
 
 .search-card__price {
 	grid-column: 2;
-	grid-row: 1;
+	grid-row: 2;
 	align-self: start;
 }
 
-.search-card__type,
+.search-card__facts {
+	grid-column: 1;
+	grid-row: 2;
+	align-self: start;
+}
+
+.search-card__type {
+	grid-column: 1 / -1;
+	grid-row: 4;
+}
+
 .search-card__status-row {
 	grid-column: 1 / -1;
+	grid-row: 5;
 }
 
 .search-card__bottom {
@@ -1631,7 +1661,7 @@ body.search-page {
 	flex-wrap: wrap;
 	gap: 0.25rem 0.65rem;
 	font-size: 0.85rem;
-	color: var(--muted);
+	color: #fff;
 	margin: 0;
 }
 
@@ -1649,7 +1679,7 @@ body.search-page {
 	display: inline-block;
 	font-size: 0.7rem;
 	font-style: italic;
-	color: var(--muted);
+	color: #fff;
 }
 .search-card__status {
 	display: inline-block;
