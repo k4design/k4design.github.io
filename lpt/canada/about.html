@@ -1,7 +1,7 @@
-<!-- HTML Snippet for Lofty.com - LPT Combined Sections (Hero + Mission through CTA + Google Reviews) --><!-- Includes: Hero, Leadership, Why Agents Choose, dezzy.ai, Feature Cards, Support, Agent Stories carousel, Compensation, CTA, Google Reviews carousel --><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&#x26;display=swap" />
+<!-- HTML Snippet for Lofty.com - LPT Combined Sections (Hero + Mission through CTA + Google Reviews) --><!-- Includes: Hero, Leadership, Why Agents Choose, dezzy.ai, Feature Cards, Support, Agent Stories carousel, Compensation, CTA, Google Reviews carousel --><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&#x26;display=swap" />
 <style>
-:root { --color-bg-white:#F7F5F0; --color-bg-light:#E8F0F7; --color-text-dark:#1A3A5C; --color-text-gray:#4a6080; --color-text-light:#7a94aa; --font-primary:'Inter',-apple-system,sans-serif; --ca-red:#D52B1E; --ca-red-hover:#B22318; --ca-blue:#1A3A5C; --ca-blue-light:#E8F0F7; --ca-white:#F7F5F0; }
-* { box-sizing: border-box; margin: 0; padding: 0; }
+:root { --color-bg-white:#F7F5F0; --color-bg-light:#E8F0F7; --color-text-dark:#1A3A5C; --color-text-gray:#4a6080; --color-text-light:#7a94aa; --font-primary:'Poppins',-apple-system,sans-serif; --ca-red:#D52B1E; --ca-red-hover:#B22318; --ca-blue:#1A3A5C; --ca-blue-light:#E8F0F7; --ca-white:#F7F5F0; }
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: var(--font-primary); }
 .lpt-combined-snippet { overflow-x: hidden; width: 100%; }
 .container { max-width: 1200px; margin: 0 auto; padding: 0 40px; }
 .fade-up { opacity: 0; transform: translateY(30px); transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1); }
@@ -21,9 +21,9 @@
   background: radial-gradient(circle at 30% 40%, rgba(213,43,30,0.72) 0%, transparent 50%), radial-gradient(circle at 70% 60%, rgba(26,58,92,0.82) 0%, transparent 50%), linear-gradient(180deg, rgba(213,43,30,0.55) 0%, rgba(26,58,92,0.75) 50%, rgba(26,58,92,0.65) 100%);
   z-index: 1; animation: heroGradientMove 15s ease-in-out infinite; }
 .hero-section > .container { position: relative; z-index: 2; }
-.hero-section .hero-inner { text-align: center; max-width: 800px; margin: 0 auto; }
-.hero-section .hero-headline { font-size: clamp(40px, 5vw, 56px); font-weight: 800; line-height: 1.15; color: white; letter-spacing: -0.02em; margin-bottom: 20px; }
-.hero-section .hero-description { font-size: 18px; line-height: 1.6; color: rgba(255,255,255,0.95); font-weight: 400; margin: 0; }
+.hero-section .hero-inner { text-align: left; max-width: 70vw; margin: 0; }
+.hero-section .hero-headline { font-size: 6rem; font-weight: 800; line-height: 1.15; color: white; letter-spacing: -0.02em; margin-bottom: 20px; }
+.hero-section .hero-description { font-size: 2rem; line-height: 1.6; color: rgba(255,255,255,0.95); font-weight: 400; margin: 0; }
 @keyframes heroGradientMove { 0%{ background-position: 30% 40%, 70% 60%, center; } 25%{ background-position: 80% 20%, 20% 80%, center; } 50%{ background-position: 20% 80%, 80% 20%, center; } 75%{ background-position: 70% 70%, 30% 30%, center; } 100%{ background-position: 30% 40%, 70% 60%, center; } }
 @media (prefers-reduced-motion: reduce) { .hero-section::before { animation: none; } }
 
@@ -40,10 +40,10 @@
 
 /* Leadership */
 .leadership-team-section { padding: 120px 0; background-color: var(--color-bg-white); }
-.leadership-team-header { text-align: center; max-width: 900px; margin: 0 auto 64px; }
+.leadership-team-header { text-align: left; max-width: 900px; margin: 0 0 64px; }
 .leadership-team-tag { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; border-radius: 999px; background-color: rgba(213,43,30,0.1); color: var(--ca-red); font-size: 14px; font-weight: 600; margin-bottom: 24px; }
 .leadership-team-title { font-size: clamp(42px, 5vw, 56px); font-weight: 800; line-height: 1.2; color: var(--color-text-dark); letter-spacing: -0.02em; margin-bottom: 16px; }
-.leadership-team-description { font-size: 18px; line-height: 1.7; color: var(--color-text-gray); font-weight: 400; max-width: 700px; margin: 0 auto; }
+.leadership-team-description { font-size: 18px; line-height: 1.7; color: var(--color-text-gray); font-weight: 400; max-width: 700px; margin: 0; }
 .leadership-team-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; max-width: 100%; margin: 0 auto; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 24px rgba(0,0,0,0.08); }
 .leadership-card { position: relative; aspect-ratio: 3/4; overflow: hidden; cursor: pointer; transition: transform 0.3s ease; }
 .leadership-card:hover { transform: scale(1.02); z-index: 1; }
@@ -112,10 +112,10 @@
 /* Compensation */
 .compensation-section { padding: 120px 0; background-color: var(--color-bg-white); border-top: 1px solid rgba(0, 0, 0, 0.05); border-bottom: 1px solid rgba(0, 0, 0, 0.05); }
 .section-tag { display: inline-flex; padding: 6px 16px; border-radius: 999px; background: rgba(213, 43, 30, 0.12); color: var(--ca-red); font-weight: 700; font-size: 12px; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 16px; }
-.compensation-section .section-tag { display: flex; margin-left: auto; margin-right: auto; justify-content: center; }
-.compensation-headline { font-size: clamp(36px, 4vw, 48px); font-weight: 800; line-height: 1.2; color: var(--color-text-dark); letter-spacing: -0.02em; text-align: center; margin-bottom: 48px; }
-.compensation-summary { margin-top: 0; margin-bottom: 56px; text-align: center; color: var(--color-text-gray); display: grid; gap: 8px; }
-.compensation-summary h3 { font-size: 72px; line-height: 1.2; font-weight: 800; letter-spacing: -0.02em; text-transform: uppercase; color: var(--color-text-dark); margin: 0 0 8px; display: inline-block; background: linear-gradient(to right, rgba(213, 43, 30, 0.25), rgba(213, 43, 30, 0.25)); background-position: 0 calc(50% + 8px); background-size: 100% 60%; background-repeat: no-repeat; padding: 4px 0; }
+.compensation-section .section-tag { display: inline-flex; }
+.compensation-headline { font-size: clamp(36px, 4vw, 48px); font-weight: 800; line-height: 1.2; color: var(--color-text-dark); letter-spacing: -0.02em; text-align: left; margin-bottom: 48px; }
+.compensation-summary { margin-top: 0; margin-bottom: 56px; text-align: left; color: var(--color-text-gray); display: grid; gap: 8px; }
+.compensation-summary h3 { font-size: 72px; line-height: 1.2; font-weight: 800; letter-spacing: -0.02em; text-transform: uppercase; color: #D52B1E; margin: 0 0 8px; display: inline-block; background: linear-gradient(to right, rgba(213, 43, 30, 0.25), rgba(213, 43, 30, 0.25)); background-position: 0 calc(50% + 8px); background-size: 100% 60%; background-repeat: no-repeat; padding: 4px 0; }
 .compensation-summary p { font-size: 48px; line-height: 1.6; letter-spacing: -0.01em; font-weight: 400; margin: 4px 0; }
 .compensation-table { margin-top: 0; overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 20px; border: 1px solid rgba(0, 0, 0, 0.08); background: white; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08); max-width: 100%; }
 .compensation-table table { width: 100%; border-collapse: collapse; font-family: var(--font-primary); }
@@ -314,7 +314,7 @@
     <div class="container">
       <div class="escapes-layout">
         <div class="escapes-content">
-          <h2 class="escapes-headline fade-up">A brokerage engineered for scale with a <span style="display:inline-block;background:linear-gradient(to right,rgba(213,43,30,0.25),rgba(213,43,30,0.25));background-position:0 calc(50% + 8px);background-size:100% 60%;background-repeat:no-repeat;padding:4px 0;">human touch</span></h2>
+          <h2 class="escapes-headline fade-up">A brokerage engineered for scale</br> with a <span style="display:inline-block;color:#D52B1E;background:linear-gradient(to right,rgba(213,43,30,0.25),rgba(213,43,30,0.25));background-position:0 calc(50% + 8px);background-size:100% 60%;background-repeat:no-repeat;padding:4px 0;">human touch</span></h2>
           <p class="fade-up fade-up-delay-1" style="font-size:18px;line-height:1.7;color:var(--color-text-gray);margin-bottom:48px;max-width:800px;">Every touchpoint is designed around agent autonomy. LPT Realty equips you with cinematic marketing, automated operations, and relentless support so you can move faster, close more, and grow without limits.</p>
           <div class="accommodations-grid stagger-container">
             <article class="accommodation-card">
@@ -397,7 +397,7 @@
     <div class="container">
       <div class="fade-up" style="margin-bottom: 48px;">
         <p style="display: inline-flex; padding: 6px 16px; border-radius: 999px; background: rgba(213, 43, 30, 0.12); color: #D52B1E; font-weight: 700; font-size: 12px; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 16px;">Agent Wins</p>
-        <h2 class="escapes-headline" style="margin-bottom: 16px;">How We've Helped Our Agents <span style="display: inline-block; background: linear-gradient(to right, rgba(213, 43, 30, 0.25) 0%, rgba(213, 43, 30, 0.25) 100%); background-position: 0 calc(50% + 8px); background-size: 100% 60%; background-repeat: no-repeat; padding: 4px 0;">Achieve Success</span></h2>
+        <h2 class="escapes-headline" style="margin-bottom: 16px;">How We've Helped Our Agents <span style="display: inline-block; color: #D52B1E; background: linear-gradient(to right, rgba(213, 43, 30, 0.25) 0%, rgba(213, 43, 30, 0.25) 100%); background-position: 0 calc(50% + 8px); background-size: 100% 60%; background-repeat: no-repeat; padding: 4px 0;">Achieve Success</span></h2>
         <p style="font-size: 18px; line-height: 1.7; color: var(--color-text-gray); max-width: 800px;">Proof, not promises. Hear the momentum directly from the agents who grow with LPT every day.</p>
       </div>
     </div>
