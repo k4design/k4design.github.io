@@ -1,0 +1,91 @@
+<!-- HTML Snippet for Lofty.com - LPT Hero Section (self-contained: CSS + JS included) --><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&#x26;display=swap" />
+<style>
+:root { --color-text-dark:#1A3A5C; --color-text-gray:#666; --font-primary:'Inter',-apple-system,sans-serif; --ca-red:#D52B1E; --ca-red-hover:#B22318; --ca-blue:#1A3A5C; --ca-blue-light:#E8F0F7; --ca-white:#F7F5F0; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+.container { max-width: 1200px; margin: 0 auto; padding: 0 40px; }
+.fade-up { opacity: 0; transform: translateY(30px); transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1); }
+.fade-up.animate-in { opacity: 1; transform: translateY(0); }
+.fade-up-delay-1 { transition-delay: 0.1s; } .fade-up-delay-2 { transition-delay: 0.2s; } .fade-up-delay-3 { transition-delay: 0.3s; }
+.stagger-container > * { opacity: 0; transform: translateY(50px) scale(0.9); transition: opacity 0.9s cubic-bezier(0.34,1.56,0.64,1), transform 0.9s cubic-bezier(0.34,1.56,0.64,1); }
+.stagger-container.animate-in > *:nth-child(1){ transition-delay: 0.05s; } .stagger-container.animate-in > *:nth-child(2){ transition-delay: 0.15s; } .stagger-container.animate-in > *:nth-child(3){ transition-delay: 0.25s; }
+.stagger-container.animate-in > * { opacity: 1; transform: translateY(0) scale(1); }
+@media (prefers-reduced-motion: reduce) { .fade-up, .stagger-container > * { opacity: 1; transform: none; transition: none; } }
+.hero { position: relative; display: flex; flex-direction: column; justify-content: space-between; padding: 160px 0 0; overflow: hidden; }
+.hero-video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0 !important; }
+.hero::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  background: radial-gradient(circle at 30% 40%, rgba(213,43,30,0.72) 0%, transparent 50%), radial-gradient(circle at 70% 60%, rgba(26,58,92,0.82) 0%, transparent 50%), linear-gradient(180deg, rgba(213,43,30,0.55) 0%, rgba(26,58,92,0.75) 50%, rgba(26,58,92,0.65) 100%);
+  z-index: 1; animation: gradientMove 15s ease-in-out infinite; }
+.hero > *:not(.hero-video) { position: relative; z-index: 2; }
+@keyframes gradientMove { 0%{ background-position: 30% 40%, 70% 60%, center; } 25%{ background-position: 80% 20%, 20% 80%, center; } 50%{ background-position: 20% 80%, 80% 20%, center; } 75%{ background-position: 70% 70%, 30% 30%, center; } 100%{ background-position: 30% 40%, 70% 60%, center; } }
+.hero-content { position: relative; max-width: 1200px; margin: 0 auto; width: 100%; display: grid; gap: 60px; align-items: center; margin-bottom: 60px; z-index: 2; }
+.hero-headline { font-size: clamp(48px, 6vw, 72px); font-weight: 800; line-height: 1.1; color: white; letter-spacing: -0.02em; padding-bottom: 24px; }
+.hero-description { font-size: 18px; line-height: 1.6; color: rgba(255,255,255,0.95); font-weight: 400; }
+.search-btn { background-color: var(--ca-red); color: var(--ca-white); border: none; padding: 12px 32px; border-radius: 6px; font-weight: 600; font-size: 15px; cursor: pointer; transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease; white-space: nowrap; text-decoration: none; display: inline-block; }
+.search-btn:hover { background-color: var(--ca-red-hover); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(213,43,30,0.35); }
+.see-more-btn { background-color: transparent; color: var(--ca-white); border: none; padding: 12px 24px; border-radius: 6px; font-weight: 500; font-size: 14px; cursor: pointer; width: fit-content; transition: background-color 0.2s ease; text-decoration: none; display: inline-block; }
+.see-more-btn:hover { background-color: rgba(232,240,247,0.2); }
+.scrolling-list { background-color: rgba(26,58,92,0.97); padding: 20px 0; margin-top: 40px; overflow: hidden; }
+.scrolling-track { display: flex; gap: 40px; animation: scroll 30s linear infinite; white-space: nowrap; }
+.scrolling-item { color: rgba(255,255,255,0.8); font-size: 14px; font-weight: 500; display: flex; gap: 12px; flex-shrink: 0; }
+.scrolling-item span { color: rgba(255,255,255,0.5); }
+@keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+@media (prefers-reduced-motion: reduce) { .hero::before { animation: none; } .scrolling-track { animation: none; } }
+@media (max-width: 640px) {
+  .hero { padding: 120px 0 0; }
+  .hero-content { padding: 0 20px; }
+  .hero-content > div { padding: 0; }
+  .scrolling-list { margin-top: 32px; padding: 16px 0; }
+  .scrolling-track { gap: 24px; }
+}
+</style>
+<section class="hero" id="hero">
+  <video class="hero-video" autoplay muted loop playsinline>
+    <source src="https://k4design.github.io/lpt/vid/canda_hero.mp4" type="video/mp4" />
+  </video>
+  <div class="hero-content" style="grid-template-columns: 1fr; max-width: 900px; text-align: center;">
+    <div>
+      <div class="fade-up" style="display: flex; justify-content: center; margin-bottom: 24px;">
+        <img src="https://cdn.lofty.com/image/fs/508869918698733/website/166145/cmsbuild/h200_2026329_7188d94c106241be-png.webp" alt="LPT Canada" style="height: 60px; width: auto; display: block;" />
+      </div>
+      <div class="fade-up" style="display: flex; flex-direction: column; align-items: center; gap: 16px; margin-bottom: 24px;">
+        <div style="display: inline-flex; align-items: center; gap: 20px; padding: 16px 24px; border-radius: 8px; background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(10px);">
+          <img src="https://lpt.com/assets/images/InmanInnovators.svg" alt="Inman Innovators Award" width="116" height="32" />
+          <span style="color: white; font-size: 14px; font-weight: 500;">LPT Realty is the winner of the 2024 Most Innovative Brokerage Award</span>
+        </div>
+        <div style="display: inline-flex; align-items: center; gap: 20px; padding: 16px 24px; border-radius: 8px; background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(10px);">
+          <img src="https://k4design.github.io/lpt/img/deloitte_fast500.png" alt="Deloitte Fast 500" width="116" height="32" />
+          <span style="color: white; font-size: 14px; font-weight: 500;">LPT Realty is #2 Fastest Growing Company - Deloitte 2025 Fast 500</span>
+        </div>
+      </div>
+      <h1 class="hero-headline fade-up fade-up-delay-1">The Only Agent Choice Brokerage for Life</h1>
+      <p class="hero-description fade-up fade-up-delay-2" style="max-width: 700px; margin: 0 auto;">LPT Realty is a revolutionary brokerage for life platform designed to grow your real estate business, attract new agents, and increase your revenue.</p>
+      <div class="fade-up fade-up-delay-3" style="display: flex; gap: 16px; margin-top: 32px; flex-wrap: wrap; justify-content: center;">
+        <a class="search-btn" href="https://lptcanada.ca/about">Watch The LPT Explained Video</a>
+        <a class="see-more-btn" href="#contact" style="background: rgba(232,240,247,0.15); color: #F7F5F0; border: 1px solid rgba(232,240,247,0.35);">Request A Call</a>
+      </div>
+    </div>
+  </div>
+  <div class="scrolling-list">
+    <div class="scrolling-track">
+      <div class="scrolling-item">10th Largest Brokerage in the U.S.</div>
+      <div class="scrolling-item">Innovative Hybrid Compensation Model</div>
+      <div class="scrolling-item">Agent-Centered Branding</div>
+      <div class="scrolling-item">10th Largest Brokerage in the U.S.</div>
+      <div class="scrolling-item">Innovative Hybrid Compensation Model</div>
+      <div class="scrolling-item">Agent-Centered Branding</div>
+      <div class="scrolling-item">10th Largest Brokerage in the U.S.</div>
+      <div class="scrolling-item">Innovative Hybrid Compensation Model</div>
+      <div class="scrolling-item">Agent-Centered Branding</div>
+      <div class="scrolling-item">10th Largest Brokerage in the U.S.</div>
+      <div class="scrolling-item">Innovative Hybrid Compensation Model</div>
+      <div class="scrolling-item">Agent-Centered Branding</div>
+    </div>
+  </div>
+</section>
+<script>
+(function(){
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { document.querySelectorAll('.hero .fade-up, .hero .stagger-container').forEach(function(e){ e.classList.add('animate-in'); }); return; }
+  var obs = new IntersectionObserver(function(entries){ entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('animate-in'); obs.unobserve(e.target); } }); }, { rootMargin: '0px 0px -80px 0px', threshold: 0.1 });
+  document.querySelectorAll('.hero .fade-up, .hero .stagger-container').forEach(function(e){ obs.observe(e); });
+})();
+</script>
