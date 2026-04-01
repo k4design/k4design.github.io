@@ -16,10 +16,13 @@
 
 /* Hero */
 .hero-section { position: relative; padding: 100px 0; overflow: hidden; min-height: 320px; display: flex; align-items: center; }
-.hero-section-video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0 !important; }
+.hero-section-video { position: absolute; top: -15%; left: 0; width: 100%; height: 130%; object-fit: cover; z-index: 0 !important; will-change: transform; }
 .hero-section::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-  background: radial-gradient(circle at 30% 40%, rgba(168,28,40,0.72) 0%, transparent 50%), radial-gradient(circle at 70% 60%, rgba(42,26,8,0.82) 0%, transparent 50%), linear-gradient(180deg, rgba(168,28,40,0.55) 0%, rgba(42,26,8,0.75) 50%, rgba(42,26,8,0.65) 100%);
+  background: radial-gradient(circle at 30% 40%, rgba(220,20,35,0.45) 0%, transparent 55%), radial-gradient(circle at 70% 65%, rgba(90,5,12,0.48) 0%, transparent 55%), linear-gradient(160deg, rgba(210,15,30,0.40) 0%, rgba(140,10,20,0.43) 40%, rgba(75,3,10,0.45) 100%);
   z-index: 1; animation: heroGradientMove 15s ease-in-out infinite; }
+.hero-section::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  background: radial-gradient(circle at 30% 40%, rgba(220,20,35,1.0) 0%, transparent 55%), radial-gradient(circle at 70% 65%, rgba(90,5,12,1.0) 0%, transparent 55%), linear-gradient(160deg, rgba(210,15,30,1.0) 0%, rgba(140,10,20,1.0) 40%, rgba(75,3,10,1.0) 100%);
+  mix-blend-mode: color; z-index: 1; pointer-events: none; }
 .hero-section > .container { position: relative; z-index: 2; }
 .hero-section .hero-inner { text-align: left; max-width: 70vw; margin: 0; }
 .hero-section .hero-headline { font-size: 6rem; font-weight: 800; line-height: 1.15; color: white; letter-spacing: -0.02em; margin-bottom: 20px; }
@@ -91,7 +94,7 @@
 .feature-card-icon { width: 48px; height: 48px; margin-bottom: 20px; display: block; flex-shrink: 0; }
 .feature-card-icon svg { width: 100%; height: 100%; display: block; }
 .feature-card h3 { font-size: 24px; font-weight: 700; color: var(--color-text-dark); margin-bottom: 16px; letter-spacing: -0.01em; }
-.feature-card h3 .highlight { display: inline; background: linear-gradient(to right, rgba(168, 28, 40, 0.2), rgba(168, 28, 40, 0.2)); background-position: 0 calc(50% + 8px); background-size: 100% 60%; background-repeat: no-repeat; padding: 4px 0; }
+.feature-card h3 .highlight { display: inline; color: #E02030; background: linear-gradient(to right, rgba(224, 32, 48, 0.2), rgba(224, 32, 48, 0.2)); background-position: 0 calc(50% + 8px); background-size: 100% 60%; background-repeat: no-repeat; padding: 4px 0; }
 .feature-card p { font-size: 16px; line-height: 1.7; color: var(--color-text-gray); }
 .feature-cards-video { width: 100%; max-width: 100%; margin-top: 64px; margin-bottom: 48px; position: relative; z-index: 1; overflow: hidden; }
 .feature-cards-video wistia-player { width: 100%; max-width: 100%; height: auto; display: block; border-radius: 12px; overflow: hidden; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12); }
@@ -317,7 +320,7 @@
     <div class="container">
       <div class="escapes-layout">
         <div class="escapes-content">
-          <h2 class="escapes-headline fade-up">A brokerage engineered for scale<br> with a <span style="display:inline-block;color:#A81C28;background:linear-gradient(to right,rgba(168,28,40,0.25),rgba(168,28,40,0.25));background-position:0 calc(50% + 8px);background-size:100% 60%;background-repeat:no-repeat;padding:4px 0;">human touch</span></h2>
+          <h2 class="escapes-headline fade-up">A brokerage engineered for scale<br> with a <span style="display:inline-block;color:#E02030;background:linear-gradient(to right,rgba(224,32,48,0.25),rgba(224,32,48,0.25));background-position:0 calc(50% + 8px);background-size:100% 60%;background-repeat:no-repeat;padding:4px 0;">human touch</span></h2>
           <p class="fade-up fade-up-delay-1" style="font-size:18px;line-height:1.7;color:var(--color-text-gray);margin-bottom:48px;max-width:800px;">Every touchpoint is designed around agent autonomy. LPT Realty equips you with cinematic marketing, automated operations, and relentless support so you can move faster, close more, and grow without limits.</p>
           <div class="accommodations-grid stagger-container">
             <article class="accommodation-card">
@@ -400,7 +403,7 @@
     <div class="container">
       <div class="fade-up" style="margin-bottom: 48px;">
         <p style="display: inline-flex; padding: 6px 16px; border-radius: 999px; background: rgba(168, 28, 40, 0.10); color: #A81C28; font-weight: 700; font-size: 12px; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 16px;">Agent Wins</p>
-        <h2 class="escapes-headline" style="margin-bottom: 16px;">How We've Helped Our Agents <span style="display: inline-block; color: #A81C28; background: linear-gradient(to right, rgba(168, 28, 40, 0.25) 0%, rgba(168, 28, 40, 0.25) 100%); background-position: 0 calc(50% + 8px); background-size: 100% 60%; background-repeat: no-repeat; padding: 4px 0;">Achieve Success</span></h2>
+        <h2 class="escapes-headline" style="margin-bottom: 16px;">How We've Helped Our Agents <span style="display: inline-block; color: #E02030; background: linear-gradient(to right, rgba(224, 32, 48, 0.25) 0%, rgba(224, 32, 48, 0.25) 100%); background-position: 0 calc(50% + 8px); background-size: 100% 60%; background-repeat: no-repeat; padding: 4px 0;">Achieve Success</span></h2>
         <p style="font-size: 18px; line-height: 1.7; color: var(--color-text-gray); max-width: 800px;">Proof, not promises. Hear the momentum directly from the agents who grow with LPT every day.</p>
       </div>
     </div>
@@ -606,6 +609,26 @@
     document.querySelectorAll('.hero-section .fade-up, .mission-section .fade-up, .mission-section .stagger-container, .leadership-team-section .fade-up, .leadership-team-section .stagger-container, .escapes-section .fade-up, .escapes-section .stagger-container, .dezzy-ai-section .fade-up, .feature-cards-section .fade-up, .feature-cards-section .stagger-container, .compensation-section .fade-up').forEach(function(el) { obs.observe(el); });
   }
   runScrollAnimations();
+
+  (function initHeroParallax() {
+    var vid = document.querySelector('.hero-section-video');
+    var hero = document.querySelector('.hero-section');
+    if (!vid || !hero) return;
+    var ticking = false;
+    window.addEventListener('scroll', function() {
+      if (!ticking) {
+        requestAnimationFrame(function() {
+          var heroRect = hero.getBoundingClientRect();
+          var scrolled = -heroRect.top;
+          if (scrolled >= 0 && heroRect.bottom > 0) {
+            vid.style.transform = 'translateY(' + (scrolled * 0.6) + 'px)';
+          }
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }, { passive: true });
+  })();
 
   (function initAIBackground() {
     var canvas = document.getElementById('ai-background-canvas');

@@ -13,8 +13,11 @@
 .hero { position: relative; display: flex; flex-direction: column; justify-content: space-between; padding: 160px 0 0; overflow: hidden; }
 .hero-video { position: absolute; top: -15%; left: 0; width: 100%; height: 130%; object-fit: cover; z-index: 0 !important; filter: grayscale(100%); will-change: transform; }
 .hero::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-  background: radial-gradient(circle at 30% 40%, rgba(168,28,40,0.78) 0%, transparent 50%), radial-gradient(circle at 70% 60%, rgba(42,26,8,0.88) 0%, transparent 50%), linear-gradient(180deg, rgba(168,28,40,0.60) 0%, rgba(42,26,8,0.80) 50%, rgba(42,26,8,0.70) 100%);
+  background: radial-gradient(circle at 30% 40%, rgba(220,20,35,0.45) 0%, transparent 55%), radial-gradient(circle at 70% 65%, rgba(90,5,12,0.48) 0%, transparent 55%), linear-gradient(160deg, rgba(210,15,30,0.40) 0%, rgba(140,10,20,0.43) 40%, rgba(75,3,10,0.45) 100%);
   z-index: 1; animation: gradientMove 15s ease-in-out infinite; }
+.hero::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  background: radial-gradient(circle at 30% 40%, rgba(220,20,35,1.0) 0%, transparent 55%), radial-gradient(circle at 70% 65%, rgba(90,5,12,1.0) 0%, transparent 55%), linear-gradient(160deg, rgba(210,15,30,1.0) 0%, rgba(140,10,20,1.0) 40%, rgba(75,3,10,1.0) 100%);
+  mix-blend-mode: color; z-index: 1; pointer-events: none; }
 .hero > *:not(.hero-video) { position: relative; z-index: 2; }
 @keyframes gradientMove { 0%{ background-position: 30% 40%, 70% 60%, center; } 25%{ background-position: 80% 20%, 20% 80%, center; } 50%{ background-position: 20% 80%, 80% 20%, center; } 75%{ background-position: 70% 70%, 30% 30%, center; } 100%{ background-position: 30% 40%, 70% 60%, center; } }
 .hero-content { position: relative; max-width: 1200px; margin: 0 auto; width: 100%; display: grid; gap: 60px; align-items: center; margin-bottom: 60px; z-index: 2; }
