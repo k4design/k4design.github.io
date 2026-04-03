@@ -1249,6 +1249,15 @@
 
         /* --- How It Works --- */
 
+        .hiw-section-headline {
+            font-family: var(--serif);
+            font-size: clamp(36px, 4vw, 56px);
+            font-weight: 600;
+            color: var(--text-1);
+            margin-bottom: 48px;
+            text-align: center;
+        }
+
         .how-it-works {
             margin-top: 96px;
             max-width: 85vw;
@@ -1695,7 +1704,7 @@
                 gap: 16px;
             }
             .billboard-hero-text { width: 100%; }
-            .billboard-hero-headline { font-size: clamp(28px, 8vw, 48px); }
+            .billboard-hero-headline { font-size: clamp(28px, 8vw, 48px); text-align: left; margin-bottom: 20px; }
             .billboard-hero-container {
                 width: 100%;
                 display: flex;
@@ -1770,6 +1779,7 @@
                 padding-top: 5vh;
             }
             .hiw-text { padding: 24px 0; }
+            .hiw-section-headline { font-size: clamp(54px, 12vw, 84px); text-align: left; }
             .hiw-num { font-size: 48px; }
             .hiw-headline { font-size: clamp(26px, 7vw, 36px); }
             .hiw-body { font-size: 15px; }
@@ -1796,6 +1806,7 @@
                 padding: 40px 5vw;
                 gap: 32px;
             }
+            .trust-bar-logo-brand { max-width: 100%; height: auto; }
             .trust-bar-statement { font-size: 16px; }
             .trust-bar-logos { gap: 24px; }
             .trust-bar-logo { height: 32px; }
@@ -1921,6 +1932,8 @@
 
 
         <section class="how-it-works">
+
+            <h2 class="hiw-section-headline reveal">Three steps to a cash offer.</h2>
 
             <div class="hiw-step reveal">
                 <div class="hiw-text">
