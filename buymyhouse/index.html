@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com/">
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
     <link href="css/css2.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700;800&family=Cormorant:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700;800&family=Cormorant:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Jost:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap" rel="stylesheet">
     <script src="js/player.js" async=""></script>
     <script src="js/g9pnklrqqq.js" async="" type="module"></script>
     
@@ -27,7 +27,7 @@
             --brand-shadow: rgba(29, 78, 216, 0.25);
             --disabled-bg: #cbd5e1;
             --disabled-text: rgba(255, 255, 255, 0.5);
-            --text-1: #0f172a;
+            --text-1: #07252c;
             --text-2: #475569;
             --text-3: #64748b;
             --text-4: #94a3b8;
@@ -37,8 +37,8 @@
             --radius: 10px;
             --field-h: 56px;
             --speed: 200ms;
-            --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            --serif: 'DM Serif Display', Georgia, serif;
+            --font: 'Jost', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            --serif: 'Cormorant', Georgia, serif;
             --bg-page: #FAFAF8;
             --text-5: #6b7280;
             --text-6: #4b5563;
@@ -247,7 +247,6 @@
             display: flex;
             flex-direction: column;
             align-items: flex-start;
-            animation: fadeInUp 600ms ease-out both;
             margin: auto;
         }
 
@@ -560,15 +559,54 @@
         /* --- Animations --- */
 
         @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(16px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(24px); }
+            to   { opacity: 1; transform: translateY(0); }
         }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-16px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to   { opacity: 1; }
+        }
+
+        /* Hero staggered children */
+        .hero-content > * {
+            opacity: 0;
+            animation: fadeInUp 700ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+
+        .hero-content .cred          { animation-delay: 200ms; }
+        .hero-content .hero-h1       { animation-delay: 380ms; }
+        .hero-content .hero-h2       { animation-delay: 520ms; }
+        .hero-content .cta-block     { animation-delay: 660ms; }
+        .hero-content .hero-powered  { animation-delay: 780ms; }
+
+        /* Nav slides in */
+        .nav {
+            animation: fadeInDown 600ms cubic-bezier(0.22, 1, 0.36, 1) both;
+            animation-delay: 100ms;
+        }
+
+        /* Scroll reveal */
+        .reveal {
+            opacity: 0;
+            transform: translateY(32px);
+            transition: opacity 700ms cubic-bezier(0.22, 1, 0.36, 1),
+                        transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-delay-1 { transition-delay: 100ms; }
+        .reveal-delay-2 { transition-delay: 200ms; }
+        .reveal-delay-3 { transition-delay: 300ms; }
 
         @keyframes spin {
             to { transform: rotate(360deg); }
@@ -598,15 +636,20 @@
                 max-width: 100%;
             }
 
+            .hiw-image {
+                display: none;
+            }
+
             .hiw-step,
             .hiw-step--reverse {
-                grid-template-columns: 1fr;
-                direction: ltr;
+                grid-template-columns: 1fr !important;
+                direction: ltr !important;
                 min-height: auto;
             }
 
+            .hiw-step--reverse,
             .hiw-step--reverse > * {
-                direction: ltr;
+                direction: ltr !important;
             }
 
             .hiw-text {
@@ -628,158 +671,347 @@
 
         /* Mobile: 480px and below */
         @media (max-width: 480px) {
+
+            /* Prevent horizontal overflow */
+            body, .btf, .how-it-works, .billboard-hero-wrap {
+                overflow-x: hidden;
+            }
+
+            /* Hero overlay — flat color */
             .hero-overlay {
                 background: rgba(7, 37, 44, 0.8);
             }
-
             .hero::before {
                 background: rgba(7, 37, 44, 0.8);
                 mix-blend-mode: normal;
             }
-
             .hero::after {
                 background: rgba(7, 37, 44, 0.8);
                 opacity: 1;
             }
 
+            /* Nav */
             .nav {
-                padding: 14px 5vw;
+                padding: 12px 5vw;
+                justify-content: center;
             }
-
             .nav-brand img {
-                width: 160px;
+                width: 140px;
             }
 
+            /* Hero */
             .hero {
-                padding: 100px 5vw 60px;
+                padding: 90px 5vw 56px;
+                min-height: 90vh;
             }
-
             .hero-content {
                 display: flex;
                 flex-direction: column;
+                max-width: 100%;
+                align-items: center;
+                text-align: center;
             }
-
+            .hero-h1 {
+                font-size: clamp(60px, 16.5vw, 96px);
+            }
+            .hero-h2 {
+                font-size: 24px;
+                margin-top: 12px;
+            }
+            .cred {
+                padding: 10px 16px;
+                gap: 8px;
+                order: -1;
+                margin-bottom: 16px;
+                margin-top: 0;
+                border-radius: 12px;
+            }
+            .cred-badge {
+                height: 20px;
+            }
+            .cred-primary, .cred-secondary {
+                font-size: 13px;
+            }
+            .address-field {
+                margin-top: 24px;
+                max-width: 100%;
+                width: 100%;
+            }
+            .address-pill {
+                display: flex;
+                padding: 4px 4px 4px 16px;
+                width: 100%;
+            }
+            .address-input {
+                flex: 1;
+                width: auto;
+                font-size: 15px;
+                height: 42px;
+            }
+            .cta-circle {
+                width: 42px;
+                height: 42px;
+            }
+            .hero-powered {
+                font-size: 12px;
+                margin-top: 16px;
+            }
             .cta-block {
                 order: 0;
+                width: 100%;
             }
 
-            .hero-h1 {
-                font-size: clamp(52px, 14vw, 80px);
+            /* Billboard section */
+            .billboard-hero-wrap {
+                padding: 48px 5vw 80px;
             }
-
-            .hero-h2 {
-                font-size: clamp(16px, 4.5vw, 20px);
-                margin-top: 14px;
+            .billboard-hero-text {
+                width: 100%;
             }
-
-            .cred {
-                flex-wrap: wrap;
-                padding: 8px 14px;
-                gap: 8px;
-                order: 1;
-                margin-bottom: 0;
-                margin-top: 20px;
+            .billboard-hero-headline {
+                font-size: clamp(28px, 8vw, 48px);
             }
-
-            .cred-badge {
-                height: 22px;
-            }
-
-            .address-field {
-                margin-top: 32px;
-                max-width: 100%;
-            }
-
-            .address-pill {
-                padding: 4px 4px 4px 16px;
-            }
-
-            .address-input {
+            .billboard-hero-sub {
                 font-size: 15px;
-                height: 40px;
+            }
+            .billboard-hero-container {
+                width: 100%;
+            }
+            .billboard-hero {
+                width: 100%;
+                height: 44vw;
+                min-height: 200px;
+            }
+            .billboard-hero-box {
+                position: static;
+                transform: none;
+                border-radius: 0 0 8px 8px;
+                margin-top: 0;
+                width: 100%;
+            }
+            .billboard-hero-tag {
+                font-size: clamp(16px, 5vw, 22px);
+            }
+            .billboard-hero-powered {
+                font-size: 16px;
+            }
+            .billboard-hero-desc {
+                font-size: 13px;
             }
 
-            .cta-circle {
-                width: 44px;
-                height: 44px;
-            }
-
+            /* BTF sections */
+            .btf { margin-top: -16px; }
             .btf-section {
                 padding: 0 5vw;
             }
-
+            .btf-section + .btf-section {
+                margin-top: 48px;
+            }
             .btf-section--recognize {
                 padding: 48px 5vw;
             }
 
-            .video-wrap {
-                max-width: 100%;
-            }
-
-            .badge-strip {
-                gap: 12px;
-            }
-
-            .badge-strip img {
-                height: 36px;
-            }
-
-            .billboard-inline {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 12px;
-            }
-
-            .billboard-inline .billboard-img {
-                width: 100%;
-                max-width: 320px;
-            }
-
+            /* How it works */
             .how-it-works {
                 max-width: 100%;
-                margin-top: 64px;
+                margin-top: 40px;
+                padding: 0 5vw;
             }
-
+            .hiw-step {
+                min-height: auto !important;
+            }
             .hiw-text {
-                padding: 32px 5vw;
+                padding: 24px 0;
             }
-
             .hiw-num {
-                font-size: 52px;
+                font-size: 48px;
             }
-
+            .hiw-headline {
+                font-size: clamp(26px, 7vw, 36px);
+            }
+            .hiw-body {
+                font-size: 15px;
+            }
             .hiw-cta-block .address-field {
                 max-width: 100%;
+                width: 100%;
+            }
+            .hiw-cta-block .address-pill {
+                width: 100%;
+                display: flex;
+            }
+            .hiw-cta-block .address-input {
+                flex: 1;
+                width: auto;
             }
 
+            /* CTA split */
             .cta-split-section {
-                padding: 60px 5vw !important;
-                margin-top: 64px !important;
-                gap: 24px;
+                padding: 56px 5vw !important;
+                margin-top: 48px !important;
+                gap: 20px;
             }
-
+            .cta-split-headline {
+                font-size: clamp(28px, 8vw, 40px);
+            }
+            .cta-split-sub {
+                font-size: 15px;
+            }
             .cta-split-right {
                 max-width: 100%;
+                width: 100%;
+            }
+            .cta-split-right .address-pill {
+                width: 100%;
+                display: flex;
+            }
+            .cta-split-right .address-input {
+                flex: 1;
+                width: auto;
             }
 
+            /* FAQ */
             .faq-grid-section {
                 max-width: 100%;
-                margin-top: 64px;
+                margin-top: 48px !important;
+                margin-bottom: 48px !important;
                 padding: 0 5vw !important;
             }
-
+            .faq-grid-headline {
+                font-size: clamp(28px, 8vw, 40px);
+                margin-bottom: 24px;
+            }
             .faq-grid {
-                grid-template-columns: 1fr;
+                grid-template-columns: 1fr !important;
             }
-
+            .faq-card {
+                padding: 28px 20px;
+                min-height: auto;
+            }
             .faq-card,
-            .faq-card:nth-child(n) {
-                border-right: none;
+            .faq-card:nth-child(n),
+            .faq-card:nth-child(2n),
+            .faq-card:nth-child(3n) {
+                border-right: none !important;
+            }
+            .faq-card-q {
+                font-size: 18px;
+            }
+            .faq-card-a {
+                font-size: 14px;
             }
 
+            /* Footer */
             .site-footer {
-                padding: 0 5vw 40px;
+                padding: 32px 5vw 40px;
+                margin-top: 48px;
             }
+        }
+
+        /* --- Billboard Hero --- */
+
+        .billboard-hero-wrap {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 80px 0 120px;
+            background: var(--white);
+            gap: 32px;
+            overflow: visible;
+        }
+
+        .billboard-hero-text {
+            width: 80vw;
+            text-align: center;
+        }
+
+        .billboard-hero {
+            width: 100%;
+            height: 50vh;
+            position: relative;
+            overflow: hidden;
+            background: url('img/billboard.jpg') center/cover no-repeat;
+            border-radius: 16px;
+        }
+
+        .billboard-hero::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(to bottom, rgba(7, 37, 44, 1) 0%, transparent 60%),
+                linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 60%);
+            border-radius: 16px;
+        }
+
+        .billboard-hero-tag {
+            color: var(--white);
+            font-size: clamp(36px, 3.6vw, 45px);
+            font-weight: 500;
+            letter-spacing: 0.04em;
+            margin-bottom: 12px;
+        }
+
+        .billboard-hero-headline {
+            font-family: var(--serif);
+            font-size: clamp(48px, 6vw, 84px);
+            font-weight: 600;
+            line-height: 1.1;
+            margin-bottom: 10px;
+            color: #07252c;
+        }
+
+        .billboard-hero-sub {
+            font-size: clamp(15px, 1.5vw, 18px);
+            font-weight: 400;
+            color: #07252c;
+        }
+
+        .billboard-hero-container {
+            position: relative;
+            width: 80vw;
+        }
+
+        .billboard-hero-box {
+            background: rgba(7, 37, 44, 0.55);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            padding: 24px 32px;
+            border-radius: 8px;
+            position: absolute;
+            bottom: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+        }
+
+        .billboard-hero-powered {
+            position: relative;
+            z-index: 1;
+            color: var(--white);
+            font-family: var(--serif);
+            font-size: clamp(14px, 1.6vw, 19px);
+            font-weight: 700;
+            text-shadow: none;
+            margin-bottom: 10px;
+        }
+
+        .billboard-hero-desc {
+            position: relative;
+            z-index: 1;
+            color: rgba(255,255,255,0.85);
+            font-size: clamp(11px, 1.1vw, 14px);
+            line-height: 1.6;
+            text-shadow: none;
+            max-width: 520px;
+        }
+
+        @media (max-width: 480px) {
+            .billboard-hero-wrap { padding: 48px 0; }
+            .billboard-hero-text { width: 90vw; }
+            .billboard-hero-row { flex-direction: column; width: 90vw; }
+            .billboard-hero { width: 100%; height: 40vh; }
         }
 
         /* ========================================
@@ -1356,7 +1588,7 @@
         <div class="nav-cta cta-block" data-nav-cta>
             <div class="address-field">
                 <div class="address-pill">
-                    <input type="text" class="address-input" placeholder="Enter your address" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" data-lpignore="true" data-form-type="other" role="combobox" aria-expanded="false" aria-autocomplete="list" aria-haspopup="listbox" id="cta-nav-input" aria-controls="cta-nav-list">
+                    <input type="text" class="address-input" placeholder="Start with your address" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" data-lpignore="true" data-form-type="other" role="combobox" aria-expanded="false" aria-autocomplete="list" aria-haspopup="listbox" id="cta-nav-input" aria-controls="cta-nav-list">
                     <button class="cta cta-circle" type="button" aria-disabled="true" data-state="disabled" aria-describedby="cta-nav-helper">
                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 16L16 4M16 4H7M16 4V13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
                     </button>
@@ -1407,6 +1639,21 @@
         </div>
     </main>
 
+    <div class="billboard-hero-wrap reveal">
+        <div class="billboard-hero-text">
+            <h2 class="billboard-hero-headline">You may recognize us.</h2>
+        </div>
+        <div class="billboard-hero-container">
+            <div class="billboard-hero">
+            </div>
+            <div class="billboard-hero-box">
+                <p class="billboard-hero-tag">Seen on billboards across the United States.</p>
+                <p class="billboard-hero-powered">Powered by LPT Aperture Holdings.</p>
+                <p class="billboard-hero-desc">One of the fastest-growing home sales enterprises in the United States. Ranked #2 on the Deloitte Technology Fast 500.</p>
+            </div>
+        </div>
+    </div>
+
     <div class="btf">
 
         <section class="btf-section btf-section--recognize">
@@ -1431,7 +1678,7 @@
 
         <section class="how-it-works">
 
-            <div class="hiw-step">
+            <div class="hiw-step reveal">
                 <div class="hiw-text">
                     <span class="hiw-num">01</span>
                     <h3 class="hiw-headline">Enter your address</h3>
@@ -1455,7 +1702,7 @@
                 </div>
             </div>
 
-            <div class="hiw-step hiw-step--reverse">
+            <div class="hiw-step hiw-step--reverse reveal">
                 <div class="hiw-text">
                     <span class="hiw-num">02</span>
                     <h3 class="hiw-headline">We evaluate your property</h3>
@@ -1466,7 +1713,7 @@
                 </div>
             </div>
 
-            <div class="hiw-step">
+            <div class="hiw-step reveal">
                 <div class="hiw-text">
                     <span class="hiw-num">03</span>
                     <h3 class="hiw-headline">See your options — including a firm cash offer</h3>
@@ -1479,7 +1726,7 @@
 
         </section>
 
-        <section class="btf-section cta-split-section">
+        <section class="btf-section cta-split-section reveal">
             <div class="cta-split-left">
                 <h2 class="cta-split-headline">Your home has a price. Find out what it is.</h2>
                 <p class="cta-split-sub">No listings, no showings, no waiting. Enter your address and get a real offer in 24 hours.</p>
@@ -1501,11 +1748,11 @@
             </div>
         </section>
 
-        <section class="btf-section faq-grid-section">
-            <span class="faq-grid-label">FAQ</span>
-            <h2 class="faq-grid-headline">Common questions</h2>
+        <section class="btf-section faq-grid-section reveal">
+            <span class="faq-grid-label reveal reveal-delay-1">FAQ</span>
+            <h2 class="faq-grid-headline reveal reveal-delay-2">Common questions</h2>
             <div class="faq-grid">
-                <div class="faq-card">
+                <div class="faq-card reveal">
                     <span class="faq-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg></span>
                     <h4 class="faq-card-q">Is this really free?</h4>
                     <p class="faq-card-a">Yes. The property evaluation and your options report cost you nothing. There’s no fee at any stage.</p>
@@ -2036,6 +2283,24 @@ src: url(data:application/x-font-woff;charset=utf-8;base64,d09GMk9UVE8AAAaMAAwAA
         }
 
         container.appendChild(svg);
+    })();
+
+    // Scroll reveal via IntersectionObserver
+    (function () {
+        var els = document.querySelectorAll('.reveal');
+        if (!('IntersectionObserver' in window)) {
+            els.forEach(function (el) { el.classList.add('visible'); });
+            return;
+        }
+        var io = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    io.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.12 });
+        els.forEach(function (el) { io.observe(el); });
     })();
 
     // Auto-resize hero address input to content
