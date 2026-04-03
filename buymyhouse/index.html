@@ -961,11 +961,18 @@
         }
 
         .billboard-hero-tag {
+            font-family: var(--serif);
             color: var(--white);
             font-size: clamp(36px, 3.6vw, 45px);
-            font-weight: 500;
+            font-weight: 700;
             letter-spacing: 0.04em;
-            margin-bottom: 12px;
+            margin-bottom: 8px;
+        }
+
+        .billboard-hero-sub {
+            color: #f0ebe3;
+            font-size: clamp(16px, 1.8vw, 22px);
+            line-height: 1.5;
         }
 
         .billboard-hero-headline {
@@ -977,11 +984,6 @@
             color: #07252c;
         }
 
-        .billboard-hero-sub {
-            font-size: clamp(15px, 1.5vw, 18px);
-            font-weight: 400;
-            color: #07252c;
-        }
 
         .billboard-hero-container {
             position: relative;
@@ -989,17 +991,19 @@
         }
 
         .billboard-hero-box {
-            background: rgba(7, 37, 44, 0.55);
+            background: rgba(7, 37, 44, 0.35);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.12);
+            border: 1.5px solid #2cc679;
             padding: 24px 32px;
             border-radius: 8px;
             position: absolute;
-            bottom: -40px;
+            top: 50%;
             left: 50%;
-            transform: translateX(-50%);
+            transform: translate(-50%, -50%);
             z-index: 2;
+            text-align: left;
+            white-space: nowrap;
         }
 
         .billboard-hero-powered {
@@ -1907,9 +1911,8 @@
             <div class="billboard-hero">
             </div>
             <div class="billboard-hero-box">
-                <p class="billboard-hero-tag">Seen on billboards across the United States.</p>
-                <p class="billboard-hero-powered">Powered by LPT Aperture Holdings.</p>
-                <p class="billboard-hero-desc">One of the fastest-growing home sales enterprises in the United States. Ranked #2 on the Deloitte Technology Fast 500.</p>
+                <p class="billboard-hero-tag">Seen on billboards </br>across the United States.</p>
+                <p class="billboard-hero-sub">One of the most recognized names in residential real estate.</p>
             </div>
         </div>
     </div>
@@ -2574,6 +2577,20 @@ src: url(data:application/x-font-woff;charset=utf-8;base64,d09GMk9UVE8AAAaMAAwAA
             });
         }, { threshold: 0.12 });
         els.forEach(function (el) { io.observe(el); });
+    })();
+
+    // Parallax on billboard hero box
+    (function () {
+        var box = document.querySelector('.billboard-hero-box');
+        var container = document.querySelector('.billboard-hero-container');
+        if (!box || !container) return;
+        function onScroll() {
+            var rect = container.getBoundingClientRect();
+            var offset = rect.top * 0.15;
+            box.style.transform = 'translate(-50%, calc(-50% + ' + offset + 'px))';
+        }
+        window.addEventListener('scroll', onScroll, { passive: true });
+        onScroll();
     })();
 
     // Parallax on CTA split section (desktop only)
