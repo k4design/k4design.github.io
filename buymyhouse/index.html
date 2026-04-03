@@ -1134,6 +1134,7 @@
             line-height: 1.6;
             color: rgba(255, 255, 255, 0.8);
             max-width: 480px;
+            text-align: center;
         }
 
         .cta-split-right {
@@ -1149,6 +1150,17 @@
 
         .cta-split-right .address-field {
             margin-top: 0;
+            margin-inline: auto;
+        }
+
+        .cta-split-right .address-pill {
+            display: flex;
+            width: 100%;
+        }
+
+        .cta-split-right .address-input {
+            flex: 1;
+            width: auto;
         }
 
         @keyframes pill-breathe {
