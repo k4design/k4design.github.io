@@ -172,7 +172,7 @@
             position: absolute;
             inset: 0;
             background:
-                linear-gradient(to right, rgb(0, 170, 113) 0%, rgba(0, 170, 113, 0.5) 45%, transparent 75%),
+                linear-gradient(to right, rgb(7, 37, 44) 0%, rgba(7, 37, 44, 0.5) 45%, transparent 75%),
                 linear-gradient(160deg, rgba(6, 122, 83, 0.8) 0%, transparent 60%);
             z-index: 1;
             pointer-events: none;
@@ -184,6 +184,7 @@
             z-index: 2;
             pointer-events: none;
             overflow: hidden;
+            opacity: 0.5;
             -webkit-mask-image: linear-gradient(to right, black 0%, black 40%, transparent 75%);
             mask-image: linear-gradient(to right, black 0%, black 40%, transparent 75%);
         }
@@ -217,7 +218,7 @@
 
         .hero::before {
             background:
-                linear-gradient(to right, rgb(0, 170, 113) 0%, transparent 60%),
+                linear-gradient(to right, rgb(7, 37, 44) 0%, transparent 60%),
                 linear-gradient(160deg, rgb(6, 122, 83) 0%, transparent 55%);
             z-index: 3;
             mix-blend-mode: color;
@@ -225,8 +226,9 @@
 
         .hero::after {
             background:
-                linear-gradient(to right, rgba(0, 170, 113, 0.5) 0%, transparent 60%),
-                linear-gradient(160deg, rgba(6, 122, 83, 0.4) 0%, transparent 55%);
+                linear-gradient(to right, rgba(7, 37, 44, 0.5) 0%, transparent 60%),
+                linear-gradient(160deg, rgba(6, 122, 83, 0.4) 0%, transparent 55%),
+                linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, transparent 35%);
             opacity: 0.7;
             z-index: 4;
         }
@@ -240,9 +242,13 @@
         .hero-content {
             text-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
             width: 100%;
-            max-width: 55vw;
+            max-width: 73vw;
             text-align: left;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
             animation: fadeInUp 600ms ease-out both;
+            margin: auto;
         }
 
         /* --- Typography --- */
@@ -271,12 +277,12 @@
             position: relative;
             margin-top: 48px;
             margin-inline: 0;
-            max-width: 500px;
+            width: auto;
             text-align: left;
         }
 
         .address-pill {
-            display: flex;
+            display: inline-flex;
             align-items: center;
             background: var(--white);
             border-radius: 999px;
@@ -285,8 +291,9 @@
         }
 
         .address-input {
-            flex: 1;
-            min-width: 0;
+            flex: none;
+            width: 280px;
+            min-width: 120px;
             height: 44px;
             padding: 0;
             font-family: var(--font);
@@ -485,6 +492,15 @@
             animation: spin 600ms linear infinite;
         }
 
+        .hero-powered {
+            margin-top: 32px;
+            font-size: 13px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.6);
+            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+            letter-spacing: 0.02em;
+        }
+
         /* --- Credibility --- */
 
         .cred {
@@ -492,7 +508,7 @@
             align-items: center;
             gap: 10px;
             margin-bottom: 32px;
-            padding: 8px 18px;
+            padding: 20px 40px;
             border: 1px solid rgba(255, 255, 255, 0.4);
             border-radius: 999px;
             background: rgba(255, 255, 255, 0.08);
@@ -501,12 +517,21 @@
 
         .cred-text {
             display: flex;
-            align-items: center;
-            gap: 8px;
+            flex-direction: column;
+            gap: 4px;
+            text-align: left;
+        }
+
+        .cred-label {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            display: block;
         }
 
         .cred-primary {
-            font-size: 12px;
+            font-size: 14px;
             font-weight: 600;
             color: var(--white);
             letter-spacing: 0.08em;
@@ -515,19 +540,21 @@
         }
 
         .cred-secondary {
-            font-size: 12px;
-            font-weight: 500;
-            color: #2dc495;
+            font-size: 18px;
+            font-weight: 700;
+            color: #2cc679;
             letter-spacing: 0.05em;
             line-height: 1;
         }
 
         .cred-badge {
-            height: 28px;
+            height: 50px;
             width: auto;
             flex-shrink: 0;
             opacity: 0.75;
             border-radius: 3px;
+            order: -1;
+            margin: 1vh;
         }
 
         /* --- Animations --- */
@@ -582,11 +609,6 @@
                 direction: ltr;
             }
 
-            .hiw-image {
-                min-height: 280px;
-                order: -1;
-            }
-
             .hiw-text {
                 padding: 40px 6vw;
             }
@@ -606,6 +628,20 @@
 
         /* Mobile: 480px and below */
         @media (max-width: 480px) {
+            .hero-overlay {
+                background: rgba(7, 37, 44, 0.8);
+            }
+
+            .hero::before {
+                background: rgba(7, 37, 44, 0.8);
+                mix-blend-mode: normal;
+            }
+
+            .hero::after {
+                background: rgba(7, 37, 44, 0.8);
+                opacity: 1;
+            }
+
             .nav {
                 padding: 14px 5vw;
             }
@@ -616,6 +652,15 @@
 
             .hero {
                 padding: 100px 5vw 60px;
+            }
+
+            .hero-content {
+                display: flex;
+                flex-direction: column;
+            }
+
+            .cta-block {
+                order: 0;
             }
 
             .hero-h1 {
@@ -631,6 +676,9 @@
                 flex-wrap: wrap;
                 padding: 8px 14px;
                 gap: 8px;
+                order: 1;
+                margin-bottom: 0;
+                margin-top: 20px;
             }
 
             .cred-badge {
@@ -700,10 +748,6 @@
                 font-size: 52px;
             }
 
-            .hiw-image {
-                min-height: 220px;
-            }
-
             .hiw-cta-block .address-field {
                 max-width: 100%;
             }
@@ -728,11 +772,8 @@
                 grid-template-columns: 1fr;
             }
 
-            .faq-card {
-                border-right: none;
-            }
-
-            .faq-card:nth-child(2n) {
+            .faq-card,
+            .faq-card:nth-child(n) {
                 border-right: none;
             }
 
@@ -771,6 +812,10 @@
             max-width: 100%;
             background: var(--white);
             padding: 64px 8vw;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .btf-headline {
@@ -1038,7 +1083,7 @@
         .cta-split-section {
             position: relative;
             max-width: 100% !important;
-            background: #2dc495;
+            background: #07252c;
             padding: 80px 8vw !important;
             display: flex;
             flex-direction: column;
@@ -1106,10 +1151,22 @@
             margin-top: 0;
         }
 
+        @keyframes pill-breathe {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.0); border-color: rgba(255, 255, 255, 0.3); }
+            50%       { box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.12); border-color: rgba(255, 255, 255, 0.7); }
+        }
+
         .address-pill--dark {
             background: rgba(255, 255, 255, 0.15) !important;
-            box-shadow: none !important;
+            box-shadow: none;
             border: 1px solid rgba(255, 255, 255, 0.3) !important;
+            animation: pill-breathe 2.4s ease-in-out infinite;
+        }
+
+        .address-pill--dark:focus-within {
+            animation: none;
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.25) !important;
+            border-color: rgba(255, 255, 255, 0.7) !important;
         }
 
         .address-input--dark {
@@ -1183,7 +1240,8 @@
         .faq-grid-section {
             max-width: 85vw;
             margin-inline: auto;
-            margin-top: 96px;
+            margin-top: 20vh !important;
+            margin-bottom: 20vh !important;
             padding: 0 !important;
         }
 
@@ -1213,7 +1271,7 @@
         }
 
         .faq-card {
-            padding: 32px;
+            padding: 56px 40px;
             border-right: 1px solid var(--border);
             border-bottom: 1px solid var(--border);
             display: flex;
@@ -1222,8 +1280,12 @@
         }
 
         .faq-card-icon {
-            font-size: 22px;
-            margin-bottom: auto;
+            display: block;
+            width: 28px;
+            height: 28px;
+            margin-bottom: 24px;
+            color: #2cc679;
+            flex-shrink: 0;
         }
 
         .faq-card-q {
@@ -1231,7 +1293,7 @@
             font-size: clamp(18px, 1.8vw, 22px);
             font-weight: 700;
             color: var(--text-1);
-            margin-top: 24px;
+            margin-top: 0;
             margin-bottom: 8px;
         }
 
@@ -1245,22 +1307,24 @@
 
         .site-footer {
             margin-top: 60px;
-            padding: 0 24px 40px;
-            text-align: left;
+            padding: 40px 24px;
+            text-align: center;
+            background: #2a3f34;
         }
 
         .site-footer p {
             font-size: 13px;
-            color: var(--text-muted);
+            color: rgba(255, 255, 255, 0.7);
             line-height: 1.6;
         }
 
         .site-footer a {
-            color: var(--text-muted);
+            color: rgba(255, 255, 255, 0.7);
             text-decoration: none;
         }
 
         .site-footer a:hover {
+            color: var(--white);
             text-decoration: underline;
             text-underline-offset: 2px;
         }
@@ -1301,7 +1365,7 @@
         <div class="hero-content">
             <div class="cred">
                 <div class="cred-text">
-                    <p class="cred-primary">Your terms: 20,000+ real estate operators <span style="white-space:nowrap">behind you.</span></p>
+                    <p class="cred-primary"><span class="cred-label">Your terms:</span>20,000+ real estate operators <span style="white-space:nowrap">behind you.</span></p>
                     <p class="cred-secondary">Ranked #2 on the Deloitte Fast 500.</p>
                 </div>
                 <img class="cred-badge" src="img/deloittelogo2.png" alt="Deloitte Technology Fast 500">
@@ -1327,6 +1391,7 @@
                 </div>
                 <div aria-live="polite" class="sr-only" id="cta-0-status"></div>
             </div>
+            <p class="hero-powered">Powered by LPT Aperture Holdings.</p>
         </div>
     </main>
 
@@ -1338,7 +1403,7 @@
                 <style>wistia-player[media-id='g9pnklrqqq']:not(:defined){background:center/contain no-repeat url('https://fast.wistia.com/embed/medias/g9pnklrqqq/swatch');display:block;filter:blur(5px);padding-top:56.25%}</style>
                 <wistia-player media-id="g9pnklrqqq" aspect="1.7777777777777777" unique-id="wistia-g9pnklrqqq-16"></wistia-player>
             </div>
-            <p class="inst-headline">Powered by LPT Aperture Holdings.</p>
+
             <p class="inst-sub">One of the fastest-growing home sales enterprises in the United States. Ranked #2 on the Deloitte Technology Fast 500.</p>
             <div class="badge-strip">
                 <img src=”img/delloitteWITHrank.png” alt=”Deloitte Technology Fast 500 — Ranked #2”>
@@ -1429,32 +1494,32 @@
             <h2 class="faq-grid-headline">Common questions</h2>
             <div class="faq-grid">
                 <div class="faq-card">
-                    <span class="faq-card-icon">?</span>
+                    <span class="faq-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg></span>
                     <h4 class="faq-card-q">Is this really free?</h4>
                     <p class="faq-card-a">Yes. The property evaluation and your options report cost you nothing. There’s no fee at any stage.</p>
                 </div>
                 <div class="faq-card">
-                    <span class="faq-card-icon">📍</span>
+                    <span class="faq-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg></span>
                     <h4 class="faq-card-q">What happens after I enter my address?</h4>
                     <p class="faq-card-a">We evaluate your property using real market data and public records, then connect you with a local expert to walk through your options.</p>
                 </div>
                 <div class="faq-card">
-                    <span class="faq-card-icon">🔒</span>
+                    <span class="faq-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>
                     <h4 class="faq-card-q">Who sees my information?</h4>
                     <p class="faq-card-a">Only our team. Your information stays within our platform and is never sold to third-party lead networks.</p>
                 </div>
                 <div class="faq-card">
-                    <span class="faq-card-icon">🤝</span>
+                    <span class="faq-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></span>
                     <h4 class="faq-card-q">Am I obligated to sell?</h4>
                     <p class="faq-card-a">No. You receive your options and decide if and when to move forward. No pressure, no timeline.</p>
                 </div>
                 <div class="faq-card">
-                    <span class="faq-card-icon">⚡</span>
+                    <span class="faq-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>
                     <h4 class="faq-card-q">How fast is the process?</h4>
                     <p class="faq-card-a">Most homeowners receive a cash offer within 24 hours of submitting their address. The entire process can close in as little as 7 days.</p>
                 </div>
                 <div class="faq-card">
-                    <span class="faq-card-icon">🏡</span>
+                    <span class="faq-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5z"/><path d="M9 21V12h6v9"/></svg></span>
                     <h4 class="faq-card-q">What types of homes do you buy?</h4>
                     <p class="faq-card-a">We work with single-family homes, condos, townhomes, and multi-family properties across the United States.</p>
                 </div>
@@ -1959,6 +2024,27 @@ src: url(data:application/x-font-woff;charset=utf-8;base64,d09GMk9UVE8AAAaMAAwAA
         }
 
         container.appendChild(svg);
+    })();
+
+    // Auto-resize hero address input to content
+    (function () {
+        var sizer = document.createElement('span');
+        sizer.style.cssText = 'position:absolute;visibility:hidden;white-space:pre;font-size:16px;font-family:inherit;padding:0;';
+        document.body.appendChild(sizer);
+
+        function resizeInput(input) {
+            var placeholder = input.placeholder || '';
+            sizer.style.font = window.getComputedStyle(input).font;
+            sizer.textContent = input.value || placeholder;
+            var w = Math.max(sizer.offsetWidth + 32, 120);
+            input.style.width = w + 'px';
+        }
+
+        var heroInput = document.getElementById('cta-0-input');
+        if (heroInput) {
+            resizeInput(heroInput);
+            heroInput.addEventListener('input', function () { resizeInput(heroInput); });
+        }
     })();
 </script>
 </body></html>
