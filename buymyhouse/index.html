@@ -153,6 +153,8 @@
             padding: 250px 8vw 156px;
             overflow: hidden;
             isolation: isolate;
+            border-bottom: 3px solid transparent;
+            border-image: linear-gradient(to right, transparent, #2dc495, transparent) 1;
         }
 
         .btf {
@@ -936,9 +938,13 @@
             flex-direction: column;
             align-items: center;
             padding: 80px 0 120px;
-            background: var(--white);
+            background: linear-gradient(to bottom, #07252c 70%, #ffffff 70%);
             gap: 32px;
             overflow: visible;
+        }
+
+        .billboard-hero-wrap .billboard-hero-headline {
+            color: var(--white);
         }
 
         .billboard-hero-text {
@@ -960,9 +966,7 @@
             content: '';
             position: absolute;
             inset: 0;
-            background:
-                linear-gradient(to bottom, rgba(7, 37, 44, 1) 0%, transparent 60%),
-                linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 60%);
+            background: none;
             border-radius: 16px;
         }
 
@@ -1277,6 +1281,68 @@
             color: var(--text-1);
             margin-bottom: 48px;
             text-align: center;
+        }
+
+        .hiw-intro {
+            background: var(--white);
+            width: 100%;
+            padding: 72px 8vw 80px;
+        }
+
+        .hiw-teaser {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0;
+            max-width: 800px;
+            margin-inline: auto;
+            margin-bottom: 0;
+        }
+
+        .hiw-teaser-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            flex: 1;
+        }
+
+        .hiw-teaser-num {
+            font-family: var(--serif);
+            font-size: 56px;
+            font-weight: 700;
+            color: #2dc495;
+            line-height: 1;
+        }
+
+        .hiw-teaser-label {
+            font-size: 18px;
+            font-weight: 500;
+            color: var(--text-2);
+        }
+
+        .hiw-teaser-divider {
+            width: 40px;
+            height: 1px;
+            background: var(--border);
+            flex-shrink: 0;
+        }
+
+        @media (max-width: 480px) {
+            .hiw-teaser {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 16px;
+                margin-bottom: 48px;
+            }
+            .hiw-teaser-divider {
+                width: 1px;
+                height: 20px;
+                margin-left: 14px;
+            }
+            .hiw-teaser-item {
+                align-items: flex-start;
+            }
         }
 
         .how-it-works {
@@ -1956,9 +2022,27 @@
         </section>
 
 
-        <section class="how-it-works">
-
+        <div class="hiw-intro">
             <h2 class="hiw-section-headline reveal">Three steps to a cash offer.</h2>
+            <div class="hiw-teaser reveal">
+                <div class="hiw-teaser-item">
+                    <span class="hiw-teaser-num">01</span>
+                    <span class="hiw-teaser-label">Enter your address</span>
+                </div>
+                <div class="hiw-teaser-divider"></div>
+                <div class="hiw-teaser-item">
+                    <span class="hiw-teaser-num">02</span>
+                    <span class="hiw-teaser-label">We evaluate your property</span>
+                </div>
+                <div class="hiw-teaser-divider"></div>
+                <div class="hiw-teaser-item">
+                    <span class="hiw-teaser-num">03</span>
+                    <span class="hiw-teaser-label">See your options</span>
+                </div>
+            </div>
+        </div>
+
+        <section class="how-it-works">
 
             <div class="hiw-step reveal">
                 <div class="hiw-text">
