@@ -677,17 +677,15 @@
                 overflow-x: hidden;
             }
 
-            /* Hero overlay — flat color */
+            /* Hero overlay — single flat color at 80% */
             .hero-overlay {
                 background: rgba(7, 37, 44, 0.8);
             }
             .hero::before {
-                background: rgba(7, 37, 44, 0.8);
-                mix-blend-mode: normal;
+                background: none;
             }
             .hero::after {
-                background: rgba(7, 37, 44, 0.8);
-                opacity: 1;
+                background: none;
             }
 
             /* Nav */
@@ -710,20 +708,21 @@
                 max-width: 100%;
                 align-items: center;
                 text-align: center;
+                gap: 24px;
             }
             .hero-h1 {
                 font-size: clamp(60px, 16.5vw, 96px);
+                margin: 0;
             }
             .hero-h2 {
                 font-size: 24px;
-                margin-top: 12px;
+                margin: 0;
             }
             .cred {
                 padding: 10px 16px;
                 gap: 8px;
                 order: -1;
-                margin-bottom: 16px;
-                margin-top: 0;
+                margin: 0 0 16px;
                 border-radius: 12px;
             }
             .cred-badge {
@@ -733,9 +732,9 @@
                 font-size: 13px;
             }
             .address-field {
-                margin-top: 24px;
                 max-width: 100%;
                 width: 100%;
+                margin: 0;
             }
             .address-pill {
                 display: flex;
@@ -754,14 +753,22 @@
             }
             .hero-powered {
                 font-size: 12px;
-                margin-top: 16px;
+                margin: 0;
             }
             .cta-block {
                 order: 0;
                 width: 100%;
             }
 
-            /* Billboard section */
+            /* Billboard section — animate with hero on load, not on scroll */
+            .billboard-hero-wrap.reveal,
+            .billboard-hero-wrap.reveal.visible {
+                opacity: 0;
+                transform: translateY(32px);
+                animation: fadeInUp 700ms cubic-bezier(0.22, 1, 0.36, 1) 1000ms forwards;
+                transition: none;
+            }
+
             .billboard-hero-wrap {
                 padding: 48px 5vw 80px;
             }
@@ -776,6 +783,8 @@
             }
             .billboard-hero-container {
                 width: 100%;
+                display: flex;
+                flex-direction: column;
             }
             .billboard-hero {
                 width: 100%;
@@ -813,7 +822,9 @@
 
             /* How it works */
             .how-it-works {
-                max-width: 100%;
+                max-width: 100vw;
+                width: 100vw;
+                overflow: hidden;
                 margin-top: 40px;
                 padding: 0 5vw;
             }
@@ -1012,6 +1023,17 @@
             .billboard-hero-text { width: 90vw; }
             .billboard-hero-row { flex-direction: column; width: 90vw; }
             .billboard-hero { width: 100%; height: 40vh; }
+            .billboard-hero-container {
+                display: flex;
+                flex-direction: column;
+            }
+            .billboard-hero-box {
+                position: static !important;
+                transform: none !important;
+                border-radius: 0 0 8px 8px;
+                margin-top: 0;
+                width: 100%;
+            }
         }
 
         /* ========================================
@@ -1579,6 +1601,119 @@
             .btf { padding-top: 0; margin-top: -24px; }
             .btf-section + .btf-section { margin-top: 72px; }
         }
+
+        .mobile-br { display: none; }
+
+        /* =============================================
+           MOBILE OVERRIDES (final — wins the cascade)
+           ============================================= */
+        @media (max-width: 480px) {
+            .mobile-br { display: block; }
+
+            body, .btf, .how-it-works, .billboard-hero-wrap {
+                overflow-x: hidden;
+            }
+
+            /* Billboard */
+            .billboard-hero-wrap {
+                padding: 48px 5vw 80px;
+                gap: 16px;
+            }
+            .billboard-hero-text { width: 100%; }
+            .billboard-hero-headline { font-size: clamp(28px, 8vw, 48px); }
+            .billboard-hero-container {
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+            }
+            .billboard-hero {
+                width: 100%;
+                height: 44vw;
+                min-height: 200px;
+            }
+            .billboard-hero-box {
+                position: static !important;
+                transform: none !important;
+                border-radius: 0 0 8px 8px;
+                margin-top: 0;
+                width: 100%;
+            }
+            .billboard-hero-tag { font-size: clamp(16px, 5vw, 22px); }
+            .billboard-hero-powered { font-size: 16px; }
+            .billboard-hero-desc { font-size: 13px; }
+
+            /* BTF */
+            .btf { margin-top: -16px; }
+            .btf-section { padding: 0 5vw; }
+            .btf-section + .btf-section { margin-top: 48px; }
+
+            /* How It Works */
+            .how-it-works {
+                max-width: 90vw !important;
+                width: 90vw !important;
+                overflow: hidden !important;
+                margin-top: 40px;
+                padding: 0 5vw;
+            }
+            .hiw-step {
+                min-height: auto !important;
+            }
+            .hiw-step, .hiw-step--reverse {
+                grid-template-columns: 1fr !important;
+                direction: ltr !important;
+            }
+            .hiw-step--reverse > * { direction: ltr !important; }
+            .hiw-image { display: none !important; }
+            .hiw-step + .hiw-step,
+            .hiw-step + .hiw-step--reverse,
+            .hiw-step--reverse + .hiw-step {
+                border-top: 1px solid var(--border);
+                margin-top: 5vh;
+                padding-top: 5vh;
+            }
+            .hiw-text { padding: 24px 0; }
+            .hiw-num { font-size: 48px; }
+            .hiw-headline { font-size: clamp(26px, 7vw, 36px); }
+            .hiw-body { font-size: 15px; }
+            .hiw-cta-block .address-field { max-width: 100%; width: 100%; }
+            .hiw-cta-block .address-pill { width: 100%; display: flex; }
+            .hiw-cta-block .address-input { flex: 1; width: auto; }
+
+            /* CTA split */
+            .cta-split-section {
+                padding: 56px 5vw !important;
+                margin-top: 48px !important;
+                gap: 20px;
+            }
+            .cta-split-headline { font-size: clamp(28px, 8vw, 40px); }
+            .cta-split-sub { font-size: 15px; }
+            .cta-split-right { max-width: 100%; width: 100%; }
+            .cta-split-right .address-pill { width: 100%; display: flex; }
+            .cta-split-right .address-input { flex: 1; width: auto; }
+
+            /* FAQ */
+            .faq-grid-section {
+                max-width: 100% !important;
+                margin-top: 48px !important;
+                margin-bottom: 48px !important;
+                padding: 0 5vw !important;
+            }
+            .faq-grid-headline { font-size: clamp(28px, 8vw, 40px); margin-bottom: 24px; }
+            .faq-grid { grid-template-columns: 1fr !important; }
+            .faq-card { padding: 28px 20px; min-height: auto; }
+            .faq-card,
+            .faq-card:nth-child(n),
+            .faq-card:nth-child(2n),
+            .faq-card:nth-child(3n) { border-right: 1px solid var(--border) !important; }
+            .faq-card-q { font-size: 18px; }
+            .faq-card-a { font-size: 14px; }
+
+            /* Footer */
+            .site-footer {
+                padding: 32px 5vw 40px;
+                margin-top: 48px;
+            }
+        }
     </style>
 <script src="js/bundle.min.js" defer crossorigin="anonymous" integrity="sha384-kbRmCeIl7Uxr+vT9YhSAdguCdd4L5QPRj7jzQTanorUVVlw/Y5X9vtzVyOEHLfpH"></script></head>
 <body>
@@ -1728,7 +1863,7 @@
 
         <section class="btf-section cta-split-section reveal">
             <div class="cta-split-left">
-                <h2 class="cta-split-headline">Your home has a price. Find out what it is.</h2>
+                <h2 class="cta-split-headline">Your home has a price.<br class="mobile-br"> Find out what it is.</h2>
                 <p class="cta-split-sub">No listings, no showings, no waiting. Enter your address and get a real offer in 24 hours.</p>
             </div>
             <div class="cta-split-right">
