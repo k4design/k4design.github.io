@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MortgageAdvisors.com | Elevated Refinancing</title>
+<link rel="icon" href="img/icon.svg" type="image/svg+xml"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+            text-transform: none;
+            letter-spacing: normal;
+            word-wrap: normal;
+            white-space: nowrap;
+            direction: ltr;
+        }
+        .tonal-shift-only {
+            background-color: rgba(251, 249, 248, 0.8);
+            backdrop-filter: blur(12px);
+        }
+
+        /* ── Scroll animation base states ── */
+        .anim {
+            opacity: 0;
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        .anim-up    { transform: translateY(36px); }
+        .anim-left  { transform: translateX(-40px); }
+        .anim-right { transform: translateX(40px); }
+        .anim-scale { transform: scale(0.93); }
+
+        .anim.visible {
+            opacity: 1;
+            transform: none;
+        }
+
+        /* stagger helpers */
+        .delay-100 { transition-delay: 0.1s; }
+        .delay-200 { transition-delay: 0.2s; }
+        .delay-300 { transition-delay: 0.3s; }
+        .delay-400 { transition-delay: 0.4s; }
+        .delay-500 { transition-delay: 0.5s; }
+
+        /* Hero fires on load, not scroll */
+        .hero-anim {
+            opacity: 0;
+            transform: translateY(24px);
+            animation: heroIn 0.7s ease forwards;
+        }
+        .hero-anim.delay-200 { animation-delay: 0.2s; }
+        .hero-anim.delay-400 { animation-delay: 0.4s; }
+        .hero-anim.delay-600 { animation-delay: 0.6s; }
+        .hero-img-anim {
+            opacity: 0;
+            transform: scale(1.04);
+            animation: heroImgIn 0.9s ease 0.3s forwards;
+        }
+        @keyframes heroIn {
+            to { opacity: 1; transform: none; }
+        }
+        @keyframes heroImgIn {
+            to { opacity: 1; transform: none; }
+        }
+    </style>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                "tertiary-container": "#007a7a",
+                "surface-container-lowest": "#ffffff",
+                "surface-variant": "#e4e2e1",
+                "secondary": "#4c5c92",
+                "error-container": "#ffdad6",
+                "on-primary": "#ffffff",
+                "inverse-surface": "#303030",
+                "primary-fixed": "#dbe1ff",
+                "on-error": "#ffffff",
+                "on-tertiary": "#ffffff",
+                "on-secondary-fixed": "#02174b",
+                "secondary-container": "#b2c1ff",
+                "primary": "#004ac6",
+                "inverse-primary": "#b4c5ff",
+                "error": "#ba1a1a",
+                "background": "#fbf9f8",
+                "on-background": "#1b1c1c",
+                "surface-container-highest": "#e4e2e1",
+                "on-tertiary-fixed": "#002020",
+                "on-secondary": "#ffffff",
+                "tertiary-fixed": "#5df8f8",
+                "outline-variant": "#c3c6d7",
+                "tertiary": "#005f5f",
+                "on-tertiary-fixed-variant": "#004f50",
+                "on-primary-fixed": "#00174b",
+                "inverse-on-surface": "#f3f0f0",
+                "on-primary-fixed-variant": "#003ea8",
+                "outline": "#737686",
+                "surface-dim": "#dcd9d9",
+                "surface-container-high": "#eae8e7",
+                "secondary-fixed": "#dce1ff",
+                "surface-container-low": "#f6f3f2",
+                "on-secondary-fixed-variant": "#344479",
+                "on-primary-container": "#eeefff",
+                "on-tertiary-container": "#acfffe",
+                "on-secondary-container": "#3e4e84",
+                "on-surface": "#1b1c1c",
+                "on-error-container": "#93000a",
+                "surface-tint": "#0053db",
+                "surface-bright": "#fbf9f8",
+                "surface": "#fbf9f8",
+                "secondary-fixed-dim": "#b5c4ff",
+                "on-surface-variant": "#434655",
+                "tertiary-fixed-dim": "#33dbdb",
+                "primary-fixed-dim": "#b4c5ff",
+                "primary-container": "#2563eb",
+                "surface-container": "#f0eded"
+            },
+            "borderRadius": {
+                "DEFAULT": "0.25rem",
+                "lg": "0.5rem",
+                "xl": "0.75rem",
+                "full": "9999px"
+            },
+            "fontFamily": {
+                "headline": ["Inter"],
+                "body": ["Inter"],
+                "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+</head>
+<body class="bg-background text-on-background font-body antialiased">
+<!-- Top Navigation Bar -->
+<nav class="fixed top-0 w-full z-50 bg-stone-50/80 dark:bg-stone-900/80 backdrop-blur-md">
+<div class="flex justify-between items-center px-8 py-6 max-w-7xl mx-auto w-full">
+<a href="#"><img src="img/mortgageadvisors_logo.svg" alt="MortgageAdvisors.com" class="h-10 w-auto"/></a>
+<div class="hidden md:flex space-x-8 items-center">
+<a class="text-blue-700 dark:text-blue-400 font-bold border-b-2 border-blue-700 dark:border-blue-400 pb-1" href="#calculator">Lower my rate</a>
+<a class="text-slate-600 dark:text-slate-400 font-medium hover:text-blue-800 transition-colors" href="#refinance-options">Cash-out refi</a>
+<a class="text-slate-600 dark:text-slate-400 font-medium hover:text-blue-800 transition-colors" href="#how-it-works">How it works</a>
+<a class="text-slate-600 dark:text-slate-400 font-medium hover:text-blue-800 transition-colors" href="#contact">Contact</a>
+<button onclick="document.getElementById('calculator').scrollIntoView({behavior:'smooth'})" class="ml-4 px-6 py-2 bg-primary text-on-primary rounded-lg font-semibold hover:opacity-90 transition-all">See my savings</button>
+</div>
+<div class="md:hidden">
+<button id="mobile-menu-btn" aria-label="Open menu" class="p-1 rounded focus:outline-none">
+<span class="material-symbols-outlined text-on-surface">menu</span>
+</button>
+</div>
+<!-- Mobile menu overlay -->
+<div id="mobile-menu" class="fixed inset-0 z-50 bg-stone-50/95 backdrop-blur-md flex flex-col items-center justify-center gap-8 text-2xl font-bold hidden">
+<button id="mobile-menu-close" class="absolute top-6 right-8 p-1" aria-label="Close menu">
+<span class="material-symbols-outlined text-on-surface text-3xl">close</span>
+</button>
+<a onclick="closeMobileMenu()" href="#calculator" class="text-primary">Lower my rate</a>
+<a onclick="closeMobileMenu()" href="#refinance-options" class="text-on-surface">Cash-out refi</a>
+<a onclick="closeMobileMenu()" href="#how-it-works" class="text-on-surface">How it works</a>
+<a onclick="closeMobileMenu()" href="#contact" class="text-on-surface">Contact</a>
+<button onclick="closeMobileMenu(); document.getElementById('calculator').scrollIntoView({behavior:'smooth'})" class="mt-4 px-8 py-3 bg-primary text-white rounded-lg font-semibold">See my savings</button>
+</div>
+</div>
+</nav>
+<main class="pt-24">
+<!-- Hero Section -->
+<section class="relative overflow-hidden bg-background py-20 md:py-32">
+<div class="max-w-7xl mx-auto px-8 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+<div class="z-10">
+<span class="hero-anim inline-block px-4 py-1.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-bold text-sm tracking-wide mb-6">MORTGAGE REFINANCE SPECIALISTS</span>
+<h1 class="hero-anim delay-200 text-5xl lg:text-7xl font-extrabold tracking-tighter text-on-secondary-fixed leading-[1.1] mb-6">
+                        Your mortgage is costing you more than it should
+                    </h1>
+<p class="hero-anim delay-400 text-xl text-on-surface-variant leading-relaxed max-w-lg mb-10">
+                        Stop overpaying and start saving. Our editorial approach to mortgage advising ensures you get a plan tailored to your lifestyle, not a bank's bottom line.
+                    </p>
+<div class="hero-anim delay-600 flex flex-col sm:flex-row gap-4">
+<button onclick="document.getElementById('calculator').scrollIntoView({behavior:'smooth'})" class="px-8 py-4 bg-primary text-white rounded-lg font-bold text-lg hover:bg-primary-container transition-colors">See how much I can save</button>
+<button onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})" class="px-8 py-4 border-2 border-primary/20 text-primary rounded-lg font-bold text-lg hover:bg-primary-fixed transition-colors">Talk to an advisor</button>
+</div>
+</div>
+<div class="relative lg:absolute lg:right-0 lg:top-0 lg:h-full lg:w-1/2 mt-12 lg:mt-0">
+<img alt="A couple discussing mortgage options" class="hero-img-anim w-full h-full object-cover lg:rounded-l-[4rem] shadow-2xl" data-alt="candid lifestyle photo of a young diverse couple laughing while talking to a professional advisor in a sunlit modern apartment with high ceilings" src="https://as1.ftcdn.net/v2/jpg/03/45/65/68/1000_F_345656874_Lsxqs9O1Z05uCXmuLB5kopAkqwDIOfuZ.jpg"/>
+</div>
+</div>
+</section>
+<!-- We do things differently -->
+<section class="py-24 space-y-32">
+<!-- Row 1 -->
+<div class="max-w-7xl mx-auto px-8 grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+<div class="order-2 md:order-1">
+<img alt="Advisor with couple" class="anim anim-left rounded-3xl shadow-xl aspect-[4/3] object-cover" data-alt="warm candid shot of a mortgage advisor showing a home model to a smiling couple in a bright studio office" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC6SysXSKsECuVCPwQTxZ8l0Ysxl8V6WyYPhQSvEjqkSi87dLb-RXtJB0_NVKV-ZYiyYzBT_aF6_Yk9n6y8Qm2gM3hS5b2LkamRe_y0jpjlUbshicZg3SuOzureiE0yTprjjD2VUWDPTIVwi9ewWd6UZY3UvmqnssE8ZfDkcrcb9COU1OETGgE5pnLC14Hb71G93JQ1_eMK4D-IF8DQsC2dQ9_Vz7SUZ3NXiatUNTCPjjzd5r3tjM_9iv7VRAcs0x0JuiJ6I2UYYUc"/>
+</div>
+<div class="order-1 md:order-2 anim anim-right">
+<span class="text-tertiary font-bold tracking-[0.2em] text-xs block mb-4">THE GUIDED PATH</span>
+<h2 class="text-4xl font-bold tracking-tight text-on-secondary-fixed mb-6">We tell you the truth, even if it means not refinancing.</h2>
+<p class="text-lg text-on-surface-variant leading-relaxed">Unlike big banks chasing quotas, we focus on your long-term wealth. If the math doesn't make sense for your situation, we'll be the first to let you know.</p>
+</div>
+</div>
+<!-- Row 2 -->
+<div class="max-w-7xl mx-auto px-8 grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+<div class="anim anim-left">
+<span class="text-tertiary font-bold tracking-[0.2em] text-xs block mb-4">PERSONALIZED SERVICE</span>
+<h2 class="text-4xl font-bold tracking-tight text-on-secondary-fixed mb-6">Advice that fits around your life, not your banker's hours.</h2>
+<p class="text-lg text-on-surface-variant leading-relaxed">From late-night video calls to weekend strategy sessions, we meet you where you are. Home finance shouldn't be a chore—it should be a milestone.</p>
+</div>
+<div>
+<img alt="Couple on video call" class="anim anim-right rounded-3xl shadow-xl aspect-[4/3] object-cover" data-alt="happy couple sitting on a sofa with a laptop having a warm video consultation with a professional" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAdqevu9CcS_YcxoTw3Pua-K1uPcmyyF9kLC0ogE68tzV3p-9-u2jDA7XIIxyw9tN8HAH-bf4WJnP-Z7HuAxPA2_5OpHDTEcWI4nNhItChtpwzNIZEVBXGtHl6GoCnGrkOvi80ab6kucpOVgDDkTl6S0yvjxzpjBDYCBkaIEmxmQeWKhFKNV6HA14O6hL7i8Ci0cCG6MFkL9oK3kIQlsXJrp9mAZqrAN_JUoOjo6fy1u6QpqAZNAsszYfs5O3YIGwe5uIiXWdlZq18"/>
+</div>
+</div>
+</section>
+<!-- Refinance Options -->
+<section id="refinance-options" class="bg-surface-container-low py-24">
+<div class="max-w-7xl mx-auto px-8">
+<div class="text-center mb-16 anim anim-up">
+<h2 class="text-4xl font-bold tracking-tight text-on-secondary-fixed mb-4">The Right Way to Refinance</h2>
+<p class="text-on-surface-variant max-w-2xl mx-auto">Explore our core refinancing strategies designed to maximize your financial health.</p>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+<!-- Card 1 -->
+<div class="anim anim-up p-10 rounded-3xl shadow-sm border border-outline-variant/10 hover:shadow-md transition-shadow">
+<div class="w-14 h-14 bg-primary-fixed rounded-2xl flex items-center justify-center mb-8">
+<span class="material-symbols-outlined text-primary text-3xl">trending_down</span>
+</div>
+<h3 class="text-2xl font-bold text-on-secondary-fixed mb-4">Rate-and-term refinance</h3>
+<p class="text-on-surface-variant mb-8 leading-relaxed">Lower your monthly payment or pay off your loan faster by securing a better interest rate or changing your loan term.</p>
+<a class="inline-flex items-center text-primary font-bold hover:gap-2 transition-all" href="#">Learn more <span class="material-symbols-outlined ml-1">arrow_forward</span></a>
+</div>
+<!-- Card 2 -->
+<div class="anim anim-up delay-200 p-10 rounded-3xl shadow-sm border border-outline-variant/10 hover:shadow-md transition-shadow">
+<div class="w-14 h-14 bg-tertiary-fixed rounded-2xl flex items-center justify-center mb-8">
+<span class="material-symbols-outlined text-tertiary text-3xl">payments</span>
+</div>
+<h3 class="text-2xl font-bold text-on-secondary-fixed mb-4">Cash-out refinance</h3>
+<p class="text-on-surface-variant mb-8 leading-relaxed">Leverage your home's equity to consolidate high-interest debt, fund home improvements, or invest in your future.</p>
+<a class="inline-flex items-center text-primary font-bold hover:gap-2 transition-all" href="#">Learn more <span class="material-symbols-outlined ml-1">arrow_forward</span></a>
+</div>
+</div>
+</div>
+</section>
+<!-- Is now the right time? -->
+<section class="relative h-[600px] flex items-center">
+<div class="absolute inset-0">
+<img alt="Modern living room" class="w-full h-full object-cover" data-alt="luxury modern minimalist living room with floor-to-ceiling windows and warm afternoon sunlight streaming in" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCALwEzKCrEkcldaleHwwshbncPcw9r5TujXX_2em4RQgsCMR1FDi7Ki4PhZKgOwj4FvQsr4OXkBdCU7crAdNjM8xnp3zarS0kN-KruKJTxp95kMguBz66hbDNPBe2hdaPR6SYLEO33nJUFYgdFdO23uS_ieCkfuFEpKxu6joLuU5OX0WnBrw_0XPr4aD7Xw_ZDeoqVtqaw7B7SfYPE9SNXLtvZgXZ71ubDGjXm4NwBPtyuj8U2JITV9YzM2DYCnwekGL3iIdrP7dM"/>
+<div class="absolute inset-0 bg-gradient-to-r from-on-secondary-fixed/90 via-on-secondary-fixed/40 to-transparent"></div>
+</div>
+<div class="relative max-w-7xl mx-auto px-8 w-full">
+<div class="max-w-xl text-white anim anim-up">
+<h2 class="text-5xl font-bold tracking-tight mb-8">Is now the right time to move?</h2>
+<ul class="space-y-4 mb-10">
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-tertiary-fixed">check_circle</span>
+<span class="text-lg">Current rates are below your current mortgage rate</span>
+</li>
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-tertiary-fixed">check_circle</span>
+<span class="text-lg">You have over 20% equity in your property</span>
+</li>
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-tertiary-fixed">check_circle</span>
+<span class="text-lg">Your credit score has improved recently</span>
+</li>
+</ul>
+<button onclick="document.getElementById('calculator').scrollIntoView({behavior:'smooth'})" class="px-8 py-4 border-2 border-white rounded-lg font-bold text-lg hover:bg-white/10 transition-colors">Run the numbers</button>
+</div>
+</div>
+</section>
+<!-- How it works -->
+<section id="how-it-works" class="py-24">
+<div class="max-w-7xl mx-auto px-8">
+<div class="text-center mb-20">
+<div class="flex justify-center mb-4">
+<div class="w-10 h-10 overflow-hidden flex-shrink-0"><img src="img/icon.svg" alt="" aria-hidden="true" style="height:40px;width:auto;max-width:none"/></div>
+</div>
+<h2 class="text-4xl font-bold tracking-tight text-on-secondary-fixed mb-4">Three Steps to Freedom</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-12 relative">
+<!-- Connectors (Desktop only) -->
+<div class="hidden md:block absolute top-12 left-1/4 w-1/2 h-0.5 bg-outline-variant/20"></div>
+<div class="text-center relative anim anim-up">
+<div class="w-20 h-20 bg-primary text-white text-3xl font-black rounded-full flex items-center justify-center mx-auto mb-8 border-8 border-background">1</div>
+<h4 class="text-xl font-bold mb-4">Fast Prequalify</h4>
+<p class="text-on-surface-variant">Answer a few questions online in 2 minutes. No hard credit pull.</p>
+</div>
+<div class="text-center relative anim anim-up delay-200">
+<div class="w-20 h-20 bg-primary text-white text-3xl font-black rounded-full flex items-center justify-center mx-auto mb-8 border-8 border-background">2</div>
+<h4 class="text-xl font-bold mb-4">Advisory Review</h4>
+<p class="text-on-surface-variant">We build 3 custom scenarios based on your goals and walk you through them.</p>
+</div>
+<div class="text-center relative anim anim-up delay-400">
+<div class="w-20 h-20 bg-primary text-white text-3xl font-black rounded-full flex items-center justify-center mx-auto mb-8 border-8 border-background">3</div>
+<h4 class="text-xl font-bold mb-4">Seamless Close</h4>
+<p class="text-on-surface-variant">Digital document signing and expert management until the keys are in hand.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Savings Calculator -->
+<section id="calculator" class="bg-surface-container-low py-24">
+<div class="max-w-7xl mx-auto px-8 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+<div class="anim anim-left p-8 md:p-12 rounded-[2rem] shadow-sm">
+<h2 class="text-3xl font-bold text-on-secondary-fixed mb-8">Savings Calculator</h2>
+<div class="space-y-6">
+<div>
+<label class="block text-sm font-bold text-outline uppercase tracking-wider mb-2">Loan Balance</label>
+<input id="balance-slider" class="w-full h-2 bg-secondary-fixed rounded-lg appearance-none cursor-pointer accent-primary" max="1000000" min="100000" step="10000" type="range" value="450000"/>
+<div class="flex justify-between mt-2 font-bold text-on-surface"><span id="balance-display">$450,000</span></div>
+</div>
+<div>
+<label class="block text-sm font-bold text-outline uppercase tracking-wider mb-2">Current Interest Rate</label>
+<input id="current-rate-slider" class="w-full h-2 bg-secondary-fixed rounded-lg appearance-none cursor-pointer accent-primary" max="10" min="2" step="0.1" type="range" value="6.5"/>
+<div class="flex justify-between mt-2 font-bold text-on-surface"><span id="current-rate-display">6.5%</span></div>
+</div>
+<div>
+<label class="block text-sm font-bold text-outline uppercase tracking-wider mb-2">Target Rate</label>
+<input id="target-rate-slider" class="w-full h-2 bg-secondary-fixed rounded-lg appearance-none cursor-pointer accent-primary" max="10" min="2" step="0.1" type="range" value="5.2"/>
+<div class="flex justify-between mt-2 font-bold text-on-surface"><span id="target-rate-display">5.2%</span></div>
+</div>
+</div>
+</div>
+<div class="anim anim-right bg-primary text-white p-12 rounded-[2rem] shadow-2xl transform lg:scale-105">
+<h3 class="text-xl opacity-80 mb-2">Estimated Monthly Savings</h3>
+<div class="text-6xl font-black mb-8"><span id="monthly-savings">$384</span><span class="text-2xl font-normal opacity-70"> /mo</span></div>
+<div class="space-y-4 mb-8">
+<div class="flex justify-between border-b border-white/10 pb-4">
+<span class="opacity-80">Lifetime Savings</span>
+<span id="lifetime-savings" class="font-bold">$138,240</span>
+</div>
+<div class="flex justify-between border-b border-white/10 pb-4">
+<span class="opacity-80">Payoff Time</span>
+<span id="payoff-time" class="font-bold">2.4 years sooner</span>
+</div>
+</div>
+<button onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})" class="w-full py-4 bg-tertiary-fixed text-on-tertiary-fixed rounded-xl font-bold text-lg hover:opacity-90 transition-all">Lock in this rate</button>
+</div>
+</div>
+</section>
+<!-- Testimonials -->
+<section class="py-24">
+<div class="max-w-7xl mx-auto px-8">
+<div class="flex justify-center mb-10">
+<div class="w-10 h-10 overflow-hidden flex-shrink-0"><img src="img/icon.svg" alt="" aria-hidden="true" style="height:40px;width:auto;max-width:none"/></div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<div class="anim anim-up bg-surface-container-low p-10 rounded-3xl relative">
+<span class="material-symbols-outlined text-tertiary text-6xl opacity-20 absolute top-8 right-8">format_quote</span>
+<div class="flex items-center gap-4 mb-8">
+<img alt="Client 1" class="w-16 h-16 rounded-full object-cover" data-alt="headshot of a middle-aged man with a friendly smile, natural lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA4MGuEDulxZecn-_rNKl2Z6b4reoRzKgMfmAkH9pt8540KUTwb4QbH8iD0NCoQcJ2WBHk2mg4WEVdmjUL7ZiAthaJRBIAkTSTGag_xA_R0uneUS6HiCp1l8_NL-7Qhy_wwhupuqqy9pVX6Yqgxg48fG5UgUKtycX-YAGNDbQoFLg7hKB6VSnQ3A9ZbHCtzezwYGsC0bBDBkuOY4Z8cM6EF-jGmt-b6oIHqFnkENLURZKx2F3dxQvWM6KHwPiBJWaSIzTFVRegWHAM"/>
+<div>
+<h4 class="font-bold text-on-secondary-fixed">Marcus Thompson</h4>
+<p class="text-sm text-on-surface-variant">Homeowner</p>
+</div>
+</div>
+<p class="text-lg italic text-on-secondary-fixed-variant leading-relaxed">"The transparency was unlike any other lender. They showed me exactly why the cash-out refi made sense for my renovation project."</p>
+</div>
+<div class="anim anim-up delay-200 bg-surface-container-low p-10 rounded-3xl relative">
+<span class="material-symbols-outlined text-tertiary text-6xl opacity-20 absolute top-8 right-8">format_quote</span>
+<div class="flex items-center gap-4 mb-8">
+<img alt="Client 2" class="w-16 h-16 rounded-full object-cover" data-alt="portrait of a young professional woman smiling warmly, soft daylight" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC4dQFyLobGL5qbxCLC_QwKHjC-k6qv9WPh1vRPfY6s7rzS8IjLnhczTKjYZivG8lqYf1ntS_53E7_PmmY736m7LyFpKW6CiZhswPEQGL7BEydq4IZ3Io1pyd0IklXxWpb8Ou2naB6qny6tRvAfDVA2bOmXB5JMIpVXvDKaN6R2dinBkUizyLU0u5Fvx8W_drZYK7Rob0Yn8WfZg_OlmVTg3eKMIntd4Fe-X1Rm47GPJDtqDG6HVTFFdsCGkc_hdoeOlCbms8t8ri0"/>
+<div>
+<h4 class="font-bold text-on-secondary-fixed">Elena Rodriguez</h4>
+<p class="text-sm text-on-surface-variant">Homeowner</p>
+</div>
+</div>
+<p class="text-lg italic text-on-secondary-fixed-variant leading-relaxed">"I saved over $400 a month. The process was completely digital but I felt like I had a partner the whole time."</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Meet your advisors -->
+<!-- Final CTA -->
+<section id="contact" class="max-w-7xl mx-auto px-8 mb-24">
+<div class="anim anim-scale bg-on-secondary-fixed rounded-[3rem] overflow-hidden grid grid-cols-1 lg:grid-cols-2">
+<div class="p-12 md:p-20 flex flex-col justify-center">
+<div class="mb-8">
+<div class="w-12 h-12 overflow-hidden flex-shrink-0"><img src="img/icon.svg" alt="" aria-hidden="true" style="height:48px;width:auto;max-width:none;filter:brightness(0) invert(1)"/></div>
+</div>
+<h2 class="text-4xl md:text-5xl font-bold text-white tracking-tight mb-6">Start your journey to a better mortgage today.</h2>
+<p class="text-xl text-blue-200 mb-10 leading-relaxed">Join 1,400+ families nationwide who have optimized their largest investment with MortgageAdvisors.com.</p>
+<div>
+<button onclick="document.getElementById('calculator').scrollIntoView({behavior:'smooth'})" class="px-10 py-5 bg-tertiary-fixed text-on-tertiary-fixed rounded-xl font-bold text-xl hover:bg-tertiary transition-colors">Calculate my savings</button>
+</div>
+</div>
+<div class="relative min-h-[400px]">
+<img alt="Happy couple at home" class="absolute inset-0 w-full h-full object-cover" data-alt="candid shot of a happy couple drinking coffee together in their bright sunlit kitchen, feeling relaxed and happy" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD5YsLsjmy-CshkWXewITAuTXztCwLR57ndtaKHTsg3e3p0ifXJefFprqKHNefOaIgUzq6xXk9C6G_9zU03f1IX4c1Dw7eZpL07PnzHJtF8YS2Ft8VFpuF9A7WwI-OZ97IFa3hfPaH47nBGDePSFksa9LDLcUD86JT1r_gIJyomrMbpPWC-7O72SwuzqqwoxFX-aCHAXna-OeB3qFvsU6zRYXkVGtkt5QWV6VseAqGtoKHm1mRgitoXyvr0fNXsulNZ200wPrcZM8M"/>
+</div>
+</div>
+</section>
+
+<!-- Contact Form -->
+<section class="py-24 bg-surface-container-low">
+<div class="max-w-3xl mx-auto px-8">
+<div class="text-center mb-12 anim anim-up">
+<div class="flex justify-center mb-4">
+<div class="w-10 h-10 overflow-hidden flex-shrink-0"><img src="img/icon.svg" alt="" aria-hidden="true" style="height:40px;width:auto;max-width:none"/></div>
+</div>
+<h2 class="text-4xl font-bold tracking-tight text-on-secondary-fixed mb-4">Talk to an Advisor</h2>
+<p class="text-on-surface-variant text-lg">Have questions? Send us a message and a licensed advisor will be in touch within one business day.</p>
+</div>
+<form id="contact-form" class="anim anim-up delay-200 bg-background rounded-[2rem] p-10 shadow-sm space-y-6" onsubmit="handleContactSubmit(event)">
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+<div>
+<label class="block text-sm font-bold text-outline uppercase tracking-wider mb-2" for="cf-first">First Name</label>
+<input id="cf-first" type="text" placeholder="Jane" required class="w-full px-4 py-3 rounded-xl border border-outline-variant bg-surface text-on-surface focus:outline-none focus:ring-2 focus:ring-primary"/>
+</div>
+<div>
+<label class="block text-sm font-bold text-outline uppercase tracking-wider mb-2" for="cf-last">Last Name</label>
+<input id="cf-last" type="text" placeholder="Smith" required class="w-full px-4 py-3 rounded-xl border border-outline-variant bg-surface text-on-surface focus:outline-none focus:ring-2 focus:ring-primary"/>
+</div>
+</div>
+<div>
+<label class="block text-sm font-bold text-outline uppercase tracking-wider mb-2" for="cf-email">Email Address</label>
+<input id="cf-email" type="email" placeholder="jane@example.com" required class="w-full px-4 py-3 rounded-xl border border-outline-variant bg-surface text-on-surface focus:outline-none focus:ring-2 focus:ring-primary"/>
+</div>
+<div>
+<label class="block text-sm font-bold text-outline uppercase tracking-wider mb-2" for="cf-phone">Phone Number</label>
+<input id="cf-phone" type="tel" placeholder="(555) 000-0000" class="w-full px-4 py-3 rounded-xl border border-outline-variant bg-surface text-on-surface focus:outline-none focus:ring-2 focus:ring-primary"/>
+</div>
+<div>
+<label class="block text-sm font-bold text-outline uppercase tracking-wider mb-2" for="cf-interest">I'm interested in</label>
+<select id="cf-interest" class="w-full px-4 py-3 rounded-xl border border-outline-variant bg-surface text-on-surface focus:outline-none focus:ring-2 focus:ring-primary">
+<option value="">Select an option…</option>
+<option value="lower-rate">Lowering my rate</option>
+<option value="cashout">Cash-out refinance</option>
+<option value="shorten-term">Shortening my loan term</option>
+<option value="not-sure">Not sure yet</option>
+</select>
+</div>
+<div>
+<label class="block text-sm font-bold text-outline uppercase tracking-wider mb-2" for="cf-message">Message <span class="normal-case font-normal text-on-surface-variant">(optional)</span></label>
+<textarea id="cf-message" rows="4" placeholder="Tell us a bit about your situation…" class="w-full px-4 py-3 rounded-xl border border-outline-variant bg-surface text-on-surface focus:outline-none focus:ring-2 focus:ring-primary resize-none"></textarea>
+</div>
+<div id="cf-error" class="hidden text-error text-sm font-medium"></div>
+<button type="submit" id="cf-submit" class="w-full py-4 bg-primary text-white rounded-xl font-bold text-lg hover:opacity-90 transition-all">Send Message</button>
+</form>
+<div id="cf-success" class="hidden text-center mt-8">
+<div class="inline-flex items-center gap-3 bg-tertiary-fixed text-on-tertiary-fixed px-8 py-5 rounded-2xl font-bold text-lg">
+<span class="material-symbols-outlined">check_circle</span>
+Message sent! We'll be in touch within one business day.
+</div>
+</div>
+</div>
+</section>
+
+</main>
+<!-- Footer -->
+<footer class="bg-slate-950 dark:bg-black w-full py-16 px-8 mt-24">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-12 max-w-7xl mx-auto w-full">
+<div class="space-y-6">
+<img src="img/mortgageadvisors_logo.svg" alt="MortgageAdvisors.com" class="h-8 w-auto brightness-0 invert"/>
+<p class="font-['Inter'] leading-relaxed body-lg text-slate-300">
+                    © 2024 MortgageAdvisors.com. NMLS #123456. Equal Housing Lender.
+                </p>
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-cyan-400">home</span>
+<span class="material-symbols-outlined text-cyan-400">security</span>
+<span class="material-symbols-outlined text-cyan-400">verified_user</span>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-8">
+<div class="space-y-4">
+<h5 class="text-white font-bold uppercase tracking-widest text-xs">Navigation</h5>
+<ul class="space-y-2">
+<li><a class="text-slate-400 hover:text-cyan-300 transition-all" href="#calculator">Lower my rate</a></li>
+<li><a class="text-slate-400 hover:text-cyan-300 transition-all" href="#refinance-options">Cash-out refi</a></li>
+<li><a class="text-slate-400 hover:text-cyan-300 transition-all" href="#how-it-works">How it works</a></li>
+<li><a class="text-slate-400 hover:text-cyan-300 transition-all" href="#contact">Contact</a></li>
+</ul>
+</div>
+<div class="space-y-4">
+<h5 class="text-white font-bold uppercase tracking-widest text-xs">Legal</h5>
+<ul class="space-y-2">
+<li><a class="text-slate-400 hover:text-cyan-300 transition-all" href="#">Terms of Use</a></li>
+<li><a class="text-slate-400 hover:text-cyan-300 transition-all" href="#">Privacy Policy</a></li>
+<li><a class="text-slate-400 hover:text-cyan-300 transition-all" href="#">Licensing</a></li>
+<li><a class="text-slate-400 hover:text-cyan-300 transition-all" href="#">Contact Us</a></li>
+</ul>
+</div>
+</div>
+<div class="space-y-6">
+<h5 class="text-white font-bold uppercase tracking-widest text-xs">Subscribe to Market Updates</h5>
+<div class="flex gap-2">
+<input id="newsletter-email" class="bg-slate-900 border-none rounded-lg text-white w-full px-4 focus:ring-2 focus:ring-cyan-500" placeholder="Email address" type="email"/>
+<button id="newsletter-btn" onclick="handleNewsletterSubmit()" class="bg-cyan-500 text-slate-950 px-4 py-2 rounded-lg font-bold whitespace-nowrap">Join</button>
+</div>
+<p id="newsletter-msg" class="text-slate-500 text-sm italic">Get the latest rate movements delivered to your inbox weekly.</p>
+</div>
+</div>
+</footer>
+<script>
+// ── Scroll animations ────────────────────────────────────────
+(function () {
+  var observer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.anim').forEach(function (el) {
+    observer.observe(el);
+  });
+})();
+
+// ── Mobile menu ──────────────────────────────────────────────
+function closeMobileMenu() {
+  document.getElementById('mobile-menu').classList.add('hidden');
+}
+document.getElementById('mobile-menu-btn').addEventListener('click', function () {
+  document.getElementById('mobile-menu').classList.remove('hidden');
+});
+document.getElementById('mobile-menu-close').addEventListener('click', closeMobileMenu);
+
+// ── Savings Calculator ────────────────────────────────────────
+function monthlyPayment(principal, annualRate) {
+  var r = annualRate / 100 / 12;
+  var n = 360; // 30-year fixed
+  if (r === 0) return principal / n;
+  return principal * r * Math.pow(1 + r, n) / (Math.pow(1 + r, n) - 1);
+}
+
+function payoffMonths(principal, annualRate, payment) {
+  // How many months to pay off at a given rate with a given monthly payment
+  var r = annualRate / 100 / 12;
+  if (r === 0) return principal / payment;
+  if (payment <= principal * r) return Infinity; // payment doesn't cover interest
+  return -Math.log(1 - principal * r / payment) / Math.log(1 + r);
+}
+
+function formatCurrency(n) {
+  if (n < 0) return '-$' + Math.abs(Math.round(n)).toLocaleString();
+  return '$' + Math.round(n).toLocaleString();
+}
+
+function updateCalculator() {
+  var balance = parseFloat(document.getElementById('balance-slider').value);
+  var currentRate = parseFloat(document.getElementById('current-rate-slider').value);
+  var targetRate = parseFloat(document.getElementById('target-rate-slider').value);
+
+  document.getElementById('balance-display').textContent = '$' + balance.toLocaleString();
+  document.getElementById('current-rate-display').textContent = currentRate.toFixed(1) + '%';
+  document.getElementById('target-rate-display').textContent = targetRate.toFixed(1) + '%';
+
+  var oldPayment = monthlyPayment(balance, currentRate);
+  var newPayment = monthlyPayment(balance, targetRate);
+  var monthlySavings = oldPayment - newPayment;
+  var lifetimeSavings = monthlySavings * 360;
+
+  // Payoff time: paying the old (higher) payment amount against the new lower-rate loan
+  var oldMonths = 360;
+  var newMonths = (monthlySavings > 0)
+    ? payoffMonths(balance, targetRate, oldPayment)
+    : 360;
+  var yearsSooner = (oldMonths - newMonths) / 12;
+
+  document.getElementById('monthly-savings').textContent = formatCurrency(monthlySavings);
+  document.getElementById('lifetime-savings').textContent = formatCurrency(lifetimeSavings);
+
+  if (monthlySavings <= 0) {
+    document.getElementById('payoff-time').textContent = 'No savings at this rate';
+    document.getElementById('monthly-savings').textContent = '$0';
+    document.getElementById('lifetime-savings').textContent = '$0';
+  } else {
+    document.getElementById('payoff-time').textContent = yearsSooner.toFixed(1) + ' years sooner';
+  }
+}
+
+['balance-slider', 'current-rate-slider', 'target-rate-slider'].forEach(function (id) {
+  document.getElementById(id).addEventListener('input', updateCalculator);
+});
+
+// ── Newsletter subscribe ──────────────────────────────────────
+function handleNewsletterSubmit() {
+  var emailInput = document.getElementById('newsletter-email');
+  var msg = document.getElementById('newsletter-msg');
+  var email = emailInput.value.trim();
+  var valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  if (!valid) {
+    msg.textContent = 'Please enter a valid email address.';
+    msg.classList.remove('text-slate-500', 'text-cyan-400');
+    msg.classList.add('text-red-400');
+    return;
+  }
+  emailInput.value = '';
+  msg.textContent = "You're in! Rate updates coming your way.";
+  msg.classList.remove('text-slate-500', 'text-red-400');
+  msg.classList.add('text-cyan-400');
+  document.getElementById('newsletter-btn').disabled = true;
+  document.getElementById('newsletter-btn').textContent = 'Done';
+}
+
+document.getElementById('newsletter-email').addEventListener('keydown', function (e) {
+  if (e.key === 'Enter') handleNewsletterSubmit();
+});
+
+// ── Contact form ──────────────────────────────────────────────
+function handleContactSubmit(e) {
+  e.preventDefault();
+  var errorEl = document.getElementById('cf-error');
+  var email = document.getElementById('cf-email').value.trim();
+  var valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  if (!valid) {
+    errorEl.textContent = 'Please enter a valid email address.';
+    errorEl.classList.remove('hidden');
+    return;
+  }
+  errorEl.classList.add('hidden');
+  document.getElementById('contact-form').classList.add('hidden');
+  document.getElementById('cf-success').classList.remove('hidden');
+}
+</script>
+</body></html>

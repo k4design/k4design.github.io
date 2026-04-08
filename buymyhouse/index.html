@@ -958,7 +958,7 @@
             height: 50dvh;
             position: relative;
             overflow: hidden;
-            background: url('img/billboard.jpg') center/cover no-repeat;
+            background: url('img/billboard.jpg') center var(--billboard-y, 0%) / cover no-repeat;
             border-radius: 16px;
         }
 
@@ -966,8 +966,8 @@
             content: '';
             position: absolute;
             inset: 0;
-            background: none;
             border-radius: 16px;
+            box-shadow: inset 0 0 60px rgba(0, 0, 0, 0.45);
         }
 
         .billboard-hero-tag {
@@ -1330,18 +1330,7 @@
 
         @media (max-width: 480px) {
             .hiw-teaser {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 16px;
-                margin-bottom: 48px;
-            }
-            .hiw-teaser-divider {
-                width: 1px;
-                height: 20px;
-                margin-left: 14px;
-            }
-            .hiw-teaser-item {
-                align-items: flex-start;
+                display: none;
             }
         }
 
@@ -2689,6 +2678,20 @@ src: url(data:application/x-font-woff;charset=utf-8;base64,d09GMk9UVE8AAAaMAAwAA
             var rect = container.getBoundingClientRect();
             var offset = rect.top * 0.15;
             box.style.transform = 'translate(-50%, calc(-50% + ' + offset + 'px))';
+        }
+        window.addEventListener('scroll', onScroll, { passive: true });
+        onScroll();
+    })();
+
+    // Parallax on billboard-hero background
+    (function () {
+        var el = document.querySelector('.billboard-hero');
+        if (!el || window.innerWidth <= 480) return;
+        function onScroll() {
+            if (window.innerWidth <= 480) return;
+            var rect = el.getBoundingClientRect();
+            var pct = (rect.top / window.innerHeight) * 40;
+            el.style.setProperty('--billboard-y', pct + '%');
         }
         window.addEventListener('scroll', onScroll, { passive: true });
         onScroll();
