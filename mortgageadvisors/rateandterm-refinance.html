@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html class="scroll-smooth" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Rate-and-Term Refinance | MortgageAdvisors.com</title>
+<link rel="icon" href="img/icon.svg" type="image/svg+xml"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<style>
+    .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        display: inline-block;
+        line-height: 1;
+        text-transform: none;
+        letter-spacing: normal;
+        word-wrap: normal;
+        white-space: nowrap;
+        direction: ltr;
+    }
+    body { font-family: 'Inter', sans-serif; }
+    .text-shadow-sm { text-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+
+    /* ── Scroll animation base states ── */
+    .anim {
+        opacity: 0;
+        transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .anim-up    { transform: translateY(36px); }
+    .anim-left  { transform: translateX(-40px); }
+    .anim-right { transform: translateX(40px); }
+    .anim-scale { transform: scale(0.93); }
+
+    .anim.visible {
+        opacity: 1;
+        transform: none;
+    }
+
+    /* stagger helpers */
+    .delay-100 { transition-delay: 0.1s; }
+    .delay-200 { transition-delay: 0.2s; }
+    .delay-300 { transition-delay: 0.3s; }
+    .delay-400 { transition-delay: 0.4s; }
+    .delay-500 { transition-delay: 0.5s; }
+
+    /* Hero fires on load, not scroll */
+    .hero-anim {
+        opacity: 0;
+        transform: translateY(24px);
+        animation: heroIn 0.7s ease forwards;
+    }
+    .hero-anim.delay-200 { animation-delay: 0.2s; }
+    .hero-anim.delay-400 { animation-delay: 0.4s; }
+    .hero-anim.delay-600 { animation-delay: 0.6s; }
+    .hero-img-anim {
+        opacity: 0;
+        transform: scale(1.04);
+        animation: heroImgIn 0.9s ease 0.3s forwards;
+    }
+    @keyframes heroIn {
+        to { opacity: 1; transform: none; }
+    }
+    @keyframes heroImgIn {
+        to { opacity: 1; transform: none; }
+    }
+</style>
+<script id="tailwind-config">
+    tailwind.config = {
+        darkMode: "class",
+        theme: {
+            extend: {
+                "colors": {
+                    "tertiary-container": "#007a7a",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-variant": "#e4e2e1",
+                    "secondary": "#4c5c92",
+                    "error-container": "#ffdad6",
+                    "on-primary": "#ffffff",
+                    "inverse-surface": "#303030",
+                    "primary-fixed": "#dbe1ff",
+                    "on-error": "#ffffff",
+                    "on-tertiary": "#ffffff",
+                    "on-secondary-fixed": "#02174b",
+                    "secondary-container": "#b2c1ff",
+                    "primary": "#004ac6",
+                    "inverse-primary": "#b4c5ff",
+                    "error": "#ba1a1a",
+                    "background": "#fbf9f8",
+                    "on-background": "#1b1c1c",
+                    "surface-container-highest": "#e4e2e1",
+                    "on-tertiary-fixed": "#002020",
+                    "on-secondary": "#ffffff",
+                    "tertiary-fixed": "#5df8f8",
+                    "outline-variant": "#c3c6d7",
+                    "tertiary": "#005f5f",
+                    "on-tertiary-fixed-variant": "#004f50",
+                    "on-primary-fixed": "#00174b",
+                    "inverse-on-surface": "#f3f0f0",
+                    "on-primary-fixed-variant": "#003ea8",
+                    "outline": "#737686",
+                    "surface-dim": "#dcd9d9",
+                    "surface-container-high": "#eae8e7",
+                    "secondary-fixed": "#dce1ff",
+                    "surface-container-low": "#f6f3f2",
+                    "on-secondary-fixed-variant": "#344479",
+                    "on-primary-container": "#eeefff",
+                    "on-tertiary-container": "#acfffe",
+                    "on-secondary-container": "#3e4e84",
+                    "on-surface": "#1b1c1c",
+                    "on-error-container": "#93000a",
+                    "surface-tint": "#0053db",
+                    "surface-bright": "#fbf9f8",
+                    "surface": "#fbf9f8",
+                    "secondary-fixed-dim": "#b5c4ff",
+                    "on-surface-variant": "#434655",
+                    "tertiary-fixed-dim": "#33dbdb",
+                    "primary-fixed-dim": "#b4c5ff",
+                    "primary-container": "#2563eb",
+                    "surface-container": "#f0eded"
+                },
+                "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+                },
+                "fontFamily": {
+                    "headline": ["Inter"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+                }
+            },
+        },
+    }
+</script>
+</head>
+<body class="bg-background text-on-background font-body antialiased">
+
+<!-- Top Navigation Bar -->
+<nav class="fixed top-0 w-full z-50 bg-stone-50/80 dark:bg-stone-900/80 backdrop-blur-md">
+<div class="flex justify-between items-center px-8 py-6 max-w-7xl mx-auto w-full">
+<a href="index.html"><img src="img/mortgageadvisors_logo.svg" alt="MortgageAdvisors.com" class="h-10 w-auto"/></a>
+<div class="hidden md:flex space-x-8 items-center">
+<a class="text-blue-700 dark:text-blue-400 font-bold border-b-2 border-blue-700 dark:border-blue-400 pb-1" href="rateandterm-refinance.html">Rate-and-term refi</a>
+<a class="text-slate-600 dark:text-slate-400 font-medium hover:text-blue-800 transition-colors" href="cash-outrefinance.html">Cash-out refi</a>
+<a href="cash-outrefinance.html" class="ml-4 px-6 py-2 bg-primary text-on-primary rounded-lg font-semibold hover:opacity-90 transition-all">Get started</a>
+</div>
+<div class="md:hidden">
+<button id="mobile-menu-btn" aria-label="Open menu" class="p-1 rounded focus:outline-none">
+<span class="material-symbols-outlined text-on-surface">menu</span>
+</button>
+</div>
+<!-- Mobile menu overlay -->
+<div id="mobile-menu" class="fixed inset-0 z-50 bg-stone-50/95 backdrop-blur-md flex flex-col items-center justify-center gap-8 text-2xl font-bold hidden">
+<button id="mobile-menu-close" class="absolute top-6 right-8 p-1" aria-label="Close menu">
+<span class="material-symbols-outlined text-on-surface text-3xl">close</span>
+</button>
+<a onclick="closeMobileMenu()" href="rateandterm-refinance.html" class="text-primary">Rate-and-term refi</a>
+<a onclick="closeMobileMenu()" href="cash-outrefinance.html" class="text-on-surface">Cash-out refi</a>
+<a onclick="closeMobileMenu()" href="cash-outrefinance.html" class="mt-4 px-8 py-3 bg-primary text-white rounded-lg font-semibold">Get started</a>
+</div>
+</div>
+</nav>
+
+<main>
+<!-- Hero Section -->
+<section class="relative flex items-center justify-center overflow-hidden" style="min-height:70vh;">
+<div class="absolute inset-0 z-0">
+<img alt="Lifestyle image of a couple in their kitchen" class="hero-img-anim w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC1TeDbZLd84sNV3Fs1R-D6F_CiQSH7fz665NeIx13vvDcWJ-0DmRCFdY6O82LdDC7KGqfezQVOPLkCuTpK6kqiHUGt37KE86fDDm5pxDAKtYddBMDf0EywzP95Oc8E3yWZJz97ZH7L4gD07y0pvVymb8kSINPOMl5s3eSdAXububS8dYmuAdyzZ06E875fTqI7fLUGbbTr67uHyJLmOYeh41qV-sTd0S0zYPU1H2m3PFxJysmStW4lfIrJYNtFdWaYKtOY7Cig_f8"/>
+<div class="absolute inset-0 bg-black/40"></div>
+</div>
+<div class="relative z-10 max-w-5xl mx-auto px-8 text-center text-white pt-20">
+<span class="hero-anim inline-block px-4 py-1.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-bold text-sm tracking-wide mb-6">CHAPTER I: THE DISCOVERY</span>
+<h1 class="hero-anim delay-200 font-black mb-8 leading-[1.05] tracking-tight text-shadow-sm" style="font-size:4rem;">
+    Rate-and-term refinance. <br/><span class="text-tertiary-fixed-dim">Same home, smarter mortgage.</span>
+</h1>
+<p class="hero-anim delay-400 text-xl md:text-2xl text-white/90 max-w-2xl mx-auto mb-12 font-medium leading-relaxed">
+    A lower rate, a shorter term, or both — without touching your equity or changing your loan balance. We'll show you exactly what's possible with your current loan.
+</p>
+</div>
+<div class="absolute bottom-10 left-1/2 -translate-x-1/2 text-white animate-bounce opacity-70 z-10">
+<span class="material-symbols-outlined text-4xl">keyboard_double_arrow_down</span>
+</div>
+</section>
+
+<!-- Chapter II: What is a rate-and-term refinance? -->
+<section class="py-24 px-8 bg-background overflow-hidden">
+<div class="max-w-7xl mx-auto">
+<div class="grid lg:grid-cols-12 gap-16 items-center">
+<div class="lg:col-span-5 anim anim-left">
+<span class="text-tertiary font-bold tracking-[0.2em] text-xs block mb-4">CHAPTER II: THE CLARITY</span>
+<h2 class="text-4xl font-bold tracking-tight text-on-secondary-fixed mb-8 leading-tight">What is a rate-and-term refinance?</h2>
+<div class="space-y-8">
+<div class="bg-surface-container-low p-8 rounded-2xl border-l-4 border-tertiary-fixed-dim">
+<h3 class="font-bold text-xl text-on-secondary-fixed mb-2">Refining the deal</h3>
+<p class="text-on-surface-variant text-lg leading-relaxed">Think of it as an upgrade for your current mortgage. You replace your existing loan with a new one that features a better interest rate or a more favorable timeline.</p>
+</div>
+<div class="bg-surface-container-low p-8 rounded-2xl border-l-4 border-primary">
+<h3 class="font-bold text-xl text-on-secondary-fixed mb-2">Monthly vs. Long-term</h3>
+<p class="text-on-surface-variant text-lg leading-relaxed">You aren't cashing out your equity. You're simply making your money work harder—either by lowering your monthly bill or paying off your home years earlier.</p>
+</div>
+</div>
+</div>
+<div class="lg:col-span-7 relative anim anim-right">
+<img alt="Empathic conversation with advisor" class="rounded-3xl shadow-xl w-full h-[600px] object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDW9sbIfIk0WFpbnFt0b4-D8bZb9MTN2ygKNJ8xVeuUNN8Z1PEZasPCFvv4GmEiAJnHBqvl2qjCdRThhDCBC7Qdk8WqGrkVJxjPhyNsfqDtBMd9UcRsQKJApQlF2QNROL1ktpwG4FS7s__SZG3m828yOHfqvLcKN59nZpgeH5N4brz4T6JAOy5FCt6H33-q6GB0lhb48TgGO4so4liHXhCG656ynuH6_ZNOI1VI229vuM7kw8VtCc9EZtPiqu3l1t4WWcwtjz7Kr8Q"/>
+<div class="absolute -bottom-6 -left-6 bg-on-secondary-fixed p-8 rounded-2xl text-white shadow-2xl hidden md:flex items-start gap-4" style="width:500px;">
+<div class="w-10 h-10 flex-shrink-0 rounded-full border-2 border-white/30" style="background: url('img/icon.svg') 0 center / auto 100% no-repeat;" aria-hidden="true"></div>
+<p class="italic text-lg">"The best financial decision we made wasn't buying the house, it was knowing when to adjust the plan."</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Chapter III: Is this your moment? -->
+<section class="bg-surface-container-low py-24 px-8">
+<div class="max-w-4xl mx-auto">
+<div class="text-center mb-16 anim anim-up">
+<div class="flex justify-center mb-4">
+<div class="w-10 h-10 overflow-hidden flex-shrink-0"><img src="img/icon.svg" alt="" aria-hidden="true" style="height:40px;width:auto;max-width:none"/></div>
+</div>
+<span class="text-tertiary font-bold tracking-[0.2em] text-xs block mb-4">CHAPTER III: THE CHECKPOINT</span>
+<h2 class="text-4xl font-bold tracking-tight text-on-secondary-fixed mb-4">Is this your moment?</h2>
+<p class="text-on-surface-variant max-w-2xl mx-auto">We only recommend refinancing when the emotional and financial benefit is undeniable.</p>
+</div>
+<div class="grid gap-6">
+<div class="anim anim-up group bg-background p-8 rounded-3xl shadow-sm hover:shadow-md transition-all border border-outline-variant/10 flex gap-8 items-start">
+<div class="w-14 h-14 bg-primary-fixed rounded-2xl flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-primary text-3xl">trending_down</span>
+</div>
+<div>
+<h4 class="text-xl font-bold text-on-secondary-fixed mb-2">Rates have shifted</h4>
+<p class="text-on-surface-variant leading-relaxed">If market rates are at least 0.5% lower than yours, the monthly savings can start adding up significantly from day one.</p>
+</div>
+</div>
+<div class="anim anim-up delay-200 group bg-background p-8 rounded-3xl shadow-sm hover:shadow-md transition-all border border-outline-variant/10 flex gap-8 items-start">
+<div class="w-14 h-14 bg-tertiary-fixed rounded-2xl flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-tertiary text-3xl">stars</span>
+</div>
+<div>
+<h4 class="text-xl font-bold text-on-secondary-fixed mb-2">Your credit is stronger</h4>
+<p class="text-on-surface-variant leading-relaxed">If your score has improved since you first bought, you qualify for elite tiers that weren't available before.</p>
+</div>
+</div>
+<div class="anim anim-up delay-400 group bg-background p-8 rounded-3xl shadow-sm hover:shadow-md transition-all border border-outline-variant/10 flex gap-8 items-start">
+<div class="w-14 h-14 bg-primary-fixed rounded-2xl flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-primary text-3xl">calendar_month</span>
+</div>
+<div>
+<h4 class="text-xl font-bold text-on-secondary-fixed mb-2">Your horizon has changed</h4>
+<p class="text-on-surface-variant leading-relaxed">Switching from an adjustable rate (ARM) to a fixed rate brings the peace of mind that comes with knowing exactly what's next.</p>
+</div>
+</div>
+</div>
+<div class="mt-12 text-center anim anim-up delay-200">
+<p class="italic text-on-surface-variant bg-background inline-block px-8 py-4 rounded-full shadow-sm border border-surface-container-high">
+    The honest truth: If the numbers don't work for you, we'll tell you to wait.
+</p>
+</div>
+</div>
+</section>
+
+
+<!-- Chapter V: How your journey unfolds -->
+<section class="bg-on-secondary-fixed py-32 px-8 text-white overflow-hidden">
+<div class="max-w-7xl mx-auto">
+<div class="anim anim-up">
+<span class="text-sm font-black text-tertiary-fixed-dim tracking-[0.3em] uppercase mb-4 block text-center">Chapter V: The Simple Path</span>
+<h2 class="text-4xl md:text-5xl font-black mb-20 text-center">How your journey unfolds</h2>
+</div>
+<div class="grid md:grid-cols-4 gap-4 relative">
+<div class="anim anim-up relative p-8 bg-white/5 rounded-3xl border border-white/10 hover:bg-white/10 transition-colors">
+<div class="w-12 h-12 rounded-full bg-tertiary-fixed-dim text-on-secondary-fixed flex items-center justify-center font-black text-xl mb-6">1</div>
+<h3 class="text-xl font-bold mb-4">The Talk</h3>
+<p class="text-white/70 leading-relaxed">No scripts. Just a human conversation about your goals and if a refi makes sense.</p>
+</div>
+<div class="anim anim-up delay-200 relative p-8 bg-white/5 rounded-3xl border border-white/10 hover:bg-white/10 transition-colors">
+<div class="w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center font-black text-xl mb-6">2</div>
+<h3 class="text-xl font-bold mb-4">The Search</h3>
+<p class="text-white/70 leading-relaxed">We shop 30+ lenders to find the one specific rate that actually fits your life.</p>
+</div>
+<div class="anim anim-up delay-300 relative p-8 bg-white/5 rounded-3xl border border-white/10 hover:bg-white/10 transition-colors">
+<div class="w-12 h-12 rounded-full bg-tertiary-fixed-dim text-on-secondary-fixed flex items-center justify-center font-black text-xl mb-6">3</div>
+<h3 class="text-xl font-bold mb-4">The Simple Doc</h3>
+<p class="text-white/70 leading-relaxed">Digital-first. Upload from your phone. No physical piles of paper or faxing.</p>
+</div>
+<div class="anim anim-up delay-400 relative p-8 bg-white/5 rounded-3xl border border-white/10 hover:bg-white/10 transition-colors">
+<div class="w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center font-black text-xl mb-6">4</div>
+<h3 class="text-xl font-bold mb-4">The New Chapter</h3>
+<p class="text-white/70 leading-relaxed">Sign at your kitchen table. Official savings start with your very next payment.</p>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Testimonials -->
+<section class="py-24">
+<div class="max-w-7xl mx-auto px-8">
+<div class="flex justify-center mb-10">
+<div class="w-10 h-10 overflow-hidden flex-shrink-0"><img src="img/icon.svg" alt="" aria-hidden="true" style="height:40px;width:auto;max-width:none"/></div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<div class="anim anim-up bg-surface-container-low p-10 rounded-3xl relative">
+<span class="material-symbols-outlined text-tertiary text-6xl opacity-20 absolute top-8 right-8">format_quote</span>
+<div class="flex items-center gap-4 mb-8">
+<img alt="Marcus Rivera" class="w-16 h-16 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCJJ8jg2h5aXuLrPa-V8iqyjpPbDAv8YDFsHRZGsPyq9rKfIot1IiPMWGf68Ut2Yld44dYiDhAjhSBUehhdyfbA4Otiaeaf6-8G09vm-AfOL6NmOE3BOBWzGbMGbb2aSb8-XgCAi8__TMSwlNqqTSiJ36vFO0pBQV0isoefDYSnznbQVGUjrZ3aCIhQOxuCIckKekBC7hFfuAuST7YlT8JIHKh31aTElMGdjcyRGHbdxOHsM4_EfAwmpFNINmavmmDVFPejhn_Xx78"/>
+<div>
+<h4 class="font-bold text-on-secondary-fixed">Marcus Rivera</h4>
+<p class="text-sm text-on-surface-variant">Reduced term by 10 years</p>
+</div>
+</div>
+<p class="text-lg italic text-on-secondary-fixed-variant leading-relaxed">"MortgageAdvisors found a rate that made our payment decrease while saving us thousands in interest. Moving from a 30-year to a 15-year was the best financial move we've ever made."</p>
+</div>
+<div class="anim anim-up delay-200 bg-surface-container-low p-10 rounded-3xl relative">
+<span class="material-symbols-outlined text-tertiary text-6xl opacity-20 absolute top-8 right-8">format_quote</span>
+<div class="flex items-center gap-4 mb-8">
+<img alt="Sarah Jenkins" class="w-16 h-16 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAdJuiU5FEREKBCR0Xbq3w-zyjxZdyT03tgXO4QKeEY7gVkg2aC-cFBSXP8LzIZysjWhP7QPeF1dBjf9f_UwHQjQ4h8GwLjjEJmqvVol0eNdRZ-yS-HkJohFtmnvjL6cNW7BeCL9Cgph4Vk7u3gMOTUWEEPclkA3jDgrSSKYm49BeebCWBaAbO1jul6_PiCtLHkenDFTesB1RsmhOgkhLimTpxTawRyl_NNEyJdMbMMtHKUHS2Ti8ZSfjtBk4K3hVXohxxl3BD1pco"/>
+<div>
+<h4 class="font-bold text-on-secondary-fixed">Sarah Jenkins</h4>
+<p class="text-sm text-on-surface-variant">Saved $315/month</p>
+</div>
+</div>
+<p class="text-lg italic text-on-secondary-fixed-variant leading-relaxed">"I was skeptical about refinancing in this market, but they showed me exactly how the numbers worked for my specific home. The process felt like talking to a friend."</p>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Final CTA -->
+<section id="rt-contact" class="relative min-h-[819px] flex items-center py-24 px-8 overflow-hidden">
+<div class="absolute inset-0 z-0">
+<img alt="Couple laughing in sunlit home" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuADE9yGVI7tHfz68CaXJVo7XbRJ1N_SJANcyYfeHQQ7mjL_XTkofRBfBLY4mSzAzMHTfoR9j3viQH6S-6A5Kc0hVc_2DUSMzOGCzE8j4q68Y5SAezOenJSvYaryf6Rj6H7PZn7TGBBAMtV7MVcdKc9FMIn4w_ZOS6cRTbN3_de7K3-9XkmpNYi1_xLjDwTKBvLmx48WXP4hWob99pFsUDFbCp3VvOqA1vhh_cjDQWuHEUPoV4m2ZQEquT2vjgNUPEIhW53-tnfAdw0"/>
+<div class="absolute inset-0 bg-gradient-to-r from-on-secondary-fixed via-on-secondary-fixed/90 to-transparent"></div>
+</div>
+<div class="relative z-10 max-w-7xl mx-auto w-full">
+<div class="max-w-2xl text-white anim anim-up">
+<h2 class="text-5xl md:text-7xl font-black mb-8 leading-none">Ready for your <span class="text-tertiary-fixed-dim">new chapter?</span></h2>
+<p class="text-xl md:text-2xl text-white/80 mb-12 font-medium leading-relaxed">
+    It takes 3 minutes to see what's possible. No commitment, no hard credit pull, just clarity.
+</p>
+<div class="flex flex-col sm:flex-row gap-6">
+<button onclick="document.getElementById('rt-contact-form-section').scrollIntoView({behavior:'smooth'})" class="bg-primary text-white px-10 py-5 rounded-full text-lg font-bold hover:bg-white hover:text-on-secondary-fixed transition-all shadow-2xl">See my potential savings</button>
+<button onclick="document.getElementById('rt-contact-form-section').scrollIntoView({behavior:'smooth'})" class="border-2 border-white/30 text-white px-10 py-5 rounded-full text-lg font-bold hover:bg-white/10 transition-all backdrop-blur-sm">Talk to an advisor</button>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Contact Form -->
+<section id="rt-contact-form-section" class="py-24 bg-surface-container-low">
+<div class="max-w-3xl mx-auto px-8">
+<div class="text-center mb-12 anim anim-up">
+<div class="flex justify-center mb-4">
+<div class="w-10 h-10 overflow-hidden flex-shrink-0"><img src="img/icon.svg" alt="" aria-hidden="true" style="height:40px;width:auto;max-width:none"/></div>
+</div>
+<h2 class="text-4xl font-bold tracking-tight text-on-secondary-fixed mb-4">Talk to an Advisor</h2>
+<p class="text-on-surface-variant text-lg">Have questions? Send us a message and a licensed advisor will be in touch within one business day.</p>
+</div>
+<form id="rt-contact-form" class="anim anim-up delay-200 bg-background rounded-[2rem] p-10 shadow-sm space-y-6" onsubmit="handleContactSubmit(event)">
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+<div>
+<label class="block text-sm font-bold text-outline uppercase tracking-wider mb-2" for="rt-cf-first">First Name</label>
+<input id="rt-cf-first" type="text" placeholder="Jane" required class="w-full px-4 py-3 rounded-xl border border-outline-variant bg-surface text-on-surface focus:outline-none focus:ring-2 focus:ring-primary"/>
+</div>
+<div>
+<label class="block text-sm font-bold text-outline uppercase tracking-wider mb-2" for="rt-cf-last">Last Name</label>
+<input id="rt-cf-last" type="text" placeholder="Smith" required class="w-full px-4 py-3 rounded-xl border border-outline-variant bg-surface text-on-surface focus:outline-none focus:ring-2 focus:ring-primary"/>
+</div>
+</div>
+<div>
+<label class="block text-sm font-bold text-outline uppercase tracking-wider mb-2" for="rt-cf-email">Email Address</label>
+<input id="rt-cf-email" type="email" placeholder="jane@example.com" required class="w-full px-4 py-3 rounded-xl border border-outline-variant bg-surface text-on-surface focus:outline-none focus:ring-2 focus:ring-primary"/>
+</div>
+<div>
+<label class="block text-sm font-bold text-outline uppercase tracking-wider mb-2" for="rt-cf-phone">Phone Number</label>
+<input id="rt-cf-phone" type="tel" placeholder="(555) 000-0000" class="w-full px-4 py-3 rounded-xl border border-outline-variant bg-surface text-on-surface focus:outline-none focus:ring-2 focus:ring-primary"/>
+</div>
+<div>
+<label class="block text-sm font-bold text-outline uppercase tracking-wider mb-2" for="rt-cf-interest">I'm interested in</label>
+<select id="rt-cf-interest" class="w-full px-4 py-3 rounded-xl border border-outline-variant bg-surface text-on-surface focus:outline-none focus:ring-2 focus:ring-primary">
+<option value="">Select an option…</option>
+<option value="lower-rate" selected>Lowering my rate</option>
+<option value="shorten-term">Shortening my loan term</option>
+<option value="arm-to-fixed">Switching from ARM to fixed</option>
+<option value="not-sure">Not sure yet</option>
+</select>
+</div>
+<div>
+<label class="block text-sm font-bold text-outline uppercase tracking-wider mb-2" for="rt-cf-message">Message <span class="normal-case font-normal text-on-surface-variant">(optional)</span></label>
+<textarea id="rt-cf-message" rows="4" placeholder="Tell us a bit about your situation…" class="w-full px-4 py-3 rounded-xl border border-outline-variant bg-surface text-on-surface focus:outline-none focus:ring-2 focus:ring-primary resize-none"></textarea>
+</div>
+<div id="rt-cf-error" class="hidden text-error text-sm font-medium"></div>
+<button type="submit" class="w-full py-4 bg-primary text-white rounded-xl font-bold text-lg hover:opacity-90 transition-all">Send Message</button>
+</form>
+<div id="rt-cf-success" class="hidden text-center mt-8">
+<div class="inline-flex items-center gap-3 bg-tertiary-fixed text-on-tertiary-fixed px-8 py-5 rounded-2xl font-bold text-lg">
+<span class="material-symbols-outlined">check_circle</span>
+Message sent! We'll be in touch within one business day.
+</div>
+</div>
+</div>
+</section>
+
+</main>
+
+<!-- Footer -->
+<footer class="bg-slate-950 dark:bg-black w-full py-16 px-8 mt-24">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-12 max-w-7xl mx-auto w-full">
+<div class="space-y-6">
+<img src="img/mortgageadvisors_logo.svg" alt="MortgageAdvisors.com" class="h-8 w-auto brightness-0 invert"/>
+<p class="font-['Inter'] leading-relaxed body-lg text-slate-300">
+    © 2024 MortgageAdvisors.com. NMLS #123456. Equal Housing Lender.
+</p>
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-cyan-400">home</span>
+<span class="material-symbols-outlined text-cyan-400">security</span>
+<span class="material-symbols-outlined text-cyan-400">verified_user</span>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-8">
+<div class="space-y-4">
+<h5 class="text-white font-bold uppercase tracking-widest text-xs">Navigation</h5>
+<ul class="space-y-2">
+<li><a class="text-slate-400 hover:text-cyan-300 transition-all" href="index.html#calculator">Lower my rate</a></li>
+<li><a class="text-slate-400 hover:text-cyan-300 transition-all" href="index.html#refinance-options">Cash-out refi</a></li>
+<li><a class="text-slate-400 hover:text-cyan-300 transition-all" href="index.html#how-it-works">How it works</a></li>
+<li><a class="text-slate-400 hover:text-cyan-300 transition-all" href="index.html#contact">Contact</a></li>
+</ul>
+</div>
+<div class="space-y-4">
+<h5 class="text-white font-bold uppercase tracking-widest text-xs">Legal</h5>
+<ul class="space-y-2">
+<li><a class="text-slate-400 hover:text-cyan-300 transition-all" href="#">Terms of Use</a></li>
+<li><a class="text-slate-400 hover:text-cyan-300 transition-all" href="#">Privacy Policy</a></li>
+<li><a class="text-slate-400 hover:text-cyan-300 transition-all" href="#">Licensing</a></li>
+<li><a class="text-slate-400 hover:text-cyan-300 transition-all" href="#">Contact Us</a></li>
+</ul>
+</div>
+</div>
+<div class="space-y-6">
+<h5 class="text-white font-bold uppercase tracking-widest text-xs">Subscribe to Market Updates</h5>
+<div class="flex gap-2">
+<input id="newsletter-email" class="bg-slate-900 border-none rounded-lg text-white w-full px-4 focus:ring-2 focus:ring-cyan-500" placeholder="Email address" type="email"/>
+<button id="newsletter-btn" onclick="handleNewsletterSubmit()" class="bg-cyan-500 text-slate-950 px-4 py-2 rounded-lg font-bold whitespace-nowrap">Join</button>
+</div>
+<p id="newsletter-msg" class="text-slate-500 text-sm italic">Get the latest rate movements delivered to your inbox weekly.</p>
+</div>
+</div>
+</footer>
+
+<script>
+// ── Scroll animations ────────────────────────────────────────
+(function () {
+  var observer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.anim').forEach(function (el) {
+    observer.observe(el);
+  });
+})();
+
+// ── Mobile menu ──────────────────────────────────────────────
+function closeMobileMenu() {
+  document.getElementById('mobile-menu').classList.add('hidden');
+}
+document.getElementById('mobile-menu-btn').addEventListener('click', function () {
+  document.getElementById('mobile-menu').classList.remove('hidden');
+});
+document.getElementById('mobile-menu-close').addEventListener('click', closeMobileMenu);
+
+// ── Newsletter subscribe ──────────────────────────────────────
+function handleNewsletterSubmit() {
+  var emailInput = document.getElementById('newsletter-email');
+  var msg = document.getElementById('newsletter-msg');
+  var email = emailInput.value.trim();
+  var valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  if (!valid) {
+    msg.textContent = 'Please enter a valid email address.';
+    msg.classList.remove('text-slate-500', 'text-cyan-400');
+    msg.classList.add('text-red-400');
+    return;
+  }
+  emailInput.value = '';
+  msg.textContent = "You're in! Rate updates coming your way.";
+  msg.classList.remove('text-slate-500', 'text-red-400');
+  msg.classList.add('text-cyan-400');
+  document.getElementById('newsletter-btn').disabled = true;
+  document.getElementById('newsletter-btn').textContent = 'Done';
+}
+document.getElementById('newsletter-email').addEventListener('keydown', function (e) {
+  if (e.key === 'Enter') handleNewsletterSubmit();
+});
+
+// ── Contact form ──────────────────────────────────────────────
+function handleContactSubmit(e) {
+  e.preventDefault();
+  var errorEl = document.getElementById('rt-cf-error');
+  var email = document.getElementById('rt-cf-email').value.trim();
+  var valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  if (!valid) {
+    errorEl.textContent = 'Please enter a valid email address.';
+    errorEl.classList.remove('hidden');
+    return;
+  }
+  errorEl.classList.add('hidden');
+  document.getElementById('rt-contact-form').classList.add('hidden');
+  document.getElementById('rt-cf-success').classList.remove('hidden');
+}
+</script>
+</body>
+</html>

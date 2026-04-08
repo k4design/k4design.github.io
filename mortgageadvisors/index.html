@@ -142,13 +142,11 @@
 <!-- Top Navigation Bar -->
 <nav class="fixed top-0 w-full z-50 bg-stone-50/80 dark:bg-stone-900/80 backdrop-blur-md">
 <div class="flex justify-between items-center px-8 py-6 max-w-7xl mx-auto w-full">
-<a href="#"><img src="img/mortgageadvisors_logo.svg" alt="MortgageAdvisors.com" class="h-10 w-auto"/></a>
+<a href="index.html"><img src="img/mortgageadvisors_logo.svg" alt="MortgageAdvisors.com" class="h-10 w-auto"/></a>
 <div class="hidden md:flex space-x-8 items-center">
-<a class="text-blue-700 dark:text-blue-400 font-bold border-b-2 border-blue-700 dark:border-blue-400 pb-1" href="#calculator">Lower my rate</a>
-<a class="text-slate-600 dark:text-slate-400 font-medium hover:text-blue-800 transition-colors" href="#refinance-options">Cash-out refi</a>
-<a class="text-slate-600 dark:text-slate-400 font-medium hover:text-blue-800 transition-colors" href="#how-it-works">How it works</a>
-<a class="text-slate-600 dark:text-slate-400 font-medium hover:text-blue-800 transition-colors" href="#contact">Contact</a>
-<button onclick="document.getElementById('calculator').scrollIntoView({behavior:'smooth'})" class="ml-4 px-6 py-2 bg-primary text-on-primary rounded-lg font-semibold hover:opacity-90 transition-all">See my savings</button>
+<a class="text-slate-600 dark:text-slate-400 font-medium hover:text-blue-800 transition-colors" href="rateandterm-refinance.html">Rate-and-term refi</a>
+<a class="text-slate-600 dark:text-slate-400 font-medium hover:text-blue-800 transition-colors" href="cash-outrefinance.html">Cash-out refi</a>
+<a href="rateandterm-refinance.html" class="ml-4 px-6 py-2 bg-primary text-on-primary rounded-lg font-semibold hover:opacity-90 transition-all">Get started</a>
 </div>
 <div class="md:hidden">
 <button id="mobile-menu-btn" aria-label="Open menu" class="p-1 rounded focus:outline-none">
@@ -160,11 +158,9 @@
 <button id="mobile-menu-close" class="absolute top-6 right-8 p-1" aria-label="Close menu">
 <span class="material-symbols-outlined text-on-surface text-3xl">close</span>
 </button>
-<a onclick="closeMobileMenu()" href="#calculator" class="text-primary">Lower my rate</a>
-<a onclick="closeMobileMenu()" href="#refinance-options" class="text-on-surface">Cash-out refi</a>
-<a onclick="closeMobileMenu()" href="#how-it-works" class="text-on-surface">How it works</a>
-<a onclick="closeMobileMenu()" href="#contact" class="text-on-surface">Contact</a>
-<button onclick="closeMobileMenu(); document.getElementById('calculator').scrollIntoView({behavior:'smooth'})" class="mt-4 px-8 py-3 bg-primary text-white rounded-lg font-semibold">See my savings</button>
+<a onclick="closeMobileMenu()" href="rateandterm-refinance.html" class="text-on-surface">Rate-and-term refi</a>
+<a onclick="closeMobileMenu()" href="cash-outrefinance.html" class="text-on-surface">Cash-out refi</a>
+<a onclick="closeMobileMenu()" href="rateandterm-refinance.html" class="mt-4 px-8 py-3 bg-primary text-white rounded-lg font-semibold">Get started</a>
 </div>
 </div>
 </nav>
@@ -208,7 +204,7 @@
 <div class="max-w-7xl mx-auto px-8 grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
 <div class="anim anim-left">
 <span class="text-tertiary font-bold tracking-[0.2em] text-xs block mb-4">PERSONALIZED SERVICE</span>
-<h2 class="text-4xl font-bold tracking-tight text-on-secondary-fixed mb-6">We handle the complexity <span style="color:#004fff">so you don't have to.</span></h2>
+<h2 class="text-4xl font-bold tracking-tight text-on-secondary-fixed mb-6">We handle the complexity </br><span style="color:#004fff">so you don't have to.</span></h2>
 <p class="text-lg text-on-surface-variant leading-relaxed">Refinancing involves a lot of moving parts — lenders, paperwork, timelines, rate locks. We coordinate all of it and keep you updated at every step, so you can focus on everything else in your life.</p>
 </div>
 <div>
