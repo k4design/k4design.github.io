@@ -177,8 +177,8 @@
                         Stop overpaying and start saving. Our editorial approach to mortgage advising ensures you get a plan tailored to your lifestyle, not a bank's bottom line.
                     </p>
 <div class="hero-anim delay-600 flex flex-col sm:flex-row gap-4">
-<button onclick="document.getElementById('calculator').scrollIntoView({behavior:'smooth'})" class="px-8 py-4 bg-primary text-white rounded-lg font-bold text-lg hover:bg-primary-container transition-colors">See how much I can save</button>
-<button onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})" class="px-8 py-4 border-2 border-primary/20 text-primary rounded-lg font-bold text-lg hover:bg-primary-fixed transition-colors">Talk to an advisor</button>
+<button onclick="slowScrollTo('calculator')" class="px-8 py-4 bg-primary text-white rounded-lg font-bold text-lg hover:bg-primary-container transition-colors">See how much I can save</button>
+<button onclick="slowScrollTo('contact-section')" class="px-8 py-4 border-2 border-primary/20 text-primary rounded-lg font-bold text-lg hover:bg-primary-fixed transition-colors">Talk to an advisor</button>
 </div>
 </div>
 <div class="relative lg:absolute lg:right-0 lg:top-0 lg:h-full lg:w-1/2 mt-12 lg:mt-0">
@@ -264,7 +264,7 @@
 <span class="text-lg">Your credit score has improved recently</span>
 </li>
 </ul>
-<button onclick="document.getElementById('calculator').scrollIntoView({behavior:'smooth'})" class="px-8 py-4 border-2 border-white rounded-lg font-bold text-lg hover:bg-white/10 transition-colors">Run the numbers</button>
+<button onclick="slowScrollTo('contact-section')" class="px-8 py-4 border-2 border-white rounded-lg font-bold text-lg hover:bg-white/10 transition-colors">See How Much I Could Save</button>
 </div>
 </div>
 </section>
@@ -348,7 +348,7 @@
 <h2 class="text-4xl md:text-5xl font-bold text-white tracking-tight mb-6">Start your journey to a better mortgage today.</h2>
 <p class="text-xl text-blue-200 mb-10 leading-relaxed">Join 1,400+ families nationwide who have optimized their largest investment with MortgageAdvisors.com.</p>
 <div>
-<button onclick="document.getElementById('calculator').scrollIntoView({behavior:'smooth'})" class="px-10 py-5 bg-tertiary-fixed text-on-tertiary-fixed rounded-xl font-bold text-xl hover:bg-tertiary transition-colors">Calculate my savings</button>
+<button onclick="slowScrollTo('contact-section')" class="px-10 py-5 bg-tertiary-fixed text-on-tertiary-fixed rounded-xl font-bold text-xl hover:bg-tertiary transition-colors">Talk to an Advisor</button>
 </div>
 </div>
 <div class="relative min-h-[400px]">
@@ -358,7 +358,7 @@
 </section>
 
 <!-- Contact Form -->
-<section class="py-24 bg-surface-container-low">
+<section id="contact-section" class="py-24 bg-surface-container-low">
 <div class="max-w-3xl mx-auto px-8">
 <div class="text-center mb-12 anim anim-up">
 <div class="flex justify-center mb-4">
@@ -448,6 +448,24 @@ Message sent! We'll be in touch within one business day.
 </div>
 </footer>
 <script>
+// ── Slow smooth scroll ────────────────────────────────────────
+function slowScrollTo(id) {
+  var target = document.getElementById(id);
+  if (!target) return;
+  var start = window.scrollY;
+  var end = target.getBoundingClientRect().top + start;
+  var duration = 1800;
+  var startTime = null;
+  function ease(t) { return t < 0.5 ? 2*t*t : -1+(4-2*t)*t; }
+  function step(ts) {
+    if (!startTime) startTime = ts;
+    var progress = Math.min((ts - startTime) / duration, 1);
+    window.scrollTo(0, start + (end - start) * ease(progress));
+    if (progress < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
 // ── Scroll animations ────────────────────────────────────────
 (function () {
   var observer = new IntersectionObserver(function (entries) {
