@@ -138,7 +138,7 @@
 <body class="bg-background text-on-background font-body antialiased">
 
 <!-- Top Navigation Bar -->
-<nav class="fixed top-0 w-full z-50 bg-stone-50/80 dark:bg-stone-900/80 backdrop-blur-md">
+<nav id="main-nav" class="fixed top-0 w-full z-50 transition-all duration-300" style="background:rgb(251,249,248);">
 <div class="flex justify-between items-center px-8 py-6 max-w-7xl mx-auto w-full">
 <a href="index.html"><img src="img/mortgageadvisors_logo.svg" alt="MortgageAdvisors.com" class="h-10 w-auto"/></a>
 <div class="hidden md:flex space-x-8 items-center">
@@ -168,12 +168,12 @@
 <section class="relative flex items-center justify-center overflow-hidden" style="min-height:70vh;">
 <div class="absolute inset-0 z-0">
 <img alt="Lifestyle image of a couple in their kitchen" class="hero-img-anim w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC1TeDbZLd84sNV3Fs1R-D6F_CiQSH7fz665NeIx13vvDcWJ-0DmRCFdY6O82LdDC7KGqfezQVOPLkCuTpK6kqiHUGt37KE86fDDm5pxDAKtYddBMDf0EywzP95Oc8E3yWZJz97ZH7L4gD07y0pvVymb8kSINPOMl5s3eSdAXububS8dYmuAdyzZ06E875fTqI7fLUGbbTr67uHyJLmOYeh41qV-sTd0S0zYPU1H2m3PFxJysmStW4lfIrJYNtFdWaYKtOY7Cig_f8"/>
-<div class="absolute inset-0 bg-black/40"></div>
+<div class="absolute inset-0" style="background:rgba(0,79,255,0.78);"></div>
 </div>
 <div class="relative z-10 max-w-5xl mx-auto px-8 text-center text-white pt-20">
 <span class="hero-anim inline-block px-4 py-1.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-bold text-sm tracking-wide mb-6">CHAPTER I: THE DISCOVERY</span>
 <h1 class="hero-anim delay-200 font-black mb-8 leading-[1.05] tracking-tight text-shadow-sm" style="font-size:4rem;">
-    Rate-and-term refinance. <br/><span class="text-tertiary-fixed-dim">Same home, smarter mortgage.</span>
+    Rate-and-term refinance. <br/>Same home, smarter mortgage.
 </h1>
 <p class="hero-anim delay-400 text-xl md:text-2xl text-white/90 max-w-2xl mx-auto mb-12 font-medium leading-relaxed">
     A lower rate, a shorter term, or both — without touching your equity or changing your loan balance. We'll show you exactly what's possible with your current loan.
@@ -203,7 +203,7 @@
 </div>
 </div>
 <div class="lg:col-span-7 relative anim anim-right">
-<img alt="Empathic conversation with advisor" class="rounded-3xl shadow-xl w-full h-[600px] object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDW9sbIfIk0WFpbnFt0b4-D8bZb9MTN2ygKNJ8xVeuUNN8Z1PEZasPCFvv4GmEiAJnHBqvl2qjCdRThhDCBC7Qdk8WqGrkVJxjPhyNsfqDtBMd9UcRsQKJApQlF2QNROL1ktpwG4FS7s__SZG3m828yOHfqvLcKN59nZpgeH5N4brz4T6JAOy5FCt6H33-q6GB0lhb48TgGO4so4liHXhCG656ynuH6_ZNOI1VI229vuM7kw8VtCc9EZtPiqu3l1t4WWcwtjz7Kr8Q"/>
+<img alt="Empathic conversation with advisor" class="rounded-3xl shadow-xl w-full h-[600px] object-cover" src="img/theclarity.png"/>
 <div class="absolute -bottom-6 -left-6 bg-on-secondary-fixed p-8 rounded-2xl text-white shadow-2xl hidden md:flex items-start gap-4" style="width:500px;">
 <div class="w-10 h-10 flex-shrink-0 rounded-full border-2 border-white/30" style="background: url('img/icon.svg') 0 center / auto 100% no-repeat;" aria-hidden="true"></div>
 <p class="italic text-lg">"The best financial decision we made wasn't buying the house, it was knowing when to adjust the plan."</p>
@@ -263,8 +263,9 @@
 
 
 <!-- Chapter V: How your journey unfolds -->
-<section class="bg-on-secondary-fixed py-32 px-8 text-white overflow-hidden">
-<div class="max-w-7xl mx-auto">
+<section class="relative bg-on-secondary-fixed py-32 px-8 text-white overflow-hidden">
+<div class="absolute inset-0 pointer-events-none" style="background-image:url('img/icon.svg');background-repeat:no-repeat;background-position:center;background-size:50%;background-attachment:fixed;opacity:0.3;mix-blend-mode:color;"></div>
+<div class="relative z-10 max-w-7xl mx-auto">
 <div class="anim anim-up">
 <span class="text-sm font-black text-tertiary-fixed-dim tracking-[0.3em] uppercase mb-4 block text-center">Chapter V: The Simple Path</span>
 <h2 class="text-4xl md:text-5xl font-black mb-20 text-center">How your journey unfolds</h2>
@@ -289,6 +290,7 @@
 <div class="w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center font-black text-xl mb-6">4</div>
 <h3 class="text-xl font-bold mb-4">The New Chapter</h3>
 <p class="text-white/70 leading-relaxed">Sign at your kitchen table. Official savings start with your very next payment.</p>
+</div>
 </div>
 </div>
 </div>
@@ -330,7 +332,7 @@
 <!-- Final CTA -->
 <section id="rt-contact" class="relative min-h-[819px] flex items-center py-24 px-8 overflow-hidden">
 <div class="absolute inset-0 z-0">
-<img alt="Couple laughing in sunlit home" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuADE9yGVI7tHfz68CaXJVo7XbRJ1N_SJANcyYfeHQQ7mjL_XTkofRBfBLY4mSzAzMHTfoR9j3viQH6S-6A5Kc0hVc_2DUSMzOGCzE8j4q68Y5SAezOenJSvYaryf6Rj6H7PZn7TGBBAMtV7MVcdKc9FMIn4w_ZOS6cRTbN3_de7K3-9XkmpNYi1_xLjDwTKBvLmx48WXP4hWob99pFsUDFbCp3VvOqA1vhh_cjDQWuHEUPoV4m2ZQEquT2vjgNUPEIhW53-tnfAdw0"/>
+<img alt="Couple laughing in sunlit home" class="w-full h-full object-cover" src="img/newchapter.png"/>
 <div class="absolute inset-0 bg-gradient-to-r from-on-secondary-fixed via-on-secondary-fixed/90 to-transparent"></div>
 </div>
 <div class="relative z-10 max-w-7xl mx-auto w-full">
@@ -340,7 +342,7 @@
     It takes 3 minutes to see what's possible. No commitment, no hard credit pull, just clarity.
 </p>
 <div class="flex flex-col sm:flex-row gap-6">
-<button onclick="document.getElementById('rt-contact-form-section').scrollIntoView({behavior:'smooth'})" class="bg-primary text-white px-10 py-5 rounded-full text-lg font-bold hover:bg-white hover:text-on-secondary-fixed transition-all shadow-2xl">See my potential savings</button>
+
 <button onclick="document.getElementById('rt-contact-form-section').scrollIntoView({behavior:'smooth'})" class="border-2 border-white/30 text-white px-10 py-5 rounded-full text-lg font-bold hover:bg-white/10 transition-all backdrop-blur-sm">Talk to an advisor</button>
 </div>
 </div>
@@ -405,11 +407,11 @@ Message sent! We'll be in touch within one business day.
 </main>
 
 <!-- Footer -->
-<footer class="bg-slate-950 dark:bg-black w-full py-16 px-8 mt-24">
-<div class="grid grid-cols-1 md:grid-cols-3 gap-12 max-w-7xl mx-auto w-full">
+<footer class="bg-slate-950 dark:bg-black w-full py-16 px-8">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-7xl mx-auto w-full">
 <div class="space-y-6">
-<img src="img/mortgageadvisors_logo.svg" alt="MortgageAdvisors.com" class="h-8 w-auto brightness-0 invert"/>
-<p class="font-['Inter'] leading-relaxed body-lg text-slate-300">
+<img src="img/mortgageadvisors_logo_light.svg" alt="MortgageAdvisors.com" class="h-8 w-auto"/>
+<p class="font-['Inter'] leading-relaxed text-slate-300">
     © 2024 MortgageAdvisors.com. NMLS #123456. Equal Housing Lender.
 </p>
 <div class="flex gap-4">
@@ -420,12 +422,10 @@ Message sent! We'll be in touch within one business day.
 </div>
 <div class="grid grid-cols-2 gap-8">
 <div class="space-y-4">
-<h5 class="text-white font-bold uppercase tracking-widest text-xs">Navigation</h5>
+<h5 class="text-white font-bold uppercase tracking-widest text-xs">Pages</h5>
 <ul class="space-y-2">
-<li><a class="text-slate-400 hover:text-cyan-300 transition-all" href="index.html#calculator">Lower my rate</a></li>
-<li><a class="text-slate-400 hover:text-cyan-300 transition-all" href="index.html#refinance-options">Cash-out refi</a></li>
-<li><a class="text-slate-400 hover:text-cyan-300 transition-all" href="index.html#how-it-works">How it works</a></li>
-<li><a class="text-slate-400 hover:text-cyan-300 transition-all" href="index.html#contact">Contact</a></li>
+<li><a class="text-slate-400 hover:text-cyan-300 transition-all" href="rateandterm-refinance.html">Rate-and-term refi</a></li>
+<li><a class="text-slate-400 hover:text-cyan-300 transition-all" href="cash-outrefinance.html">Cash-out refi</a></li>
 </ul>
 </div>
 <div class="space-y-4">
@@ -437,14 +437,6 @@ Message sent! We'll be in touch within one business day.
 <li><a class="text-slate-400 hover:text-cyan-300 transition-all" href="#">Contact Us</a></li>
 </ul>
 </div>
-</div>
-<div class="space-y-6">
-<h5 class="text-white font-bold uppercase tracking-widest text-xs">Subscribe to Market Updates</h5>
-<div class="flex gap-2">
-<input id="newsletter-email" class="bg-slate-900 border-none rounded-lg text-white w-full px-4 focus:ring-2 focus:ring-cyan-500" placeholder="Email address" type="email"/>
-<button id="newsletter-btn" onclick="handleNewsletterSubmit()" class="bg-cyan-500 text-slate-950 px-4 py-2 rounded-lg font-bold whitespace-nowrap">Join</button>
-</div>
-<p id="newsletter-msg" class="text-slate-500 text-sm italic">Get the latest rate movements delivered to your inbox weekly.</p>
 </div>
 </div>
 </footer>
@@ -475,28 +467,37 @@ document.getElementById('mobile-menu-btn').addEventListener('click', function ()
 });
 document.getElementById('mobile-menu-close').addEventListener('click', closeMobileMenu);
 
-// ── Newsletter subscribe ──────────────────────────────────────
-function handleNewsletterSubmit() {
-  var emailInput = document.getElementById('newsletter-email');
-  var msg = document.getElementById('newsletter-msg');
-  var email = emailInput.value.trim();
-  var valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  if (!valid) {
-    msg.textContent = 'Please enter a valid email address.';
-    msg.classList.remove('text-slate-500', 'text-cyan-400');
-    msg.classList.add('text-red-400');
-    return;
+// ── Slow smooth scroll ────────────────────────────────────────
+function slowScrollTo(id) {
+  var target = document.getElementById(id);
+  if (!target) return;
+  var start = window.scrollY;
+  var end = target.getBoundingClientRect().top + start;
+  var duration = 1800;
+  var startTime = null;
+  function ease(t) { return t < 0.5 ? 2*t*t : -1+(4-2*t)*t; }
+  function step(ts) {
+    if (!startTime) startTime = ts;
+    var progress = Math.min((ts - startTime) / duration, 1);
+    window.scrollTo(0, start + (end - start) * ease(progress));
+    if (progress < 1) requestAnimationFrame(step);
   }
-  emailInput.value = '';
-  msg.textContent = "You're in! Rate updates coming your way.";
-  msg.classList.remove('text-slate-500', 'text-red-400');
-  msg.classList.add('text-cyan-400');
-  document.getElementById('newsletter-btn').disabled = true;
-  document.getElementById('newsletter-btn').textContent = 'Done';
+  requestAnimationFrame(step);
 }
-document.getElementById('newsletter-email').addEventListener('keydown', function (e) {
-  if (e.key === 'Enter') handleNewsletterSubmit();
-});
+
+// ── Nav scroll behavior ───────────────────────────────────────
+(function () {
+  var nav = document.getElementById('main-nav');
+  window.addEventListener('scroll', function () {
+    if (window.scrollY > 0) {
+      nav.style.background = 'rgba(251,249,248,0.8)';
+      nav.style.backdropFilter = 'blur(12px)';
+    } else {
+      nav.style.background = 'rgb(251,249,248)';
+      nav.style.backdropFilter = '';
+    }
+  }, { passive: true });
+})();
 
 // ── Contact form ──────────────────────────────────────────────
 function handleContactSubmit(e) {
