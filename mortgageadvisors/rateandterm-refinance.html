@@ -142,8 +142,8 @@
 <div class="flex justify-between items-center px-8 py-6 max-w-7xl mx-auto w-full">
 <a href="index.html"><img src="img/mortgageadvisors_logo.svg" alt="MortgageAdvisors.com" class="h-10 w-auto"/></a>
 <div class="hidden md:flex space-x-8 items-center">
-<a class="text-blue-700 dark:text-blue-400 font-bold border-b-2 border-blue-700 dark:border-blue-400 pb-1" href="rateandterm-refinance.html">Rate-and-term refi</a>
-<a class="text-slate-600 dark:text-slate-400 font-medium hover:text-blue-800 transition-colors" href="cash-outrefinance.html">Cash-out refi</a>
+<a class="text-blue-700 dark:text-blue-400 font-bold border-b-2 border-blue-700 dark:border-blue-400 pb-1" href="rateandterm-refinance.html">Rate-and-term refinance</a>
+<a class="text-slate-600 dark:text-slate-400 font-medium hover:text-blue-800 border-b-2 border-transparent hover:border-primary pb-0.5 transition-colors" href="cash-outrefinance.html">Cash-out refinance</a>
 <a href="cash-outrefinance.html" class="ml-4 px-6 py-2 bg-primary text-on-primary rounded-lg font-semibold hover:opacity-90 transition-all">Get started</a>
 </div>
 <div class="md:hidden">
@@ -162,8 +162,8 @@
 </div>
 <nav class="flex flex-col">
 <a onclick="closeMobileMenu()" href="index.html" class="text-lg font-semibold text-on-secondary-fixed py-4 border-b border-surface-container-high">Home</a>
-<a onclick="closeMobileMenu()" href="rateandterm-refinance.html" class="text-lg font-semibold text-primary py-4 border-b border-surface-container-high">Rate-and-term refi</a>
-<a onclick="closeMobileMenu()" href="cash-outrefinance.html" class="text-lg font-semibold text-on-secondary-fixed py-4 border-b border-surface-container-high">Cash-out refi</a>
+<a onclick="closeMobileMenu()" href="rateandterm-refinance.html" class="text-lg font-semibold text-primary py-4 border-b border-surface-container-high">Rate-and-term refinance</a>
+<a onclick="closeMobileMenu()" href="cash-outrefinance.html" class="text-lg font-semibold text-on-secondary-fixed py-4 border-b border-surface-container-high">Cash-out refinance</a>
 </nav>
 <div class="mt-8">
 <a onclick="closeMobileMenu()" href="cash-outrefinance.html" class="block w-full text-center py-4 bg-primary text-white rounded-xl font-bold text-lg hover:opacity-90 transition-all">Get started</a>
@@ -437,8 +437,8 @@ Message sent! We'll be in touch within one business day.
 <div class="space-y-4">
 <h5 class="text-white font-bold uppercase tracking-widest text-xs">Pages</h5>
 <ul class="space-y-2">
-<li><a class="text-slate-400 hover:text-cyan-300 transition-all" href="rateandterm-refinance.html">Rate-and-term refi</a></li>
-<li><a class="text-slate-400 hover:text-cyan-300 transition-all" href="cash-outrefinance.html">Cash-out refi</a></li>
+<li><a class="text-slate-400 hover:text-cyan-300 transition-all" href="rateandterm-refinance.html">Rate-and-term refinance</a></li>
+<li><a class="text-slate-400 hover:text-cyan-300 transition-all" href="cash-outrefinance.html">Cash-out refinance</a></li>
 </ul>
 </div>
 <div class="space-y-4">
@@ -484,8 +484,10 @@ document.getElementById('mobile-menu-close').addEventListener('click', closeMobi
 function slowScrollTo(id) {
   var target = document.getElementById(id);
   if (!target) return;
+  var nav = document.getElementById('main-nav');
+  var navH = nav ? nav.offsetHeight : 0;
   var start = window.scrollY;
-  var end = target.getBoundingClientRect().top + start;
+  var end = target.getBoundingClientRect().top + start - navH;
   var duration = 1800;
   var startTime = null;
   function ease(t) { return t < 0.5 ? 2*t*t : -1+(4-2*t)*t; }
