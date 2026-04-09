@@ -166,10 +166,10 @@
 <!-- Hero -->
 <section class="relative flex items-center justify-center overflow-hidden" style="min-height:70vh;">
 <div class="absolute inset-0 z-0">
-<img class="hero-img-anim w-full h-full object-cover" src="img/start.png" alt=""/>
+<img class="hero-img-anim w-full h-full object-cover object-top" src="img/start.png" alt=""/>
 <div class="absolute inset-0" style="background:rgba(0,79,255,0.78);"></div>
 </div>
-<div class="relative z-10 max-w-5xl mx-auto px-8 text-center text-white pt-20">
+<div class="relative z-10 max-w-5xl mx-auto px-8 text-center text-white pt-20 pb-16">
 <span class="hero-anim inline-block px-4 py-1.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-bold text-sm tracking-wide mb-6">CASH-OUT REFINANCE</span>
 <h1 class="hero-anim delay-200 font-black mb-8 leading-[1.05] tracking-tight text-shadow-sm" style="font-size:4rem;">
     Your equity has been working. Now put it to work for you.
@@ -177,6 +177,12 @@
 <p class="hero-anim delay-400 text-xl md:text-2xl text-white/90 max-w-2xl mx-auto mb-12 font-medium leading-relaxed">
     Access the value you've built in your home to fund your future goals — with a professional guiding you at every step.
 </p>
+<div class="text-white animate-bounce opacity-70 md:hidden">
+<span class="material-symbols-outlined text-4xl">keyboard_double_arrow_down</span>
+</div>
+</div>
+<div class="absolute bottom-10 left-1/2 -translate-x-1/2 text-white animate-bounce opacity-70 z-10 hidden md:block">
+<span class="material-symbols-outlined text-4xl">keyboard_double_arrow_down</span>
 </div>
 </section>
 
@@ -190,7 +196,7 @@
 <p class="text-lg text-on-surface-variant leading-relaxed">It's a strategic financial tool that allows homeowners to leverage the equity they've earned through market appreciation and monthly payments — converting that "paper wealth" into liquid capital for significant life milestones.</p>
 </div>
 <div class="anim anim-right rounded-3xl overflow-hidden shadow-xl aspect-[4/3]">
-<img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDyuDfMG0dm5E7r8LEP8Xxn6sPUxlloSUh7mhAdvxTKn06XJJkoyzyC0dwR8W4_plqgSe3Ve2EcZnRExwyWxsOTs_VAzsrTbL-w6ySsmtU-emj3kylxM537hGpeWV9RqundLk3MD7pMF0VB42XA2r2EUZfTOOlySQorhx1DYAp5QiqukNv3nAU-VEC-iPx0brhhR9jz95ir_abI8Nur6vVd268nZ-O5yy41TuX-jGyv77Qipi__fgyprXpTykV_CvBi4-VcYexHLQY" alt="Advisor with couple"/>
+<img class="w-full h-full object-cover" src="img/cashout.png" alt="Advisor with couple"/>
 </div>
 </div>
 </section>
@@ -242,7 +248,7 @@
 <section class="py-24 px-8">
 <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
 <div class="anim anim-left rounded-3xl overflow-hidden shadow-xl aspect-square max-w-md mx-auto md:ml-0">
-<img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD2VQwpUFd8N78FncR_Ss2_iFPiJTRmbewSDkFiG7KdHzGGJsrPRbikFD-wMTff6FSFrRNGTK_ER-EBsd-6RYnH74cDO8bzNSJN0SpUe2Xwxf6cD74sc4i0sjZ6wf_uNvx6Dbms5Ktbk4PeQrFzw4dnDSNsdQl5TRDKOOMxDG5TGmtsC1p_8p4TDnfsbqjElXbE4LM4_H3GoI0iwj2mjP-nIRuuyYbAYvn8yX9G3FkR7fjjjZ-MzgWRTKS7jyVEjsV7U9ubVNn0GYo" alt="Advisor listening"/>
+<img class="w-full h-full object-cover" src="img/cashoutpath.png" alt="Advisor listening"/>
 </div>
 <div class="anim anim-right space-y-6">
 <span class="text-tertiary font-bold tracking-[0.2em] text-xs block">THE GUIDED PATH</span>
@@ -316,8 +322,9 @@
 </section>
 
 <!-- Process / Journey -->
-<section class="bg-on-secondary-fixed py-24 px-8 text-white overflow-hidden">
-<div class="max-w-7xl mx-auto">
+<section class="relative bg-on-secondary-fixed py-24 px-8 text-white overflow-hidden">
+<div class="absolute inset-0 pointer-events-none" style="background-image:url('img/cashoutbg.png');background-size:cover;background-position:center;background-attachment:fixed;opacity:0.12;mix-blend-mode:luminosity;"></div>
+<div class="relative z-10 max-w-7xl mx-auto">
 <div class="text-center mb-20 anim anim-up">
 <div class="flex justify-center mb-4">
 <div class="w-10 h-10 overflow-hidden flex-shrink-0"><img src="img/icon.svg" alt="" aria-hidden="true" style="height:40px;width:auto;max-width:none;filter:brightness(0) invert(1)"/></div>
@@ -345,6 +352,7 @@
 <div class="w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center font-black text-xl mb-6">4</div>
 <h3 class="text-xl font-bold mb-4">Closing &amp; Cash Out</h3>
 <p class="text-white/70 leading-relaxed">Sign your documents. After a mandatory three-day waiting period, your cash is wired directly to you.</p>
+</div>
 </div>
 </div>
 </div>
@@ -455,7 +463,7 @@ Message sent! We'll be in touch within one business day.
 <div class="space-y-6">
 <img src="img/mortgageadvisors_logo_light.svg" alt="MortgageAdvisors.com" class="h-8 w-auto"/>
 <p class="font-['Inter'] leading-relaxed text-slate-300">
-    © 2024 MortgageAdvisors.com. NMLS #123456. Equal Housing Lender.
+    © 2024 MortgageAdvisors.com. NMLS #70168. Equal Housing Lender.
 </p>
 <div class="flex gap-4">
 <span class="material-symbols-outlined text-cyan-400">home</span>
