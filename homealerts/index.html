@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html class="scroll-smooth" lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Search every active MLS listing in Florida with instant property alerts. Direct Stellar MLS feed updated every 60 seconds. Completely free.">
+  <title>HomeAlerts | Florida MLS Search &amp; Instant Property Alerts</title>
+
+  <!-- Performance: preconnect critical origins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://images.unsplash.com">
+  <link rel="dns-prefetch" href="https://cdn.tailwindcss.com">
+
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet">
+
+  <style type="text/tailwindcss">
+    :root {
+      --primary: #0f172a;
+      --accent: #ff4e00;
+      --accent-hover: #e64500;
+      --bg-main: #f1f5f9;
+    }
+    body { font-family: 'Roboto Condensed', sans-serif; background: var(--bg-main); }
+    .accent-text { color: var(--accent); }
+
+    /* Cards */
+    .listing-card {
+      background: white; cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+      border-radius: 0.25rem; overflow: hidden;
+    }
+    .listing-card:hover { transform: translateY(-3px); box-shadow: 0 14px 32px rgba(0,0,0,0.13); }
+    .listing-card:hover .card-img { transform: scale(1.05); }
+    .card-img-wrap { height: 210px; overflow: hidden; position: relative; background: #cbd5e1; }
+    .card-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; display: block; }
+
+    /* Status badges */
+    .badge { font-size: 10px; font-weight: 700; letter-spacing: 0.06em; padding: 3px 8px; text-transform: uppercase; border-radius: 0.25rem; }
+    .badge-new  { background: #ff4e00; color: #fff; }
+    .badge-drop { background: #10b981; color: #fff; }
+    .badge-active { background: #475569; color: #fff; }
+    .badge-pending { background: #8b5cf6; color: #fff; }
+
+    /* Live indicator */
+    .live-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #10b981; animation: blink 1.6s ease-in-out infinite; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.25} }
+
+    /* Save heart button */
+    .save-btn { transition: color .15s, transform .15s; }
+    .save-btn:hover { transform: scale(1.2); }
+    .save-btn.saved .heart-icon { font-variation-settings: 'FILL' 1 !important; color: #ef4444 !important; }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed; inset: 0; z-index: 100; background: rgba(0,0,0,.72);
+      display: flex; align-items: center; justify-content: center;
+      padding: 1rem; overflow-y: auto;
+      opacity: 0; visibility: hidden; transition: opacity .2s, visibility .2s;
+    }
+    .modal-overlay.open { opacity: 1; visibility: visible; }
+    .modal-box { background: white; width: 100%; max-width: 780px; position: relative; border-radius: 0.5rem; overflow: hidden; }
+
+    /* Mobile nav */
+    #mobile-nav {
+      position: fixed; inset: 0; z-index: 200; background: var(--primary);
+      display: flex; flex-direction: column; padding: 1.5rem;
+      transform: translateX(-100%); transition: transform .3s ease;
+    }
+    #mobile-nav.open { transform: translateX(0); }
+
+    /* Form tabs */
+    .tab-btn { border-bottom: 2px solid transparent; transition: color .15s, border-color .15s; }
+    .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+    .tab-btn:not(.active) { color: #94a3b8; }
+
+    /* Input focus */
+    input:focus, select:focus { outline: none; box-shadow: 0 0 0 2px var(--accent) !important; border-color: var(--accent) !important; }
+  </style>
+</head>
+<body class="text-slate-800">
+
+<!-- Mobile Nav Overlay -->
+<div id="mobile-nav" aria-label="Mobile navigation">
+  <div class="flex justify-between items-center mb-10">
+    <div class="flex items-center gap-2">
+      <img src="img/homealerts_logo_white.svg" alt="HomeAlerts" style="height:34px;width:auto">
+    </div>
+    <button id="mobile-close" class="text-white p-1" aria-label="Close menu">
+      <span class="material-symbols-outlined text-3xl">close</span>
+    </button>
+  </div>
+  <nav class="flex flex-col">
+    <a href="#listings" class="mobile-link text-2xl font-bold text-white uppercase py-4 border-b border-slate-800">Listings</a>
+    <a href="#features"  class="mobile-link text-2xl font-bold text-slate-500 uppercase py-4 border-b border-slate-800">Features</a>
+    <a href="#signup"    class="mobile-link text-2xl font-bold text-slate-500 uppercase py-4 border-b border-slate-800">Sign Up</a>
+  </nav>
+  <div class="mt-auto flex flex-col gap-3 pt-8">
+    <a href="#signup" class="mobile-link block text-center py-4 bg-[var(--accent)] text-white font-bold uppercase tracking-widest text-sm rounded">Join HomeAlerts Free</a>
+    <button id="mobile-signin" class="mobile-link block w-full text-center py-4 border border-slate-600 text-slate-300 font-bold uppercase tracking-widest text-sm rounded">Sign In</button>
+  </div>
+</div>
+
+<!-- Nav -->
+<nav class="sticky top-0 w-full z-50 bg-[var(--primary)] border-b border-slate-800 text-white">
+  <div class="flex justify-between items-center max-w-[1440px] mx-auto px-4 h-16">
+    <div class="flex items-center gap-8">
+      <a href="#">
+        <img src="img/homealerts_logo_white.svg" alt="HomeAlerts" style="height:36px;width:auto">
+      </a>
+      <div class="hidden md:flex gap-6 uppercase text-sm font-bold tracking-wider">
+        <a href="#listings" class="text-[var(--accent)] border-b-2 border-[var(--accent)] pb-0.5">Listings</a>
+        <a href="#features" class="text-slate-400 hover:text-white transition-colors">Features</a>
+        <a href="#signup"   class="text-slate-400 hover:text-white transition-colors">Agents</a>
+      </div>
+    </div>
+    <div class="flex items-center gap-3">
+      <button id="nav-signin" class="hidden md:block text-sm font-bold uppercase tracking-wider text-slate-300 hover:text-white transition-colors">Sign In</button>
+      <a href="#signup" class="hidden md:block px-5 py-1.5 bg-[var(--accent)] text-white text-sm font-bold uppercase tracking-widest rounded hover:bg-[var(--accent-hover)] transition-all">Join Free</a>
+      <button id="mobile-menu-btn" class="md:hidden text-white p-1" aria-label="Open menu">
+        <span class="material-symbols-outlined text-2xl">menu</span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<main>
+  <!-- Hero -->
+  <section class="bg-[var(--primary)] pt-12 pb-16 px-4 overflow-hidden">
+    <div class="max-w-[1440px] mx-auto">
+      <div class="grid md:grid-cols-[1fr_460px] lg:grid-cols-[1fr_520px] gap-10 items-center">
+        <!-- Left: Copy + Search -->
+        <div>
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded bg-slate-800/60 text-[var(--accent)] font-bold text-xs uppercase tracking-widest mb-6 border border-slate-700">
+            <span class="live-dot"></span>Powered by Stellar MLS
+          </div>
+          <h1 class="text-5xl lg:text-6xl font-bold text-white tracking-tight mb-5 uppercase leading-none">
+            Find Your<br>Next Home<br><span class="text-[var(--accent)]">Before Anyone Else.</span>
+          </h1>
+          <p class="text-slate-400 text-lg mb-8 leading-relaxed max-w-lg">
+            Search every active MLS listing with 60+ advanced filters and get instant push notifications the moment a match hits the market — completely free.
+          </p>
+
+          <!-- Search Form -->
+          <div class="bg-slate-800/60 p-3 rounded-lg shadow-2xl border border-slate-700 space-y-2">
+            <div class="relative">
+              <span class="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-500 text-xl pointer-events-none">search</span>
+              <input id="hero-search" type="text" placeholder="City, Zip, or Neighborhood..."
+                class="w-full bg-[var(--primary)] border border-slate-700 text-white pl-10 pr-3 py-3 rounded text-sm transition-all">
+            </div>
+            <div class="grid grid-cols-3 gap-2">
+              <select id="hero-price" class="bg-[var(--primary)] border border-slate-700 text-white py-3 px-3 rounded text-sm transition-all">
+                <option value="">Price Range</option>
+                <option value="200-400">$200k – $400k</option>
+                <option value="400-700">$400k – $700k</option>
+                <option value="700+">$700k+</option>
+              </select>
+              <select id="hero-beds" class="bg-[var(--primary)] border border-slate-700 text-white py-3 px-3 rounded text-sm transition-all">
+                <option value="">Beds</option>
+                <option value="2">2+ Beds</option>
+                <option value="3">3+ Beds</option>
+                <option value="4">4+ Beds</option>
+              </select>
+              <select id="hero-type" class="bg-[var(--primary)] border border-slate-700 text-white py-3 px-3 rounded text-sm transition-all">
+                <option value="">Type</option>
+                <option value="Single Family">Single Family</option>
+                <option value="Condo">Condo</option>
+                <option value="Townhouse">Townhouse</option>
+              </select>
+            </div>
+            <button id="search-btn"
+              class="w-full bg-[var(--accent)] hover:bg-[var(--accent-hover)] text-white font-bold uppercase tracking-widest py-3 rounded transition-all flex items-center justify-center gap-2 text-sm">
+              <span class="material-symbols-outlined text-base">filter_alt</span>Search Listings
+            </button>
+          </div>
+
+          <div class="mt-4 flex items-center gap-4 flex-wrap">
+            <a href="#signup" class="text-xs font-bold text-slate-400 hover:text-[var(--accent)] flex items-center gap-1 uppercase tracking-tighter transition-colors">
+              <span class="material-symbols-outlined text-sm">add_circle</span>Create Free Account
+            </a>
+            <span class="text-slate-700">·</span>
+            <span class="text-xs text-slate-500 uppercase tracking-wider">
+              <span id="hero-count" class="font-bold text-white">8</span> listings available now
+            </span>
+          </div>
+        </div>
+
+        <!-- Right: Image Grid (desktop only) -->
+        <div class="hidden md:grid grid-cols-2 gap-3 h-[500px]">
+          <div class="row-span-2 rounded-lg overflow-hidden shadow-2xl">
+            <img src="https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=600&q=80&auto=format&fit=crop"
+              alt="Florida home exterior" class="w-full h-full object-cover"
+              fetchpriority="high" decoding="async">
+          </div>
+          <div class="rounded-lg overflow-hidden shadow-xl">
+            <img src="https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=400&q=75&auto=format&fit=crop"
+              alt="Modern Florida home" class="w-full h-full object-cover"
+              loading="lazy" decoding="async">
+          </div>
+          <div class="rounded-lg overflow-hidden shadow-xl">
+            <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=400&q=75&auto=format&fit=crop"
+              alt="Florida pool home" class="w-full h-full object-cover"
+              loading="lazy" decoding="async">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+  <!-- Listings -->
+  <section id="listings" class="py-12 px-4 bg-[var(--bg-main)]">
+    <div class="max-w-[1440px] mx-auto">
+      <div class="flex flex-wrap justify-between items-end mb-6 border-b border-slate-300 pb-4 gap-4">
+        <div>
+          <div class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-1 flex items-center gap-2">
+            <span class="live-dot"></span>Live Feed
+          </div>
+          <h2 class="text-2xl font-bold uppercase text-slate-800">
+            Latest Listings
+            <span id="result-badge" class="ml-2 text-sm font-normal text-slate-500 normal-case tracking-normal">Showing all 8</span>
+          </h2>
+        </div>
+        <div class="flex items-center gap-3 flex-wrap">
+          <button id="clear-filters" class="hidden text-xs font-bold text-[var(--accent)] uppercase tracking-wider hover:underline">
+            ✕ Clear Filters
+          </button>
+          <label class="text-xs font-bold text-slate-500 uppercase tracking-widest">Sort:</label>
+          <select id="sort-select" class="bg-white border border-slate-300 text-slate-700 text-sm py-2 px-3 rounded transition-all">
+            <option value="dom">Newest First</option>
+            <option value="price-asc">Price: Low to High</option>
+            <option value="price-desc">Price: High to Low</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="listing-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section id="features" class="py-16 px-4 bg-slate-200/50 border-y border-slate-300">
+    <div class="max-w-[1440px] mx-auto">
+      <div class="text-center mb-12">
+        <div class="text-xs font-bold text-[var(--accent)] uppercase tracking-widest mb-3">Why HomeAlerts</div>
+        <h2 class="text-3xl font-bold uppercase text-slate-800">The Analyst's Edge</h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-white p-8 border-l-4 border-[var(--accent)] shadow-sm">
+          <div class="w-10 h-10 bg-[var(--primary)] flex items-center justify-center text-[var(--accent)] mb-6">
+            <span class="material-symbols-outlined">search_insights</span>
+          </div>
+          <h3 class="text-xl font-bold mb-3 uppercase tracking-tight text-slate-800">Advanced MLS Search</h3>
+          <p class="text-slate-600 text-sm leading-relaxed">Filter by school zones, lot size, flood zones, architectural styles, and 60+ additional data points sourced directly from Stellar MLS.</p>
+        </div>
+        <div class="bg-white p-8 border-l-4 border-[var(--accent)] shadow-sm">
+          <div class="w-10 h-10 bg-[var(--primary)] flex items-center justify-center text-[var(--accent)] mb-6">
+            <span class="material-symbols-outlined">notifications_active</span>
+          </div>
+          <h3 class="text-xl font-bold mb-3 uppercase tracking-tight text-slate-800">Instant HomeAlerts</h3>
+          <p class="text-slate-600 text-sm leading-relaxed">Be the first to know. Our system notifies you within seconds of a property matching your criteria hitting the market.</p>
+        </div>
+        <div class="bg-white p-8 border-l-4 border-[var(--accent)] shadow-sm">
+          <div class="w-10 h-10 bg-[var(--primary)] flex items-center justify-center text-[var(--accent)] mb-6">
+            <span class="material-symbols-outlined">photo_library</span>
+          </div>
+          <h3 class="text-xl font-bold mb-3 uppercase tracking-tight text-slate-800">Full Listing Details</h3>
+          <p class="text-slate-600 text-sm leading-relaxed">High-res photography, virtual tours, tax history, and detailed property records for every listing in our database.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sign Up -->
+  <section id="signup" class="py-20 px-4 bg-white">
+    <div class="max-w-[1440px] mx-auto grid md:grid-cols-2 gap-16 items-center">
+      <div>
+        <h2 class="text-4xl font-bold mb-8 leading-tight uppercase text-slate-900">Unlock the ultimate house hunting advantage</h2>
+        <ul class="space-y-6">
+          <li class="flex items-start gap-4">
+            <div class="mt-1 w-6 h-6 bg-[var(--accent)] flex items-center justify-center flex-shrink-0 text-white rounded-sm">
+              <span class="material-symbols-outlined text-sm">check</span>
+            </div>
+            <div>
+              <span class="font-bold block uppercase tracking-tight text-slate-800">Exclusive MLS Direct Access</span>
+              <span class="text-slate-600 text-sm">Direct feed from Stellar MLS updated every 60 seconds.</span>
+            </div>
+          </li>
+          <li class="flex items-start gap-4">
+            <div class="mt-1 w-6 h-6 bg-[var(--accent)] flex items-center justify-center flex-shrink-0 text-white rounded-sm">
+              <span class="material-symbols-outlined text-sm">check</span>
+            </div>
+            <div>
+              <span class="font-bold block uppercase tracking-tight text-slate-800">Save Unlimited Searches</span>
+              <span class="text-slate-600 text-sm">Monitor multiple neighborhoods and price points simultaneously.</span>
+            </div>
+          </li>
+          <li class="flex items-start gap-4">
+            <div class="mt-1 w-6 h-6 bg-[var(--accent)] flex items-center justify-center flex-shrink-0 text-white rounded-sm">
+              <span class="material-symbols-outlined text-sm">check</span>
+            </div>
+            <div>
+              <span class="font-bold block uppercase tracking-tight text-slate-800">Collaborative Home Shopping</span>
+              <span class="text-slate-600 text-sm">Invite your partner to like and comment on listings together in real-time.</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Auth Form -->
+      <div class="bg-[var(--bg-main)] border border-slate-300 p-8 md:p-10 shadow-sm rounded-lg">
+        <div class="flex border-b border-slate-300 mb-8 -mx-2">
+          <button id="tab-create" class="tab-btn active pb-4 px-6 font-bold uppercase tracking-widest text-sm">Create Account</button>
+          <button id="tab-login"  class="tab-btn pb-4 px-6 font-bold uppercase tracking-widest text-sm">Log In</button>
+        </div>
+
+        <!-- Create Account -->
+        <form id="create-form" class="space-y-4" novalidate>
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-widest mb-1.5 text-slate-500">Full Name</label>
+            <input type="text" placeholder="John Doe" required
+              class="w-full bg-white border border-slate-300 text-sm py-3 px-4 rounded transition-all">
+          </div>
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-widest mb-1.5 text-slate-500">Email Address</label>
+            <input type="email" placeholder="john@example.com" required
+              class="w-full bg-white border border-slate-300 text-sm py-3 px-4 rounded transition-all">
+          </div>
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-widest mb-1.5 text-slate-500">Password</label>
+            <input type="password" placeholder="••••••••" required minlength="8"
+              class="w-full bg-white border border-slate-300 text-sm py-3 px-4 rounded transition-all">
+          </div>
+          <button type="submit"
+            class="w-full py-4 bg-[var(--primary)] text-white font-bold uppercase tracking-widest hover:bg-[var(--accent)] transition-colors mt-2 rounded">
+            Join HomeAlerts Free
+          </button>
+          <p class="text-xs text-slate-400 text-center">By joining, you agree to our Terms of Service.</p>
+        </form>
+
+        <!-- Log In -->
+        <form id="login-form" class="space-y-4 hidden" novalidate>
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-widest mb-1.5 text-slate-500">Email Address</label>
+            <input type="email" placeholder="john@example.com" required
+              class="w-full bg-white border border-slate-300 text-sm py-3 px-4 rounded transition-all">
+          </div>
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-widest mb-1.5 text-slate-500">Password</label>
+            <input type="password" placeholder="••••••••" required
+              class="w-full bg-white border border-slate-300 text-sm py-3 px-4 rounded transition-all">
+          </div>
+          <div class="text-right">
+            <a href="#" class="text-xs font-bold text-[var(--accent)] uppercase tracking-widest">Forgot Password?</a>
+          </div>
+          <button type="submit"
+            class="w-full py-4 bg-[var(--primary)] text-white font-bold uppercase tracking-widest hover:bg-[var(--accent)] transition-colors rounded">
+            Sign In
+          </button>
+        </form>
+
+        <!-- Success -->
+        <div id="form-success" class="hidden text-center py-8">
+          <div class="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <span class="material-symbols-outlined text-emerald-500 text-4xl">check_circle</span>
+          </div>
+          <h3 class="text-xl font-bold uppercase text-slate-800 mb-2">You're in!</h3>
+          <p class="text-slate-500 text-sm">Check your inbox to verify your email and start getting HomeAlerts.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="px-4 py-12 bg-[var(--bg-main)]">
+    <div class="max-w-[1440px] mx-auto bg-[var(--primary)] border-t-4 border-[var(--accent)] p-12 md:p-20 text-center relative overflow-hidden shadow-2xl">
+      <div class="absolute inset-0 opacity-10 pointer-events-none" aria-hidden="true">
+        <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=1400&q=50&auto=format&fit=crop"
+          alt="" class="w-full h-full object-cover" loading="lazy" decoding="async">
+      </div>
+      <div class="relative z-10">
+        <h2 class="text-3xl md:text-5xl font-bold text-white mb-6 uppercase tracking-tight">Ready to Find Your Next Home?</h2>
+        <p class="text-slate-400 text-lg mb-10 max-w-xl mx-auto">Join 50,000+ active house hunters using the most accurate MLS data available online.</p>
+        <a href="#listings"
+          class="inline-block bg-[var(--accent)] hover:bg-[var(--accent-hover)] text-white px-10 py-4 font-bold uppercase tracking-widest transition-colors shadow-lg rounded">
+          Browse All Listings
+        </a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="bg-[#0b1120] text-slate-400 py-16 border-t border-slate-800">
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-12 max-w-[1440px] mx-auto px-4">
+    <div class="col-span-2 md:col-span-1">
+      <div class="mb-6">
+        <img src="img/homealerts_logo_white.svg" alt="HomeAlerts" style="height:28px;width:auto">
+      </div>
+      <p class="text-xs leading-relaxed mb-6 uppercase tracking-tighter">The most powerful way to search for real estate. Direct MLS access, zero fluff.</p>
+      <div class="flex gap-4">
+        <span class="material-symbols-outlined text-[var(--accent)]">query_stats</span>
+        <span class="material-symbols-outlined text-[var(--accent)]">stacked_bar_chart</span>
+        <span class="material-symbols-outlined text-[var(--accent)]">monitoring</span>
+      </div>
+    </div>
+    <div>
+      <h4 class="font-bold text-white mb-6 uppercase tracking-widest text-xs">Resources</h4>
+      <ul class="space-y-3 text-xs uppercase tracking-widest">
+        <li><a href="#" class="hover:text-[var(--accent)] transition-colors">Market Reports</a></li>
+        <li><a href="#" class="hover:text-[var(--accent)] transition-colors">Buyer's Guide</a></li>
+        <li><a href="#" class="hover:text-[var(--accent)] transition-colors">Contact Support</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4 class="font-bold text-white mb-6 uppercase tracking-widest text-xs">Legal</h4>
+      <ul class="space-y-3 text-xs uppercase tracking-widest">
+        <li><a href="#" class="hover:text-[var(--accent)] transition-colors">Privacy Policy</a></li>
+        <li><a href="#" class="hover:text-[var(--accent)] transition-colors">Terms of Service</a></li>
+        <li><a href="#" class="hover:text-[var(--accent)] transition-colors">Accessibility</a></li>
+      </ul>
+    </div>
+    <div class="col-span-2 md:col-span-1">
+      <h4 class="font-bold text-white mb-6 uppercase tracking-widest text-xs">MLS Disclaimer</h4>
+      <p class="text-[10px] leading-relaxed uppercase tracking-widest opacity-60">Information is believed to be reliable but not guaranteed. Listings belong to the participating members of Stellar MLS. Digital Estate complies with the Fair Housing Act and Equal Opportunity Act.</p>
+    </div>
+  </div>
+  <div class="max-w-[1440px] mx-auto px-4 mt-16 pt-8 border-t border-slate-900 text-center">
+    <p class="text-[10px] uppercase tracking-[0.2em] opacity-40">© 2025 Digital Estate. Meticulously Structured.</p>
+  </div>
+</footer>
+
+<!-- Property Detail Modal -->
+<div id="modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+  <div class="modal-box">
+    <button id="modal-close" aria-label="Close"
+      class="absolute top-3 right-3 z-20 bg-white/90 w-9 h-9 rounded-full flex items-center justify-center shadow-md hover:bg-white transition-colors">
+      <span class="material-symbols-outlined text-slate-700 text-xl">close</span>
+    </button>
+    <div class="relative" style="height:300px">
+      <img id="modal-img" src="" alt="" class="w-full h-full object-cover" loading="lazy" decoding="async">
+      <div class="absolute bottom-3 left-4"><span id="modal-badge" class="badge"></span></div>
+      <button id="modal-save-heart" aria-label="Save listing"
+        class="save-btn absolute top-3 left-3 bg-white/90 w-9 h-9 rounded-full flex items-center justify-center shadow-md hover:bg-white transition-colors">
+        <span class="heart-icon material-symbols-outlined text-slate-500 text-xl" style="font-variation-settings:'FILL' 0">favorite</span>
+      </button>
+    </div>
+    <div class="p-6 md:p-8">
+      <div class="flex justify-between items-start mb-1 gap-4">
+        <div>
+          <h2 id="modal-title" class="text-2xl font-bold text-slate-900"></h2>
+          <p id="modal-city" class="text-slate-500 text-sm"></p>
+        </div>
+        <div class="text-right shrink-0">
+          <div id="modal-price" class="text-2xl font-bold text-slate-900"></div>
+          <div id="modal-dom" class="text-xs text-slate-500"></div>
+        </div>
+      </div>
+      <div id="modal-stats" class="grid grid-cols-3 sm:grid-cols-6 gap-3 my-5 border-y border-slate-100 py-5"></div>
+      <p id="modal-desc" class="text-slate-600 text-sm leading-relaxed mb-6"></p>
+      <div class="flex gap-3 flex-wrap">
+        <a href="#signup"
+          class="flex-1 py-3 bg-[var(--accent)] hover:bg-[var(--accent-hover)] text-white font-bold uppercase tracking-widest text-sm text-center rounded transition-colors min-w-[140px]">
+          Schedule a Showing
+        </a>
+        <button id="modal-save-btn"
+          class="flex-1 py-3 border border-slate-300 text-slate-700 font-bold uppercase tracking-widest text-sm rounded hover:border-[var(--accent)] hover:text-[var(--accent)] transition-colors min-w-[140px]">
+          Save Listing
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─── DATA ────────────────────────────────────────────────────────────────────
+const LISTINGS = [
+  {
+    id: 1, status: 'new', label: 'NEW LISTING',
+    price: 549000, address: '1248 Oakwood Avenue',
+    city: 'Orlando', state: 'FL', zip: '32801',
+    beds: 4, baths: 3, sqft: 2400, dom: 1,
+    type: 'Single Family', year: 2018, lot: '0.25 ac',
+    img: 'https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=800&q=75&auto=format&fit=crop',
+    desc: 'Stunning 4-bedroom home in a prime Orlando neighborhood. Features an open-concept kitchen, screened lanai, and a 2-car garage. Located in the highly-rated Orange County school district with easy access to I-4 and the 408.',
+  },
+  {
+    id: 2, status: 'drop', label: 'PRICE DROP',
+    price: 1250000, address: '882 Waterfront Drive',
+    city: 'Tampa', state: 'FL', zip: '33602',
+    beds: 5, baths: 4, sqft: 3850, dom: 12,
+    type: 'Single Family', year: 2015, lot: '0.48 ac',
+    img: 'https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=800&q=75&auto=format&fit=crop',
+    desc: 'Spectacular waterfront estate with panoramic bay views. Private dock, resort-style pool, gourmet chef\'s kitchen, and a climate-controlled wine cellar. Reduced $125,000 from original asking price.',
+  },
+  {
+    id: 3, status: 'new', label: 'NEW LISTING',
+    price: 325000, address: '450 Pinecrest Circle',
+    city: 'Sarasota', state: 'FL', zip: '34236',
+    beds: 3, baths: 2, sqft: 1600, dom: 2,
+    type: 'Townhouse', year: 2020, lot: '0.10 ac',
+    img: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=75&auto=format&fit=crop',
+    desc: 'Move-in ready townhome in a quiet Sarasota community. Modern finishes, stainless appliances, and a private patio. Minutes from the beach, top-rated restaurants, and vibrant downtown Sarasota.',
+  },
+  {
+    id: 4, status: 'active', label: 'ACTIVE',
+    price: 675000, address: '221B Baker Street',
+    city: 'Miami', state: 'FL', zip: '33101',
+    beds: 3, baths: 3, sqft: 2100, dom: 8,
+    type: 'Condo', year: 2019, lot: 'N/A',
+    img: 'https://images.unsplash.com/photo-1613977257592-4871e5fcd7c4?w=800&q=75&auto=format&fit=crop',
+    desc: 'Sleek Miami high-rise unit with floor-to-ceiling windows and sweeping city views. Building amenities include a rooftop pool, fitness center, full-time concierge, and valet parking.',
+  },
+  {
+    id: 5, status: 'new', label: 'NEW LISTING',
+    price: 415000, address: '7840 Cypress Lane',
+    city: 'Jacksonville', state: 'FL', zip: '32201',
+    beds: 4, baths: 2, sqft: 1950, dom: 1,
+    type: 'Single Family', year: 2016, lot: '0.30 ac',
+    img: 'https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=800&q=75&auto=format&fit=crop',
+    desc: 'Charming 4-bedroom home in an established Jacksonville neighborhood. Large fenced backyard, updated bathrooms with frameless showers, and a new roof installed in 2023. Top-rated Duval County schools.',
+  },
+  {
+    id: 6, status: 'drop', label: 'PRICE DROP',
+    price: 890000, address: '3310 Biscayne Boulevard',
+    city: 'Fort Lauderdale', state: 'FL', zip: '33301',
+    beds: 4, baths: 3, sqft: 2800, dom: 22,
+    type: 'Single Family', year: 2012, lot: '0.35 ac',
+    img: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=75&auto=format&fit=crop',
+    desc: 'Reduced $75,000! Contemporary masterpiece featuring a private heated pool with sun shelf, built-in summer kitchen, and hurricane-impact windows and doors throughout. Turnkey and ready for immediate occupancy.',
+  },
+  {
+    id: 7, status: 'active', label: 'ACTIVE',
+    price: 298000, address: '91 Magnolia Way',
+    city: 'Clearwater', state: 'FL', zip: '33755',
+    beds: 3, baths: 2, sqft: 1450, dom: 15,
+    type: 'Single Family', year: 2008, lot: '0.18 ac',
+    img: 'https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=800&q=75&auto=format&fit=crop',
+    desc: 'Well-maintained 3/2 in a desirable Clearwater location. Tile floors throughout, updated kitchen with granite countertops, and a large enclosed porch. Walking distance to Clearwater Beach.',
+  },
+  {
+    id: 8, status: 'new', label: 'NEW LISTING',
+    price: 2100000, address: '5520 Gulf Shore Boulevard',
+    city: 'Naples', state: 'FL', zip: '34108',
+    beds: 6, baths: 5, sqft: 5200, dom: 0,
+    type: 'Single Family', year: 2021, lot: '0.72 ac',
+    img: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&q=75&auto=format&fit=crop',
+    desc: 'Brand-new ultra-luxury estate steps from the Gulf of Mexico. Soaring 14-ft ceilings, infinity-edge pool, climate-controlled wine room, home theater, 3-car garage, and a private putting green.',
+  },
+];
+
+// ─── STATE ────────────────────────────────────────────────────────────────────
+let saved = new Set(JSON.parse(localStorage.getItem('ha_saved') || '[]'));
+let filters = { q: '', price: '', beds: '', type: '' };
+let sortBy = 'dom';
+let activeModal = null;
+
+// ─── UTILS ────────────────────────────────────────────────────────────────────
+const fmtFull = n => '$' + n.toLocaleString();
+const domText = d => d === 0 ? 'Listed today' : d === 1 ? '1 day on market' : `${d} days on market`;
+const badgeClass = s => ({ new: 'badge-new', drop: 'badge-drop', active: 'badge-active', pending: 'badge-pending' }[s] || 'badge-active');
+
+// ─── FILTER + SORT ────────────────────────────────────────────────────────────
+function getResults() {
+  const { q, price, beds, type } = filters;
+  return LISTINGS.filter(l => {
+    if (q) {
+      const ql = q.toLowerCase();
+      if (![l.address, l.city, l.zip].some(v => v.toLowerCase().includes(ql))) return false;
+    }
+    if (price === '200-400' && (l.price < 200000 || l.price > 400000)) return false;
+    if (price === '400-700' && (l.price < 400000 || l.price > 700000)) return false;
+    if (price === '700+'    && l.price < 700000) return false;
+    if (beds && l.beds < parseInt(beds)) return false;
+    if (type && l.type !== type) return false;
+    return true;
+  }).sort((a, b) => {
+    if (sortBy === 'price-asc')  return a.price - b.price;
+    if (sortBy === 'price-desc') return b.price - a.price;
+    return a.dom - b.dom;
+  });
+}
+
+// ─── RENDER LISTINGS ──────────────────────────────────────────────────────────
+function renderListings() {
+  const results = getResults();
+  const grid    = document.getElementById('listing-grid');
+  const badge   = document.getElementById('result-badge');
+  const clearBtn = document.getElementById('clear-filters');
+  const hasFilters = Object.values(filters).some(v => v !== '');
+
+  badge.textContent = results.length === LISTINGS.length
+    ? `Showing all ${LISTINGS.length}`
+    : `${results.length} of ${LISTINGS.length} listings`;
+  clearBtn.classList.toggle('hidden', !hasFilters);
+
+  if (!results.length) {
+    grid.innerHTML = `<div class="col-span-full py-16 text-center">
+      <span class="material-symbols-outlined text-5xl text-slate-300 mb-4 block">search_off</span>
+      <p class="text-slate-400 uppercase tracking-widest text-sm font-bold">No listings match your search.</p>
+      <button onclick="clearFilters()" class="mt-4 text-sm font-bold text-[var(--accent)] uppercase tracking-widest hover:underline">Clear Filters</button>
+    </div>`;
+    return;
+  }
+
+  grid.innerHTML = results.map(l => {
+    const isSaved = saved.has(l.id);
+    const fill = isSaved ? 1 : 0;
+    const heartColor = isSaved ? '#ef4444' : '#64748b';
+    return `<div class="listing-card" onclick="openModal(${l.id})" role="button" tabindex="0"
+        onkeydown="if(event.key==='Enter')openModal(${l.id})"
+        aria-label="${l.address}, ${fmtFull(l.price)}">
+      <div class="card-img-wrap">
+        <img src="${l.img}" alt="${l.address}" class="card-img" loading="lazy" decoding="async">
+        <div style="position:absolute;top:10px;left:10px">
+          <span class="badge ${badgeClass(l.status)}">${l.label}</span>
+        </div>
+        <button class="save-btn${isSaved ? ' saved' : ''}"
+          onclick="event.stopPropagation();toggleSave(${l.id},this)"
+          aria-label="Save listing"
+          style="position:absolute;top:10px;right:10px;width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.92);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 1px 4px rgba(0,0,0,.2)">
+          <span class="heart-icon material-symbols-outlined" style="font-size:18px;font-variation-settings:'FILL' ${fill};color:${heartColor}">favorite</span>
+        </button>
+      </div>
+      <div style="padding:1rem">
+        <div class="text-xl font-bold text-slate-900 mb-0.5">${fmtFull(l.price)}</div>
+        <div class="text-sm font-bold text-slate-800 truncate">${l.address}</div>
+        <div class="text-xs text-slate-500 mb-3">${l.city}, ${l.state} ${l.zip}</div>
+        <div class="flex items-center gap-4 text-xs font-bold text-slate-600 border-t border-slate-100 pt-3">
+          <span class="flex items-center gap-1">
+            <span class="material-symbols-outlined text-slate-400" style="font-size:14px">bed</span>${l.beds} bd
+          </span>
+          <span class="flex items-center gap-1">
+            <span class="material-symbols-outlined text-slate-400" style="font-size:14px">bathtub</span>${l.baths} ba
+          </span>
+          <span class="flex items-center gap-1">
+            <span class="material-symbols-outlined text-slate-400" style="font-size:14px">square_foot</span>${l.sqft.toLocaleString()} sqft
+          </span>
+        </div>
+        <div style="font-size:10px;color:#94a3b8;text-transform:uppercase;letter-spacing:.06em;margin-top:6px">${domText(l.dom)} · ${l.type}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ─── SEARCH ───────────────────────────────────────────────────────────────────
+function runSearch() {
+  filters.q     = document.getElementById('hero-search').value.trim();
+  filters.price = document.getElementById('hero-price').value;
+  filters.beds  = document.getElementById('hero-beds').value;
+  filters.type  = document.getElementById('hero-type').value;
+  renderListings();
+  document.getElementById('listings').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function clearFilters() {
+  filters = { q: '', price: '', beds: '', type: '' };
+  document.getElementById('hero-search').value = '';
+  document.getElementById('hero-price').value  = '';
+  document.getElementById('hero-beds').value   = '';
+  document.getElementById('hero-type').value   = '';
+  renderListings();
+}
+
+// ─── SAVE ─────────────────────────────────────────────────────────────────────
+function toggleSave(id, btn) {
+  if (saved.has(id)) {
+    saved.delete(id);
+  } else {
+    saved.add(id);
+  }
+  const isSaved = saved.has(id);
+  const icon = btn.querySelector('.heart-icon');
+  icon.style.fontVariationSettings = `'FILL' ${isSaved ? 1 : 0}`;
+  icon.style.color = isSaved ? '#ef4444' : '#64748b';
+  btn.classList.toggle('saved', isSaved);
+  localStorage.setItem('ha_saved', JSON.stringify([...saved]));
+  syncModalSaveUI(id);
+}
+
+function syncModalSaveUI(id) {
+  if (activeModal !== id) return;
+  const isSaved = saved.has(id);
+  const heartIcon = document.querySelector('#modal-save-heart .heart-icon');
+  if (heartIcon) {
+    heartIcon.style.fontVariationSettings = `'FILL' ${isSaved ? 1 : 0}`;
+    heartIcon.style.color = isSaved ? '#ef4444' : '#64748b';
+  }
+  document.getElementById('modal-save-btn').textContent = isSaved ? 'Saved ✓' : 'Save Listing';
+}
+
+// ─── MODAL ────────────────────────────────────────────────────────────────────
+function openModal(id) {
+  const l = LISTINGS.find(x => x.id === id);
+  if (!l) return;
+  activeModal = id;
+
+  document.getElementById('modal-img').src = l.img;
+  document.getElementById('modal-img').alt = l.address;
+  const badgeEl = document.getElementById('modal-badge');
+  badgeEl.className = `badge ${badgeClass(l.status)}`;
+  badgeEl.textContent = l.label;
+  document.getElementById('modal-title').textContent = l.address;
+  document.getElementById('modal-city').textContent  = `${l.city}, ${l.state} ${l.zip}`;
+  document.getElementById('modal-price').textContent = fmtFull(l.price);
+  document.getElementById('modal-dom').textContent   = domText(l.dom);
+  document.getElementById('modal-desc').textContent  = l.desc;
+
+  const stats = [
+    { icon: 'bed',            label: 'Beds',  value: l.beds },
+    { icon: 'bathtub',        label: 'Baths', value: l.baths },
+    { icon: 'square_foot',    label: 'Sq Ft', value: l.sqft.toLocaleString() },
+    { icon: 'calendar_today', label: 'Year',  value: l.year },
+    { icon: 'home',           label: 'Type',  value: l.type },
+    { icon: 'yard',           label: 'Lot',   value: l.lot },
+  ];
+  document.getElementById('modal-stats').innerHTML = stats.map(s =>
+    `<div class="text-center">
+      <span class="material-symbols-outlined accent-text text-xl block mb-1">${s.icon}</span>
+      <div class="text-sm font-bold text-slate-800">${s.value}</div>
+      <div style="font-size:10px;color:#94a3b8;text-transform:uppercase;letter-spacing:.06em">${s.label}</div>
+    </div>`
+  ).join('');
+
+  syncModalSaveUI(id);
+  document.getElementById('modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('modal').classList.remove('open');
+  document.body.style.overflow = '';
+  activeModal = null;
+}
+
+// ─── TABS ─────────────────────────────────────────────────────────────────────
+function initTabs() {
+  const tabs  = [document.getElementById('tab-create'), document.getElementById('tab-login')];
+  const forms = [document.getElementById('create-form'), document.getElementById('login-form')];
+
+  tabs.forEach((tab, i) => {
+    tab.addEventListener('click', () => {
+      tabs.forEach((t, j) => {
+        t.classList.toggle('active', i === j);
+        forms[j].classList.toggle('hidden', i !== j);
+      });
+      document.getElementById('form-success').classList.add('hidden');
+    });
+  });
+}
+
+// ─── FORMS ────────────────────────────────────────────────────────────────────
+function initForms() {
+  ['create-form', 'login-form'].forEach(id => {
+    document.getElementById(id).addEventListener('submit', e => {
+      e.preventDefault();
+      let valid = true;
+      e.target.querySelectorAll('input[required]').forEach(inp => {
+        inp.style.borderColor = '';
+        const empty = !inp.value.trim();
+        const badEmail = inp.type === 'email' && !inp.value.includes('@');
+        const shortPw  = inp.type === 'password' && inp.value.length < 6;
+        if (empty || badEmail || shortPw) {
+          inp.style.borderColor = '#ef4444';
+          valid = false;
+        }
+      });
+      if (!valid) return;
+      e.target.classList.add('hidden');
+      document.getElementById('form-success').classList.remove('hidden');
+    });
+  });
+}
+
+// ─── MOBILE NAV ───────────────────────────────────────────────────────────────
+function initMobileNav() {
+  const nav = document.getElementById('mobile-nav');
+  const open = () => { nav.classList.add('open'); document.body.style.overflow = 'hidden'; };
+  const close = () => { nav.classList.remove('open'); document.body.style.overflow = ''; };
+
+  document.getElementById('mobile-menu-btn').addEventListener('click', open);
+  document.getElementById('mobile-close').addEventListener('click', close);
+  document.querySelectorAll('.mobile-link').forEach(a => a.addEventListener('click', close));
+
+  document.getElementById('mobile-signin').addEventListener('click', () => {
+    close();
+    document.getElementById('tab-login').click();
+    setTimeout(() => document.getElementById('signup').scrollIntoView({ behavior: 'smooth' }), 100);
+  });
+}
+
+// ─── INIT ────────────────────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  renderListings();
+  initTabs();
+  initForms();
+  initMobileNav();
+
+  // Modal events
+  document.getElementById('modal-close').addEventListener('click', closeModal);
+  document.getElementById('modal').addEventListener('click', e => {
+    if (e.target === document.getElementById('modal')) closeModal();
+  });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+  document.getElementById('modal-save-heart').addEventListener('click', () => {
+    if (activeModal == null) return;
+    const fakeBtn = document.getElementById('modal-save-heart');
+    toggleSave(activeModal, fakeBtn);
+  });
+
+  document.getElementById('modal-save-btn').addEventListener('click', () => {
+    if (activeModal == null) return;
+    const fakeBtn = document.getElementById('modal-save-heart');
+    toggleSave(activeModal, fakeBtn);
+    renderListings();
+  });
+
+  // Sort
+  document.getElementById('sort-select').addEventListener('change', e => {
+    sortBy = e.target.value;
+    renderListings();
+  });
+
+  // Clear filters button
+  document.getElementById('clear-filters').addEventListener('click', clearFilters);
+
+  // Nav Sign In → scroll + switch to login tab
+  document.getElementById('nav-signin').addEventListener('click', () => {
+    document.getElementById('tab-login').click();
+    document.getElementById('signup').scrollIntoView({ behavior: 'smooth' });
+  });
+
+  // Hero search button + Enter key
+  document.getElementById('search-btn').addEventListener('click', runSearch);
+  document.getElementById('hero-search').addEventListener('keydown', e => {
+    if (e.key === 'Enter') runSearch();
+  });
+});
+</script>
+</body>
+</html>
