@@ -12,26 +12,135 @@
 	<link rel="stylesheet" href="Property%20search_files/app.css">
 <script async="" src="Property%20search_files/fbevents.js"></script><script src="Property%20search_files/js" async=""></script><link rel="stylesheet" href="Property%20search_files/leaflet.css"><script src="Property%20search_files/leaflet.js" async=""></script>
 <style>
+  @font-face {
+    font-family: 'Arboria';
+    src: url('fonts/Arboria-Light.woff2') format('woff2'),
+         url('fonts/Arboria-Light.woff') format('woff');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Arboria';
+    src: url('fonts/Arboria-Book.woff2') format('woff2'),
+         url('fonts/Arboria-Book.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Arboria';
+    src: url('fonts/Arboria-Medium.woff2') format('woff2'),
+         url('fonts/Arboria-Medium.woff') format('woff');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Arboria';
+    src: url('fonts/Arboria-Bold.woff2') format('woff2'),
+         url('fonts/Arboria-Bold.woff') format('woff');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+  }
+  :root {
+    --font: 'Arboria', ui-sans-serif, system-ui, sans-serif;
+  }
   .search-ha-cta-btn {
+    position: relative;
     display: flex;
     align-items: center;
-    gap: 10px;
-    width: 100%;
-    padding: 14px 16px;
-    margin: 12px 0 10px;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    padding: 0;
+    margin: 0;
     background: #1a73e8;
     color: #fff;
-    font-size: 15px;
-    font-weight: 700;
-    line-height: 1.3;
     border: none;
     border-radius: 6px;
     cursor: pointer;
-    text-align: left;
+    flex-shrink: 0;
     transition: background 0.15s;
   }
   .search-ha-cta-btn:hover { background: #1558b0; }
+  /* Body-level tooltip — avoids overflow:hidden clipping */
+  #ha-cta-tooltip {
+    position: fixed;
+    z-index: 9999;
+    max-width: 220px;
+    padding: 9px 13px;
+    background: #1a2233;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.4;
+    border-radius: 7px;
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(4px);
+    transition: opacity 0.15s, transform 0.15s;
+  }
+  #ha-cta-tooltip.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  #ha-cta-tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    right: 12px;
+    border: 6px solid transparent;
+    border-top-color: #1a2233;
+  }
   .search-ha-cta-btn svg { flex-shrink: 0; }
+  /* Mobile card layout */
+  @media (max-width: 600px) {
+    /* Stack: photo on top, info below */
+    .search-card {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto auto;
+    }
+    .search-card__img {
+      grid-column: 1;
+      grid-row: 1;
+      border-radius: 8px 8px 0 0;
+      aspect-ratio: 16 / 9;
+      min-height: unset;
+    }
+    .search-card__info {
+      grid-column: 1;
+      grid-row: 2;
+      margin: 0.75rem;
+    }
+    /* Price above details */
+    .search-card__meta {
+      grid-template-columns: 1fr;
+    }
+    .search-card__label--price          { grid-column: 1; grid-row: 1; }
+    .search-card__price                 { grid-column: 1; grid-row: 2; }
+    .search-card__meta > .search-card__label:not(.search-card__label--price):not(.search-card__label--type) { grid-column: 1; grid-row: 3; }
+    .search-card__facts                 { grid-column: 1; grid-row: 4; }
+    .search-card__label--type           { grid-column: 1; grid-row: 5; }
+    .search-card__type                  { grid-column: 1; grid-row: 6; }
+    .search-card__status-row            { grid-column: 1; grid-row: 7; }
+  }
+
+  .ha-cta-mobile-label { display: none; }
+  @media (max-width: 767px) {
+    .ha-cta-mobile-label {
+      display: inline;
+      font-size: 13px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .search-ha-cta-btn {
+      width: auto;
+      padding: 0 12px;
+      gap: 7px;
+    }
+  }
   .search-blurb {
     color: #8b9ab0;
     font-size: 14px;
@@ -79,17 +188,15 @@
 	<div class="search-hybrid search-mode-list" id="search-hybrid">
 		<div class="search-list-panel" id="search-panel-list" role="tabpanel" aria-labelledby="search-tab-list">
 			<div class="search-list-panel__sticky">
-				<div class="search-title-row">
+				<div class="search-title-row" style="align-items:center;">
 					<h1 class="search-title">Search listings</h1>
-					<button type="button" class="btn-advanced-hero" id="adv-search-btn">Advanced Search</button>
+					<button class="search-ha-cta-btn" type="button" style="margin-left:auto;" aria-label="Set a HomeAlert for New Homes Like These">
+						<svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true">
+							<path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/>
+						</svg>
+						<span class="ha-cta-mobile-label">Set a HomeAlert</span>
+					</button>
 				</div>
-
-				<button class="search-ha-cta-btn" type="button">
-					<svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true">
-						<path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/>
-					</svg>
-					Set a HomeAlert for New Homes Like These
-				</button>
 				<p class="search-blurb">Explore homes near golf courses, with golf views, and in communities that appeal to buyers seeking a golf-centered lifestyle. Find listings that match your price, area, and preferred features.</p>
 
 				<form class="search-filters" method="get" action="search.cfm">
@@ -101,6 +208,9 @@
 							<input type="text" name="location" value="longwood" placeholder="City, zip, county, subdivisionâ€¦" data-format="propercase">
 						</label>
 						<button type="submit" class="btn-lead">Search</button>
+					</div>
+					<div style="margin-top:8px;">
+						<button type="button" class="btn-advanced-hero" id="adv-search-btn">Advanced Search</button>
 					</div>
 				</form>
 
@@ -1744,6 +1854,26 @@ mark.kw-mark {
     applyFilters(); // apply initial state: location=longwood, keyword=golf
   });
 
+})();
+</script>
+
+<div id="ha-cta-tooltip">Set a HomeAlert for New Homes Like These</div>
+<script>
+(function() {
+  var btn = document.querySelector('.search-ha-cta-btn');
+  var tip = document.getElementById('ha-cta-tooltip');
+  if (!btn || !tip) return;
+  btn.addEventListener('mouseenter', function() {
+    var r = btn.getBoundingClientRect();
+    var tw = tip.offsetWidth;
+    var th = tip.offsetHeight;
+    tip.style.top  = (r.top - th - 12) + 'px';
+    tip.style.left = (r.right - tw) + 'px';
+    tip.classList.add('visible');
+  });
+  btn.addEventListener('mouseleave', function() {
+    tip.classList.remove('visible');
+  });
 })();
 </script>
 </body></html>
