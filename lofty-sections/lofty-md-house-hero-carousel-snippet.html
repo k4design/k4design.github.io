@@ -1,0 +1,628 @@
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600&family=Playfair+Display:ital,wght@0,300;0,400;1,300;1,400&display=swap');
+
+/* ── Scoped to .ag-hero-carousel to avoid conflicts with Lofty styles ── */
+
+.ag-hero-carousel {
+    --ag-blue:      #0092ff;
+    --ag-blue-dim:  rgba(0, 146, 255, 0.18);
+    --ag-blue-glow: rgba(0, 146, 255, 0.45);
+    --ag-white:     #ffffff;
+    --ag-grey-1:    rgba(255,255,255,0.80);
+    --ag-grey-2:    rgba(255,255,255,0.50);
+    --ag-grey-3:    rgba(255,255,255,0.14);
+
+    position: relative;
+    width: 100%;
+    height: 90svh;
+    min-height: 540px;
+    overflow: hidden;
+    background: #000;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-weight: 200;
+    color: #fff;
+    -webkit-font-smoothing: antialiased;
+    box-sizing: border-box;
+}
+
+.ag-hero-carousel *, .ag-hero-carousel *::before, .ag-hero-carousel *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* ── Slides ─────────────────────────────────────────────────────────── */
+.ag-hero-carousel .ag-slides {
+    position: absolute;
+    inset: 0;
+    list-style: none;
+}
+
+.ag-hero-carousel .ag-slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 1.1s cubic-bezier(0.45, 0, 0.55, 1);
+    pointer-events: none;
+}
+
+.ag-hero-carousel .ag-slide.is-active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.ag-hero-carousel .ag-slide-bg {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    transform: scale(1.06);
+    transition: transform 8s ease-out;
+    will-change: transform;
+}
+
+.ag-hero-carousel .ag-slide.is-active .ag-slide-bg {
+    transform: scale(1);
+}
+
+.ag-hero-carousel .ag-slide-overlay {
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(to top,
+            rgba(0,0,0,0.88)  0%,
+            rgba(0,0,0,0.55)  30%,
+            rgba(0,0,0,0.15)  60%,
+            rgba(0,0,0,0.05) 100%),
+        linear-gradient(to right,
+            rgba(0,0,0,0.35)  0%,
+            transparent       55%);
+}
+
+/* ── Slide content ──────────────────────────────────────────────────── */
+.ag-hero-carousel .ag-slide-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 0 5vw 4.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.ag-hero-carousel .ag-slide-counter {
+    font-size: 0.7rem;
+    font-weight: 400;
+    letter-spacing: 0.18em;
+    color: var(--ag-blue);
+    margin-bottom: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.ag-hero-carousel .ag-slide-counter::before {
+    content: '';
+    display: block;
+    width: 28px;
+    height: 1px;
+    background: var(--ag-blue);
+}
+
+.ag-hero-carousel .ag-slide-status {
+    display: inline-block;
+    font-size: 0.62rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    background: var(--ag-blue);
+    color: #fff;
+    padding: 4px 12px;
+    border-radius: 2px;
+    margin-bottom: 1.1rem;
+}
+
+.ag-hero-carousel .ag-slide-status.lease { background: #0b8040; }
+
+.ag-hero-carousel .ag-slide-price {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.2rem, 5vw, 4rem);
+    font-weight: 300;
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+    color: var(--ag-white);
+    margin-bottom: 0.6rem;
+    text-shadow: 0 2px 20px rgba(0,0,0,0.6);
+}
+
+.ag-hero-carousel .ag-slide-address {
+    font-size: clamp(0.9rem, 1.4vw, 1.1rem);
+    font-weight: 300;
+    color: var(--ag-grey-1);
+    margin-bottom: 1.4rem;
+    letter-spacing: 0.01em;
+    max-width: 480px;
+}
+
+.ag-hero-carousel .ag-slide-specs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+}
+
+.ag-hero-carousel .ag-spec {
+    font-size: 0.72rem;
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    color: var(--ag-grey-1);
+    background: rgba(0,0,0,0.40);
+    border: 1px solid var(--ag-grey-3);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    padding: 5px 14px;
+    border-radius: 2px;
+}
+
+.ag-hero-carousel .ag-slide-ctas {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.ag-hero-carousel .ag-btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: #fff;
+    background: var(--ag-blue);
+    padding: 0.75rem 1.75rem;
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+}
+
+.ag-hero-carousel .ag-btn-primary:hover {
+    background: #0080e0;
+    transform: translateY(-1px);
+}
+
+.ag-hero-carousel .ag-btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 400;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--ag-grey-1);
+    background: transparent;
+    padding: 0.75rem 1.75rem;
+    border: 1px solid var(--ag-grey-3);
+    border-radius: 2px;
+    cursor: pointer;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    transition: border-color 0.2s, color 0.2s;
+}
+
+.ag-hero-carousel .ag-btn-ghost:hover {
+    border-color: var(--ag-blue);
+    color: var(--ag-blue);
+}
+
+/* ── Slide content entrance animation ───────────────────────────────── */
+.ag-hero-carousel .ag-slide-content > * {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.55s ease, transform 0.55s ease;
+}
+
+.ag-hero-carousel .ag-slide.is-active .ag-slide-content > * {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.ag-hero-carousel .ag-slide.is-active .ag-slide-counter  { transition-delay: 0.15s; }
+.ag-hero-carousel .ag-slide.is-active .ag-slide-status   { transition-delay: 0.25s; }
+.ag-hero-carousel .ag-slide.is-active .ag-slide-price    { transition-delay: 0.35s; }
+.ag-hero-carousel .ag-slide.is-active .ag-slide-address  { transition-delay: 0.42s; }
+.ag-hero-carousel .ag-slide.is-active .ag-slide-specs    { transition-delay: 0.50s; }
+.ag-hero-carousel .ag-slide.is-active .ag-slide-ctas     { transition-delay: 0.58s; }
+
+/* ── Prev / Next arrows (desktop) ───────────────────────────────────── */
+.ag-hero-carousel .ag-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 20;
+    width: 52px;
+    height: 52px;
+    border: 1px solid rgba(255,255,255,0.15);
+    background: rgba(0,0,0,0.30);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: rgba(255,255,255,0.75);
+    transition: border-color 0.22s, background 0.22s, color 0.22s, transform 0.22s;
+}
+
+.ag-hero-carousel .ag-arrow:hover {
+    border-color: var(--ag-blue);
+    background: var(--ag-blue-dim);
+    color: var(--ag-white);
+    transform: translateY(-50%) scale(1.05);
+}
+
+.ag-hero-carousel .ag-arrow-prev { left: 2vw; }
+.ag-hero-carousel .ag-arrow-next { right: 2vw; }
+
+.ag-hero-carousel .ag-arrow svg {
+    width: 18px;
+    height: 18px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 1.6;
+}
+
+/* ── Bottom UI: dots ────────────────────────────────────────────────── */
+.ag-hero-carousel .ag-carousel-ui {
+    position: absolute;
+    bottom: 2.5rem;
+    right: 5vw;
+    z-index: 20;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 1rem;
+}
+
+.ag-hero-carousel .ag-carousel-bottom-nav {
+    display: none;
+}
+
+.ag-hero-carousel .ag-dots {
+    display: flex;
+    gap: 7px;
+    align-items: center;
+}
+
+.ag-hero-carousel .ag-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--ag-grey-3);
+    border: 1px solid rgba(255,255,255,0.25);
+    cursor: pointer;
+    transition: background 0.3s, width 0.3s, border-radius 0.3s;
+    padding: 0;
+}
+
+.ag-hero-carousel .ag-dot.is-active {
+    background: var(--ag-blue);
+    border-color: var(--ag-blue);
+    width: 22px;
+    border-radius: 3px;
+    box-shadow: 0 0 8px var(--ag-blue-glow);
+}
+
+/* ── Autoplay progress bar ──────────────────────────────────────────── */
+.ag-hero-carousel .ag-autoplay-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 2px;
+    background: var(--ag-blue);
+    width: 0%;
+    transition: width linear;
+    box-shadow: 0 0 6px var(--ag-blue-glow);
+    z-index: 30;
+}
+
+/* ── Mobile ─────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+    .ag-hero-carousel .ag-slide-content { padding: 0 1.5rem 5.5rem; }
+
+    .ag-hero-carousel .ag-arrow-prev,
+    .ag-hero-carousel .ag-arrow-next { display: none; }
+
+    .ag-hero-carousel .ag-carousel-ui {
+        right: auto;
+        left: 1.5rem;
+        bottom: 1.8rem;
+        flex-direction: row;
+        align-items: center;
+        gap: 0;
+    }
+
+    .ag-hero-carousel .ag-carousel-bottom-nav {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .ag-hero-carousel .ag-carousel-bottom-nav .ag-arrow {
+        display: flex;
+        position: static;
+        top: auto;
+        transform: none;
+        width: 38px;
+        height: 38px;
+        flex-shrink: 0;
+    }
+
+    .ag-hero-carousel .ag-carousel-bottom-nav .ag-arrow:hover {
+        transform: none;
+    }
+
+    .ag-hero-carousel .ag-carousel-bottom-nav .ag-arrow svg {
+        width: 14px;
+        height: 14px;
+    }
+
+    .ag-hero-carousel .ag-slide-ctas { flex-direction: column; }
+
+    .ag-hero-carousel .ag-btn-primary,
+    .ag-hero-carousel .ag-btn-ghost { width: 100%; justify-content: center; }
+}
+
+@media (max-width: 480px) {
+    .ag-hero-carousel .ag-slide-price { font-size: 2rem; }
+}
+</style>
+
+<div class="ag-hero-carousel" id="ag-hero-carousel">
+
+    <!-- Slides -->
+    <ul class="ag-slides">
+
+        <!-- Slide 1 -->
+        <li class="ag-slide is-active">
+            <div class="ag-slide-bg" style="background-image: url('https://images.unsplash.com/photo-1613977257363-707ba9348227?w=1800&q=85');"></div>
+            <div class="ag-slide-overlay"></div>
+            <div class="ag-slide-content">
+                <span class="ag-slide-counter">01 / 06</span>
+                <span class="ag-slide-status">For Sale</span>
+                <div class="ag-slide-price">$14,200,000</div>
+                <div class="ag-slide-address">460 Ocean Drive, Malibu, California 90265</div>
+                <div class="ag-slide-specs">
+                    <span class="ag-spec">6 Beds</span>
+                    <span class="ag-spec">7 Baths</span>
+                    <span class="ag-spec">9,450 Sq.Ft.</span>
+                    <span class="ag-spec">Oceanfront</span>
+                </div>
+                <div class="ag-slide-ctas">
+                    <a href="#" class="ag-btn-primary">View Home</a>
+                    <a href="#" class="ag-btn-ghost">Schedule Tour</a>
+                </div>
+            </div>
+        </li>
+
+        <!-- Slide 2 -->
+        <li class="ag-slide">
+            <div class="ag-slide-bg" style="background-image: url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1800&q=85');"></div>
+            <div class="ag-slide-overlay"></div>
+            <div class="ag-slide-content">
+                <span class="ag-slide-counter">02 / 06</span>
+                <span class="ag-slide-status">For Sale</span>
+                <div class="ag-slide-price">$22,900,000</div>
+                <div class="ag-slide-address">Chemin de la Garoupe, Cap d'Antibes, France</div>
+                <div class="ag-slide-specs">
+                    <span class="ag-spec">8 Beds</span>
+                    <span class="ag-spec">9 Baths</span>
+                    <span class="ag-spec">14,200 Sq.Ft.</span>
+                    <span class="ag-spec">Pool · Sea View</span>
+                </div>
+                <div class="ag-slide-ctas">
+                    <a href="#" class="ag-btn-primary">View Home</a>
+                    <a href="#" class="ag-btn-ghost">Schedule Tour</a>
+                </div>
+            </div>
+        </li>
+
+        <!-- Slide 3 -->
+        <li class="ag-slide">
+            <div class="ag-slide-bg" style="background-image: url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1800&q=85');"></div>
+            <div class="ag-slide-overlay"></div>
+            <div class="ag-slide-content">
+                <span class="ag-slide-counter">03 / 06</span>
+                <span class="ag-slide-status">For Sale</span>
+                <div class="ag-slide-price">$8,750,000</div>
+                <div class="ag-slide-address">12 Harbour View Terrace, Miami Beach, FL 33139</div>
+                <div class="ag-slide-specs">
+                    <span class="ag-spec">5 Beds</span>
+                    <span class="ag-spec">5.5 Baths</span>
+                    <span class="ag-spec">7,200 Sq.Ft.</span>
+                    <span class="ag-spec">Waterfront</span>
+                </div>
+                <div class="ag-slide-ctas">
+                    <a href="#" class="ag-btn-primary">View Home</a>
+                    <a href="#" class="ag-btn-ghost">Schedule Tour</a>
+                </div>
+            </div>
+        </li>
+
+        <!-- Slide 4 -->
+        <li class="ag-slide">
+            <div class="ag-slide-bg" style="background-image: url('https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=1800&q=85');"></div>
+            <div class="ag-slide-overlay"></div>
+            <div class="ag-slide-content">
+                <span class="ag-slide-counter">04 / 06</span>
+                <span class="ag-slide-status lease">For Lease</span>
+                <div class="ag-slide-price">$42,000 / mo</div>
+                <div class="ag-slide-address">323 N Carmelina Ave, Brentwood, Los Angeles, CA 90049</div>
+                <div class="ag-slide-specs">
+                    <span class="ag-spec">5 Beds</span>
+                    <span class="ag-spec">6 Baths</span>
+                    <span class="ag-spec">6,800 Sq.Ft.</span>
+                    <span class="ag-spec">Pool · Guest House</span>
+                </div>
+                <div class="ag-slide-ctas">
+                    <a href="#" class="ag-btn-primary">View Home</a>
+                    <a href="#" class="ag-btn-ghost">Schedule Tour</a>
+                </div>
+            </div>
+        </li>
+
+        <!-- Slide 5 -->
+        <li class="ag-slide">
+            <div class="ag-slide-bg" style="background-image: url('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1800&q=85');"></div>
+            <div class="ag-slide-overlay"></div>
+            <div class="ag-slide-content">
+                <span class="ag-slide-counter">05 / 06</span>
+                <span class="ag-slide-status">For Sale</span>
+                <div class="ag-slide-price">$18,500,000</div>
+                <div class="ag-slide-address">2 Indian Creek Island Rd, Indian Creek, FL 33154</div>
+                <div class="ag-slide-specs">
+                    <span class="ag-spec">7 Beds</span>
+                    <span class="ag-spec">8 Baths</span>
+                    <span class="ag-spec">11,300 Sq.Ft.</span>
+                    <span class="ag-spec">Private Island</span>
+                </div>
+                <div class="ag-slide-ctas">
+                    <a href="#" class="ag-btn-primary">View Home</a>
+                    <a href="#" class="ag-btn-ghost">Schedule Tour</a>
+                </div>
+            </div>
+        </li>
+
+        <!-- Slide 6 -->
+        <li class="ag-slide">
+            <div class="ag-slide-bg" style="background-image: url('https://images.unsplash.com/photo-1575517111839-3a3843ee7f5d?w=1800&q=85');"></div>
+            <div class="ag-slide-overlay"></div>
+            <div class="ag-slide-content">
+                <span class="ag-slide-counter">06 / 06</span>
+                <span class="ag-slide-status">For Sale</span>
+                <div class="ag-slide-price">$5,495,000</div>
+                <div class="ag-slide-address">One57, 157 West 57th Street PH42, New York, NY 10019</div>
+                <div class="ag-slide-specs">
+                    <span class="ag-spec">3 Beds</span>
+                    <span class="ag-spec">3.5 Baths</span>
+                    <span class="ag-spec">4,100 Sq.Ft.</span>
+                    <span class="ag-spec">Central Park Views</span>
+                </div>
+                <div class="ag-slide-ctas">
+                    <a href="#" class="ag-btn-primary">View Home</a>
+                    <a href="#" class="ag-btn-ghost">Schedule Tour</a>
+                </div>
+            </div>
+        </li>
+
+    </ul>
+
+    <!-- Desktop side arrows -->
+    <button class="ag-arrow ag-arrow-prev" aria-label="Previous slide">
+        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+    </button>
+    <button class="ag-arrow ag-arrow-next" aria-label="Next slide">
+        <svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg>
+    </button>
+
+    <!-- Bottom UI: dots + mobile arrows -->
+    <div class="ag-carousel-ui">
+        <div class="ag-carousel-bottom-nav">
+            <button class="ag-arrow" aria-label="Previous slide">
+                <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+            </button>
+            <div class="ag-dots"></div>
+            <button class="ag-arrow" aria-label="Next slide">
+                <svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- Autoplay progress bar -->
+    <div class="ag-autoplay-bar"></div>
+
+</div>
+
+<script>
+(function () {
+    var AUTOPLAY_MS = 6000;
+    var carousel    = document.getElementById('ag-hero-carousel');
+    var slides      = Array.from(carousel.querySelectorAll('.ag-slide'));
+    var dotsWrap    = carousel.querySelector('.ag-dots');
+    var bar         = carousel.querySelector('.ag-autoplay-bar');
+    var total       = slides.length;
+    var current     = 0;
+    var timer       = null;
+
+    // Build dots
+    slides.forEach(function(_, i) {
+        var btn = document.createElement('button');
+        btn.className = 'ag-dot' + (i === 0 ? ' is-active' : '');
+        btn.setAttribute('aria-label', 'Go to slide ' + (i + 1));
+        btn.addEventListener('click', function() { goTo(i); });
+        dotsWrap.appendChild(btn);
+    });
+
+    function getDots() { return dotsWrap.querySelectorAll('.ag-dot'); }
+
+    function activate(index) {
+        slides[current].classList.remove('is-active');
+        getDots()[current].classList.remove('is-active');
+        current = (index + total) % total;
+        slides[current].classList.add('is-active');
+        getDots()[current].classList.add('is-active');
+    }
+
+    function goTo(index) {
+        activate(index);
+        resetAutoplay();
+    }
+
+    function startBar() {
+        bar.style.transition = 'none';
+        bar.style.width = '0%';
+        void bar.offsetWidth;
+        bar.style.transition = 'width ' + AUTOPLAY_MS + 'ms linear';
+        bar.style.width = '100%';
+    }
+
+    function resetAutoplay() {
+        clearInterval(timer);
+        timer = setInterval(function() { goTo(current + 1); }, AUTOPLAY_MS);
+        startBar();
+    }
+
+    // Wire all prev/next buttons
+    carousel.querySelectorAll('.ag-arrow-prev, .ag-carousel-bottom-nav .ag-arrow:first-child').forEach(function(btn) {
+        btn.addEventListener('click', function() { goTo(current - 1); });
+    });
+    carousel.querySelectorAll('.ag-arrow-next, .ag-carousel-bottom-nav .ag-arrow:last-child').forEach(function(btn) {
+        btn.addEventListener('click', function() { goTo(current + 1); });
+    });
+
+    // Touch / swipe
+    var touchStartX = 0;
+    carousel.addEventListener('touchstart', function(e) {
+        touchStartX = e.touches[0].clientX;
+    }, { passive: true });
+    carousel.addEventListener('touchend', function(e) {
+        var dx = e.changedTouches[0].clientX - touchStartX;
+        if (Math.abs(dx) > 50) goTo(current + (dx < 0 ? 1 : -1));
+    }, { passive: true });
+
+    // Keyboard
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'ArrowLeft')  goTo(current - 1);
+        if (e.key === 'ArrowRight') goTo(current + 1);
+    });
+
+    resetAutoplay();
+})();
+</script>

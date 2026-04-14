@@ -1,0 +1,757 @@
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500&display=swap');
+
+  .rp * { box-sizing: border-box; margin: 0; padding: 0; }
+  .rp {
+    font-family: 'Montserrat', sans-serif;
+    background: #0a0a0a;
+    color: #e8e2d9;
+  }
+
+  /* ── PAGE HEADER ── */
+  .page-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-bottom: 1px solid #2a2520;
+  }
+  .ph-left {
+    padding: 40px 48px;
+    border-right: 1px solid #2a2520;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .ph-right {
+    padding: 40px 48px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .page-eyebrow {
+    font-size: 8px;
+    letter-spacing: 4px;
+    color: #4a4238;
+    text-transform: uppercase;
+  }
+  .page-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 42px;
+    font-weight: 300;
+    color: #f0e8dc;
+    line-height: 1.05;
+    margin-top: 8px;
+  }
+  .page-title em { color: #c9a96e; font-style: italic; }
+  .prop-address {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    font-weight: 400;
+    color: #c9b99a;
+    margin-bottom: 4px;
+  }
+  .prop-sub {
+    font-size: 8px;
+    letter-spacing: 3px;
+    color: #4a4238;
+    text-transform: uppercase;
+  }
+  .gold-rule { width: 32px; height: 1px; background: #c9a96e; margin: 16px 0; }
+
+  /* ── SECTION LABEL ── */
+  .section-label {
+    padding: 18px 48px;
+    border-bottom: 1px solid #1e1c18;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .sl-num { font-size: 8px; letter-spacing: 4px; color: #3a3530; text-transform: uppercase; }
+  .sl-rule { flex: 1; height: 1px; background: #1a1816; }
+  .sl-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 3px;
+    color: #6a5f57;
+    text-transform: uppercase;
+  }
+
+  /* ── PRIMARY KPI STRIP ── */
+  .kpi-primary {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-bottom: 1px solid #1e1c18;
+  }
+  .kpi-cell {
+    padding: 36px 40px;
+    border-right: 1px solid #1e1c18;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    position: relative;
+  }
+  .kpi-cell:last-child { border-right: none; }
+  .kpi-cell.highlight::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: #c9a96e;
+  }
+  .kpi-label {
+    font-size: 7px;
+    letter-spacing: 3px;
+    color: #4a4238;
+    text-transform: uppercase;
+  }
+  .kpi-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 48px;
+    font-weight: 300;
+    color: #c9a96e;
+    line-height: 1;
+  }
+  .kpi-sub {
+    font-size: 10px;
+    font-weight: 300;
+    color: #5a5248;
+    line-height: 1.5;
+    margin-top: 4px;
+  }
+  .kpi-delta {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 9px;
+    letter-spacing: 1px;
+    color: #6b8c6b;
+    margin-top: 2px;
+  }
+  .kpi-delta.neutral { color: #8a7d6b; }
+
+  /* ── SECONDARY KPI GRID ── */
+  .kpi-secondary {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    border-bottom: 1px solid #1e1c18;
+    background: #070707;
+  }
+  .kpi-sm {
+    padding: 28px 32px;
+    border-right: 1px solid #1a1816;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .kpi-sm:last-child { border-right: none; }
+  .kpi-sm-label {
+    font-size: 7px;
+    letter-spacing: 3px;
+    color: #3a3530;
+    text-transform: uppercase;
+  }
+  .kpi-sm-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 300;
+    color: #a89070;
+    line-height: 1;
+  }
+  .kpi-sm-desc {
+    font-size: 9px;
+    font-weight: 300;
+    color: #3a3530;
+    line-height: 1.5;
+    margin-top: 2px;
+  }
+
+  /* ── TWO-COL BODY ── */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-bottom: 1px solid #1e1c18;
+  }
+  .col-panel {
+    padding: 44px 48px;
+    border-right: 1px solid #1e1c18;
+  }
+  .col-panel:last-child { border-right: none; }
+  .col-heading {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px;
+    font-weight: 300;
+    color: #e8ddd0;
+    margin-bottom: 6px;
+  }
+  .col-heading em { color: #c9a96e; font-style: italic; }
+  .col-divider { width: 24px; height: 1px; background: #c9a96e; margin: 16px 0 20px; }
+
+  /* ── BAR CHART ── */
+  .bar-chart { display: flex; flex-direction: column; gap: 14px; }
+  .bar-row { display: flex; flex-direction: column; gap: 5px; }
+  .bar-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 9px;
+    letter-spacing: 1px;
+    color: #5a5248;
+  }
+  .bar-track {
+    height: 2px;
+    background: #1a1816;
+    position: relative;
+  }
+  .bar-fill {
+    height: 100%;
+    background: #c9a96e;
+    position: absolute;
+    top: 0; left: 0;
+  }
+  .bar-fill.dim { background: #4a4038; }
+
+  /* ── DEVICE / PLACEMENT BREAKDOWN ── */
+  .breakdown-list { display: flex; flex-direction: column; gap: 12px; }
+  .breakdown-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #141210;
+  }
+  .breakdown-item:last-child { border-bottom: none; }
+  .bi-label { font-size: 10px; font-weight: 400; color: #8a7d6b; flex: 1; letter-spacing: 1px; }
+  .bi-bar-track { flex: 2; height: 1px; background: #1a1816; position: relative; }
+  .bi-bar-fill { height: 1px; background: #c9a96e; }
+  .bi-val { font-family: 'Cormorant Garamond', serif; font-size: 18px; color: #a89070; min-width: 44px; text-align: right; }
+
+  /* ── TIMELINE ── */
+  .timeline {
+    padding: 44px 48px;
+    border-bottom: 1px solid #1e1c18;
+  }
+  .tl-heading {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px;
+    font-weight: 300;
+    color: #e8ddd0;
+    margin-bottom: 6px;
+  }
+  .tl-heading em { color: #c9a96e; font-style: italic; }
+  .tl-divider { width: 24px; height: 1px; background: #c9a96e; margin: 16px 0 28px; }
+
+  .chart-area {
+    position: relative;
+    height: 120px;
+    margin-bottom: 8px;
+  }
+  .chart-lines {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .chart-line { width: 100%; height: 1px; background: #141210; }
+  .chart-svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+  .chart-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 8px;
+    letter-spacing: 1px;
+    color: #3a3530;
+    text-transform: uppercase;
+    margin-top: 10px;
+  }
+
+  /* ── GEO SECTION ── */
+  .geo-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-bottom: 1px solid #1e1c18;
+  }
+  .geo-left {
+    padding: 44px 48px;
+    border-right: 1px solid #1e1c18;
+  }
+  .geo-right {
+    padding: 44px 48px;
+  }
+  .geo-map {
+    background: #0d0b09;
+    border: 1px solid #1e1c18;
+    border-radius: 2px;
+    height: 240px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .geo-map-label {
+    font-size: 8px;
+    letter-spacing: 3px;
+    color: #2a2520;
+    text-transform: uppercase;
+  }
+
+  /* ── PAGE BREAK ── */
+  .page-break {
+    border-top: 1px solid #2a2520;
+    margin-top: 0;
+    padding: 28px 48px;
+    background: #070707;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .pb-text { font-size: 7px; letter-spacing: 4px; color: #2a2520; text-transform: uppercase; }
+  .pb-ornament {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 14px;
+    color: #2a2520;
+    letter-spacing: 6px;
+  }
+
+  /* ── PAGE 2 HEADER ── */
+  .page2-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-bottom: 1px solid #2a2520;
+    margin-top: 48px;
+    border-top: 3px solid #2a1a00;
+  }
+
+  /* ── AUDIENCE SECTION ── */
+  .audience-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-bottom: 1px solid #1e1c18;
+  }
+  .aud-cell {
+    padding: 36px 40px;
+    border-right: 1px solid #1e1c18;
+  }
+  .aud-cell:last-child { border-right: none; }
+  .aud-title {
+    font-size: 7px;
+    letter-spacing: 3px;
+    color: #4a4238;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  .aud-list { display: flex; flex-direction: column; gap: 10px; }
+  .aud-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 10px;
+    color: #6a5f57;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #0f0e0c;
+  }
+  .aud-item:last-child { border-bottom: none; }
+  .aud-pct {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16px;
+    color: #8a7555;
+  }
+
+  /* ── FOOTER ── */
+  .report-footer {
+    background: #0d0b09;
+    border-top: 1px solid #2a2520;
+    padding: 30px 48px;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+  }
+  .rf-brand {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 13px;
+    letter-spacing: 5px;
+    color: #c9a96e;
+    text-transform: uppercase;
+  }
+  .rf-sub { font-size: 7px; letter-spacing: 3px; color: #2a2520; text-transform: uppercase; margin-top: 5px; }
+  .rf-right { text-align: right; font-size: 8px; letter-spacing: 2px; color: #2a2520; text-transform: uppercase; line-height: 2; }
+</style>
+
+<div class="rp">
+
+  <!-- ═══════════════════════════════ PAGE 2 — AD STATISTICS ═══════════════════════════════ -->
+  <div class="page-header">
+    <div class="ph-left">
+      <div class="page-eyebrow">Performance Overview — Page 02</div>
+      <div class="page-title">Ad <em>Statistics</em><br>&amp; Campaign<br>Performance</div>
+      <div class="gold-rule"></div>
+      <div class="page-eyebrow">Powered by StackAdapt Programmatic</div>
+    </div>
+    <div class="ph-right">
+      <div class="prop-sub">Property</div>
+      <div class="prop-address">17632 Harbord Oaks Cir</div>
+      <div class="prop-sub" style="margin-bottom:24px;">Dallas, TX 75252</div>
+      <div class="prop-sub">Campaign Period</div>
+      <div class="prop-address" style="font-size:17px;">March 15 – April 14, 2026</div>
+      <div class="prop-sub" style="margin-bottom:24px;">31 Days Active</div>
+      <div class="prop-sub">Prepared By</div>
+      <div class="prop-address" style="font-size:17px;">First Lastname, Realtor®</div>
+    </div>
+  </div>
+
+  <div class="section-label">
+    <div class="sl-num">01</div>
+    <div class="sl-rule"></div>
+    <div class="sl-title">Primary Campaign Metrics</div>
+    <div class="sl-rule"></div>
+  </div>
+
+  <div class="kpi-primary">
+    <div class="kpi-cell highlight">
+      <div class="kpi-label">Total Impressions</div>
+      <div class="kpi-num">20,000</div>
+      <div class="kpi-sub">Times your listing ad was served across the network</div>
+      <div class="kpi-delta neutral">↑ Awareness Stage Complete</div>
+    </div>
+    <div class="kpi-cell highlight">
+      <div class="kpi-label">Unique Reach</div>
+      <div class="kpi-num">15,181</div>
+      <div class="kpi-sub">Individual high-net-worth buyers exposed to your property</div>
+      <div class="kpi-delta">↑ 75.9% Unique Rate</div>
+    </div>
+    <div class="kpi-cell highlight">
+      <div class="kpi-label">Website Visits</div>
+      <div class="kpi-num">101</div>
+      <div class="kpi-sub">Qualified buyers who clicked through to your property page</div>
+      <div class="kpi-delta">↑ 0.51% CTR</div>
+    </div>
+  </div>
+
+  <div class="kpi-secondary">
+    <div class="kpi-sm">
+      <div class="kpi-sm-label">Click-Through Rate</div>
+      <div class="kpi-sm-num">0.51%</div>
+      <div class="kpi-sm-desc">Industry avg: 0.35%<br>+46% above benchmark</div>
+    </div>
+    <div class="kpi-sm">
+      <div class="kpi-sm-label">Frequency</div>
+      <div class="kpi-sm-num">1.32×</div>
+      <div class="kpi-sm-desc">Avg. ad exposures<br>per unique buyer</div>
+    </div>
+    <div class="kpi-sm">
+      <div class="kpi-sm-label">Viewable Impr.</div>
+      <div class="kpi-sm-num">18,240</div>
+      <div class="kpi-sm-desc">91.2% viewability rate<br>vs. 70% industry avg</div>
+    </div>
+    <div class="kpi-sm">
+      <div class="kpi-sm-label">Avg. CPM</div>
+      <div class="kpi-sm-num">$4.20</div>
+      <div class="kpi-sm-desc">Cost per 1,000<br>impressions delivered</div>
+    </div>
+  </div>
+
+  <div class="section-label">
+    <div class="sl-num">02</div>
+    <div class="sl-rule"></div>
+    <div class="sl-title">Placement &amp; Device Breakdown</div>
+    <div class="sl-rule"></div>
+  </div>
+
+  <div class="two-col">
+    <div class="col-panel">
+      <div class="col-heading">Ad <em>Placement</em><br>by Channel</div>
+      <div class="col-divider"></div>
+      <div class="breakdown-list">
+        <div class="breakdown-item">
+          <div class="bi-label">Display / Banner</div>
+          <div class="bi-bar-track"><div class="bi-bar-fill" style="width:78%;"></div></div>
+          <div class="bi-val">78%</div>
+        </div>
+        <div class="breakdown-item">
+          <div class="bi-label">Native Content</div>
+          <div class="bi-bar-track"><div class="bi-bar-fill" style="width:12%;"></div></div>
+          <div class="bi-val">12%</div>
+        </div>
+        <div class="breakdown-item">
+          <div class="bi-label">Connected TV</div>
+          <div class="bi-bar-track"><div class="bi-bar-fill" style="width:6%;"></div></div>
+          <div class="bi-val">6%</div>
+        </div>
+        <div class="breakdown-item">
+          <div class="bi-label">Pre-roll Video</div>
+          <div class="bi-bar-track"><div class="bi-bar-fill" style="width:4%;"></div></div>
+          <div class="bi-val">4%</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-panel">
+      <div class="col-heading"><em>Device</em> Split<br>by Delivery</div>
+      <div class="col-divider"></div>
+      <div class="breakdown-list">
+        <div class="breakdown-item">
+          <div class="bi-label">Desktop</div>
+          <div class="bi-bar-track"><div class="bi-bar-fill" style="width:54%;"></div></div>
+          <div class="bi-val">54%</div>
+        </div>
+        <div class="breakdown-item">
+          <div class="bi-label">Mobile</div>
+          <div class="bi-bar-track"><div class="bi-bar-fill" style="width:32%;"></div></div>
+          <div class="bi-val">32%</div>
+        </div>
+        <div class="breakdown-item">
+          <div class="bi-label">Tablet</div>
+          <div class="bi-bar-track"><div class="bi-bar-fill" style="width:9%;"></div></div>
+          <div class="bi-val">9%</div>
+        </div>
+        <div class="breakdown-item">
+          <div class="bi-label">Connected TV</div>
+          <div class="bi-bar-track"><div class="bi-bar-fill" style="width:5%;"></div></div>
+          <div class="bi-val">5%</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-label">
+    <div class="sl-num">03</div>
+    <div class="sl-rule"></div>
+    <div class="sl-title">Impressions Over Campaign Duration</div>
+    <div class="sl-rule"></div>
+  </div>
+
+  <div class="timeline">
+    <div class="tl-heading">Daily <em>Impression</em> Delivery</div>
+    <div class="tl-divider"></div>
+    <div class="chart-area">
+      <div class="chart-lines">
+        <div class="chart-line"></div>
+        <div class="chart-line"></div>
+        <div class="chart-line"></div>
+        <div class="chart-line"></div>
+      </div>
+      <svg class="chart-svg" viewBox="0 0 900 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="lineGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#c9a96e" stop-opacity="0.15"/>
+            <stop offset="100%" stop-color="#c9a96e" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+        <path d="M0,95 L30,88 L60,80 L90,72 L120,78 L150,65 L180,58 L210,62 L240,50 L270,45 L300,52 L330,40 L360,35 L390,42 L420,30 L450,25 L480,32 L510,20 L540,28 L570,18 L600,22 L630,15 L660,20 L690,12 L720,18 L750,25 L780,15 L810,10 L840,18 L870,12 L900,8"
+              fill="url(#lineGrad)" stroke="none"/>
+        <path d="M0,95 L30,88 L60,80 L90,72 L120,78 L150,65 L180,58 L210,62 L240,50 L270,45 L300,52 L330,40 L360,35 L390,42 L420,30 L450,25 L480,32 L510,20 L540,28 L570,18 L600,22 L630,15 L660,20 L690,12 L720,18 L750,25 L780,15 L810,10 L840,18 L870,12 L900,8"
+              fill="none" stroke="#c9a96e" stroke-width="1.5"/>
+        <!-- click dots -->
+        <circle cx="270" cy="45" r="3" fill="#c9a96e"/>
+        <circle cx="450" cy="25" r="3" fill="#c9a96e"/>
+        <circle cx="630" cy="15" r="3" fill="#c9a96e"/>
+        <circle cx="810" cy="10" r="3" fill="#c9a96e"/>
+      </svg>
+    </div>
+    <div class="chart-labels">
+      <span>Mar 15</span><span>Mar 19</span><span>Mar 23</span><span>Mar 27</span>
+      <span>Mar 31</span><span>Apr 4</span><span>Apr 8</span><span>Apr 12</span><span>Apr 14</span>
+    </div>
+  </div>
+
+  <!-- PAGE BREAK -->
+  <div class="page-break">
+    <div class="pb-text">Aperture Global — Digital Ad Report — 17632 Harbord Oaks Cir</div>
+    <div class="pb-ornament">— ✦ —</div>
+    <div class="pb-text">Page 02 of 03</div>
+  </div>
+
+  <!-- ═══════════════════════════════ PAGE 3 — AUDIENCE & GEO ═══════════════════════════════ -->
+  <div class="page-header" style="margin-top:0; border-top: 3px solid #1a1200;">
+    <div class="ph-left">
+      <div class="page-eyebrow">Audience Intelligence — Page 03</div>
+      <div class="page-title">Geotargeted<br><em>Locations</em> &amp;<br>Audience Data</div>
+      <div class="gold-rule"></div>
+      <div class="page-eyebrow">Where your digital ad was displayed</div>
+    </div>
+    <div class="ph-right">
+      <div class="prop-sub" style="margin-bottom:10px;">Campaign Reach Radius</div>
+      <div class="prop-address">Dallas–Fort Worth Metro</div>
+      <div class="prop-sub" style="margin-bottom:24px;">Primary + Extended Zones</div>
+      <div class="prop-sub" style="margin-bottom:10px;">Targeting Method</div>
+      <div class="prop-address" style="font-size:15px; line-height:1.5;">Behavioral Segmentation<br>Geographic Precision<br>Income-Based Audiences</div>
+    </div>
+  </div>
+
+  <div class="section-label">
+    <div class="sl-num">04</div>
+    <div class="sl-rule"></div>
+    <div class="sl-title">Audience Segmentation Insights</div>
+    <div class="sl-rule"></div>
+  </div>
+
+  <div class="audience-grid">
+    <div class="aud-cell">
+      <div class="aud-title">Top Locations Reached</div>
+      <div class="aud-list">
+        <div class="aud-item"><span>Dallas, TX</span><span class="aud-pct">38%</span></div>
+        <div class="aud-item"><span>Plano, TX</span><span class="aud-pct">18%</span></div>
+        <div class="aud-item"><span>Frisco, TX</span><span class="aud-pct">14%</span></div>
+        <div class="aud-item"><span>Irving, TX</span><span class="aud-pct">11%</span></div>
+        <div class="aud-item"><span>Garland, TX</span><span class="aud-pct">9%</span></div>
+        <div class="aud-item"><span>Other DFW</span><span class="aud-pct">10%</span></div>
+      </div>
+    </div>
+    <div class="aud-cell">
+      <div class="aud-title">Audience Segments Targeted</div>
+      <div class="aud-list">
+        <div class="aud-item"><span>Luxury Home Intenders</span><span class="aud-pct">42%</span></div>
+        <div class="aud-item"><span>High HHI ($250k+)</span><span class="aud-pct">28%</span></div>
+        <div class="aud-item"><span>Active Property Searchers</span><span class="aud-pct">16%</span></div>
+        <div class="aud-item"><span>Lifestyle &amp; Luxury Content</span><span class="aud-pct">9%</span></div>
+        <div class="aud-item"><span>Retargeted Visitors</span><span class="aud-pct">5%</span></div>
+      </div>
+    </div>
+    <div class="aud-cell">
+      <div class="aud-title">Device &amp; Time of Day</div>
+      <div class="aud-list">
+        <div class="aud-item"><span>Morning (6am–12pm)</span><span class="aud-pct">31%</span></div>
+        <div class="aud-item"><span>Afternoon (12pm–6pm)</span><span class="aud-pct">38%</span></div>
+        <div class="aud-item"><span>Evening (6pm–10pm)</span><span class="aud-pct">24%</span></div>
+        <div class="aud-item"><span>Late Night</span><span class="aud-pct">7%</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-label">
+    <div class="sl-num">05</div>
+    <div class="sl-rule"></div>
+    <div class="sl-title">Geographic Display Map</div>
+    <div class="sl-rule"></div>
+  </div>
+
+  <div class="geo-section">
+    <div class="geo-left">
+      <div class="col-heading"><em>Geo</em>targeted<br>Coverage Zones</div>
+      <div class="col-divider"></div>
+      <div class="breakdown-list">
+        <div class="breakdown-item">
+          <div class="bi-label">Primary Zone (0–10 mi)</div>
+          <div class="bi-bar-track"><div class="bi-bar-fill" style="width:65%;"></div></div>
+          <div class="bi-val">65%</div>
+        </div>
+        <div class="breakdown-item">
+          <div class="bi-label">Secondary Zone (10–25 mi)</div>
+          <div class="bi-bar-track"><div class="bi-bar-fill" style="width:25%;"></div></div>
+          <div class="bi-val">25%</div>
+        </div>
+        <div class="breakdown-item">
+          <div class="bi-label">Extended Zone (25–50 mi)</div>
+          <div class="bi-bar-track"><div class="bi-bar-fill" style="width:10%;"></div></div>
+          <div class="bi-val">10%</div>
+        </div>
+      </div>
+      <div style="margin-top: 32px;">
+        <div class="kpi-sm-label" style="margin-bottom:8px;">Top Performing Zip Codes</div>
+        <div class="aud-list">
+          <div class="aud-item" style="font-size:9px;"><span>75252 — Dallas</span><span class="aud-pct" style="font-size:14px;">22 clicks</span></div>
+          <div class="aud-item" style="font-size:9px;"><span>75024 — Plano</span><span class="aud-pct" style="font-size:14px;">18 clicks</span></div>
+          <div class="aud-item" style="font-size:9px;"><span>75034 — Frisco</span><span class="aud-pct" style="font-size:14px;">14 clicks</span></div>
+          <div class="aud-item" style="font-size:9px;"><span>75038 — Irving</span><span class="aud-pct" style="font-size:14px;">11 clicks</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="geo-right">
+      <div class="geo-map">
+        <svg width="100%" height="100%" viewBox="0 0 500 240" xmlns="http://www.w3.org/2000/svg">
+          <!-- dark map bg -->
+          <rect width="500" height="240" fill="#080806"/>
+          <!-- subtle grid -->
+          <line x1="0" y1="60" x2="500" y2="60" stroke="#141210" stroke-width="0.5"/>
+          <line x1="0" y1="120" x2="500" y2="120" stroke="#141210" stroke-width="0.5"/>
+          <line x1="0" y1="180" x2="500" y2="180" stroke="#141210" stroke-width="0.5"/>
+          <line x1="125" y1="0" x2="125" y2="240" stroke="#141210" stroke-width="0.5"/>
+          <line x1="250" y1="0" x2="250" y2="240" stroke="#141210" stroke-width="0.5"/>
+          <line x1="375" y1="0" x2="375" y2="240" stroke="#141210" stroke-width="0.5"/>
+          <!-- road-like lines -->
+          <path d="M50,120 Q150,115 250,120 Q350,125 460,118" stroke="#1a1816" stroke-width="1.5" fill="none"/>
+          <path d="M80,40 Q160,80 200,120 Q240,160 280,200" stroke="#1a1816" stroke-width="1" fill="none"/>
+          <path d="M320,30 Q300,80 280,120 Q260,160 250,200" stroke="#1a1816" stroke-width="1" fill="none"/>
+          <path d="M0,80 Q100,90 200,85 Q300,80 500,90" stroke="#1a1816" stroke-width="0.75" fill="none"/>
+          <!-- extended zone -->
+          <circle cx="255" cy="118" r="95" fill="none" stroke="#3a3020" stroke-width="0.75" stroke-dasharray="4,3"/>
+          <!-- secondary zone -->
+          <circle cx="255" cy="118" r="60" fill="#c9a96e" fill-opacity="0.03" stroke="#5a4830" stroke-width="0.75"/>
+          <!-- primary zone -->
+          <circle cx="255" cy="118" r="30" fill="#c9a96e" fill-opacity="0.06" stroke="#c9a96e" stroke-width="1"/>
+          <!-- property pin -->
+          <circle cx="255" cy="118" r="4" fill="#c9a96e"/>
+          <line x1="255" y1="114" x2="255" y2="95" stroke="#c9a96e" stroke-width="0.75"/>
+          <circle cx="255" cy="92" r="2" fill="none" stroke="#c9a96e" stroke-width="0.75"/>
+          <!-- city labels -->
+          <text x="255" y="145" text-anchor="middle" font-family="Montserrat,sans-serif" font-size="7" fill="#4a4238" letter-spacing="2">DALLAS</text>
+          <text x="310" y="72" text-anchor="middle" font-family="Montserrat,sans-serif" font-size="6" fill="#3a3530" letter-spacing="1">PLANO</text>
+          <text x="340" y="55" text-anchor="middle" font-family="Montserrat,sans-serif" font-size="6" fill="#3a3530" letter-spacing="1">FRISCO</text>
+          <text x="155" y="145" text-anchor="middle" font-family="Montserrat,sans-serif" font-size="6" fill="#3a3530" letter-spacing="1">IRVING</text>
+          <text x="360" y="138" text-anchor="middle" font-family="Montserrat,sans-serif" font-size="6" fill="#3a3530" letter-spacing="1">GARLAND</text>
+          <text x="140" y="185" text-anchor="middle" font-family="Montserrat,sans-serif" font-size="6" fill="#3a3530" letter-spacing="1">ARLINGTON</text>
+          <!-- legend -->
+          <circle cx="30" cy="210" r="4" fill="#c9a96e"/>
+          <text x="40" y="213" font-family="Montserrat,sans-serif" font-size="6" fill="#4a4238" letter-spacing="1">PROPERTY</text>
+          <circle cx="115" cy="210" r="4" fill="none" stroke="#c9a96e" stroke-width="1"/>
+          <text x="125" y="213" font-family="Montserrat,sans-serif" font-size="6" fill="#4a4238" letter-spacing="1">PRIMARY ZONE</text>
+          <circle cx="240" cy="210" r="4" fill="none" stroke="#5a4830" stroke-width="0.75"/>
+          <text x="250" y="213" font-family="Montserrat,sans-serif" font-size="6" fill="#4a4238" letter-spacing="1">EXTENDED</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-label">
+    <div class="sl-num">06</div>
+    <div class="sl-rule"></div>
+    <div class="sl-title">Campaign Summary &amp; Engagement Quality</div>
+    <div class="sl-rule"></div>
+  </div>
+
+  <div class="kpi-secondary" style="grid-template-columns: repeat(4,1fr);">
+    <div class="kpi-sm">
+      <div class="kpi-sm-label">Cost Per Click</div>
+      <div class="kpi-sm-num">$0.83</div>
+      <div class="kpi-sm-desc">Efficient CPC for<br>luxury real estate</div>
+    </div>
+    <div class="kpi-sm">
+      <div class="kpi-sm-label">Ad Engagement Rate</div>
+      <div class="kpi-sm-num">2.4%</div>
+      <div class="kpi-sm-desc">Interactions incl. hover,<br>expand, and click events</div>
+    </div>
+    <div class="kpi-sm">
+      <div class="kpi-sm-label">Retargeted Reach</div>
+      <div class="kpi-sm-num">762</div>
+      <div class="kpi-sm-desc">Past visitors re-exposed<br>to your listing ad</div>
+    </div>
+    <div class="kpi-sm">
+      <div class="kpi-sm-label">Brand Lift Est.</div>
+      <div class="kpi-sm-num">+11%</div>
+      <div class="kpi-sm-desc">Estimated awareness lift<br>within target audience</div>
+    </div>
+  </div>
+
+  <!-- FINAL FOOTER -->
+  <div class="page-break">
+    <div class="pb-text">Aperture Global — Digital Ad Report — 17632 Harbord Oaks Cir</div>
+    <div class="pb-ornament">— ✦ —</div>
+    <div class="pb-text">Page 03 of 03</div>
+  </div>
+
+  <div class="report-footer">
+    <div>
+      <div class="rf-brand">Aperture Global</div>
+      <div class="rf-sub">Luxury Real Estate · apertureglobal.com</div>
+    </div>
+    <div style="text-align:center;">
+      <div style="width:1px; height:36px; background:#2a2520; margin: 0 auto;"></div>
+    </div>
+    <div class="rf-right">
+      First Lastname, Realtor®<br>
+      +1 999.999.9999 · email@apertureglobal.com<br>
+      Confidential — Prepared for Client Use
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>md-house layout5 mg-bg — Carousel Snippet</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600&family=Playfair+Display:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --black:      #000000;
+            --black-2:    #0f0f0f;
+            --black-3:    #1a1a1a;
+            --blue:       #0092ff;
+            --blue-dim:   rgba(0, 146, 255, 0.15);
+            --blue-glow:  rgba(0, 146, 255, 0.35);
+            --white:      #ffffff;
+            --grey-1:     rgba(255,255,255,0.75);
+            --grey-2:     rgba(255,255,255,0.45);
+            --grey-3:     rgba(255,255,255,0.12);
+            --card-bg:    #111111;
+            --card-border: rgba(255,255,255,0.06);
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--black);
+            color: var(--white);
+            font-weight: 200;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ── Section wrapper ─────────────────────────────────── */
+        .md-house-section {
+            background: var(--black);
+            padding: 6rem 0 5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* faint blue ambient glow in upper-left */
+        .md-house-section::before {
+            content: '';
+            position: absolute;
+            top: -200px;
+            left: -200px;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(0,146,255,0.06) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .container {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 0 3rem;
+        }
+
+        /* ── Section header ──────────────────────────────────── */
+        .section-header {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            margin-bottom: 3rem;
+            gap: 2rem;
+        }
+
+        .section-label {
+            display: block;
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--blue);
+            margin-bottom: 0.75rem;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.8rem, 3vw, 2.6rem);
+            font-weight: 300;
+            letter-spacing: -0.025em;
+            line-height: 1.15;
+            color: var(--white);
+        }
+
+        .section-title em {
+            font-style: italic;
+            color: var(--grey-1);
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-shrink: 0;
+        }
+
+        .view-all {
+            font-size: 0.78rem;
+            font-weight: 400;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--grey-2);
+            text-decoration: none;
+            border-bottom: 1px solid var(--grey-3);
+            padding-bottom: 2px;
+            transition: color 0.2s, border-color 0.2s;
+        }
+
+        .view-all:hover { color: var(--blue); border-color: var(--blue); }
+
+        /* arrow nav buttons */
+        .nav-btn {
+            width: 42px;
+            height: 42px;
+            border: 1px solid var(--card-border);
+            background: var(--black-3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: border-color 0.2s, background 0.2s;
+            color: var(--grey-1);
+        }
+
+        .nav-btn:hover {
+            border-color: var(--blue);
+            background: var(--blue-dim);
+            color: var(--white);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.25;
+            cursor: default;
+            pointer-events: none;
+        }
+
+        .nav-btn svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 1.8; }
+
+        /* ── Carousel track ──────────────────────────────────── */
+        .carousel-viewport {
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* subtle side fade-out */
+        .carousel-viewport::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 80px;
+            height: 100%;
+            background: linear-gradient(to left, var(--black) 0%, transparent 100%);
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .carousel-track {
+            display: flex;
+            gap: 1.25rem;
+            transition: transform 0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            will-change: transform;
+        }
+
+        /* ── Property card ───────────────────────────────────── */
+        .property-card {
+            flex: 0 0 calc(33.333% - 0.84rem);
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 4px;
+            overflow: hidden;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+
+        .property-card:hover {
+            border-color: rgba(0,146,255,0.25);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5), 0 0 0 1px rgba(0,146,255,0.1);
+        }
+
+        /* image */
+        .card-image {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 4 / 3;
+            overflow: hidden;
+            background: var(--black-3);
+        }
+
+        .card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.6s ease;
+        }
+
+        .property-card:hover .card-image img { transform: scale(1.04); }
+
+        /* status badge */
+        .card-status {
+            position: absolute;
+            top: 0.85rem;
+            left: 0.85rem;
+            font-size: 0.65rem;
+            font-weight: 500;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            background: var(--blue);
+            color: var(--white);
+            padding: 4px 10px;
+            border-radius: 2px;
+        }
+
+        .card-status.sale   { background: var(--blue); }
+        .card-status.sold   { background: #555; }
+        .card-status.lease  { background: #0b8040; }
+
+        /* save icon */
+        .card-save {
+            position: absolute;
+            top: 0.85rem;
+            right: 0.85rem;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: rgba(0,0,0,0.55);
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .property-card:hover .card-save { opacity: 1; }
+
+        .card-save svg { width: 14px; height: 14px; stroke: #fff; fill: none; stroke-width: 1.8; }
+
+        /* card body */
+        .card-body {
+            padding: 1.1rem 1.2rem 1.3rem;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        .card-price {
+            font-size: 1.25rem;
+            font-weight: 300;
+            color: var(--white);
+            margin-bottom: 0.45rem;
+            letter-spacing: -0.01em;
+        }
+
+        .card-address {
+            font-size: 0.8rem;
+            font-weight: 300;
+            color: var(--grey-1);
+            line-height: 1.4;
+            margin-bottom: 0.85rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        /* specs row */
+        .card-specs {
+            display: flex;
+            gap: 1.2rem;
+            margin-bottom: 0.9rem;
+        }
+
+        .spec-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.72rem;
+            font-weight: 400;
+            color: var(--grey-2);
+        }
+
+        .spec-item svg { width: 11px; height: 11px; stroke: var(--blue); fill: none; stroke-width: 2; flex-shrink: 0; }
+
+        /* divider */
+        .card-divider {
+            height: 1px;
+            background: var(--card-border);
+            margin-bottom: 0.85rem;
+        }
+
+        /* agent / attribution */
+        .card-attribution {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            margin-top: auto;
+        }
+
+        .agent-avatar {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            object-fit: cover;
+            background: var(--black-3);
+            border: 1px solid var(--card-border);
+            flex-shrink: 0;
+        }
+
+        .agent-name {
+            font-size: 0.68rem;
+            font-weight: 300;
+            color: var(--grey-2);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .mls-logo {
+            margin-left: auto;
+            font-size: 0.58rem;
+            color: var(--grey-3);
+            letter-spacing: 0.05em;
+            white-space: nowrap;
+        }
+
+        /* ── Pagination dots ─────────────────────────────────── */
+        .carousel-dots {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 2.5rem;
+        }
+
+        .dot {
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: var(--grey-3);
+            cursor: pointer;
+            transition: background 0.25s, transform 0.25s, width 0.25s;
+            border: none;
+            padding: 0;
+        }
+
+        .dot.active {
+            background: var(--blue);
+            width: 20px;
+            border-radius: 3px;
+        }
+
+        /* ── Responsive ──────────────────────────────────────── */
+        @media (max-width: 1024px) {
+            .property-card { flex: 0 0 calc(50% - 0.625rem); }
+            .container { padding: 0 2rem; }
+        }
+
+        @media (max-width: 640px) {
+            .property-card { flex: 0 0 calc(85vw); }
+            .container { padding: 0 1.25rem; }
+            .section-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
+            .md-house-section { padding: 4rem 0 3.5rem; }
+            .carousel-viewport::after { width: 40px; }
+        }
+    </style>
+</head>
+<body>
+
+<section class="md-house-section">
+    <div class="container">
+
+        <!-- Header row -->
+        <div class="section-header">
+            <div>
+                <span class="section-label">Featured Listings</span>
+                <h2 class="section-title">Exceptional Properties,<br><em>Curated for You</em></h2>
+            </div>
+            <div class="header-actions">
+                <a href="#" class="view-all">View All</a>
+                <button class="nav-btn" id="prevBtn" aria-label="Previous">
+                    <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+                </button>
+                <button class="nav-btn" id="nextBtn" aria-label="Next">
+                    <svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Carousel -->
+        <div class="carousel-viewport" id="carouselViewport">
+            <div class="carousel-track" id="carouselTrack">
+
+                <!-- Card 1 -->
+                <div class="property-card">
+                    <div class="card-image">
+                        <img src="https://images.unsplash.com/photo-1613977257363-707ba9348227?w=800&q=80" alt="Modern luxury villa" loading="lazy">
+                        <span class="card-status sale">For Sale</span>
+                        <button class="card-save" aria-label="Save property">
+                            <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-price">$8,750,000</div>
+                        <div class="card-address">12 Harbour View Terrace, Miami Beach, FL 33139</div>
+                        <div class="card-specs">
+                            <span class="spec-item">
+                                <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                                5 Beds
+                            </span>
+                            <span class="spec-item">
+                                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+                                5.5 Baths
+                            </span>
+                            <span class="spec-item">
+                                <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="1"/></svg>
+                                7,200 sqft
+                            </span>
+                        </div>
+                        <div class="card-divider"></div>
+                        <div class="card-attribution">
+                            <div class="agent-avatar" style="background: #1a2a3a;"></div>
+                            <span class="agent-name">Aperture Global · Sarah Lin</span>
+                            <span class="mls-logo">MLS #A1234567</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="property-card">
+                    <div class="card-image">
+                        <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80" alt="Coastal estate" loading="lazy">
+                        <span class="card-status sale">For Sale</span>
+                        <button class="card-save" aria-label="Save property">
+                            <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-price">$14,200,000</div>
+                        <div class="card-address">460 Ocean Drive, Malibu, CA 90265</div>
+                        <div class="card-specs">
+                            <span class="spec-item">
+                                <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                                6 Beds
+                            </span>
+                            <span class="spec-item">
+                                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+                                7 Baths
+                            </span>
+                            <span class="spec-item">
+                                <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="1"/></svg>
+                                9,450 sqft
+                            </span>
+                        </div>
+                        <div class="card-divider"></div>
+                        <div class="card-attribution">
+                            <div class="agent-avatar" style="background: #1a2a3a;"></div>
+                            <span class="agent-name">Aperture Global · James Wren</span>
+                            <span class="mls-logo">MLS #A7654321</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="property-card">
+                    <div class="card-image">
+                        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80" alt="Modern penthouse" loading="lazy">
+                        <span class="card-status sale">For Sale</span>
+                        <button class="card-save" aria-label="Save property">
+                            <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-price">$5,495,000</div>
+                        <div class="card-address">One57, 157 West 57th St PH42, New York, NY 10019</div>
+                        <div class="card-specs">
+                            <span class="spec-item">
+                                <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                                3 Beds
+                            </span>
+                            <span class="spec-item">
+                                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+                                3.5 Baths
+                            </span>
+                            <span class="spec-item">
+                                <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="1"/></svg>
+                                4,100 sqft
+                            </span>
+                        </div>
+                        <div class="card-divider"></div>
+                        <div class="card-attribution">
+                            <div class="agent-avatar" style="background: #1a2a3a;"></div>
+                            <span class="agent-name">Aperture Global · Mia Torres</span>
+                            <span class="mls-logo">MLS #A9988001</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="property-card">
+                    <div class="card-image">
+                        <img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800&q=80" alt="Mediterranean villa" loading="lazy">
+                        <span class="card-status sale">For Sale</span>
+                        <button class="card-save" aria-label="Save property">
+                            <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-price">$22,900,000</div>
+                        <div class="card-address">Chemin de la Garoupe, Cap d'Antibes, 06600 France</div>
+                        <div class="card-specs">
+                            <span class="spec-item">
+                                <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                                8 Beds
+                            </span>
+                            <span class="spec-item">
+                                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+                                9 Baths
+                            </span>
+                            <span class="spec-item">
+                                <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="1"/></svg>
+                                14,200 sqft
+                            </span>
+                        </div>
+                        <div class="card-divider"></div>
+                        <div class="card-attribution">
+                            <div class="agent-avatar" style="background: #1a2a3a;"></div>
+                            <span class="agent-name">Aperture Global · Luca Moreau</span>
+                            <span class="mls-logo">REF #AG-EU-0412</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 5 -->
+                <div class="property-card">
+                    <div class="card-image">
+                        <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&q=80" alt="Contemporary residence" loading="lazy">
+                        <span class="card-status lease">For Lease</span>
+                        <button class="card-save" aria-label="Save property">
+                            <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-price">$42,000/mo</div>
+                        <div class="card-address">323 N Carmelina Ave, Brentwood, Los Angeles, CA 90049</div>
+                        <div class="card-specs">
+                            <span class="spec-item">
+                                <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                                5 Beds
+                            </span>
+                            <span class="spec-item">
+                                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+                                6 Baths
+                            </span>
+                            <span class="spec-item">
+                                <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="1"/></svg>
+                                6,800 sqft
+                            </span>
+                        </div>
+                        <div class="card-divider"></div>
+                        <div class="card-attribution">
+                            <div class="agent-avatar" style="background: #1a2a3a;"></div>
+                            <span class="agent-name">Aperture Global · Rachel Kim</span>
+                            <span class="mls-logo">MLS #A3301220</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 6 -->
+                <div class="property-card">
+                    <div class="card-image">
+                        <img src="https://images.unsplash.com/photo-1575517111839-3a3843ee7f5d?w=800&q=80" alt="Waterfront estate" loading="lazy">
+                        <span class="card-status sale">For Sale</span>
+                        <button class="card-save" aria-label="Save property">
+                            <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-price">$18,500,000</div>
+                        <div class="card-address">2 Indian Creek Island Rd, Indian Creek, FL 33154</div>
+                        <div class="card-specs">
+                            <span class="spec-item">
+                                <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                                7 Beds
+                            </span>
+                            <span class="spec-item">
+                                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+                                8 Baths
+                            </span>
+                            <span class="spec-item">
+                                <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="1"/></svg>
+                                11,300 sqft
+                            </span>
+                        </div>
+                        <div class="card-divider"></div>
+                        <div class="card-attribution">
+                            <div class="agent-avatar" style="background: #1a2a3a;"></div>
+                            <span class="agent-name">Aperture Global · Daniel Park</span>
+                            <span class="mls-logo">MLS #A5509874</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div><!-- /carousel-track -->
+        </div><!-- /carousel-viewport -->
+
+        <!-- Dots -->
+        <div class="carousel-dots" id="carouselDots"></div>
+
+    </div><!-- /container -->
+</section>
+
+<script>
+(function() {
+    const track      = document.getElementById('carouselTrack');
+    const viewport   = document.getElementById('carouselViewport');
+    const prevBtn    = document.getElementById('prevBtn');
+    const nextBtn    = document.getElementById('nextBtn');
+    const dotsWrap   = document.getElementById('carouselDots');
+    const cards      = Array.from(track.querySelectorAll('.property-card'));
+
+    let current = 0;
+
+    // Determine how many cards are visible based on card flex-basis
+    function visibleCount() {
+        const vw = viewport.offsetWidth;
+        if (vw >= 1024) return 3;
+        if (vw >= 640)  return 2;
+        return 1;
+    }
+
+    function pageCount() {
+        return Math.ceil(cards.length / visibleCount());
+    }
+
+    function cardWidth() {
+        if (!cards[0]) return 0;
+        return cards[0].offsetWidth + parseFloat(getComputedStyle(track).gap);
+    }
+
+    function goTo(index) {
+        const pages = pageCount();
+        current = Math.max(0, Math.min(index, pages - 1));
+        const offset = current * visibleCount() * cardWidth();
+        track.style.transform = `translateX(-${offset}px)`;
+        prevBtn.disabled = current === 0;
+        nextBtn.disabled = current >= pages - 1;
+        updateDots();
+    }
+
+    // Build dots
+    function buildDots() {
+        dotsWrap.innerHTML = '';
+        const pages = pageCount();
+        for (let i = 0; i < pages; i++) {
+            const btn = document.createElement('button');
+            btn.className = 'dot' + (i === current ? ' active' : '');
+            btn.setAttribute('aria-label', `Go to page ${i + 1}`);
+            btn.addEventListener('click', () => goTo(i));
+            dotsWrap.appendChild(btn);
+        }
+    }
+
+    function updateDots() {
+        const dots = dotsWrap.querySelectorAll('.dot');
+        dots.forEach((d, i) => d.classList.toggle('active', i === current));
+    }
+
+    prevBtn.addEventListener('click', () => goTo(current - 1));
+    nextBtn.addEventListener('click', () => goTo(current + 1));
+
+    // Touch/swipe support
+    let startX = 0;
+    viewport.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, { passive: true });
+    viewport.addEventListener('touchend', e => {
+        const dx = e.changedTouches[0].clientX - startX;
+        if (Math.abs(dx) > 50) goTo(current + (dx < 0 ? 1 : -1));
+    }, { passive: true });
+
+    // Init + resize
+    function init() {
+        buildDots();
+        goTo(0);
+    }
+
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(init, 120);
+    });
+
+    init();
+})();
+</script>
+
+</body>
+</html>
