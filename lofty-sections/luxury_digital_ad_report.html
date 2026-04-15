@@ -1,0 +1,468 @@
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500&display=swap');
+
+  .lx-report * { box-sizing: border-box; margin: 0; padding: 0; }
+  .lx-report {
+    font-family: 'Montserrat', sans-serif;
+    background: #0a0a0a;
+    color: #e8e2d9;
+    min-height: 100vh;
+    padding: 0;
+  }
+
+  .hero {
+    position: relative;
+    background: #0a0a0a;
+    border-bottom: 1px solid #2a2520;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 320px;
+  }
+
+  .hero-left {
+    background: linear-gradient(135deg, #1a1510 0%, #0d0d0d 100%);
+    padding: 52px 48px;
+    border-right: 1px solid #2a2520;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .hero-right {
+    padding: 52px 48px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .brand-line {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    font-weight: 400;
+    letter-spacing: 4px;
+    color: #8a7d6b;
+    text-transform: uppercase;
+  }
+
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 52px;
+    font-weight: 300;
+    line-height: 1.0;
+    color: #f0e8dc;
+    letter-spacing: -1px;
+  }
+
+  .hero-title em {
+    font-style: italic;
+    color: #c9a96e;
+  }
+
+  .hero-sub {
+    font-size: 9px;
+    letter-spacing: 3px;
+    color: #5a5248;
+    text-transform: uppercase;
+  }
+
+  .report-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .meta-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    border-bottom: 1px solid #1e1c18;
+    padding-bottom: 10px;
+  }
+
+  .meta-label {
+    font-size: 8px;
+    letter-spacing: 3px;
+    color: #5a5248;
+    text-transform: uppercase;
+  }
+
+  .meta-value {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    font-weight: 400;
+    color: #c9b99a;
+  }
+
+  .gold-rule {
+    width: 40px;
+    height: 1px;
+    background: #c9a96e;
+    margin: 0 auto 0 0;
+  }
+
+  .body-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-bottom: 1px solid #1e1c18;
+  }
+
+  .section-panel {
+    padding: 52px 48px;
+    border-right: 1px solid #1e1c18;
+  }
+
+  .section-panel:last-child { border-right: none; }
+
+  .section-number {
+    font-size: 8px;
+    letter-spacing: 4px;
+    color: #4a4238;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+  }
+
+  .section-heading {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 32px;
+    font-weight: 300;
+    color: #f0e8dc;
+    line-height: 1.1;
+    margin-bottom: 6px;
+  }
+
+  .section-heading em {
+    color: #c9a96e;
+    font-style: italic;
+  }
+
+  .section-divider {
+    width: 32px;
+    height: 1px;
+    background: #c9a96e;
+    margin: 20px 0 24px;
+  }
+
+  .section-body {
+    font-size: 12px;
+    font-weight: 300;
+    line-height: 1.9;
+    color: #857970;
+  }
+
+  .stats-strip {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-bottom: 1px solid #1e1c18;
+  }
+
+  .stat-cell {
+    padding: 36px 40px;
+    border-right: 1px solid #1e1c18;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .stat-cell:last-child { border-right: none; }
+
+  .stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 44px;
+    font-weight: 300;
+    color: #c9a96e;
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 8px;
+    letter-spacing: 3px;
+    color: #5a5248;
+    text-transform: uppercase;
+  }
+
+  .stat-desc {
+    font-size: 11px;
+    color: #5a5248;
+    font-weight: 300;
+    margin-top: 4px;
+    line-height: 1.6;
+  }
+
+  .full-section {
+    padding: 56px 48px;
+    border-bottom: 1px solid #1e1c18;
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 64px;
+    align-items: start;
+  }
+
+  .full-section-left .section-heading {
+    font-size: 36px;
+  }
+
+  .full-section-body {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .full-section-body p {
+    font-size: 12px;
+    font-weight: 300;
+    line-height: 1.9;
+    color: #857970;
+  }
+
+  .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: #1e1c18;
+    border-top: 1px solid #1e1c18;
+  }
+
+  .feature-cell {
+    background: #0a0a0a;
+    padding: 40px 48px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .feature-icon {
+    width: 28px;
+    height: 1px;
+    background: #c9a96e;
+  }
+
+  .feature-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 400;
+    color: #e8ddd0;
+    line-height: 1.2;
+  }
+
+  .feature-text {
+    font-size: 11px;
+    font-weight: 300;
+    line-height: 1.8;
+    color: #6a5f57;
+  }
+
+  .footer {
+    background: #0d0b09;
+    border-top: 1px solid #2a2520;
+    padding: 36px 48px;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 32px;
+  }
+
+  .footer-agent {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .agent-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 400;
+    color: #d4c4b0;
+  }
+
+  .agent-title {
+    font-size: 8px;
+    letter-spacing: 3px;
+    color: #5a5248;
+    text-transform: uppercase;
+  }
+
+  .agent-contact {
+    font-size: 11px;
+    color: #6a5f57;
+    font-weight: 300;
+    margin-top: 6px;
+    line-height: 1.7;
+  }
+
+  .footer-logo {
+    text-align: center;
+  }
+
+  .footer-logo-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 13px;
+    font-weight: 300;
+    letter-spacing: 6px;
+    color: #c9a96e;
+    text-transform: uppercase;
+  }
+
+  .footer-logo-sub {
+    font-size: 7px;
+    letter-spacing: 3px;
+    color: #3a3530;
+    text-transform: uppercase;
+    margin-top: 6px;
+  }
+
+  .footer-right {
+    text-align: right;
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: #3a3530;
+    text-transform: uppercase;
+    line-height: 2;
+  }
+
+  .ornament {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    color: #2a2218;
+    text-align: center;
+    padding: 8px 0;
+    letter-spacing: 8px;
+  }
+</style>
+
+<div class="lx-report">
+
+  <div class="hero">
+    <div class="hero-left">
+      <div class="brand-line">Aperture Global — Campaign Report</div>
+      <div>
+        <div class="hero-title">Your <em>Home's</em><br>Digital Ad<br>Campaign</div>
+        <div style="margin-top: 20px;" class="hero-sub">Prepared exclusively for your property</div>
+      </div>
+      <div class="brand-line">apertureglobal.com</div>
+    </div>
+    <div class="hero-right">
+      <div class="report-meta">
+        <div class="meta-row">
+          <div>
+            <div class="meta-label">Property</div>
+            <div class="meta-value">123 Ocean Drive</div>
+          </div>
+        </div>
+        <div class="meta-row">
+          <div>
+            <div class="meta-label">Campaign Period</div>
+            <div class="meta-value">Q2 2026</div>
+          </div>
+        </div>
+        <div class="meta-row">
+          <div>
+            <div class="meta-label">Market</div>
+            <div class="meta-value">Luxury Residential</div>
+          </div>
+        </div>
+        <div class="meta-row">
+          <div>
+            <div class="meta-label">Report Date</div>
+            <div class="meta-value">April 2026</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="full-section">
+    <div class="full-section-left">
+      <div class="section-number">01 — Overview</div>
+      <div class="section-heading">Driving Sales<br>Through <em>Digital</em><br>Strategy</div>
+      <div class="section-divider"></div>
+    </div>
+    <div class="full-section-body">
+      <p>Today's luxury home buyers begin their search online — and your property deserves to be exactly where they're looking. Our digital ad campaign places your home in front of a highly curated audience of qualified buyers across premium platforms, leveraging advanced targeting technology to ensure your listing reaches the right people at the right moment.</p>
+      <p>Throughout this campaign, sophisticated techniques were leveraged to expand your listing's reach and effectively showcase your home to a broad audience of luxury buyers as they browsed a diverse range of online content. This targeted approach has not only increased your home's visibility but also attracted highly qualified prospects — both vital components to securing a faster, more lucrative sale.</p>
+    </div>
+  </div>
+
+  <div class="stats-strip">
+    <div class="stat-cell">
+      <div class="stat-num">44%</div>
+      <div class="stat-label">Of Buyers Discovered Online</div>
+      <div class="stat-desc">Home seekers now find their dream property through digital platforms before ever contacting an agent.</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-num">3.2×</div>
+      <div class="stat-label">Greater Reach vs. Traditional</div>
+      <div class="stat-desc">Digital campaigns consistently outperform print and traditional media in luxury buyer engagement.</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-num">$0</div>
+      <div class="stat-label">Wasted Impressions</div>
+      <div class="stat-desc">Precision targeting ensures every placement reaches a qualified, high-net-worth prospect.</div>
+    </div>
+  </div>
+
+  <div class="body-grid">
+    <div class="section-panel">
+      <div class="section-number">02 — Targeting</div>
+      <div class="section-heading">Precise<br><em>Ad Delivery</em></div>
+      <div class="section-divider"></div>
+      <div class="section-body">
+        Not every buyer is the right buyer — and our targeting ensures your home is seen by those who matter most. Using sophisticated audience segmentation, we deliver your listing directly to high-net-worth individuals based on browsing behavior, lifestyle interests, income indicators, and geographic location.<br><br>
+        The result is a campaign that eliminates wasted exposure and focuses entirely on connecting your property with buyers who are both motivated and qualified to make a move.
+      </div>
+    </div>
+    <div class="section-panel">
+      <div class="section-number">03 — Placement</div>
+      <div class="section-heading">Premium<br><em>Web Placement</em></div>
+      <div class="section-divider"></div>
+      <div class="section-body">
+        Your home is exceptional — and it will be presented as such. Your listing is featured across an exclusive network of premium websites, luxury lifestyle publications, and high-traffic real estate platforms, ensuring it appears alongside content that resonates with discerning buyers.<br><br>
+        From banner placements on marquee digital destinations to sponsored features within curated luxury content, your property commands the visibility and prestige it deserves throughout the entire campaign.
+      </div>
+    </div>
+  </div>
+
+  <div class="feature-grid">
+    <div class="feature-cell">
+      <div class="feature-icon"></div>
+      <div class="feature-name">Behavioral<br>Audience Signals</div>
+      <div class="feature-text">Real-time data on browsing patterns, search intent, and lifestyle content identifies buyers actively in the luxury market before they even inquire.</div>
+    </div>
+    <div class="feature-cell">
+      <div class="feature-icon"></div>
+      <div class="feature-name">Geographic<br>Precision Targeting</div>
+      <div class="feature-text">Ads are served to buyers in high-wealth zip codes, feeder markets, and relocation corridors with demonstrated interest in luxury property acquisition.</div>
+    </div>
+    <div class="feature-cell">
+      <div class="feature-icon"></div>
+      <div class="feature-name">Luxury Editorial<br>Placements</div>
+      <div class="feature-text">Your property appears within premium content environments — architectural, travel, and lifestyle publications that attract affluent, motivated readers.</div>
+    </div>
+    <div class="feature-cell">
+      <div class="feature-icon"></div>
+      <div class="feature-name">Cross-Platform<br>Retargeting</div>
+      <div class="feature-text">Interested buyers who view your listing are followed across devices and platforms, keeping your property top of mind through every stage of their search.</div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-agent">
+      <div class="agent-name">First Lastname</div>
+      <div class="agent-title">Realtor® — Aperture Global</div>
+      <div class="agent-contact">
+        +1 999.999.9999<br>
+        email@apertureglobal.com
+      </div>
+    </div>
+    <div class="footer-logo">
+      <div class="footer-logo-text">Aperture Global</div>
+      <div class="footer-logo-sub">Luxury Real Estate</div>
+    </div>
+    <div class="footer-right">
+      Confidential<br>
+      Prepared for client use<br>
+      apertureglobal.com
+    </div>
+  </div>
+
+</div>
