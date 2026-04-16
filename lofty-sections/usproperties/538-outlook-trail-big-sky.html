@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>538 Outlook Trail — Big Sky, MT | Luxury Property</title>
-  <link rel="stylesheet" href="../euproperty.css">
+  <link rel="stylesheet" href="https://raw.githubusercontent.com/k4design/k4design.github.io/refs/heads/main/lofty-sections/europe-collection.css">
 </head>
 <body>
   <div class="property-page">
@@ -15,7 +15,7 @@
       <section class="hero" aria-label="Property hero">
         <div class="hero-media">
           <img
-            src="https://images.expcloud.com/3YTVSbJ1llH5EJTVZ28RFA==!LatDYDNUgfz5Z4sDlUjla0sQjv7/nQOAXLF8SAyUHXOdop92z71//YI7bv1cH47ZM1bHjMhn91pM7oIN1Pu5Bka25ghsC5GxBM7ULH37kz8qgCahVmZ1EV/satUMdLQm"
+            src="https://raw.githubusercontent.com/k4design/aperture/refs/heads/main/538outlooktrailvideo/1.jpg"
             sizes="100vw"
             alt="538 Outlook Trail — mountain-modern retreat at Spanish Peaks Mountain Club Highlands, Big Sky, MT"
             width="1920"
@@ -30,10 +30,6 @@
             <p class="hero-location">Big Sky, MT 59716</p>
             <p class="hero-price">$6,750,000</p>
             <p class="hero-tagline">A mountain-modern retreat with ski-in/ski-out access to the Highlands Chairlift—furnished by a local designer and steps from the full amenity offering of Spanish Peaks Mountain Club.</p>
-            <div class="hero-ctas">
-              <a href="#advisor" class="btn btn-primary">Request Brochure</a>
-              <a href="#advisor" class="btn btn-secondary">Schedule a Private Viewing</a>
-            </div>
             <a href="#stats" class="hero-scroll-cue" aria-label="Scroll to content">
               <span class="scroll-cue-line"></span>
             </a>
@@ -102,7 +98,7 @@
           <figure class="gallery-featured reveal">
             <button type="button" class="gallery-thumb" id="gallery-featured-thumb" aria-label="View full size">
               <img
-                src="https://images.expcloud.com/3YTVSbJ1llH5EJTVZ28RFA==!LatDYDNUgfz5Z4sDlUjla0sQjv7/nQOAXLF8SAyUHXOdop92z71//YI7bv1cH47ZM1bHjMhn91pM7oIN1Pu5Bka25ghsC5GxBM7ULH37kz8qgCahVmZ1EV/satUMdLQm"
+                src="https://raw.githubusercontent.com/k4design/aperture/refs/heads/main/538outlooktrailvideo/1.jpg"
                 sizes="(min-width: 64rem) 90vw, 100vw"
                 alt="538 Outlook Trail, Big Sky MT"
                 width="1200"
@@ -112,8 +108,64 @@
             <figcaption id="gallery-featured-caption">538 Outlook Trail — Highlands at Spanish Peaks</figcaption>
           </figure>
           <div id="gallery-grid" class="gallery-grid reveal-stagger" aria-label="Gallery images"></div>
+          <nav id="gallery-pagination" class="gallery-pagination" aria-label="Gallery pages"></nav>
         </div>
       </section>
+
+      <style>
+        .gallery-pagination {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+          padding: 32px 48px 48px;
+        }
+        .gallery-pagination button {
+          background: none;
+          border: 1px solid currentColor;
+          color: var(--text-soft, #888);
+          font-family: inherit;
+          font-size: 11px;
+          letter-spacing: 2px;
+          padding: 8px 14px;
+          cursor: pointer;
+          transition: color 0.2s, border-color 0.2s, background 0.2s;
+        }
+        .gallery-pagination button:hover {
+          color: var(--text, #fff);
+          border-color: var(--text, #fff);
+        }
+        .gallery-pagination button.active {
+          background: var(--text, #fff);
+          color: var(--bg, #0a0a0a);
+          border-color: var(--text, #fff);
+        }
+        .gallery-pagination button:disabled {
+          opacity: 0.25;
+          cursor: default;
+        }
+        .gallery-pagination .pg-prev,
+        .gallery-pagination .pg-next {
+          font-size: 13px;
+          letter-spacing: 0;
+          padding: 8px 16px;
+        }
+        .gallery-pagination .pg-info {
+          font-size: 9px;
+          letter-spacing: 3px;
+          color: var(--text-soft, #888);
+          text-transform: uppercase;
+          padding: 0 8px;
+          border: none;
+          cursor: default;
+          pointer-events: none;
+        }
+        .gallery-pagination .pg-info:hover {
+          color: var(--text-soft, #888);
+          border: none;
+          background: none;
+        }
+      </style>
 
       <!-- Gallery lightbox -->
       <div id="gallery-modal" class="gallery-modal" role="dialog" aria-modal="true" aria-label="Enlarged image" hidden>
@@ -126,24 +178,163 @@
 
       <script>
         (function () {
+          var BASE = 'https://raw.githubusercontent.com/k4design/aperture/refs/heads/main/538outlooktrailvideo/';
           var GALLERY = [
-            { src: 'https://images.expcloud.com/3YTVSbJ1llH5EJTVZ28RFA==!LatDYDNUgfz5Z4sDlUjla0sQjv7/nQOAXLF8SAyUHXOdop92z71//YI7bv1cH47ZM1bHjMhn91pM7oIN1Pu5Bka25ghsC5GxBM7ULH37kz8qgCahVmZ1EV/satUMdLQm', caption: '538 Outlook Trail' },
-            { src: 'https://images.expcloud.com/fo/5AOVE5da3kZXedkyukQ==!kO7VTFYroEzkqu6qXtL/iuRcjbnF7vdd8hPcTQ8sL3tWTneDA28nDA3TlrK/xRtssySrPOijvfHVq3b0EyJTKdLN7OC+Br01ZiUPsWLklpAbAYJLm2Adc/k3jueGoXRT', caption: 'Living area' },
-            { src: 'https://images.expcloud.com/oyG9aBK/Apdyv27MUeQGAw==!IODF7HpU3COvA/Lc1e3iMlt5bw0XIJO0FnDWddGA5y3hKGUvSfeaQ1i/mPhIQpswbllfgqk57cY/BoHgynO1XrACAG5anlzL/hArOuDKpwZWoorRW7tQK2vwWLmRVKFZS', caption: 'Kitchen and dining' },
-            { src: 'https://images.expcloud.com/OY8tKeTnh/ELcBKegDI/FQ==!gucKzX3MO9u2y+Ro0a0Bgkj7VrFlx5JT/FBszgEj2bOx2mOKnk+T/KyONtcvpJocPABwrKl24r6qBZARN9WktqpU7egr7+Y3Hcy2TKaFQw3hJPRTKWqscRhFocBo54MTz', caption: 'Lower level family room' },
-            { src: 'https://images.expcloud.com/d0JJNGx0c2fvwdqb5BIP8g==!ry4NTVXk1auRjedRo3FDc8iamcv7fLBlh+rIVnhNQ8YaaSeQyUuvOOMiSgyg2+opCZUg6KxwAuADyWPQVtHEUr0VnKEQ6wKoZ+NbxKNfMkGoKn+BAx/5RN+SNHIv4gN5l', caption: 'Outdoor deck' },
-            { src: 'https://images.expcloud.com/7xR42uK6oZQxrjirnGSUTA==!19WuytG5zIfs4lrAlv98vpCX7Ok72UhLcPtzHx0RkUrE4Q5wNjYxClAKOTrMpuEN+xwaOpoYAsQXJ5e7E9LRj7A6nM+pAJw732BGkTlDbRuw5a3Ydpx+61hw9MVJgVPM', caption: 'Mountain views' },
-            { src: 'https://images.expcloud.com/dFpet5YVNYTQItLYlrmQ+w==!LyJD6YbG8JsOKLycfIUIv8XeCvd81dXTFEseWFWvqyp1ItsC59kRYXH2qZTh1hwwKYOcDm35zSHLMIO1UMXLIelHBIa0Ca24YlvfXraDw3lsDm1Vai9IWOhxdKLcjUkF', caption: 'Primary suite' }
+            { src: BASE + '1.jpg',   caption: '538 Outlook Trail' },
+            { src: BASE + '2.jpg',   caption: '538 Outlook Trail' },
+            { src: BASE + '3.jpg',   caption: '538 Outlook Trail' },
+            { src: BASE + '4.jpg',   caption: '538 Outlook Trail' },
+            { src: BASE + '5.jpg',   caption: '538 Outlook Trail' },
+            { src: BASE + '6.jpg',   caption: '538 Outlook Trail' },
+            { src: BASE + '7.jpg',   caption: '538 Outlook Trail' },
+            { src: BASE + '8.jpg',   caption: '538 Outlook Trail' },
+            { src: BASE + '9.jpg',   caption: '538 Outlook Trail' },
+            { src: BASE + '10.jpg',  caption: '538 Outlook Trail' },
+            { src: BASE + '11.jpg',  caption: '538 Outlook Trail' },
+            { src: BASE + '12.jpg',  caption: '538 Outlook Trail' },
+            { src: BASE + '13.jpg',  caption: '538 Outlook Trail' },
+            { src: BASE + '14.jpg',  caption: '538 Outlook Trail' },
+            { src: BASE + '15.jpg',  caption: '538 Outlook Trail' },
+            { src: BASE + '16.jpg',  caption: '538 Outlook Trail' },
+            { src: BASE + '17.jpg',  caption: '538 Outlook Trail' },
+            { src: BASE + '18.jpg',  caption: '538 Outlook Trail' },
+            { src: BASE + '19.jpg',  caption: '538 Outlook Trail' },
+            { src: BASE + '20.jpg',  caption: '538 Outlook Trail' },
+            { src: BASE + '21.jpg',  caption: '538 Outlook Trail' },
+            { src: BASE + '22.jpg',  caption: '538 Outlook Trail' },
+            { src: BASE + '23.jpg',  caption: '538 Outlook Trail' },
+            { src: BASE + '24.jpg',  caption: '538 Outlook Trail' },
+            { src: BASE + '25.jpg',  caption: '538 Outlook Trail' },
+            { src: BASE + '26.jpg',  caption: '538 Outlook Trail' },
+            { src: BASE + '27.jpg',  caption: '538 Outlook Trail' },
+            { src: BASE + '28.jpg',  caption: '538 Outlook Trail' },
+            { src: BASE + '29.jpg',  caption: '538 Outlook Trail' },
+            { src: BASE + '30.jpg',  caption: '538 Outlook Trail' },
+            { src: BASE + '31.jpg',  caption: '538 Outlook Trail' },
+            { src: BASE + '32.jpg',  caption: '538 Outlook Trail' },
+            { src: BASE + '33.jpg',  caption: '538 Outlook Trail' },
+            { src: BASE + '34.jpg',  caption: '538 Outlook Trail' },
+            { src: BASE + '35.jpg',  caption: '538 Outlook Trail' },
+            { src: BASE + '36.jpg',  caption: '538 Outlook Trail' },
+            { src: BASE + '37.jpg',  caption: '538 Outlook Trail' },
+            { src: BASE + '38.jpg',  caption: '538 Outlook Trail' },
+            { src: BASE + '39.jpg',  caption: '538 Outlook Trail' },
+            { src: BASE + '40.jpg',  caption: '538 Outlook Trail' },
+            { src: BASE + '41.jpg',  caption: '538 Outlook Trail' },
+            { src: BASE + '42.jpg',  caption: '538 Outlook Trail' },
+            { src: BASE + '43.jpg',  caption: '538 Outlook Trail' },
+            { src: BASE + '44.jpg',  caption: '538 Outlook Trail' },
+            { src: BASE + '45.jpg',  caption: '538 Outlook Trail' },
+            { src: BASE + '46.jpg',  caption: '538 Outlook Trail' },
+            { src: BASE + '47.jpg',  caption: '538 Outlook Trail' },
+            { src: BASE + '48.jpg',  caption: '538 Outlook Trail' },
+            { src: BASE + '49.jpg',  caption: '538 Outlook Trail' },
+            { src: BASE + '50.jpg',  caption: '538 Outlook Trail' },
+            { src: BASE + '51.jpg',  caption: '538 Outlook Trail' },
+            { src: BASE + '52.jpg',  caption: '538 Outlook Trail' },
+            { src: BASE + '53.jpg',  caption: '538 Outlook Trail' },
+            { src: BASE + '54.jpg',  caption: '538 Outlook Trail' },
+            { src: BASE + '55.jpg',  caption: '538 Outlook Trail' },
+            { src: BASE + '56.jpg',  caption: '538 Outlook Trail' },
+            { src: BASE + '57.jpg',  caption: '538 Outlook Trail' },
+            { src: BASE + '58.jpg',  caption: '538 Outlook Trail' },
+            { src: BASE + '59.jpg',  caption: '538 Outlook Trail' },
+            { src: BASE + '60.jpg',  caption: '538 Outlook Trail' },
+            { src: BASE + '61.jpg',  caption: '538 Outlook Trail' },
+            { src: BASE + '62.jpg',  caption: '538 Outlook Trail' },
+            { src: BASE + '63.jpg',  caption: '538 Outlook Trail' },
+            { src: BASE + '64.jpg',  caption: '538 Outlook Trail' },
+            { src: BASE + '65.jpg',  caption: '538 Outlook Trail' },
+            { src: BASE + '66.jpg',  caption: '538 Outlook Trail' },
+            { src: BASE + '67.jpg',  caption: '538 Outlook Trail' },
+            { src: BASE + '68.jpg',  caption: '538 Outlook Trail' },
+            { src: BASE + '69.jpg',  caption: '538 Outlook Trail' },
+            { src: BASE + '70.jpg',  caption: '538 Outlook Trail' },
+            { src: BASE + '71.jpg',  caption: '538 Outlook Trail' },
+            { src: BASE + '72.jpg',  caption: '538 Outlook Trail' },
+            { src: BASE + '73.jpg',  caption: '538 Outlook Trail' },
+            { src: BASE + '74.jpg',  caption: '538 Outlook Trail' },
+            { src: BASE + '75.jpg',  caption: '538 Outlook Trail' },
+            { src: BASE + '76.jpg',  caption: '538 Outlook Trail' },
+            { src: BASE + '77.jpg',  caption: '538 Outlook Trail' },
+            { src: BASE + '78.jpg',  caption: '538 Outlook Trail' },
+            { src: BASE + '79.jpg',  caption: '538 Outlook Trail' },
+            { src: BASE + '80.jpg',  caption: '538 Outlook Trail' },
+            { src: BASE + '81.jpg',  caption: '538 Outlook Trail' },
+            { src: BASE + '82.jpg',  caption: '538 Outlook Trail' },
+            { src: BASE + '83.jpg',  caption: '538 Outlook Trail' },
+            { src: BASE + '84.jpg',  caption: '538 Outlook Trail' },
+            { src: BASE + '85.jpg',  caption: '538 Outlook Trail' },
+            { src: BASE + '86.jpg',  caption: '538 Outlook Trail' },
+            { src: BASE + '87.jpg',  caption: '538 Outlook Trail' },
+            { src: BASE + '88.jpg',  caption: '538 Outlook Trail' },
+            { src: BASE + '89.jpg',  caption: '538 Outlook Trail' },
+            { src: BASE + '90.jpg',  caption: '538 Outlook Trail' },
+            { src: BASE + '91.jpg',  caption: '538 Outlook Trail' },
+            { src: BASE + '92.jpg',  caption: '538 Outlook Trail' },
+            { src: BASE + '93.jpg',  caption: '538 Outlook Trail' },
+            { src: BASE + '94.jpg',  caption: '538 Outlook Trail' },
+            { src: BASE + '95.jpg',  caption: '538 Outlook Trail' },
+            { src: BASE + '96.jpg',  caption: '538 Outlook Trail' },
+            { src: BASE + '97.jpg',  caption: '538 Outlook Trail' },
+            { src: BASE + '98.jpg',  caption: '538 Outlook Trail' },
+            { src: BASE + '99.jpg',  caption: '538 Outlook Trail' },
+            { src: BASE + '100.jpg', caption: '538 Outlook Trail' },
+            { src: BASE + '101.jpg', caption: '538 Outlook Trail' },
+            { src: BASE + '102.jpg', caption: '538 Outlook Trail' },
+            { src: BASE + '103.jpg', caption: '538 Outlook Trail' },
+            { src: BASE + '104.jpg', caption: '538 Outlook Trail' },
+            { src: BASE + '105.jpg', caption: '538 Outlook Trail' },
+            { src: BASE + '106.jpg', caption: '538 Outlook Trail' }
           ];
 
+          var PER_PAGE = 12;
+          var currentPage = 0;
+          var totalPages = Math.ceil(GALLERY.length / PER_PAGE);
+
           var grid = document.getElementById('gallery-grid');
-          if (grid) {
-            grid.innerHTML = GALLERY.map(function (item) {
+          var pagination = document.getElementById('gallery-pagination');
+
+          function renderPage(page) {
+            if (!grid) return;
+            var start = page * PER_PAGE;
+            var slice = GALLERY.slice(start, start + PER_PAGE);
+            grid.innerHTML = slice.map(function (item) {
               return '<figure><button type="button" class="gallery-thumb" aria-label="View full size: ' + item.caption + '">' +
-                '<img src="' + item.src + '" sizes="(min-width: 48rem) 33vw, 100vw" alt="538 Outlook Trail – ' + item.caption + '" width="600" height="400">' +
+                '<img src="' + item.src + '" sizes="(min-width: 48rem) 33vw, 100vw" alt="538 Outlook Trail – ' + item.caption + '" width="600" height="400" loading="lazy">' +
                 '</button><figcaption>' + item.caption + '</figcaption></figure>';
             }).join('');
+            renderPagination(page);
           }
+
+          function renderPagination(page) {
+            if (!pagination) return;
+            var html = '';
+            html += '<button class="pg-prev" aria-label="Previous page"' + (page === 0 ? ' disabled' : '') + '>&#8592;</button>';
+            for (var i = 0; i < totalPages; i++) {
+              html += '<button class="pg-num' + (i === page ? ' active' : '') + '" data-page="' + i + '" aria-label="Page ' + (i + 1) + '" aria-current="' + (i === page ? 'page' : 'false') + '">' + (i + 1) + '</button>';
+            }
+            html += '<button class="pg-next" aria-label="Next page"' + (page === totalPages - 1 ? ' disabled' : '') + '>&#8594;</button>';
+            pagination.innerHTML = html;
+
+            pagination.querySelector('.pg-prev').addEventListener('click', function () {
+              if (currentPage > 0) goToPage(currentPage - 1);
+            });
+            pagination.querySelector('.pg-next').addEventListener('click', function () {
+              if (currentPage < totalPages - 1) goToPage(currentPage + 1);
+            });
+            pagination.querySelectorAll('.pg-num').forEach(function (btn) {
+              btn.addEventListener('click', function () { goToPage(parseInt(this.dataset.page, 10)); });
+            });
+          }
+
+          function goToPage(page) {
+            currentPage = page;
+            renderPage(page);
+            if (grid) grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+
+          renderPage(0);
 
           var modal = document.getElementById('gallery-modal');
           var modalImg = modal && modal.querySelector('.gallery-modal-img');
@@ -260,23 +451,23 @@
           <div class="floorplans">
             <figure>
               <img
-                src="https://images.expcloud.com/fo/5AOVE5da3kZXedkyukQ==!kO7VTFYroEzkqu6qXtL/iuRcjbnF7vdd8hPcTQ8sL3tWTneDA28nDA3TlrK/xRtssySrPOijvfHVq3b0EyJTKdLN7OC+Br01ZiUPsWLklpAbAYJLm2Adc/k3jueGoXRT"
+                src="https://raw.githubusercontent.com/k4design/aperture/refs/heads/main/538outlooktrailvideo/2.jpg"
                 sizes="(min-width: 48rem) 50vw, 100vw"
-                alt="538 Outlook Trail — living area"
+                alt="538 Outlook Trail — interior"
                 width="800"
                 height="600"
               >
-              <figcaption>Living area</figcaption>
+              <figcaption>538 Outlook Trail</figcaption>
             </figure>
             <figure>
               <img
-                src="https://images.expcloud.com/oyG9aBK/Apdyv27MUeQGAw==!IODF7HpU3COvA/Lc1e3iMlt5bw0XIJO0FnDWddGA5y3hKGUvSfeaQ1i/mPhIQpswbllfgqk57cY/BoHgynO1XrACAG5anlzL/hArOuDKpwZWoorRW7tQK2vwWLmRVKFZS"
+                src="https://raw.githubusercontent.com/k4design/aperture/refs/heads/main/538outlooktrailvideo/3.jpg"
                 sizes="(min-width: 48rem) 50vw, 100vw"
-                alt="538 Outlook Trail — kitchen and dining"
+                alt="538 Outlook Trail — interior"
                 width="800"
                 height="600"
               >
-              <figcaption>Kitchen and dining</figcaption>
+              <figcaption>538 Outlook Trail</figcaption>
             </figure>
           </div>
         </div>
@@ -287,11 +478,19 @@
         <div class="advisor-inner reveal">
           <h2 id="advisor-heading">Your Advisor</h2>
           <div class="advisor-card">
+            <div class="advisor-photo">
+              <img
+                src="https://raw.githubusercontent.com/k4design/aperture/refs/heads/main/agent/marthajohnson.jpeg"
+                alt="Martha Johnson — Realtor®, Big Sky, Montana"
+                width="120"
+                height="120"
+              >
+            </div>
             <div class="advisor-info">
-              <p class="advisor-name">Lofty Advisor</p>
-              <p class="advisor-title">Luxury Property Specialist · Hart Residential / Silver Creek Realty</p>
-              <p class="advisor-contact">MLS# 404542 · Spanish Peaks Mountain Club</p>
-              <p class="advisor-trust">Local expertise · Ski property specialists · Club membership guidance</p>
+              <p class="advisor-name">Martha Johnson</p>
+              <p class="advisor-title">Realtor® · Big Sky, Montana</p>
+              <p class="advisor-contact">+1 406.580.5891 · Martha.Johnson@Apertureglobal.com</p>
+              <p class="advisor-trust">MLS# 404542 · Spanish Peaks Mountain Club · Highlands at Big Sky</p>
             </div>
           </div>
         </div>

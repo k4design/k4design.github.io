@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>172 Ciel Dr — Big Sky, MT | Luxury Property</title>
-  <link rel="stylesheet" href="../euproperty.css">
+  <link rel="stylesheet" href="https://raw.githubusercontent.com/k4design/k4design.github.io/refs/heads/main/lofty-sections/europe-collection.css">
 </head>
 <body>
   <div class="property-page">
@@ -13,18 +13,23 @@
 
       <!-- Hero -->
       <section class="hero" aria-label="Property hero">
-        <div class="hero-media" style="background: linear-gradient(160deg, #0a1a0a 0%, #1a2e1a 55%, #0a1820 100%);"></div>
+        <div class="hero-media">
+          <img
+            src="https://raw.githubusercontent.com/k4design/aperture/refs/heads/main/172cieldrive/1.jpg"
+            sizes="100vw"
+            alt="172 Ciel Drive — mountain retreat on 6.33 acres, Big Sky, MT"
+            width="1920"
+            height="1080"
+            class="hero-img"
+          >
+        </div>
         <div class="hero-overlay">
           <div class="hero-content">
             <p class="hero-label">Big Sky · Gallatin County, Montana</p>
-            <h1 class="hero-title">172 Ciel Dr</h1>
+            <h1 class="hero-title">172 Ciel Drive</h1>
             <p class="hero-location">Big Sky, MT 59716</p>
-            <p class="hero-price">$3,999,000</p>
-            <p class="hero-tagline">A mountain retreat on 1.31 acres in the heart of Big Sky—minutes from world-class skiing, hiking, and the gateway to Yellowstone.</p>
-            <div class="hero-ctas">
-              <a href="#advisor" class="btn btn-primary">Request Brochure</a>
-              <a href="#advisor" class="btn btn-secondary">Schedule a Private Viewing</a>
-            </div>
+            <p class="hero-price">$5,600,000</p>
+            <p class="hero-tagline">A mountain retreat on 6.33 private acres in the heart of Big Sky—3,868 sq ft of refined living minutes from world-class skiing, hiking, and the gateway to Yellowstone.</p>
             <a href="#stats" class="hero-scroll-cue" aria-label="Scroll to content">
               <span class="scroll-cue-line"></span>
             </a>
@@ -37,7 +42,11 @@
         <h2 id="stats-heading" class="visually-hidden">Property at a glance</h2>
         <div class="stats-inner reveal reveal-stagger">
           <dl class="stat">
-            <dd>1.31 acres</dd>
+            <dd>3,868 sq ft</dd>
+            <dt>Living area</dt>
+          </dl>
+          <dl class="stat">
+            <dd>6.33 acres</dd>
             <dt>Lot</dt>
           </dl>
           <dl class="stat">
@@ -45,16 +54,12 @@
             <dt>Bedrooms</dt>
           </dl>
           <dl class="stat">
-            <dd>5</dd>
+            <dd>4</dd>
             <dt>Bathrooms</dt>
           </dl>
           <dl class="stat">
-            <dd>Big Sky</dd>
-            <dt>Community</dt>
-          </dl>
-          <dl class="stat">
-            <dd>Montana</dd>
-            <dt>State</dt>
+            <dd>Big Sky, MT</dd>
+            <dt>Location</dt>
           </dl>
         </div>
       </section>
@@ -64,14 +69,14 @@
         <div class="editorial-inner reveal">
           <div class="story-col">
             <h2 id="story-heading">The Story</h2>
-            <p>172 Ciel Drive offers a rare opportunity to own a private mountain retreat on 1.31 pristine acres in the heart of Big Sky, Montana. Positioned within one of the region's most sought-after residential enclaves, this property delivers the full measure of the Montana high-country lifestyle—with direct access to Big Sky Resort's world-class skiing and an easy drive to Yellowstone National Park's north entrance.</p>
-            <p>The home balances mountain character with refined comfort, offering generous living spaces suited to families and entertaining guests across multiple seasons. Whether arriving for winter ski runs on more than 5,800 acres of terrain or summer hiking and fly-fishing along the Gallatin River, this property serves as a year-round base for the outdoor life that defines Big Sky.</p>
+            <p>172 Ciel Drive offers a rare opportunity to own a private mountain retreat on 6.33 pristine acres in the heart of Big Sky, Montana. Positioned within one of the region's most sought-after residential enclaves, this 3,868 sq ft home delivers the full measure of the Montana high-country lifestyle—with direct access to Big Sky Resort's world-class skiing and an easy drive to Yellowstone National Park's north entrance.</p>
+            <p>The home balances mountain character with refined comfort, offering generous living spaces across 5 bedrooms and 4 bathrooms suited to families and entertaining guests across multiple seasons. Whether arriving for winter ski runs on more than 5,800 acres of terrain or summer hiking and fly-fishing along the Gallatin River, this property serves as a year-round base for the outdoor life that defines Big Sky.</p>
             <p>Bozeman Yellowstone International Airport lies approximately 45 minutes away, offering direct flights to major US cities—making this mountain retreat as accessible as it is remote. The town of Big Sky provides a growing selection of dining, shops, and services year-round.</p>
           </div>
           <div class="highlights-col">
             <h2 class="highlights-heading">Highlights</h2>
             <ul class="highlights-list">
-              <li>1.31-acre private lot in the heart of Big Sky</li>
+              <li>6.33-acre private lot in the heart of Big Sky</li>
               <li>Minutes to Big Sky Resort — over 5,800 acres of ski terrain</li>
               <li>Year-round mountain access: skiing, hiking, and fly-fishing</li>
               <li>Approximately 1 hour to Yellowstone National Park north entrance</li>
@@ -87,10 +92,199 @@
         <div class="gallery-inner">
           <div class="gallery-header reveal">
             <h2 id="gallery-heading">Gallery</h2>
-            <p style="color: var(--text-soft, #888); font-size: var(--text-sm);">Contact an advisor to request the full photo gallery for this property.</p>
           </div>
+          <figure class="gallery-featured reveal">
+            <button type="button" class="gallery-thumb" id="gallery-featured-thumb" aria-label="View full size">
+              <img
+                src="https://raw.githubusercontent.com/k4design/aperture/refs/heads/main/172cieldrive/1.jpg"
+                sizes="(min-width: 64rem) 90vw, 100vw"
+                alt="172 Ciel Drive, Big Sky MT"
+                width="1200"
+                height="800"
+              >
+            </button>
+            <figcaption id="gallery-featured-caption">172 Ciel Drive — Big Sky, Montana</figcaption>
+          </figure>
+          <div id="gallery-grid" class="gallery-grid reveal-stagger" aria-label="Gallery images"></div>
+          <nav id="gallery-pagination" class="gallery-pagination" aria-label="Gallery pages"></nav>
         </div>
       </section>
+
+      <style>
+        .gallery-pagination {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+          padding: 32px 48px 48px;
+        }
+        .gallery-pagination button {
+          background: none;
+          border: 1px solid currentColor;
+          color: var(--text-soft, #888);
+          font-family: inherit;
+          font-size: 11px;
+          letter-spacing: 2px;
+          padding: 8px 14px;
+          cursor: pointer;
+          transition: color 0.2s, border-color 0.2s, background 0.2s;
+        }
+        .gallery-pagination button:hover {
+          color: var(--text, #fff);
+          border-color: var(--text, #fff);
+        }
+        .gallery-pagination button.active {
+          background: var(--text, #fff);
+          color: var(--bg, #0a0a0a);
+          border-color: var(--text, #fff);
+        }
+        .gallery-pagination button:disabled {
+          opacity: 0.25;
+          cursor: default;
+        }
+        .gallery-pagination .pg-prev,
+        .gallery-pagination .pg-next {
+          font-size: 13px;
+          letter-spacing: 0;
+          padding: 8px 16px;
+        }
+      </style>
+
+      <!-- Gallery lightbox -->
+      <div id="gallery-modal" class="gallery-modal" role="dialog" aria-modal="true" aria-label="Enlarged image" hidden>
+        <div class="gallery-modal-backdrop"></div>
+        <div class="gallery-modal-content">
+          <button type="button" class="gallery-modal-close" aria-label="Close">×</button>
+          <img class="gallery-modal-img" src="" alt="">
+        </div>
+      </div>
+
+      <script>
+        (function () {
+          var BASE = 'https://raw.githubusercontent.com/k4design/aperture/refs/heads/main/172cieldrive/';
+          var GALLERY = [
+            { src: BASE + '1.jpg' },  { src: BASE + '2.jpg' },  { src: BASE + '3.jpg' },
+            { src: BASE + '4.jpg' },  { src: BASE + '5.jpg' },  { src: BASE + '6.jpg' },
+            { src: BASE + '7.jpg' },  { src: BASE + '8.jpg' },  { src: BASE + '9.jpg' },
+            { src: BASE + '10.jpg' }, { src: BASE + '11.jpg' }, { src: BASE + '12.jpg' },
+            { src: BASE + '13.jpg' }, { src: BASE + '14.jpg' }, { src: BASE + '15.jpg' },
+            { src: BASE + '16.jpg' }, { src: BASE + '17.jpg' }, { src: BASE + '18.jpg' },
+            { src: BASE + '19.jpg' }, { src: BASE + '20.jpg' }, { src: BASE + '21.jpg' },
+            { src: BASE + '22.jpg' }, { src: BASE + '23.jpg' }, { src: BASE + '24.jpg' },
+            { src: BASE + '25.jpg' }, { src: BASE + '26.jpg' }, { src: BASE + '27.jpg' },
+            { src: BASE + '28.jpg' }, { src: BASE + '29.jpg' }, { src: BASE + '30.jpg' },
+            { src: BASE + '31.jpg' }, { src: BASE + '32.jpg' }, { src: BASE + '33.jpg' },
+            { src: BASE + '34.jpg' }, { src: BASE + '35.jpg' }, { src: BASE + '36.jpg' },
+            { src: BASE + '37.jpg' }, { src: BASE + '38.jpg' }, { src: BASE + '39.jpg' },
+            { src: BASE + '40.jpg' }, { src: BASE + '41.jpg' }, { src: BASE + '42.jpg' },
+            { src: BASE + '43.jpg' }, { src: BASE + '44.jpg' }, { src: BASE + '45.jpg' },
+            { src: BASE + '46.jpg' }, { src: BASE + '47.jpg' }, { src: BASE + '48.jpg' },
+            { src: BASE + '49.jpg' }, { src: BASE + '50.jpg' }, { src: BASE + '51.jpg' },
+            { src: BASE + '52.jpg' }, { src: BASE + '53.jpg' }, { src: BASE + '54.jpg' },
+            { src: BASE + '55.jpg' }, { src: BASE + '56.jpg' }, { src: BASE + '57.jpg' },
+            { src: BASE + '58.jpg' }, { src: BASE + '59.jpg' }, { src: BASE + '60.jpg' },
+            { src: BASE + '61.jpg' }, { src: BASE + '62.jpg' }, { src: BASE + '63.jpg' },
+            { src: BASE + '64.jpg' }, { src: BASE + '65.jpg' }, { src: BASE + '66.jpg' },
+            { src: BASE + '67.jpg' }, { src: BASE + '68.jpg' }, { src: BASE + '69.jpg' },
+            { src: BASE + '70.jpg' }, { src: BASE + '71.jpg' }, { src: BASE + '72.jpg' },
+            { src: BASE + '73.jpg' }, { src: BASE + '74.jpg' }, { src: BASE + '75.jpg' },
+            { src: BASE + '76.jpg' }, { src: BASE + '77.jpg' }, { src: BASE + '78.jpg' },
+            { src: BASE + '79.jpg' }, { src: BASE + '80.jpg' }, { src: BASE + '81.jpg' },
+            { src: BASE + '82.jpg' }, { src: BASE + '83.jpg' }, { src: BASE + '84.jpg' },
+            { src: BASE + '85.jpg' }, { src: BASE + '86.jpg' }, { src: BASE + '87.jpg' },
+            { src: BASE + '88.jpg' }, { src: BASE + '89.jpg' }, { src: BASE + '90.jpg' },
+            { src: BASE + '91.jpg' }, { src: BASE + '92.jpg' }, { src: BASE + '93.jpg' },
+            { src: BASE + '94.jpg' }, { src: BASE + '95.jpg' }, { src: BASE + '96.jpg' },
+            { src: BASE + '97.jpg' }, { src: BASE + '98.jpg' }
+          ];
+
+          var PER_PAGE = 12;
+          var currentPage = 0;
+          var totalPages = Math.ceil(GALLERY.length / PER_PAGE);
+
+          var grid = document.getElementById('gallery-grid');
+          var pagination = document.getElementById('gallery-pagination');
+
+          function renderPage(page) {
+            if (!grid) return;
+            var start = page * PER_PAGE;
+            var slice = GALLERY.slice(start, start + PER_PAGE);
+            grid.innerHTML = slice.map(function (item) {
+              return '<figure><button type="button" class="gallery-thumb" aria-label="View full size">' +
+                '<img src="' + item.src + '" sizes="(min-width: 48rem) 33vw, 100vw" alt="172 Ciel Drive, Big Sky MT" width="600" height="400" loading="lazy">' +
+                '</button></figure>';
+            }).join('');
+            renderPagination(page);
+          }
+
+          function renderPagination(page) {
+            if (!pagination) return;
+            var html = '';
+            html += '<button class="pg-prev" aria-label="Previous page"' + (page === 0 ? ' disabled' : '') + '>&#8592;</button>';
+            for (var i = 0; i < totalPages; i++) {
+              html += '<button class="pg-num' + (i === page ? ' active' : '') + '" data-page="' + i + '" aria-label="Page ' + (i + 1) + '" aria-current="' + (i === page ? 'page' : 'false') + '">' + (i + 1) + '</button>';
+            }
+            html += '<button class="pg-next" aria-label="Next page"' + (page === totalPages - 1 ? ' disabled' : '') + '>&#8594;</button>';
+            pagination.innerHTML = html;
+
+            pagination.querySelector('.pg-prev').addEventListener('click', function () {
+              if (currentPage > 0) goToPage(currentPage - 1);
+            });
+            pagination.querySelector('.pg-next').addEventListener('click', function () {
+              if (currentPage < totalPages - 1) goToPage(currentPage + 1);
+            });
+            pagination.querySelectorAll('.pg-num').forEach(function (btn) {
+              btn.addEventListener('click', function () { goToPage(parseInt(this.dataset.page, 10)); });
+            });
+          }
+
+          function goToPage(page) {
+            currentPage = page;
+            renderPage(page);
+            if (grid) grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+
+          renderPage(0);
+
+          var modal = document.getElementById('gallery-modal');
+          var modalImg = modal && modal.querySelector('.gallery-modal-img');
+          var closeBtn = modal && modal.querySelector('.gallery-modal-close');
+          var backdrop = modal && modal.querySelector('.gallery-modal-backdrop');
+          var propertyPage = document.querySelector('.property-page');
+          var featuredThumb = document.getElementById('gallery-featured-thumb');
+          var featuredImg = featuredThumb && featuredThumb.querySelector('img');
+
+          function openModal(src, alt) {
+            if (!modal || !modalImg) return;
+            modalImg.src = src;
+            modalImg.alt = alt || '';
+            modal.hidden = false;
+            document.body.style.overflow = 'hidden';
+            if (closeBtn) closeBtn.focus();
+          }
+          function closeModal() {
+            if (!modal) return;
+            modal.hidden = true;
+            document.body.style.overflow = '';
+          }
+          if (propertyPage) {
+            propertyPage.addEventListener('click', function (e) {
+              var thumb = e.target.closest('.gallery-thumb');
+              if (!thumb) return;
+              var img = thumb.querySelector('img');
+              if (img && img.src) openModal(img.src, img.alt);
+            });
+          }
+          if (closeBtn) closeBtn.addEventListener('click', closeModal);
+          if (backdrop) backdrop.addEventListener('click', closeModal);
+          document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape' && modal && !modal.hidden) closeModal();
+          });
+          if (featuredThumb && featuredImg) {
+            featuredThumb.addEventListener('click', function () { openModal(featuredImg.src, featuredImg.alt); });
+          }
+        })();
+      </script>
 
       <!-- Amenities -->
       <section class="amenities" aria-labelledby="amenities-heading">
@@ -98,8 +292,8 @@
           <h2 id="amenities-heading">Signature Amenities</h2>
           <ul class="amenities-list reveal-stagger">
             <li>
-              <span class="amenity-title">1.31-acre private lot</span>
-              <span class="amenity-desc">A generous parcel in Big Sky's mountain landscape, offering privacy and connection to the surrounding natural terrain.</span>
+              <span class="amenity-title">6.33-acre private lot</span>
+              <span class="amenity-desc">A generous parcel in Big Sky's mountain landscape, offering substantial privacy and deep connection to the surrounding natural terrain.</span>
             </li>
             <li>
               <span class="amenity-title">Big Sky Resort access</span>
@@ -157,14 +351,35 @@
         <div class="architecture-inner reveal">
           <div class="architecture-copy">
             <h2 id="architecture-heading">Architecture & Details</h2>
-            <p class="architecture-intro">Set on 1.31 acres within a premier Big Sky address, 172 Ciel Drive delivers the character and substance expected of a Montana mountain home. The property offers flexible accommodation across multiple bedrooms and baths, with living spaces designed to take advantage of the surrounding alpine setting.</p>
+            <p class="architecture-intro">Set on 6.33 acres within a premier Big Sky address, 172 Ciel Drive delivers the character and substance expected of a Montana mountain home. At 3,868 sq ft, the residence offers flexible accommodation across 5 bedrooms and 4 bathrooms, with living spaces designed to take full advantage of the surrounding alpine setting.</p>
             <ul class="architecture-details">
-              <li><strong>Setting:</strong><br>1.31-acre parcel in Big Sky's mountain residential area with views of the surrounding peaks</li>
-              <li><strong>Accommodation:</strong><br>5 bedrooms and 5 bathrooms across a generous floor plan suited to family use and guest hosting</li>
+              <li><strong>Setting:</strong><br>6.33-acre parcel in Big Sky's mountain residential area with views of the surrounding peaks</li>
+              <li><strong>Floor plan:</strong><br>5 bedrooms, 4 bathrooms across 3,868 sq ft of primary living space</li>
               <li><strong>Access:</strong><br>Minutes to Big Sky Resort ski lifts and trailheads; easy reach of the Gallatin River corridor</li>
             </ul>
           </div>
-          <div class="floorplans"></div>
+          <div class="floorplans">
+            <figure>
+              <img
+                src="https://raw.githubusercontent.com/k4design/aperture/refs/heads/main/172cieldrive/2.jpg"
+                sizes="(min-width: 48rem) 50vw, 100vw"
+                alt="172 Ciel Drive — interior"
+                width="800"
+                height="600"
+              >
+              <figcaption>172 Ciel Drive</figcaption>
+            </figure>
+            <figure>
+              <img
+                src="https://raw.githubusercontent.com/k4design/aperture/refs/heads/main/172cieldrive/3.jpg"
+                sizes="(min-width: 48rem) 50vw, 100vw"
+                alt="172 Ciel Drive — interior"
+                width="800"
+                height="600"
+              >
+              <figcaption>172 Ciel Drive</figcaption>
+            </figure>
+          </div>
         </div>
       </section>
 
@@ -173,11 +388,19 @@
         <div class="advisor-inner reveal">
           <h2 id="advisor-heading">Your Advisor</h2>
           <div class="advisor-card">
+            <div class="advisor-photo">
+              <img
+                src="https://raw.githubusercontent.com/k4design/aperture/refs/heads/main/agent/marthajohnson.jpeg"
+                alt="Martha Johnson — Realtor®, Big Sky, Montana"
+                width="120"
+                height="120"
+              >
+            </div>
             <div class="advisor-info">
-              <p class="advisor-name">Lofty Advisor</p>
-              <p class="advisor-title">Luxury Property Specialist · Big Sky Real Estate Co.</p>
-              <p class="advisor-contact">172 Ciel Dr · Big Sky, MT 59716</p>
-              <p class="advisor-trust">Local expertise · Mountain property specialists · Year-round access</p>
+              <p class="advisor-name">Martha Johnson</p>
+              <p class="advisor-title">Realtor® · Aperture Global Real Estate</p>
+              <p class="advisor-contact">+1 406.580.5891 · Martha.Johnson@Apertureglobal.com</p>
+              <p class="advisor-trust">172 Ciel Drive · Big Sky, MT 59716 · MLS# 407876</p>
             </div>
           </div>
         </div>

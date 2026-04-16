@@ -14,6 +14,7 @@
 
     position: relative;
     width: 100%;
+    max-width: 100%;
     height: 90svh;
     min-height: 540px;
     overflow: hidden;
@@ -59,6 +60,7 @@
     transform: scale(1.06);
     transition: transform 8s ease-out;
     will-change: transform;
+    overflow: hidden;
 }
 
 .ag-hero-carousel .ag-slide.is-active .ag-slide-bg {
@@ -142,7 +144,7 @@
     color: var(--ag-grey-1);
     margin-bottom: 1.4rem;
     letter-spacing: 0.01em;
-    max-width: 480px;
+    max-width: min(480px, 100%);
 }
 
 .ag-hero-carousel .ag-slide-specs {
@@ -150,6 +152,8 @@
     flex-wrap: wrap;
     gap: 0.5rem;
     margin-bottom: 2rem;
+    max-width: 100%;
+    overflow: hidden;
 }
 
 .ag-hero-carousel .ag-spec {
@@ -390,134 +394,233 @@
     <!-- Slides -->
     <ul class="ag-slides">
 
-        <!-- Slide 1 -->
+        <!-- Slide 1: Le Renzo, Monaco -->
         <li class="ag-slide is-active">
-            <div class="ag-slide-bg" style="background-image: url('https://images.unsplash.com/photo-1613977257363-707ba9348227?w=1800&q=85');"></div>
+            <div class="ag-slide-bg" style="background-image: url('https://k4design.github.io/lofty-sections/img/euproperties/lerenzomonaco/a-23.jpg');"></div>
             <div class="ag-slide-overlay"></div>
             <div class="ag-slide-content">
-                <span class="ag-slide-counter">01 / 06</span>
+                <span class="ag-slide-counter">01 / 11</span>
                 <span class="ag-slide-status">For Sale</span>
-                <div class="ag-slide-price">$14,200,000</div>
-                <div class="ag-slide-address">460 Ocean Drive, Malibu, California 90265</div>
-                <div class="ag-slide-specs">
-                    <span class="ag-spec">6 Beds</span>
-                    <span class="ag-spec">7 Baths</span>
-                    <span class="ag-spec">9,450 Sq.Ft.</span>
-                    <span class="ag-spec">Oceanfront</span>
-                </div>
-                <div class="ag-slide-ctas">
-                    <a href="#" class="ag-btn-primary">View Home</a>
-                    <a href="#" class="ag-btn-ghost">Schedule Tour</a>
-                </div>
-            </div>
-        </li>
-
-        <!-- Slide 2 -->
-        <li class="ag-slide">
-            <div class="ag-slide-bg" style="background-image: url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1800&q=85');"></div>
-            <div class="ag-slide-overlay"></div>
-            <div class="ag-slide-content">
-                <span class="ag-slide-counter">02 / 06</span>
-                <span class="ag-slide-status">For Sale</span>
-                <div class="ag-slide-price">$22,900,000</div>
-                <div class="ag-slide-address">Chemin de la Garoupe, Cap d'Antibes, France</div>
-                <div class="ag-slide-specs">
-                    <span class="ag-spec">8 Beds</span>
-                    <span class="ag-spec">9 Baths</span>
-                    <span class="ag-spec">14,200 Sq.Ft.</span>
-                    <span class="ag-spec">Pool · Sea View</span>
-                </div>
-                <div class="ag-slide-ctas">
-                    <a href="#" class="ag-btn-primary">View Home</a>
-                    <a href="#" class="ag-btn-ghost">Schedule Tour</a>
-                </div>
-            </div>
-        </li>
-
-        <!-- Slide 3 -->
-        <li class="ag-slide">
-            <div class="ag-slide-bg" style="background-image: url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1800&q=85');"></div>
-            <div class="ag-slide-overlay"></div>
-            <div class="ag-slide-content">
-                <span class="ag-slide-counter">03 / 06</span>
-                <span class="ag-slide-status">For Sale</span>
-                <div class="ag-slide-price">$8,750,000</div>
-                <div class="ag-slide-address">12 Harbour View Terrace, Miami Beach, FL 33139</div>
-                <div class="ag-slide-specs">
-                    <span class="ag-spec">5 Beds</span>
-                    <span class="ag-spec">5.5 Baths</span>
-                    <span class="ag-spec">7,200 Sq.Ft.</span>
-                    <span class="ag-spec">Waterfront</span>
-                </div>
-                <div class="ag-slide-ctas">
-                    <a href="#" class="ag-btn-primary">View Home</a>
-                    <a href="#" class="ag-btn-ghost">Schedule Tour</a>
-                </div>
-            </div>
-        </li>
-
-        <!-- Slide 4 -->
-        <li class="ag-slide">
-            <div class="ag-slide-bg" style="background-image: url('https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=1800&q=85');"></div>
-            <div class="ag-slide-overlay"></div>
-            <div class="ag-slide-content">
-                <span class="ag-slide-counter">04 / 06</span>
-                <span class="ag-slide-status lease">For Lease</span>
-                <div class="ag-slide-price">$42,000 / mo</div>
-                <div class="ag-slide-address">323 N Carmelina Ave, Brentwood, Los Angeles, CA 90049</div>
-                <div class="ag-slide-specs">
-                    <span class="ag-spec">5 Beds</span>
-                    <span class="ag-spec">6 Baths</span>
-                    <span class="ag-spec">6,800 Sq.Ft.</span>
-                    <span class="ag-spec">Pool · Guest House</span>
-                </div>
-                <div class="ag-slide-ctas">
-                    <a href="#" class="ag-btn-primary">View Home</a>
-                    <a href="#" class="ag-btn-ghost">Schedule Tour</a>
-                </div>
-            </div>
-        </li>
-
-        <!-- Slide 5 -->
-        <li class="ag-slide">
-            <div class="ag-slide-bg" style="background-image: url('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1800&q=85');"></div>
-            <div class="ag-slide-overlay"></div>
-            <div class="ag-slide-content">
-                <span class="ag-slide-counter">05 / 06</span>
-                <span class="ag-slide-status">For Sale</span>
-                <div class="ag-slide-price">$18,500,000</div>
-                <div class="ag-slide-address">2 Indian Creek Island Rd, Indian Creek, FL 33154</div>
-                <div class="ag-slide-specs">
-                    <span class="ag-spec">7 Beds</span>
-                    <span class="ag-spec">8 Baths</span>
-                    <span class="ag-spec">11,300 Sq.Ft.</span>
-                    <span class="ag-spec">Private Island</span>
-                </div>
-                <div class="ag-slide-ctas">
-                    <a href="#" class="ag-btn-primary">View Home</a>
-                    <a href="#" class="ag-btn-ghost">Schedule Tour</a>
-                </div>
-            </div>
-        </li>
-
-        <!-- Slide 6 -->
-        <li class="ag-slide">
-            <div class="ag-slide-bg" style="background-image: url('https://images.unsplash.com/photo-1575517111839-3a3843ee7f5d?w=1800&q=85');"></div>
-            <div class="ag-slide-overlay"></div>
-            <div class="ag-slide-content">
-                <span class="ag-slide-counter">06 / 06</span>
-                <span class="ag-slide-status">For Sale</span>
-                <div class="ag-slide-price">$5,495,000</div>
-                <div class="ag-slide-address">One57, 157 West 57th Street PH42, New York, NY 10019</div>
+                <div class="ag-slide-price">€65,000,000</div>
+                <div class="ag-slide-address">Mareterra, Larvotto, Monaco</div>
                 <div class="ag-slide-specs">
                     <span class="ag-spec">3 Beds</span>
                     <span class="ag-spec">3.5 Baths</span>
-                    <span class="ag-spec">4,100 Sq.Ft.</span>
-                    <span class="ag-spec">Central Park Views</span>
+                    <span class="ag-spec">422 m²</span>
+                    <span class="ag-spec">Mareterra</span>
                 </div>
                 <div class="ag-slide-ctas">
-                    <a href="#" class="ag-btn-primary">View Home</a>
-                    <a href="#" class="ag-btn-ghost">Schedule Tour</a>
+                    <a href="https://www.apertureglobal.com/lerenzomonaco" class="ag-btn-primary">View Home</a>
+                </div>
+            </div>
+        </li>
+
+        <!-- Slide 2: 4021 Gulf Shore Blvd N #11, Naples -->
+        <li class="ag-slide">
+            <div class="ag-slide-bg" style="background-image: url('https://raw.githubusercontent.com/k4design/aperture/refs/heads/main/4021gulfshore/1.jpg');"></div>
+            <div class="ag-slide-overlay"></div>
+            <div class="ag-slide-content">
+                <span class="ag-slide-counter">02 / 11</span>
+                <span class="ag-slide-status">For Sale</span>
+                <div class="ag-slide-price">$18,799,999</div>
+                <div class="ag-slide-address">4021 Gulf Shore Blvd N #11, Naples, Florida 34103</div>
+                <div class="ag-slide-specs">
+                    <span class="ag-spec">6 Beds</span>
+                    <span class="ag-spec">7 Baths</span>
+                    <span class="ag-spec">6,543 Sq.Ft.</span>
+                    <span class="ag-spec">Park Shore</span>
+                </div>
+                <div class="ag-slide-ctas">
+                    <a href="https://www.apertureglobal.com/4021gulfshorenaples" class="ag-btn-primary">View Home</a>
+                </div>
+            </div>
+        </li>
+
+        <!-- Slide 3: 53 Rue Chauveau -->
+        <li class="ag-slide">
+            <div class="ag-slide-bg" style="background-image: url('https://k4design.github.io/lofty-sections/img/euproperties/53ruechauveau/DSC1452.jpg');"></div>
+            <div class="ag-slide-overlay"></div>
+            <div class="ag-slide-content">
+                <span class="ag-slide-counter">03 / 11</span>
+                <span class="ag-slide-status">For Sale</span>
+                <div class="ag-slide-price">€17,000,000</div>
+                <div class="ag-slide-address">53 Rue Chauveau, Neuilly-sur-Seine, France</div>
+                <div class="ag-slide-specs">
+                    <span class="ag-spec">4 Beds</span>
+                    <span class="ag-spec">3 Baths</span>
+                    <span class="ag-spec">1,623 m²</span>
+                    <span class="ag-spec">Neuilly-sur-Seine</span>
+                </div>
+                <div class="ag-slide-ctas">
+                    <a href="https://www.apertureglobal.com/53ruechauveau" class="ag-btn-primary">View Home</a>
+                </div>
+            </div>
+        </li>
+
+        <!-- Slide 4: 218 Martingale Fork #13, Big Sky -->
+        <li class="ag-slide">
+            <div class="ag-slide-bg" style="background-image: url('https://raw.githubusercontent.com/k4design/aperture/refs/heads/main/218martingalefork/1.jpg');"></div>
+            <div class="ag-slide-overlay"></div>
+            <div class="ag-slide-content">
+                <span class="ag-slide-counter">04 / 11</span>
+                <span class="ag-slide-status">For Sale</span>
+                <div class="ag-slide-price">$15,000,000</div>
+                <div class="ag-slide-address">218 Martingale Fork #13, Big Sky, Montana 59716</div>
+                <div class="ag-slide-specs">
+                    <span class="ag-spec">6 Beds</span>
+                    <span class="ag-spec">8.5 Baths</span>
+                    <span class="ag-spec">5,514 Sq.Ft.</span>
+                    <span class="ag-spec">Spanish Peaks</span>
+                </div>
+                <div class="ag-slide-ctas">
+                    <a href="https://www.apertureglobal.com/218martingalefork" class="ag-btn-primary">View Home</a>
+                </div>
+            </div>
+        </li>
+
+        <!-- Slide 5: 1148 Grand Traverse Pkwy, Reunion -->
+        <li class="ag-slide">
+            <div class="ag-slide-bg" style="background-image: url('https://raw.githubusercontent.com/k4design/aperture/refs/heads/main/1148grandtraverse/141-web-or-mls-DJI_0511.jpg');"></div>
+            <div class="ag-slide-overlay"></div>
+            <div class="ag-slide-content">
+                <span class="ag-slide-counter">05 / 11</span>
+                <span class="ag-slide-status">For Sale</span>
+                <div class="ag-slide-price">$14,500,000</div>
+                <div class="ag-slide-address">1148 Grand Traverse Pkwy, Reunion, Florida 34747</div>
+                <div class="ag-slide-specs">
+                    <span class="ag-spec">16 Beds</span>
+                    <span class="ag-spec">20 Baths</span>
+                    <span class="ag-spec">17,694 Sq.Ft.</span>
+                    <span class="ag-spec">Reunion Resort</span>
+                </div>
+                <div class="ag-slide-ctas">
+                    <a href="https://www.apertureglobal.com/1148grandtraverse" class="ag-btn-primary">View Home</a>
+                </div>
+            </div>
+        </li>
+
+        <!-- Slide 6: 168 Charlie Russell Loop, Big Sky -->
+        <li class="ag-slide">
+            <div class="ag-slide-bg" style="background-image: url('https://raw.githubusercontent.com/k4design/aperture/refs/heads/main/168charlierussell/1.jpg');"></div>
+            <div class="ag-slide-overlay"></div>
+            <div class="ag-slide-content">
+                <span class="ag-slide-counter">06 / 11</span>
+                <span class="ag-slide-status">For Sale</span>
+                <div class="ag-slide-price">$10,950,000</div>
+                <div class="ag-slide-address">168 Charlie Russell Loop, Big Sky, Montana 59716</div>
+                <div class="ag-slide-specs">
+                    <span class="ag-spec">5 Beds</span>
+                    <span class="ag-spec">5.5 Baths</span>
+                    <span class="ag-spec">7,434 Sq.Ft.</span>
+                    <span class="ag-spec">Big EZ Estates</span>
+                </div>
+                <div class="ag-slide-ctas">
+                    <a href="https://www.apertureglobal.com/168charlierussell" class="ag-btn-primary">View Home</a>
+                </div>
+            </div>
+        </li>
+
+        <!-- Slide 7: The Penthouse, Embassy Works -->
+        <li class="ag-slide">
+            <div class="ag-slide-bg" style="background-image: url('https://k4design.github.io/lofty-sections/img/euproperties/thepenthouseembassyworks/2H9A4518%20(1).jpg');"></div>
+            <div class="ag-slide-overlay"></div>
+            <div class="ag-slide-content">
+                <span class="ag-slide-counter">07 / 11</span>
+                <span class="ag-slide-status">For Sale</span>
+                <div class="ag-slide-price">£7,450,000</div>
+                <div class="ag-slide-address">Lawn Lane, London SW8 1UD</div>
+                <div class="ag-slide-specs">
+                    <span class="ag-spec">4 Beds</span>
+                    <span class="ag-spec">4 Baths</span>
+                    <span class="ag-spec">3,628 Sq.Ft.</span>
+                    <span class="ag-spec">Penthouse</span>
+                </div>
+                <div class="ag-slide-ctas">
+                    <a href="https://www.apertureglobal.com/thepenthouseembassyworks" class="ag-btn-primary">View Home</a>
+                </div>
+            </div>
+        </li>
+
+        <!-- Slide 7: 14 Thurloe Place -->
+        <li class="ag-slide">
+            <div class="ag-slide-bg" style="background-image: url('https://k4design.github.io/lofty-sections/img/euproperties/14thurlowplace/14c51d1cfbb896ed63f613bdc5377011.jpeg');"></div>
+            <div class="ag-slide-overlay"></div>
+            <div class="ag-slide-content">
+                <span class="ag-slide-counter">08 / 11</span>
+                <span class="ag-slide-status">For Sale</span>
+                <div class="ag-slide-price">£7,350,000</div>
+                <div class="ag-slide-address">Thurloe Place, London SW7</div>
+                <div class="ag-slide-specs">
+                    <span class="ag-spec">5 Beds</span>
+                    <span class="ag-spec">5 Baths</span>
+                    <span class="ag-spec">3,375 Sq.Ft.</span>
+                    <span class="ag-spec">Kensington</span>
+                </div>
+                <div class="ag-slide-ctas">
+                    <a href="https://www.apertureglobal.com/14thurlowplace" class="ag-btn-primary">View Home</a>
+                </div>
+            </div>
+        </li>
+
+        <!-- Slide 8: Great Ropers, Warley Road -->
+        <li class="ag-slide">
+            <div class="ag-slide-bg" style="background-image: url('https://k4design.github.io/lofty-sections/img/euproperties/greatroperswarleyroad/Great%20Ropers%201.jpg');"></div>
+            <div class="ag-slide-overlay"></div>
+            <div class="ag-slide-content">
+                <span class="ag-slide-counter">09 / 11</span>
+                <span class="ag-slide-status">For Sale</span>
+                <div class="ag-slide-price">£6,000,000</div>
+                <div class="ag-slide-address">Warley Road, Great Warley, Brentwood CM13 3HR</div>
+                <div class="ag-slide-specs">
+                    <span class="ag-spec">5 Beds</span>
+                    <span class="ag-spec">4 Baths</span>
+                    <span class="ag-spec">8,364 Sq.Ft.</span>
+                    <span class="ag-spec">Brentwood</span>
+                </div>
+                <div class="ag-slide-ctas">
+                    <a href="https://www.apertureglobal.com/greatroperswarleyroad" class="ag-btn-primary">View Home</a>
+                </div>
+            </div>
+        </li>
+
+        <!-- Slide 9: 538 Outlook Trail -->
+        <li class="ag-slide">
+            <div class="ag-slide-bg" style="background-image: url('https://raw.githubusercontent.com/k4design/aperture/refs/heads/main/538outlooktrailvideo/1.jpg');"></div>
+            <div class="ag-slide-overlay"></div>
+            <div class="ag-slide-content">
+                <span class="ag-slide-counter">10 / 11</span>
+                <span class="ag-slide-status">For Sale</span>
+                <div class="ag-slide-price">$6,750,000</div>
+                <div class="ag-slide-address">538 Outlook Trail, Big Sky, Montana 59716</div>
+                <div class="ag-slide-specs">
+                    <span class="ag-spec">5 Beds</span>
+                    <span class="ag-spec">5 Baths</span>
+                    <span class="ag-spec">4,210 Sq.Ft.</span>
+                    <span class="ag-spec">Mountain Club</span>
+                </div>
+                <div class="ag-slide-ctas">
+                    <a href="https://www.apertureglobal.com/538-outlook-trail" class="ag-btn-primary">View Home</a>
+                </div>
+            </div>
+        </li>
+
+        <!-- Slide 10: 172 Ciel Drive -->
+        <li class="ag-slide">
+            <div class="ag-slide-bg" style="background-image: url('https://raw.githubusercontent.com/k4design/aperture/refs/heads/main/172cieldrive/1.jpg');"></div>
+            <div class="ag-slide-overlay"></div>
+            <div class="ag-slide-content">
+                <span class="ag-slide-counter">11 / 11</span>
+                <span class="ag-slide-status">For Sale</span>
+                <div class="ag-slide-price">$5,600,000</div>
+                <div class="ag-slide-address">172 Ciel Drive, Big Sky, Montana 59716</div>
+                <div class="ag-slide-specs">
+                    <span class="ag-spec">5 Beds</span>
+                    <span class="ag-spec">4 Baths</span>
+                    <span class="ag-spec">3,868 Sq.Ft.</span>
+                    <span class="ag-spec">6.33 Acres</span>
+                </div>
+                <div class="ag-slide-ctas">
+                    <a href="https://www.apertureglobal.com/172cieldrive" class="ag-btn-primary">View Home</a>
                 </div>
             </div>
         </li>
