@@ -5,7 +5,7 @@ function ApplyForm() {
   const [data, setData] = useStateF({
     firstName: '', lastName: '', email: '', phone: '',
     company: '', title: '', website: '',
-    community: '', focus: [], ticketType: '',
+    community: '', focus: [], discountCode: '',
     dietary: '', roommate: '', why: '',
   });
   const [done, setDone] = useStateF(false);
@@ -94,14 +94,18 @@ function ApplyForm() {
           </div>
           <div className="field-row">
             <div className="field">
-              <label>Ticket type</label>
-              <select value={data.ticketType} onChange={e => setData({ ...data, ticketType: e.target.value })}>
-                <option value="">Select a ticket</option>
-                <option>Reside Member — $2,500 (50% off)</option>
-                <option>TG+ Team Leader — $5,000 (one seat per firm)</option>
-                <option>Standard — $5,000</option>
-              </select>
+              <label>Ticket</label>
+              <div className="ticket-fixed">
+                <span className="ticket-price">$5,000</span>
+                <span className="ticket-desc">One seat · Big Sky, Montana · July 13&ndash;17</span>
+              </div>
             </div>
+            <div className="field">
+              <label>Discount code</label>
+              <input value={data.discountCode} onChange={e => setData({ ...data, discountCode: e.target.value })} placeholder="Enter code if applicable" />
+            </div>
+          </div>
+          <div className="field-row">
             <div className="field">
               <label>Firm website</label>
               <input value={data.website} onChange={e => setData({ ...data, website: e.target.value })} placeholder="firm.com" />

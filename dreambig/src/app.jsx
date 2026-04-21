@@ -1,5 +1,23 @@
 const { useState: useStateA, useEffect: useEffectA } = React;
 
+function smoothScroll(id, duration = 1000) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const startY = window.scrollY;
+  const targetY = el.getBoundingClientRect().top + startY;
+  const diff = targetY - startY;
+  let start = null;
+  const ease = t => t < 0.5 ? 4*t*t*t : (t-1)*(2*t-2)*(2*t-2)+1;
+  function step(ts) {
+    if (!start) start = ts;
+    const p = Math.min((ts - start) / duration, 1);
+    window.scrollTo(0, startY + diff * ease(p));
+    if (p < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+window.smoothScroll = smoothScroll;
+
 function App() {
   const [scrolled, setScrolled] = useStateA(false);
   const [showCta, setShowCta] = useStateA(false);
@@ -28,15 +46,8 @@ function App() {
     return () => window.removeEventListener('message', onMsg);
   }, []);
 
-  const goApply = () => {
-    const el = document.getElementById('apply');
-    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  };
-
-  const goRecap = () => {
-    const el = document.getElementById('recap');
-    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  };
+  const goApply = () => smoothScroll('apply');
+  const goRecap = () => smoothScroll('recap');
 
   return (
     <div>

@@ -45,7 +45,7 @@ function pickPhoto(label = '') {
 
 // Stylized image with real photography behind it
 function Photo({ label, variant = 'dark', style = {}, className = '' }) {
-  const url = pickPhoto(label);
+  const url = label.startsWith('assets/') ? label : pickPhoto(label);
   const bg = {
     backgroundImage: `linear-gradient(180deg, rgba(10,9,8,0) 40%, rgba(10,9,8,${variant === 'light' ? 0.2 : 0.55}) 100%), url(${url})`,
     backgroundSize: 'cover',
@@ -80,9 +80,6 @@ function HeroMedia({ label }) {
         controlsvisibleonload="false"
         class="hero-wistia"
       ></wistia-player>
-      <div className="hero-video-lbl">
-        <span className="rec" /> {label}
-      </div>
     </div>
   );
 }

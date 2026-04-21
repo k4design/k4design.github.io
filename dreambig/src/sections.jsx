@@ -18,7 +18,12 @@ function Nav({ scrolled, onApply }) {
         </div>
       </a>
       <div className="nav-links">
-        {links.map(l => <a key={l.id} href={`#${l.id}`} dangerouslySetInnerHTML={{ __html: l.label }} />)}
+        {links.map(l => (
+          <a key={l.id} href={`#${l.id}`}
+            onClick={e => { e.preventDefault(); window.smoothScroll(l.id); }}
+            dangerouslySetInnerHTML={{ __html: l.label }}
+          />
+        ))}
       </div>
       <button className="nav-cta" onClick={onApply}>Reserve Your Seat</button>
     </nav>
@@ -104,27 +109,39 @@ function Recap() {
               aspect="1.7777777777777777"
             ></wistia-player>
           </div>
-          <div className="recap-meta">
-            <div className="recap-meta-col">
-              <div className="recap-meta-label">Runtime</div>
-              <div className="recap-meta-val">≈ 3 min</div>
-            </div>
-            <div className="recap-meta-col">
-              <div className="recap-meta-label">Year</div>
-              <div className="recap-meta-val">July 2025</div>
-            </div>
-            <div className="recap-meta-col">
-              <div className="recap-meta-label">Location</div>
-              <div className="recap-meta-val">Big Sky, MT</div>
-            </div>
-            <div className="recap-meta-col">
-              <div className="recap-meta-label">Audience</div>
-              <div className="recap-meta-val">Reside · TG+</div>
-            </div>
-          </div>
         </div>
       </div>
     </section>
+  );
+}
+
+function Countdown() {
+  const TARGET = new Date('2026-07-13T00:00:00');
+  const calc = () => {
+    const diff = TARGET - Date.now();
+    if (diff <= 0) return { d: 0, h: 0, m: 0, s: 0 };
+    const d = Math.floor(diff / 86400000);
+    const h = Math.floor((diff % 86400000) / 3600000);
+    const m = Math.floor((diff % 3600000) / 60000);
+    const s = Math.floor((diff % 60000) / 1000);
+    return { d, h, m, s };
+  };
+  const [t, setT] = useStateS(calc);
+  useEffectS(() => {
+    const id = setInterval(() => setT(calc()), 1000);
+    return () => clearInterval(id);
+  }, []);
+  const pad = n => String(n).padStart(2, '0');
+  return (
+    <div className="stat countdown-stat">
+      <div className="n countdown-n">
+        <em>{t.d}</em><span className="cd-sep">d</span>
+        <em>{pad(t.h)}</em><span className="cd-sep">h</span>
+        <em>{pad(t.m)}</em><span className="cd-sep">m</span>
+        <em>{pad(t.s)}</em><span className="cd-sep">s</span>
+      </div>
+      <div className="l">Until arrival day &mdash; Jul 13, 2026</div>
+    </div>
   );
 }
 
@@ -139,7 +156,7 @@ function Intro() {
           </div>
           <div>
             <p className="intro-body">
-              <span className="drop">Dream Big, Big Sky</span> is reserved for <em>Reside members</em> and <em>Team Growth Plus</em> team leaders &mdash; one seat per TG+ firm. Attendance is intentionally limited to ensure meaningful collaboration, deeper relationships, and focused strategic conversations with the people actually building what comes next.
+              <span className="drop">Dream Big, Big Sky</span> is reserved for <em>Reside members</em> and <em>Team Growth Plus</em> team leaders &mdash; one seat per TG+ firm. <br /><br />Attendance is intentionally limited to ensure meaningful collaboration, deeper relationships, and focused strategic conversations with the people actually building what comes next.
             </p>
           </div>
         </div>
@@ -147,7 +164,7 @@ function Intro() {
           <div className="stat"><div className="n">$<em>5</em>K</div><div className="l">Per seat · 50% off for Reside members</div></div>
           <div className="stat"><div className="n"><em>5</em></div><div className="l">Days in the Montana mountains</div></div>
           <div className="stat"><div className="n"><em>1</em></div><div className="l">Seat per TG+ firm &mdash; Team Leaders only</div></div>
-          <div className="stat"><div className="n"><em>07</em>/<em>13</em></div><div className="l">Arrival day, Big Sky MT 2026</div></div>
+          <Countdown />
         </div>
       </div>
     </section>
@@ -223,10 +240,10 @@ function Gallery() {
 
 function Lineup() {
   const people = [
-    { name: 'Reside Members', role: 'Visionary Team Leaders', bio: 'The builders and leaders inside the Reside community who set the pace for the industry. Reserved seats, 50% member pricing, and a front-row role in every mastermind session.' },
-    { name: 'Team Growth Plus', role: 'Team Leaders · One Seat Per Firm', bio: 'Top Team Leaders from across TG+. One seat per firm, intentionally — proximity to other high-level thinkers without the noise of a full conference floor.' },
-    { name: 'Mastermind Speakers', role: 'Top Performers & Operators', bio: 'A curated lineup of speakers to open Tuesday\u2019s sessions and inspire the breakout groups. Names announced to confirmed attendees closer to the event.' },
-    { name: 'PBR Night Guest', role: 'Special Guest Speaker', bio: 'A guest speaker joining the group Thursday before the PBR and concert — the kind of conversation you only get around a bonfire and a beer.' },
+    { name: 'Reside Members', role: 'Visionary Team Leaders', bio: 'The builders and leaders inside the Reside community who set the pace for the industry. Reserved seats, 50% member pricing, and a front-row role in every mastermind session.', photo: 'assets/reside_team.png' },
+    { name: 'Team Growth Plus', role: 'Team Leaders · One Seat Per Firm', bio: 'Top Team Leaders from across TG+. One seat per firm, intentionally — proximity to other high-level thinkers without the noise of a full conference floor.', photo: 'assets/tg.png' },
+    { name: 'Mastermind Speakers', role: 'Top Performers & Operators', bio: 'A curated lineup of speakers to open Tuesday\u2019s sessions and inspire the breakout groups. Names announced to confirmed attendees closer to the event.', photo: 'assets/mastermindspeakers.png' },
+    { name: 'PBR Night Guest', role: 'Special Guest Speaker', bio: 'A guest speaker joining the group Thursday before the PBR and concert — the kind of conversation you only get around a bonfire and a beer.', photo: 'assets/pbrguest.png' },
   ];
   return (
     <section className="lineup" id="lineup">
@@ -239,8 +256,10 @@ function Lineup() {
           {people.map((p, i) => (
             <div className="figure-card" key={i}>
               <div className="portrait">
-                <window.Photo label={`Candid portrait — ${p.name.split(' ')[0]}`} variant="light" />
-                <div className="cap">Confirmed · 04</div>
+                {p.photo
+                  ? <div className="img-ph real light" style={{ backgroundImage: `url(${p.photo})`, backgroundSize: 'cover', backgroundPosition: 'center top' }} />
+                  : <window.Photo label={`Candid portrait — ${p.name.split(' ')[0]}`} variant="light" />
+                }
               </div>
               <div className="role">{p.role}</div>
               <h4>{p.name}</h4>
@@ -256,33 +275,51 @@ function Lineup() {
 function Testimonial() {
   const quotes = [
     {
-      q: 'I came to step out of daily operations and think long-term. I left with a clearer vision, a stronger team strategy, and friendships I\u2019ll lean on for years.',
-      name: 'A Reside Member',
-      sub: 'Team Leader · Previous attendee',
-      media: 'Candid — mastermind breakout, Tuesday',
+      q: 'I\u2019ve never been to Montana. I\u2019ve been to very few baller places just like this one. So that just lends itself to the whole idea of dreaming big and seeing what\u2019s possible on the other side of the story that you\u2019re stuck telling yourself or the beliefs that are limiting your growth. The thing that made the Dream Big Mastermind so cool was getting to be around other people in the LVT community doing big things just like we\u2019re trying to all do. Being in that environment where it\u2019s collaboration over competition, it inspires me to work my ass off even more so I can keep on coming to cool stuff like this.',
+      name: 'Suneet Agarwal',
+      title: 'Best Sac Team Founder · Reside Platform Co-Founder',
+      sub: 'Dream Big, Big Sky 2025',
+      wistiaId: '51bopsvrr1',
+      headshot: 'assets/SuneetAgarwal.png',
     },
     {
-      q: 'The Riverhouse BBQ was the unlock. You dance with the same people you did deep work with that morning, and suddenly the relationship is real.',
-      name: 'A Team Growth Plus Team Leader',
-      sub: 'One-seat attendee · previous year',
-      media: 'Candid — Riverhouse, Gallatin Road',
+      q: 'We\u2019re in Montana. We\u2019re in nature. We\u2019re sitting around a fire pit, sitting on a couch in a living room. It changes the dynamic from a boardroom or a ballroom to \u2014 no, we\u2019re family, chilling by the fireplace. This kind of mastermind is where you go to be vulnerable and talk to people at your level or above, because they\u2019ve either walked the path you\u2019re trying to walk or they\u2019re walking it alongside you right now. Robert is the polar opposite of unapproachable. That\u2019s a humble leader right there.',
+      name: 'Austin Zaback',
+      title: 'Space Team Founder',
+      sub: 'Dream Big, Big Sky 2025',
+      wistiaId: 'hhkn3n7ruk',
+      headshot: 'assets/austin-zaback.avif',
     },
     {
-      q: 'Proximity to this caliber of thinker, in a place like Big Sky, is the thing you can\u2019t manufacture anywhere else. Show up fully engaged. It pays back for a year.',
-      name: 'A Visionary Team Leader',
-      sub: 'Past Dream Big attendee',
-      media: 'Candid — mountaintop, Yellowstone Club',
+      q: 'Some places just have magic in the air. Being here at Big Sky Montana at the Montage elevated and accelerated the way the juices were flowing. To have the opportunity to be in a room focused on the pillars that matter \u2014 that will make your life better, your business more enjoyable, your profitability more exciting \u2014 it\u2019s hands down the best experience I\u2019ve had. Led by experts in the industry and a titan like Robert Palmer, this is gonna be a game changer for my team, my business, and my partners.',
+      name: 'Sam Khorramian',
+      title: 'Big Block Team Co-Founder',
+      sub: 'Dream Big, Big Sky 2025',
+      wistiaId: '9q8ty5o2yz',
+      headshot: 'assets/SamKhorramian.png',
     },
   ];
   const [i, setI] = useStateS(0);
+  const [modal, setModal] = useStateS(false);
   const q = quotes[i];
+
+  useEffectS(() => {
+    const onKey = (e) => { if (e.key === 'Escape') setModal(false); };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, []);
+
   return (
     <section className="testimonial">
       <div className="wrap">
         <div className="t-grid">
-          <div className="t-media">
-            <window.Photo label={q.media} />
-            <div className="cap">Past attendees · Shared with permission</div>
+          <div className="t-media" onClick={() => setModal(true)}>
+            <div className="t-headshot" style={{ backgroundImage: `url(${q.headshot})` }} />
+            <button className="t-play-btn" aria-label={`Watch ${q.name}`}>
+              <span className="t-play-ring">
+                <svg width="18" height="20" viewBox="0 0 18 20"><path d="M1 1l16 9L1 19V1z"/></svg>
+              </span>
+            </button>
           </div>
           <div>
             <div className="eyebrow">Voices</div>
@@ -292,7 +329,8 @@ function Testimonial() {
             <div className="t-attrib">
               <div>
                 <div className="name">{q.name}</div>
-                <div className="sub" style={{ marginTop: 4 }}>{q.sub}</div>
+                <div className="sub" style={{ marginTop: 4 }}>{q.title}</div>
+                <div className="sub" style={{ marginTop: 2, opacity: 0.6 }}>{q.sub}</div>
               </div>
               <div style={{ opacity: 0.6 }}>{String(i + 1).padStart(2, '0')} / {String(quotes.length).padStart(2, '0')}</div>
             </div>
@@ -303,6 +341,20 @@ function Testimonial() {
           </div>
         </div>
       </div>
+
+      {modal && (
+        <div className="t-modal-overlay" onClick={() => setModal(false)}>
+          <div className="t-modal" onClick={e => e.stopPropagation()}>
+            <button className="t-modal-close" onClick={() => setModal(false)}>
+              Close &nbsp;✕
+            </button>
+            <div className="t-modal-player">
+              <wistia-player media-id={q.wistiaId} aspect="1.7777777777777777" autoplay="true" />
+            </div>
+            <div className="t-modal-name">{q.name} &nbsp;·&nbsp; Dream Big, Big Sky 2025</div>
+          </div>
+        </div>
+      )}
     </section>
   );
 }
@@ -315,7 +367,7 @@ function Itinerary() {
         ['Afternoon', 'Arrive in Big Sky', 'Guests arrive and settle into accommodations. A relaxed day to acclimate, meet your transportation buddy, and connect informally.'],
         ['Evening', 'Informal Welcome', 'Nothing on the books — explore Big Sky Town Center, or settle in and prepare for the days ahead.'],
       ],
-      img: 'Big Sky arrival — mountain light, first evening',
+      img: 'assets/day1.png',
     },
     {
       day: 'Day 02', sub: 'Tue · Jul 14 · Mastermind',
@@ -337,7 +389,7 @@ function Itinerary() {
         ['Afternoon', 'Return & Freshen Up', 'Transportation back to the hotel. Cowboy attire optional for the evening.'],
         ['Evening', 'Riverhouse BBQ & Dancing', 'Transportation to the Riverhouse, 45130 Gallatin Road. Riverside BBQ, live music, dancing down by the Gallatin.'],
       ],
-      img: 'Riverhouse BBQ — Gallatin Gateway, evening',
+      img: 'assets/mountain.jpg',
     },
     {
       day: 'Day 04', sub: 'Thu · Jul 16 · PBR Night',
@@ -348,7 +400,7 @@ function Itinerary() {
         ['Evening', 'PBR & Concert', 'Arrive at Big Sky Town Center. Cocktails and appetizers, then the Professional Bull Riders event, followed by a live concert.'],
         ['Late', 'Transport Home', 'Transportation back to the hotel at close.'],
       ],
-      img: 'PBR night — Big Sky Town Center',
+      img: 'assets/pbr_sunset.jpg',
     },
     {
       day: 'Day 05', sub: 'Fri · Jul 17 · Departure',
@@ -412,16 +464,16 @@ function Footer() {
           <div className="foot-col">
             <h5>The Experience</h5>
             <ul>
-              <li><a href="#about">Who This Is For</a></li>
-              <li><a href="#pillars">Highlights</a></li>
-              <li><a href="#itinerary">Schedule</a></li>
-              <li><a href="#lineup">Who&rsquo;s Coming</a></li>
+              <li><a href="#about" onClick={e => { e.preventDefault(); window.smoothScroll('about'); }}>Who This Is For</a></li>
+              <li><a href="#pillars" onClick={e => { e.preventDefault(); window.smoothScroll('pillars'); }}>Highlights</a></li>
+              <li><a href="#itinerary" onClick={e => { e.preventDefault(); window.smoothScroll('itinerary'); }}>Schedule</a></li>
+              <li><a href="#lineup" onClick={e => { e.preventDefault(); window.smoothScroll('lineup'); }}>Who&rsquo;s Coming</a></li>
             </ul>
           </div>
           <div className="foot-col">
             <h5>Practical</h5>
             <ul>
-              <li><a href="#apply">Register</a></li>
+              <li><a href="#apply" onClick={e => { e.preventDefault(); window.smoothScroll('apply'); }}>Register</a></li>
               <li><a href="#">Travel &amp; Lodging</a></li>
               <li><a href="#">Big Sky, MT</a></li>
               <li><a href="#">FAQ</a></li>
