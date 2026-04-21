@@ -92,8 +92,10 @@ function Recap() {
             <div className="num">Film / 2025</div>
             <div className="eyebrow">Press play — last year&rsquo;s recap</div>
           </div>
-          <h2 className="display-upright">A taste of<br/>what&rsquo;s <em>coming.</em></h2>
-          <p>Three minutes from Dream Big, Big Sky 2025 &mdash; the mastermind rooms, the mountaintop, the Riverhouse, the PBR. If last year&rsquo;s film doesn&rsquo;t make the case, nothing we write here will.</p>
+          <div>
+            <h2 className="display-upright">A taste of<br/>what&rsquo;s <em>coming.</em></h2>
+            <p>Three minutes from Dream Big, Big Sky 2025 &mdash; the mastermind rooms, the mountaintop, the Riverhouse, the PBR. If last year&rsquo;s film doesn&rsquo;t make the case, nothing we write here will.</p>
+          </div>
         </div>
         <div className="recap-player-wrap">
           <div className="recap-player">
@@ -156,7 +158,7 @@ function Pillars() {
   const items = [
     { n: '01', t: 'Dream Big Mastermind', d: 'A private, high-level mastermind built for leaders ready to expand their vision and execution. Strategic growth discussions, peer-to-peer collaboration, and insight from top performers. The core of the experience — come prepared to engage, contribute, and dream bigger.' },
     { n: '02', t: 'Mountaintop Mastermind', d: 'Breakout groups meet at elevation — Yellowstone Club or Big Sky Resort — followed by a picnic lunch on the ridge. The air is thinner, the conversation is sharper, and the ideas have room to land.' },
-    { n: '03', t: 'Riverhouse BBQ &amp; Dancing', d: 'An evening down by the Gallatin. Casual riverside BBQ, live music, cowboy attire optional. This is where relationships deepen and the Dream Big community truly comes alive.' },
+    { n: '03', t: 'Riverhouse BBQ & Dancing', d: 'An evening down by the Gallatin. Casual riverside BBQ, live music, cowboy attire optional. This is where relationships deepen and the Dream Big community truly comes alive.' },
     { n: '04', t: 'Big Sky PBR Night', d: 'Experience the culture of Big Sky with a premium group outing to the PBR (Professional Bull Riders), followed by a live concert. High-adrenaline, memorable, and unmistakably Montana.' },
   ];
   return (
@@ -223,7 +225,7 @@ function Lineup() {
   const people = [
     { name: 'Reside Members', role: 'Visionary Team Leaders', bio: 'The builders and leaders inside the Reside community who set the pace for the industry. Reserved seats, 50% member pricing, and a front-row role in every mastermind session.' },
     { name: 'Team Growth Plus', role: 'Team Leaders · One Seat Per Firm', bio: 'Top Team Leaders from across TG+. One seat per firm, intentionally — proximity to other high-level thinkers without the noise of a full conference floor.' },
-    { name: 'Mastermind Speakers', role: 'Top Performers &amp; Operators', bio: 'A curated lineup of speakers to open Tuesday\u2019s sessions and inspire the breakout groups. Names announced to confirmed attendees closer to the event.' },
+    { name: 'Mastermind Speakers', role: 'Top Performers & Operators', bio: 'A curated lineup of speakers to open Tuesday\u2019s sessions and inspire the breakout groups. Names announced to confirmed attendees closer to the event.' },
     { name: 'PBR Night Guest', role: 'Special Guest Speaker', bio: 'A guest speaker joining the group Thursday before the PBR and concert — the kind of conversation you only get around a bonfire and a beer.' },
   ];
   return (
@@ -318,22 +320,22 @@ function Itinerary() {
     {
       day: 'Day 02', sub: 'Tue · Jul 14 · Mastermind',
       rows: [
-        ['Morning', 'Welcome &amp; Housekeeping', 'The event officially begins. Welcome from ML, followed by the opening mastermind session led by RP.'],
+        ['Morning', 'Welcome & Housekeeping', 'The event officially begins. Welcome from ML, followed by the opening mastermind session led by RP.'],
         ['Late Morning', 'Speaker Sessions', 'Two opening speakers frame the day. Strategic growth discussions, insight from top performers, and focused time to refine direction.'],
         ['Lunch', 'Seated Lunch', 'Continue the conversation at the table. Connection is part of the program.'],
         ['Afternoon', 'Breakout Groups', 'A third speaker inspires breakout groups. Each group takes a special assignment — the same groups reconvene tomorrow on the mountaintop.'],
-        ['Late Afternoon', 'Breakout Presentations &amp; Wrap', 'Groups present. Day 1 wrap and housekeeping for the rest of the week.'],
-        ['Evening', 'Dinner on Your Own', 'Big Sky Town Center suggestions provided. Optional: Lone Mountain Ranch Summer Rodeo, 6&ndash;8pm.'],
+        ['Late Afternoon', 'Breakout Presentations & Wrap', 'Groups present. Day 1 wrap and housekeeping for the rest of the week.'],
+        ['Evening', 'Dinner on Your Own', 'Big Sky Town Center suggestions provided. Optional: Lone Mountain Ranch Summer Rodeo, 6\u20138pm.'],
       ],
       img: 'Mastermind room — breakout session, Tuesday',
     },
     {
-      day: 'Day 03', sub: 'Wed · Jul 15 · Mountain &amp; River',
+      day: 'Day 03', sub: 'Wed · Jul 15 · Mountain & River',
       rows: [
         ['Morning', 'Mountaintop Breakouts', 'Nature-based mastermind at elevation — Yellowstone Club or Big Sky Resort, tents if the weather cooperates. Same breakout groups as Day 02.'],
         ['Midday', 'Mountaintop Picnic Lunch', 'Lunch on the ridge. Thin air, sharper ideas, wide-open views.'],
-        ['Afternoon', 'Return &amp; Freshen Up', 'Transportation back to the hotel. Cowboy attire optional for the evening.'],
-        ['Evening', 'Riverhouse BBQ &amp; Dancing', 'Transportation to the Riverhouse, 45130 Gallatin Road. Riverside BBQ, live music, dancing down by the Gallatin.'],
+        ['Afternoon', 'Return & Freshen Up', 'Transportation back to the hotel. Cowboy attire optional for the evening.'],
+        ['Evening', 'Riverhouse BBQ & Dancing', 'Transportation to the Riverhouse, 45130 Gallatin Road. Riverside BBQ, live music, dancing down by the Gallatin.'],
       ],
       img: 'Riverhouse BBQ — Gallatin Gateway, evening',
     },
@@ -341,9 +343,9 @@ function Itinerary() {
       day: 'Day 04', sub: 'Thu · Jul 16 · PBR Night',
       rows: [
         ['Morning', 'Brunch Mastermind', 'RP inspirational wrap-up over brunch. Reflections from the week so far, and a preview of tonight\u2019s PBR.'],
-        ['Midday', 'Special Speaker &amp; Snacks', 'PBR-themed keynote from a special speaker, with snacks before the evening kicks off.'],
-        ['Afternoon', 'Return &amp; Freshen Up', 'Back to the hotel. Cowboy attire recommended.'],
-        ['Evening', 'PBR &amp; Concert', 'Arrive at Big Sky Town Center. Cocktails and appetizers, then the Professional Bull Riders event, followed by a live concert.'],
+        ['Midday', 'Special Speaker & Snacks', 'PBR-themed keynote from a special speaker, with snacks before the evening kicks off.'],
+        ['Afternoon', 'Return & Freshen Up', 'Back to the hotel. Cowboy attire recommended.'],
+        ['Evening', 'PBR & Concert', 'Arrive at Big Sky Town Center. Cocktails and appetizers, then the Professional Bull Riders event, followed by a live concert.'],
         ['Late', 'Transport Home', 'Transportation back to the hotel at close.'],
       ],
       img: 'PBR night — Big Sky Town Center',

@@ -768,7 +768,7 @@ button { font: inherit; cursor: pointer; border: none; background: none; color: 
 }
 .itin-image {
   aspect-ratio: 4/5;
-  position: relative; overflow: hidden;
+  overflow: hidden;
   background: #d2c6ac;
   position: sticky;
   top: 120px;
