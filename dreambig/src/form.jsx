@@ -169,7 +169,7 @@ function ApplySection() {
     <section className="apply" id="apply">
       <div className="wrap apply-inner">
         <div className="apply-grid">
-          <div className="apply-intro">
+          <div className="apply-intro anim from-left">
             <div className="eyebrow" style={{ marginBottom: 24 }}>Register · July 2026</div>
             <h2 className="display-upright">Reserve<br/><em>your</em> seat.</h2>
             <p>For Reside members and Team Growth Plus team leaders. One seat per TG+ firm. Attendance is intentionally limited so every conversation counts.</p>
@@ -180,7 +180,7 @@ function ApplySection() {
               <div className="apply-fact"><b>407.929.2335</b>Event Concierge · Text or Call</div>
             </div>
           </div>
-          <ApplyForm />
+          <div className="anim from-right anim-d1"><ApplyForm /></div>
         </div>
       </div>
     </section>

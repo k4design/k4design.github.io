@@ -36,6 +36,7 @@ function Hero({ onApply, onWatch }) {
       <div className="hero-media">
         <window.HeroMedia label="0:42 — Cinematic aerial, Gallatin Range at golden hour" />
       </div>
+      <div className="hero-mobile-overlay" />
       <div className="hero-grain" />
       <div className="hero-inner">
         <div className="hero-eyebrow">
@@ -93,20 +94,21 @@ function Recap() {
     <section className="recap" id="recap">
       <div className="wrap">
         <div className="recap-head">
-          <div className="recap-label">
+          <div className="recap-label anim from-left">
             <div className="num">Film / 2025</div>
             <div className="eyebrow">Press play — last year&rsquo;s recap</div>
           </div>
-          <div>
+          <div className="anim anim-d1">
             <h2 className="display-upright">A taste of<br/>what&rsquo;s <em>coming.</em></h2>
             <p>Three minutes from Dream Big, Big Sky 2025 &mdash; the mastermind rooms, the mountaintop, the Riverhouse, the PBR. If last year&rsquo;s film doesn&rsquo;t make the case, nothing we write here will.</p>
           </div>
         </div>
-        <div className="recap-player-wrap">
+        <div className="recap-player-wrap anim anim-d2">
           <div className="recap-player">
             <wistia-player
               media-id="ovtazqlroz"
               aspect="1.7777777777777777"
+              player-color="#B08D3F"
             ></wistia-player>
           </div>
         </div>
@@ -133,7 +135,7 @@ function Countdown() {
   }, []);
   const pad = n => String(n).padStart(2, '0');
   return (
-    <div className="stat countdown-stat">
+    <div className="stat countdown-stat anim">
       <div className="n countdown-n">
         <em>{t.d}</em><span className="cd-sep">d</span>
         <em>{pad(t.h)}</em><span className="cd-sep">h</span>
@@ -150,20 +152,20 @@ function Intro() {
     <section className="intro cream-section" id="about">
       <div className="wrap">
         <div className="intro-grid">
-          <div className="intro-label">
+          <div className="intro-label anim from-left">
             <div className="num">01 / Who This Is For</div>
             <h4>More than an event &mdash; a curated environment where growth, connection, and momentum come together.</h4>
           </div>
-          <div>
+          <div className="anim anim-d1">
             <p className="intro-body">
               <span className="drop">Dream Big, Big Sky</span> is reserved for <em>Reside members</em> and <em>Team Growth Plus</em> team leaders &mdash; one seat per TG+ firm. <br /><br />Attendance is intentionally limited to ensure meaningful collaboration, deeper relationships, and focused strategic conversations with the people actually building what comes next.
             </p>
           </div>
         </div>
         <div className="intro-footer">
-          <div className="stat"><div className="n">$<em>5</em>K</div><div className="l">Per seat · 50% off for Reside members</div></div>
-          <div className="stat"><div className="n"><em>5</em></div><div className="l">Days in the Montana mountains</div></div>
-          <div className="stat"><div className="n"><em>1</em></div><div className="l">Seat per TG+ firm &mdash; Team Leaders only</div></div>
+          <div className="stat anim"><div className="n"><em>$5,000</em></div><div className="l">Per seat · 50% off for Reside members</div></div>
+          <div className="stat anim"><div className="n"><em>5</em></div><div className="l">Days in the Montana mountains</div></div>
+          <div className="stat anim"><div className="n"><em>1</em></div><div className="l">Seat per TG+ firm &mdash; Team Leaders only</div></div>
           <Countdown />
         </div>
       </div>
@@ -173,22 +175,22 @@ function Intro() {
 
 function Pillars() {
   const items = [
-    { n: '01', t: 'Dream Big Mastermind', d: 'A private, high-level mastermind built for leaders ready to expand their vision and execution. Strategic growth discussions, peer-to-peer collaboration, and insight from top performers. The core of the experience — come prepared to engage, contribute, and dream bigger.' },
-    { n: '02', t: 'Mountaintop Mastermind', d: 'Breakout groups meet at elevation — Yellowstone Club or Big Sky Resort — followed by a picnic lunch on the ridge. The air is thinner, the conversation is sharper, and the ideas have room to land.' },
-    { n: '03', t: 'Riverhouse BBQ & Dancing', d: 'An evening down by the Gallatin. Casual riverside BBQ, live music, cowboy attire optional. This is where relationships deepen and the Dream Big community truly comes alive.' },
-    { n: '04', t: 'Big Sky PBR Night', d: 'Experience the culture of Big Sky with a premium group outing to the PBR (Professional Bull Riders), followed by a live concert. High-adrenaline, memorable, and unmistakably Montana.' },
+    { n: '01', t: 'Dream Big Mastermind', d: 'A private, high-level mastermind built for leaders ready to expand their vision and execution. Strategic growth discussions, peer-to-peer collaboration, and insight from top performers. The core of the experience — come prepared to engage, contribute, and dream bigger.', bg: 'https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&w=1200&q=80' },
+    { n: '02', t: 'Mountaintop Mastermind', d: 'Breakout groups meet at elevation — Yellowstone Club or Big Sky Resort — followed by a picnic lunch on the ridge. The air is thinner, the conversation is sharper, and the ideas have room to land.', bg: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=80' },
+    { n: '03', t: 'Riverhouse BBQ & Dancing', d: 'An evening down by the Gallatin. Casual riverside BBQ, live music, cowboy attire optional. This is where relationships deepen and the Dream Big community truly comes alive.', bg: 'assets/riverhouse.png' },
+    { n: '04', t: 'Big Sky PBR Night', d: 'Experience the culture of Big Sky with a premium group outing to the PBR (Professional Bull Riders), followed by a live concert. High-adrenaline, memorable, and unmistakably Montana.', bg: 'assets/pbr2.jpg' },
   ];
   return (
     <section className="pillars" id="pillars">
       <div className="wrap">
         <div className="pillars-head">
-          <h2 className="display-upright">The <em>four</em><br/>moments.</h2>
-          <p>Intentional programming woven through five days &mdash; a mastermind indoors, a mastermind on the mountain, an evening by the river, and a night at the PBR. Wide open space, the right people in the room, and the energy to think bigger.</p>
+          <h2 className="display-upright anim">The <em>four</em><br/>moments.</h2>
+          <p className="anim anim-d1">Intentional programming woven through five days &mdash; a mastermind indoors, a mastermind on the mountain, an evening by the river, and a night at the PBR. Wide open space, the right people in the room, and the energy to think bigger.</p>
         </div>
       </div>
       <div className="pillars-grid">
         {items.map(p => (
-          <div className="pillar" key={p.n}>
+          <div className="pillar anim" key={p.n} style={{ backgroundImage: `linear-gradient(180deg, rgba(10,9,8,0.62) 0%, rgba(10,9,8,0.82) 100%), url(${p.bg})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
             <div className="n">{p.n}</div>
             <h3>{p.t}</h3>
             <p>{p.d}</p>
@@ -203,33 +205,33 @@ function Gallery() {
   return (
     <section className="gallery">
       <div className="wrap">
-        <div className="gallery-head">
+        <div className="gallery-head anim">
           <h3>Scenes from Big Sky.</h3>
           <div className="kicker">Montana · July 2025</div>
         </div>
         <div className="gallery-grid">
-          <div className="g-cell g-a ken">
-            <window.Photo label="Riverhouse BBQ long table, Gallatin Road" />
+          <div className="g-cell g-a ken anim">
+            <window.Photo label="assets/community.jpg" />
             <div className="cap"><b>01 — Riverhouse</b><span>Gallatin Gateway · Wednesday</span></div>
           </div>
-          <div className="g-cell g-b ken">
-            <window.Photo label="Gallatin River, morning light" />
+          <div className="g-cell g-b ken anim">
+            <window.Photo label="assets/gallatin.jpg" />
             <div className="cap"><b>02 — The Gallatin</b><span>Arrival Day</span></div>
           </div>
-          <div className="g-cell g-c ken">
-            <window.Photo label="Mastermind keynote, candid, low light" />
+          <div className="g-cell g-c ken anim">
+            <window.Photo label="assets/mastermind2.png" />
             <div className="cap"><b>03 — Mastermind</b><span>Tuesday</span></div>
           </div>
-          <div className="g-cell g-d ken">
+          <div className="g-cell g-d ken anim">
             <window.Photo label="Breakout roundtable with handwritten agenda" />
             <div className="cap"><b>04 — Breakouts</b><span>Mastermind Day</span></div>
           </div>
-          <div className="g-cell g-e ken">
-            <window.Photo label="Mountaintop picnic ride through open meadow" />
+          <div className="g-cell g-e ken anim">
+            <window.Photo label="assets/yc.jpg" />
             <div className="cap"><b>05 — Mountaintop</b><span>Yellowstone Club</span></div>
           </div>
-          <div className="g-cell g-f ken">
-            <window.Photo label="PBR night, Big Sky Town Center, cowboy attire" />
+          <div className="g-cell g-f ken anim">
+            <window.Photo label="assets/pbr3.jpg" />
             <div className="cap"><b>06 — PBR Night</b><span>Thursday</span></div>
           </div>
         </div>
@@ -249,12 +251,12 @@ function Lineup() {
     <section className="lineup" id="lineup">
       <div className="wrap">
         <div className="lineup-head">
-          <h2>Who&rsquo;s <em>in</em><br/>the room.</h2>
-          <p>Attendance is intentionally limited to ensure meaningful collaboration, deeper relationships, and focused strategic conversations. Reside members and Team Growth Plus team leaders, side by side.</p>
+          <h2 className="anim from-left">Who&rsquo;s <em>in</em><br/>the room.</h2>
+          <p className="anim anim-d1">Attendance is intentionally limited to ensure meaningful collaboration, deeper relationships, and focused strategic conversations. Reside members and Team Growth Plus team leaders, side by side.</p>
         </div>
         <div className="lineup-grid">
           {people.map((p, i) => (
-            <div className="figure-card" key={i}>
+            <div className="figure-card anim" key={i}>
               <div className="portrait">
                 {p.photo
                   ? <div className="img-ph real light" style={{ backgroundImage: `url(${p.photo})`, backgroundSize: 'cover', backgroundPosition: 'center top' }} />
@@ -313,7 +315,7 @@ function Testimonial() {
     <section className="testimonial">
       <div className="wrap">
         <div className="t-grid">
-          <div className="t-media" onClick={() => setModal(true)}>
+          <div className="t-media anim from-left" onClick={() => setModal(true)}>
             <div className="t-headshot" style={{ backgroundImage: `url(${q.headshot})` }} />
             <button className="t-play-btn" aria-label={`Watch ${q.name}`}>
               <span className="t-play-ring">
@@ -321,7 +323,7 @@ function Testimonial() {
               </span>
             </button>
           </div>
-          <div>
+          <div className="anim from-right">
             <div className="eyebrow">Voices</div>
             <blockquote className="t-quote" style={{ marginTop: 18 }}>
               <span className="q">&ldquo;</span>{q.q}<span className="q">&rdquo;</span>
@@ -379,7 +381,7 @@ function Itinerary() {
         ['Late Afternoon', 'Breakout Presentations & Wrap', 'Groups present. Day 1 wrap and housekeeping for the rest of the week.'],
         ['Evening', 'Dinner on Your Own', 'Big Sky Town Center suggestions provided. Optional: Lone Mountain Ranch Summer Rodeo, 6\u20138pm.'],
       ],
-      img: 'Mastermind room — breakout session, Tuesday',
+      img: 'assets/breakout.png',
     },
     {
       day: 'Day 03', sub: 'Wed · Jul 15 · Mountain & River',
@@ -416,10 +418,10 @@ function Itinerary() {
     <section className="itinerary" id="itinerary">
       <div className="wrap">
         <div className="itin-head">
-          <h2>Five days,<br/>one <em>valley.</em></h2>
-          <p>A preview of the schedule &mdash; final programming is shared with confirmed attendees. Arrive Monday, depart Friday, everything in between is intentional.</p>
+          <h2 className="anim from-left">Five days,<br/>one <em>valley.</em></h2>
+          <p className="anim anim-d1">A preview of the schedule &mdash; final programming is shared with confirmed attendees. Arrive Monday, depart Friday, everything in between is intentional.</p>
         </div>
-        <div className="itin-tabs">
+        <div className="itin-tabs anim anim-d2">
           {days.map((x, i) => (
             <button
               key={i}
@@ -457,11 +459,11 @@ function Footer() {
     <footer className="foot">
       <div className="wrap">
         <div className="foot-grid">
-          <div className="foot-brand">
+          <div className="foot-brand anim from-left">
             <div className="mark" style={{ backgroundImage: 'url(assets/logo-gold.jpg)' }} />
             <p>Dream Big, Big Sky &mdash; Mastermind, Music &amp; Mountains for the Reside and Team Growth Plus communities. July 13&ndash;17, 2026.</p>
           </div>
-          <div className="foot-col">
+          <div className="foot-col anim anim-d1">
             <h5>The Experience</h5>
             <ul>
               <li><a href="#about" onClick={e => { e.preventDefault(); window.smoothScroll('about'); }}>Who This Is For</a></li>
@@ -470,7 +472,7 @@ function Footer() {
               <li><a href="#lineup" onClick={e => { e.preventDefault(); window.smoothScroll('lineup'); }}>Who&rsquo;s Coming</a></li>
             </ul>
           </div>
-          <div className="foot-col">
+          <div className="foot-col anim anim-d2">
             <h5>Practical</h5>
             <ul>
               <li><a href="#apply" onClick={e => { e.preventDefault(); window.smoothScroll('apply'); }}>Register</a></li>
@@ -479,7 +481,7 @@ function Footer() {
               <li><a href="#">FAQ</a></li>
             </ul>
           </div>
-          <div className="foot-col">
+          <div className="foot-col anim anim-d3">
             <h5>Event Concierge</h5>
             <ul>
               <li><a href="tel:+14079292335">Text / Call 407.929.2335</a></li>

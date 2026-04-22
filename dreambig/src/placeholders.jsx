@@ -53,7 +53,7 @@ function Photo({ label, variant = 'dark', style = {}, className = '' }) {
   };
   return (
     <div className={`img-ph real ${variant === 'light' ? 'light' : ''} ${className}`} style={{ ...bg, ...style }}>
-      <div className="lbl">{label}</div>
+      {!label.startsWith('assets/') && <div className="lbl">{label}</div>}
     </div>
   );
 }
@@ -70,7 +70,7 @@ function HeroMedia({ label }) {
         autoplay="true"
         muted="true"
         silentautoplay="true"
-        endvideobehavior="loop"
+        end-video-behavior="loop"
         playbar="false"
         playbutton="false"
         smallplaybutton="false"
