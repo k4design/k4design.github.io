@@ -206,7 +206,7 @@ function Gallery() {
     <section className="gallery">
       <div className="wrap">
         <div className="gallery-head anim">
-          <h3>Scenes from Big Sky.</h3>
+          <h3>Scenes from <em style={{color:'var(--gold-2)'}}>Big Sky.</em></h3>
           <div className="kicker">Montana · July 2025</div>
         </div>
         <div className="gallery-grid">
@@ -413,6 +413,22 @@ function Itinerary() {
     },
   ];
   const [active, setActive] = useStateS(0);
+  const tabsRef = useRefS(null);
+  useEffectS(() => {
+    const el = tabsRef.current;
+    if (!el) return;
+    const onScroll = () => {
+      const center = el.scrollLeft + el.clientWidth / 2;
+      let closest = 0, minDist = Infinity;
+      Array.from(el.querySelectorAll('.itin-tab')).forEach((tab, idx) => {
+        const dist = Math.abs((tab.offsetLeft + tab.offsetWidth / 2) - center);
+        if (dist < minDist) { minDist = dist; closest = idx; }
+      });
+      setActive(closest);
+    };
+    el.addEventListener('scroll', onScroll, { passive: true });
+    return () => el.removeEventListener('scroll', onScroll);
+  }, []);
   const d = days[active];
   return (
     <section className="itinerary" id="itinerary">
@@ -421,17 +437,20 @@ function Itinerary() {
           <h2 className="anim from-left">Five days,<br/>one <em>valley.</em></h2>
           <p className="anim anim-d1">A preview of the schedule &mdash; final programming is shared with confirmed attendees. Arrive Monday, depart Friday, everything in between is intentional.</p>
         </div>
-        <div className="itin-tabs anim anim-d2">
-          {days.map((x, i) => (
-            <button
-              key={i}
-              className={`itin-tab ${active === i ? 'active' : ''}`}
-              onClick={() => setActive(i)}
-            >
-              <span className="day">{x.day}</span>
-              {x.sub}
-            </button>
-          ))}
+        <div className="itin-tabs-wrap">
+          <div className="itin-scroll-arrow" aria-hidden="true" />
+          <div className="itin-tabs anim anim-d2" ref={tabsRef}>
+            {days.map((x, i) => (
+              <button
+                key={i}
+                className={`itin-tab ${active === i ? 'active' : ''}`}
+                onClick={() => setActive(i)}
+              >
+                <span className="day">{x.day}</span>
+                {x.sub}
+              </button>
+            ))}
+          </div>
         </div>
         <div className="itin-body">
           <div className="itin-timeline">

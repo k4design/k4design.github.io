@@ -1,0 +1,884 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>561 Main — Aperture Global Listing Presentation</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Inter+Tight:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<style>
+  :root {
+    --paper: #f4f1ec;
+    --ink: #1a1a1a;
+    --ink-soft: #1a1a1acc;
+    --ink-mute: #1a1a1a80;
+    --ink-line: #1a1a1a1f;
+    --accent: #3d74c9; /* aperture blue */
+    --cream: #ebe6dd;
+    --page-w: 612px;
+    --page-h: 792px;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: #2a2927; color: var(--ink); font-family: "Inter Tight", sans-serif; }
+  body { min-height: 100vh; }
+
+  .app { display: flex; flex-direction: column; align-items: center; gap: 32px; padding: 48px 24px 120px; }
+
+  .intro { color: #c7c0b4; font-family: "JetBrains Mono", monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; text-align: center; max-width: 520px; line-height: 1.7; }
+  .intro b { color: #f4f1ec; font-weight: 500; }
+
+  .page {
+    width: var(--page-w);
+    height: var(--page-h);
+    background: var(--paper);
+    color: var(--ink);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 28px 60px rgba(0,0,0,0.35), 0 2px 6px rgba(0,0,0,0.2);
+    font-size: 10px;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: geometricPrecision;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .page.dark { background: var(--ink); color: var(--paper); }
+  .page.cream { background: var(--cream); }
+
+  /* Typography system */
+  .serif { font-family: "Playfair Display", serif; font-weight: 500; letter-spacing: -0.015em; }
+  .serif-i { font-family: "Playfair Display", serif; font-style: italic; font-weight: 500; letter-spacing: -0.015em; }
+  .sans { font-family: "Inter Tight", sans-serif; }
+  .mono { font-family: "JetBrains Mono", monospace; }
+
+  .eyebrow { font-family: "JetBrains Mono", monospace; font-size: 8.5px; letter-spacing: 0.22em; text-transform: uppercase; font-weight: 500; }
+  .rule { background: currentColor; height: 1px; opacity: 0.22; }
+  .rule-accent { background: var(--accent); height: 1px; }
+
+  .footer-row {
+    position: absolute; left: 48px; right: 48px; bottom: 34px;
+    display: flex; justify-content: space-between; align-items: baseline;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 8px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: currentColor; opacity: 0.7;
+  }
+
+  /* Image placeholders (striped) */
+  .ph {
+    background:
+      repeating-linear-gradient(135deg, rgba(26,26,26,0.06) 0 10px, rgba(26,26,26,0.02) 10px 20px),
+      linear-gradient(#d9d2c4, #c7bfb0);
+    position: relative;
+    overflow: hidden;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .ph.dark {
+    background:
+      repeating-linear-gradient(135deg, rgba(255,255,255,0.05) 0 10px, rgba(255,255,255,0.02) 10px 20px),
+      linear-gradient(#2c2a27, #1f1d1b);
+  }
+  .ph-cap {
+    position: absolute; left: 14px; bottom: 10px;
+    font-family: "JetBrains Mono", monospace; font-size: 8px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: rgba(26,26,26,0.55);
+  }
+  .ph.dark .ph-cap { color: rgba(244,241,236,0.55); }
+
+  /* Tweaks panel */
+  .tweaks {
+    position: fixed; right: 24px; bottom: 24px; width: 280px;
+    background: #faf7f1; color: #1a1a1a;
+    border: 1px solid #1a1a1a22;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+    font-family: "Inter Tight", sans-serif; font-size: 12px;
+    z-index: 50;
+    display: none;
+  }
+  .tweaks.on { display: block; }
+  .tweaks header { padding: 12px 14px; border-bottom: 1px solid #1a1a1a1a; display: flex; justify-content: space-between; align-items: center; }
+  .tweaks header h3 { margin: 0; font-family: "JetBrains Mono", monospace; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; font-weight: 500; }
+  .tweaks .body { padding: 10px 14px 14px; display: flex; flex-direction: column; gap: 12px; max-height: 70vh; overflow: auto; }
+  .tweaks label { display: flex; flex-direction: column; gap: 4px; font-size: 11px; }
+  .tweaks label span { font-family: "JetBrains Mono", monospace; font-size: 9.5px; letter-spacing: 0.12em; text-transform: uppercase; color: #1a1a1a88; }
+  .tweaks input[type="text"], .tweaks select {
+    border: 1px solid #1a1a1a33; background: #fff; padding: 6px 8px; font: inherit; border-radius: 0;
+  }
+  .tweaks .swatches { display: flex; gap: 6px; }
+  .tweaks .swatch { width: 22px; height: 22px; border: 1px solid #1a1a1a22; cursor: pointer; }
+  .tweaks .swatch.on { outline: 2px solid #1a1a1a; outline-offset: 2px; }
+
+  @media print {
+    body { background: #fff; }
+    .app { gap: 0; padding: 0; }
+    .intro, .tweaks { display: none !important; }
+    .page { box-shadow: none; page-break-after: always; width: 8.5in; height: 11in; }
+    @page { size: letter; margin: 0; }
+  }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel" data-presets="env,react">
+const { useState, useEffect, useMemo } = React;
+
+// Tweakable defaults
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "firm": "APERTURE GLOBAL",
+  "firmTag": "GLOBAL REAL ESTATE",
+  "address1": "561 Main Street",
+  "cityLine": "Bridgehampton, New York",
+  "price": "$12,450,000",
+  "beds": "6",
+  "baths": "5.5",
+  "sqft": "7,200",
+  "lot": "1.4 acres",
+  "year": "2022",
+  "agentName": "Eleanor Vance",
+  "agentTitle": "Senior Partner, Residential",
+  "agentPhone": "+1 631 555 0142",
+  "agentEmail": "eleanor@apertureglobal.com",
+  "accent": "#3d74c9",
+  "palette": "paper",
+  "typePair": "serif-display"
+}/*EDITMODE-END*/;
+
+const PALETTES = {
+  paper:    { paper: "#f4f1ec", ink: "#1a1a1a", cream: "#ebe6dd" },
+  bone:     { paper: "#efeae0", ink: "#2a2722", cream: "#e3dcce" },
+  offwhite: { paper: "#f7f4ef", ink: "#121212", cream: "#ece7de" },
+  dark:     { paper: "#1a1814", ink: "#f2ecdf", cream: "#2a2620" },
+};
+
+const ACCENTS = [
+  { name: "Aperture Blue", hex: "#3d74c9" },
+  { name: "Charcoal",      hex: "#3a3b3d" },
+  { name: "Navy",          hex: "#1e3a5f" },
+  { name: "Steel",         hex: "#607d8b" },
+  { name: "Sand",          hex: "#b5986a" },
+  { name: "Onyx",          hex: "#1a1a1a" },
+];
+
+const TYPE_PAIRS = {
+  "serif-display": { display: '"Playfair Display", serif', body: '"Inter Tight", sans-serif', displayItalic: true },
+  "sans-bold":     { display: '"Inter Tight", sans-serif', body: '"Inter Tight", sans-serif', displayItalic: false },
+};
+
+function useTweaks() {
+  const [t, setT] = useState(() => {
+    try { return { ...TWEAK_DEFAULTS, ...(JSON.parse(localStorage.getItem("aperture_tweaks") || "{}")) }; }
+    catch { return TWEAK_DEFAULTS; }
+  });
+  useEffect(() => { localStorage.setItem("aperture_tweaks", JSON.stringify(t)); }, [t]);
+  useEffect(() => {
+    const pal = PALETTES[t.palette] || PALETTES.paper;
+    document.documentElement.style.setProperty("--paper", pal.paper);
+    document.documentElement.style.setProperty("--ink", pal.ink);
+    document.documentElement.style.setProperty("--cream", pal.cream);
+    document.documentElement.style.setProperty("--accent", t.accent);
+    document.documentElement.style.setProperty("--ink-soft", pal.ink + "cc");
+    document.documentElement.style.setProperty("--ink-mute", pal.ink + "80");
+    document.documentElement.style.setProperty("--ink-line", pal.ink + "1f");
+  }, [t.palette, t.accent]);
+  return [t, setT];
+}
+
+function Footer({ page, total, t, inverse }) {
+  return (
+    <div className="footer-row" style={{ color: inverse ? "var(--paper)" : "var(--ink)" }}>
+      <span>{t.firm} &nbsp;·&nbsp; {t.address1.toUpperCase()}</span>
+      <span>PL. {String(page).padStart(2,"0")} / {String(total).padStart(2,"0")}</span>
+    </div>
+  );
+}
+
+function Placeholder({ label, style, dark, src, overlay }) {
+  const bg = src ? {
+    backgroundImage: `${overlay ? "linear-gradient(rgba(0,0,0,0.28),rgba(0,0,0,0.28)), " : ""}url(${src})`,
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+  } : {};
+  return (
+    <div className={`ph ${dark ? "dark" : ""} ${src ? "ph-img" : ""}`} style={{ ...style, ...bg }}>
+      {!src && <div className="ph-cap">{label}</div>}
+    </div>
+  );
+}
+
+// Sample photos — Unsplash (luxury residential)
+const PHOTOS = {
+  hero:        "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1400&q=80&auto=format&fit=crop", // modern house dusk
+  interior:    "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=1400&q=80&auto=format&fit=crop", // bright living room
+  map:         "https://images.unsplash.com/photo-1524661135-423995f22d0b?w=1000&q=80&auto=format&fit=crop",  // aerial coastal
+  portrait:    "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=900&q=80&auto=format&fit=crop", // B&W portrait woman
+  lifestyle:   "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1400&q=80&auto=format&fit=crop", // estate lifestyle
+};
+
+// ==================== PAGES ====================
+
+// 01 — COVER
+function Cover({ t, page, total }) {
+  return (
+    <div className="page" data-screen-label={`${String(page).padStart(2,"0")} Cover`}>
+      {/* giant numeral in background */}
+      <div className="serif" style={{
+        position:"absolute", right:-60, top:-120,
+        fontSize: 520, lineHeight: 1, color:"var(--ink)", opacity:0.05, fontStyle:"italic"
+      }}>561</div>
+
+      {/* logo mark */}
+      <div style={{ position:"absolute", top: 38, left: 48 }}>
+        <img src="uploads/apertureglobal_logo-black.png" alt="Aperture Global Real Estate" style={{ height: 28, width: "auto", display:"block" }} />
+      </div>
+      <div style={{ position:"absolute", top: 44, right: 48 }}>
+        <span className="mono" style={{fontSize:9, letterSpacing:"0.22em", textTransform:"uppercase", color:"var(--ink-mute)"}}>{t.firmTag}</span>
+      </div>
+
+      {/* eyebrow */}
+      <div style={{ position:"absolute", top: 148, left: 48, display:"flex", alignItems:"center", gap: 12 }}>
+        <span className="eyebrow" style={{color:"var(--accent)"}}>Marketing Proposal</span>
+        <span className="rule-accent" style={{width: 40}}></span>
+        <span className="eyebrow" style={{color:"var(--ink-mute)"}}>Volume I · MMXXVI</span>
+      </div>
+
+      {/* Title */}
+      <div style={{ position:"absolute", left: 48, top: 188, right: 48 }}>
+        <div className="serif" style={{ fontSize: 104, lineHeight: 0.92, color:"var(--ink)", letterSpacing:"-0.02em" }}>
+          {t.address1.split(" ").slice(0, -1).join(" ") || t.address1}<br/>
+          <span className="serif-i" style={{color:"var(--accent)"}}>{t.address1.split(" ").slice(-1)[0]}.</span>
+        </div>
+        <div style={{ marginTop: 18, fontSize: 13, letterSpacing:"0.02em", color:"var(--ink-soft)" }}>
+          {t.cityLine}
+        </div>
+      </div>
+
+      {/* Bottom detail block */}
+      <div style={{ position:"absolute", left: 48, right: 48, bottom: 96 }}>
+        <div className="rule" style={{ marginBottom: 14 }} />
+        <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-end" }}>
+          <div>
+            <div className="eyebrow" style={{color:"var(--ink-mute)", marginBottom: 6}}>Presented by</div>
+            <div className="serif" style={{ fontSize: 26, lineHeight: 1 }}>{t.agentName}</div>
+            <div className="sans" style={{ fontSize: 10, marginTop: 4, color:"var(--ink-soft)" }}>{t.agentTitle}</div>
+          </div>
+          <div style={{textAlign:"right"}}>
+            <div className="eyebrow" style={{color:"var(--ink-mute)", marginBottom: 6}}>For the consideration of</div>
+            <div className="serif-i" style={{ fontSize: 22, lineHeight: 1 }}>The Owner</div>
+          </div>
+        </div>
+      </div>
+
+      <Footer page={page} total={total} t={t} />
+    </div>
+  );
+}
+
+// 02 — LETTER / INTRODUCTION (storytelling)
+function Letter({ t, page, total }) {
+  return (
+    <div className="page" data-screen-label={`${String(page).padStart(2,"0")} Letter`}>
+      <div style={{ position:"absolute", top: 56, left: 48, right: 48, display:"flex", justifyContent:"space-between" }}>
+        <span className="eyebrow" style={{color:"var(--accent)"}}>§ I — A Letter</span>
+        <span className="eyebrow" style={{color:"var(--ink-mute)"}}>on the house, and on selling it well</span>
+      </div>
+
+      <div style={{ position:"absolute", left: 48, top: 110, right: 48 }}>
+        <div className="serif-i" style={{ fontSize: 48, lineHeight: 1.02, letterSpacing:"-0.015em" }}>
+          A house is not<br/>
+          a line item.<br/>
+          <span className="serif" style={{color:"var(--accent)"}}>It is a chapter.</span>
+        </div>
+      </div>
+
+      <div style={{ position:"absolute", left: 48, top: 360, width: 240 }}>
+        <div className="rule" style={{ marginBottom: 14, width: 36, background:"var(--accent)", opacity: 1 }}/>
+        <p className="sans" style={{ fontSize: 10.5, lineHeight: 1.75, color:"var(--ink-soft)", margin: 0 }}>
+          Before a listing is a price, it is a place where mornings were made, dinners lingered, and small, specific things were known by heart. Our work begins there — in the particular — because buyers at this level do not buy square footage. They buy a chapter of a life they'd like to live.
+        </p>
+      </div>
+
+      <div style={{ position:"absolute", left: 320, top: 360, width: 244 }}>
+        <div className="rule" style={{ marginBottom: 14, width: 36, background:"var(--accent)", opacity: 1 }}/>
+        <p className="sans" style={{ fontSize: 10.5, lineHeight: 1.75, color:"var(--ink-soft)", margin: 0 }}>
+          This document is the brief we'll work from together. How the house will be photographed. How it will be written about. Where it will be shown, and to whom. What we expect the market to return, and when. It is short, deliberately — no flourish without purpose.
+        </p>
+      </div>
+
+      {/* Signature block */}
+      <div style={{ position:"absolute", left: 48, bottom: 110 }}>
+        <div className="serif-i" style={{ fontSize: 34, lineHeight: 1, color: "var(--accent)" }}>E. Vance</div>
+        <div className="eyebrow" style={{ color:"var(--ink-mute)", marginTop: 8 }}>{t.agentName} — {t.agentTitle}</div>
+      </div>
+
+      <div style={{ position:"absolute", right: 48, bottom: 110, textAlign:"right" }}>
+        <div className="mono" style={{ fontSize: 9, letterSpacing:"0.12em", color:"var(--ink-mute)", lineHeight: 1.7 }}>
+          {t.agentPhone}<br/>{t.agentEmail}
+        </div>
+      </div>
+
+      <Footer page={page} total={total} t={t} />
+    </div>
+  );
+}
+
+// 03 — THE HOUSE (property hero)
+function PropertyHero({ t, page, total }) {
+  return (
+    <div className="page" data-screen-label={`${String(page).padStart(2,"0")} The House`}>
+      <div style={{ position:"absolute", top: 56, left: 48, right: 48, display:"flex", justifyContent:"space-between" }}>
+        <span className="eyebrow" style={{color:"var(--accent)"}}>§ II — The House</span>
+        <span className="eyebrow" style={{color:"var(--ink-mute)"}}>a brief, in five measurements</span>
+      </div>
+
+      {/* large photo */}
+      <Placeholder src={PHOTOS.hero} label="HERO — EXTERIOR, DUSK" style={{
+        position:"absolute", left: 48, top: 108, width: 516, height: 292
+      }} />
+
+      {/* Title under photo */}
+      <div style={{ position:"absolute", left: 48, top: 404, right: 48 }}>
+        <div className="serif" style={{ fontSize: 56, lineHeight: 0.95, letterSpacing:"-0.015em" }}>
+          {t.address1},<br/>
+          <span className="serif-i" style={{fontSize: 35}}>{t.cityLine.split(",")[0]}</span>
+        </div>
+      </div>
+
+      {/* Spec row — editorial */}
+      <div style={{ position:"absolute", left: 48, right: 48, bottom: 110 }}>
+        <div className="rule" style={{ marginBottom: 18 }}/>
+        <div style={{ display:"grid", gridTemplateColumns:"repeat(5, 1fr)", gap: 12 }}>
+          {[
+            ["Bedrooms", t.beds],
+            ["Baths", t.baths],
+            ["Interior", <>{t.sqft}<sub style={{fontSize:"0.5em"}}>sf</sub></>],
+            ["Grounds", <>{t.lot.split(" ")[0]}<sub style={{fontSize:"0.5em"}}>{t.lot.split(" ").slice(1).join(" ")}</sub></>],
+            ["Built", t.year],
+          ].map(([k,v], i) => (
+            <div key={i}>
+              <div className="eyebrow" style={{color:"var(--ink-mute)", marginBottom: 8}}>{k}</div>
+              <div className="serif" style={{ fontSize: 30, lineHeight: 1 }}>{v}</div>
+            </div>
+          ))}
+        </div>
+        <div style={{ marginTop: 22, display:"flex", justifyContent:"space-between", alignItems:"baseline" }}>
+          <span className="eyebrow" style={{color:"var(--ink-mute)"}}>Offered at</span>
+          <span className="serif" style={{ fontSize: 36, lineHeight: 1, color:"var(--accent)" }}>{t.price}</span>
+        </div>
+      </div>
+
+      <Footer page={page} total={total} t={t} />
+    </div>
+  );
+}
+
+// 04 — ROOMS (full-bleed photo with caption)
+function Rooms({ t, page, total }) {
+  return (
+    <div className="page dark" data-screen-label={`${String(page).padStart(2,"0")} Rooms`}>
+      <Placeholder src={PHOTOS.interior} overlay dark label="LIVING ROOM — NORTH LIGHT" style={{
+        position:"absolute", inset: 0
+      }} />
+      {/* caption over image */}
+      <div style={{ position:"absolute", left: 48, bottom: 110, right: 48 }}>
+        <div className="eyebrow" style={{color:"var(--accent)", marginBottom: 10}}>§ III — Interiors</div>
+        <div className="serif-i" style={{ fontSize: 56, lineHeight: 0.98, color:"var(--paper)", letterSpacing:"-0.015em", maxWidth: 420 }}>
+          Light enters the house<br/>from three sides, all day.
+        </div>
+      </div>
+      <Footer page={page} total={total} t={t} inverse />
+    </div>
+  );
+}
+
+// 05 — THE NEIGHBORHOOD / CONTEXT
+function Neighborhood({ t, page, total }) {
+  return (
+    <div className="page" data-screen-label={`${String(page).padStart(2,"0")} Neighborhood`}>
+      <div style={{ position:"absolute", top: 56, left: 48, right: 48, display:"flex", justifyContent:"space-between" }}>
+        <span className="eyebrow" style={{color:"var(--accent)"}}>§ IV — Context</span>
+        <span className="eyebrow" style={{color:"var(--ink-mute)"}}>the neighborhood, in figures and in feel</span>
+      </div>
+
+      <div style={{ position:"absolute", left: 48, top: 112, width: 236 }}>
+        <div className="serif" style={{ fontSize: 40, lineHeight: 1, letterSpacing:"-0.015em" }}>
+          A quiet lane,<br/>six minutes<br/>from the <span className="serif-i" style={{color:"var(--accent)"}}>sea</span>.
+        </div>
+        <p className="sans" style={{ fontSize: 10.5, lineHeight: 1.75, marginTop: 20, color:"var(--ink-soft)" }}>
+          Bridgehampton's village center sits at the end of the lane. Schools, the farmers market, and the ocean are each under ten minutes on foot or by car. The house is one of fourteen on a private road, bordered on two sides by a protected reserve.
+        </p>
+      </div>
+
+      <Placeholder src={PHOTOS.map} label="MAP — PARCEL + VILLAGE" style={{
+        position:"absolute", right: 48, top: 112, width: 256, height: 256
+      }}/>
+
+      <div style={{ position:"absolute", left: 48, right: 48, bottom: 130 }}>
+        <div className="rule" style={{ marginBottom: 16 }}/>
+        <div style={{ display:"grid", gridTemplateColumns:"repeat(4, 1fr)", gap: 16 }}>
+          {[
+            ["To the ocean", "0.8 mi"],
+            ["To the village", "0.4 mi"],
+            ["To JFK", "92 mi"],
+            ["Median list", "$8.2M"],
+          ].map(([k,v], i) => (
+            <div key={i}>
+              <div className="eyebrow" style={{color:"var(--ink-mute)", marginBottom: 6}}>{k}</div>
+              <div className="serif" style={{ fontSize: 24, lineHeight: 1 }}>{v}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <Footer page={page} total={total} t={t} />
+    </div>
+  );
+}
+
+// 06 — THE FIRM (philosophy)
+function Firm({ t, page, total }) {
+  return (
+    <div className="page cream" data-screen-label={`${String(page).padStart(2,"0")} The Firm`}>
+      <div style={{ position:"absolute", top: 56, left: 48, right: 48, display:"flex", justifyContent:"space-between" }}>
+        <span className="eyebrow" style={{color:"var(--accent)"}}>§ V — The Firm</span>
+        <span className="eyebrow" style={{color:"var(--ink-mute)"}}>what we believe, and how we work</span>
+      </div>
+
+      <div style={{ position:"absolute", left: 48, top: 130, right: 48 }}>
+        <div className="serif" style={{ fontSize: 70, lineHeight: 0.96, letterSpacing:"-0.02em" }}>
+          Fewer listings.<br/>
+          <span className="serif-i" style={{color:"var(--accent)"}}>More attention.</span>
+        </div>
+      </div>
+
+      <div style={{ position:"absolute", left: 48, top: 320, width: 236 }}>
+        <p className="sans" style={{ fontSize: 10.5, lineHeight: 1.75, color:"var(--ink-soft)", margin: 0 }}>
+          {t.firm} represents a deliberately small number of properties each year. Our partners lead every engagement end-to-end — from the first walk-through to the final inspection — and we publish a full accounting of what worked, and what didn't, for each.
+        </p>
+      </div>
+      <div style={{ position:"absolute", left: 320, top: 320, width: 244 }}>
+        <p className="sans" style={{ fontSize: 10.5, lineHeight: 1.75, color:"var(--ink-soft)", margin: 0 }}>
+          We believe a listing is a work of editing as much as marketing. Our photographers, copywriters and brand designers are in-house. Nothing about your house goes to market until we're satisfied it tells the right story to the right buyer.
+        </p>
+      </div>
+
+      {/* stat strip */}
+      <div style={{ position:"absolute", left: 48, right: 48, bottom: 130 }}>
+        <div className="rule" style={{ marginBottom: 18 }}/>
+        <div style={{ display:"grid", gridTemplateColumns:"repeat(4, 1fr)", gap: 16 }}>
+          {[
+            ["Listings per partner", "≤ 6"],
+            ["Avg days on market", "41"],
+            ["List-to-close", "98.4%"],
+            ["Since", "2012"],
+          ].map(([k,v], i) => (
+            <div key={i}>
+              <div className="eyebrow" style={{color:"var(--ink-mute)", marginBottom: 6}}>{k}</div>
+              <div className="serif" style={{ fontSize: 30, lineHeight: 1, color: i===2 ? "var(--accent)" : "var(--ink)" }}>{v}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <Footer page={page} total={total} t={t} />
+    </div>
+  );
+}
+
+// 07 — THE AGENT
+function Agent({ t, page, total }) {
+  return (
+    <div className="page" data-screen-label={`${String(page).padStart(2,"0")} The Agent`}>
+      <div style={{ position:"absolute", top: 56, left: 48, right: 48, display:"flex", justifyContent:"space-between" }}>
+        <span className="eyebrow" style={{color:"var(--accent)"}}>§ VI — Your Representative</span>
+        <span className="eyebrow" style={{color:"var(--ink-mute)"}}>seventeen years, two hundred forty-one houses</span>
+      </div>
+
+      <Placeholder src={PHOTOS.portrait} label="PORTRAIT — B&W" style={{
+        position:"absolute", left: 48, top: 112, width: 220, height: 276, filter:"grayscale(1) contrast(1.05)"
+      }}/>
+
+      <div style={{ position:"absolute", left: 296, top: 112, right: 48 }}>
+        <div className="serif" style={{ fontSize: 44, lineHeight: 1, letterSpacing:"-0.015em" }}>
+          {t.agentName}
+        </div>
+        <div className="eyebrow" style={{color:"var(--ink-mute)", marginTop: 10}}>{t.agentTitle}</div>
+
+        <p className="sans" style={{ fontSize: 10.5, lineHeight: 1.75, color:"var(--ink-soft)", marginTop: 24 }}>
+          Eleanor began her career cataloguing estate sales on the East End, and it taught her the thing she'd carry into every listing since: the objects in a house point at who lives there, and who the next owner will be.
+        </p>
+        <p className="sans" style={{ fontSize: 10.5, lineHeight: 1.75, color:"var(--ink-soft)", marginTop: 10 }}>
+          Her clients are the kind who read the contract before it is sent, and who remember what time she said she'd call.
+        </p>
+      </div>
+
+      {/* numbers */}
+      <div style={{ position:"absolute", left: 48, right: 48, bottom: 200 }}>
+        <div className="rule" style={{ marginBottom: 16 }}/>
+        <div style={{ display:"grid", gridTemplateColumns:"repeat(4, 1fr)", gap: 16 }}>
+          {[
+            ["Career volume", "$1.4B"],
+            ["Transactions", "241"],
+            ["Avg. over ask", "+3.2%"],
+            ["Repeat clients", "64%"],
+          ].map(([k,v], i) => (
+            <div key={i}>
+              <div className="eyebrow" style={{color:"var(--ink-mute)", marginBottom: 6}}>{k}</div>
+              <div className="serif" style={{ fontSize: 28, lineHeight: 1 }}>{v}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div style={{ position:"absolute", left: 48, bottom: 108 }}>
+        <div className="mono" style={{ fontSize: 9, letterSpacing:"0.12em", color:"var(--ink-mute)", lineHeight: 1.7 }}>
+          {t.agentPhone}<br/>{t.agentEmail}
+        </div>
+      </div>
+
+      <Footer page={page} total={total} t={t} />
+    </div>
+  );
+}
+
+// 08 — STRATEGY
+function Strategy({ t, page, total }) {
+  const pillars = [
+    { k:"01", title:"Photography", body:"Two-day shoot: architectural (morning), lifestyle (afternoon), twilight (set). Delivered as a printed folio.", note:"Austin James Studio" },
+    { k:"02", title:"Narrative", body:"A written portrait of the house — 600 words, first-person from the builder, fact-checked, not florid.", note:"Copy, in-house" },
+    { k:"03", title:"Distribution", body:"Four private previews before public listing. Placed in three national publications the week of launch.", note:"Print + digital" },
+    { k:"04", title:"Showings", body:"By appointment only, paired with a walking guide to the village. Buyers leave with the folio, not a flyer.", note:"Limited, deliberate" },
+  ];
+  return (
+    <div className="page" data-screen-label={`${String(page).padStart(2,"0")} Strategy`}>
+      <div style={{ position:"absolute", top: 56, left: 48, right: 48, display:"flex", justifyContent:"space-between" }}>
+        <span className="eyebrow" style={{color:"var(--accent)"}}>§ VII — Strategy</span>
+        <span className="eyebrow" style={{color:"var(--ink-mute)"}}>four pillars, in order</span>
+      </div>
+
+      <div style={{ position:"absolute", left: 48, top: 112, right: 48 }}>
+        <div className="serif" style={{ fontSize: 58, lineHeight: 0.96, letterSpacing:"-0.02em" }}>
+          We market <span className="serif-i" style={{color:"var(--accent)"}}>quietly</span>,<br/>
+          and we market well.
+        </div>
+      </div>
+
+      <div style={{ position:"absolute", left: 48, right: 48, top: 290, bottom: 110 }}>
+        <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap: 20, rowGap: 22 }}>
+          {pillars.map((p, i) => (
+            <div key={i} style={{ borderTop:"1px solid var(--ink-line)", paddingTop: 14 }}>
+              <div style={{ display:"flex", justifyContent:"space-between", alignItems:"baseline" }}>
+                <span className="serif-i" style={{ fontSize: 22, color:"var(--accent)" }}>{p.k}.</span>
+                <span className="mono" style={{ fontSize: 8, letterSpacing:"0.18em", textTransform:"uppercase", color:"var(--ink-mute)" }}>{p.note}</span>
+              </div>
+              <div className="serif" style={{ fontSize: 28, lineHeight: 1, marginTop: 6 }}>{p.title}</div>
+              <p className="sans" style={{ fontSize: 10.5, lineHeight: 1.7, color:"var(--ink-soft)", marginTop: 10, margin:0, paddingTop: 10 }}>{p.body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <Footer page={page} total={total} t={t} />
+    </div>
+  );
+}
+
+// 09 — TIMELINE
+function Timeline({ t, page, total }) {
+  const rows = [
+    ["Week 1","Preparation","Photography, floor plans, narrative draft, private site review."],
+    ["Week 2","Pre-launch","Folio printed and delivered. Broker preview. Four private showings."],
+    ["Week 3","Launch","MLS published. Feature placement in three publications. Open evening (by invitation)."],
+    ["Weeks 4–6","Active","Weekly reporting. Adjustments to narrative and distribution as we learn."],
+    ["Week 7+","Offers","Review, counter, and close. Closing gift and archival folio at completion."],
+  ];
+  return (
+    <div className="page cream" data-screen-label={`${String(page).padStart(2,"0")} Timeline`}>
+      <div style={{ position:"absolute", top: 56, left: 48, right: 48, display:"flex", justifyContent:"space-between" }}>
+        <span className="eyebrow" style={{color:"var(--accent)"}}>§ VIII — Timeline</span>
+        <span className="eyebrow" style={{color:"var(--ink-mute)"}}>from brief to close, in seven weeks</span>
+      </div>
+
+      <div style={{ position:"absolute", left: 48, top: 110 }}>
+        <div className="serif" style={{ fontSize: 48, lineHeight: 1, letterSpacing:"-0.015em" }}>
+          The plan,<br/><span className="serif-i">week by week.</span>
+        </div>
+      </div>
+
+      <div style={{ position:"absolute", left: 48, right: 48, top: 260, bottom: 110 }}>
+        {rows.map(([w, title, body], i) => (
+          <div key={i} style={{ display:"grid", gridTemplateColumns:"90px 160px 1fr", gap: 16, padding:"16px 0", borderTop:"1px solid var(--ink-line)" }}>
+            <div className="mono" style={{ fontSize: 9, letterSpacing:"0.18em", textTransform:"uppercase", color:"var(--accent)", paddingTop: 4 }}>{w}</div>
+            <div className="serif" style={{ fontSize: 22, lineHeight: 1 }}>{title}</div>
+            <p className="sans" style={{ fontSize: 10.5, lineHeight: 1.7, color:"var(--ink-soft)", margin: 0 }}>{body}</p>
+          </div>
+        ))}
+        <div style={{ borderTop:"1px solid var(--ink-line)" }} />
+      </div>
+
+      <Footer page={page} total={total} t={t} />
+    </div>
+  );
+}
+
+// 10 — PROOF / RECENT WORK
+function Proof({ t, page, total }) {
+  const sales = [
+    { addr:"14 Ocean Road",      city:"Amagansett",       ask:"$9.75M",  sold:"$10.10M", days: 38 },
+    { addr:"Further Lane, No. 6", city:"East Hampton",     ask:"$18.50M", sold:"$18.30M", days: 52 },
+    { addr:"Sagg Main Cottage",  city:"Sagaponack",        ask:"$6.25M",  sold:"$6.60M",  days: 22 },
+    { addr:"Quimby Lane Estate", city:"Bridgehampton",     ask:"$14.00M", sold:"$14.25M", days: 47 },
+  ];
+  return (
+    <div className="page" data-screen-label={`${String(page).padStart(2,"0")} Proof`}>
+      <div style={{ position:"absolute", top: 56, left: 48, right: 48, display:"flex", justifyContent:"space-between" }}>
+        <span className="eyebrow" style={{color:"var(--accent)"}}>§ IX — Recent Work</span>
+        <span className="eyebrow" style={{color:"var(--ink-mute)"}}>houses sold, last twelve months</span>
+      </div>
+
+      <div style={{ position:"absolute", left: 48, top: 108, right: 48 }}>
+        <div className="serif" style={{ fontSize: 46, lineHeight: 1, letterSpacing:"-0.015em" }}>
+          The record<br/><span className="serif-i" style={{color:"var(--accent)"}}>speaks plainly.</span>
+        </div>
+      </div>
+
+      <div style={{ position:"absolute", left: 48, right: 48, top: 250, bottom: 260 }}>
+        <div style={{ display:"grid", gridTemplateColumns:"1.6fr 1fr 0.8fr 0.8fr 0.7fr", gap: 14, paddingBottom: 10, borderBottom:"1px solid var(--ink-line)" }}>
+          {["Address","Location","Ask","Sold","Days"].map((h,i) => (
+            <div key={i} className="eyebrow" style={{color:"var(--ink-mute)"}}>{h}</div>
+          ))}
+        </div>
+        {sales.map((s,i) => (
+          <div key={i} style={{ display:"grid", gridTemplateColumns:"1.6fr 1fr 0.8fr 0.8fr 0.7fr", gap: 14, padding:"16px 0", borderBottom:"1px solid var(--ink-line)", alignItems:"baseline" }}>
+            <div className="serif" style={{ fontSize: 20, lineHeight: 1 }}>{s.addr}</div>
+            <div className="sans" style={{ fontSize: 11, color:"var(--ink-soft)" }}>{s.city}</div>
+            <div className="mono" style={{ fontSize: 11, color:"var(--ink-soft)" }}>{s.ask}</div>
+            <div className="mono" style={{ fontSize: 11, color:"var(--accent)", fontWeight: 500 }}>{s.sold}</div>
+            <div className="mono" style={{ fontSize: 11, color:"var(--ink-soft)" }}>{s.days}</div>
+          </div>
+        ))}
+      </div>
+
+      {/* bottom pull quote */}
+      <div style={{ position:"absolute", left: 48, right: 48, bottom: 110 }}>
+        <div className="rule" style={{ marginBottom: 18 }}/>
+        <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr 1fr", gap: 16 }}>
+          {[
+            ["Avg. over ask", "+2.1%"],
+            ["Avg. days on market", "39.7"],
+            ["Withdrawn", "0"],
+          ].map(([k,v],i) => (
+            <div key={i}>
+              <div className="eyebrow" style={{color:"var(--ink-mute)", marginBottom: 6}}>{k}</div>
+              <div className="serif" style={{ fontSize: 30, lineHeight: 1 }}>{v}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <Footer page={page} total={total} t={t} />
+    </div>
+  );
+}
+
+// 11 — VOICES / TESTIMONIALS
+function Voices({ t, page, total }) {
+  return (
+    <div className="page dark" data-screen-label={`${String(page).padStart(2,"0")} Voices`}>
+      <div style={{ position:"absolute", top: 56, left: 48, right: 48, display:"flex", justifyContent:"space-between" }}>
+        <span className="eyebrow" style={{color:"var(--accent)"}}>§ X — Voices</span>
+        <span className="eyebrow" style={{color:"rgba(244,241,236,0.55)"}}>three former owners, on Eleanor</span>
+      </div>
+
+      {/* giant quote mark */}
+      <div className="serif-i" style={{
+        position:"absolute", left: 36, top: 78, fontSize: 220, lineHeight: 1, color:"var(--accent)", opacity: 0.35
+      }}>“</div>
+
+      <div style={{ position:"absolute", left: 48, top: 180, right: 48 }}>
+        <div className="serif-i" style={{ fontSize: 34, lineHeight: 1.15, color:"var(--paper)", letterSpacing:"-0.01em", maxWidth: 480 }}>
+          She sold the house the way we'd lived in it — with care, and without speeches. Two offers over ask, and a buyer we liked.
+        </div>
+        <div className="eyebrow" style={{ color:"rgba(244,241,236,0.55)", marginTop: 20 }}>M. &amp; D. Kessler — Further Lane</div>
+      </div>
+
+      {/* two smaller quotes */}
+      <div style={{ position:"absolute", left: 48, top: 440, width: 236 }}>
+        <div className="rule-accent" style={{ width: 28, marginBottom: 14 }}/>
+        <p className="serif-i" style={{ fontSize: 16, lineHeight: 1.35, color:"var(--paper)", margin: 0 }}>
+          "The best-written listing I have ever read. It didn't oversell. It was simply correct."
+        </p>
+        <div className="eyebrow" style={{color:"rgba(244,241,236,0.55)", marginTop: 12}}>A. Tanaka — buyer, 2024</div>
+      </div>
+      <div style={{ position:"absolute", right: 48, top: 440, width: 236 }}>
+        <div className="rule-accent" style={{ width: 28, marginBottom: 14 }}/>
+        <p className="serif-i" style={{ fontSize: 16, lineHeight: 1.35, color:"var(--paper)", margin: 0 }}>
+          "She told us what we didn't want to hear, twice. She was right both times."
+        </p>
+        <div className="eyebrow" style={{color:"rgba(244,241,236,0.55)", marginTop: 12}}>R. Okonkwo — seller, 2023</div>
+      </div>
+
+      <Footer page={page} total={total} t={t} inverse />
+    </div>
+  );
+}
+
+// 12 — CLOSE
+function Close({ t, page, total }) {
+  return (
+    <div className="page" data-screen-label={`${String(page).padStart(2,"0")} Close`}>
+      <div style={{ position:"absolute", top: 56, left: 48, right: 48, display:"flex", justifyContent:"space-between" }}>
+        <span className="eyebrow" style={{color:"var(--accent)"}}>§ XI — In Closing</span>
+        <span className="eyebrow" style={{color:"var(--ink-mute)"}}>the next step is small</span>
+      </div>
+
+      <div style={{ position:"absolute", left: 48, top: 140, right: 48 }}>
+        <div className="serif" style={{ fontSize: 78, lineHeight: 0.94, letterSpacing:"-0.02em" }}>
+          Thank you<br/>
+          <span className="serif-i" style={{color:"var(--accent)"}}>for reading.</span>
+        </div>
+      </div>
+
+      <div style={{ position:"absolute", left: 48, top: 360, width: 260 }}>
+        <p className="sans" style={{ fontSize: 11, lineHeight: 1.75, color:"var(--ink-soft)", margin: 0 }}>
+          If the brief resonates, the next step is a walk-through at your convenience — an hour, no materials, nothing signed. We'll come ready with questions, and leave you to think.
+        </p>
+      </div>
+
+      {/* contact card */}
+      <div style={{ position:"absolute", right: 48, top: 360, width: 240, border:"1px solid var(--ink-line)", padding: 20 }}>
+        <div className="eyebrow" style={{color:"var(--ink-mute)"}}>To arrange a walk-through</div>
+        <div className="serif" style={{ fontSize: 30, lineHeight: 1, marginTop: 14 }}>{t.agentName}</div>
+        <div className="sans" style={{ fontSize: 10.5, color:"var(--ink-soft)", marginTop: 6 }}>{t.agentTitle}</div>
+        <div className="rule" style={{ margin: "16px 0" }}/>
+        <div className="mono" style={{ fontSize: 10, letterSpacing:"0.08em", lineHeight: 1.8 }}>
+          {t.agentPhone}<br/>{t.agentEmail}<br/>apertureglobal.com/{t.agentName.toLowerCase().replace(/\s+/g,"-")}
+        </div>
+      </div>
+
+      {/* firm mark */}
+      <div style={{ position:"absolute", left: 48, right: 48, bottom: 150 }}>
+        <div className="rule" style={{ marginBottom: 22 }}/>
+        <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center" }}>
+          <img src="uploads/apertureglobal_logo-black.png" alt="Aperture Global Real Estate" style={{ height: 36, width: "auto", display:"block" }} />
+          <div style={{textAlign:"right"}}>
+            <div className="mono" style={{ fontSize: 9, color:"var(--ink-mute)", letterSpacing:"0.12em" }}>NEW YORK · MIAMI · LOS ANGELES · LONDON</div>
+          </div>
+        </div>
+      </div>
+
+      <Footer page={page} total={total} t={t} />
+    </div>
+  );
+}
+
+// ==================== APP ====================
+
+function App() {
+  const [t, setT] = useTweaks();
+  const [tweaksOn, setTweaksOn] = useState(false);
+
+  useEffect(() => {
+    const h = (e) => {
+      if (!e.data) return;
+      if (e.data.type === "__activate_edit_mode") setTweaksOn(true);
+      if (e.data.type === "__deactivate_edit_mode") setTweaksOn(false);
+    };
+    window.addEventListener("message", h);
+    window.parent.postMessage({type:"__edit_mode_available"}, "*");
+    return () => window.removeEventListener("message", h);
+  }, []);
+
+  const update = (k, v) => {
+    setT(prev => {
+      const next = { ...prev, [k]: v };
+      window.parent.postMessage({type:"__edit_mode_set_keys", edits: { [k]: v }}, "*");
+      return next;
+    });
+  };
+
+  const pages = [Cover, Letter, PropertyHero, Rooms, Neighborhood, Firm, Agent, Strategy, Timeline, Proof, Voices, Close];
+  const total = pages.length;
+
+  return (
+    <div className="app">
+      <div className="intro">
+        <b>{t.firm}</b> — Listing Presentation · {t.address1} · {t.cityLine}<br/>
+        12 plates · Letter portrait · Print-ready (⌘P / Ctrl+P)
+      </div>
+      {pages.map((P, i) => <P key={i} t={t} page={i+1} total={total} />)}
+
+      <div className={`tweaks ${tweaksOn ? "on" : ""}`}>
+        <header>
+          <h3>Tweaks</h3>
+          <span className="mono" style={{fontSize: 9, color:"#1a1a1a88"}}>{t.firm}</span>
+        </header>
+        <div className="body">
+          <label>
+            <span>Palette</span>
+            <select value={t.palette} onChange={e => update("palette", e.target.value)}>
+              <option value="paper">Paper (warm white + ink)</option>
+              <option value="bone">Bone (sandy + ink)</option>
+              <option value="offwhite">Off-white (cooler)</option>
+              <option value="dark">Dark mode (ink + cream)</option>
+            </select>
+          </label>
+          <label>
+            <span>Accent</span>
+            <div className="swatches">
+              {ACCENTS.map(a => (
+                <div key={a.hex} className={`swatch ${t.accent===a.hex ? "on" : ""}`}
+                     title={a.name} style={{ background: a.hex }}
+                     onClick={() => update("accent", a.hex)} />
+              ))}
+            </div>
+          </label>
+          <div className="rule" style={{margin:"2px 0"}}/>
+          <label>
+            <span>Firm name</span>
+            <input type="text" value={t.firm} onChange={e => update("firm", e.target.value)} />
+          </label>
+          <label>
+            <span>Address (line 1)</span>
+            <input type="text" value={t.address1} onChange={e => update("address1", e.target.value)} />
+          </label>
+          <label>
+            <span>City line</span>
+            <input type="text" value={t.cityLine} onChange={e => update("cityLine", e.target.value)} />
+          </label>
+          <label>
+            <span>Price</span>
+            <input type="text" value={t.price} onChange={e => update("price", e.target.value)} />
+          </label>
+          <div style={{display:"grid", gridTemplateColumns:"1fr 1fr 1fr", gap: 6}}>
+            <label><span>Beds</span><input type="text" value={t.beds} onChange={e => update("beds", e.target.value)} /></label>
+            <label><span>Baths</span><input type="text" value={t.baths} onChange={e => update("baths", e.target.value)} /></label>
+            <label><span>Sq ft</span><input type="text" value={t.sqft} onChange={e => update("sqft", e.target.value)} /></label>
+          </div>
+          <label>
+            <span>Agent name</span>
+            <input type="text" value={t.agentName} onChange={e => update("agentName", e.target.value)} />
+          </label>
+          <label>
+            <span>Agent title</span>
+            <input type="text" value={t.agentTitle} onChange={e => update("agentTitle", e.target.value)} />
+          </label>
+          <label>
+            <span>Agent email</span>
+            <input type="text" value={t.agentEmail} onChange={e => update("agentEmail", e.target.value)} />
+          </label>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+</script>
+</body>
+</html>

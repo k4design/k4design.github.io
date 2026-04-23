@@ -62,6 +62,47 @@ function Photo({ label, variant = 'dark', style = {}, className = '' }) {
 // behind the hero copy. Clicking "Watch Film" (below) scrolls to the full
 // player section where the user can unmute and play with sound.
 function HeroMedia({ label }) {
+  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+  const [mobileSrc, setMobileSrc] = usePHState(null);
+
+  usePHEffect(() => {
+    if (isMobile) {
+      fetch('https://fast.wistia.com/embed/medias/ovtazqlroz.json')
+        .then(r => r.json())
+        .then(({ media }) => {
+          const mp4s = (media.assets || []).filter(a =>
+            a.contentType === 'video/mp4' || a.type === 'mp4_video' || a.type === 'original'
+          );
+          const pick = mp4s.sort((a, b) => b.width - a.width).find(a => a.width <= 1280) || mp4s[0];
+          if (pick) setMobileSrc(pick.url);
+        })
+        .catch(() => {});
+      return;
+    }
+    window._wq = window._wq || [];
+    window._wq.push({
+      id: 'ovtazqlroz',
+      onReady(video) { video.mute(); video.play(); },
+    });
+  }, []);
+
+  if (isMobile) {
+    return (
+      <div className="hero-video-wrap">
+        {mobileSrc && (
+          <video
+            className="hero-wistia"
+            src={mobileSrc}
+            autoPlay
+            muted
+            loop
+            playsInline
+          />
+        )}
+      </div>
+    );
+  }
+
   return (
     <div className="hero-video-wrap">
       <wistia-player
@@ -69,7 +110,9 @@ function HeroMedia({ label }) {
         aspect="1.7777777777777777"
         autoplay="true"
         muted="true"
-        silentautoplay="true"
+        volume="0"
+        silent-autoplay="allow"
+        playsinline="true"
         end-video-behavior="loop"
         playbar="false"
         playbutton="false"
