@@ -1,0 +1,1292 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Aperture Global — 4 Phase Marketing Plan</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap');
+
+  /* ===== scoped wrapper — overrides Lofty global styles ===== */
+  #ag-plan {
+    --bg:          #05070b;
+    --bg-2:        #0a0e15;
+    --bg-3:        #0e131c;
+    --ink:         #f1f3f7;
+    --ink-dim:     #aab2c0;
+    --ink-faint:   #6b7384;
+    --rule:        rgba(255,255,255,0.08);
+    --rule-2:      rgba(255,255,255,0.14);
+    --accent:      #0092ff;
+    --accent-soft: rgba(0,146,255,0.14);
+    --accent-glow: rgba(0,146,255,0.32);
+    --serif: "Cormorant Garamond", "Times New Roman", serif;
+    --sans:  "DM Sans", system-ui, -apple-system, Segoe UI, sans-serif;
+
+    background:              var(--bg) !important;
+    color:                   var(--ink) !important;
+    font-family:             var(--sans) !important;
+    font-weight:             400 !important;
+    font-size:               16px !important;
+    line-height:             1.6 !important;
+    -webkit-font-smoothing:  antialiased;
+    text-rendering:          optimizeLegibility;
+    overflow-x:              hidden;
+    position:                relative;
+    margin:                  0 !important;
+    padding:                 0 !important;
+    max-width:               100%;
+  }
+
+  #ag-plan *,
+  #ag-plan *::before,
+  #ag-plan *::after { box-sizing: border-box; }
+
+  /* ambient field */
+  #ag-plan::before {
+    content: "";
+    position: fixed; inset: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(1200px 600px at 80% -10%, rgba(0,146,255,0.10), transparent 60%),
+      radial-gradient(900px 500px at -10% 30%, rgba(0,146,255,0.06), transparent 65%),
+      radial-gradient(circle at 1px 1px, rgba(255,255,255,0.025) 1px, transparent 0);
+    background-size: auto, auto, 36px 36px;
+    z-index: 0;
+  }
+
+  /* ===== headings & paragraphs — most-overridden by CMS ===== */
+  #ag-plan h1,
+  #ag-plan h2,
+  #ag-plan h3,
+  #ag-plan h4 {
+    font-family:    var(--serif) !important;
+    font-weight:    400 !important;
+    color:          var(--ink) !important;
+    margin:         0 !important;
+    padding:        0 !important;
+    letter-spacing: -0.01em;
+    line-height:    normal;
+    text-transform: none !important;
+    border:         none !important;
+    background:     none !important;
+  }
+
+  #ag-plan p {
+    margin:      0 !important;
+    padding:     0 !important;
+    color:       inherit;
+    font-family: inherit !important;
+    font-size:   inherit;
+    line-height: inherit;
+  }
+
+  #ag-plan a {
+    color:           var(--accent);
+    text-decoration: none;
+  }
+
+  #ag-plan img {
+    max-width: 100%;
+    display:   block;
+  }
+
+  #ag-plan figure {
+    margin:  0 !important;
+    padding: 0 !important;
+    border:  none !important;
+  }
+
+  /* ===== scroll progress ===== */
+  #ag-plan .progress {
+    position:   fixed;
+    top:        0;
+    left:       0;
+    right:      0;
+    height:     2px;
+    background: rgba(255,255,255,0.04);
+    z-index:    50;
+    margin:     0 !important;
+    padding:    0 !important;
+  }
+  #ag-plan .progress__bar {
+    height:     100%;
+    width:      0%;
+    background: var(--accent);
+    box-shadow: 0 0 12px var(--accent-glow), 0 0 2px var(--accent);
+    transition: width 120ms linear;
+  }
+
+  /* ===== shared atoms ===== */
+  #ag-plan .wrap {
+    max-width: 1320px;
+    margin:    0 auto !important;
+    padding:   0 56px !important;
+    position:  relative;
+    z-index:   1;
+  }
+
+  #ag-plan .eyebrow {
+    font-family:    var(--sans) !important;
+    font-size:      11px !important;
+    letter-spacing: 0.28em;
+    text-transform: uppercase !important;
+    color:          var(--accent) !important;
+    font-weight:    500 !important;
+    display:        inline-flex;
+    align-items:    center;
+    gap:            14px;
+    margin:         0 !important;
+    padding:        0 !important;
+  }
+  #ag-plan .eyebrow::before {
+    content:     "";
+    width:       36px;
+    height:      1px;
+    background:  var(--accent);
+    flex-shrink: 0;
+  }
+
+  /* ====================================================== */
+  /* HERO                                                   */
+  /* ====================================================== */
+  #ag-plan .hero {
+    position:      relative;
+    padding:       160px 0 140px !important;
+    overflow:      hidden;
+    border-bottom: 1px solid var(--rule);
+    isolation:     isolate;
+    margin:        0 !important;
+  }
+  #ag-plan .hero__bg {
+    position:            absolute;
+    inset:               0;
+    z-index:             0;
+    background-image:    url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=2200&q=80');
+    background-size:     cover;
+    background-position: center 60%;
+    filter:              grayscale(0.4) brightness(0.55) contrast(1.05);
+    transform:           scale(1.05);
+    will-change:         transform;
+  }
+  #ag-plan .hero__bg::after {
+    content:    "";
+    position:   absolute;
+    inset:      0;
+    background:
+      linear-gradient(180deg, rgba(5,7,11,0.55) 0%, rgba(5,7,11,0.65) 40%, rgba(5,7,11,0.92) 85%, var(--bg) 100%),
+      radial-gradient(900px 600px at 80% 30%, rgba(0,146,255,0.18), transparent 60%);
+  }
+  #ag-plan .hero__inner {
+    position: relative;
+    z-index:  2;
+  }
+
+  #ag-plan .hero__meta {
+    display:         flex;
+    justify-content: space-between;
+    align-items:     baseline;
+    flex-wrap:       wrap;
+    gap:             24px;
+    margin-bottom:   80px !important;
+  }
+  #ag-plan .hero__plate {
+    font-family:    var(--sans) !important;
+    font-size:      11px !important;
+    letter-spacing: 0.32em;
+    text-transform: uppercase !important;
+    color:          var(--ink-faint) !important;
+    margin:         0 !important;
+    padding:        0 !important;
+  }
+  #ag-plan .hero__plate b {
+    color:       var(--ink) !important;
+    font-weight: 500 !important;
+  }
+
+  #ag-plan .hero__title {
+    font-size:      clamp(48px, 7.6vw, 124px) !important;
+    line-height:    0.98 !important;
+    letter-spacing: -0.025em !important;
+    font-weight:    400 !important;
+    max-width:      18ch;
+    color:          var(--ink) !important;
+    font-family:    var(--serif) !important;
+    margin:         0 !important;
+    padding:        0 !important;
+  }
+  #ag-plan .hero__title em {
+    font-style:  italic;
+    color:       var(--accent) !important;
+    font-weight: 300 !important;
+  }
+  #ag-plan .hero__title .stroke {
+    -webkit-text-stroke: 1px rgba(255,255,255,0.55);
+    color:               transparent !important;
+  }
+
+  #ag-plan .hero__sub {
+    margin-top:            48px;
+    display:               grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap:                   80px;
+    align-items:           end;
+  }
+  #ag-plan .hero__lede {
+    font-family:    var(--serif) !important;
+    font-style:     italic;
+    font-size:      clamp(20px, 1.6vw, 26px) !important;
+    line-height:    1.45 !important;
+    color:          var(--ink-dim) !important;
+    max-width:      46ch;
+    font-weight:    300 !important;
+    margin:         0 !important;
+    padding:        0 !important;
+  }
+  #ag-plan .hero__lede::first-letter {
+    color: var(--accent) !important;
+  }
+
+  #ag-plan .hero__index {
+    display:         flex;
+    justify-content: flex-end;
+    gap:             24px;
+  }
+  #ag-plan .hero__index-item {
+    text-align:     right;
+    font-family:    var(--sans) !important;
+    color:          var(--ink-faint) !important;
+    font-size:      11px !important;
+    letter-spacing: 0.18em;
+    text-transform: uppercase !important;
+    margin:         0 !important;
+    padding:        0 !important;
+  }
+  #ag-plan .hero__index-item b {
+    display:        block;
+    font-family:    var(--serif) !important;
+    font-style:     italic;
+    font-weight:    300 !important;
+    color:          var(--ink) !important;
+    font-size:      38px !important;
+    letter-spacing: 0;
+    margin-bottom:  6px;
+    text-transform: none !important;
+    line-height:    1;
+  }
+  #ag-plan .hero__index-item b span {
+    color: var(--accent) !important;
+  }
+
+  #ag-plan .hero__aperture {
+    position:       absolute;
+    right:          -180px;
+    top:            50%;
+    transform:      translateY(-50%);
+    width:          760px;
+    height:         760px;
+    z-index:        1;
+    opacity:        0.55;
+    pointer-events: none;
+  }
+  #ag-plan .hero__aperture img {
+    width:      100%;
+    height:     100%;
+    display:    block;
+    object-fit: contain;
+  }
+
+  /* ====================================================== */
+  /* PHASES                                                 */
+  /* ====================================================== */
+  #ag-plan .phases {
+    position: relative;
+    padding:  140px 0 160px !important;
+    margin:   0 !important;
+  }
+
+  #ag-plan .phases__header {
+    display:               grid;
+    grid-template-columns: 1fr 1fr;
+    gap:                   80px;
+    align-items:           end;
+    margin-bottom:         120px !important;
+  }
+  #ag-plan .phases__header h2 {
+    font-size:      clamp(34px, 3.6vw, 56px) !important;
+    line-height:    1.05 !important;
+    letter-spacing: -0.015em !important;
+    max-width:      14ch;
+    color:          var(--ink) !important;
+    font-family:    var(--serif) !important;
+    font-weight:    400 !important;
+    margin:         0 !important;
+  }
+  #ag-plan .phases__header h2 em {
+    font-style: italic;
+    color:      var(--accent) !important;
+  }
+  #ag-plan .phases__header p {
+    color:       var(--ink-dim) !important;
+    font-size:   15px !important;
+    max-width:   46ch;
+    line-height: 1.7 !important;
+    margin:      0 !important;
+  }
+  #ag-plan .phases__right {
+    display:        flex;
+    flex-direction: column;
+    gap:            20px;
+  }
+
+  /* timeline rail */
+  #ag-plan .timeline {
+    position:     relative;
+    padding-left: 0;
+  }
+  #ag-plan .timeline__rail {
+    position:   absolute;
+    left:       calc(120px - 1px);
+    top:        0;
+    bottom:     0;
+    width:      2px;
+    background: linear-gradient(
+      to bottom,
+      transparent 0,
+      var(--rule-2) 60px,
+      var(--rule-2) calc(100% - 60px),
+      transparent 100%
+    );
+    z-index: 1;
+  }
+  #ag-plan .timeline__rail::after {
+    content:    "";
+    position:   absolute;
+    top:        60px;
+    left:       0;
+    width:      100%;
+    height:     0;
+    background: linear-gradient(to bottom, transparent, var(--accent) 12%, var(--accent) 88%, transparent);
+    box-shadow: 0 0 14px var(--accent-glow);
+    transition: height 250ms ease-out;
+  }
+
+  /* each phase */
+  #ag-plan .phase {
+    position:              relative;
+    display:               grid;
+    grid-template-columns: 220px 1fr 420px;
+    gap:                   60px;
+    padding:               80px 0 100px !important;
+    align-items:           start;
+    margin:                0 !important;
+  }
+  #ag-plan .phase + .phase {
+    border-top: 1px solid var(--rule);
+  }
+
+  /* phase image */
+  #ag-plan .phase__media {
+    position:     relative;
+    aspect-ratio: 4 / 5;
+    overflow:     hidden;
+    background:   #0a0e15;
+    border:       1px solid var(--rule) !important;
+  }
+  #ag-plan .phase__media img {
+    position:   absolute;
+    inset:      0;
+    width:      100%;
+    height:     100%;
+    object-fit: cover;
+    filter:     grayscale(0.15) brightness(0.85) contrast(1.05);
+    transition: transform 1200ms cubic-bezier(.2,.6,.2,1), filter 800ms ease;
+    display:    block;
+    max-width:  none;
+  }
+  #ag-plan .phase__media::after {
+    content:        "";
+    position:       absolute;
+    inset:          0;
+    background:     linear-gradient(180deg, transparent 40%, rgba(5,7,11,0.6) 100%);
+    pointer-events: none;
+  }
+  #ag-plan .phase__caption {
+    position:       absolute;
+    left:           18px;
+    bottom:         16px;
+    z-index:        2;
+    font-family:    var(--sans) !important;
+    font-size:      10px !important;
+    letter-spacing: 0.28em;
+    text-transform: uppercase !important;
+    color:          var(--ink) !important;
+    display:        flex;
+    align-items:    center;
+    gap:            10px;
+    margin:         0 !important;
+    padding:        0 !important;
+  }
+  #ag-plan .phase__caption::before {
+    content:    "";
+    width:      18px;
+    height:     1px;
+    background: var(--accent);
+    flex-shrink: 0;
+  }
+  #ag-plan .phase__media-tag {
+    position:        absolute;
+    right:           18px;
+    top:             16px;
+    z-index:         2;
+    font-family:     var(--sans) !important;
+    font-size:       10px !important;
+    letter-spacing:  0.28em;
+    text-transform:  uppercase !important;
+    color:           var(--accent) !important;
+    padding:         6px 10px !important;
+    background:      rgba(0,0,0,0.55) !important;
+    backdrop-filter: blur(6px);
+    border:          1px solid rgba(0,146,255,0.4) !important;
+  }
+  #ag-plan .phase:hover .phase__media img {
+    transform: scale(1.04);
+    filter:    grayscale(0) brightness(0.95) contrast(1.05);
+  }
+
+  /* index column */
+  #ag-plan .phase__index {
+    position:      relative;
+    padding-right: 60px !important;
+  }
+  #ag-plan .phase__num {
+    font-family:         var(--serif) !important;
+    font-weight:         300 !important;
+    font-style:          italic;
+    font-size:           clamp(80px, 9vw, 148px) !important;
+    line-height:         0.85 !important;
+    letter-spacing:      -0.04em;
+    color:               transparent !important;
+    -webkit-text-stroke: 1px rgba(255,255,255,0.22);
+    transition:          color 600ms ease, -webkit-text-stroke 600ms ease, transform 600ms ease;
+    margin:              0 !important;
+    padding:             0 !important;
+    display:             block;
+    background:          none !important;
+  }
+  #ag-plan .phase__nlabel {
+    margin-top:     16px !important;
+    font-size:      10px !important;
+    letter-spacing: 0.32em;
+    text-transform: uppercase !important;
+    color:          var(--ink-faint) !important;
+    font-weight:    500 !important;
+    font-family:    var(--sans) !important;
+  }
+
+  /* node on rail */
+  #ag-plan .phase__node {
+    position:      absolute;
+    left:          calc(120px - 7px);
+    top:           30px;
+    width:         14px;
+    height:        14px;
+    border-radius: 50%;
+    background:    var(--bg);
+    border:        1px solid rgba(255,255,255,0.25);
+    z-index:       2;
+    transition:    all 500ms ease;
+    display:       block;
+  }
+  #ag-plan .phase__node::after {
+    content:       "";
+    position:      absolute;
+    inset:         3px;
+    border-radius: 50%;
+    background:    transparent;
+    transition:    background 500ms ease, box-shadow 500ms ease;
+  }
+
+  /* body column */
+  #ag-plan .phase__body {
+    padding-top: 18px !important;
+    max-width:   58ch;
+  }
+  #ag-plan .phase__kicker {
+    font-family:    var(--sans) !important;
+    font-size:      11px !important;
+    letter-spacing: 0.28em;
+    text-transform: uppercase !important;
+    color:          var(--ink-faint) !important;
+    margin-bottom:  18px !important;
+    display:        flex;
+    align-items:    center;
+    gap:            14px;
+  }
+  #ag-plan .phase__kicker .dot {
+    width:         5px;
+    height:        5px;
+    background:    var(--accent);
+    border-radius: 50%;
+    box-shadow:    0 0 8px var(--accent-glow);
+    flex-shrink:   0;
+  }
+  #ag-plan .phase__title {
+    font-size:      clamp(34px, 3.2vw, 52px) !important;
+    line-height:    1.05 !important;
+    letter-spacing: -0.015em !important;
+    margin-bottom:  24px !important;
+    font-weight:    400 !important;
+    font-family:    var(--serif) !important;
+    color:          var(--ink) !important;
+    padding:        0 !important;
+    background:     none !important;
+    border:         none !important;
+    text-transform: none !important;
+  }
+  #ag-plan .phase__title em {
+    font-style:  italic;
+    color:       var(--ink-dim) !important;
+    font-weight: 300 !important;
+  }
+  #ag-plan .phase__lede {
+    font-size:   17px !important;
+    line-height: 1.65 !important;
+    color:       var(--ink-dim) !important;
+    max-width:   58ch;
+    margin:      0 !important;
+    padding:     0 !important;
+    font-family: var(--sans) !important;
+  }
+  #ag-plan .phase__lede b {
+    color:       var(--ink) !important;
+    font-weight: 500 !important;
+  }
+
+  /* phase chips */
+  #ag-plan .phase__chips {
+    margin-top: 32px !important;
+    display:    flex;
+    flex-wrap:  wrap;
+    gap:        8px;
+    padding:    0 !important;
+    list-style: none;
+  }
+  #ag-plan .chip {
+    font-family:    var(--sans) !important;
+    font-size:      11px !important;
+    letter-spacing: 0.14em;
+    text-transform: uppercase !important;
+    color:          var(--ink-dim) !important;
+    padding:        8px 14px !important;
+    border:         1px solid var(--rule-2) !important;
+    border-radius:  999px;
+    transition:     all 300ms ease;
+    background:     transparent !important;
+    display:        inline-block;
+    margin:         0 !important;
+    line-height:    1.2;
+  }
+
+  /* phase hover illumination */
+  #ag-plan .phase:hover .phase__num {
+    color:               var(--accent) !important;
+    -webkit-text-stroke: 1px var(--accent);
+    transform:           translateX(-4px);
+  }
+  #ag-plan .phase:hover .phase__node {
+    border-color: var(--accent);
+    box-shadow:   0 0 0 6px var(--accent-soft), 0 0 24px var(--accent-glow);
+  }
+  #ag-plan .phase:hover .phase__node::after {
+    background: var(--accent);
+  }
+  #ag-plan .phase:hover .chip {
+    border-color: rgba(0,146,255,0.5) !important;
+    color:        var(--ink) !important;
+  }
+
+  /* active state from intersection observer */
+  #ag-plan .phase.is-active .phase__num {
+    color:               var(--accent) !important;
+    -webkit-text-stroke: 1px var(--accent);
+  }
+  #ag-plan .phase.is-active .phase__node {
+    border-color: var(--accent);
+    box-shadow:   0 0 0 5px var(--accent-soft);
+  }
+  #ag-plan .phase.is-active .phase__node::after {
+    background: var(--accent);
+  }
+
+  /* scroll reveal */
+  #ag-plan .reveal {
+    opacity:    0;
+    transform:  translateY(28px);
+    transition: opacity 900ms cubic-bezier(.2,.6,.2,1), transform 900ms cubic-bezier(.2,.6,.2,1);
+  }
+  #ag-plan .reveal.is-in { opacity: 1; transform: none; }
+  #ag-plan .reveal.d1    { transition-delay: 80ms; }
+  #ag-plan .reveal.d2    { transition-delay: 160ms; }
+  #ag-plan .reveal.d3    { transition-delay: 240ms; }
+  #ag-plan .reveal.d4    { transition-delay: 320ms; }
+
+  /* ====================================================== */
+  /* PHASE STEPS INDICATOR                                 */
+  /* ====================================================== */
+  #ag-plan .phase-steps {
+    display:     flex;
+    align-items: flex-start;
+    gap:         0;
+  }
+  #ag-plan .phase-steps__item {
+    text-align:     left;
+    font-family:    var(--sans) !important;
+    color:          var(--ink-faint) !important;
+    font-size:      11px !important;
+    letter-spacing: 0.18em;
+    text-transform: uppercase !important;
+    margin:         0 !important;
+    padding:        0 24px !important;
+    border-right:   1px solid var(--rule-2);
+  }
+  #ag-plan .phase-steps__item:first-child {
+    padding-left: 0 !important;
+  }
+  #ag-plan .phase-steps__item:last-child {
+    padding-right: 0 !important;
+    border-right:  none !important;
+  }
+  #ag-plan .phase-steps__item b {
+    display:        block;
+    font-family:    var(--serif) !important;
+    font-style:     italic;
+    font-weight:    300 !important;
+    color:          var(--ink) !important;
+    font-size:      76px !important;
+    letter-spacing: 0;
+    margin-bottom:  12px !important;
+    text-transform: none !important;
+    line-height:    1;
+    background:     none !important;
+  }
+  #ag-plan .phase-steps__item b span {
+    color: var(--accent) !important;
+  }
+
+  /* ====================================================== */
+  /* ZILLOW PREVIEW DROPDOWN                               */
+  /* ====================================================== */
+  #ag-plan .zp-drop {
+    margin-top:    20px;
+    border:        1px solid var(--rule-2);
+    border-radius: 3px;
+    overflow:      hidden;
+    max-width:     58ch;
+  }
+  #ag-plan .zp-drop__trigger {
+    width:           100%;
+    display:         flex;
+    align-items:     center;
+    justify-content: space-between;
+    gap:             12px;
+    padding:         12px 16px !important;
+    background:      transparent !important;
+    border:          none !important;
+    cursor:          pointer;
+    color:           var(--accent) !important;
+    font-family:     var(--sans) !important;
+    font-size:       11px !important;
+    letter-spacing:  0.22em;
+    text-transform:  uppercase !important;
+    text-align:      left;
+    transition:      background 200ms ease;
+    margin:          0 !important;
+    line-height:     1;
+  }
+  #ag-plan .zp-drop__trigger:hover {
+    background: var(--accent-soft) !important;
+  }
+  #ag-plan .zp-drop__icon {
+    width:      14px;
+    height:     14px;
+    flex-shrink: 0;
+    position:   relative;
+    display:    block;
+  }
+  #ag-plan .zp-drop__icon::before,
+  #ag-plan .zp-drop__icon::after {
+    content:    "";
+    position:   absolute;
+    background: var(--accent);
+    top:        50%;
+    left:       50%;
+    transition: transform 280ms ease, opacity 280ms ease;
+  }
+  #ag-plan .zp-drop__icon::before {
+    width:     10px;
+    height:    1px;
+    transform: translate(-50%, -50%);
+  }
+  #ag-plan .zp-drop__icon::after {
+    width:     1px;
+    height:    10px;
+    transform: translate(-50%, -50%);
+  }
+  #ag-plan .zp-drop__trigger[aria-expanded="true"] .zp-drop__icon::after {
+    transform: translate(-50%, -50%) rotate(90deg);
+    opacity:   0;
+  }
+  #ag-plan .zp-drop__panel {
+    padding:     0 16px 16px !important;
+    font-family: var(--sans) !important;
+    font-size:   13px !important;
+    line-height: 1.7 !important;
+    color:       var(--ink-dim) !important;
+    margin:      0 !important;
+    border-top:  1px solid var(--rule);
+  }
+  #ag-plan .zp-drop__panel p {
+    padding-top: 14px !important;
+    margin:      0 !important;
+    font-family: var(--sans) !important;
+    font-size:   13px !important;
+    line-height: 1.7 !important;
+    color:       var(--ink-dim) !important;
+  }
+  #ag-plan .zp-drop__panel b {
+    color:       var(--ink) !important;
+    font-weight: 500 !important;
+  }
+
+  /* ====================================================== */
+  /* ADOPTION                                               */
+  /* ====================================================== */
+  #ag-plan .adopt {
+    position:   relative;
+    padding:    160px 0 180px !important;
+    border-top: 1px solid var(--rule);
+    overflow:   hidden;
+    isolation:  isolate;
+    margin:     0 !important;
+  }
+  #ag-plan .adopt__bg {
+    position:            absolute;
+    inset:               0;
+    z-index:             0;
+    background-image:    url('https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=2200&q=80');
+    background-size:     cover;
+    background-position: center;
+    filter:              grayscale(0.6) brightness(0.4) contrast(1.1);
+  }
+  #ag-plan .adopt__bg::after {
+    content:    "";
+    position:   absolute;
+    inset:      0;
+    background:
+      radial-gradient(ellipse at 50% 0%, rgba(0,146,255,0.18), transparent 55%),
+      linear-gradient(180deg, rgba(5,7,11,0.85) 0%, rgba(5,7,11,0.78) 50%, var(--bg) 100%);
+  }
+  #ag-plan .adopt .wrap {
+    position: relative;
+    z-index:  1;
+  }
+  #ag-plan .adopt__frame {
+    position:            relative;
+    max-width:           1080px;
+    margin:              0 auto !important;
+    padding:             96px 80px !important;
+    text-align:          center;
+    border:              1px solid rgba(0,146,255,0.45) !important;
+    background:          rgba(5,7,11,0.62) !important;
+    backdrop-filter:     blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow:
+      0 0 0 1px rgba(0,146,255,0.05),
+      0 30px 80px -30px rgba(0,146,255,0.45),
+      inset 0 1px 0 rgba(255,255,255,0.04);
+  }
+  /* corner ticks */
+  #ag-plan .adopt__frame::before,
+  #ag-plan .adopt__frame::after {
+    content:    "";
+    position:   absolute;
+    width:      32px;
+    height:     32px;
+    border:     1px solid var(--accent) !important;
+    background: transparent !important;
+  }
+  #ag-plan .adopt__frame::before {
+    top:           -1px;
+    left:          -1px;
+    border-right:  0 !important;
+    border-bottom: 0 !important;
+  }
+  #ag-plan .adopt__frame::after {
+    bottom:      -1px;
+    right:       -1px;
+    border-left: 0 !important;
+    border-top:  0 !important;
+  }
+  #ag-plan .adopt__frame .tick-tr,
+  #ag-plan .adopt__frame .tick-bl {
+    position:   absolute;
+    width:      32px;
+    height:     32px;
+    border:     1px solid var(--accent);
+    display:    block;
+    background: transparent !important;
+  }
+  #ag-plan .adopt__frame .tick-tr {
+    top:           -1px;
+    right:         -1px;
+    border-left:   0;
+    border-bottom: 0;
+  }
+  #ag-plan .adopt__frame .tick-bl {
+    bottom:       -1px;
+    left:         -1px;
+    border-right: 0;
+    border-top:   0;
+  }
+
+  #ag-plan .adopt__eyebrow {
+    margin-bottom:   36px !important;
+    justify-content: center;
+  }
+  #ag-plan .adopt h2 {
+    font-size:      clamp(36px, 4vw, 62px) !important;
+    line-height:    1.08 !important;
+    letter-spacing: -0.015em !important;
+    max-width:      22ch;
+    margin:         0 auto 36px !important;
+    font-weight:    400 !important;
+    font-family:    var(--serif) !important;
+    color:          var(--ink) !important;
+    padding:        0 !important;
+    background:     none !important;
+    border:         none !important;
+    text-transform: none !important;
+  }
+  #ag-plan .adopt h2 em {
+    font-style:  italic;
+    color:       var(--accent) !important;
+    font-weight: 300 !important;
+  }
+  #ag-plan .adopt p {
+    color:       var(--ink-dim) !important;
+    font-size:   17px !important;
+    line-height: 1.7 !important;
+    max-width:   62ch;
+    margin:      0 auto !important;
+    font-family: var(--sans) !important;
+  }
+  #ag-plan .adopt p b {
+    color:       var(--ink) !important;
+    font-weight: 500 !important;
+  }
+
+  #ag-plan .adopt__sig {
+    margin-top:      56px !important;
+    display:         flex;
+    align-items:     center;
+    justify-content: center;
+    gap:             18px;
+    font-family:     var(--sans) !important;
+    font-size:       10px !important;
+    letter-spacing:  0.34em;
+    text-transform:  uppercase !important;
+    color:           var(--ink-faint) !important;
+  }
+  #ag-plan .adopt__sig::before,
+  #ag-plan .adopt__sig::after {
+    content:    "";
+    width:      60px;
+    height:     1px;
+    background: var(--rule-2);
+  }
+  #ag-plan .adopt__sig b {
+    color:          var(--accent) !important;
+    font-weight:    500 !important;
+    letter-spacing: 0.34em;
+  }
+
+  /* ====================================================== */
+  /* responsive                                             */
+  /* ====================================================== */
+  @media (max-width: 1180px) {
+    #ag-plan .phase {
+      grid-template-columns: 200px 1fr 320px;
+      gap: 40px;
+    }
+  }
+  @media (max-width: 1000px) {
+    #ag-plan .wrap           { padding: 0 28px !important; }
+    #ag-plan .hero           { padding: 96px 0 80px !important; }
+    #ag-plan .hero__sub      { grid-template-columns: 1fr; gap: 40px; }
+    #ag-plan .hero__index    { justify-content: flex-start; flex-wrap: wrap; }
+    #ag-plan .hero__aperture { width: 520px; height: 520px; right: -220px; opacity: 0.25; }
+
+    #ag-plan .phases         { padding: 80px 0 !important; }
+    #ag-plan .phases__header { grid-template-columns: 1fr; gap: 24px; margin-bottom: 64px !important; }
+
+    #ag-plan .timeline__rail { left: 23px; }
+    #ag-plan .phase {
+      grid-template-columns: 1fr;
+      gap:                   24px;
+      padding:               44px 0 56px 64px !important;
+    }
+    #ag-plan .phase__index   { padding-right: 0 !important; }
+    #ag-plan .phase__num     { font-size: 84px !important; }
+    #ag-plan .phase__node    { left: 16px; top: 60px; }
+    #ag-plan .phase__title   { font-size: 30px !important; }
+    #ag-plan .phase__media   { aspect-ratio: 16 / 10; margin-top: 8px; }
+
+    #ag-plan .adopt          { padding: 100px 0 120px !important; }
+    #ag-plan .adopt__frame   { padding: 64px 28px !important; }
+  }
+</style>
+</head>
+<body>
+
+<div id="ag-plan">
+
+  <!-- scroll progress -->
+  <div class="progress" aria-hidden="true"><div class="progress__bar" id="progressBar"></div></div>
+
+  <!-- =========================================== HERO -->
+  <section class="hero" id="hero">
+    <div class="hero__bg" id="heroBg" aria-hidden="true"></div>
+
+    <!-- decorative aperture -->
+    <div class="hero__aperture" aria-hidden="true">
+      <img src="icon.png" alt="">
+    </div>
+
+    <div class="wrap hero__inner">
+
+      <div class="reveal d1">
+        <div class="eyebrow" style="margin-bottom:36px;">The Proposed 4 Phase Marketing Plan</div>
+      </div>
+
+      <h1 class="hero__title reveal d2">
+        Four phases.<br>
+        <span class="stroke">One disciplined</span><br>
+        <em>route to market.</em>
+      </h1>
+
+      <div class="hero__sub">
+        <p class="hero__lede reveal d3">
+          A repeatable, premium playbook engineered to manufacture demand
+          before a listing reaches the MLS — and to keep momentum building
+          long after most agents have stopped marketing.
+        </p>
+        <div class="hero__index reveal d4" style="display:none">
+          <div class="hero__index-item"><b>0<span>1</span></b>First Look</div>
+          <div class="hero__index-item"><b>0<span>2</span></b>Launch</div>
+          <div class="hero__index-item"><b>0<span>3</span></b>MLS</div>
+          <div class="hero__index-item"><b>0<span>4</span></b>Beyond</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- =========================================== PHASES -->
+  <section class="phases" id="phases">
+    <div class="wrap">
+
+      <div class="phases__header">
+        <h2 class="reveal">
+          Engineered to <em>generate buzz</em>,<br>capture attention, and<br>close with momentum.
+        </h2>
+        <div class="phases__right reveal d1">
+        <div class="phase-steps">
+          <div class="phase-steps__item"><b>0<span>1</span></b>First Look</div>
+          <div class="phase-steps__item"><b>0<span>2</span></b>Launch</div>
+          <div class="phase-steps__item"><b>0<span>3</span></b>MLS</div>
+          <div class="phase-steps__item"><b>0<span>4</span></b>Beyond</div>
+        </div>
+        <p>
+          Every Aperture Global routed seller flows through the same four-phase sequence —
+          a coordinated arc of pre-market, launch, syndication, and sustained amplification.
+          Designed to outperform conventional listing strategy at every interval.
+        </p>
+      </div>
+      </div>
+
+      <div class="timeline" id="timeline">
+        <div class="timeline__rail" aria-hidden="true"><span class="timeline__fill" id="timelineFill"></span></div>
+
+        <!-- PHASE 1 -->
+        <article class="phase" data-phase="1">
+          <span class="phase__node" aria-hidden="true"></span>
+          <div class="phase__index">
+            <div class="phase__num">01</div>
+            <div class="phase__nlabel">Phase One</div>
+          </div>
+          <div class="phase__body">
+            <div class="phase__kicker"><span class="dot"></span>Pre-Market &nbsp;·&nbsp; Days −14 → −1</div>
+            <h3 class="phase__title">First Look — <em>before the market knows.</em></h3>
+            <p class="phase__lede">
+              The property is marketed utilizing <b>Zillow Preview</b>, promotional alerts,
+              and the entire <b>Aperture Global agent network</b> — generating buzz and
+              buyer interest before the listing ever hits the MLS.
+            </p>
+            <div class="zp-drop">
+              <button class="zp-drop__trigger" aria-expanded="false" aria-controls="zp-detail">
+                What is Zillow Preview?
+                <span class="zp-drop__icon" aria-hidden="true"></span>
+              </button>
+              <div class="zp-drop__panel" id="zp-detail" hidden>
+                <p><b>Zillow Preview</b> is an exclusive pre-market feature that allows your listing to appear on Zillow before it goes live on the MLS. During the preview window, millions of active Zillow buyers can discover, save, and request information on the property — building a queue of interested buyers before day one. The listing displays a <b>countdown to the public go-live date</b>, creating urgency and amplifying first-day momentum in a way traditional MLS launch alone cannot replicate.</p>
+              </div>
+            </div>
+            <div class="phase__chips">
+              <span class="chip">Zillow Preview</span>
+              <span class="chip">Promo Alerts</span>
+              <span class="chip">Agent Network</span>
+              <span class="chip">Pre-MLS Buzz</span>
+            </div>
+          </div>
+          <figure class="phase__media">
+            <span class="phase__media-tag">Phase 01</span>
+            <img src="reveal.png" alt="Pre-market preview" loading="lazy">
+            <figcaption class="phase__caption">Pre-Market Preview</figcaption>
+          </figure>
+        </article>
+
+        <!-- PHASE 2 -->
+        <article class="phase" data-phase="2">
+          <span class="phase__node" aria-hidden="true"></span>
+          <div class="phase__index">
+            <div class="phase__num">02</div>
+            <div class="phase__nlabel">Phase Two</div>
+          </div>
+          <div class="phase__body">
+            <div class="phase__kicker"><span class="dot"></span>Launch Window &nbsp;·&nbsp; Hour 0 → Hour 24</div>
+            <h3 class="phase__title">24 Hour Listing Launch — <em>a coordinated blitz.</em></h3>
+            <p class="phase__lede">
+              A coordinated launch blitz across <b>social media</b>, <b>email campaigns</b>,
+              and <b>targeted digital ads</b> — engineered to maximize exposure in the
+              critical first 24 hours, when buyer attention compounds fastest.
+            </p>
+            <div class="phase__chips">
+              <span class="chip">Social Blitz</span>
+              <span class="chip">Email Campaigns</span>
+              <span class="chip">Paid Digital</span>
+              <span class="chip">Audience Targeting</span>
+            </div>
+          </div>
+          <figure class="phase__media">
+            <span class="phase__media-tag">Phase 02</span>
+            <img src="24hour.png" alt="24 hour listing launch" loading="lazy">
+            <figcaption class="phase__caption">Launch Day · 0 → 24h</figcaption>
+          </figure>
+        </article>
+
+        <!-- PHASE 3 -->
+        <article class="phase" data-phase="3">
+          <span class="phase__node" aria-hidden="true"></span>
+          <div class="phase__index">
+            <div class="phase__num">03</div>
+            <div class="phase__nlabel">Phase Three</div>
+          </div>
+          <div class="phase__body">
+            <div class="phase__kicker"><span class="dot"></span>Distribution &nbsp;·&nbsp; Day 1 → Day 7</div>
+            <h3 class="phase__title">MLS Syndication — <em>everywhere buyers look.</em></h3>
+            <p class="phase__lede">
+              The listing goes live on the <b>MLS</b> and syndicates to
+              <b>100+ platforms</b> and all brokerages — ensuring saturation across
+              every channel a serious buyer is likely to use.
+            </p>
+            <div class="phase__chips">
+              <span class="chip">MLS Live</span>
+              <span class="chip">100+ Platforms</span>
+              <span class="chip">Cross-Brokerage</span>
+              <span class="chip">Full Syndication</span>
+            </div>
+          </div>
+          <figure class="phase__media">
+            <span class="phase__media-tag">Phase 03</span>
+            <img src="connections.png" alt="MLS syndication connections" loading="lazy">
+            <figcaption class="phase__caption">100+ Platforms · MLS</figcaption>
+          </figure>
+        </article>
+
+        <!-- PHASE 4 -->
+        <article class="phase" data-phase="4">
+          <span class="phase__node" aria-hidden="true"></span>
+          <div class="phase__index">
+            <div class="phase__num">04</div>
+            <div class="phase__nlabel">Phase Four</div>
+          </div>
+          <div class="phase__body">
+            <div class="phase__kicker"><span class="dot"></span>Sustained Amplification &nbsp;·&nbsp; Day 7 →</div>
+            <h3 class="phase__title">Beyond the MLS — <em>premium momentum.</em></h3>
+            <p class="phase__lede">
+              Aperture Global layers on premium marketing to keep momentum building.
+              <b>Zillow Showcase</b> elevates the property with an immersive, branded
+              listing experience. <b>Listing Power Tools</b> activates a full print,
+              mail, and digital campaign — including just-listed postcards, neighborhood
+              mailers, targeted social ads, and retargeting — all proven to drive more
+              eyeballs and generate offers faster.
+            </p>
+            <div class="phase__chips">
+              <span class="chip">Zillow Showcase</span>
+<span class="chip">Just-Listed Postcards</span>
+              <span class="chip">Neighborhood Mailers</span>
+              <span class="chip">Social Ads</span>
+              <span class="chip">Retargeting</span>
+            </div>
+          </div>
+          <figure class="phase__media">
+            <span class="phase__media-tag">Phase 04</span>
+            <img src="reach.png" alt="Beyond the MLS — premium reach" loading="lazy">
+            <figcaption class="phase__caption">Showcase · Power Tools</figcaption>
+          </figure>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================== ADOPTION -->
+  <section class="adopt" id="adopt">
+    <div class="adopt__bg" aria-hidden="true"></div>
+    <div class="wrap">
+      <div class="adopt__frame reveal">
+        <span class="tick-tr" aria-hidden="true"></span>
+        <span class="tick-bl" aria-hidden="true"></span>
+
+        <div class="eyebrow adopt__eyebrow">The Aperture Standard</div>
+
+        <h2>
+          Premium marketing,<br>
+          <em>included with every listing.</em>
+        </h2>
+
+        <p>
+          When you list with Aperture Global, the full <b>4 Phase Marketing Plan</b>
+          is activated on your behalf — pre-market exposure, a coordinated launch
+          blitz, complete MLS syndication, and sustained digital amplification.
+          No add-ons required. No upgrades to request.
+          <b>This is simply how Aperture Global brings your property to market.</b>
+        </p>
+
+        <div class="adopt__sig">
+          <span>Aperture Global &nbsp;/&nbsp; <b>Marketing Standard 04</b></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div><!-- /#ag-plan -->
+
+<script>
+  // ===== Zillow Preview dropdown =====
+  document.querySelectorAll('#ag-plan .zp-drop__trigger').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const expanded = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', String(!expanded));
+      const panel = document.getElementById(btn.getAttribute('aria-controls'));
+      if (panel) panel.hidden = expanded;
+    });
+  });
+
+  // ===== scroll progress bar =====
+  const bar = document.getElementById('progressBar');
+  const onScroll = () => {
+    const h = document.documentElement;
+    const max = (h.scrollHeight - h.clientHeight) || 1;
+    const pct = Math.min(100, Math.max(0, (h.scrollTop / max) * 100));
+    bar.style.width = pct + '%';
+  };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll);
+  onScroll();
+
+  // ===== reveal on enter =====
+  const revealIO = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('is-in');
+        revealIO.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+  document.querySelectorAll('#ag-plan .reveal').forEach(el => revealIO.observe(el));
+
+  // ===== phase active state + staggered reveal =====
+  const phases = document.querySelectorAll('#ag-plan .phase');
+  phases.forEach((p, i) => {
+    p.classList.add('reveal');
+    p.style.transitionDelay = (i * 60) + 'ms';
+    revealIO.observe(p);
+  });
+
+  const activeIO = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('is-active');
+      } else {
+        e.target.classList.remove('is-active');
+      }
+    });
+  }, { threshold: 0.45 });
+  phases.forEach(p => activeIO.observe(p));
+
+  // ===== electric timeline fill driven by scroll =====
+  const railEl = document.querySelector('#ag-plan .timeline__rail');
+  if (railEl) {
+    const fillEl = document.createElement('span');
+    fillEl.style.cssText = `
+      position:absolute;
+      left:0; top:0;
+      width:100%;
+      height:0;
+      background:linear-gradient(to bottom, transparent 0, #0092ff 8%, #0092ff 92%, transparent 100%);
+      box-shadow:0 0 14px rgba(0,146,255,0.45);
+      transition:height 180ms ease-out;
+      pointer-events:none;
+    `;
+    railEl.appendChild(fillEl);
+
+    const updateFill = () => {
+      const rect = railEl.getBoundingClientRect();
+      const vh = window.innerHeight;
+      const total = rect.height;
+      const anchorTop = vh * 0.55;
+      const anchorBottom = vh * 0.45;
+      let h = 0;
+      if (rect.top <= anchorTop) {
+        h = Math.min(total, anchorTop - rect.top);
+      }
+      if (rect.bottom <= anchorBottom) {
+        h = total;
+      }
+      fillEl.style.height = h + 'px';
+    };
+    window.addEventListener('scroll', updateFill, { passive: true });
+    window.addEventListener('resize', updateFill);
+    updateFill();
+  }
+
+  // ===== subtle parallax on hero headline =====
+  const heroTitle = document.querySelector('#ag-plan .hero__title');
+  const heroLede  = document.querySelector('#ag-plan .hero__lede');
+  const aperture  = document.querySelector('#ag-plan .hero__aperture');
+  const heroBg    = document.querySelector('#ag-plan .hero__bg');
+  const parallax = () => {
+    const y = window.scrollY;
+    if (heroTitle) heroTitle.style.transform = `translateY(${y * -0.04}px)`;
+    if (heroLede)  heroLede.style.transform  = `translateY(${y * -0.02}px)`;
+    if (aperture)  aperture.style.transform  = `translateY(calc(-50% + ${y * -0.06}px)) rotate(${y * 0.02}deg)`;
+    if (heroBg)    heroBg.style.transform    = `scale(1.05) translateY(${y * 0.08}px)`;
+  };
+  window.addEventListener('scroll', parallax, { passive: true });
+  parallax();
+</script>
+
+</body>
+</html>

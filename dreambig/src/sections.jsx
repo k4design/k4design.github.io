@@ -54,7 +54,7 @@ function Hero({ onApply, onWatch }) {
           <div className="hero-meta">
             <span>Reside members &amp; TG+ Team Leaders</span>
             <span>Intentionally capped</span>
-            <span>$5,000 per seat · 50% off for Reside</span>
+            <span>$5,000 per seat</span>
           </div>
           <div className="hero-cta-group">
             <button className="btn-primary" onClick={onApply}>Reserve Your Seat</button>
@@ -100,7 +100,7 @@ function Recap() {
           </div>
           <div className="anim anim-d1">
             <h2 className="display-upright">A taste of<br/>what&rsquo;s <em>coming.</em></h2>
-            <p>Three minutes from Dream Big, Big Sky 2025 &mdash; the mastermind rooms, the mountaintop, the Riverhouse, the PBR. If last year&rsquo;s film doesn&rsquo;t make the case, nothing we write here will.</p>
+            <p>The mastermind rooms, the mountaintop, the Riverhouse, the PBR. If last year&rsquo;s film doesn&rsquo;t make the case, nothing we write here will.</p>
           </div>
         </div>
         <div className="recap-player-wrap anim anim-d2">
@@ -163,7 +163,7 @@ function Intro() {
           </div>
         </div>
         <div className="intro-footer">
-          <div className="stat anim"><div className="n"><em>$5,000</em></div><div className="l">Per seat · 50% off for Reside members</div></div>
+          <div className="stat anim"><div className="n"><em>$5,000</em></div><div className="l">Per seat · Big Sky, Montana</div></div>
           <div className="stat anim"><div className="n"><em>5</em></div><div className="l">Days in the Montana mountains</div></div>
           <div className="stat anim"><div className="n"><em>1</em></div><div className="l">Seat per TG+ firm &mdash; Team Leaders only</div></div>
           <Countdown />
@@ -459,7 +459,7 @@ function Itinerary() {
                 <div className="time">{r[0]}</div>
                 <div>
                   <div className="title">{r[1]}</div>
-                  <div className="desc">{r[2]}</div>
+                  {/* <div className="desc">{r[2]}</div> */}
                 </div>
               </div>
             ))}

@@ -1,0 +1,1515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>First-Time Home Buyer Guide | PreApprove.com</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green: #47b842;
+      --green-dark: #35a030;
+      --green-light: #e8f7e7;
+      --navy: #0a1628;
+      --page-bg: #f7f8fc;
+      --white: #ffffff;
+      --dark: #0f1a2e;
+      --text: #334155;
+      --muted: #64748b;
+      --faint: #94a3b8;
+      --border: #e2e8f0;
+      --card: #ffffff;
+      --blue: #0369a1;
+      --blue-light: #dbeafe;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--white);
+      color: var(--dark);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { text-decoration: none; color: inherit; }
+    img { display: block; }
+    button { cursor: pointer; font-family: inherit; }
+
+    /* ─── NAV ───────────────────────────────────────── */
+    nav {
+      position: fixed;
+      inset: 0 0 auto 0;
+      z-index: 100;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(226,232,240,0.8);
+    }
+
+    .nav-wrap {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 32px;
+      height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-mark {
+      width: 34px;
+      height: 34px;
+      background: var(--green);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .logo-mark svg { width: 18px; height: 18px; }
+
+    .logo-name {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 800;
+      font-size: 17px;
+      letter-spacing: -0.4px;
+      color: var(--dark);
+    }
+
+    .logo-name em {
+      font-style: normal;
+      color: var(--green);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .nav-links a {
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      font-size: 14px;
+      color: var(--muted);
+      padding: 8px 14px;
+      border-radius: 8px;
+      transition: color .15s, background .15s;
+    }
+
+    .nav-links a:hover { color: var(--dark); background: var(--page-bg); }
+
+    .nav-links a.active {
+      color: var(--blue);
+      font-weight: 600;
+    }
+
+    .nav-cta {
+      background: var(--green);
+      color: #fff !important;
+      font-weight: 600 !important;
+      padding: 9px 20px !important;
+      border-radius: 10px !important;
+      font-size: 14px !important;
+      transition: background .15s !important;
+    }
+
+    .nav-cta:hover { background: var(--green-dark) !important; }
+
+    /* ─── HERO ──────────────────────────────────────── */
+    .hero {
+      padding-top: 68px;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      background: linear-gradient(160deg, #ffffff 0%, #f0f9ef 50%, #e8f4ff 100%);
+      overflow: hidden;
+    }
+
+    .hero-wrap {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 72px 32px 80px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 56px;
+      align-items: center;
+      width: 100%;
+    }
+
+    .hero-left { display: flex; flex-direction: column; gap: 28px; }
+
+    .hero-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--green-light);
+      color: var(--green-dark);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      border-radius: 100px;
+      width: fit-content;
+    }
+
+    .hero-pill .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--green);
+    }
+
+    .hero-h1 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 800;
+      font-size: 60px;
+      line-height: 1.05;
+      letter-spacing: -2.5px;
+      color: var(--dark);
+    }
+
+    .hero-h1 .green { color: var(--green); }
+
+    .hero-body {
+      font-size: 17px;
+      line-height: 1.7;
+      color: var(--text);
+      max-width: 480px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-green {
+      background: var(--green);
+      color: #fff;
+      font-weight: 600;
+      font-size: 15px;
+      padding: 14px 28px;
+      border-radius: 12px;
+      border: none;
+      transition: background .15s, transform .1s;
+      box-shadow: 0 4px 14px rgba(71,184,66,0.35);
+    }
+
+    .btn-green:hover { background: var(--green-dark); transform: translateY(-1px); }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--text);
+      font-weight: 600;
+      font-size: 15px;
+      padding: 14px 28px;
+      border-radius: 12px;
+      border: 1.5px solid var(--border);
+      transition: border-color .15s, color .15s;
+    }
+
+    .btn-ghost:hover { border-color: var(--dark); color: var(--dark); }
+
+    .hero-trust {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      padding-top: 4px;
+    }
+
+    .trust-avatars {
+      display: flex;
+    }
+
+    .trust-avatars img {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 2px solid #fff;
+      margin-left: -8px;
+      object-fit: cover;
+    }
+
+    .trust-avatars img:first-child { margin-left: 0; }
+
+    .trust-text {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+
+    .trust-text strong {
+      display: block;
+      color: var(--dark);
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .trust-stars {
+      color: #f59e0b;
+      font-size: 13px;
+      letter-spacing: 1px;
+    }
+
+    /* ─── HERO RIGHT ────────────────────────────────── */
+    .hero-right {
+      position: relative;
+    }
+
+    .hero-img-wrap {
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 32px 64px rgba(10,22,40,0.18), 0 8px 24px rgba(10,22,40,0.08);
+      position: relative;
+    }
+
+    .hero-img-wrap img {
+      width: 100%;
+      height: 520px;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    .hero-img-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, transparent 50%, rgba(10,22,40,0.4) 100%);
+    }
+
+    .hero-float-card {
+      position: absolute;
+      bottom: 28px;
+      left: 28px;
+      background: rgba(255,255,255,0.96);
+      backdrop-filter: blur(12px);
+      border-radius: 18px;
+      padding: 20px 24px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+      min-width: 220px;
+    }
+
+    .float-card-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+      color: var(--faint);
+      margin-bottom: 6px;
+    }
+
+    .float-card-value {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 800;
+      font-size: 28px;
+      letter-spacing: -1px;
+      color: var(--dark);
+      margin-bottom: 4px;
+    }
+
+    .float-card-sub {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .float-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: var(--green-light);
+      color: var(--green-dark);
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 100px;
+      margin-bottom: 10px;
+    }
+
+    .float-badge svg { width: 12px; height: 12px; }
+
+    .hero-float-mini {
+      position: absolute;
+      top: 28px;
+      right: 28px;
+      background: rgba(255,255,255,0.96);
+      backdrop-filter: blur(12px);
+      border-radius: 14px;
+      padding: 14px 18px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .mini-icon {
+      width: 36px;
+      height: 36px;
+      background: var(--green-light);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .mini-icon svg { width: 16px; height: 16px; color: var(--green); }
+
+    .mini-text { font-size: 12px; }
+
+    .mini-text strong {
+      display: block;
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--dark);
+    }
+
+    .mini-text span { color: var(--muted); }
+
+    /* ─── STATS BAR ─────────────────────────────────── */
+    .stats-bar {
+      background: var(--dark);
+      padding: 28px 32px;
+    }
+
+    .stats-bar-wrap {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 32px;
+    }
+
+    .stat-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .stat-icon {
+      width: 40px;
+      height: 40px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .stat-icon svg { width: 18px; height: 18px; color: var(--green); }
+
+    .stat-num {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 800;
+      font-size: 22px;
+      letter-spacing: -0.5px;
+      color: #fff;
+      line-height: 1;
+      margin-bottom: 3px;
+    }
+
+    .stat-desc {
+      font-size: 12px;
+      color: rgba(255,255,255,0.5);
+    }
+
+    /* ─── CALCULATOR ────────────────────────────────── */
+    .section {
+      padding: 96px 32px;
+    }
+
+    .section-wrap { max-width: 1200px; margin: 0 auto; }
+
+    .section-alt { background: var(--page-bg); }
+
+    .calc-layout {
+      display: grid;
+      grid-template-columns: 1fr 1.6fr;
+      gap: 64px;
+      align-items: center;
+    }
+
+    .calc-text { display: flex; flex-direction: column; gap: 20px; }
+
+    .section-eyebrow {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: var(--green);
+    }
+
+    .section-h2 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 800;
+      font-size: 38px;
+      letter-spacing: -1.2px;
+      line-height: 1.1;
+      color: var(--dark);
+    }
+
+    .section-body {
+      font-size: 16px;
+      line-height: 1.7;
+      color: var(--text);
+    }
+
+    .calc-trust {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--muted);
+      padding-top: 4px;
+    }
+
+    .calc-trust svg { width: 14px; height: 14px; color: var(--green); flex-shrink: 0; }
+
+    .calc-card {
+      background: var(--white);
+      border-radius: 28px;
+      padding: 40px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04), 0 16px 48px rgba(0,0,0,0.06);
+      border: 1px solid var(--border);
+    }
+
+    .calc-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    .field { display: flex; flex-direction: column; gap: 8px; }
+
+    .field-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.7px;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .field-wrap { position: relative; }
+
+    .field-prefix {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-weight: 600;
+      font-size: 16px;
+      color: var(--muted);
+      pointer-events: none;
+    }
+
+    .field input {
+      width: 100%;
+      background: var(--page-bg);
+      border: 1.5px solid transparent;
+      border-radius: 12px;
+      padding: 14px 16px 14px 34px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: 17px;
+      color: var(--dark);
+      transition: border-color .15s, background .15s;
+      outline: none;
+    }
+
+    .field input:focus {
+      border-color: var(--green);
+      background: #fff;
+    }
+
+    .result-card {
+      background: linear-gradient(145deg, #2db54a 0%, #47b842 60%, #5cc957 100%);
+      border-radius: 20px;
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      grid-row: 1 / 4;
+      grid-column: 2;
+    }
+
+    .result-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.75);
+      margin-bottom: 6px;
+    }
+
+    .result-amount {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 800;
+      font-size: 34px;
+      letter-spacing: -1.5px;
+      color: #fff;
+      line-height: 1;
+      margin-bottom: 24px;
+    }
+
+    .result-divider {
+      height: 1px;
+      background: rgba(255,255,255,0.2);
+      margin-bottom: 20px;
+    }
+
+    .result-monthly-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.75);
+      margin-bottom: 6px;
+    }
+
+    .result-monthly-val {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 800;
+      font-size: 24px;
+      letter-spacing: -0.8px;
+      color: #fff;
+      margin-bottom: auto;
+    }
+
+    .result-note {
+      font-size: 11px;
+      color: rgba(255,255,255,0.6);
+      margin-bottom: 20px;
+      margin-top: 8px;
+      line-height: 1.5;
+    }
+
+    .result-btn {
+      background: rgba(255,255,255,0.95);
+      color: var(--green-dark);
+      font-weight: 700;
+      font-size: 14px;
+      border: none;
+      border-radius: 10px;
+      padding: 13px;
+      transition: background .15s;
+      margin-top: auto;
+    }
+
+    .result-btn:hover { background: #fff; }
+
+    /* ─── JOURNEY ───────────────────────────────────── */
+    .journey-header {
+      text-align: center;
+      margin-bottom: 56px;
+    }
+
+    .journey-header .section-h2 { margin: 12px 0 16px; }
+
+    .journey-header p {
+      font-size: 17px;
+      color: var(--text);
+      max-width: 540px;
+      margin: 0 auto;
+      line-height: 1.65;
+    }
+
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 16px;
+      position: relative;
+    }
+
+    .steps-grid::before {
+      content: '';
+      position: absolute;
+      top: 38px;
+      left: 10%;
+      right: 10%;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--border) 20%, var(--border) 80%, transparent);
+    }
+
+    .step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .step:nth-child(3) { margin-top: -20px; }
+    .step:nth-child(5) { margin-top: 20px; }
+
+    .step-num-wrap {
+      width: 76px;
+      height: 76px;
+      border-radius: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      position: relative;
+      z-index: 1;
+      flex-shrink: 0;
+    }
+
+    .step-num-wrap svg { width: 28px; height: 28px; }
+
+    .step-num {
+      position: absolute;
+      top: -6px;
+      right: -6px;
+      width: 20px;
+      height: 20px;
+      background: var(--dark);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 700;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid #fff;
+    }
+
+    .step.active .step-num { background: var(--green); }
+
+    .step-wrap-default { background: var(--page-bg); }
+    .step-wrap-blue   { background: #e0f2fe; }
+    .step-wrap-indigo { background: #e0e7ff; }
+    .step-wrap-green  { background: var(--green); box-shadow: 0 8px 24px rgba(71,184,66,0.3); }
+    .step-wrap-sky    { background: #bae6fd; }
+    .step-wrap-grey   { background: #f1f5f9; }
+
+    .step-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: 15px;
+      color: var(--dark);
+      margin-bottom: 8px;
+    }
+
+    .step.active .step-title { color: var(--green-dark); }
+
+    .step-desc {
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--text);
+      max-width: 160px;
+    }
+
+    /* ─── KNOWLEDGE ─────────────────────────────────── */
+    .knowledge-layout {
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 48px;
+    }
+
+    .knowledge-left { display: flex; flex-direction: column; gap: 32px; }
+
+    .articles-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .article {
+      background: var(--white);
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      transition: transform .2s, box-shadow .2s;
+    }
+
+    .article:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.08);
+    }
+
+    .article-img {
+      height: 180px;
+      overflow: hidden;
+    }
+
+    .article-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform .4s;
+    }
+
+    .article:hover .article-img img { transform: scale(1.04); }
+
+    .article-body {
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .article-tag {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: var(--green);
+    }
+
+    .article-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: 16px;
+      line-height: 1.35;
+      color: var(--dark);
+    }
+
+    .article-excerpt {
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--muted);
+    }
+
+    .article-read {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--green-dark);
+      margin-top: 4px;
+    }
+
+    .article-read svg { width: 14px; height: 14px; transition: transform .15s; }
+    .article:hover .article-read svg { transform: translateX(3px); }
+
+    .glossary-panel {
+      background: linear-gradient(145deg, #f0fdf4, #e8f4ff);
+      border-radius: 24px;
+      padding: 32px;
+      border: 1px solid rgba(71,184,66,0.15);
+    }
+
+    .glossary-panel h3 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 800;
+      font-size: 20px;
+      letter-spacing: -0.5px;
+      color: var(--dark);
+      margin-bottom: 28px;
+    }
+
+    .term { margin-bottom: 22px; }
+
+    .term-title {
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--green-dark);
+      margin-bottom: 5px;
+    }
+
+    .term-def {
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--text);
+    }
+
+    .term + .term { padding-top: 22px; border-top: 1px solid rgba(0,0,0,0.06); }
+
+    .glossary-link {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--muted);
+      padding-top: 20px;
+      margin-top: 4px;
+      border-top: 1px solid rgba(0,0,0,0.06);
+      transition: color .15s;
+    }
+
+    .glossary-link:hover { color: var(--dark); }
+    .glossary-link svg { width: 14px; height: 14px; }
+
+    /* ─── TESTIMONIALS ──────────────────────────────── */
+    .testimonials-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .testimonials-header .section-h2 { margin: 12px 0 14px; }
+
+    .testimonials-header p {
+      font-size: 16px;
+      color: var(--text);
+    }
+
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .testimonial {
+      background: var(--white);
+      border-radius: 20px;
+      padding: 32px;
+      border: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      transition: box-shadow .2s;
+    }
+
+    .testimonial:hover { box-shadow: 0 8px 32px rgba(0,0,0,0.07); }
+
+    .testimonial-stars { color: #f59e0b; font-size: 15px; letter-spacing: 2px; }
+
+    .testimonial-quote {
+      font-size: 15px;
+      line-height: 1.65;
+      color: var(--text);
+      flex: 1;
+    }
+
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .testimonial-author img {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .author-name {
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--dark);
+    }
+
+    .author-detail {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    /* ─── CTA ───────────────────────────────────────── */
+    .cta-section {
+      padding: 0 32px 96px;
+    }
+
+    .cta-card {
+      max-width: 1200px;
+      margin: 0 auto;
+      background: var(--navy);
+      border-radius: 32px;
+      padding: 80px 64px;
+      position: relative;
+      overflow: hidden;
+      text-align: center;
+    }
+
+    .cta-card::before {
+      content: '';
+      position: absolute;
+      top: -200px;
+      left: -200px;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(71,184,66,0.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .cta-card::after {
+      content: '';
+      position: absolute;
+      bottom: -200px;
+      right: -100px;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(14,92,210,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .cta-inner { position: relative; z-index: 1; }
+
+    .cta-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,0.08);
+      color: rgba(255,255,255,0.7);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+      padding: 6px 16px;
+      border-radius: 100px;
+      margin-bottom: 24px;
+    }
+
+    .cta-h2 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 800;
+      font-size: 48px;
+      letter-spacing: -2px;
+      line-height: 1.05;
+      color: #fff;
+      margin-bottom: 18px;
+    }
+
+    .cta-sub {
+      font-size: 17px;
+      line-height: 1.65;
+      color: rgba(255,255,255,0.65);
+      max-width: 520px;
+      margin: 0 auto 40px;
+    }
+
+    .cta-buttons {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+    }
+
+    .btn-white {
+      background: #fff;
+      color: var(--green-dark);
+      font-weight: 700;
+      font-size: 15px;
+      padding: 15px 32px;
+      border-radius: 12px;
+      border: none;
+      transition: transform .1s, box-shadow .15s;
+    }
+
+    .btn-white:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,0.2); }
+
+    .btn-outline-white {
+      background: transparent;
+      color: #fff;
+      font-weight: 600;
+      font-size: 15px;
+      padding: 15px 32px;
+      border-radius: 12px;
+      border: 1.5px solid rgba(255,255,255,0.25);
+      transition: border-color .15s, background .15s;
+    }
+
+    .btn-outline-white:hover { border-color: rgba(255,255,255,0.6); background: rgba(255,255,255,0.06); }
+
+    /* ─── FOOTER ────────────────────────────────────── */
+    footer {
+      background: #f8fafc;
+      border-top: 1px solid var(--border);
+    }
+
+    .footer-wrap {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 56px 32px 40px;
+      display: grid;
+      grid-template-columns: 1.4fr 1fr 1fr 1fr;
+      gap: 48px;
+    }
+
+    .footer-brand { display: flex; flex-direction: column; gap: 12px; }
+
+    .footer-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .footer-logo-mark {
+      width: 30px;
+      height: 30px;
+      background: var(--green);
+      border-radius: 9px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .footer-logo-mark svg { width: 15px; height: 15px; }
+
+    .footer-brand-name {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 800;
+      font-size: 15px;
+      color: var(--dark);
+    }
+
+    .footer-brand-name em { font-style: normal; color: var(--green); }
+
+    .footer-tagline {
+      font-size: 13px;
+      line-height: 1.65;
+      color: var(--muted);
+    }
+
+    .footer-col h5 {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 16px;
+      letter-spacing: 0.2px;
+    }
+
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+
+    .footer-col ul li a, .footer-col ul li span {
+      font-size: 13px;
+      color: var(--muted);
+      transition: color .15s;
+    }
+
+    .footer-col ul li a:hover { color: var(--dark); }
+    .footer-col ul li a.active { color: var(--blue); font-weight: 600; }
+
+    .footer-bottom {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px 32px 24px;
+      border-top: 1px solid var(--border);
+      font-size: 12px;
+      color: var(--faint);
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ─── NAV ─────────────────────────────────────── -->
+<nav>
+  <div class="nav-wrap">
+    <a href="/" class="logo">
+      <div class="logo-mark">
+        <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M9 2L2 7.5V16h5v-4h4v4h5V7.5L9 2z" fill="white" opacity="0.9"/>
+          <path d="M7 12l2 2 4-4" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <span class="logo-name">pre<em>Approve</em>.com</span>
+    </a>
+    <div class="nav-links">
+      <a href="#">Home</a>
+      <a href="#">Mortgage Rates</a>
+      <a href="#" class="active">Buyer Guide</a>
+      <a href="#">How It Works</a>
+      <a href="#" class="nav-cta">Get Pre-Approved</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ─── HERO ─────────────────────────────────────── -->
+<section class="hero">
+  <div class="hero-wrap">
+    <div class="hero-left">
+      <div class="hero-pill">
+        <span class="dot"></span>
+        First-Time Buyer Guide
+      </div>
+      <h1 class="hero-h1">Your key to<br>the <span class="green">front door.</span></h1>
+      <p class="hero-body">Buying your first home shouldn't feel like a mystery. We've mapped every step from credit score to closing day — so you can move forward with real confidence.</p>
+      <div class="hero-actions">
+        <a href="#" class="btn-green">Start Your Roadmap</a>
+        <a href="#" class="btn-ghost">Watch 3-Min Guide</a>
+      </div>
+      <div class="hero-trust">
+        <div class="trust-avatars">
+          <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=64&q=80" alt="">
+          <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=64&q=80" alt="">
+          <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=64&q=80" alt="">
+        </div>
+        <div class="trust-text">
+          <strong>50,000+ first-time buyers</strong>
+          <span class="trust-stars">★★★★★</span> 4.9 average rating
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <div class="hero-img-wrap">
+        <img
+          src="https://images.unsplash.com/photo-1568605114967-8130f3a36994?auto=format&fit=crop&w=1000&q=85"
+          alt="Beautiful modern home with great curb appeal">
+        <div class="hero-img-overlay"></div>
+      </div>
+
+      <div class="hero-float-card">
+        <div class="float-badge">
+          <svg viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" fill="#47b842"/><path d="M4 6l1.5 1.5L8 4" stroke="white" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Approval Ready
+        </div>
+        <div class="float-card-label">Estimated Budget</div>
+        <div class="float-card-value">$425,000</div>
+        <div class="float-card-sub">Based on your income &amp; credit</div>
+      </div>
+
+      <div class="hero-float-mini">
+        <div class="mini-icon">
+          <svg viewBox="0 0 16 16" fill="none"><path d="M8 1L1 6v9h4v-4h6v4h4V6L8 1z" fill="currentColor" opacity="0.8"/></svg>
+        </div>
+        <div class="mini-text">
+          <strong>&lt; 10 min</strong>
+          <span>to pre-approval</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── STATS BAR ────────────────────────────────── -->
+<div class="stats-bar">
+  <div class="stats-bar-wrap">
+    <div class="stat-item">
+      <div class="stat-icon">
+        <svg viewBox="0 0 18 18" fill="none"><path d="M9 1l2 6h6l-5 3.5 2 6L9 13l-5 3.5 2-6L1 7h6z" fill="currentColor"/></svg>
+      </div>
+      <div>
+        <div class="stat-num">50,000+</div>
+        <div class="stat-desc">First-time buyers helped</div>
+      </div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-icon">
+        <svg viewBox="0 0 18 18" fill="none"><path d="M9 2C5.1 2 2 5.1 2 9s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7zm.5 10H8.5V8h1v4zm0-5H8.5V6h1v1z" fill="currentColor"/></svg>
+      </div>
+      <div>
+        <div class="stat-num">$2.3B</div>
+        <div class="stat-desc">In mortgages funded</div>
+      </div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-icon">
+        <svg viewBox="0 0 18 18" fill="none"><path d="M3 9l4 4 8-8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div>
+        <div class="stat-num">4.9 ★</div>
+        <div class="stat-desc">Average customer rating</div>
+      </div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-icon">
+        <svg viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="7" stroke="currentColor" stroke-width="1.5"/><path d="M9 5v4l2.5 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </div>
+      <div>
+        <div class="stat-num">&lt; 10 min</div>
+        <div class="stat-desc">Digital application</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── CALCULATOR ───────────────────────────────── -->
+<section class="section section-alt">
+  <div class="section-wrap">
+    <div class="calc-layout">
+      <div class="calc-text">
+        <div class="section-eyebrow">Affordability Calculator</div>
+        <h2 class="section-h2">How much can<br>you afford?</h2>
+        <p class="section-body">Before falling in love with a house, fall in love with a budget. Enter your numbers and get an instant estimate of your purchasing power and monthly payment.</p>
+        <div class="calc-trust">
+          <svg viewBox="0 0 14 14" fill="none"><path d="M7 1l1.5 4h4.5l-3.5 2.5 1.5 4L7 9 3 11.5l1.5-4L1 5h4.5z" fill="currentColor"/></svg>
+          Bank-grade 256-bit encryption
+        </div>
+        <div class="calc-trust">
+          <svg viewBox="0 0 14 14" fill="none"><path d="M7 1L2 3.5V8c0 2.5 2 4.5 5 5 3-0.5 5-2.5 5-5V3.5L7 1z" fill="currentColor"/></svg>
+          Your data is never sold or shared
+        </div>
+      </div>
+
+      <div class="calc-card">
+        <div class="calc-grid">
+          <div class="field">
+            <div class="field-label">Annual Income</div>
+            <div class="field-wrap">
+              <span class="field-prefix">$</span>
+              <input type="text" value="85,000">
+            </div>
+          </div>
+          <div class="result-card" style="grid-row:1/4; grid-column:2">
+            <div class="result-label">Estimated Purchasing Power</div>
+            <div class="result-amount">$425,000</div>
+            <div class="result-divider"></div>
+            <div class="result-monthly-label">Monthly Payment</div>
+            <div class="result-monthly-val">$2,840<span style="font-size:16px;font-weight:600;opacity:0.8">/mo</span></div>
+            <div class="result-note">Estimate based on 30-yr fixed at 6.8% APR. Actual rate may vary.</div>
+            <button class="result-btn">Get My Precise Quote →</button>
+          </div>
+          <div class="field">
+            <div class="field-label">Monthly Debts</div>
+            <div class="field-wrap">
+              <span class="field-prefix">$</span>
+              <input type="text" value="450">
+            </div>
+          </div>
+          <div class="field">
+            <div class="field-label">Down Payment</div>
+            <div class="field-wrap">
+              <span class="field-prefix">$</span>
+              <input type="text" value="20,000">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── JOURNEY ──────────────────────────────────── -->
+<section class="section">
+  <div class="section-wrap">
+    <div class="journey-header">
+      <div class="section-eyebrow">The Roadmap</div>
+      <h2 class="section-h2">The Pre-Approval Journey</h2>
+      <p>Five clear steps from curious click to keys in hand. We guide you at every milestone.</p>
+    </div>
+
+    <div class="steps-grid">
+
+      <div class="step">
+        <div class="step-num-wrap step-wrap-blue">
+          <svg viewBox="0 0 28 28" fill="none"><circle cx="12" cy="12" r="8" stroke="#0369a1" stroke-width="2"/><path d="M18 18l4 4" stroke="#0369a1" stroke-width="2" stroke-linecap="round"/></svg>
+          <div class="step-num">1</div>
+        </div>
+        <div class="step-title">Credit Check</div>
+        <div class="step-desc">Know your score before you start. It drives your rate and loan options.</div>
+      </div>
+
+      <div class="step">
+        <div class="step-num-wrap step-wrap-indigo">
+          <svg viewBox="0 0 28 28" fill="none"><rect x="6" y="4" width="16" height="20" rx="2" stroke="#4f46e5" stroke-width="2"/><path d="M10 9h8M10 13h8M10 17h5" stroke="#4f46e5" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <div class="step-num">2</div>
+        </div>
+        <div class="step-title">Paperwork</div>
+        <div class="step-desc">Tax returns, paystubs, bank statements — we tell you exactly what's needed.</div>
+      </div>
+
+      <div class="step active">
+        <div class="step-num-wrap step-wrap-green">
+          <svg viewBox="0 0 28 28" fill="none"><path d="M14 4L5 8v8c0 4 4 7.5 9 8 5-0.5 9-4 9-8V8l-9-4z" fill="white" opacity="0.9"/><path d="M10 14l2.5 2.5L18 11" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <div class="step-num">3</div>
+        </div>
+        <div class="step-title">Pre-Approval</div>
+        <div class="step-desc">The heavy hitter. Proves to sellers you're a serious, qualified buyer.</div>
+      </div>
+
+      <div class="step">
+        <div class="step-num-wrap step-wrap-sky">
+          <svg viewBox="0 0 28 28" fill="none"><path d="M14 5L5 12v11h5v-6h8v6h5V12L14 5z" stroke="#0284c7" stroke-width="2" stroke-linejoin="round"/></svg>
+          <div class="step-num">4</div>
+        </div>
+        <div class="step-title">House Hunt</div>
+        <div class="step-desc">Armed with your letter, tour homes and make confident, competitive offers.</div>
+      </div>
+
+      <div class="step">
+        <div class="step-num-wrap step-wrap-grey">
+          <svg viewBox="0 0 28 28" fill="none"><path d="M7 14l4 4 10-10" stroke="#64748b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <div class="step-num">5</div>
+        </div>
+        <div class="step-title">Closing Day</div>
+        <div class="step-desc">Final signatures, keys in hand. Welcome home — you're officially a homeowner.</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ─── KNOWLEDGE ─────────────────────────────────── -->
+<section class="section section-alt">
+  <div class="section-wrap">
+    <div class="knowledge-layout">
+      <div class="knowledge-left">
+        <div>
+          <div class="section-eyebrow">Learn</div>
+          <h2 class="section-h2" style="margin-top:12px">Essential Knowledge</h2>
+        </div>
+        <div class="articles-row">
+          <a href="#" class="article">
+            <div class="article-img">
+              <img src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=600&q=80" alt="Person reviewing financial documents at desk">
+            </div>
+            <div class="article-body">
+              <div class="article-tag">Finance</div>
+              <div class="article-title">Fixed vs. Variable Rates — Which Is Right for You?</div>
+              <div class="article-excerpt">Match your loan structure to your long-term goals and risk comfort.</div>
+              <span class="article-read">Read article <svg viewBox="0 0 14 14" fill="none"><path d="M3 7h8M7 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            </div>
+          </a>
+          <a href="#" class="article">
+            <div class="article-img">
+              <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?auto=format&fit=crop&w=600&q=80" alt="Bright modern kitchen interior">
+            </div>
+            <div class="article-body">
+              <div class="article-tag">Preparation</div>
+              <div class="article-title">Hidden Costs of Homeownership Nobody Talks About</div>
+              <div class="article-excerpt">Insurance, taxes, HOA, maintenance — budget beyond the mortgage.</div>
+              <span class="article-read">Read article <svg viewBox="0 0 14 14" fill="none"><path d="M3 7h8M7 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <div>
+        <div class="glossary-panel">
+          <h3>Mortgage Glossary</h3>
+          <div class="term">
+            <div class="term-title">DTI — Debt-to-Income Ratio</div>
+            <div class="term-def">The share of your gross monthly income that goes toward paying debts. Lenders want this below 43%.</div>
+          </div>
+          <div class="term">
+            <div class="term-title">PMI — Private Mortgage Insurance</div>
+            <div class="term-def">Required when you put down less than 20%. Typically 0.5–1.5% of the loan per year.</div>
+          </div>
+          <div class="term">
+            <div class="term-title">Escrow</div>
+            <div class="term-def">A neutral third-party account that holds funds for taxes and insurance until they're due.</div>
+          </div>
+          <div class="term">
+            <div class="term-title">APR — Annual Percentage Rate</div>
+            <div class="term-def">The true borrowing cost — interest rate plus all lender fees expressed as a yearly percentage.</div>
+          </div>
+          <a href="#" class="glossary-link">
+            View full glossary
+            <svg viewBox="0 0 14 14" fill="none"><path d="M3 7h8M7 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── TESTIMONIALS ─────────────────────────────── -->
+<section class="section">
+  <div class="section-wrap">
+    <div class="testimonials-header">
+      <div class="section-eyebrow">Real Stories</div>
+      <h2 class="section-h2">First-timers who made it happen</h2>
+      <p>Hear from buyers who went from confused to keys-in-hand with PreApprove.com.</p>
+    </div>
+    <div class="testimonials-grid">
+
+      <div class="testimonial">
+        <div class="testimonial-stars">★★★★★</div>
+        <div class="testimonial-quote">"I had no idea where to start. PreApprove walked me through every step — from pulling my credit to understanding what I could realistically afford. Closed in 47 days."</div>
+        <div class="testimonial-author">
+          <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=88&q=80" alt="Sarah M.">
+          <div>
+            <div class="author-name">Sarah M.</div>
+            <div class="author-detail">First-time buyer · Austin, TX</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial">
+        <div class="testimonial-stars">★★★★★</div>
+        <div class="testimonial-quote">"The affordability calculator showed me exactly what price range to focus on. Saved me from falling in love with homes out of my budget. Got pre-approved in 8 minutes."</div>
+        <div class="testimonial-author">
+          <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=88&q=80" alt="Marcus T.">
+          <div>
+            <div class="author-name">Marcus T.</div>
+            <div class="author-detail">First-time buyer · Denver, CO</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial">
+        <div class="testimonial-stars">★★★★★</div>
+        <div class="testimonial-quote">"My offer was accepted on the third home we toured. Having the pre-approval letter in hand made all the difference — the sellers knew we were serious."</div>
+        <div class="testimonial-author">
+          <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=88&q=80" alt="Priya K.">
+          <div>
+            <div class="author-name">Priya K.</div>
+            <div class="author-detail">First-time buyer · Seattle, WA</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ─── CTA ──────────────────────────────────────── -->
+<div class="cta-section">
+  <div class="cta-card">
+    <div class="cta-inner">
+      <div class="cta-eyebrow">Zero commitment. Fully digital.</div>
+      <h2 class="cta-h2">Ready to get your<br>official approval?</h2>
+      <p class="cta-sub">Join 50,000+ first-time buyers who started their journey here. Fast, secure, and completely free to get started.</p>
+      <div class="cta-buttons">
+        <a href="#" class="btn-white">Get Pre-Approved Now</a>
+        <a href="#" class="btn-outline-white">Talk to an Advisor</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── FOOTER ───────────────────────────────────── -->
+<footer>
+  <div class="footer-wrap">
+    <div class="footer-brand">
+      <div class="footer-logo">
+        <div class="footer-logo-mark">
+          <svg viewBox="0 0 15 15" fill="none"><path d="M7.5 1.5L1 6v8.5h4.5v-4h4v4H14V6L7.5 1.5z" fill="white" opacity="0.9"/></svg>
+        </div>
+        <span class="footer-brand-name">pre<em>Approve</em>.com</span>
+      </div>
+      <div class="footer-tagline">Making homeownership accessible through transparency, education, and modern financial technology.</div>
+    </div>
+
+    <div class="footer-col">
+      <h5>Resources</h5>
+      <ul>
+        <li><a href="#">Mortgage Calculator</a></li>
+        <li><a href="#" class="active">Home Buyer Guide</a></li>
+        <li><a href="#">Support Center</a></li>
+        <li><a href="#">Mortgage Glossary</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h5>Company</h5>
+      <ul>
+        <li><a href="#">Licensing</a></li>
+        <li><a href="#">Terms of Service</a></li>
+        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="#">Careers</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h5>Contact</h5>
+      <ul>
+        <li><span>help@preapprove.com</span></li>
+        <li><span>1-800-PRE-APPV</span></li>
+        <li><a href="#">Contact Us</a></li>
+        <li><a href="#">Live Chat</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    © 2024 PreApprove.com · All rights reserved · Equal Housing Lender · NMLS #123456
+  </div>
+</footer>
+
+</body>
+</html>

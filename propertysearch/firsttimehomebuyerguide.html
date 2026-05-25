@@ -1,0 +1,1178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>First Time Home Buyer Guide | HomeAlerts</title>
+  <meta name="description" content="Everything you need to know to buy your first home — from getting pre-approved to closing day.">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --teal: #0C9D98;
+      --teal-dark: #097A76;
+      --navy: #1B2B4B;
+      --navy-light: #233560;
+      --white: #ffffff;
+      --off-white: #F6F7F8;
+      --gray-100: #F0F1F3;
+      --gray-200: #E2E4E8;
+      --gray-500: #8A8FA8;
+      --gray-700: #4B5063;
+      --text: #1A1D2E;
+      --radius: 12px;
+      --radius-sm: 8px;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      color: var(--text);
+      line-height: 1.6;
+      background: var(--white);
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    /* ─── NAV ─────────────────────────────────────── */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--white);
+      border-bottom: 1px solid var(--gray-200);
+    }
+    .nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+      height: 68px;
+      display: flex;
+      align-items: center;
+      gap: 40px;
+    }
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 700;
+      font-size: 18px;
+      color: var(--navy);
+      white-space: nowrap;
+    }
+    .nav-logo svg { color: #FF6D00; }
+    .nav-links {
+      display: flex;
+      gap: 28px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--gray-700);
+      transition: color 0.15s;
+    }
+    .nav-links a:hover { color: var(--teal); }
+    .nav-links a.active { color: var(--teal); font-weight: 600; }
+    .nav-cta {
+      margin-left: auto;
+      background: var(--teal);
+      color: var(--white);
+      font-size: 14px;
+      font-weight: 600;
+      padding: 10px 20px;
+      border-radius: var(--radius-sm);
+      transition: background 0.15s;
+      white-space: nowrap;
+    }
+    .nav-cta:hover { background: var(--teal-dark); }
+
+    /* ─── HERO ────────────────────────────────────── */
+    .hero {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 72px 24px 60px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--teal);
+      background: rgba(12, 157, 152, 0.1);
+      padding: 4px 12px;
+      border-radius: 100px;
+      margin-bottom: 20px;
+    }
+    .hero-eyebrow::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      background: var(--teal);
+      border-radius: 50%;
+    }
+    .hero h1 {
+      font-size: clamp(36px, 4.5vw, 54px);
+      font-weight: 800;
+      line-height: 1.1;
+      color: var(--navy);
+      margin-bottom: 20px;
+      letter-spacing: -0.02em;
+    }
+    .hero h1 em {
+      font-style: normal;
+      color: var(--teal);
+    }
+    .hero-sub {
+      font-size: 17px;
+      color: var(--gray-700);
+      line-height: 1.65;
+      margin-bottom: 36px;
+      max-width: 440px;
+    }
+    .hero-form {
+      display: flex;
+      gap: 10px;
+      max-width: 440px;
+    }
+    .hero-form input {
+      flex: 1;
+      padding: 14px 16px;
+      border: 1.5px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      font-size: 15px;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+    .hero-form input:focus { border-color: var(--teal); }
+    .btn-primary {
+      background: var(--teal);
+      color: var(--white);
+      font-size: 15px;
+      font-weight: 600;
+      padding: 14px 24px;
+      border: none;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: background 0.15s;
+      white-space: nowrap;
+    }
+    .btn-primary:hover { background: var(--teal-dark); }
+    .hero-trust {
+      display: flex;
+      gap: 20px;
+      margin-top: 20px;
+    }
+    .trust-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--gray-500);
+    }
+    .trust-item svg { color: var(--teal); }
+    .hero-right {
+      position: relative;
+    }
+    .hero-img-wrap {
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 24px 60px rgba(27, 43, 75, 0.18);
+      aspect-ratio: 4/3;
+    }
+    .hero-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .hero-badge {
+      position: absolute;
+      bottom: -20px;
+      left: -20px;
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .hero-badge-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      background: rgba(12, 157, 152, 0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--teal);
+    }
+    .hero-badge-label {
+      font-size: 11px;
+      color: var(--gray-500);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .hero-badge-value {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--navy);
+      line-height: 1.1;
+    }
+
+    /* ─── STATS BAR ───────────────────────────────── */
+    .stats-bar {
+      background: var(--off-white);
+      border-top: 1px solid var(--gray-200);
+      border-bottom: 1px solid var(--gray-200);
+    }
+    .stats-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 32px 24px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+      text-align: center;
+    }
+    .stat-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+    .stat-value {
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--navy);
+      letter-spacing: -0.02em;
+    }
+    .stat-value span { color: var(--teal); }
+    .stat-label {
+      font-size: 13px;
+      color: var(--gray-500);
+    }
+    .stat-divider {
+      width: 1px;
+      background: var(--gray-200);
+      align-self: stretch;
+    }
+
+    /* ─── AFFORDABILITY ───────────────────────────── */
+    .affordability {
+      max-width: 1200px;
+      margin: 80px auto;
+      padding: 0 24px;
+      display: grid;
+      grid-template-columns: 1fr 420px;
+      gap: 60px;
+      align-items: center;
+    }
+    .afford-label {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 14px;
+    }
+    .afford-title {
+      font-size: clamp(28px, 3.5vw, 40px);
+      font-weight: 800;
+      color: var(--navy);
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin-bottom: 18px;
+    }
+    .afford-body {
+      font-size: 16px;
+      color: var(--gray-700);
+      line-height: 1.7;
+      margin-bottom: 30px;
+    }
+    .afford-checklist {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .afford-checklist li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 15px;
+      color: var(--gray-700);
+    }
+    .afford-checklist li::before {
+      content: '';
+      display: block;
+      width: 20px;
+      height: 20px;
+      min-width: 20px;
+      border-radius: 50%;
+      background: rgba(12, 157, 152, 0.12);
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%230C9D98' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: center;
+      margin-top: 1px;
+    }
+    .calculator-card {
+      background: var(--navy);
+      border-radius: 20px;
+      padding: 36px;
+      color: var(--white);
+      position: relative;
+      overflow: hidden;
+    }
+    .calculator-card::before {
+      content: '';
+      position: absolute;
+      top: -60px;
+      right: -60px;
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      background: rgba(12, 157, 152, 0.2);
+    }
+    .calculator-card::after {
+      content: '';
+      position: absolute;
+      bottom: -40px;
+      left: -40px;
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      background: rgba(12, 157, 152, 0.12);
+    }
+    .calc-label {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.55);
+      margin-bottom: 8px;
+    }
+    .calc-price {
+      font-size: 48px;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      line-height: 1;
+      margin-bottom: 28px;
+    }
+    .calc-price span { color: var(--teal); font-size: 28px; vertical-align: super; font-weight: 700; }
+    .calc-row {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-bottom: 28px;
+      position: relative;
+      z-index: 1;
+    }
+    .calc-field label {
+      display: block;
+      font-size: 12px;
+      color: rgba(255,255,255,0.55);
+      margin-bottom: 6px;
+      font-weight: 500;
+    }
+    .calc-field input, .calc-field select {
+      width: 100%;
+      background: rgba(255,255,255,0.1);
+      border: 1.5px solid rgba(255,255,255,0.15);
+      border-radius: var(--radius-sm);
+      padding: 12px 14px;
+      color: var(--white);
+      font-size: 15px;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+    .calc-field input:focus, .calc-field select:focus { border-color: var(--teal); }
+    .calc-field select option { background: var(--navy); }
+    .calc-result {
+      background: rgba(12, 157, 152, 0.18);
+      border: 1.5px solid rgba(12, 157, 152, 0.35);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+      position: relative;
+      z-index: 1;
+    }
+    .calc-result-label { font-size: 13px; color: rgba(255,255,255,0.7); }
+    .calc-result-amount { font-size: 24px; font-weight: 800; }
+    .calc-cta {
+      width: 100%;
+      background: var(--teal);
+      color: var(--white);
+      font-size: 15px;
+      font-weight: 700;
+      padding: 15px;
+      border: none;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: background 0.15s;
+      position: relative;
+      z-index: 1;
+    }
+    .calc-cta:hover { background: var(--teal-dark); }
+    .calc-note {
+      font-size: 11px;
+      color: rgba(255,255,255,0.4);
+      text-align: center;
+      margin-top: 12px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ─── STEPS ───────────────────────────────────── */
+    .steps-section {
+      background: var(--off-white);
+      padding: 80px 24px;
+    }
+    .section-header {
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto 56px;
+    }
+    .section-eyebrow {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 14px;
+    }
+    .section-title {
+      font-size: clamp(28px, 3.5vw, 38px);
+      font-weight: 800;
+      color: var(--navy);
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      margin-bottom: 14px;
+    }
+    .section-sub {
+      font-size: 16px;
+      color: var(--gray-500);
+    }
+    .steps-grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+    }
+    .step-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 32px 24px;
+      position: relative;
+    }
+    .step-number {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: var(--navy);
+      color: var(--white);
+      font-size: 20px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+    .step-card:nth-child(2) .step-number { background: var(--teal); }
+    .step-card:nth-child(3) .step-number { background: #5B6EDB; }
+    .step-card:nth-child(4) .step-number { background: #E87D3E; }
+    .step-title {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 10px;
+    }
+    .step-body {
+      font-size: 14px;
+      color: var(--gray-500);
+      line-height: 1.6;
+    }
+    .step-connector {
+      display: none;
+    }
+
+    /* ─── RESOURCES ───────────────────────────────── */
+    .resources {
+      max-width: 1200px;
+      margin: 80px auto;
+      padding: 0 24px;
+    }
+    .resources-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+    }
+    .resource-card {
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1.5px solid var(--gray-200);
+      display: flex;
+      flex-direction: column;
+    }
+    .resource-card-img {
+      height: 220px;
+      overflow: hidden;
+    }
+    .resource-card-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.3s ease;
+    }
+    .resource-card:hover .resource-card-img img { transform: scale(1.03); }
+    .resource-card-body {
+      padding: 28px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .resource-tag {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 10px;
+    }
+    .resource-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 12px;
+      line-height: 1.3;
+    }
+    .resource-body {
+      font-size: 14px;
+      color: var(--gray-500);
+      line-height: 1.65;
+      flex: 1;
+      margin-bottom: 20px;
+    }
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--teal);
+      border: 1.5px solid var(--teal);
+      padding: 10px 18px;
+      border-radius: var(--radius-sm);
+      transition: background 0.15s, color 0.15s;
+      align-self: flex-start;
+    }
+    .btn-outline:hover {
+      background: var(--teal);
+      color: var(--white);
+    }
+    .btn-outline svg { transition: transform 0.15s; }
+    .btn-outline:hover svg { transform: translateX(3px); }
+
+    /* ─── FAQ ─────────────────────────────────────── */
+    .faq-section {
+      background: var(--off-white);
+      padding: 80px 24px;
+    }
+    .faq-grid {
+      max-width: 800px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .faq-item {
+      background: var(--white);
+      border-radius: var(--radius-sm);
+      border: 1.5px solid var(--gray-200);
+      overflow: hidden;
+    }
+    .faq-question {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 24px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--navy);
+      text-align: left;
+      gap: 16px;
+    }
+    .faq-icon {
+      width: 28px;
+      height: 28px;
+      min-width: 28px;
+      border-radius: 50%;
+      background: var(--gray-100);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gray-700);
+      transition: background 0.15s, transform 0.2s;
+    }
+    .faq-item.open .faq-icon {
+      background: var(--teal);
+      color: var(--white);
+      transform: rotate(45deg);
+    }
+    .faq-answer {
+      display: none;
+      padding: 0 24px 20px;
+      font-size: 15px;
+      color: var(--gray-700);
+      line-height: 1.65;
+    }
+    .faq-item.open .faq-answer { display: block; }
+
+    /* ─── CTA BANNER ──────────────────────────────── */
+    .cta-banner {
+      background: var(--navy);
+      padding: 80px 24px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-banner::before {
+      content: '';
+      position: absolute;
+      top: -100px;
+      left: -100px;
+      width: 400px;
+      height: 400px;
+      border-radius: 50%;
+      background: rgba(12, 157, 152, 0.15);
+    }
+    .cta-banner::after {
+      content: '';
+      position: absolute;
+      bottom: -80px;
+      right: -80px;
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      background: rgba(12, 157, 152, 0.1);
+    }
+    .cta-inner {
+      position: relative;
+      z-index: 1;
+      max-width: 640px;
+      margin: 0 auto;
+    }
+    .cta-banner h2 {
+      font-size: clamp(30px, 4vw, 44px);
+      font-weight: 800;
+      color: var(--white);
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin-bottom: 16px;
+    }
+    .cta-banner p {
+      font-size: 17px;
+      color: rgba(255,255,255,0.65);
+      margin-bottom: 36px;
+    }
+    .cta-buttons {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .btn-white {
+      background: var(--white);
+      color: var(--navy);
+      font-size: 15px;
+      font-weight: 700;
+      padding: 15px 28px;
+      border-radius: var(--radius-sm);
+      border: none;
+      cursor: pointer;
+      transition: opacity 0.15s;
+    }
+    .btn-white:hover { opacity: 0.9; }
+    .btn-ghost {
+      background: transparent;
+      color: var(--white);
+      font-size: 15px;
+      font-weight: 600;
+      padding: 15px 28px;
+      border-radius: var(--radius-sm);
+      border: 1.5px solid rgba(255,255,255,0.35);
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .btn-ghost:hover {
+      border-color: rgba(255,255,255,0.7);
+      background: rgba(255,255,255,0.08);
+    }
+
+    /* ─── FOOTER ──────────────────────────────────── */
+    .footer {
+      background: var(--navy-light);
+      padding: 56px 24px 32px;
+    }
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 40px;
+      margin-bottom: 48px;
+    }
+    .footer-brand {}
+    .footer-logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 700;
+      font-size: 18px;
+      color: var(--white);
+      margin-bottom: 14px;
+    }
+    .footer-tagline {
+      font-size: 14px;
+      color: rgba(255,255,255,0.5);
+      line-height: 1.6;
+      max-width: 260px;
+    }
+    .footer-col h4 {
+      font-size: 13px;
+      font-weight: 700;
+      color: rgba(255,255,255,0.9);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .footer-col a {
+      display: block;
+      font-size: 14px;
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 10px;
+      transition: color 0.15s;
+    }
+    .footer-col a:hover { color: var(--white); }
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.1);
+      padding-top: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .footer-bottom p {
+      font-size: 13px;
+      color: rgba(255,255,255,0.35);
+    }
+    .footer-bottom-links {
+      display: flex;
+      gap: 20px;
+    }
+    .footer-bottom-links a {
+      font-size: 13px;
+      color: rgba(255,255,255,0.35);
+      transition: color 0.15s;
+    }
+    .footer-bottom-links a:hover { color: rgba(255,255,255,0.7); }
+
+    /* ─── RESPONSIVE ──────────────────────────────── */
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; gap: 40px; padding-bottom: 80px; }
+      .hero-right { order: -1; }
+      .hero-badge { bottom: 20px; left: 20px; }
+      .stats-inner { grid-template-columns: repeat(2, 1fr); }
+      .stat-divider { display: none; }
+      .affordability { grid-template-columns: 1fr; }
+      .calculator-card { max-width: 500px; margin: 0 auto; }
+      .steps-grid { grid-template-columns: repeat(2, 1fr); }
+      .resources-grid { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+    }
+    @media (max-width: 580px) {
+      .nav-links { display: none; }
+      .stats-inner { grid-template-columns: 1fr 1fr; }
+      .steps-grid { grid-template-columns: 1fr; }
+      .cta-buttons { flex-direction: column; align-items: stretch; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .hero-form { flex-direction: column; }
+      .hero-form input { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="nav-logo" href="#">
+      <svg viewBox="0 0 24 24" width="26" height="26" fill="currentColor">
+        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+      </svg>
+      HomeAlerts
+    </a>
+    <ul class="nav-links">
+      <li><a href="#">Buy</a></li>
+      <li><a href="#" class="active">First-Time Buyers</a></li>
+      <li><a href="#">Mortgage</a></li>
+      <li><a href="#">Resources</a></li>
+      <li><a href="#">About</a></li>
+    </ul>
+    <a href="#calculator" class="nav-cta">Get Pre-Approved</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section>
+  <div class="hero">
+    <div class="hero-left">
+      <div class="hero-eyebrow">First-Time Home Buyer Guide</div>
+      <h1>Your key to the <em>front door.</em></h1>
+      <p class="hero-sub">Everything you need to confidently buy your first home — from understanding your budget to signing at closing.</p>
+      <form class="hero-form" onsubmit="return false;">
+        <input type="email" placeholder="Enter your email address" aria-label="Email address">
+        <button type="submit" class="btn-primary">Get the Guide</button>
+      </form>
+      <div class="hero-trust">
+        <div class="trust-item">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Free, no spam
+        </div>
+        <div class="trust-item">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Step-by-step
+        </div>
+        <div class="trust-item">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Expert advice
+        </div>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="hero-img-wrap">
+        <img src="firsttimehomebuyerguide_files/living-room.png" alt="Modern living room with large windows" loading="eager">
+      </div>
+      <div class="hero-badge">
+        <div class="hero-badge-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        </div>
+        <div>
+          <div class="hero-badge-label">Avg. First Home Price</div>
+          <div class="hero-badge-value">$405,000</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section class="stats-bar">
+  <div class="stats-inner">
+    <div class="stat-item">
+      <div class="stat-value">43<span>%</span></div>
+      <div class="stat-label">of buyers are first-timers</div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <div class="stat-value">8<span>mo</span></div>
+      <div class="stat-label">average time to buy</div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <div class="stat-value">3<span>%</span></div>
+      <div class="stat-label">minimum down payment</div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <div class="stat-value">620</div>
+      <div class="stat-label">min. credit score (FHA)</div>
+    </div>
+  </div>
+</section>
+
+<!-- AFFORDABILITY + CALCULATOR -->
+<section id="calculator">
+  <div class="affordability">
+    <div>
+      <div class="afford-label">Know Your Budget</div>
+      <h2 class="afford-title">Find out how much home you can afford</h2>
+      <p class="afford-body">Before you start shopping, it's essential to understand your true buying power. Our quick calculator estimates your monthly payment based on your income, down payment, and credit profile.</p>
+      <ul class="afford-checklist">
+        <li>Get a realistic price range before touring homes</li>
+        <li>Understand your monthly payment breakdown</li>
+        <li>Factor in taxes, insurance, and HOA fees</li>
+        <li>See how your down payment affects the monthly cost</li>
+      </ul>
+    </div>
+    <div class="calculator-card">
+      <div class="calc-label">Affordability Calculator</div>
+      <div class="calc-price"><span>$</span>405,000</div>
+      <div class="calc-row">
+        <div class="calc-field">
+          <label for="annual-income">Annual Household Income</label>
+          <input type="text" id="annual-income" value="$120,000" oninput="calcPayment()">
+        </div>
+        <div class="calc-field">
+          <label for="down-payment">Down Payment</label>
+          <input type="text" id="down-payment" value="$20,000" oninput="calcPayment()">
+        </div>
+        <div class="calc-field">
+          <label for="loan-term">Loan Term</label>
+          <select id="loan-term" onchange="calcPayment()">
+            <option value="30" selected>30 years</option>
+            <option value="20">20 years</option>
+            <option value="15">15 years</option>
+          </select>
+        </div>
+      </div>
+      <div class="calc-result">
+        <div class="calc-result-label">Est. Monthly Payment</div>
+        <div class="calc-result-amount" id="monthly-payment">$2,412/mo</div>
+      </div>
+      <button class="calc-cta">Get Pre-Approved Today</button>
+      <p class="calc-note">Estimate only. Actual rates vary. Consult a lender for exact figures.</p>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="steps-section">
+  <div class="section-header">
+    <div class="section-eyebrow">The Process</div>
+    <h2 class="section-title">How the home buying journey works</h2>
+    <p class="section-sub">Four straightforward steps from dream to doorstep.</p>
+  </div>
+  <div class="steps-grid">
+    <div class="step-card">
+      <div class="step-number">1</div>
+      <div class="step-title">Get Pre-Approved</div>
+      <p class="step-body">Connect with a lender to understand your budget, lock in a rate, and get a pre-approval letter that makes your offers competitive.</p>
+    </div>
+    <div class="step-card">
+      <div class="step-number">2</div>
+      <div class="step-title">Find Your Home</div>
+      <p class="step-body">Search MLS listings with your agent, attend showings, and identify the home that fits your lifestyle, budget, and must-have list.</p>
+    </div>
+    <div class="step-card">
+      <div class="step-number">3</div>
+      <div class="step-title">Make an Offer</div>
+      <p class="step-body">Your agent crafts a competitive offer with the right price, contingencies, and terms. We'll negotiate until you get the best deal.</p>
+    </div>
+    <div class="step-card">
+      <div class="step-number">4</div>
+      <div class="step-title">Close & Move In</div>
+      <p class="step-body">Complete the inspection, appraisal, and final walkthrough. Sign at closing, get the keys, and start the next chapter of your life.</p>
+    </div>
+  </div>
+</section>
+
+<!-- RESOURCES -->
+<section class="resources">
+  <div class="section-header">
+    <div class="section-eyebrow">Resources</div>
+    <h2 class="section-title">Guides to get you started</h2>
+    <p class="section-sub">Practical reading to build your confidence before you buy.</p>
+  </div>
+  <div class="resources-grid">
+    <div class="resource-card">
+      <div class="resource-card-img">
+        <img src="firsttimehomebuyerguide_files/finance-doc.png" alt="Home financing guide">
+      </div>
+      <div class="resource-card-body">
+        <div class="resource-tag">Financing</div>
+        <h3 class="resource-title">Understanding Mortgages: FHA, Conventional & More</h3>
+        <p class="resource-body">Not sure which loan type is right for you? We break down the most common mortgage options, their requirements, and which one fits your situation best.</p>
+        <a href="#" class="btn-outline">
+          Read Guide
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="resource-card">
+      <div class="resource-card-img">
+        <img src="firsttimehomebuyerguide_files/interior.png" alt="What to look for when touring homes">
+      </div>
+      <div class="resource-card-body">
+        <div class="resource-tag">Home Buying</div>
+        <h3 class="resource-title">What to Look for When Touring a Home</h3>
+        <p class="resource-body">Go beyond the pretty staging. Learn the red flags, must-check items, and questions to ask during every showing so you never miss a deal-breaker.</p>
+        <a href="#" class="btn-outline">
+          Read Guide
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq-section">
+  <div class="section-header">
+    <div class="section-eyebrow">FAQs</div>
+    <h2 class="section-title">Common first-timer questions</h2>
+    <p class="section-sub">Answers to the things every new buyer wants to know.</p>
+  </div>
+  <div class="faq-grid">
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        How much do I need saved before I can buy?
+        <span class="faq-icon">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+        </span>
+      </button>
+      <div class="faq-answer">You'll need money for a down payment (3%–20% depending on loan type), closing costs (2%–5% of the loan), and an emergency reserve. On a $400,000 home with 3.5% FHA down, plan for roughly $14,000–$30,000 out of pocket before moving in.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        What credit score do I need to buy a home?
+        <span class="faq-icon">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+        </span>
+      </button>
+      <div class="faq-answer">FHA loans typically require a 580+ score with 3.5% down (or 500 with 10% down). Conventional loans usually require 620+. A score above 740 earns you the best rates and can save thousands over the life of your loan.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        How long does the buying process take?
+        <span class="faq-icon">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+        </span>
+      </button>
+      <div class="faq-answer">From pre-approval to closing, most buyers take 4–6 months — including the time spent searching for the right home. Once your offer is accepted, closing itself typically takes 30–45 days for financing, inspections, and paperwork.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        Do I need a real estate agent?
+        <span class="faq-icon">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+        </span>
+      </button>
+      <div class="faq-answer">Technically no, but strongly recommended. A buyer's agent represents your interests, provides neighborhood expertise, handles negotiation, and is typically paid by the seller — so it costs you nothing. Going it alone on your first purchase is rarely worth the risk.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        What are closing costs and who pays them?
+        <span class="faq-icon">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+        </span>
+      </button>
+      <div class="faq-answer">Closing costs are fees paid at settlement — typically 2%–5% of the loan amount. They cover loan origination, title insurance, appraisal, taxes, and more. Buyers usually pay them, but you can sometimes negotiate seller concessions to help offset the cost.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BANNER -->
+<section class="cta-banner">
+  <div class="cta-inner">
+    <h2>Ready to get your offer in?</h2>
+    <p>Connect with a local agent and lender today. We'll help you move from browsing to buying — fast.</p>
+    <div class="cta-buttons">
+      <button class="btn-white">Get Pre-Approved</button>
+      <button class="btn-ghost">Search Listings</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="footer-logo">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="#FF6D00"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          HomeAlerts
+        </div>
+        <p class="footer-tagline">Real-time property alerts, MLS search, and resources for home buyers — powered by LPT Realty.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Home Buying</h4>
+        <a href="#">First-Time Buyers</a>
+        <a href="#">Property Search</a>
+        <a href="#">Set Up Alerts</a>
+        <a href="#">Mortgage Calculator</a>
+      </div>
+      <div class="footer-col">
+        <h4>Resources</h4>
+        <a href="#">Buyer's Guide</a>
+        <a href="#">Financing 101</a>
+        <a href="#">Neighborhood Info</a>
+        <a href="#">Blog</a>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <a href="#">About Us</a>
+        <a href="#">Contact</a>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 HomeAlerts. All rights reserved. A service of LPT Holdings.</p>
+      <div class="footer-bottom-links">
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="#">DMCA</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  function toggleFaq(btn) {
+    const item = btn.closest('.faq-item');
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(el => el.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  }
+
+  function parseMoney(str) {
+    return parseFloat(str.replace(/[^0-9.]/g, '')) || 0;
+  }
+
+  function calcPayment() {
+    const income = parseMoney(document.getElementById('annual-income').value);
+    const down = parseMoney(document.getElementById('down-payment').value);
+    const termYears = parseInt(document.getElementById('loan-term').value, 10);
+
+    const maxHome = income * 4.5;
+    const principal = Math.max(0, maxHome - down);
+    const rate = 0.069 / 12;
+    const n = termYears * 12;
+    let payment = 0;
+    if (principal > 0 && rate > 0) {
+      payment = principal * (rate * Math.pow(1 + rate, n)) / (Math.pow(1 + rate, n) - 1);
+    }
+    payment += (maxHome * 0.012 / 12); // est. taxes + insurance
+
+    const priceEl = document.querySelector('.calc-price');
+    priceEl.innerHTML = '<span>$</span>' + Math.round(maxHome).toLocaleString();
+
+    document.getElementById('monthly-payment').textContent =
+      '$' + Math.round(payment).toLocaleString() + '/mo';
+  }
+
+  calcPayment();
+</script>
+
+</body>
+</html>

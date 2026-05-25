@@ -5,7 +5,7 @@ function ApplyForm() {
   const [data, setData] = useStateF({
     firstName: '', lastName: '', email: '', phone: '',
     company: '', title: '', website: '',
-    community: '', focus: [], discountCode: '',
+    community: '', focus: [],
     dietary: '', roommate: '', why: '',
   });
   const [done, setDone] = useStateF(false);
@@ -100,10 +100,6 @@ function ApplyForm() {
                 <span className="ticket-desc">One seat · Big Sky, Montana · July 13&ndash;17</span>
               </div>
             </div>
-            <div className="field">
-              <label>Discount code</label>
-              <input value={data.discountCode} onChange={e => setData({ ...data, discountCode: e.target.value })} placeholder="Enter code if applicable" />
-            </div>
           </div>
           <div className="field-row">
             <div className="field">
@@ -175,7 +171,7 @@ function ApplySection() {
             <p>For Reside members and Team Growth Plus team leaders. One seat per TG+ firm. Attendance is intentionally limited so every conversation counts.</p>
             <div className="apply-facts">
               <div className="apply-fact"><b>Jul 13&ndash;17</b>Big Sky, Montana · 2026</div>
-              <div className="apply-fact"><b>$5,000</b>Per seat · Reside 50% off</div>
+              <div className="apply-fact"><b>$5,000</b>Per seat · Big Sky, Montana</div>
               <div className="apply-fact"><b>One Seat</b>Per TG+ firm · Team Leaders</div>
               <div className="apply-fact"><b>407.929.2335</b>Event Concierge · Text or Call</div>
             </div>
