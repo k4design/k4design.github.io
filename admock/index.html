@@ -1,0 +1,1220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Meta Ad Previewer</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body, #root { height: 100%; }
+    body { font-family: 'Sora', sans-serif; background: #0F0F1A; overflow: hidden; }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #3a3a5c; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #5a5a8c; }
+
+    @keyframes sponsoredPulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.6; }
+    }
+    @keyframes fadeSlideIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes tabUnderline {
+      from { transform: scaleX(0); }
+      to { transform: scaleX(1); }
+    }
+    @keyframes drawerSlide {
+      from { transform: translateX(-100%); }
+      to { transform: translateX(0); }
+    }
+
+    .sponsored-label {
+      animation: sponsoredPulse 2.5s ease-in-out 0.5s 3;
+    }
+    .preview-card {
+      animation: fadeSlideIn 0.3s ease-out;
+    }
+    .tab-underline {
+      animation: tabUnderline 0.25s cubic-bezier(0.4,0,0.2,1) forwards;
+      transform-origin: left center;
+    }
+    .drawer-open {
+      animation: drawerSlide 0.3s cubic-bezier(0.4,0,0.2,1) forwards;
+    }
+
+    input, textarea, select {
+      font-family: 'Sora', sans-serif;
+    }
+    input:focus, textarea:focus, select:focus {
+      outline: none;
+    }
+
+    .carousel-container {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
+      gap: 8px;
+      padding-bottom: 4px;
+    }
+    .carousel-container::-webkit-scrollbar { height: 0; }
+    .carousel-card {
+      flex: 0 0 auto;
+      scroll-snap-align: start;
+    }
+
+    .drag-over { border-color: #1877F2 !important; background: rgba(24,119,242,0.08) !important; }
+    .card-item-drag { opacity: 0.5; }
+
+    .tooltip {
+      position: relative;
+    }
+    .tooltip:hover::after {
+      content: attr(data-tip);
+      position: absolute;
+      bottom: calc(100% + 6px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: #1e1e3a;
+      color: #ccc;
+      font-size: 11px;
+      padding: 4px 8px;
+      border-radius: 4px;
+      white-space: nowrap;
+      pointer-events: none;
+      font-family: 'DM Mono', monospace;
+      border: 1px solid #3a3a5c;
+      z-index: 999;
+    }
+  </style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const { useState, useRef, useEffect, useCallback, useMemo } = React;
+
+// ─── CONSTANTS ────────────────────────────────────────────────────────────────
+const CTA_OPTIONS = ['Learn More','Shop Now','Sign Up','Book Now','Get Offer','Download'];
+const MAX_HEADLINE = 45;
+const MAX_PRIMARY = 125;
+const PLACEHOLDER_GRADIENT = 'linear-gradient(135deg, #2a2a4a 0%, #3a3a6a 50%, #2a2a4a 100%)';
+const FB_BLUE = '#1877F2';
+
+// ─── ICONS ───────────────────────────────────────────────────────────────────
+const IconLike = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill={FB_BLUE}>
+    <path d="M1 21h4V9H1v12zm22-11c0-1.1-.9-2-2-2h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 1 7.59 7.59C7.22 7.95 7 8.45 7 9v10c0 1.1.9 2 2 2h9c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73v-2z"/>
+  </svg>
+);
+const IconComment = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="#65676B">
+    <path d="M21.99 4c0-1.1-.89-2-1.99-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4-.01-18z"/>
+  </svg>
+);
+const IconShare = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="#65676B">
+    <path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z"/>
+  </svg>
+);
+const IconGlobe = () => (
+  <svg width="11" height="11" viewBox="0 0 24 24" fill="#65676B">
+    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+  </svg>
+);
+const IconFBLogo = () => (
+  <svg width="32" height="32" viewBox="0 0 32 32" fill="white">
+    <path d="M16 0C7.163 0 0 7.163 0 16c0 7.988 5.845 14.604 13.5 15.777V20.25h-4.063V16H13.5v-3.25c0-4.01 2.389-6.227 6.044-6.227 1.75 0 3.581.313 3.581.313v3.938h-2.016c-1.988 0-2.609 1.234-2.609 2.5V16h4.438l-.709 4.25H18.5v11.527C26.155 30.604 32 23.988 32 16c0-8.837-7.163-16-16-16z"/>
+  </svg>
+);
+const IconSearch = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="white">
+    <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+  </svg>
+);
+const IconMessenger = () => (
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
+    <path d="M12 2C6.477 2 2 6.145 2 11.259c0 2.869 1.374 5.43 3.531 7.145v3.596l3.278-1.8c.876.242 1.803.372 2.761.372 5.523 0 10-4.145 10-9.259C22 6.145 17.523 2 12 2zm1.018 12.467l-2.55-2.72-4.976 2.72L10.982 9.1l2.614 2.72L18.506 9.1l-5.488 5.367z"/>
+  </svg>
+);
+const IconDots = () => (
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="#65676B">
+    <circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/>
+  </svg>
+);
+const IconChevronLeft = () => (
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="#1C1E21">
+    <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+  </svg>
+);
+const IconChevronRight = () => (
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="#1C1E21">
+    <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
+  </svg>
+);
+const IconPlus = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M19 13H13v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+  </svg>
+);
+const IconTrash = () => (
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
+  </svg>
+);
+const IconUpload = () => (
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="#5a5a8c">
+    <path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z"/>
+  </svg>
+);
+const IconImage = () => (
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="#5a5a8c">
+    <path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/>
+  </svg>
+);
+const IconCamera = () => (
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M12 15.2a3.2 3.2 0 100-6.4 3.2 3.2 0 000 6.4z"/><path d="M9 2L7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9zm3 15c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z"/>
+  </svg>
+);
+const IconMenu = () => (
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="#1877F2">
+    <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+  </svg>
+);
+const IconClose = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+  </svg>
+);
+const IconScreenshot = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14z"/>
+  </svg>
+);
+const IconGrip = () => (
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M9 3H7v2h2V3zm0 8H7v2h2v-2zm0 8H7v2h2v-2zm4-16h-2v2h2V3zm0 8h-2v2h2v-2zm0 8h-2v2h2v-2zm4-16h-2v2h2V3zm0 8h-2v2h2v-2zm0 8h-2v2h2v-2z"/>
+  </svg>
+);
+const IconArrowUp = () => (
+  <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"/>
+  </svg>
+);
+const IconArrowDown = () => (
+  <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6z"/>
+  </svg>
+);
+const IconBulkUpload = () => (
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-1 9h-4v4h-2v-4H9V9h4V5h2v4h4v2z"/>
+  </svg>
+);
+
+// ─── HELPERS ─────────────────────────────────────────────────────────────────
+function readFileAsBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = e => resolve(e.target.result);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+function CharCounter({ value, max }) {
+  const len = value.length;
+  const pct = len / max;
+  const color = pct > 0.9 ? '#ef4444' : pct > 0.75 ? '#f59e0b' : '#5a5a8c';
+  return (
+    <span style={{ fontFamily: "'DM Mono', monospace", fontSize: 11, color, letterSpacing: '0.02em' }}>
+      {len}/{max}
+    </span>
+  );
+}
+
+// ─── IMAGE UPLOAD ZONE ────────────────────────────────────────────────────────
+function ImageUploadZone({ onUpload, onMultiUpload, image, label = 'Upload Image', compact = false, multiple = false }) {
+  const inputRef = useRef();
+  const [dragging, setDragging] = useState(false);
+
+  const handleFiles = useCallback(async (files) => {
+    const imageFiles = Array.from(files).filter(f => f.type.startsWith('image/'));
+    if (!imageFiles.length) return;
+    if (multiple && imageFiles.length > 1 && onMultiUpload) {
+      const b64s = await Promise.all(imageFiles.map(readFileAsBase64));
+      onMultiUpload(b64s);
+    } else {
+      const b64 = await readFileAsBase64(imageFiles[0]);
+      onUpload(b64);
+    }
+  }, [onUpload, onMultiUpload, multiple]);
+
+  const onDrop = useCallback(e => {
+    e.preventDefault();
+    setDragging(false);
+    handleFiles(e.dataTransfer.files);
+  }, [handleFiles]);
+
+  const onDragOver = e => { e.preventDefault(); setDragging(true); };
+  const onDragLeave = () => setDragging(false);
+
+  if (compact && image) {
+    return (
+      <div style={{ position: 'relative', width: 56, height: 56, borderRadius: 6, overflow: 'hidden', flexShrink: 0 }}
+        onClick={() => inputRef.current.click()} title={multiple ? 'Change image or select multiple to fill from here' : 'Change image'}>
+        <img src={image} style={{ width: '100%', height: '100%', objectFit: 'cover', cursor: 'pointer' }} />
+        <div style={{
+          position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.4)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          opacity: 0, transition: 'opacity 0.15s', cursor: 'pointer'
+        }}
+          onMouseEnter={e => e.currentTarget.style.opacity = 1}
+          onMouseLeave={e => e.currentTarget.style.opacity = 0}>
+          <IconCamera />
+        </div>
+        <input ref={inputRef} type="file" accept="image/*" multiple={multiple} style={{ display: 'none' }}
+          onChange={e => { handleFiles(e.target.files); e.target.value = ''; }} />
+      </div>
+    );
+  }
+
+  return (
+    <div
+      className={dragging ? 'drag-over' : ''}
+      onClick={() => inputRef.current.click()}
+      onDrop={onDrop}
+      onDragOver={onDragOver}
+      onDragLeave={onDragLeave}
+      style={{
+        border: `2px dashed ${dragging ? FB_BLUE : '#3a3a5c'}`,
+        borderRadius: 8, padding: compact ? '12px 8px' : '20px 16px',
+        display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+        gap: 8, cursor: 'pointer', background: dragging ? 'rgba(24,119,242,0.06)' : '#12122a',
+        transition: 'all 0.2s', minHeight: compact ? 60 : 100,
+        overflow: 'hidden', position: 'relative'
+      }}>
+      {image ? (
+        <img src={image} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.35 }} />
+      ) : null}
+      <div style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
+        {image ? <IconCamera /> : <IconUpload />}
+        <span style={{ color: '#8888aa', fontSize: 12, textAlign: 'center', lineHeight: 1.4 }}>
+          {image ? 'Replace image' : label}
+        </span>
+      </div>
+      <input ref={inputRef} type="file" accept="image/*" multiple={multiple} style={{ display: 'none' }}
+        onChange={e => { handleFiles(e.target.files); e.target.value = ''; }} />
+    </div>
+  );
+}
+
+// ─── EDIT PANEL ──────────────────────────────────────────────────────────────
+function EditPanel({ format, singleAd, onSingleChange, cards, onCardsChange, displayUrl, onDisplayUrlChange, imageRatio, onImageRatioChange }) {
+  const [dragIdx, setDragIdx] = useState(null);
+  const [dragOverIdx, setDragOverIdx] = useState(null);
+  const [bulkAdded, setBulkAdded] = useState(0);
+  const bulkUploadRef = useRef();
+
+  const updateCard = (idx, field, value) => {
+    const next = cards.map((c, i) => i === idx ? { ...c, [field]: value } : c);
+    onCardsChange(next);
+  };
+
+  const removeCard = idx => {
+    if (cards.length <= 2) return;
+    onCardsChange(cards.filter((_, i) => i !== idx));
+  };
+
+  const addCard = () => {
+    if (cards.length >= 10) return;
+    onCardsChange([...cards, { id: Date.now(), image: null, headline: 'New Card Headline', description: 'Description text', cta: 'Learn More' }]);
+  };
+
+  const moveCard = (idx, dir) => {
+    const target = idx + dir;
+    if (target < 0 || target >= cards.length) return;
+    const next = [...cards];
+    [next[idx], next[target]] = [next[target], next[idx]];
+    onCardsChange(next);
+  };
+
+  const handleBulkUpload = async (files) => {
+    const imageFiles = Array.from(files).filter(f => f.type.startsWith('image/'));
+    if (!imageFiles.length) return;
+    const b64s = await Promise.all(imageFiles.map(readFileAsBase64));
+    const next = [...cards];
+    let bi = 0;
+    // Fill existing empty slots first
+    for (let i = 0; i < next.length && bi < b64s.length; i++) {
+      if (!next[i].image) { next[i] = { ...next[i], image: b64s[bi++] }; }
+    }
+    // Append new cards for remaining images up to 10 total
+    while (bi < b64s.length && next.length < 10) {
+      next.push({ id: Date.now() + bi, image: b64s[bi], headline: `Card ${next.length + 1}`, description: '', cta: 'Learn More' });
+      bi++;
+    }
+    onCardsChange(next);
+    setBulkAdded(bi);
+    setTimeout(() => setBulkAdded(0), 2000);
+  };
+
+  const uploadCardImage = (idx, b64) => updateCard(idx, 'image', b64);
+
+  const uploadMultipleFromCard = (startIdx, b64s) => {
+    const next = [...cards];
+    let bi = 0;
+    // Fill from startIdx forward, overwriting whatever is there
+    for (let i = startIdx; i < next.length && bi < b64s.length; i++) {
+      next[i] = { ...next[i], image: b64s[bi++] };
+    }
+    // Append new cards for any remaining images up to 10
+    while (bi < b64s.length && next.length < 10) {
+      next.push({ id: Date.now() + bi, image: b64s[bi], headline: `Card ${next.length + 1}`, description: '', cta: 'Learn More' });
+      bi++;
+    }
+    onCardsChange(next);
+  };
+
+  const onDragStart = (e, idx) => {
+    setDragIdx(idx);
+    e.dataTransfer.effectAllowed = 'move';
+  };
+  const onDragOver = (e, idx) => {
+    e.preventDefault();
+    setDragOverIdx(idx);
+  };
+  const onDrop = (e, idx) => {
+    e.preventDefault();
+    if (dragIdx === null || dragIdx === idx) { setDragIdx(null); setDragOverIdx(null); return; }
+    const next = [...cards];
+    const [moved] = next.splice(dragIdx, 1);
+    next.splice(idx, 0, moved);
+    onCardsChange(next);
+    setDragIdx(null);
+    setDragOverIdx(null);
+  };
+
+  const S = {
+    section: { marginBottom: 20 },
+    label: { fontSize: 11, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#8888aa', marginBottom: 6, display: 'block' },
+    input: {
+      width: '100%', background: '#12122a', border: '1.5px solid #2a2a4a',
+      borderRadius: 6, color: '#e0e0f0', fontSize: 13, padding: '8px 10px',
+      transition: 'border-color 0.15s', fontFamily: "'Sora', sans-serif"
+    },
+    textarea: {
+      width: '100%', background: '#12122a', border: '1.5px solid #2a2a4a',
+      borderRadius: 6, color: '#e0e0f0', fontSize: 13, padding: '8px 10px',
+      resize: 'vertical', minHeight: 72, fontFamily: "'Sora', sans-serif",
+      lineHeight: 1.5
+    },
+    select: {
+      width: '100%', background: '#12122a', border: '1.5px solid #2a2a4a',
+      borderRadius: 6, color: '#e0e0f0', fontSize: 13, padding: '8px 10px',
+      cursor: 'pointer', fontFamily: "'Sora', sans-serif", appearance: 'none',
+      backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='%238888aa'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E")`,
+      backgroundRepeat: 'no-repeat', backgroundPosition: 'right 10px center'
+    },
+    divider: { height: 1, background: '#1e1e3a', margin: '16px 0' },
+    row: { display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 6 },
+  };
+
+  const focusStyle = { borderColor: FB_BLUE };
+
+  const handleFocus = e => Object.assign(e.target.style, focusStyle);
+  const handleBlur = e => e.target.style.borderColor = '#2a2a4a';
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 0, padding: '16px 16px 24px' }}>
+      {format === 'single' ? (
+        <>
+          <div style={S.section}>
+            <label style={S.label}>Ad Image</label>
+            <ImageUploadZone
+              image={singleAd.image}
+              onUpload={b64 => onSingleChange('image', b64)}
+              label="Drag & drop or click to upload"
+            />
+          </div>
+          <div style={S.section}>
+            <label style={S.label}>Image Size</label>
+            <div style={{ display: 'flex', gap: 6 }}>
+              {[
+                { id: 'landscape', label: '1.91:1', sub: '1200×628' },
+                { id: 'square',    label: '1:1',    sub: '1080×1080' },
+              ].map(opt => {
+                const active = imageRatio === opt.id;
+                return (
+                  <button key={opt.id} onClick={() => onImageRatioChange(opt.id)} style={{
+                    flex: 1, padding: '7px 8px', border: `1.5px solid ${active ? FB_BLUE : '#2a2a4a'}`,
+                    borderRadius: 7, background: active ? 'rgba(24,119,242,0.1)' : '#12122a',
+                    cursor: 'pointer', transition: 'all 0.15s', textAlign: 'center'
+                  }}>
+                    <div style={{ fontSize: 13, fontWeight: 700, color: active ? FB_BLUE : '#c0c0d8', fontFamily: "'Sora', sans-serif" }}>{opt.label}</div>
+                    <div style={{ fontSize: 10, color: active ? FB_BLUE : '#5a5a8c', fontFamily: "'DM Mono', monospace", marginTop: 2 }}>{opt.sub}</div>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+          <div style={S.divider} />
+          <div style={S.section}>
+            <div style={S.row}>
+              <label style={{ ...S.label, marginBottom: 0 }}>Headline</label>
+              <CharCounter value={singleAd.headline} max={MAX_HEADLINE} />
+            </div>
+            <input
+              style={S.input}
+              value={singleAd.headline}
+              maxLength={MAX_HEADLINE}
+              onFocus={handleFocus} onBlur={handleBlur}
+              onChange={e => onSingleChange('headline', e.target.value)}
+            />
+          </div>
+          <div style={S.section}>
+            <div style={S.row}>
+              <label style={{ ...S.label, marginBottom: 0 }}>Primary Text</label>
+              <CharCounter value={singleAd.primaryText} max={MAX_PRIMARY} />
+            </div>
+            <textarea
+              style={S.textarea}
+              value={singleAd.primaryText}
+              maxLength={MAX_PRIMARY}
+              onFocus={handleFocus} onBlur={handleBlur}
+              onChange={e => onSingleChange('primaryText', e.target.value)}
+              rows={3}
+            />
+          </div>
+          <div style={S.section}>
+            <label style={S.label}>Display URL</label>
+            <input
+              style={S.input}
+              value={displayUrl}
+              onFocus={handleFocus} onBlur={handleBlur}
+              onChange={e => onDisplayUrlChange(e.target.value)}
+              placeholder="yourwebsite.com"
+            />
+          </div>
+          <div style={S.section}>
+            <label style={S.label}>CTA Button</label>
+            <select style={S.select} value={singleAd.cta} onChange={e => onSingleChange('cta', e.target.value)}>
+              {CTA_OPTIONS.map(o => <option key={o} value={o}>{o}</option>)}
+            </select>
+          </div>
+        </>
+      ) : (
+        <>
+          <div style={S.section}>
+            <div style={S.row}>
+              <label style={{ ...S.label, marginBottom: 0 }}>Primary Text</label>
+              <CharCounter value={singleAd.primaryText} max={MAX_PRIMARY} />
+            </div>
+            <textarea
+              style={S.textarea}
+              value={singleAd.primaryText}
+              maxLength={MAX_PRIMARY}
+              onFocus={handleFocus} onBlur={handleBlur}
+              onChange={e => onSingleChange('primaryText', e.target.value)}
+              rows={2}
+            />
+          </div>
+          <div style={S.section}>
+            <label style={S.label}>Display URL</label>
+            <input
+              style={S.input}
+              value={displayUrl}
+              onFocus={handleFocus} onBlur={handleBlur}
+              onChange={e => onDisplayUrlChange(e.target.value)}
+              placeholder="yourwebsite.com"
+            />
+          </div>
+          <div style={S.divider} />
+          {/* Cards header: count + bulk upload + add */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 10 }}>
+            <label style={{ ...S.label, marginBottom: 0, flex: 1 }}>Cards ({cards.length}/10)</label>
+            <input
+              ref={bulkUploadRef}
+              type="file"
+              accept="image/*"
+              multiple
+              style={{ display: 'none' }}
+              onChange={e => { handleBulkUpload(e.target.files); e.target.value = ''; }}
+            />
+            <button
+              onClick={() => bulkUploadRef.current.click()}
+              disabled={cards.length >= 10}
+              title="Upload multiple images at once"
+              style={{
+                display: 'flex', alignItems: 'center', gap: 4, padding: '5px 9px',
+                background: bulkAdded > 0 ? '#14532d' : '#1e1e3a',
+                color: bulkAdded > 0 ? '#4ade80' : cards.length >= 10 ? '#5a5a8c' : '#c0c0d8',
+                border: `1px solid ${bulkAdded > 0 ? '#166534' : '#2a2a4a'}`,
+                borderRadius: 6, fontSize: 12, fontWeight: 600,
+                cursor: cards.length >= 10 ? 'not-allowed' : 'pointer',
+                fontFamily: "'Sora', sans-serif", transition: 'all 0.2s', whiteSpace: 'nowrap'
+              }}>
+              <IconBulkUpload />
+              {bulkAdded > 0 ? `+${bulkAdded} added` : 'Bulk Upload'}
+            </button>
+            <button
+              onClick={addCard}
+              disabled={cards.length >= 10}
+              title="Add blank card"
+              style={{
+                display: 'flex', alignItems: 'center', gap: 4, padding: '5px 9px',
+                background: cards.length >= 10 ? '#1e1e3a' : FB_BLUE,
+                color: cards.length >= 10 ? '#5a5a8c' : 'white', border: 'none', borderRadius: 6,
+                fontSize: 12, fontWeight: 600, cursor: cards.length >= 10 ? 'not-allowed' : 'pointer',
+                fontFamily: "'Sora', sans-serif"
+              }}>
+              <IconPlus /> Add
+            </button>
+          </div>
+
+          {/* Bulk drop zone — shown when card list is empty of images */}
+          <div
+            className={dragIdx !== null ? '' : ''}
+            onDragOver={e => { e.preventDefault(); e.currentTarget.classList.add('drag-over'); }}
+            onDragLeave={e => e.currentTarget.classList.remove('drag-over')}
+            onDrop={async e => {
+              e.preventDefault();
+              e.currentTarget.classList.remove('drag-over');
+              const files = Array.from(e.dataTransfer.files).filter(f => f.type.startsWith('image/'));
+              if (files.length > 0) handleBulkUpload(files);
+            }}
+            style={{
+              border: '2px dashed #2a2a4a', borderRadius: 8, padding: '10px 12px',
+              marginBottom: 10, display: 'flex', alignItems: 'center', gap: 8,
+              background: '#0a0a18', transition: 'all 0.2s', cursor: 'default'
+            }}>
+            <IconBulkUpload />
+            <span style={{ fontSize: 12, color: '#5a5a8c', lineHeight: 1.4 }}>
+              Drop multiple images here to bulk-fill cards
+            </span>
+          </div>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+            {cards.map((card, idx) => (
+              <div
+                key={card.id}
+                draggable
+                onDragStart={e => onDragStart(e, idx)}
+                onDragOver={e => onDragOver(e, idx)}
+                onDrop={e => onDrop(e, idx)}
+                onDragEnd={() => { setDragIdx(null); setDragOverIdx(null); }}
+                className={dragIdx === idx ? 'card-item-drag' : ''}
+                style={{
+                  background: dragOverIdx === idx && dragIdx !== idx ? '#1a1a40' : '#0e0e20',
+                  border: `1.5px solid ${dragOverIdx === idx && dragIdx !== idx ? FB_BLUE : '#2a2a4a'}`,
+                  borderRadius: 8, padding: 10, transition: 'all 0.15s'
+                }}>
+
+                {/* Card header: grip · index · arrows · trash */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: 4, marginBottom: 8 }}>
+                  <div style={{ cursor: 'grab', color: '#3a3a5c', lineHeight: 0, flexShrink: 0 }}
+                    title="Drag to reorder">
+                    <IconGrip />
+                  </div>
+                  <span style={{ fontSize: 11, color: '#8888aa', fontWeight: 600, flex: 1 }}>
+                    Card {idx + 1}
+                  </span>
+                  {/* Arrow swap buttons */}
+                  <button
+                    onClick={() => moveCard(idx, -1)}
+                    disabled={idx === 0}
+                    title="Move up"
+                    style={{
+                      background: 'none', border: '1px solid #2a2a4a', borderRadius: 4,
+                      color: idx === 0 ? '#3a3a5c' : '#8888aa', cursor: idx === 0 ? 'not-allowed' : 'pointer',
+                      padding: '2px 4px', lineHeight: 0, transition: 'all 0.12s'
+                    }}
+                    onMouseEnter={e => idx !== 0 && Object.assign(e.currentTarget.style, { borderColor: FB_BLUE, color: FB_BLUE })}
+                    onMouseLeave={e => Object.assign(e.currentTarget.style, { borderColor: '#2a2a4a', color: idx === 0 ? '#3a3a5c' : '#8888aa' })}>
+                    <IconArrowUp />
+                  </button>
+                  <button
+                    onClick={() => moveCard(idx, 1)}
+                    disabled={idx === cards.length - 1}
+                    title="Move down"
+                    style={{
+                      background: 'none', border: '1px solid #2a2a4a', borderRadius: 4,
+                      color: idx === cards.length - 1 ? '#3a3a5c' : '#8888aa',
+                      cursor: idx === cards.length - 1 ? 'not-allowed' : 'pointer',
+                      padding: '2px 4px', lineHeight: 0, transition: 'all 0.12s'
+                    }}
+                    onMouseEnter={e => idx !== cards.length - 1 && Object.assign(e.currentTarget.style, { borderColor: FB_BLUE, color: FB_BLUE })}
+                    onMouseLeave={e => Object.assign(e.currentTarget.style, { borderColor: '#2a2a4a', color: idx === cards.length - 1 ? '#3a3a5c' : '#8888aa' })}>
+                    <IconArrowDown />
+                  </button>
+                  <button
+                    onClick={() => removeCard(idx)}
+                    disabled={cards.length <= 2}
+                    title="Remove card"
+                    style={{
+                      background: 'none', border: 'none',
+                      color: cards.length <= 2 ? '#3a3a5c' : '#ef4444',
+                      cursor: cards.length <= 2 ? 'not-allowed' : 'pointer', padding: 2, lineHeight: 0
+                    }}>
+                    <IconTrash />
+                  </button>
+                </div>
+
+                {/* Image + inputs row */}
+                <div style={{ display: 'flex', gap: 8, marginBottom: 8 }}>
+                  <ImageUploadZone
+                    compact
+                    multiple
+                    image={card.image}
+                    onUpload={b64 => uploadCardImage(idx, b64)}
+                    onMultiUpload={b64s => uploadMultipleFromCard(idx, b64s)}
+                  />
+                  <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: 4 }}>
+                    <input
+                      style={{ ...S.input, padding: '5px 8px', fontSize: 12 }}
+                      value={card.headline}
+                      maxLength={MAX_HEADLINE}
+                      placeholder="Card headline..."
+                      onFocus={handleFocus} onBlur={handleBlur}
+                      onChange={e => updateCard(idx, 'headline', e.target.value)}
+                    />
+                    <input
+                      style={{ ...S.input, padding: '5px 8px', fontSize: 12 }}
+                      value={card.description}
+                      placeholder="Description..."
+                      onFocus={handleFocus} onBlur={handleBlur}
+                      onChange={e => updateCard(idx, 'description', e.target.value)}
+                    />
+                  </div>
+                </div>
+                <select
+                  style={{ ...S.select, fontSize: 12, padding: '5px 28px 5px 8px' }}
+                  value={card.cta}
+                  onChange={e => updateCard(idx, 'cta', e.target.value)}>
+                  {CTA_OPTIONS.map(o => <option key={o} value={o}>{o}</option>)}
+                </select>
+              </div>
+            ))}
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
+
+// ─── FB POST HEADER ────────────────────────────────────────────────────────────
+function FBPostHeader({ pageName = 'Your Page Name' }) {
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', padding: '12px 16px 8px', gap: 10 }}>
+      <div style={{
+        width: 40, height: 40, borderRadius: '50%',
+        background: 'linear-gradient(135deg, #e9ebee, #bec3c9)',
+        flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center',
+        fontSize: 17, fontWeight: 700, color: '#90949c'
+      }}>P</div>
+      <div style={{ flex: 1 }}>
+        <div style={{ fontSize: 15, fontWeight: 700, color: '#050505', lineHeight: 1.3 }}>{pageName}</div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 3 }}>
+          <span style={{ fontSize: 13, color: '#65676B' }}>Sponsored</span>
+          <span className="sponsored-label" style={{ display: 'flex', alignItems: 'center' }}>
+            <IconGlobe />
+          </span>
+        </div>
+      </div>
+      <div style={{ padding: 4, cursor: 'pointer' }}><IconDots /></div>
+    </div>
+  );
+}
+
+// ─── FB REACTION BAR ──────────────────────────────────────────────────────────
+function FBReactionBar() {
+  return (
+    <div>
+      <div style={{ padding: '4px 12px 6px', borderTop: '1px solid #E4E6EB' }}>
+        <span style={{ fontSize: 13, color: '#65676B' }}>
+          <span style={{ marginRight: 4 }}>👍 ❤️ 😮</span>
+          <span>1.2K</span>
+        </span>
+        <span style={{ float: 'right', fontSize: 13, color: '#65676B' }}>42 comments · 18 shares</span>
+      </div>
+      <div style={{ display: 'flex', borderTop: '1px solid #E4E6EB' }}>
+        {[
+          { icon: <IconLike />, label: 'Like', color: FB_BLUE },
+          { icon: <IconComment />, label: 'Comment', color: '#65676B' },
+          { icon: <IconShare />, label: 'Share', color: '#65676B' },
+        ].map(({ icon, label, color }) => (
+          <button key={label} style={{
+            flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center',
+            gap: 6, padding: '8px 4px', background: 'none', border: 'none', cursor: 'pointer',
+            color, fontSize: 14, fontWeight: 600, fontFamily: "'Sora', sans-serif",
+            borderRadius: 4, transition: 'background 0.1s'
+          }}
+            onMouseEnter={e => e.currentTarget.style.background = '#F0F2F5'}
+            onMouseLeave={e => e.currentTarget.style.background = 'none'}>
+            {icon} {label}
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ─── SINGLE IMAGE AD (inner) ───────────────────────────────────────────────────
+function SingleImageAdContent({ singleAd, displayUrl, imageRatio, isMobile }) {
+  const ratio = imageRatio === 'square' ? '1/1' : '1.91/1';
+  const imageStyle = { width: '100%', aspectRatio: ratio, objectFit: 'cover', display: 'block', background: '#e9ebee' };
+
+  return (
+    <>
+      <div style={{ position: 'relative', overflow: 'hidden' }}>
+        {singleAd.image ? (
+          <img src={singleAd.image} style={imageStyle} />
+        ) : (
+          <div style={{ ...imageStyle, background: PLACEHOLDER_GRADIENT, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <IconImage />
+          </div>
+        )}
+      </div>
+      {/* Link attachment bar — matches Facebook's actual layout */}
+      <div style={{
+        background: '#F2F3F5', borderTop: '1px solid #E4E6EB',
+        padding: '10px 12px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8
+      }}>
+        <div style={{ minWidth: 0, flex: 1 }}>
+          <div style={{ fontSize: 12, color: '#65676B', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: 3, fontWeight: 500 }}>
+            {displayUrl || 'yourwebsite.com'}
+          </div>
+          <div style={{
+            fontSize: 16, fontWeight: 700, color: '#050505',
+            overflow: 'hidden', textOverflow: 'ellipsis',
+            display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical'
+          }}>
+            {singleAd.headline || 'Your Headline Here'}
+          </div>
+        </div>
+        <button style={{
+          background: '#E4E6EB', border: 'none', borderRadius: 6, padding: '8px 12px',
+          fontSize: 15, fontWeight: 700, color: '#050505', cursor: 'pointer', flexShrink: 0,
+          fontFamily: "'Sora', sans-serif", whiteSpace: 'nowrap'
+        }}>
+          {singleAd.cta || 'Learn More'}
+        </button>
+      </div>
+    </>
+  );
+}
+
+// ─── CAROUSEL AD (inner) ──────────────────────────────────────────────────────
+function CarouselAdContent({ cards, displayUrl, isMobile }) {
+  const scrollRef = useRef();
+  const [activeIdx, setActiveIdx] = useState(0);
+  const totalCards = cards.length + 1; // +1 for end card
+
+  // Facebook carousel: desktop feed=500px shows ~1.3 cards → ~236px per card
+  // Mobile: ~390px viewport shows ~1.15 cards → ~300px per card
+  const cardWidth = isMobile ? 300 : 236;
+  const gap = 8;
+
+  const scrollTo = idx => {
+    if (!scrollRef.current) return;
+    const target = idx * (cardWidth + gap);
+    scrollRef.current.scrollTo({ left: target, behavior: 'smooth' });
+    setActiveIdx(idx);
+  };
+
+  const prev = () => scrollTo(Math.max(0, activeIdx - 1));
+  const next = () => scrollTo(Math.min(totalCards - 1, activeIdx + 1));
+
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const onScroll = () => {
+      const idx = Math.round(el.scrollLeft / (cardWidth + gap));
+      setActiveIdx(idx);
+    };
+    el.addEventListener('scroll', onScroll, { passive: true });
+    return () => el.removeEventListener('scroll', onScroll);
+  }, [cardWidth]);
+
+  return (
+    <div style={{ position: 'relative' }}>
+      {/* Arrow buttons */}
+      {activeIdx > 0 && (
+        <button onClick={prev} style={{
+          position: 'absolute', left: 6, top: '40%', transform: 'translateY(-50%)',
+          width: 32, height: 32, borderRadius: '50%', background: 'white',
+          border: 'none', boxShadow: '0 2px 8px rgba(0,0,0,0.2)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          cursor: 'pointer', zIndex: 10
+        }}>
+          <IconChevronLeft />
+        </button>
+      )}
+      {activeIdx < totalCards - 1 && (
+        <button onClick={next} style={{
+          position: 'absolute', right: 6, top: '40%', transform: 'translateY(-50%)',
+          width: 32, height: 32, borderRadius: '50%', background: 'white',
+          border: 'none', boxShadow: '0 2px 8px rgba(0,0,0,0.2)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          cursor: 'pointer', zIndex: 10
+        }}>
+          <IconChevronRight />
+        </button>
+      )}
+
+      {/* Scroll container */}
+      <div
+        ref={scrollRef}
+        className="carousel-container"
+        style={{ padding: '0 12px', paddingRight: isMobile ? 52 : 72 }}>
+        {cards.map((card, idx) => (
+          <div key={card.id || idx} className="carousel-card" style={{ width: cardWidth, borderRadius: 8, overflow: 'hidden', border: '1px solid #E4E6EB', background: 'white' }}>
+            <div style={{ width: '100%', aspectRatio: '1/1', background: '#e9ebee', overflow: 'hidden' }}>
+              {card.image ? (
+                <img src={card.image} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+              ) : (
+                <div style={{ width: '100%', height: '100%', background: PLACEHOLDER_GRADIENT, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <IconImage />
+                </div>
+              )}
+            </div>
+            <div style={{ padding: '8px 10px' }}>
+              <div style={{
+                fontSize: 15, fontWeight: 700, color: '#1C1E21',
+                whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', marginBottom: 2
+              }}>{card.headline || 'Card Headline'}</div>
+              <div style={{
+                fontSize: 13, color: '#65676B',
+                whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', marginBottom: 8
+              }}>{card.description || ''}</div>
+              <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                <button style={{
+                  background: 'white', border: `1.5px solid ${FB_BLUE}`, borderRadius: 6,
+                  padding: '5px 12px', fontSize: 13, fontWeight: 700, color: FB_BLUE,
+                  cursor: 'pointer', fontFamily: "'Sora', sans-serif"
+                }}>
+                  {card.cta || 'Learn More'}
+                </button>
+              </div>
+            </div>
+          </div>
+        ))}
+
+        {/* End card */}
+        <div className="carousel-card" style={{ width: cardWidth, borderRadius: 8, overflow: 'hidden', border: '1px solid #E4E6EB', background: 'white' }}>
+          <div style={{ width: '100%', aspectRatio: '1/1', background: '#f0f2f5', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
+            <div style={{
+              width: 52, height: 52, borderRadius: '50%', background: FB_BLUE,
+              display: 'flex', alignItems: 'center', justifyContent: 'center'
+            }}>
+              <IconFBLogo />
+            </div>
+            <span style={{ fontSize: 12, color: '#65676B', textAlign: 'center', padding: '0 12px', lineHeight: 1.4 }}>
+              See more at<br />
+              <strong style={{ color: FB_BLUE }}>{displayUrl || 'yourwebsite.com'}</strong>
+            </span>
+          </div>
+          <div style={{ padding: '8px 10px' }}>
+            <div style={{ fontSize: 13, color: '#1C1E21', fontWeight: 600, marginBottom: 8 }}>
+              {displayUrl || 'yourwebsite.com'}
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+              <button style={{
+                background: 'white', border: `1.5px solid ${FB_BLUE}`, borderRadius: 6,
+                padding: '5px 12px', fontSize: 13, fontWeight: 700, color: FB_BLUE,
+                cursor: 'pointer', fontFamily: "'Sora', sans-serif"
+              }}>
+                See More
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Dot pagination */}
+      <div style={{ display: 'flex', justifyContent: 'center', gap: 6, padding: '8px 0 4px' }}>
+        {Array.from({ length: totalCards }).map((_, i) => (
+          <button key={i} onClick={() => scrollTo(i)} style={{
+            width: activeIdx === i ? 20 : 8, height: 8, borderRadius: 4,
+            background: activeIdx === i ? FB_BLUE : '#BCC0C4',
+            border: 'none', cursor: 'pointer', padding: 0,
+            transition: 'all 0.25s cubic-bezier(0.4,0,0.2,1)'
+          }} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ─── DESKTOP FEED PREVIEW ─────────────────────────────────────────────────────
+function DesktopFeedPreview({ format, singleAd, cards, displayUrl, imageRatio }) {
+  return (
+    <div style={{ display: 'flex', justifyContent: 'center', fontFamily: "'Sora', sans-serif" }}>
+      <div style={{ width: 500 }}>
+        <div className="preview-card" style={{
+          background: 'white', borderRadius: 8,
+          boxShadow: '0 1px 2px rgba(0,0,0,0.1), 0 0 0 1px rgba(0,0,0,0.05)',
+          overflow: 'hidden'
+        }}>
+          <FBPostHeader />
+          <div style={{ padding: '0 16px 12px', fontSize: 15, color: '#050505', lineHeight: 1.5 }}>
+            {singleAd.primaryText || 'Your primary ad text goes here.'}
+          </div>
+          {format === 'single' ? (
+            <SingleImageAdContent singleAd={singleAd} displayUrl={displayUrl} imageRatio={imageRatio} isMobile={false} />
+          ) : (
+            <CarouselAdContent cards={cards} displayUrl={displayUrl} isMobile={false} />
+          )}
+          <FBReactionBar />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── MOBILE FEED PREVIEW ──────────────────────────────────────────────────────
+function MobileFeedPreview({ format, singleAd, cards, displayUrl, imageRatio }) {
+  return (
+    <div style={{ display: 'flex', justifyContent: 'center', fontFamily: "'Sora', sans-serif" }}>
+      <div style={{ width: 390 }}>
+        <div className="preview-card" style={{ background: 'white', overflow: 'hidden' }}>
+          <FBPostHeader />
+          <div style={{ padding: '0 16px 12px', fontSize: 15, color: '#050505', lineHeight: 1.5 }}>
+            {singleAd.primaryText || 'Your primary ad text goes here.'}
+          </div>
+          {format === 'single' ? (
+            <SingleImageAdContent singleAd={singleAd} displayUrl={displayUrl} imageRatio={imageRatio} isMobile={true} />
+          ) : (
+            <CarouselAdContent cards={cards} displayUrl={displayUrl} isMobile={true} />
+          )}
+          <FBReactionBar />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── MAIN APP ─────────────────────────────────────────────────────────────────
+function App() {
+  const [format, setFormat] = useState('single');
+  const [device, setDevice] = useState('desktop');
+  const [imageRatio, setImageRatio] = useState('landscape'); // 'landscape' (1.91:1) | 'square' (1:1)
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [exporting, setExporting] = useState(false);
+  const previewRef = useRef();
+
+  const [singleAd, setSingleAd] = useState({
+    image: null,
+    headline: 'Discover Something New Today',
+    primaryText: 'Your story starts here. Connect with what matters most and explore new possibilities with us.',
+    cta: 'Learn More',
+  });
+
+  const [displayUrl, setDisplayUrl] = useState('yourwebsite.com');
+
+  const [cards, setCards] = useState([
+    { id: 1, image: null, headline: 'First Card Headline', description: 'Card one description text', cta: 'Learn More' },
+    { id: 2, image: null, headline: 'Second Card Headline', description: 'Card two description text', cta: 'Shop Now' },
+    { id: 3, image: null, headline: 'Third Card Headline', description: 'Card three description text', cta: 'Sign Up' },
+  ]);
+
+  const handleSingleChange = (field, value) => setSingleAd(prev => ({ ...prev, [field]: value }));
+
+  const handleExport = async () => {
+    if (!previewRef.current || exporting) return;
+    setExporting(true);
+    try {
+      // Target the card itself — avoids transparent-background compositing issues
+      const card = previewRef.current.querySelector('.preview-card') || previewRef.current;
+      const canvas = await html2canvas(card, {
+        useCORS: true,
+        allowTaint: true,
+        scale: 2,
+        backgroundColor: '#ffffff',
+        logging: false,
+        imageTimeout: 0,
+        removeContainer: true,
+      });
+      const link = document.createElement('a');
+      link.download = `meta-ad-${format}-${device}-${Date.now()}.png`;
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    } catch (err) {
+      console.error('Export failed:', err);
+    }
+    setExporting(false);
+  };
+
+  const S = {
+    app: {
+      display: 'flex', flexDirection: 'column', height: '100vh',
+      background: '#0F0F1A', fontFamily: "'Sora', sans-serif", color: '#e0e0f0', overflow: 'hidden'
+    },
+    topBar: {
+      height: 52, background: '#13132b', borderBottom: '1px solid #1e1e3a',
+      display: 'flex', alignItems: 'center', padding: '0 16px', gap: 12, flexShrink: 0,
+      boxShadow: '0 1px 0 rgba(255,255,255,0.04)'
+    },
+    logo: { fontSize: 15, fontWeight: 700, color: 'white', letterSpacing: '-0.02em', marginRight: 8 },
+    logoBlue: { color: FB_BLUE },
+    tabGroup: { display: 'flex', background: '#0e0e20', borderRadius: 8, padding: 3, gap: 2 },
+    tab: (active) => ({
+      padding: '5px 14px', borderRadius: 6, fontSize: 13, fontWeight: active ? 600 : 500,
+      background: active ? '#1e1e3a' : 'transparent', color: active ? 'white' : '#8888aa',
+      border: 'none', cursor: 'pointer', transition: 'all 0.15s',
+      fontFamily: "'Sora', sans-serif", position: 'relative'
+    }),
+    dividerV: { width: 1, height: 24, background: '#1e1e3a', margin: '0 4px' },
+    main: { display: 'flex', flex: 1, overflow: 'hidden' },
+    editPanel: {
+      width: 300, background: '#13132b', borderRight: '1px solid #1e1e3a',
+      overflowY: 'auto', flexShrink: 0, transition: 'width 0.3s ease'
+    },
+    editPanelHeader: {
+      padding: '14px 16px 10px', borderBottom: '1px solid #1e1e3a',
+      fontSize: 12, fontWeight: 700, letterSpacing: '0.08em',
+      textTransform: 'uppercase', color: '#8888aa'
+    },
+    previewArea: {
+      flex: 1, background: '#F0F2F5', overflowY: 'auto', overflowX: 'hidden',
+      display: 'flex', flexDirection: 'column'
+    },
+    previewInner: { flex: 1, padding: '24px 16px', minHeight: 0, background: '#F0F2F5' },
+    exportBtn: {
+      display: 'flex', alignItems: 'center', gap: 6, padding: '6px 14px',
+      background: exporting ? '#2a2a4a' : '#1e1e3a', color: exporting ? '#8888aa' : '#e0e0f0',
+      border: '1px solid #2a2a4a', borderRadius: 8, cursor: exporting ? 'not-allowed' : 'pointer',
+      fontSize: 13, fontWeight: 600, fontFamily: "'Sora', sans-serif",
+      transition: 'all 0.15s', marginLeft: 'auto'
+    },
+    mobileDrawerTrigger: {
+      display: 'none', position: 'fixed', bottom: 20, left: 20, zIndex: 100,
+      width: 48, height: 48, borderRadius: '50%', background: FB_BLUE,
+      border: 'none', cursor: 'pointer', boxShadow: '0 4px 12px rgba(24,119,242,0.4)',
+      alignItems: 'center', justifyContent: 'center', color: 'white'
+    }
+  };
+
+  const formatTabs = [
+    { id: 'single', label: 'Single Image' },
+    { id: 'carousel', label: 'Carousel' },
+  ];
+  const deviceTabs = [
+    { id: 'desktop', label: '🖥 Desktop' },
+    { id: 'mobile', label: '📱 Mobile' },
+  ];
+
+  return (
+    <div style={S.app}>
+      {/* ── Top bar ── */}
+      <div style={S.topBar}>
+        <span style={S.logo}>
+          Meta <span style={S.logoBlue}>Ad</span> Previewer
+        </span>
+        <div style={S.dividerV} />
+
+        {/* Format tabs */}
+        <div style={S.tabGroup}>
+          {formatTabs.map(t => (
+            <button key={t.id} style={S.tab(format === t.id)} onClick={() => setFormat(t.id)}>
+              {t.label}
+              {format === t.id && (
+                <div className="tab-underline" style={{
+                  position: 'absolute', bottom: 0, left: '20%', right: '20%', height: 2,
+                  background: FB_BLUE, borderRadius: 2
+                }} />
+              )}
+            </button>
+          ))}
+        </div>
+
+        <div style={S.dividerV} />
+
+        {/* Device tabs */}
+        <div style={S.tabGroup}>
+          {deviceTabs.map(t => (
+            <button key={t.id} style={S.tab(device === t.id)} onClick={() => setDevice(t.id)}>
+              {t.label}
+              {device === t.id && (
+                <div className="tab-underline" style={{
+                  position: 'absolute', bottom: 0, left: '20%', right: '20%', height: 2,
+                  background: FB_BLUE, borderRadius: 2
+                }} />
+              )}
+            </button>
+          ))}
+        </div>
+
+        <button
+          style={S.exportBtn}
+          onClick={handleExport}
+          className="tooltip"
+          data-tip="Export as PNG"
+          onMouseEnter={e => !exporting && (e.currentTarget.style.background = '#2a2a4a')}
+          onMouseLeave={e => !exporting && (e.currentTarget.style.background = '#1e1e3a')}>
+          <IconScreenshot />
+          {exporting ? 'Exporting…' : 'Export PNG'}
+        </button>
+      </div>
+
+      {/* ── Main layout ── */}
+      <div style={S.main}>
+        {/* Edit panel */}
+        <div style={S.editPanel}>
+          <div style={S.editPanelHeader}>
+            {format === 'single' ? 'Single Image Ad' : 'Carousel Ad'}
+          </div>
+          <EditPanel
+            format={format}
+            singleAd={singleAd}
+            onSingleChange={handleSingleChange}
+            cards={cards}
+            onCardsChange={setCards}
+            displayUrl={displayUrl}
+            onDisplayUrlChange={setDisplayUrl}
+            imageRatio={imageRatio}
+            onImageRatioChange={setImageRatio}
+          />
+        </div>
+
+        {/* Preview canvas */}
+        <div style={S.previewArea}>
+          <div ref={previewRef} style={S.previewInner}>
+            {device === 'desktop' ? (
+              <DesktopFeedPreview
+                format={format}
+                singleAd={singleAd}
+                cards={cards}
+                displayUrl={displayUrl}
+                imageRatio={imageRatio}
+              />
+            ) : (
+              <MobileFeedPreview
+                format={format}
+                singleAd={singleAd}
+                cards={cards}
+                displayUrl={displayUrl}
+                imageRatio={imageRatio}
+              />
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>
