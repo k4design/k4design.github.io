@@ -29,6 +29,20 @@ const SECTION_COLORS = {
   chorus: '#F5A623', bridge: '#F87171', outro: '#6EE7B7'
 };
 
+// ── Playback tracker (one progression at a time) ─────────────────
+let _activePlayCard = null;
+
+function stopAllPlayback() {
+  AUDIO.stopPlayback();
+  if (_activePlayCard) {
+    const btn = _activePlayCard.querySelector('.play-btn');
+    if (btn) { btn.textContent = '▶'; btn.classList.remove('is-playing'); }
+    _activePlayCard.querySelectorAll('.chord-cell.playing')
+      .forEach(c => c.classList.remove('playing'));
+    _activePlayCard = null;
+  }
+}
+
 // ── State ────────────────────────────────────────────────────────
 const state = {
   screen: 'home',
@@ -304,6 +318,8 @@ function renderSectionResults(progressions) {
 function buildResultCard(p, animIdx = 0) {
   const col = sectionColor(p.section);
   const isSaved = state.saved.some(s => s._id === p._id);
+  const chords = p.chords || [];
+  const romans = p.romanNumerals || p.roman_numerals || [];
 
   const card = document.createElement('div');
   card.className = 'result-card';
@@ -315,35 +331,84 @@ function buildResultCard(p, animIdx = 0) {
     <div class="card-header">
       <span class="section-badge" style="background:${col}22;color:${col}">${label.toUpperCase()}</span>
       <div class="card-actions">
+        <button class="icon-btn play-btn" title="Play progression">▶</button>
         <button class="icon-btn copy-btn" title="Copy chords">⎘</button>
         <button class="icon-btn fav-btn${isSaved ? ' fav-active' : ''}" title="${isSaved ? 'Unsave' : 'Save'}">♥</button>
       </div>
     </div>
     <div class="chord-display">
-      ${(p.chords || []).map((ch, i) => `
-        <div class="chord-cell">
+      ${chords.map((ch, i) => `
+        <div class="chord-cell" data-chord="${ch}" title="Click to hear ${ch}">
           <span class="chord-name" style="background:${chordColor(ch)}22;border-color:${chordColor(ch)}55;color:${chordColor(ch)}">${ch}</span>
-          <span class="chord-roman">${(p.romanNumerals || p.roman_numerals || [])[i] ?? ''}</span>
+          <span class="chord-roman">${romans[i] ?? ''}</span>
         </div>
       `).join('')}
     </div>
-    <div class="feel-tag" style="color:${col}">
-      ≋ ${p.feel || ''}
-    </div>
+    <div class="feel-tag" style="color:${col}">≋ ${p.feel || ''}</div>
     <div class="card-desc">${p.description || ''}</div>
   `;
 
+  // ── Individual chord click → play single chord ──────────────────
+  card.querySelectorAll('.chord-cell').forEach((cell, i) => {
+    cell.addEventListener('click', () => {
+      const chordName = cell.dataset.chord;
+      AUDIO.playChord(chordName);
+      // Brief highlight (don't interfere with progression playback)
+      if (_activePlayCard !== card) {
+        cell.classList.add('playing');
+        setTimeout(() => cell.classList.remove('playing'), 600);
+      }
+    });
+  });
+
+  // ── Play button → play/stop full progression ─────────────────────
+  const playBtn = card.querySelector('.play-btn');
+  playBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+
+    if (_activePlayCard === card) {
+      // Already playing this card — stop it
+      stopAllPlayback();
+      return;
+    }
+
+    // Stop any other card that might be playing
+    stopAllPlayback();
+    _activePlayCard = card;
+    playBtn.textContent = '■';
+    playBtn.classList.add('is-playing');
+
+    AUDIO.playProgression(
+      chords,
+      (chordIdx) => {
+        // Highlight the current chord cell
+        card.querySelectorAll('.chord-cell').forEach((cell, i) => {
+          cell.classList.toggle('playing', i === chordIdx);
+        });
+      },
+      () => {
+        // Playback finished naturally
+        playBtn.textContent = '▶';
+        playBtn.classList.remove('is-playing');
+        card.querySelectorAll('.chord-cell').forEach(c => c.classList.remove('playing'));
+        if (_activePlayCard === card) _activePlayCard = null;
+      }
+    );
+  });
+
+  // ── Copy button ──────────────────────────────────────────────────
   const copyBtn = card.querySelector('.copy-btn');
-  copyBtn.onclick = () => {
-    navigator.clipboard.writeText((p.chords || []).join(' - '));
+  copyBtn.addEventListener('click', () => {
+    navigator.clipboard.writeText(chords.join(' - '));
     copyBtn.textContent = '✓';
     copyBtn.classList.add('copied');
     setTimeout(() => { copyBtn.textContent = '⎘'; copyBtn.classList.remove('copied'); }, 1500);
     showToast('Chords copied!', 'success');
-  };
+  });
 
+  // ── Favourite button ─────────────────────────────────────────────
   const favBtn = card.querySelector('.fav-btn');
-  favBtn.onclick = () => {
+  favBtn.addEventListener('click', () => {
     if (state.saved.some(s => s._id === p._id)) {
       state.saved = state.saved.filter(s => s._id !== p._id);
       favBtn.classList.remove('fav-active');
@@ -354,7 +419,7 @@ function buildResultCard(p, animIdx = 0) {
       showToast('Saved! ♥', 'success');
     }
     saveToStorage();
-  };
+  });
 
   return card;
 }

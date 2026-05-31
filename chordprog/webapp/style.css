@@ -477,19 +477,60 @@ select option { background: var(--card); }
   gap: 10px;
   align-items: flex-end;
 }
-.chord-cell { display: flex; flex-direction: column; align-items: center; gap: 3px; }
+.chord-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  cursor: pointer;
+  user-select: none;
+}
+.chord-cell:hover .chord-name {
+  filter: brightness(1.25);
+  transform: translateY(-1px);
+}
 .chord-name {
   font-size: .85rem;
   font-weight: 700;
   padding: 5px 11px;
   border-radius: var(--radius-pill);
   border: 1px solid transparent;
+  transition: transform .15s, filter .15s, box-shadow .2s;
 }
 .chord-roman {
   font-size: .68rem;
   font-weight: 500;
   color: var(--text-sec);
   font-family: var(--font-serif);
+  transition: color .2s;
+}
+
+/* Active chord during playback */
+.chord-cell.playing .chord-name {
+  animation: chord-pop .35s cubic-bezier(.34,1.6,.64,1) both;
+  box-shadow: 0 0 14px 2px currentColor;
+}
+.chord-cell.playing .chord-roman { color: var(--text); }
+@keyframes chord-pop {
+  0%   { transform: scale(1); }
+  45%  { transform: scale(1.18) translateY(-3px); }
+  100% { transform: scale(1) translateY(0); }
+}
+
+/* Play button */
+.play-btn {
+  font-size: .85rem !important;
+  letter-spacing: .02em;
+  min-width: 28px;
+}
+.play-btn.is-playing {
+  opacity: 1 !important;
+  color: var(--accent) !important;
+  animation: play-pulse 1s ease-in-out infinite;
+}
+@keyframes play-pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: .5; }
 }
 
 .feel-tag { font-size: .78rem; font-style: italic; opacity: .85; display: flex; align-items: center; gap: 5px; }
