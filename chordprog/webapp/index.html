@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#0D0D14" />
+  <meta name="description" content="AI-powered chord progression generator for songwriters" />
+  <title>ChordCraft</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎸</text></svg>" />
+</head>
+<body>
+
+<div id="app">
+
+  <!-- ═══ NAV ═══════════════════════════════════════════════════ -->
+  <nav class="nav">
+    <span class="nav-brand">Chord<span>Craft</span></span>
+    <div class="nav-actions">
+      <button class="nav-btn" data-screen="home">Home</button>
+      <button class="nav-btn" data-screen="section">Section</button>
+      <button class="nav-btn" data-screen="full">Full Song</button>
+      <button class="nav-btn" data-screen="saved">Saved</button>
+      <button class="nav-btn" data-screen="settings">⚙</button>
+    </div>
+  </nav>
+
+  <!-- ═══ ONBOARDING ════════════════════════════════════════════ -->
+  <section class="screen" id="onboarding">
+    <div class="ob-steps">
+      <div class="ob-step">
+        <span class="ob-icon">🎸</span>
+        <h2>Welcome to <span style="color:var(--accent)">ChordCraft</span></h2>
+        <p>AI-powered chord progressions for songwriters. Build from a verse or generate a complete song structure — powered by Claude.</p>
+      </div>
+
+      <div class="ob-step">
+        <p style="margin-bottom:10px;font-size:.85rem;color:var(--text-sec)">
+          ChordCraft calls the Anthropic API directly from your browser.
+          Your key is stored only in your browser's local storage — never sent anywhere else.
+          Get a key at <a href="https://console.anthropic.com" target="_blank" style="color:var(--accent)">console.anthropic.com</a>.
+        </p>
+        <div class="ob-key-row">
+          <input type="password" id="ob-key-input" placeholder="sk-ant-..." autocomplete="off" spellcheck="false" />
+          <button id="ob-save-btn">Save &amp; Start</button>
+        </div>
+      </div>
+
+      <button class="ob-skip" id="ob-skip-btn">Skip for now (add key in Settings)</button>
+    </div>
+  </section>
+
+  <!-- ═══ HOME ══════════════════════════════════════════════════ -->
+  <section class="screen" id="home">
+    <h1 class="display hero-title">Chord<span>Craft</span></h1>
+    <p class="hero-sub">AI-powered chord progressions for every stage of your songwriting.</p>
+
+    <div class="mode-cards">
+
+      <div class="mode-card accent-card" id="card-section">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start">
+          <div class="card-icon" style="background:rgba(245,166,35,.12)">🎵</div>
+          <span class="card-badge" style="background:rgba(245,166,35,.12);color:var(--accent)">SECTION MODE</span>
+        </div>
+        <h3>Generate from Verse</h3>
+        <p>Input your verse chords and get AI-crafted suggestions for chorus, pre-chorus, bridge, and outro.</p>
+        <div class="card-cta" style="color:var(--accent)">Get started →</div>
+      </div>
+
+      <div class="mode-card teal-card" id="card-full">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start">
+          <div class="card-icon" style="background:rgba(78,205,196,.12)">🎸</div>
+          <span class="card-badge" style="background:rgba(78,205,196,.12);color:var(--teal)">FULL SONG</span>
+        </div>
+        <h3>Build Full Song</h3>
+        <p>Choose key, scale, genre, and mood — Claude composes a complete song from intro to outro.</p>
+        <div class="card-cta" style="color:var(--teal)">Get started →</div>
+      </div>
+
+    </div>
+
+    <div class="home-footer">
+      <button id="home-saved-btn">♥ Saved Progressions</button>
+    </div>
+  </section>
+
+  <!-- ═══ SECTION GENERATOR ═════════════════════════════════════ -->
+  <section class="screen" id="section">
+    <div class="gen-layout">
+
+      <!-- Sidebar / Controls -->
+      <aside class="gen-sidebar">
+        <h2 class="headline" style="font-size:1.1rem">Generate from Verse</h2>
+
+        <!-- Mode toggle -->
+        <div class="mode-toggle" id="section-mode-toggle">
+          <button class="mode-btn active" data-mode="theory">⚡ Instant (Theory)</button>
+          <button class="mode-btn" data-mode="ai">✦ AI (Claude)</button>
+        </div>
+
+        <!-- Genre (shown in theory mode) -->
+        <div class="panel form-group" id="section-genre-panel">
+          <label class="form-label">🎸 Genre</label>
+          <div class="chip-group" id="section-genre-chips"></div>
+        </div>
+
+        <!-- Verse Chord Input -->
+        <div class="panel form-group">
+          <label class="form-label">♩ Verse Chords</label>
+          <div class="chord-row" id="verse-chord-row"></div>
+        </div>
+
+        <!-- Key display -->
+        <div class="key-detect">
+          <span class="form-label" style="margin:0">🔑 Detected Key</span>
+          <span class="key-value" id="key-detected">C Major</span>
+        </div>
+
+        <!-- Section selector -->
+        <div class="panel form-group">
+          <label class="form-label">◈ Generate For</label>
+          <div class="chip-group" id="section-chips"></div>
+        </div>
+
+        <!-- Variation stepper -->
+        <div class="panel" style="display:flex;align-items:center;justify-content:space-between">
+          <span class="form-label" style="margin:0">⇄ Variations</span>
+          <div class="stepper">
+            <button id="var-minus" disabled>−</button>
+            <span class="count" id="variation-count">2</span>
+            <button id="var-plus">+</button>
+          </div>
+        </div>
+
+        <button class="gen-btn" id="section-gen-btn">
+          ✦ Generate Progressions
+        </button>
+      </aside>
+
+      <!-- Results -->
+      <main class="gen-results" id="section-results"></main>
+    </div>
+  </section>
+
+  <!-- ═══ FULL SONG GENERATOR ═══════════════════════════════════ -->
+  <section class="screen" id="full">
+    <div class="gen-layout">
+
+      <!-- Sidebar / Controls -->
+      <aside class="gen-sidebar">
+        <h2 class="headline" style="font-size:1.1rem">Build Full Song</h2>
+
+        <!-- Mode toggle -->
+        <div class="mode-toggle" id="full-mode-toggle">
+          <button class="mode-btn active" data-mode="theory">⚡ Instant (Theory)</button>
+          <button class="mode-btn" data-mode="ai">✦ AI (Claude)</button>
+        </div>
+
+        <div class="panel" style="display:flex;flex-direction:column;gap:14px">
+
+          <!-- Key + Scale -->
+          <div class="input-row">
+            <div class="form-group">
+              <label class="form-label">🔑 Key</label>
+              <select id="key-select"></select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">🎵 Scale</label>
+              <select id="scale-select"></select>
+            </div>
+          </div>
+
+          <!-- Genre -->
+          <div class="form-group">
+            <label class="form-label">🎸 Genre</label>
+            <div class="chip-group" id="genre-chips"></div>
+          </div>
+
+          <!-- Mood -->
+          <div class="form-group">
+            <label class="form-label">✦ Mood / Feel <span style="font-weight:400;opacity:.6">(optional)</span></label>
+            <input type="text" id="mood-input" placeholder="e.g. melancholic and driving" />
+          </div>
+        </div>
+
+        <button class="gen-btn" id="full-gen-btn">
+          ✦ Generate Full Song
+        </button>
+      </aside>
+
+      <!-- Results -->
+      <main class="gen-results" id="song-results"></main>
+    </div>
+  </section>
+
+  <!-- ═══ SAVED ═════════════════════════════════════════════════ -->
+  <section class="screen" id="saved">
+    <h2 class="page-title">Saved Progressions</h2>
+    <div class="saved-filter" id="saved-filter"></div>
+    <div id="saved-list"></div>
+  </section>
+
+  <!-- ═══ SETTINGS ══════════════════════════════════════════════ -->
+  <section class="screen" id="settings">
+    <h2 class="page-title">Settings</h2>
+
+    <div class="panel settings-panel">
+      <label class="form-label">🔑 Anthropic API Key</label>
+      <p style="font-size:.82rem;color:var(--text-sec);line-height:1.55">
+        Required to generate chord progressions. Your key is stored only in your browser.
+        Get one at <a href="https://console.anthropic.com" target="_blank" style="color:var(--accent)">console.anthropic.com</a>.
+      </p>
+      <div class="settings-row">
+        <input type="password" id="settings-key-input" placeholder="sk-ant-..." autocomplete="off" spellcheck="false" />
+        <button id="toggle-key-vis" title="Show/hide key">👁</button>
+      </div>
+      <div class="settings-row">
+        <button class="primary" id="save-key-btn">Save Key</button>
+        <button id="clear-key-btn">Clear</button>
+      </div>
+      <p class="key-status missing" id="key-status">✗ No API key configured</p>
+    </div>
+
+    <div class="panel" style="display:flex;flex-direction:column;gap:10px">
+      <label class="form-label">ℹ About</label>
+      <div style="display:flex;justify-content:space-between;font-size:.85rem">
+        <span style="color:var(--text-sec)">Model</span>
+        <span style="font-family:var(--font-mono);font-size:.78rem">claude-sonnet-4-20250514</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;font-size:.85rem">
+        <span style="color:var(--text-sec)">Version</span>
+        <span>1.0.0</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;font-size:.85rem">
+        <span style="color:var(--text-sec)">API calls</span>
+        <span style="color:var(--text-sec)">Browser → Anthropic (direct)</span>
+      </div>
+    </div>
+  </section>
+
+</div><!-- #app -->
+
+<!-- ═══ CHORD PICKER MODAL ═══════════════════════════════════════ -->
+<div class="modal-overlay" id="chord-picker-overlay">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-preview" id="picker-preview">C</div>
+
+    <div class="form-group">
+      <label class="form-label">Root Note</label>
+      <div class="root-row" id="picker-roots"></div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Quality</label>
+      <div class="quality-grid" id="picker-qualities"></div>
+    </div>
+
+    <button class="modal-add-btn" id="picker-add-btn">Add Chord</button>
+    <button class="ob-skip" id="picker-cancel" style="text-align:center;width:100%">Cancel</button>
+  </div>
+</div>
+
+<!-- ═══ TOAST ═════════════════════════════════════════════════════ -->
+<div class="toast" id="toast"></div>
+
+<script src="engine.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

@@ -221,6 +221,21 @@ const IconBulkUpload = () => (
     <path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-1 9h-4v4h-2v-4H9V9h4V5h2v4h4v2z"/>
   </svg>
 );
+const IconSave = () => (
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M17 3H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2V7l-4-4zm-5 16a3 3 0 110-6 3 3 0 010 6zm3-10H5V5h10v4z"/>
+  </svg>
+);
+const IconLoad = () => (
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M20 6h-8l-2-2H4a2 2 0 00-2 2v12a2 2 0 002 2h16a2 2 0 002-2V8a2 2 0 00-2-2zm-6 10l-4-4h3V9h2v3h3l-4 4z"/>
+  </svg>
+);
+const IconCheck = () => (
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/>
+  </svg>
+);
 
 // ─── HELPERS ─────────────────────────────────────────────────────────────────
 function readFileAsBase64(file) {
@@ -1011,7 +1026,10 @@ function App() {
   const [imageRatio, setImageRatio] = useState('landscape'); // 'landscape' (1.91:1) | 'square' (1:1)
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [exporting, setExporting] = useState(false);
+  const [saveFlash, setSaveFlash] = useState(false);  // brief ✓ after save
+  const [loadFlash, setLoadFlash] = useState(false);  // brief ✓ after load
   const previewRef = useRef();
+  const loadFileRef = useRef();
 
   const [singleAd, setSingleAd] = useState({
     image: null,
@@ -1029,6 +1047,52 @@ function App() {
   ]);
 
   const handleSingleChange = (field, value) => setSingleAd(prev => ({ ...prev, [field]: value }));
+
+  // ── Project save / load ──────────────────────────────────────────────────────
+  const handleSaveProject = () => {
+    const project = {
+      version: 1,
+      savedAt: new Date().toISOString(),
+      format,
+      device,
+      imageRatio,
+      displayUrl,
+      singleAd,
+      cards,
+    };
+    const blob = new Blob([JSON.stringify(project, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    const slug = (singleAd.headline || 'ad-setup').toLowerCase().replace(/[^a-z0-9]+/g, '-').slice(0, 32);
+    link.download = `${slug}.admock.json`;
+    link.href = url;
+    link.click();
+    URL.revokeObjectURL(url);
+    setSaveFlash(true);
+    setTimeout(() => setSaveFlash(false), 2000);
+  };
+
+  const handleLoadProject = (file) => {
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = e => {
+      try {
+        const project = JSON.parse(e.target.result);
+        if (!project.version) throw new Error('Invalid project file');
+        if (project.format)     setFormat(project.format);
+        if (project.device)     setDevice(project.device);
+        if (project.imageRatio) setImageRatio(project.imageRatio);
+        if (project.displayUrl !== undefined) setDisplayUrl(project.displayUrl);
+        if (project.singleAd)   setSingleAd(project.singleAd);
+        if (project.cards)      setCards(project.cards);
+        setLoadFlash(true);
+        setTimeout(() => setLoadFlash(false), 2000);
+      } catch (err) {
+        alert('Could not load project file. Make sure it\'s a valid .admock.json file.');
+      }
+    };
+    reader.readAsText(file);
+  };
 
   const handleExport = async () => {
     if (!previewRef.current || exporting) return;
@@ -1154,6 +1218,51 @@ function App() {
             </button>
           ))}
         </div>
+
+        <div style={S.dividerV} />
+
+        {/* Save / Load project */}
+        <input
+          ref={loadFileRef}
+          type="file"
+          accept=".json,application/json"
+          style={{ display: 'none' }}
+          onChange={e => { handleLoadProject(e.target.files[0]); e.target.value = ''; }}
+        />
+        <div style={{ display: 'flex', gap: 6 }}>
+          <button
+            onClick={() => loadFileRef.current.click()}
+            style={{
+              display: 'flex', alignItems: 'center', gap: 5, padding: '6px 12px',
+              background: loadFlash ? '#14532d' : '#1e1e3a',
+              color: loadFlash ? '#4ade80' : '#c0c0d8',
+              border: `1px solid ${loadFlash ? '#166534' : '#2a2a4a'}`,
+              borderRadius: 8, cursor: 'pointer', fontSize: 13, fontWeight: 600,
+              fontFamily: "'Sora', sans-serif", transition: 'all 0.2s', whiteSpace: 'nowrap'
+            }}
+            onMouseEnter={e => !loadFlash && (e.currentTarget.style.background = '#2a2a4a')}
+            onMouseLeave={e => !loadFlash && (e.currentTarget.style.background = '#1e1e3a')}>
+            {loadFlash ? <IconCheck /> : <IconLoad />}
+            {loadFlash ? 'Loaded!' : 'Load Setup'}
+          </button>
+          <button
+            onClick={handleSaveProject}
+            style={{
+              display: 'flex', alignItems: 'center', gap: 5, padding: '6px 12px',
+              background: saveFlash ? '#14532d' : '#1e1e3a',
+              color: saveFlash ? '#4ade80' : '#c0c0d8',
+              border: `1px solid ${saveFlash ? '#166534' : '#2a2a4a'}`,
+              borderRadius: 8, cursor: 'pointer', fontSize: 13, fontWeight: 600,
+              fontFamily: "'Sora', sans-serif", transition: 'all 0.2s', whiteSpace: 'nowrap'
+            }}
+            onMouseEnter={e => !saveFlash && (e.currentTarget.style.background = '#2a2a4a')}
+            onMouseLeave={e => !saveFlash && (e.currentTarget.style.background = '#1e1e3a')}>
+            {saveFlash ? <IconCheck /> : <IconSave />}
+            {saveFlash ? 'Saved!' : 'Save Setup'}
+          </button>
+        </div>
+
+        <div style={S.dividerV} />
 
         <button
           style={S.exportBtn}

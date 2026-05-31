@@ -1,0 +1,12 @@
+# Xcode
+*.xcuserstate
+xcuserdata/
+*.xcworkspace/xcuserdata/
+DerivedData/
+.build/
+
+# API Key config — never commit this
+ChordCraft/Config.plist
+
+# macOS
+.DS_Store
