@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>EXTRA SAUCE — Smash Burgers at Their Finest · Brooklyn, NY</title>
+<meta name="description" content="Extra Sauce BK — smash burgers & crispy chicken sandwiches born in Brooklyn. Made with love in New York City." />
+<link rel="icon" href="https://images.squarespace-cdn.com/content/v1/6413a73ceebce40bebc600a3/c8684aa7-9dd2-4bb6-b33c-9a28dc48b9be/favicon.ico" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo+Black&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --sauce:#F0523D;
+  --sauce-deep:#C9341F;
+  --ink:#0E0E0E;
+  --ink-2:#191919;
+  --cream:#F4EDE1;
+  --bone:#F6F6F6;
+  --blue:#00B2FF;
+  --mustard:#F4B83B;
+  --vh:1vh;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--ink);
+  color:var(--cream);
+  font-family:'Space Grotesk',sans-serif;
+  overflow-x:hidden;
+  cursor:none;
+}
+@media(hover:none){body{cursor:auto}}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+::selection{background:var(--sauce);color:#fff}
+
+/* GRAIN OVERLAY */
+.grain{
+  position:fixed;inset:-50%;z-index:9000;pointer-events:none;opacity:.06;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation:grain 1.2s steps(4) infinite;
+}
+@keyframes grain{0%{transform:translate(0,0)}25%{transform:translate(-3%,2%)}50%{transform:translate(2%,-2%)}75%{transform:translate(-2%,-3%)}100%{transform:translate(2%,2%)}}
+
+/* CURSOR */
+.cursor{position:fixed;top:0;left:0;width:18px;height:18px;border-radius:50%;background:var(--sauce);z-index:10000;pointer-events:none;transform:translate(-50%,-50%);mix-blend-mode:difference;transition:width .25s,height .25s,background .25s}
+.cursor.big{width:90px;height:90px;background:var(--blue)}
+.cursor-label{position:fixed;z-index:10001;pointer-events:none;transform:translate(-50%,-50%);font-family:'Archivo Black';font-size:11px;letter-spacing:.05em;color:#fff;opacity:0;transition:opacity .2s;text-transform:uppercase;mix-blend-mode:difference}
+.cursor.big + .cursor-label{opacity:1}
+@media(hover:none){.cursor,.cursor-label{display:none}}
+
+/* PRELOADER */
+.loader{position:fixed;inset:0;z-index:11000;background:var(--sauce);display:flex;align-items:center;justify-content:center;flex-direction:column;transition:transform 1s cubic-bezier(.76,0,.24,1)}
+.loader.done{transform:translateY(-100%)}
+.loader h1{font-family:'Anton';color:var(--ink);font-size:clamp(3rem,14vw,11rem);line-height:.8;text-align:center;letter-spacing:-.02em}
+.loader .count{font-family:'Archivo Black';color:var(--cream);font-size:1.2rem;margin-top:1.5rem;letter-spacing:.3em}
+.drip{position:absolute;bottom:0;left:0;width:100%;height:0;background:var(--ink)}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;width:100%;z-index:8000;display:flex;justify-content:space-between;align-items:center;padding:1.4rem clamp(1rem,4vw,3rem);mix-blend-mode:difference}
+nav .logo{font-family:'Anton';font-size:1.5rem;letter-spacing:.02em;color:#fff}
+nav .logo b{color:var(--sauce)}
+.nav-links{display:flex;gap:2rem;align-items:center}
+.nav-links a{font-family:'Space Grotesk';font-weight:700;font-size:.8rem;text-transform:uppercase;letter-spacing:.15em;color:#fff;position:relative}
+.nav-links a::after{content:"";position:absolute;left:0;bottom:-5px;width:0;height:2px;background:var(--sauce);transition:width .3s}
+.nav-links a:hover::after{width:100%}
+.order-btn{background:var(--sauce);color:#fff !important;padding:.6rem 1.3rem;border-radius:40px;mix-blend-mode:normal}
+.order-btn::after{display:none !important}
+@media(max-width:760px){.nav-links a:not(.order-btn){display:none}}
+
+/* HERO */
+.hero{height:calc(var(--vh)*100);position:relative;display:flex;flex-direction:column;justify-content:center;align-items:center;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(circle at 50% 40%,#241a14 0%,var(--ink) 70%)}
+.hero-burger{position:absolute;top:50%;left:50%;width:min(46vw,560px);transform:translate(-50%,-50%);border-radius:50%;object-fit:cover;aspect-ratio:1;z-index:2;box-shadow:0 40px 120px rgba(0,0,0,.6);will-change:transform}
+.hero-title{position:relative;z-index:3;text-align:center;pointer-events:none;mix-blend-mode:exclusion}
+.hero-title h1{font-family:'Anton';font-size:clamp(4rem,20vw,20rem);line-height:.78;color:var(--cream);letter-spacing:-.02em}
+.hero-title .lo{display:block}
+.hero-sub{position:absolute;bottom:8%;z-index:4;display:flex;flex-direction:column;align-items:center;gap:.4rem}
+.hero-sub p{font-family:'Archivo Black';font-size:.85rem;letter-spacing:.3em;text-transform:uppercase;color:var(--sauce)}
+.scroll-cue{font-size:.7rem;letter-spacing:.3em;opacity:.6;animation:bob 1.6s infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(8px)}}
+.tag-spin{position:absolute;top:14%;right:7%;z-index:5;width:120px;height:120px;animation:spin 9s linear infinite}
+.tag-spin svg{width:100%;height:100%}
+.tag-spin text{font-family:'Archivo Black';font-size:13px;fill:var(--cream);letter-spacing:.1em}
+.tag-spin .dot{font-family:'Anton';font-size:34px}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media(max-width:760px){.tag-spin{width:84px;height:84px;top:11%;right:5%}}
+
+/* MARQUEE */
+.marquee{background:var(--sauce);color:var(--ink);padding:1.1rem 0;overflow:hidden;white-space:nowrap;border-top:3px solid var(--ink);border-bottom:3px solid var(--ink)}
+.marquee.blue{background:var(--blue)}
+.marquee.cream{background:var(--cream)}
+.marquee-track{display:inline-flex;gap:2.5rem;animation:scrollx 22s linear infinite;will-change:transform}
+.marquee.rev .marquee-track{animation-direction:reverse}
+.marquee span{font-family:'Anton';font-size:clamp(1.6rem,4vw,2.6rem);text-transform:uppercase;letter-spacing:.01em;display:inline-flex;align-items:center;gap:2.5rem}
+.marquee span::after{content:"★";color:var(--ink);font-size:.7em}
+@keyframes scrollx{to{transform:translateX(-50%)}}
+
+/* SECTION SHELL */
+section{position:relative;z-index:1}
+.eyebrow{font-family:'Archivo Black';font-size:.8rem;letter-spacing:.3em;text-transform:uppercase;color:var(--sauce);margin-bottom:1.2rem;display:flex;align-items:center;gap:.7rem}
+.eyebrow::before{content:"";width:34px;height:3px;background:var(--sauce)}
+
+/* STORY */
+.story{padding:clamp(5rem,12vw,11rem) clamp(1.2rem,5vw,6rem);background:var(--cream);color:var(--ink);overflow:hidden}
+.story-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(2rem,5vw,5rem);align-items:center;max-width:1400px;margin:0 auto}
+.story h2{font-family:'Anton';font-size:clamp(2.4rem,6vw,5.2rem);line-height:.92;letter-spacing:-.01em;margin-bottom:1.6rem}
+.story h2 em{color:var(--sauce);font-style:normal}
+.story p{font-size:clamp(1rem,1.4vw,1.25rem);line-height:1.6;max-width:46ch;margin-bottom:1.4rem;color:#2a2a2a}
+.story .pill{display:inline-block;border:2px solid var(--ink);border-radius:40px;padding:.5rem 1.2rem;font-family:'Archivo Black';font-size:.72rem;letter-spacing:.15em;text-transform:uppercase;margin:.3rem .3rem 0 0}
+.story-img{position:relative}
+.story-img img{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:8px}
+.story-img .stamp{position:absolute;bottom:-26px;left:-26px;width:150px;height:150px;background:var(--sauce);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;text-align:center;font-family:'Anton';font-size:1.1rem;line-height:1;padding:1rem;transform:rotate(-12deg);box-shadow:0 14px 40px rgba(240,82,61,.4)}
+@media(max-width:860px){.story-grid{grid-template-columns:1fr}.story-img .stamp{width:110px;height:110px;font-size:.85rem;left:auto;right:10px}}
+
+/* MENU */
+.menu{padding:clamp(4rem,10vw,9rem) 0;background:var(--ink);position:relative}
+.menu-head{padding:0 clamp(1.2rem,5vw,6rem);max-width:1400px;margin:0 auto 3rem;display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:1rem}
+.menu-head h2{font-family:'Anton';font-size:clamp(2.6rem,8vw,7rem);line-height:.85;letter-spacing:-.02em}
+.menu-head h2 span{color:var(--sauce);-webkit-text-stroke:0}
+.menu-head .note{font-size:.85rem;opacity:.6;max-width:24ch;text-align:right}
+.menu-list{max-width:1400px;margin:0 auto;border-top:1px solid #2a2a2a}
+.menu-row{display:grid;grid-template-columns:auto 1fr auto;gap:1.5rem;align-items:center;padding:clamp(1.2rem,3vw,2.3rem) clamp(1.2rem,5vw,6rem);border-bottom:1px solid #2a2a2a;position:relative;transition:background .4s,color .4s;cursor:none}
+.menu-row .idx{font-family:'Archivo Black';font-size:.8rem;color:var(--sauce);opacity:.8}
+.menu-row .name{font-family:'Anton';font-size:clamp(1.6rem,4.5vw,3.4rem);line-height:.95;transition:transform .4s;letter-spacing:-.01em}
+.menu-row .desc{font-size:.8rem;opacity:.55;max-width:30ch;margin-top:.3rem}
+.menu-row .price{font-family:'Archivo Black';font-size:clamp(1.1rem,2vw,1.6rem);justify-self:end}
+.menu-row .reveal{position:fixed;top:0;left:0;width:260px;height:320px;object-fit:cover;border-radius:10px;pointer-events:none;opacity:0;z-index:50;transform:translate(-50%,-50%) rotate(-6deg) scale(.8);transition:opacity .3s,transform .3s}
+.menu-row:hover{background:var(--sauce);color:#fff}
+.menu-row:hover .idx{color:#fff}
+.menu-row:hover .name{transform:translateX(20px)}
+.menu-row:hover .reveal{opacity:1;transform:translate(-50%,-50%) rotate(-6deg) scale(1)}
+@media(hover:none){.menu-row .reveal{display:none}.menu-row:hover .name{transform:none}}
+.menu-cat{padding:2.5rem clamp(1.2rem,5vw,6rem) .5rem;max-width:1400px;margin:0 auto;font-family:'Archivo Black';font-size:.8rem;letter-spacing:.3em;text-transform:uppercase;color:var(--blue)}
+
+/* GALLERY */
+.gallery{padding:clamp(4rem,10vw,9rem) 0;background:var(--ink);overflow:hidden}
+.gallery h2{font-family:'Anton';font-size:clamp(2.6rem,9vw,8rem);text-align:center;line-height:.85;margin-bottom:.4rem;letter-spacing:-.02em}
+.gallery .sub{text-align:center;opacity:.5;margin-bottom:3rem;letter-spacing:.2em;font-size:.8rem;text-transform:uppercase}
+.gal-row{display:flex;gap:1.4rem;padding:0 1.4rem;margin-bottom:1.4rem;will-change:transform}
+.gal-row img{height:clamp(180px,30vw,360px);width:auto;border-radius:8px;object-fit:cover;flex:0 0 auto}
+
+/* SAUCE / ATTITUDE */
+.attitude{background:var(--sauce);color:var(--ink);padding:clamp(5rem,12vw,11rem) clamp(1.2rem,5vw,6rem);text-align:center;overflow:hidden}
+.attitude h2{font-family:'Anton';font-size:clamp(2.6rem,11vw,11rem);line-height:.82;letter-spacing:-.02em;max-width:18ch;margin:0 auto}
+.attitude h2 em{font-style:normal;-webkit-text-stroke:2px var(--ink);color:transparent}
+.attitude p{max-width:50ch;margin:2rem auto 0;font-size:clamp(1rem,1.6vw,1.35rem);font-weight:500;line-height:1.5}
+
+/* LOCATIONS */
+.locations{padding:clamp(4rem,10vw,9rem) clamp(1.2rem,5vw,6rem);background:var(--cream);color:var(--ink)}
+.loc-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem;max-width:1400px;margin:2.5rem auto 0}
+.loc-card{border:3px solid var(--ink);border-radius:14px;padding:clamp(1.6rem,3vw,2.6rem);position:relative;overflow:hidden;transition:transform .4s,background .4s,color .4s}
+.loc-card:hover{transform:translateY(-8px);background:var(--ink);color:var(--cream)}
+.loc-card .tag{position:absolute;top:1.4rem;right:1.4rem;font-family:'Archivo Black';font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;background:var(--sauce);color:#fff;padding:.35rem .8rem;border-radius:30px}
+.loc-card h3{font-family:'Anton';font-size:clamp(2rem,5vw,3.4rem);line-height:.9;margin-bottom:1rem;letter-spacing:-.01em}
+.loc-card .addr{font-size:1.05rem;line-height:1.5;margin-bottom:1rem}
+.loc-card .hrs{font-size:.9rem;opacity:.75;line-height:1.6}
+.loc-card .soon{color:var(--sauce);font-family:'Archivo Black';font-size:.8rem;letter-spacing:.1em;text-transform:uppercase}
+@media(max-width:760px){.loc-grid{grid-template-columns:1fr}}
+
+/* FOOTER */
+footer{background:var(--ink);padding:clamp(4rem,9vw,8rem) clamp(1.2rem,5vw,6rem) 2.5rem;position:relative;overflow:hidden}
+.foot-cta{font-family:'Anton';font-size:clamp(3rem,15vw,15rem);line-height:.78;letter-spacing:-.03em;text-align:center;color:var(--cream);margin-bottom:3rem}
+.foot-cta a{display:inline-block;transition:color .3s}
+.foot-cta a:hover{color:var(--sauce)}
+.foot-grid{display:flex;justify-content:space-between;flex-wrap:wrap;gap:2rem;max-width:1400px;margin:0 auto;border-top:1px solid #2a2a2a;padding-top:2.5rem}
+.foot-col h4{font-family:'Archivo Black';font-size:.75rem;letter-spacing:.2em;text-transform:uppercase;color:var(--sauce);margin-bottom:1rem}
+.foot-col a,.foot-col p{display:block;font-size:.95rem;line-height:1.9;opacity:.8;transition:opacity .2s,color .2s}
+.foot-col a:hover{opacity:1;color:var(--sauce)}
+.foot-bottom{max-width:1400px;margin:3rem auto 0;display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem;font-size:.75rem;opacity:.4;letter-spacing:.05em}
+
+/* reveal anim */
+.up{opacity:0;transform:translateY(40px);transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1)}
+.up.in{opacity:1;transform:none}
+</style>
+</head>
+<body>
+<div class="grain"></div>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-label" id="cursorLabel">VIEW</div>
+
+<div class="loader" id="loader">
+  <div class="drip" id="drip"></div>
+  <h1>EXTRA<br>SAUCE</h1>
+  <div class="count" id="count">00</div>
+</div>
+
+<nav>
+  <div class="logo">EXTRA<b>.</b>SAUCE</div>
+  <div class="nav-links">
+    <a href="#story">Story</a>
+    <a href="#menu">Menu</a>
+    <a href="#spots">Spots</a>
+    <a class="order-btn" data-cursor href="#spots">Order Now</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero" id="top">
+  <div class="hero-bg"></div>
+  <img class="hero-burger" id="heroBurger" src="https://images.squarespace-cdn.com/content/v1/6413a73ceebce40bebc600a3/0a2283c7-1124-44b8-86f3-8f29b4281ec7/DSC02679.JPG?format=1200w" alt="Extra Sauce smash burger" />
+  <div class="hero-title">
+    <h1><span class="lo">EXTRA</span><span class="lo" style="color:var(--sauce)">SAUCE</span></h1>
+  </div>
+  <div class="tag-spin">
+    <svg viewBox="0 0 100 100">
+      <defs><path id="circ" d="M50,50 m-37,0 a37,37 0 1,1 74,0 a37,37 0 1,1 -74,0" /></defs>
+      <text><textPath href="#circ">BROOKLYN · NYC · SMASH · SINCE THE POP-UP · </textPath></text>
+      <text x="50" y="62" text-anchor="middle" class="dot" fill="#F0523D">★</text>
+    </svg>
+  </div>
+  <div class="hero-sub">
+    <p>Smash Burgers at Their Finest</p>
+    <span class="scroll-cue">SCROLL ↓</span>
+  </div>
+</header>
+
+<!-- MARQUEE 1 -->
+<div class="marquee">
+  <div class="marquee-track">
+    <span>MADE WITH LOVE IN NYC</span><span>CRISPY EDGES</span><span>WAFFLE FRIES</span><span>EXTRA SAUCE</span>
+    <span>MADE WITH LOVE IN NYC</span><span>CRISPY EDGES</span><span>WAFFLE FRIES</span><span>EXTRA SAUCE</span>
+  </div>
+</div>
+
+<!-- STORY -->
+<section class="story" id="story">
+  <div class="story-grid">
+    <div class="up">
+      <div class="eyebrow">The Origin</div>
+      <h2>Born in a <em>Brooklyn</em> pop-up. Raised on attitude.</h2>
+      <p>We started slinging smash burgers out of a pop-up on the streets of Brooklyn — no frills, no shortcuts, just screaming-hot griddles and beef smashed thin until the edges go lacy and gold.</p>
+      <p>That cult following followed us downtown. Now we're bringing the borough's energy and our obsession with quality ingredients straight to Wall Street — with Bushwick loading next.</p>
+      <div>
+        <span class="pill">Smashed Daily</span>
+        <span class="pill">Local Beef</span>
+        <span class="pill">House Sauce</span>
+        <span class="pill">No Compromise</span>
+      </div>
+    </div>
+    <div class="story-img up">
+      <img src="https://images.squarespace-cdn.com/content/v1/6413a73ceebce40bebc600a3/9705952d-8ec6-4adf-9cba-cbc9d77fa8b3/DSC02577.JPG?format=1000w" alt="Smash burger close up" />
+      <div class="stamp">EST.<br>BK</div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE 2 -->
+<div class="marquee blue rev">
+  <div class="marquee-track">
+    <span>CHICKEN SANDWICHES</span><span>SMASH BURGERS</span><span>SHAKES</span><span>SAUCE ON SAUCE</span>
+    <span>CHICKEN SANDWICHES</span><span>SMASH BURGERS</span><span>SHAKES</span><span>SAUCE ON SAUCE</span>
+  </div>
+</div>
+
+<!-- MENU -->
+<section class="menu" id="menu">
+  <div class="menu-head up">
+    <h2>THE<br><span>GOODS</span></h2>
+    <p class="note">Smashed to order. Hover a name to see the damage.</p>
+  </div>
+
+  <div class="menu-cat">— Smash Burgers</div>
+  <div class="menu-list" id="menuList">
+    <div class="menu-row" data-cursor>
+      <span class="idx">01</span>
+      <div><div class="name">The OG Smash</div><div class="desc">Double smashed patty, American, pickles, onion, house Extra Sauce.</div></div>
+      <span class="price">$10</span>
+      <img class="reveal" src="https://images.squarespace-cdn.com/content/v1/6413a73ceebce40bebc600a3/2a5f7622-2956-4c26-a165-a5e0cb9b7b5c/DSC02591.JPG?format=600w" alt="">
+    </div>
+    <div class="menu-row" data-cursor>
+      <span class="idx">02</span>
+      <div><div class="name">Triple Trouble</div><div class="desc">Three patties, triple cheese, grilled onions, for the brave.</div></div>
+      <span class="price">$14</span>
+      <img class="reveal" src="https://images.squarespace-cdn.com/content/v1/6413a73ceebce40bebc600a3/30ae07fd-bb59-41a1-83f8-2f00fc4ccef5/DSC02601.JPG?format=600w" alt="">
+    </div>
+    <div class="menu-row" data-cursor>
+      <span class="idx">03</span>
+      <div><div class="name">Bacon Borough</div><div class="desc">Double smash, candied bacon, sharp cheddar, smoked aioli.</div></div>
+      <span class="price">$13</span>
+      <img class="reveal" src="https://images.squarespace-cdn.com/content/v1/6413a73ceebce40bebc600a3/62fe3ec2-6db3-4e52-bb70-7a5fe1d8dd70/DSC02594.JPG?format=600w" alt="">
+    </div>
+    <div class="menu-row" data-cursor>
+      <span class="idx">04</span>
+      <div><div class="name">Sauce Boss</div><div class="desc">Double patty drowning in queso, jalapeño, crispy onions.</div></div>
+      <span class="price">$12</span>
+      <img class="reveal" src="https://images.squarespace-cdn.com/content/v1/6413a73ceebce40bebc600a3/66a00f58-0bdf-4cce-b00b-5aa4b2322521/DSC02598.JPG?format=600w" alt="">
+    </div>
+  </div>
+
+  <div class="menu-cat">— Crispy Chicken</div>
+  <div class="menu-list">
+    <div class="menu-row" data-cursor>
+      <span class="idx">05</span>
+      <div><div class="name">The Cluck</div><div class="desc">Buttermilk-fried thigh, slaw, pickles, garlic mayo.</div></div>
+      <span class="price">$11</span>
+      <img class="reveal" src="https://images.squarespace-cdn.com/content/v1/6413a73ceebce40bebc600a3/4e8a6ee5-b6fb-4e48-bdfc-9e86a2bb27c5/DSC02714.JPG?format=600w" alt="">
+    </div>
+    <div class="menu-row" data-cursor>
+      <span class="idx">06</span>
+      <div><div class="name">Nashville Heat</div><div class="desc">Cayenne-lacquered crispy chicken, comeback sauce, dill.</div></div>
+      <span class="price">$12</span>
+      <img class="reveal" src="https://images.squarespace-cdn.com/content/v1/6413a73ceebce40bebc600a3/68a136b7-2337-4f93-aa42-04a4c374e5dc/DSC02711.JPG?format=600w" alt="">
+    </div>
+    <div class="menu-row" data-cursor>
+      <span class="idx">07</span>
+      <div><div class="name">Honey Hush</div><div class="desc">Crispy chicken, hot honey, swiss, crunchy slaw.</div></div>
+      <span class="price">$12</span>
+      <img class="reveal" src="https://images.squarespace-cdn.com/content/v1/6413a73ceebce40bebc600a3/3902f544-3228-4b5d-80b3-56db02cf066a/DSC02733.JPG?format=600w" alt="">
+    </div>
+  </div>
+
+  <div class="menu-cat">— Sides & Shakes</div>
+  <div class="menu-list">
+    <div class="menu-row" data-cursor>
+      <span class="idx">08</span>
+      <div><div class="name">Waffle Fries</div><div class="desc">Crispy, craggy, dusted in our seasoning. Add sauce, obviously.</div></div>
+      <span class="price">$6</span>
+      <img class="reveal" src="https://images.squarespace-cdn.com/content/v1/6413a73ceebce40bebc600a3/a362e560-b219-4a20-986e-d2f3440371e7/DSC02627.JPG?format=600w" alt="">
+    </div>
+    <div class="menu-row" data-cursor>
+      <span class="idx">09</span>
+      <div><div class="name">Loaded Fries</div><div class="desc">Waffle fries, queso, bacon, scallion, Extra Sauce drizzle.</div></div>
+      <span class="price">$9</span>
+      <img class="reveal" src="https://images.squarespace-cdn.com/content/v1/6413a73ceebce40bebc600a3/c01f1c16-1e7e-4f93-8119-8fe3c862ad51/DSC02645.JPG?format=600w" alt="">
+    </div>
+    <div class="menu-row" data-cursor>
+      <span class="idx">10</span>
+      <div><div class="name">Brooklyn Shake</div><div class="desc">Thick-pour vanilla, chocolate, or black & white. Cup runneth over.</div></div>
+      <span class="price">$7</span>
+      <img class="reveal" src="https://images.squarespace-cdn.com/content/v1/6413a73ceebce40bebc600a3/bb9f274d-32d2-4089-bba5-9220a692ed66/DSC02650.JPG?format=600w" alt="">
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="gallery">
+  <h2>SAUCE<br>ON SAUCE</h2>
+  <p class="sub">Shot in Brooklyn · Eaten everywhere</p>
+  <div class="gal-row" data-speed="1">
+    <img src="https://images.squarespace-cdn.com/content/v1/6413a73ceebce40bebc600a3/526d690f-d309-427f-beac-8cf77070fa33/DSC02689.JPG?format=750w" alt="">
+    <img src="https://images.squarespace-cdn.com/content/v1/6413a73ceebce40bebc600a3/d86996a2-1d44-439e-867f-dd0367318933/DSC02580.JPG?format=750w" alt="">
+    <img src="https://images.squarespace-cdn.com/content/v1/6413a73ceebce40bebc600a3/e48c9b25-3cec-4965-ab16-f66820c98b63/DSC02730.JPG?format=750w" alt="">
+    <img src="https://images.squarespace-cdn.com/content/v1/6413a73ceebce40bebc600a3/ac751f51-503d-4952-a31a-2494ed2a5098/DSC02596.JPG?format=750w" alt="">
+    <img src="https://images.squarespace-cdn.com/content/v1/6413a73ceebce40bebc600a3/bf7bac40-7f61-407d-b5f6-dc6219cc3559/DSC02618.JPG?format=750w" alt="">
+  </div>
+  <div class="gal-row" data-speed="-1">
+    <img src="https://images.squarespace-cdn.com/content/v1/6413a73ceebce40bebc600a3/4e8a6ee5-b6fb-4e48-bdfc-9e86a2bb27c5/DSC02714.JPG?format=750w" alt="">
+    <img src="https://images.squarespace-cdn.com/content/v1/6413a73ceebce40bebc600a3/3902f544-3228-4b5d-80b3-56db02cf066a/DSC02733.JPG?format=750w" alt="">
+    <img src="https://images.squarespace-cdn.com/content/v1/6413a73ceebce40bebc600a3/a362e560-b219-4a20-986e-d2f3440371e7/DSC02627.JPG?format=750w" alt="">
+    <img src="https://images.squarespace-cdn.com/content/v1/6413a73ceebce40bebc600a3/30ae07fd-bb59-41a1-83f8-2f00fc4ccef5/DSC02601.JPG?format=750w" alt="">
+    <img src="https://images.squarespace-cdn.com/content/v1/6413a73ceebce40bebc600a3/2a5f7622-2956-4c26-a165-a5e0cb9b7b5c/DSC02591.JPG?format=750w" alt="">
+  </div>
+</section>
+
+<!-- ATTITUDE -->
+<section class="attitude">
+  <h2 class="up">NO <em>FRILLS.</em><br>ALL <em>FLAVOR.</em></h2>
+  <p class="up">Quality ingredients. Exceptional service. The taste of Brooklyn — smashed thin, stacked high, and served with way more sauce than strictly necessary.</p>
+</section>
+
+<!-- LOCATIONS -->
+<section class="locations" id="spots">
+  <div class="up">
+    <div class="eyebrow">Find Us</div>
+    <h2 style="font-family:'Anton';font-size:clamp(2.4rem,7vw,6rem);line-height:.85;letter-spacing:-.01em">TWO SPOTS.<br>ONE OBSESSION.</h2>
+  </div>
+  <div class="loc-grid">
+    <div class="loc-card up" data-cursor>
+      <span class="tag">Open Now</span>
+      <h3>Wall Street</h3>
+      <p class="addr">100 Pearl St<br>New York, NY 10004</p>
+      <p class="hrs">Mon–Fri · 11am – 8pm<br>Sat–Sun · Coming soon</p>
+    </div>
+    <div class="loc-card up" data-cursor>
+      <span class="tag">Coming Soon</span>
+      <h3>Bushwick</h3>
+      <p class="addr">1495 Dekalb Avenue<br>Brooklyn, NY 11237</p>
+      <p class="hrs">Mon–Sun · 11am – 12am</p>
+      <p class="soon">★ The home turf returns</p>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE 3 -->
+<div class="marquee cream">
+  <div class="marquee-track">
+    <span>EXTRA SAUCE BK</span><span>@EXTRASAUCEBK</span><span>SMASH BURGERS AT THEIR FINEST</span>
+    <span>EXTRA SAUCE BK</span><span>@EXTRASAUCEBK</span><span>SMASH BURGERS AT THEIR FINEST</span>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="foot-cta"><a href="#spots" data-cursor>GET SAUCED →</a></div>
+  <div class="foot-grid">
+    <div class="foot-col">
+      <h4>Visit</h4>
+      <p>100 Pearl St, NYC</p>
+      <p>1495 Dekalb Ave, BK</p>
+    </div>
+    <div class="foot-col">
+      <h4>Connect</h4>
+      <a href="https://instagram.com/extrasaucebk" target="_blank" rel="noopener">Instagram ↗</a>
+      <a href="https://www.yelp.com" target="_blank" rel="noopener">Yelp ↗</a>
+      <a href="mailto:extrasaucebk@gmail.com">extrasaucebk@gmail.com</a>
+    </div>
+    <div class="foot-col">
+      <h4>Order</h4>
+      <a href="#spots" data-cursor>Pickup</a>
+      <a href="#spots" data-cursor>Delivery</a>
+      <a href="#menu">Full Menu</a>
+    </div>
+    <div class="foot-col">
+      <h4>Extra Sauce</h4>
+      <p>Made with love<br>in New York City.</p>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <span>© 2026 Extra Sauce BK — Brooklyn, NY</span>
+    <span>Smashed thin · Served bold</span>
+  </div>
+</footer>
+
+<script>
+// vh fix
+const setVH=()=>document.documentElement.style.setProperty('--vh',window.innerHeight*0.01+'px');
+setVH();addEventListener('resize',setVH);
+
+// PRELOADER
+const loader=document.getElementById('loader'),count=document.getElementById('count'),drip=document.getElementById('drip');
+let p=0;const iv=setInterval(()=>{
+  p+=Math.floor(Math.random()*9)+3;if(p>=100){p=100;clearInterval(iv);
+    setTimeout(()=>{loader.classList.add('done');document.body.style.cursor='none';},500);}
+  count.textContent=String(p).padStart(2,'0');drip.style.height=p+'%';
+},120);
+
+// CURSOR
+const cursor=document.getElementById('cursor'),label=document.getElementById('cursorLabel');
+let mx=innerWidth/2,my=innerHeight/2,cx=mx,cy=my;
+addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;label.style.left=mx+'px';label.style.top=(my-2)+'px';});
+(function loop(){cx+=(mx-cx)*.18;cy+=(my-cy)*.18;cursor.style.left=cx+'px';cursor.style.top=cy+'px';requestAnimationFrame(loop);})();
+document.addEventListener('mouseover',e=>{
+  if(e.target.closest('[data-cursor]')){cursor.classList.add('big');
+    const t=e.target.closest('.menu-row')?'EAT':e.target.closest('.loc-card')?'GO':'ORDER';label.textContent=t;}
+});
+document.addEventListener('mouseout',e=>{if(e.target.closest('[data-cursor]'))cursor.classList.remove('big');});
+
+// menu reveal follow
+document.querySelectorAll('.menu-row').forEach(row=>{
+  const img=row.querySelector('.reveal');
+  row.addEventListener('mousemove',e=>{img.style.left=e.clientX+'px';img.style.top=e.clientY+'px';});
+});
+
+// REVEAL on scroll
+const io=new IntersectionObserver(es=>es.forEach(en=>{if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target);}}),{threshold:.15});
+document.querySelectorAll('.up').forEach(el=>io.observe(el));
+
+// PARALLAX (hero burger + gallery rows)
+const hero=document.getElementById('heroBurger');
+const rows=[...document.querySelectorAll('.gal-row')];
+addEventListener('scroll',()=>{
+  const y=scrollY;
+  hero.style.transform=`translate(-50%,calc(-50% + ${y*.25}px)) rotate(${y*.03}deg)`;
+},{passive:true});
+function galLoop(){
+  const vh=innerHeight;
+  rows.forEach(r=>{
+    const rect=r.getBoundingClientRect();
+    const prog=(vh-rect.top)/(vh+rect.height);
+    const sp=parseFloat(r.dataset.speed);
+    r.style.transform=`translateX(${(prog-.5)*220*sp}px)`;
+  });
+  requestAnimationFrame(galLoop);
+}
+galLoop();
+</script>
+</body>
+</html>

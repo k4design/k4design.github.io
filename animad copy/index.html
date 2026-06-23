@@ -1,0 +1,2793 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AnimAd — HTML5 Ad Builder</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cinzel:wght@400;600&family=Cormorant+Garamond:ital,wght@0,200;0,300;0,400;1,300&family=DM+Sans:wght@300;400;500&family=Inter:wght@300;400;500;600&family=Libre+Baskerville:wght@400;700&family=Montserrat:wght@200;300;400;600&family=Oswald:wght@300;400;600&family=Playfair+Display:wght@400;700&family=Raleway:wght@200;300;400&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.0/gsap.min.js"></script>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #0d0d0f; --surface: #111114; --border: #1f1f26;
+  --text: #e4e4ed; --muted: #5e5e72; --accent: #6c63ff; --accent-h: #7d75ff;
+}
+body { font-family:'Inter',-apple-system,sans-serif; background:var(--bg); color:var(--text); height:100vh; display:flex; flex-direction:column; overflow:hidden; }
+
+/* Header */
+header { display:flex; align-items:center; padding:0 20px; height:50px; border-bottom:1px solid var(--border); background:var(--surface); flex-shrink:0; gap:10px; z-index:10; }
+.logo { font-size:14px; font-weight:600; letter-spacing:-0.03em; }
+.logo em { color:var(--accent); font-style:normal; }
+.hdiv { width:1px; height:14px; background:var(--border); margin:0 4px; }
+.template-chip { font-size:11px; color:var(--muted); background:var(--bg); border:1px solid var(--border); border-radius:4px; padding:2px 8px; }
+.header-spacer { flex:1; }
+.back-btn {
+  display:flex; align-items:center; justify-content:center;
+  width:30px; height:30px; border-radius:6px; background:var(--surface2);
+  border:1px solid var(--border); color:var(--muted); text-decoration:none;
+  flex-shrink:0; transition:all 0.12s;
+}
+.back-btn:hover { border-color:var(--accent); color:var(--text); }
+.project-name-chip {
+  font-size:12px; font-weight:500; color:var(--text);
+  background:var(--surface2); border:1px solid var(--border);
+  border-radius:4px; padding:2px 10px; max-width:200px;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.save-indicator {
+  font-size:11px; color:var(--muted); transition:opacity 0.3s;
+  opacity:0; min-width:60px; text-align:right;
+}
+.save-indicator.show { opacity:1; }
+.export-btn { display:flex; align-items:center; gap:6px; padding:6px 14px; background:var(--accent); color:#fff; border:none; border-radius:6px; font-size:12px; font-weight:500; font-family:inherit; cursor:pointer; transition:background 0.15s,opacity 0.15s; }
+.export-btn:hover { background:var(--accent-h); }
+.export-btn:disabled { opacity:0.5; cursor:default; }
+
+/* Layout */
+.editor { display:flex; flex:1; overflow:hidden; }
+
+/* Sidebar */
+.sidebar { width:280px; flex-shrink:0; background:var(--surface); border-right:1px solid var(--border); display:flex; flex-direction:column; overflow-y:auto; }
+.sidebar::-webkit-scrollbar { width:4px; }
+.sidebar::-webkit-scrollbar-thumb { background:var(--border); border-radius:2px; }
+.sb-section { padding:16px 16px; border-bottom:1px solid var(--border); }
+.sb-title { font-size:9px; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; color:var(--muted); margin-bottom:12px; }
+
+/* Template switcher */
+.tpl-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:5px; }
+.tpl-card { display:flex; flex-direction:column; align-items:center; gap:8px; padding:10px 8px; background:var(--bg); border:1px solid var(--border); border-radius:8px; cursor:pointer; transition:border-color 0.15s,background 0.15s; }
+.tpl-card:hover { border-color:var(--accent); background:rgba(108,99,255,0.04); }
+.tpl-card.active { border-color:var(--accent); background:rgba(108,99,255,0.08); }
+.tpl-thumb { border-radius:3px; background:linear-gradient(160deg,#1a1a2e 0%,#16213e 100%); border:1px solid var(--border); flex-shrink:0; }
+.tpl-thumb.t1 { width:22px; height:44px; }
+.tpl-thumb.t2 { width:32px; height:42px; }
+.tpl-thumb.t3 { width:44px; height:12px; }
+.tpl-thumb.t4 { width:44px; height:12px; }
+.tpl-label { font-size:10px; color:var(--muted); text-align:center; line-height:1.3; }
+.tpl-label strong { display:block; font-size:11px; color:var(--text); font-weight:500; }
+
+/* Field */
+.field { margin-bottom:14px; }
+.field:last-child { margin-bottom:0; }
+.field > label { display:block; font-size:11px; color:var(--muted); margin-bottom:5px; }
+.field textarea { width:100%; background:var(--bg); border:1px solid var(--border); border-radius:6px; padding:7px 10px; color:var(--text); font-size:12px; font-family:inherit; outline:none; transition:border-color 0.15s; resize:vertical; line-height:1.5; }
+.field textarea:focus { border-color:var(--accent); }
+
+/* Per-field typography + position controls */
+.text-controls { margin-top:8px; display:flex; flex-direction:column; gap:6px; }
+.tc-row { display:flex; gap:6px; }
+.tc-row label { display:block; font-size:10px; color:var(--muted); margin-bottom:3px; }
+.tc-font { flex:1; min-width:0; }
+.tc-num { width:60px; flex-shrink:0; }
+.tc-row select,
+.tc-row input[type="number"] {
+  width:100%; background:var(--bg); border:1px solid var(--border); border-radius:5px;
+  padding:5px 7px; color:var(--text); font-size:11px; font-family:inherit;
+  outline:none; transition:border-color 0.15s; appearance:none; -moz-appearance:textfield;
+}
+.tc-row select { background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' fill='none'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%235e5e72' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 7px center; padding-right:22px; cursor:pointer; }
+.tc-row select:focus,
+.tc-row input[type="number"]:focus { border-color:var(--accent); }
+.tc-row input[type="number"]::-webkit-inner-spin-button,
+.tc-row input[type="number"]::-webkit-outer-spin-button { -webkit-appearance:none; }
+
+/* Alignment toggle */
+.align-toggle { display:flex; gap:3px; }
+.align-btn {
+  flex:1; display:flex; align-items:center; justify-content:center;
+  padding:5px 0; background:var(--bg); border:1px solid var(--border);
+  border-radius:5px; color:var(--muted); cursor:pointer; transition:all 0.12s;
+}
+.align-btn:hover { border-color:var(--accent); color:var(--text); }
+.align-btn.active { background:var(--accent); border-color:var(--accent); color:#fff; }
+
+/* Center button */
+.center-btn {
+  display: inline-flex; align-items: center; gap: 3px;
+  background: none; border: 1px solid var(--border); border-radius: 3px;
+  color: var(--muted); padding: 1px 5px; font-size: 9px; font-family: inherit;
+  cursor: pointer; transition: all 0.12s; white-space: nowrap; line-height: 1;
+}
+.center-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+/* Position sliders */
+.tc-slider-row { margin-bottom: 5px; }
+.tc-slider-row:last-child { margin-bottom: 0; }
+.tc-slider-label {
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 10px; color: var(--muted); margin-bottom: 4px;
+}
+.tc-val {
+  font-size: 10px; color: var(--text); min-width: 36px;
+  text-align: right; font-variant-numeric: tabular-nums;
+}
+.tc-slider-row input[type="range"] {
+  -webkit-appearance: none; appearance: none;
+  width: 100%; height: 3px; border-radius: 2px;
+  background: var(--border); outline: none; cursor: pointer;
+  accent-color: var(--accent);
+}
+.tc-slider-row input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none; width: 13px; height: 13px;
+  border-radius: 50%; background: var(--accent);
+  border: 2px solid var(--bg); cursor: pointer;
+  box-shadow: 0 0 0 1px var(--accent);
+}
+.tc-slider-row input[type="range"]::-moz-range-thumb {
+  width: 13px; height: 13px; border-radius: 50%;
+  background: var(--accent); border: 2px solid var(--bg); cursor: pointer;
+}
+
+/* Template field groups */
+.tpl-fields { display:none; }
+.tpl-fields.active { display:block; }
+
+/* Upload */
+.upload-area { border:1px dashed var(--border); border-radius:6px; padding:18px 12px; text-align:center; cursor:pointer; transition:border-color 0.15s,background 0.15s; position:relative; overflow:hidden; }
+.upload-area:hover { border-color:var(--accent); background:rgba(108,99,255,0.04); }
+.upload-area.filled { padding:5px; border-style:solid; }
+.upload-area input[type="file"] { position:absolute; inset:0; width:100%; height:100%; opacity:0; cursor:pointer; }
+.upload-icon { font-size:18px; color:var(--muted); margin-bottom:4px; }
+.upload-text { font-size:11px; color:var(--muted); }
+.upload-preview { width:100%; height:72px; object-fit:cover; border-radius:3px; display:block; }
+
+/* Photo controls */
+.photo-controls { margin-top:12px; display:none; }
+.photo-controls.visible { display:block; }
+.control-row { margin-bottom:10px; }
+.control-row label { display:block; font-size:11px; color:var(--muted); margin-bottom:6px; }
+.fit-toggle { display:flex; gap:4px; }
+.fit-btn { flex:1; padding:5px 0; background:var(--bg); border:1px solid var(--border); border-radius:5px; color:var(--muted); font-size:11px; font-family:inherit; cursor:pointer; transition:all 0.12s; }
+.fit-btn:hover { border-color:var(--accent); color:var(--text); }
+.fit-btn.active { background:var(--accent); border-color:var(--accent); color:#fff; }
+.pos-pad { position:relative; width:100%; border-radius:5px; overflow:hidden; cursor:crosshair; background:var(--bg); border:1px solid var(--border); user-select:none; }
+.pos-pad.ratio-t1 { aspect-ratio:300/210; }
+.pos-pad.ratio-t2 { aspect-ratio:767/642; }
+.pos-pad img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; pointer-events:none; display:block; }
+.pos-dot { position:absolute; width:14px; height:14px; border-radius:50%; background:rgba(255,255,255,0.9); border:2px solid rgba(0,0,0,0.5); box-shadow:0 1px 4px rgba(0,0,0,0.4); transform:translate(-50%,-50%); left:50%; top:50%; pointer-events:none; }
+.pos-hint { font-size:10px; color:var(--muted); text-align:center; margin-top:5px; }
+
+/* Hint */
+.sb-hint { padding:16px; font-size:11px; color:var(--muted); line-height:1.6; margin-top:auto; }
+
+/* Preview */
+.preview-area { flex:1; display:flex; align-items:center; justify-content:center; background:#18181c; position:relative; overflow:auto; min-width:0; padding:48px 20px 72px; }
+/* Timeline fixed to the bottom of the preview pane */
+#timeline-wrap {
+  position:absolute; bottom:16px; left:50%;
+  transform:translateX(-50%);
+  z-index:3; width:300px; /* updated by syncTlWidth */
+}
+.preview-area::before { content:''; position:absolute; inset:0; background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px); background-size:32px 32px; opacity:0.4; pointer-events:none; }
+.preview-badge { position:absolute; top:14px; left:50%; transform:translateX(-50%); font-size:10px; color:var(--muted); background:var(--surface); border:1px solid var(--border); border-radius:4px; padding:3px 10px; z-index:2; white-space:nowrap; }
+.pause-btn {
+  position:absolute; top:10px; right:14px; z-index:2;
+  display:flex; align-items:center; justify-content:center;
+  width:30px; height:30px; border-radius:6px;
+  background:var(--surface); border:1px solid var(--border);
+  color:var(--muted); cursor:pointer; transition:all 0.15s;
+}
+.pause-btn:hover { border-color:var(--accent); color:var(--text); background:rgba(108,99,255,0.08); }
+.pause-btn.paused { border-color:var(--accent); color:var(--accent); background:rgba(108,99,255,0.12); }
+.ad-outer { position:relative; flex-shrink:0; }
+.ad-shadow { transform-origin:top left; box-shadow:0 24px 80px rgba(0,0,0,0.6),0 0 0 1px rgba(255,255,255,0.04); }
+
+/* Preview column — stacks ad + timeline vertically */
+#preview-col { display:flex; flex-direction:column; gap:12px; align-items:flex-start; position:relative; z-index:1; }
+
+/* Timeline */
+.timeline-wrap { width:100%; user-select:none; }
+.timeline-bar {
+  position:relative; height:4px; border-radius:2px;
+  background:var(--border); cursor:pointer;
+}
+.timeline-bar:hover { height:6px; margin-top:-1px; }
+.timeline-fill {
+  position:absolute; left:0; top:0; bottom:0; width:0;
+  background:var(--accent); border-radius:2px; pointer-events:none;
+}
+.timeline-ticks { position:absolute; inset:0; pointer-events:none; }
+.timeline-tick {
+  position:absolute; top:-3px; bottom:-3px;
+  width:1px; background:rgba(255,255,255,0.2);
+  transform:translateX(-50%);
+}
+.timeline-thumb {
+  position:absolute; top:50%; left:0;
+  width:12px; height:12px; border-radius:50%;
+  background:#fff; border:2px solid var(--accent);
+  transform:translate(-50%,-50%);
+  cursor:grab; pointer-events:all;
+  box-shadow:0 1px 4px rgba(0,0,0,0.5);
+  transition:transform 0.08s;
+}
+.timeline-bar:hover .timeline-thumb { transform:translate(-50%,-50%) scale(1.25); }
+.timeline-labels {
+  display:flex; justify-content:space-between;
+  font-size:9px; color:var(--muted); margin-top:5px;
+  font-variant-numeric:tabular-nums;
+}
+#ad-container { position:relative; overflow:hidden; background:#000; }
+#ad-loading { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; background:#0d0d0f; color:var(--muted); font-size:12px; z-index:100; }
+.spinner { width:20px; height:20px; border:2px solid var(--border); border-top-color:var(--accent); border-radius:50%; animation:spin 0.8s linear infinite; }
+@keyframes spin { to { transform:rotate(360deg); } }
+
+/* T2 text overlays */
+.t2-overlay { position:absolute; color:#fff; white-space:pre-wrap; word-break:break-word; line-height:1.3; pointer-events:none; display:none; }
+</style>
+</head>
+<body>
+
+<header>
+  <a href="dashboard.html" class="back-btn" title="Back to Dashboard">
+    <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M8.5 2L3.5 6.5l5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </a>
+  <div class="hdiv"></div>
+  <div class="logo">Anim<em>Ad</em></div>
+  <div class="hdiv"></div>
+  <div class="template-chip" id="header-chip">300×600 Skyscraper</div>
+  <div class="project-name-chip" id="project-name-chip" style="display:none;"></div>
+  <div class="header-spacer"></div>
+  <div class="save-indicator" id="save-indicator"></div>
+  <button class="export-btn" id="export-btn">
+    <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M6.5 1.5v6M4 5.5l2.5 2.5 2.5-2.5M2 9.5v1a1 1 0 001 1h7a1 1 0 001-1v-1" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    Export HTML
+  </button>
+</header>
+
+<div class="editor">
+<aside class="sidebar">
+
+  <div class="sb-section">
+    <div class="sb-title">Template</div>
+    <div class="tpl-grid">
+      <div class="tpl-card active" data-tpl="t1" id="tpl-card-t1">
+        <div class="tpl-thumb t1"></div>
+        <div class="tpl-label"><strong>Skyscraper</strong>300×600</div>
+      </div>
+      <div class="tpl-card" data-tpl="t2" id="tpl-card-t2">
+        <div class="tpl-thumb t2"></div>
+        <div class="tpl-label"><strong>Listing Ad</strong>768×1024</div>
+      </div>
+      <div class="tpl-card" data-tpl="t3" id="tpl-card-t3">
+        <div class="tpl-thumb t3"></div>
+        <div class="tpl-label"><strong>Leaderboard</strong>970×250</div>
+      </div>
+      <div class="tpl-card" data-tpl="t4" id="tpl-card-t4">
+        <div class="tpl-thumb t4"></div>
+        <div class="tpl-label"><strong>Leader B</strong>970×250</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── T1 fields ── -->
+  <div class="tpl-fields active" id="fields-t1">
+    <div class="sb-section">
+      <div class="sb-title">Copy</div>
+
+      <div class="field">
+        <label>Headline 1 <span style="color:#3a3a50">(slide 1)</span></label>
+        <textarea id="t1-h1-text" rows="2">INFINITE ELEGANCE</textarea>
+        <div class="text-controls">
+          <div class="tc-row">
+            <div class="tc-font"><label>Font</label><select id="t1-h1-font"></select></div>
+            <div class="tc-num"><label>Size</label><input type="number" id="t1-h1-size" value="17" min="6" max="200"></div>
+          </div>
+          <div class="tc-row">
+            <div style="flex:1;min-width:0;">
+              <label style="display:block;font-size:10px;color:var(--muted);margin-bottom:4px;">Align</label>
+              <div class="align-toggle" id="t1-h1-align">
+                <button class="align-btn active" data-align="left" title="Left">
+                  <svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 1.5H11M1 4.5H7M1 7.5H9" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+                </button>
+                <button class="align-btn" data-align="center" title="Center">
+                  <svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 1.5H11M3 4.5H9M2 7.5H10" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+                </button>
+                <button class="align-btn" data-align="right" title="Right">
+                  <svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 1.5H11M5 4.5H11M3 7.5H11" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="tc-slider-row">
+            <div class="tc-slider-label">
+              <span>X position</span>
+              <div style="display:flex;align-items:center;gap:5px;">
+                <button class="center-btn" data-prefix="t1-h1" title="Center horizontally">
+                  <svg width="11" height="8" viewBox="0 0 11 8" fill="none"><path d="M1 4h9M5.5 1.5L3 4l2.5 2.5M5.5 1.5L8 4l-2.5 2.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  center
+                </button>
+                <span class="tc-val" id="t1-h1-x-val">0 px</span>
+              </div>
+            </div>
+            <input type="range" id="t1-h1-x" value="0" min="-500" max="500" step="1">
+          </div>
+          <div class="tc-slider-row">
+            <div class="tc-slider-label"><span>Y position</span><span class="tc-val" id="t1-h1-y-val">0 px</span></div>
+            <input type="range" id="t1-h1-y" value="0" min="-500" max="500" step="1">
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Headline 2 <span style="color:#3a3a50">(slide 2)</span></label>
+        <textarea id="t1-h2-text" rows="2">INFINITE VISION</textarea>
+        <div class="text-controls">
+          <div class="tc-row">
+            <div class="tc-font"><label>Font</label><select id="t1-h2-font"></select></div>
+            <div class="tc-num"><label>Size</label><input type="number" id="t1-h2-size" value="17" min="6" max="200"></div>
+          </div>
+          <div class="tc-row">
+            <div style="flex:1;min-width:0;">
+              <label style="display:block;font-size:10px;color:var(--muted);margin-bottom:4px;">Align</label>
+              <div class="align-toggle" id="t1-h2-align">
+                <button class="align-btn active" data-align="left" title="Left">
+                  <svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 1.5H11M1 4.5H7M1 7.5H9" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+                </button>
+                <button class="align-btn" data-align="center" title="Center">
+                  <svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 1.5H11M3 4.5H9M2 7.5H10" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+                </button>
+                <button class="align-btn" data-align="right" title="Right">
+                  <svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 1.5H11M5 4.5H11M3 7.5H11" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="tc-slider-row">
+            <div class="tc-slider-label">
+              <span>X position</span>
+              <div style="display:flex;align-items:center;gap:5px;">
+                <button class="center-btn" data-prefix="t1-h2" title="Center horizontally">
+                  <svg width="11" height="8" viewBox="0 0 11 8" fill="none"><path d="M1 4h9M5.5 1.5L3 4l2.5 2.5M5.5 1.5L8 4l-2.5 2.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  center
+                </button>
+                <span class="tc-val" id="t1-h2-x-val">0 px</span>
+              </div>
+            </div>
+            <input type="range" id="t1-h2-x" value="0" min="-500" max="500" step="1">
+          </div>
+          <div class="tc-slider-row">
+            <div class="tc-slider-label"><span>Y position</span><span class="tc-val" id="t1-h2-y-val">0 px</span></div>
+            <input type="range" id="t1-h2-y" value="0" min="-500" max="500" step="1">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sb-section">
+      <div class="sb-title">Media</div>
+      <div class="field">
+        <label>Background Photo</label>
+        <div class="upload-area" id="t1-photo-upload">
+          <div class="upload-icon">↑</div>
+          <div class="upload-text">Click or drag to upload</div>
+          <input type="file" id="t1-photo-input" accept="image/*">
+        </div>
+        <div class="photo-controls" id="photo-controls-t1">
+          <div class="control-row"><label>Fill</label>
+            <div class="fit-toggle" id="t1-fit-toggle">
+              <button class="fit-btn active" data-fit="cover">Cover</button>
+              <button class="fit-btn" data-fit="contain">Contain</button>
+              <button class="fit-btn" data-fit="fill">Stretch</button>
+            </div>
+          </div>
+          <div class="control-row"><label>Position</label>
+            <div class="pos-pad ratio-t1" id="t1-pos-pad"><img id="t1-pos-img" alt=""><div class="pos-dot" id="t1-pos-dot"></div></div>
+            <div class="pos-hint">Drag to reposition</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── T2 fields ── -->
+  <div class="tpl-fields" id="fields-t2">
+    <div class="sb-section">
+      <div class="sb-title">Copy</div>
+
+      <div class="field">
+        <label>Listing Title</label>
+        <textarea id="t2-ti-text" rows="3">Luxury offering title goes here</textarea>
+        <div class="text-controls">
+          <div class="tc-row">
+            <div class="tc-font"><label>Font</label><select id="t2-ti-font"></select></div>
+            <div class="tc-num"><label>Size</label><input type="number" id="t2-ti-size" value="52" min="6" max="200"></div>
+          </div>
+          <div class="tc-row">
+            <div style="flex:1;min-width:0;">
+              <label style="display:block;font-size:10px;color:var(--muted);margin-bottom:4px;">Align</label>
+              <div class="align-toggle" id="t2-ti-align">
+                <button class="align-btn active" data-align="left" title="Left">
+                  <svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 1.5H11M1 4.5H7M1 7.5H9" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+                </button>
+                <button class="align-btn" data-align="center" title="Center">
+                  <svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 1.5H11M3 4.5H9M2 7.5H10" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+                </button>
+                <button class="align-btn" data-align="right" title="Right">
+                  <svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 1.5H11M5 4.5H11M3 7.5H11" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="tc-slider-row">
+            <div class="tc-slider-label">
+              <span>X position</span>
+              <div style="display:flex;align-items:center;gap:5px;">
+                <button class="center-btn" data-prefix="t2-ti" title="Center horizontally">
+                  <svg width="11" height="8" viewBox="0 0 11 8" fill="none"><path d="M1 4h9M5.5 1.5L3 4l2.5 2.5M5.5 1.5L8 4l-2.5 2.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  center
+                </button>
+                <span class="tc-val" id="t2-ti-x-val">0 px</span>
+              </div>
+            </div>
+            <input type="range" id="t2-ti-x" value="0" min="-500" max="500" step="1">
+          </div>
+          <div class="tc-slider-row">
+            <div class="tc-slider-label"><span>Y position</span><span class="tc-val" id="t2-ti-y-val">0 px</span></div>
+            <input type="range" id="t2-ti-y" value="0" min="-500" max="500" step="1">
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Address</label>
+        <textarea id="t2-ad-text" rows="2">12345 Sample Rd</textarea>
+        <div class="text-controls">
+          <div class="tc-row">
+            <div class="tc-font"><label>Font</label><select id="t2-ad-font"></select></div>
+            <div class="tc-num"><label>Size</label><input type="number" id="t2-ad-size" value="32" min="6" max="200"></div>
+          </div>
+          <div class="tc-row">
+            <div style="flex:1;min-width:0;">
+              <label style="display:block;font-size:10px;color:var(--muted);margin-bottom:4px;">Align</label>
+              <div class="align-toggle" id="t2-ad-align">
+                <button class="align-btn active" data-align="left" title="Left">
+                  <svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 1.5H11M1 4.5H7M1 7.5H9" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+                </button>
+                <button class="align-btn" data-align="center" title="Center">
+                  <svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 1.5H11M3 4.5H9M2 7.5H10" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+                </button>
+                <button class="align-btn" data-align="right" title="Right">
+                  <svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 1.5H11M5 4.5H11M3 7.5H11" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="tc-slider-row">
+            <div class="tc-slider-label">
+              <span>X position</span>
+              <div style="display:flex;align-items:center;gap:5px;">
+                <button class="center-btn" data-prefix="t2-ad" title="Center horizontally">
+                  <svg width="11" height="8" viewBox="0 0 11 8" fill="none"><path d="M1 4h9M5.5 1.5L3 4l2.5 2.5M5.5 1.5L8 4l-2.5 2.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  center
+                </button>
+                <span class="tc-val" id="t2-ad-x-val">0 px</span>
+              </div>
+            </div>
+            <input type="range" id="t2-ad-x" value="0" min="-500" max="500" step="1">
+          </div>
+          <div class="tc-slider-row">
+            <div class="tc-slider-label"><span>Y position</span><span class="tc-val" id="t2-ad-y-val">0 px</span></div>
+            <input type="range" id="t2-ad-y" value="0" min="-500" max="500" step="1">
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Agent Name</label>
+        <textarea id="t2-ag-text" rows="2">Agent Name</textarea>
+        <div class="text-controls">
+          <div class="tc-row">
+            <div class="tc-font"><label>Font</label><select id="t2-ag-font"></select></div>
+            <div class="tc-num"><label>Size</label><input type="number" id="t2-ag-size" value="32" min="6" max="200"></div>
+          </div>
+          <div class="tc-row">
+            <div style="flex:1;min-width:0;">
+              <label style="display:block;font-size:10px;color:var(--muted);margin-bottom:4px;">Align</label>
+              <div class="align-toggle" id="t2-ag-align">
+                <button class="align-btn active" data-align="left" title="Left">
+                  <svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 1.5H11M1 4.5H7M1 7.5H9" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+                </button>
+                <button class="align-btn" data-align="center" title="Center">
+                  <svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 1.5H11M3 4.5H9M2 7.5H10" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+                </button>
+                <button class="align-btn" data-align="right" title="Right">
+                  <svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 1.5H11M5 4.5H11M3 7.5H11" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="tc-slider-row">
+            <div class="tc-slider-label">
+              <span>X position</span>
+              <div style="display:flex;align-items:center;gap:5px;">
+                <button class="center-btn" data-prefix="t2-ag" title="Center horizontally">
+                  <svg width="11" height="8" viewBox="0 0 11 8" fill="none"><path d="M1 4h9M5.5 1.5L3 4l2.5 2.5M5.5 1.5L8 4l-2.5 2.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  center
+                </button>
+                <span class="tc-val" id="t2-ag-x-val">0 px</span>
+              </div>
+            </div>
+            <input type="range" id="t2-ag-x" value="0" min="-500" max="500" step="1">
+          </div>
+          <div class="tc-slider-row">
+            <div class="tc-slider-label"><span>Y position</span><span class="tc-val" id="t2-ag-y-val">0 px</span></div>
+            <input type="range" id="t2-ag-y" value="0" min="-500" max="500" step="1">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sb-section">
+      <div class="sb-title">Media</div>
+      <div class="field">
+        <label>House Photo</label>
+        <div class="upload-area" id="t2-photo-upload">
+          <div class="upload-icon">↑</div>
+          <div class="upload-text">Click or drag to upload</div>
+          <input type="file" id="t2-photo-input" accept="image/*">
+        </div>
+        <div class="photo-controls" id="photo-controls-t2">
+          <div class="control-row"><label>Fill</label>
+            <div class="fit-toggle" id="t2-fit-toggle">
+              <button class="fit-btn active" data-fit="cover">Cover</button>
+              <button class="fit-btn" data-fit="contain">Contain</button>
+              <button class="fit-btn" data-fit="fill">Stretch</button>
+            </div>
+          </div>
+          <div class="control-row"><label>Position</label>
+            <div class="pos-pad ratio-t2" id="t2-pos-pad"><img id="t2-pos-img" alt=""><div class="pos-dot" id="t2-pos-dot"></div></div>
+            <div class="pos-hint">Drag to reposition</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── T3 fields ── -->
+  <div class="tpl-fields" id="fields-t3">
+    <div class="sb-section">
+      <div class="sb-title">Copy</div>
+
+      <div class="field">
+        <label>Headline</label>
+        <textarea id="t3-ti-text" rows="3">Luxury offering title goes here</textarea>
+        <div class="text-controls">
+          <div class="tc-row">
+            <div class="tc-font"><label>Font</label><select id="t3-ti-font"></select></div>
+            <div class="tc-num"><label>Size</label><input type="number" id="t3-ti-size" value="38" min="6" max="200"></div>
+          </div>
+          <div class="tc-row">
+            <div style="flex:1;min-width:0;">
+              <label style="display:block;font-size:10px;color:var(--muted);margin-bottom:4px;">Align</label>
+              <div class="align-toggle" id="t3-ti-align">
+                <button class="align-btn active" data-align="left" title="Left"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 1.5H11M1 4.5H7M1 7.5H9" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></button>
+                <button class="align-btn" data-align="center" title="Center"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 1.5H11M3 4.5H9M2 7.5H10" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></button>
+                <button class="align-btn" data-align="right" title="Right"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 1.5H11M5 4.5H11M3 7.5H11" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></button>
+              </div>
+            </div>
+          </div>
+          <div class="tc-slider-row">
+            <div class="tc-slider-label">
+              <span>X position</span>
+              <div style="display:flex;align-items:center;gap:5px;">
+                <button class="center-btn" data-prefix="t3-ti" title="Center horizontally"><svg width="11" height="8" viewBox="0 0 11 8" fill="none"><path d="M1 4h9M5.5 1.5L3 4l2.5 2.5M5.5 1.5L8 4l-2.5 2.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg> center</button>
+                <span class="tc-val" id="t3-ti-x-val">0 px</span>
+              </div>
+            </div>
+            <input type="range" id="t3-ti-x" value="0" min="-500" max="500" step="1">
+          </div>
+          <div class="tc-slider-row">
+            <div class="tc-slider-label"><span>Y position</span><span class="tc-val" id="t3-ti-y-val">0 px</span></div>
+            <input type="range" id="t3-ti-y" value="0" min="-500" max="500" step="1">
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Address</label>
+        <textarea id="t3-ad-text" rows="2">12345 Sample Rd</textarea>
+        <div class="text-controls">
+          <div class="tc-row">
+            <div class="tc-font"><label>Font</label><select id="t3-ad-font"></select></div>
+            <div class="tc-num"><label>Size</label><input type="number" id="t3-ad-size" value="22" min="6" max="200"></div>
+          </div>
+          <div class="tc-row">
+            <div style="flex:1;min-width:0;">
+              <label style="display:block;font-size:10px;color:var(--muted);margin-bottom:4px;">Align</label>
+              <div class="align-toggle" id="t3-ad-align">
+                <button class="align-btn active" data-align="left" title="Left"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 1.5H11M1 4.5H7M1 7.5H9" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></button>
+                <button class="align-btn" data-align="center" title="Center"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 1.5H11M3 4.5H9M2 7.5H10" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></button>
+                <button class="align-btn" data-align="right" title="Right"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 1.5H11M5 4.5H11M3 7.5H11" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></button>
+              </div>
+            </div>
+          </div>
+          <div class="tc-slider-row">
+            <div class="tc-slider-label">
+              <span>X position</span>
+              <div style="display:flex;align-items:center;gap:5px;">
+                <button class="center-btn" data-prefix="t3-ad" title="Center horizontally"><svg width="11" height="8" viewBox="0 0 11 8" fill="none"><path d="M1 4h9M5.5 1.5L3 4l2.5 2.5M5.5 1.5L8 4l-2.5 2.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg> center</button>
+                <span class="tc-val" id="t3-ad-x-val">0 px</span>
+              </div>
+            </div>
+            <input type="range" id="t3-ad-x" value="0" min="-500" max="500" step="1">
+          </div>
+          <div class="tc-slider-row">
+            <div class="tc-slider-label"><span>Y position</span><span class="tc-val" id="t3-ad-y-val">0 px</span></div>
+            <input type="range" id="t3-ad-y" value="0" min="-500" max="500" step="1">
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Agent Name</label>
+        <textarea id="t3-ag-text" rows="2">Agent Name</textarea>
+        <div class="text-controls">
+          <div class="tc-row">
+            <div class="tc-font"><label>Font</label><select id="t3-ag-font"></select></div>
+            <div class="tc-num"><label>Size</label><input type="number" id="t3-ag-size" value="22" min="6" max="200"></div>
+          </div>
+          <div class="tc-row">
+            <div style="flex:1;min-width:0;">
+              <label style="display:block;font-size:10px;color:var(--muted);margin-bottom:4px;">Align</label>
+              <div class="align-toggle" id="t3-ag-align">
+                <button class="align-btn active" data-align="left" title="Left"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 1.5H11M1 4.5H7M1 7.5H9" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></button>
+                <button class="align-btn" data-align="center" title="Center"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 1.5H11M3 4.5H9M2 7.5H10" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></button>
+                <button class="align-btn" data-align="right" title="Right"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 1.5H11M5 4.5H11M3 7.5H11" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></button>
+              </div>
+            </div>
+          </div>
+          <div class="tc-slider-row">
+            <div class="tc-slider-label">
+              <span>X position</span>
+              <div style="display:flex;align-items:center;gap:5px;">
+                <button class="center-btn" data-prefix="t3-ag" title="Center horizontally"><svg width="11" height="8" viewBox="0 0 11 8" fill="none"><path d="M1 4h9M5.5 1.5L3 4l2.5 2.5M5.5 1.5L8 4l-2.5 2.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg> center</button>
+                <span class="tc-val" id="t3-ag-x-val">0 px</span>
+              </div>
+            </div>
+            <input type="range" id="t3-ag-x" value="0" min="-500" max="500" step="1">
+          </div>
+          <div class="tc-slider-row">
+            <div class="tc-slider-label"><span>Y position</span><span class="tc-val" id="t3-ag-y-val">0 px</span></div>
+            <input type="range" id="t3-ag-y" value="0" min="-500" max="500" step="1">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sb-section">
+      <div class="sb-title">Media</div>
+      <div class="field">
+        <label>Photo — Slide 1</label>
+        <div class="upload-area" id="t3-p1-upload">
+          <div class="upload-icon">↑</div><div class="upload-text">Click or drag to upload</div>
+          <input type="file" id="t3-p1-input" accept="image/*">
+        </div>
+        <div class="photo-controls" id="t3-p1-controls">
+          <div class="control-row"><label>Fill</label>
+            <div class="fit-toggle" id="t3-p1-fit">
+              <button class="fit-btn active" data-fit="cover">Cover</button>
+              <button class="fit-btn" data-fit="contain">Contain</button>
+              <button class="fit-btn" data-fit="fill">Stretch</button>
+            </div>
+          </div>
+          <div class="control-row"><label>Position</label>
+            <div class="pos-pad ratio-t3" id="t3-p1-pad"><img id="t3-p1-pos-img" alt=""><div class="pos-dot" id="t3-p1-dot"></div></div>
+            <div class="pos-hint">Drag to reposition</div>
+          </div>
+        </div>
+      </div>
+      <div class="field">
+        <label>Photo — Slide 2</label>
+        <div class="upload-area" id="t3-p2-upload">
+          <div class="upload-icon">↑</div><div class="upload-text">Click or drag to upload</div>
+          <input type="file" id="t3-p2-input" accept="image/*">
+        </div>
+        <div class="photo-controls" id="t3-p2-controls">
+          <div class="control-row"><label>Fill</label>
+            <div class="fit-toggle" id="t3-p2-fit">
+              <button class="fit-btn active" data-fit="cover">Cover</button>
+              <button class="fit-btn" data-fit="contain">Contain</button>
+              <button class="fit-btn" data-fit="fill">Stretch</button>
+            </div>
+          </div>
+          <div class="control-row"><label>Position</label>
+            <div class="pos-pad ratio-t3" id="t3-p2-pad"><img id="t3-p2-pos-img" alt=""><div class="pos-dot" id="t3-p2-dot"></div></div>
+            <div class="pos-hint">Drag to reposition</div>
+          </div>
+        </div>
+      </div>
+      <div class="field">
+        <label>Photo — Slide 3</label>
+        <div class="upload-area" id="t3-p3-upload">
+          <div class="upload-icon">↑</div><div class="upload-text">Click or drag to upload</div>
+          <input type="file" id="t3-p3-input" accept="image/*">
+        </div>
+        <div class="photo-controls" id="t3-p3-controls">
+          <div class="control-row"><label>Fill</label>
+            <div class="fit-toggle" id="t3-p3-fit">
+              <button class="fit-btn active" data-fit="cover">Cover</button>
+              <button class="fit-btn" data-fit="contain">Contain</button>
+              <button class="fit-btn" data-fit="fill">Stretch</button>
+            </div>
+          </div>
+          <div class="control-row"><label>Position</label>
+            <div class="pos-pad ratio-t3" id="t3-p3-pad"><img id="t3-p3-pos-img" alt=""><div class="pos-dot" id="t3-p3-dot"></div></div>
+            <div class="pos-hint">Drag to reposition</div>
+          </div>
+        </div>
+      </div>
+      <div class="field">
+        <label>Photo — Slide 4</label>
+        <div class="upload-area" id="t3-p4-upload">
+          <div class="upload-icon">↑</div><div class="upload-text">Click or drag to upload</div>
+          <input type="file" id="t3-p4-input" accept="image/*">
+        </div>
+        <div class="photo-controls" id="t3-p4-controls">
+          <div class="control-row"><label>Fill</label>
+            <div class="fit-toggle" id="t3-p4-fit">
+              <button class="fit-btn active" data-fit="cover">Cover</button>
+              <button class="fit-btn" data-fit="contain">Contain</button>
+              <button class="fit-btn" data-fit="fill">Stretch</button>
+            </div>
+          </div>
+          <div class="control-row"><label>Position</label>
+            <div class="pos-pad ratio-t3" id="t3-p4-pad"><img id="t3-p4-pos-img" alt=""><div class="pos-dot" id="t3-p4-dot"></div></div>
+            <div class="pos-hint">Drag to reposition</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── T4 fields ── -->
+  <div class="tpl-fields" id="fields-t4">
+    <div class="sb-section">
+      <div class="sb-title">Copy</div>
+      <div class="field">
+        <label>Street Address</label>
+        <textarea id="t4-st-text" rows="2">Luxury street address</textarea>
+        <div class="text-controls">
+          <div class="tc-row">
+            <div class="tc-font"><label>Font</label><select id="t4-st-font"></select></div>
+            <div class="tc-num"><label>Size</label><input type="number" id="t4-st-size" value="32" min="6" max="200"></div>
+          </div>
+          <div class="tc-row">
+            <div style="flex:1;min-width:0;">
+              <label style="display:block;font-size:10px;color:var(--muted);margin-bottom:4px;">Align</label>
+              <div class="align-toggle" id="t4-st-align">
+                <button class="align-btn active" data-align="left" title="Left"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 1.5H11M1 4.5H7M1 7.5H9" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></button>
+                <button class="align-btn" data-align="center" title="Center"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 1.5H11M3 4.5H9M2 7.5H10" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></button>
+                <button class="align-btn" data-align="right" title="Right"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 1.5H11M5 4.5H11M3 7.5H11" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></button>
+              </div>
+            </div>
+          </div>
+          <div class="tc-slider-row">
+            <div class="tc-slider-label">
+              <span>X position</span>
+              <div style="display:flex;align-items:center;gap:5px;">
+                <button class="center-btn" data-prefix="t4-st" title="Center horizontally"><svg width="11" height="8" viewBox="0 0 11 8" fill="none"><path d="M1 4h9M5.5 1.5L3 4l2.5 2.5M5.5 1.5L8 4l-2.5 2.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg> center</button>
+                <span class="tc-val" id="t4-st-x-val">0 px</span>
+              </div>
+            </div>
+            <input type="range" id="t4-st-x" value="0" min="-500" max="500" step="1">
+          </div>
+          <div class="tc-slider-row">
+            <div class="tc-slider-label"><span>Y position</span><span class="tc-val" id="t4-st-y-val">0 px</span></div>
+            <input type="range" id="t4-st-y" value="0" min="-500" max="500" step="1">
+          </div>
+        </div>
+      </div>
+      <div class="field">
+        <label>Address Line 2</label>
+        <textarea id="t4-ad-text" rows="2">12345 Sample Rd</textarea>
+        <div class="text-controls">
+          <div class="tc-row">
+            <div class="tc-font"><label>Font</label><select id="t4-ad-font"></select></div>
+            <div class="tc-num"><label>Size</label><input type="number" id="t4-ad-size" value="22" min="6" max="200"></div>
+          </div>
+          <div class="tc-row">
+            <div style="flex:1;min-width:0;">
+              <label style="display:block;font-size:10px;color:var(--muted);margin-bottom:4px;">Align</label>
+              <div class="align-toggle" id="t4-ad-align">
+                <button class="align-btn active" data-align="left" title="Left"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 1.5H11M1 4.5H7M1 7.5H9" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></button>
+                <button class="align-btn" data-align="center" title="Center"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 1.5H11M3 4.5H9M2 7.5H10" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></button>
+                <button class="align-btn" data-align="right" title="Right"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 1.5H11M5 4.5H11M3 7.5H11" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></button>
+              </div>
+            </div>
+          </div>
+          <div class="tc-slider-row">
+            <div class="tc-slider-label">
+              <span>X position</span>
+              <div style="display:flex;align-items:center;gap:5px;">
+                <button class="center-btn" data-prefix="t4-ad" title="Center horizontally"><svg width="11" height="8" viewBox="0 0 11 8" fill="none"><path d="M1 4h9M5.5 1.5L3 4l2.5 2.5M5.5 1.5L8 4l-2.5 2.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg> center</button>
+                <span class="tc-val" id="t4-ad-x-val">0 px</span>
+              </div>
+            </div>
+            <input type="range" id="t4-ad-x" value="0" min="-500" max="500" step="1">
+          </div>
+          <div class="tc-slider-row">
+            <div class="tc-slider-label"><span>Y position</span><span class="tc-val" id="t4-ad-y-val">0 px</span></div>
+            <input type="range" id="t4-ad-y" value="0" min="-500" max="500" step="1">
+          </div>
+        </div>
+      </div>
+      <div class="field">
+        <label>Agent Name</label>
+        <textarea id="t4-ag-text" rows="2">Agent Name</textarea>
+        <div class="text-controls">
+          <div class="tc-row">
+            <div class="tc-font"><label>Font</label><select id="t4-ag-font"></select></div>
+            <div class="tc-num"><label>Size</label><input type="number" id="t4-ag-size" value="22" min="6" max="200"></div>
+          </div>
+          <div class="tc-row">
+            <div style="flex:1;min-width:0;">
+              <label style="display:block;font-size:10px;color:var(--muted);margin-bottom:4px;">Align</label>
+              <div class="align-toggle" id="t4-ag-align">
+                <button class="align-btn active" data-align="left" title="Left"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 1.5H11M1 4.5H7M1 7.5H9" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></button>
+                <button class="align-btn" data-align="center" title="Center"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 1.5H11M3 4.5H9M2 7.5H10" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></button>
+                <button class="align-btn" data-align="right" title="Right"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 1.5H11M5 4.5H11M3 7.5H11" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></button>
+              </div>
+            </div>
+          </div>
+          <div class="tc-slider-row">
+            <div class="tc-slider-label">
+              <span>X position</span>
+              <div style="display:flex;align-items:center;gap:5px;">
+                <button class="center-btn" data-prefix="t4-ag" title="Center horizontally"><svg width="11" height="8" viewBox="0 0 11 8" fill="none"><path d="M1 4h9M5.5 1.5L3 4l2.5 2.5M5.5 1.5L8 4l-2.5 2.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg> center</button>
+                <span class="tc-val" id="t4-ag-x-val">0 px</span>
+              </div>
+            </div>
+            <input type="range" id="t4-ag-x" value="0" min="-500" max="500" step="1">
+          </div>
+          <div class="tc-slider-row">
+            <div class="tc-slider-label"><span>Y position</span><span class="tc-val" id="t4-ag-y-val">0 px</span></div>
+            <input type="range" id="t4-ag-y" value="0" min="-500" max="500" step="1">
+          </div>
+        </div>
+      </div>
+      <div class="field">
+        <label>Tagline</label>
+        <textarea id="t4-tl-text" rows="2">Luxury tagline goes here</textarea>
+        <div class="text-controls">
+          <div class="tc-row">
+            <div class="tc-font"><label>Font</label><select id="t4-tl-font"></select></div>
+            <div class="tc-num"><label>Size</label><input type="number" id="t4-tl-size" value="36" min="6" max="200"></div>
+          </div>
+          <div class="tc-row">
+            <div style="flex:1;min-width:0;">
+              <label style="display:block;font-size:10px;color:var(--muted);margin-bottom:4px;">Align</label>
+              <div class="align-toggle" id="t4-tl-align">
+                <button class="align-btn active" data-align="left" title="Left"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 1.5H11M1 4.5H7M1 7.5H9" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></button>
+                <button class="align-btn" data-align="center" title="Center"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 1.5H11M3 4.5H9M2 7.5H10" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></button>
+                <button class="align-btn" data-align="right" title="Right"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 1.5H11M5 4.5H11M3 7.5H11" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></button>
+              </div>
+            </div>
+          </div>
+          <div class="tc-slider-row">
+            <div class="tc-slider-label">
+              <span>X position</span>
+              <div style="display:flex;align-items:center;gap:5px;">
+                <button class="center-btn" data-prefix="t4-tl" title="Center horizontally"><svg width="11" height="8" viewBox="0 0 11 8" fill="none"><path d="M1 4h9M5.5 1.5L3 4l2.5 2.5M5.5 1.5L8 4l-2.5 2.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg> center</button>
+                <span class="tc-val" id="t4-tl-x-val">0 px</span>
+              </div>
+            </div>
+            <input type="range" id="t4-tl-x" value="0" min="-500" max="500" step="1">
+          </div>
+          <div class="tc-slider-row">
+            <div class="tc-slider-label"><span>Y position</span><span class="tc-val" id="t4-tl-y-val">0 px</span></div>
+            <input type="range" id="t4-tl-y" value="0" min="-500" max="500" step="1">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="sb-section">
+      <div class="sb-title">Media</div>
+      <div class="field">
+        <label>Photo — Slide 1</label>
+        <div class="upload-area" id="t4-p1-upload">
+          <div class="upload-icon">↑</div><div class="upload-text">Click or drag to upload</div>
+          <input type="file" id="t4-p1-input" accept="image/*">
+        </div>
+        <div class="photo-controls" id="t4-p1-controls">
+          <div class="control-row"><label>Fill</label>
+            <div class="fit-toggle" id="t4-p1-fit">
+              <button class="fit-btn active" data-fit="cover">Cover</button>
+              <button class="fit-btn" data-fit="contain">Contain</button>
+              <button class="fit-btn" data-fit="fill">Stretch</button>
+            </div>
+          </div>
+          <div class="control-row"><label>Position</label>
+            <div class="pos-pad ratio-t3" id="t4-p1-pad"><img id="t4-p1-pos-img" alt=""><div class="pos-dot" id="t4-p1-dot"></div></div>
+            <div class="pos-hint">Drag to reposition</div>
+          </div>
+        </div>
+      </div>
+      <div class="field">
+        <label>Photo — Slide 2</label>
+        <div class="upload-area" id="t4-p2-upload">
+          <div class="upload-icon">↑</div><div class="upload-text">Click or drag to upload</div>
+          <input type="file" id="t4-p2-input" accept="image/*">
+        </div>
+        <div class="photo-controls" id="t4-p2-controls">
+          <div class="control-row"><label>Fill</label>
+            <div class="fit-toggle" id="t4-p2-fit">
+              <button class="fit-btn active" data-fit="cover">Cover</button>
+              <button class="fit-btn" data-fit="contain">Contain</button>
+              <button class="fit-btn" data-fit="fill">Stretch</button>
+            </div>
+          </div>
+          <div class="control-row"><label>Position</label>
+            <div class="pos-pad ratio-t3" id="t4-p2-pad"><img id="t4-p2-pos-img" alt=""><div class="pos-dot" id="t4-p2-dot"></div></div>
+            <div class="pos-hint">Drag to reposition</div>
+          </div>
+        </div>
+      </div>
+      <div class="field">
+        <label>Photo — Slide 3</label>
+        <div class="upload-area" id="t4-p3-upload">
+          <div class="upload-icon">↑</div><div class="upload-text">Click or drag to upload</div>
+          <input type="file" id="t4-p3-input" accept="image/*">
+        </div>
+        <div class="photo-controls" id="t4-p3-controls">
+          <div class="control-row"><label>Fill</label>
+            <div class="fit-toggle" id="t4-p3-fit">
+              <button class="fit-btn active" data-fit="cover">Cover</button>
+              <button class="fit-btn" data-fit="contain">Contain</button>
+              <button class="fit-btn" data-fit="fill">Stretch</button>
+            </div>
+          </div>
+          <div class="control-row"><label>Position</label>
+            <div class="pos-pad ratio-t3" id="t4-p3-pad"><img id="t4-p3-pos-img" alt=""><div class="pos-dot" id="t4-p3-dot"></div></div>
+            <div class="pos-hint">Drag to reposition</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sb-hint">
+    Edits reflect instantly in the preview.<br>
+    <strong style="color:var(--text)">Export HTML</strong> downloads a self-contained file.
+  </div>
+</aside>
+
+<main class="preview-area" id="preview-area">
+  <div class="preview-badge" id="preview-badge">300 × 600 · Live preview</div>
+  <button class="pause-btn" id="pause-btn" title="Pause animation">
+    <svg id="pause-icon" width="14" height="14" viewBox="0 0 14 14" fill="currentColor"><rect x="2" y="2" width="4" height="10" rx="1"/><rect x="8" y="2" width="4" height="10" rx="1"/></svg>
+    <svg id="play-icon"  width="14" height="14" viewBox="0 0 14 14" fill="currentColor" style="display:none"><path d="M3 2.5l9 4.5-9 4.5V2.5z"/></svg>
+  </button>
+  <div id="preview-col">
+    <div class="ad-outer" id="ad-outer">
+      <div class="ad-shadow" id="ad-shadow">
+        <div id="ad-container">
+          <div id="ad-loading"><div class="spinner"></div>Loading…</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Timeline is anchored to the bottom of the preview area -->
+  <div class="timeline-wrap" id="timeline-wrap">
+    <div class="timeline-bar" id="timeline-bar">
+      <div class="timeline-fill" id="timeline-fill"></div>
+      <div class="timeline-ticks" id="timeline-ticks"></div>
+      <div class="timeline-thumb" id="timeline-thumb"></div>
+    </div>
+    <div class="timeline-labels">
+      <span id="tl-current">0.0s</span>
+      <span id="tl-total">10.0s</span>
+    </div>
+  </div>
+</main>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════
+// FONTS
+// ═══════════════════════════════════════════════════════
+const FONTS = [
+  'Cormorant Garamond','Playfair Display','Cinzel','Libre Baskerville',
+  'Montserrat','Raleway','Oswald','Bebas Neue','DM Sans','Roboto',
+];
+
+function populateFontSelects() {
+  document.querySelectorAll('.tc-row select').forEach(sel => {
+    FONTS.forEach(f => {
+      const opt = document.createElement('option');
+      opt.value = f; opt.textContent = f;
+      sel.appendChild(opt);
+    });
+  });
+  // Set defaults
+  setSelectValue('t1-h1-font','Cormorant Garamond');
+  setSelectValue('t1-h2-font','Cormorant Garamond');
+  setSelectValue('t2-ti-font','Cormorant Garamond');
+  setSelectValue('t2-ad-font','Montserrat');
+  setSelectValue('t2-ag-font','Montserrat');
+  setSelectValue('t3-ti-font','Cormorant Garamond');
+  setSelectValue('t3-ad-font','Montserrat');
+  setSelectValue('t3-ag-font','Montserrat');
+  setSelectValue('t4-st-font','Cormorant Garamond');
+  setSelectValue('t4-ad-font','Montserrat');
+  setSelectValue('t4-ag-font','Montserrat');
+  setSelectValue('t4-tl-font','Cormorant Garamond');
+}
+function setSelectValue(id, val) {
+  const el = document.getElementById(id);
+  if (el) el.value = val;
+}
+
+// ═══════════════════════════════════════════════════════
+// CONFIG
+// ═══════════════════════════════════════════════════════
+const T1_BASE = '300x600_12 page Skyscraper/';
+const T2_BASE = '768x1024/';
+const T1_IMAGES = ['2b758c6c38dd6cbabc1c289c68a25fc5.svg','5740f88ce777a17138489dafdfc90daa.svg','48a278655ae40c6e76f2bb67157edab3.svg','0167be5fe0e957f7234bd522df5716b3.svg','caf69e60b706e25902718da24ec7c2af.svg','fafc1efe704728c7be8d2266ca95cafe.jpg'];
+const T2_IMAGES = ['ws_170.png','ws_175.png','ws_177.png','ws_178.png','ws_179.png','ws_1117.png','ws_1207.png','ws_1212.png','ws_1213.png','ws_1214.png','ws_1215.png','ws_1218.png','ws_1223.png','ws_1224.png','ws_1225.png','ws_1226.png','ws_1228.png','ws_1243.png','ws_1248.png','ws_1249.png','ws_1251.png'];
+const T2_PHOTO_IDS = ['ws_175','ws_1212','ws_1223','ws_1248'];
+
+const T3_BASE = '970x250/';
+const T3_IMAGES = [
+  'ws_3255.png','ws_3260.png','ws_3321.png','ws_3328.png','ws_3333.png',
+  'ws_3472.png','ws_3477.png','ws_4543.png','ws_4549.png','ws_4551.png',
+  'ws_4553.png','ws_4558.png','ws_4571.png','ws_4573.png','ws_4576.png',
+  'ws_4615.png',
+];
+// Photo appears on left half across all 4 frames
+const T3_PHOTO_IDS = ['ws_3260','ws_3333','ws_4558','ws_3477'];
+
+// Base positions of text overlay elements within the 970×250 palco
+const T3_BASE_POS = {
+  title:   { x: 582.24, y: 48.72 },
+  address: { x: 583.55, y: 73.61 },
+  addr2:   { x: 581.18, y: 91.61 },  // frame 3 repeat
+  agent:   { x: 587,    y: 85    },
+};
+
+
+// Base positions for T2 overlays (pixels within 768×1024 palco)
+const T2_BASE_POS = {
+  title:   { x:59,  y:713 },
+  address: { x:62,  y:753 },
+  agent3:  { x:134, y:782 },
+  agent4:  { x:189, y:721 },
+};
+
+// ═══════════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════════
+// Each text field stores: { text, font, size, x, y }
+function makeTextField(text, font, size) {
+  return { text, font, size, x:0, y:0, align:'left' };
+}
+
+let activeTemplate = 't1';
+let isPaused = false;
+const state = {
+  t1: {
+    h1: makeTextField('INFINITE ELEGANCE','Cormorant Garamond',17),
+    h2: makeTextField('INFINITE VISION',  'Cormorant Garamond',17),
+    photoDataUrl:null, photoFit:'cover', photoPos:{x:50,y:50},
+  },
+  t4: {
+    st:  makeTextField('Luxury street address','Cormorant Garamond',32),
+    ad:  makeTextField('12345 Sample Rd','Montserrat',22),
+    ag:  makeTextField('Agent Name','Montserrat',22),
+    tl:  makeTextField('Luxury tagline goes here','Cormorant Garamond',36),
+    photo1:{dataUrl:null,fit:'cover',pos:{x:50,y:50}},
+    photo2:{dataUrl:null,fit:'cover',pos:{x:50,y:50}},
+    photo3:{dataUrl:null,fit:'cover',pos:{x:50,y:50}},
+  },
+  t3: {
+    title:     makeTextField('Luxury offering title goes here','Cormorant Garamond',38),
+    address:   makeTextField('12345 Sample Rd','Montserrat',22),
+    agentName: makeTextField('Agent Name','Montserrat',22),
+    photo1:{dataUrl:null,fit:'cover',pos:{x:50,y:50}},
+    photo2:{dataUrl:null,fit:'cover',pos:{x:50,y:50}},
+    photo3:{dataUrl:null,fit:'cover',pos:{x:50,y:50}},
+    photo4:{dataUrl:null,fit:'cover',pos:{x:50,y:50}},
+  },
+  t2: {
+    title:     makeTextField('Luxury offering title goes here','Cormorant Garamond',52),
+    address:   makeTextField('12345 Sample Rd','Montserrat',32),
+    agentName: makeTextField('Agent Name','Montserrat',32),
+    photoDataUrl:null, photoFit:'cover', photoPos:{x:50,y:50},
+  },
+};
+
+// Read the live typography controls from the DOM into a field state object
+function readFieldState(prefix) {
+  return {
+    text: document.getElementById(prefix+'-text')?.value  || '',
+    font: document.getElementById(prefix+'-font')?.value  || 'Cormorant Garamond',
+    size: parseInt(document.getElementById(prefix+'-size')?.value) || 16,
+    x:    parseInt(document.getElementById(prefix+'-x')?.value)    || 0,
+    y:    parseInt(document.getElementById(prefix+'-y')?.value)    || 0,
+  };
+}
+
+// ═══════════════════════════════════════════════════════
+// TEMPLATE 1 — HTML / CSS / script
+// ═══════════════════════════════════════════════════════
+const T1_CSS = `body,html{margin:0;padding:0;}#b_506610303{background-color:#fff;border:0;box-sizing:border-box;cursor:default;display:block;height:600px;overflow:hidden;position:relative;width:300px;z-index:1;}#b_506610303 div{position:absolute;box-sizing:border-box;padding:0;margin:0;}#b_506610303 img{position:absolute;top:0;left:0;display:block;padding:0;margin:0;}#el_506810525{top:91px;left:24px;z-index:5;pointer-events:none;}#img_506810525{width:252px;height:126px;}#img_506810525.bnfy-enter{animation:fade-in 2300ms 6100ms ease 1 both;}#el_506810523{top:118px;left:60px;z-index:4;pointer-events:none;}#img_506810523{width:184px;height:75px;}#img_506810523.bnfy-enter{animation:slide-in-left 1000ms 3000ms ease 1 both;}#img_506810523.bnfy-exit{animation:slide-out-right 1000ms ease 1 both;}#el_506610310{top:390px;left:0;z-index:3;pointer-events:none;}#img_506610310{width:300px;height:210px;}#el_506610309{top:118px;left:36px;z-index:2;pointer-events:none;}#img_506610309{width:232px;height:75px;}#img_506610309.bnfy-enter{animation:slide-in-left 1000ms 0ms ease 1 both;}#img_506610309.bnfy-exit{animation:slide-out-right 1000ms ease 1 both;}#el_506610304{top:0;left:0;z-index:1;pointer-events:none;}#img_506610304{width:300px;height:600px;}#el_506610303{top:0;left:0;z-index:0;pointer-events:none;}#img_506610303{width:300px;height:600px;}@keyframes fade-in{0%{opacity:0}to{opacity:1}}@keyframes slide-in-left{0%{transform:translateX(-1000px);opacity:0}to{transform:translateX(0);opacity:1}}@keyframes slide-out-right{0%{transform:translateX(0);opacity:1}to{transform:translateX(1000px);opacity:0}}`;
+
+const T1_OVERLAY_CSS = `.ad-ov{position:absolute;left:0;width:285px;padding:0 10px;color:#fff;white-space:pre-wrap;word-break:break-word;line-height:1.3;pointer-events:none;letter-spacing:0.1em;text-transform:uppercase;}
+#el_506610309 .ad-ov.bnfy-enter{animation:slide-in-left 1000ms 0ms ease 1 both;}
+#el_506610309 .ad-ov.bnfy-exit {animation:slide-out-right 1000ms ease 1 both;}
+#el_506810523 .ad-ov.bnfy-enter{animation:slide-in-left 1000ms 3000ms ease 1 both;}
+#el_506810523 .ad-ov.bnfy-exit {animation:slide-out-right 1000ms ease 1 both;}`;
+
+const T1_HTML = `<div id="b_506610303">
+  <div style="display:none;width:252px;height:126px;" id="el_506810525" class="js-bnfy"><img id="img_506810525" class="bnfy-enter" width="252" height="126" src="${T1_BASE}images/2b758c6c38dd6cbabc1c289c68a25fc5.svg"/></div>
+  <div style="display:none;width:184px;height:75px;"  id="el_506810523" class="js-bnfy"><img id="img_506810523" class="bnfy-enter" width="184" height="75"  src="${T1_BASE}images/5740f88ce777a17138489dafdfc90daa.svg"/></div>
+  <div style="display:none;width:300px;height:210px;" id="el_506610310" class="js-bnfy"><img id="img_506610310" class="bnfy-enter" width="300" height="210" src="${T1_BASE}images/fafc1efe704728c7be8d2266ca95cafe.jpg"/></div>
+  <div style="display:none;width:232px;height:75px;"  id="el_506610309" class="js-bnfy"><img id="img_506610309" class="bnfy-enter" width="232" height="75"  src="${T1_BASE}images/0167be5fe0e957f7234bd522df5716b3.svg"/></div>
+  <div style="display:none;width:300px;height:600px;" id="el_506610304" class="js-bnfy"><img id="img_506610304" class="bnfy-enter" width="300" height="600" src="${T1_BASE}images/48a278655ae40c6e76f2bb67157edab3.svg"/></div>
+  <div style="display:none;width:300px;height:600px;" id="el_506610303" class="js-bnfy"><img id="img_506610303" class="bnfy-enter" width="300" height="600" src="${T1_BASE}images/caf69e60b706e25902718da24ec7c2af.svg"/></div>
+</div>`;
+
+const T1_SCRIPT = `(function(){function onLoad(c,cb){var p=[].slice.call(c.getElementsByTagName("img")),n=p.length;if(!n)return cb();p.forEach(function(i){if(i.complete){n--;if(!n)cb();}else i.addEventListener("load",function(){n--;if(!n)cb();});});}onLoad(document.getElementById("b_506610303"),function(){if(!document.getElementById("b_506610303"))return;var els=document.getElementById("b_506610303").getElementsByClassName("js-bnfy");for(var i=0;i<els.length;i++)els[i].style.display="block";var iv,to=[];function cl(){to.forEach(clearTimeout);to=[];}document.addEventListener("visibilitychange",function(){if(document.hidden){clearInterval(iv);cl();}else{rp();iv=setInterval(rp,10000);}});function ex(){window._t1StartTime=performance.now();var a=document.getElementById("img_506810523");a.className="bnfy-enter";to.push(setTimeout(function(){a.className="";void a.offsetWidth;a.className="bnfy-exit";},5400));var b=document.getElementById("img_506610309");b.className="bnfy-enter";to.push(setTimeout(function(){b.className="";void b.offsetWidth;b.className="bnfy-exit";},2500));}ex();iv=setInterval(rp,10000);function rp(){var bn=document.getElementById("b_506610303");if(bn)for(var i=0;i<bn.children.length;i++){var e=bn.children[i];if(e&&e.tagName.toLowerCase()!=="script"){var d=e.style.display;e.style.display="none";void e.offsetWidth;e.style.display=d;}}ex();}
+window._t1Pause=function(){clearInterval(iv);iv=null;cl();var ban=document.getElementById("b_506610303");if(ban){ban.querySelectorAll("img,.ad-ov").forEach(function(el){el.style.animationPlayState="paused";});}};
+window._t1Resume=function(){var ban=document.getElementById("b_506610303");if(ban){ban.querySelectorAll("img,.ad-ov").forEach(function(el){el.style.animationPlayState="";});}rp();iv=setInterval(rp,10000);};
+});}());`;
+
+// ═══════════════════════════════════════════════════════
+// TEMPLATE 2 — HTML
+// ═══════════════════════════════════════════════════════
+function buildT2Html() {
+  const b = T2_BASE+'images/';
+  return `<div id="t2-click" style="cursor:pointer">
+<div id="palco" style="width:768px;height:1024px;position:relative;overflow:hidden;background:#000;">
+  <img id="ws_170"  src="${b}ws_170.png"  style="position:absolute;left:0;top:0;width:768px;height:1024px;display:none"/>
+  <img id="ws_175"  src="${b}ws_175.png"  style="position:absolute;left:1px;top:0;width:767px;height:642px;display:none"/>
+  <img id="ws_177"  src="${b}ws_177.png"  style="position:absolute;left:199.83px;top:936.16px;width:362.36px;height:30.74px;display:none"/>
+  <img id="ws_178"  src="${b}ws_178.png"  style="position:absolute;left:59.49px;top:713.46px;width:650.83px;height:159.05px;display:none"/>
+  <img id="ws_1117" src="${b}ws_1117.png" style="position:absolute;left:139px;top:26px;width:476px;height:68px;display:none"/>
+  <img id="ws_1207" src="${b}ws_1207.png" style="position:absolute;left:0;top:0;width:768px;height:1024px;display:none"/>
+  <img id="ws_1212" src="${b}ws_1212.png" style="position:absolute;left:1px;top:0;width:767px;height:642px;display:none"/>
+  <img id="ws_1213" src="${b}ws_1213.png" style="position:absolute;left:199.83px;top:936.16px;width:362.36px;height:30.74px;display:none"/>
+  <img id="ws_1214" src="${b}ws_1214.png" style="position:absolute;left:62.10px;top:753.23px;width:645.89px;height:78.66px;display:none"/>
+  <img id="ws_1215" src="${b}ws_1215.png" style="position:absolute;left:139px;top:26px;width:476px;height:68px;display:none"/>
+  <img id="ws_1218" src="${b}ws_1218.png" style="position:absolute;left:0;top:0;width:768px;height:1024px;display:none"/>
+  <img id="ws_1223" src="${b}ws_1223.png" style="position:absolute;left:1px;top:0;width:767px;height:642px;display:none"/>
+  <img id="ws_1224" src="${b}ws_1224.png" style="position:absolute;left:199.83px;top:936.16px;width:362.36px;height:30.74px;display:none"/>
+  <img id="ws_1225" src="${b}ws_1225.png" style="position:absolute;left:285.47px;top:710.61px;width:196.13px;height:39.64px;display:none"/>
+  <img id="ws_1226" src="${b}ws_1226.png" style="position:absolute;left:139px;top:26px;width:476px;height:68px;display:none"/>
+  <img id="ws_1228" src="${b}ws_1228.png" style="position:absolute;left:134.10px;top:782.65px;width:493.78px;height:73.86px;display:none"/>
+  <img id="ws_1243" src="${b}ws_1243.png" style="position:absolute;left:0;top:0;width:768px;height:1024px;display:none"/>
+  <img id="ws_1248" src="${b}ws_1248.png" style="position:absolute;left:1px;top:0;width:767px;height:642px;display:none"/>
+  <img id="ws_1249" src="${b}ws_1249.png" style="position:absolute;left:199.83px;top:936.16px;width:362.36px;height:30.74px;display:none"/>
+  <img id="ws_1251" src="${b}ws_1251.png" style="position:absolute;left:139px;top:26px;width:476px;height:68px;display:none"/>
+  <img id="ws_179"  src="${b}ws_179.png"  style="position:absolute;left:189px;top:721px;width:384px;height:86.16px;display:none"/>
+</div></div>`;
+}
+
+
+// ═══════════════════════════════════════════════════════
+// TEMPLATE 3 — 970×250 Leaderboard
+// ═══════════════════════════════════════════════════════
+function buildT3Html() {
+  const b = T3_BASE+'images/';
+  return `<div id="t3-click" style="cursor:pointer">
+<div id="palco3" style="width:970px;height:250px;position:relative;overflow:hidden;background:#000;">
+  <img id="ws_3255" src="${b}ws_3255.png" style="position:absolute;left:515.58px;top:0;width:454.42px;height:250px;display:none"/>
+  <img id="ws_3260" src="${b}ws_3260.png" style="position:absolute;left:0;top:0;width:516px;height:250px;display:none"/>
+  <img id="ws_3321" src="${b}ws_3321.png" style="position:absolute;left:648.19px;top:172.01px;width:191.62px;height:48.79px;display:none"/>
+  <img id="ws_4543" src="${b}ws_4543.png" style="position:absolute;left:582.24px;top:48.73px;width:325.41px;height:86.52px;display:none"/>
+  <img id="ws_3328" src="${b}ws_3328.png" style="position:absolute;left:515.58px;top:0;width:454.42px;height:250px;display:none"/>
+  <img id="ws_3333" src="${b}ws_3333.png" style="position:absolute;left:0;top:0;width:516px;height:250px;display:none"/>
+  <img id="ws_4549" src="${b}ws_4549.png" style="position:absolute;left:648.19px;top:168.01px;width:191.62px;height:48.79px;display:none"/>
+  <img id="ws_4551" src="${b}ws_4551.png" style="position:absolute;left:583.55px;top:73.61px;width:322.95px;height:39.33px;display:none"/>
+  <img id="ws_4553" src="${b}ws_4553.png" style="position:absolute;left:515.58px;top:0;width:454.42px;height:250px;display:none"/>
+  <img id="ws_4558" src="${b}ws_4558.png" style="position:absolute;left:0;top:0;width:516px;height:250px;display:none"/>
+  <img id="ws_4571" src="${b}ws_4571.png" style="position:absolute;left:648.19px;top:168.01px;width:191.62px;height:48.79px;display:none"/>
+  <img id="ws_4573" src="${b}ws_4573.png" style="position:absolute;left:678.81px;top:42.74px;width:130.76px;height:26.43px;display:none"/>
+  <img id="ws_4615" src="${b}ws_4615.png" style="position:absolute;left:581.18px;top:91.61px;width:327.48px;height:39.64px;display:none"/>
+  <img id="ws_3472" src="${b}ws_3472.png" style="position:absolute;left:515.58px;top:0;width:454.42px;height:250px;display:none"/>
+  <img id="ws_3477" src="${b}ws_3477.png" style="position:absolute;left:0;top:0;width:516px;height:250px;display:none"/>
+  <img id="ws_4576" src="${b}ws_4576.png" style="position:absolute;left:587px;top:85px;width:318px;height:71.35px;display:none"/>
+</div></div>`;
+}
+
+function loadT3() {
+  const c = document.getElementById('ad-container');
+  c.innerHTML = '<div id="ad-loading"><div class="spinner"></div>Loading…</div>';
+  c.innerHTML = buildT3Html();
+  if (window._t3tl) { window._t3tl.kill(); window._t3tl = null; }
+  startT3Gsap();
+  scalePreview();
+  resetPauseState();
+  buildTlTicks(); syncTlWidth(); startTlLoop();
+  reapplyT3();
+}
+
+function startT3Gsap() {
+  if (typeof gsap === 'undefined') return;
+  const frames = [
+    { s:0,     e:3.75,  l:[
+      { id:'ws_3255', i:'none',    o:'none',    d:0 },
+      { id:'ws_3260', i:'none',    o:'none',    d:0 },
+      { id:'ws_3321', i:'none',    o:'none',    d:0 },
+      { id:'ws_4543', i:'left',    o:'right',   d:0, ov:'ov3_4543' },
+    ]},
+    { s:3.75,  e:7.5,   l:[
+      { id:'ws_3328', i:'none',    o:'none',    d:0 },
+      { id:'ws_3333', i:'none',    o:'none',    d:0 },
+      { id:'ws_4549', i:'none',    o:'none',    d:0 },
+      { id:'ws_4551', i:'left',    o:'right',   d:0, ov:'ov3_4551' },
+    ]},
+    { s:7.5,   e:11.25, l:[
+      { id:'ws_4553', i:'none',    o:'none',    d:0 },
+      { id:'ws_4558', i:'none',    o:'none',    d:0 },
+      { id:'ws_4571', i:'none',    o:'none',    d:0 },
+      { id:'ws_4573', i:'none',    o:'none',    d:0 },
+      { id:'ws_4615', i:'left',    o:'right',   d:0, ov:'ov3_4615' },
+    ]},
+    { s:11.25, e:15,    l:[
+      { id:'ws_3472', i:'none',    o:'none',    d:0 },
+      { id:'ws_3477', i:'none',    o:'none',    d:0 },
+      { id:'ws_4576', i:'opacity', o:'opacity', d:0, ov:'ov3_4576' },
+    ]},
+  ];
+  const tl = gsap.timeline({ repeat:-1, defaults:{ ease:'power3.out' } });
+  window._t3tl = tl;
+  const DI=1, DO=0.8, L=frames.length;
+  frames.forEach((fr,fi) => {
+    fr.l.forEach(ly => {
+      const s = fr.s + ly.d, e = fr.e, isLast = fi===L-1;
+      const targets = ['#'+ly.id];
+      if (ly.ov && document.getElementById(ly.ov)) targets.push('#'+ly.ov);
+      // Elements with out:'none' persist 2s into the next frame so backgrounds
+      // don't flash black while the new frame's text slides in
+      const endSet = (!isLast && ly.o === 'none') ? e + 2 : e;
+      targets.forEach(sel => {
+        tl.set(sel, { display:'block', transformOrigin:'50% 50%' }, s)
+          .fromTo(sel,
+            { opacity: ly.i!=='none'?0:1,
+              x: ly.i==='left'?-50:ly.i==='right'?50:0,
+              y: ly.i==='top'?-50:ly.i==='bottom'?50:0,
+              scale: ly.i==='scale_in'?0.5:ly.i==='scale_out'?1.5:1 },
+            { opacity:1, x:0, y:0, scale:1, duration: ly.i==='none'?0.01:DI }, s)
+          .to(sel,
+            { opacity: ly.o!=='none'?0:1,
+              x: ly.o==='left'?-50:ly.o==='right'?50:0,
+              y: ly.o==='top'?-50:ly.o==='bottom'?50:0,
+              scale: ly.o==='scale_in'?0.5:ly.o==='scale_out'?1.5:1,
+              duration: ly.o==='none'?0.01:DO },
+            e - DO)
+          .set(sel, { display: isLast?'block':'none' }, endSet);
+      });
+    });
+  });
+}
+
+// ═══════════════════════════════════════════════════════
+// LOAD TEMPLATES
+// ═══════════════════════════════════════════════════════
+let t1StyleInjected = false, t1OvStyleInjected = false, t2StyleInjected = false;
+
+function loadT1() {
+  const c = document.getElementById('ad-container');
+  c.innerHTML = '<div id="ad-loading"><div class="spinner"></div>Loading…</div>';
+  if (!t1StyleInjected) { injectStyle(T1_CSS); t1StyleInjected=true; }
+  if (!t1OvStyleInjected) { injectStyle(T1_OVERLAY_CSS); t1OvStyleInjected=true; }
+  c.innerHTML = T1_HTML;
+  runScript(T1_SCRIPT);
+  scalePreview();
+  resetPauseState();
+  buildTlTicks(); syncTlWidth(); startTlLoop();
+  reapplyT1();
+}
+
+function loadT2() {
+  const c = document.getElementById('ad-container');
+  c.innerHTML = '<div id="ad-loading"><div class="spinner"></div>Loading…</div>';
+  if (!t2StyleInjected) { injectStyle('#palco,#palco *{box-sizing:border-box;}'); t2StyleInjected=true; }
+  c.innerHTML = buildT2Html();
+  if (window._t2tl) { window._t2tl.kill(); window._t2tl=null; }
+  startT2Gsap();
+  scalePreview();
+  resetPauseState();
+  buildTlTicks(); syncTlWidth(); startTlLoop();
+  reapplyT2();
+}
+
+function injectStyle(css) {
+  const s=document.createElement('style'); s.textContent=css; document.head.appendChild(s);
+}
+function runScript(code) {
+  const s=document.createElement('script'); s.textContent=code; document.body.appendChild(s);
+}
+
+// ═══════════════════════════════════════════════════════
+// T2 GSAP
+// ═══════════════════════════════════════════════════════
+function startT2Gsap() {
+  if (typeof gsap==='undefined') return;
+  const frames=[
+    {s:0,    e:3.75,  l:[{id:'ws_170', i:'scale_out',o:'none',   d:0,  W:768,H:1024},{id:'ws_175', i:'scale_in', o:'opacity',d:0.8,W:767,H:642},{id:'ws_177', i:'opacity',o:'opacity',d:0.6},{id:'ws_178', i:'scale_in', o:'opacity',d:0.4,ov:'ov_178'},{id:'ws_1117',i:'opacity',o:'opacity',d:0.2}]},
+    {s:3.75, e:7.5,   l:[{id:'ws_1207',i:'scale_out',o:'none',   d:0,  W:768,H:1024},{id:'ws_1212',i:'scale_in', o:'opacity',d:0.8,W:767,H:642},{id:'ws_1213',i:'opacity',o:'opacity',d:0.6},{id:'ws_1214',i:'opacity',  o:'opacity',d:0.4,ov:'ov_1214'},{id:'ws_1215',i:'opacity',o:'opacity',d:0.2}]},
+    {s:7.5,  e:11.25, l:[{id:'ws_1218',i:'scale_out',o:'none',   d:0,  W:768,H:1024},{id:'ws_1223',i:'scale_in', o:'opacity',d:1.0,W:767,H:642},{id:'ws_1224',i:'opacity',o:'opacity',d:0.8},{id:'ws_1225',i:'opacity',  o:'opacity',d:0.6},{id:'ws_1226',i:'opacity',o:'opacity',d:0.4},{id:'ws_1228',i:'opacity',o:'opacity',d:0.2,ov:'ov_1228'}]},
+    {s:11.25,e:15,    l:[{id:'ws_1243',i:'scale_out',o:'none',   d:0,  W:768,H:1024},{id:'ws_1248',i:'scale_in', o:'none',   d:0.8,W:767,H:642},{id:'ws_1249',i:'opacity',o:'none',   d:0.6},{id:'ws_1251',i:'opacity',  o:'none',   d:0.4},{id:'ws_179', i:'opacity',o:'none',   d:0.2,ov:'ov_179'}]},
+  ];
+  const tl=gsap.timeline({repeat:-1,defaults:{ease:'power3.out'}});
+  window._t2tl=tl;
+  const DI=1,DO=0.8,L=frames.length;
+  frames.forEach((fr,fi)=>{
+    fr.l.forEach(ly=>{
+      const s=fr.s+ly.d, e=fr.e, isLast=fi===L-1;
+      const isBg=ly.W===768&&ly.H===1024;
+      const endSet=(isBg&&ly.o==='none'&&!isLast)?e+2:e;
+      const targets=['#'+ly.id];
+      if(ly.ov&&document.getElementById(ly.ov)) targets.push('#'+ly.ov);
+      targets.forEach(sel=>{
+        tl.set(sel,{display:'block',transformOrigin:'50% 50%'},s)
+          .fromTo(sel,{opacity:ly.i!=='none'?0:1,scale:ly.i==='scale_in'?0.5:ly.i==='scale_out'?1.5:1},{opacity:1,scale:1,duration:ly.i==='none'?0.01:DI},s)
+          .to(sel,{opacity:ly.o!=='none'?0:1,scale:ly.o==='scale_in'?0.5:ly.o==='scale_out'?1.5:1,duration:ly.o==='none'?0.01:DO},e-DO)
+          .set(sel,{display:isLast?'block':'none'},endSet);
+      });
+    });
+  });
+}
+
+// ═══════════════════════════════════════════════════════
+// TEMPLATE SWITCH
+// ═══════════════════════════════════════════════════════
+function switchTemplate(id) {
+  if (activeTemplate===id) return;
+  activeTemplate=id;
+  if (id==='t1'&&window._t2tl){window._t2tl.kill();window._t2tl=null;}
+  if (id!=='t3'&&window._t3tl){window._t3tl.kill();window._t3tl=null;}
+  if (id!=='t4'&&window._t4Pause){window._t4Pause();window._t4StartTime=null;}
+  document.querySelectorAll('.tpl-card').forEach(c=>c.classList.toggle('active',c.dataset.tpl===id));
+  document.querySelectorAll('.tpl-fields').forEach(f=>f.classList.toggle('active',f.id==='fields-'+id));
+  document.getElementById('header-chip').textContent=id==='t1'?'300×600 Skyscraper':'768×1024 Listing Ad';
+  document.getElementById('preview-badge').textContent=id==='t1'?'300 × 600 · Live preview':'768 × 1024 · Live preview';
+  const [w,h]=id==='t1'?[300,600]:id==='t2'?[768,1024]:[970,250];
+  const c=document.getElementById('ad-container');
+  c.style.width=w+'px'; c.style.height=h+'px';
+  if(id==='t1') loadT1(); else if(id==='t2') loadT2(); else if(id==='t3') loadT3(); else loadT4();
+}
+
+// ═══════════════════════════════════════════════════════
+// PREVIEW SCALE
+// ═══════════════════════════════════════════════════════
+function scalePreview() {
+  const area=document.getElementById('preview-area');
+  const outer=document.getElementById('ad-outer');
+  const shadow=document.getElementById('ad-shadow');
+  const [adW,adH]=activeTemplate==='t1'?[300,600]:activeTemplate==='t2'?[768,1024]:[970,250];
+  const scale=Math.min(1,(area.clientWidth-40)/adW,(area.clientHeight-120)/adH);
+  shadow.style.width=adW+'px'; shadow.style.height=adH+'px';
+  shadow.style.transform=`scale(${scale})`; shadow.style.transformOrigin='top left';
+  outer.style.width=Math.round(adW*scale)+'px'; outer.style.height=Math.round(adH*scale)+'px';
+  outer.style.overflow='hidden';
+  syncTlWidth();
+}
+window.addEventListener('resize',scalePreview);
+
+// ═══════════════════════════════════════════════════════
+// T1 TEXT OVERLAY
+// ═══════════════════════════════════════════════════════
+// Overlays the original SVG img with an HTML div, mirroring CSS animation classes
+function applyT1Overlay(imgId, fieldState) {
+  const img = document.getElementById(imgId);
+  if (!img) return;
+  const isDefault = !fieldState.text;
+  img.style.visibility = isDefault ? '' : 'hidden';
+  let ov = img.parentElement.querySelector('.ad-ov');
+  if (isDefault) { if(ov){ov._obs&&ov._obs.disconnect();ov.remove();} return; }
+  if (!ov) {
+    ov = document.createElement('div');
+    ov.className = 'ad-ov '+img.className;
+    img.parentElement.appendChild(ov);
+    const obs = new MutationObserver(()=>{ ov.className='ad-ov '+img.className; });
+    obs.observe(img,{attributes:true,attributeFilter:['class']});
+    ov._obs=obs;
+  }
+  ov.textContent = fieldState.text;
+  ov.style.fontFamily = `'${fieldState.font}',sans-serif`;
+  ov.style.fontSize   = fieldState.size+'px';
+  ov.style.textAlign  = fieldState.align || 'left';
+  ov.style.left       = fieldState.x+'px';
+  ov.style.top        = `calc(50% + ${fieldState.y}px)`;
+  ov.style.transform  = 'translateY(-50%)';
+}
+
+function applyT1PhotoStyles() {
+  const img=document.getElementById('img_506610310');
+  if(!img||!state.t1.photoDataUrl) return;
+  img.src=state.t1.photoDataUrl;
+  img.style.objectFit=state.t1.photoFit;
+  img.style.objectPosition=`${state.t1.photoPos.x}% ${state.t1.photoPos.y}%`;
+  img.style.width='300px'; img.style.height='210px';
+}
+
+function reapplyT1() {
+  applyT1Overlay('img_506610309', state.t1.h1);
+  applyT1Overlay('img_506810523', state.t1.h2);
+  if(state.t1.photoDataUrl){
+    const img=document.getElementById('img_506610310');
+    if(img){img.src=state.t1.photoDataUrl; applyT1PhotoStyles();}
+  }
+}
+
+// ═══════════════════════════════════════════════════════
+// T2 TEXT OVERLAY
+// ═══════════════════════════════════════════════════════
+// Each T2 overlay div lives in #palco and mirrors GSAP style changes
+// from its source img (opacity/transform/display) via MutationObserver.
+function applyT2Overlay(ovId, sourceImgId, fieldState, baseX, baseY) {
+  const palco = document.getElementById('palco');
+  const img   = document.getElementById(sourceImgId);
+  if (!palco || !img) return;
+
+  img.style.visibility = fieldState.text ? 'hidden' : '';
+
+  let ov = document.getElementById(ovId);
+  if (!fieldState.text) {
+    if(ov){ov._obs&&ov._obs.disconnect();ov.remove();} return;
+  }
+  if (!ov) {
+    ov = document.createElement('div');
+    ov.id = ovId;
+    ov.className = 't2-overlay';
+    ov.style.display = img.style.display || 'none';
+    ov.style.opacity = img.style.opacity || '0';
+    ov.style.transform = img.style.transform || '';
+    palco.appendChild(ov);
+    const obs = new MutationObserver(()=>{
+      ov.style.display   = img.style.display;
+      ov.style.opacity   = img.style.opacity;
+      ov.style.transform = img.style.transform;
+    });
+    obs.observe(img,{attributes:true,attributeFilter:['style']});
+    ov._obs=obs;
+  }
+  ov.textContent = fieldState.text;
+  ov.style.fontFamily = `'${fieldState.font}',sans-serif`;
+  ov.style.fontSize   = fieldState.size+'px';
+  ov.style.textAlign  = fieldState.align || 'left';
+  ov.style.left       = (baseX + fieldState.x)+'px';
+  ov.style.top        = (baseY + fieldState.y)+'px';
+  ov.style.width      = '729px'; // 95% of 768
+}
+
+function applyT2All() {
+  applyT2Overlay('ov_178',  'ws_178',  state.t2.title,     T2_BASE_POS.title.x,   T2_BASE_POS.title.y);
+  applyT2Overlay('ov_1214', 'ws_1214', state.t2.address,   T2_BASE_POS.address.x, T2_BASE_POS.address.y);
+  applyT2Overlay('ov_1228', 'ws_1228', state.t2.agentName, T2_BASE_POS.agent3.x,  T2_BASE_POS.agent3.y);
+  applyT2Overlay('ov_179',  'ws_179',  state.t2.agentName, T2_BASE_POS.agent4.x,  T2_BASE_POS.agent4.y);
+}
+
+function applyT2PhotoStyles() {
+  T2_PHOTO_IDS.forEach(id=>{
+    const img=document.getElementById(id);
+    if(!img||!state.t2.photoDataUrl) return;
+    img.src=state.t2.photoDataUrl;
+    img.style.objectFit=state.t2.photoFit;
+    img.style.objectPosition=`${state.t2.photoPos.x}% ${state.t2.photoPos.y}%`;
+    img.style.width='767px'; img.style.height='642px';
+  });
+}
+
+function reapplyT2() {
+  applyT2All();
+  if(state.t2.photoDataUrl) applyT2PhotoStyles();
+}
+
+
+// ═══════════════════════════════════════════════════════
+// T3 APPLY FUNCTIONS
+// ═══════════════════════════════════════════════════════
+// opts.keepSource  — don't hide the source img (used for ws_4576 so the logo stays visible)
+// opts.width       — overlay width in px (default 380)
+// opts.bgColor     — overlay background color (to cover baked text underneath)
+// opts.height      — overlay height in px (default auto)
+function applyT3Overlay(ovId, sourceImgId, fieldState, baseX, baseY, opts={}) {
+  const palco = document.getElementById('palco3');
+  const img   = document.getElementById(sourceImgId);
+  if (!palco || !img) return;
+
+  // Only hide source img if not keepSource
+  if (!opts.keepSource) {
+    img.style.visibility = fieldState.text ? 'hidden' : '';
+  }
+
+  let ov = document.getElementById(ovId);
+  if (!fieldState.text) { if(ov){ov._obs&&ov._obs.disconnect();ov.remove();} return; }
+  if (!ov) {
+    ov = document.createElement('div');
+    ov.id = ovId; ov.className = 't2-overlay';
+    ov.style.display   = img.style.display   || 'none';
+    ov.style.opacity   = img.style.opacity   || '0';
+    ov.style.transform = img.style.transform || '';
+    palco.appendChild(ov);
+    const obs = new MutationObserver(() => {
+      ov.style.display   = img.style.display;
+      ov.style.opacity   = img.style.opacity;
+      ov.style.transform = img.style.transform;
+    });
+    obs.observe(img, { attributes:true, attributeFilter:['style'] });
+    ov._obs = obs;
+  }
+  ov.textContent        = fieldState.text;
+  ov.style.fontFamily   = `'${fieldState.font}',sans-serif`;
+  ov.style.fontSize     = fieldState.size + 'px';
+  ov.style.textAlign    = fieldState.align || 'left';
+  ov.style.left         = (baseX + fieldState.x) + 'px';
+  ov.style.top          = (baseY + fieldState.y) + 'px';
+  ov.style.width        = (opts.width  || 380) + 'px';
+  ov.style.height       = opts.height ? opts.height + 'px' : '';
+  ov.style.display      = img.style.display || 'none';
+  ov.style.alignItems   = 'center';
+  ov.style.backgroundColor = opts.bgColor || '';
+}
+
+function applyT3All() {
+  applyT3Overlay('ov3_4543', 'ws_4543', state.t3.title,     T3_BASE_POS.title.x,   T3_BASE_POS.title.y);
+  applyT3Overlay('ov3_4551', 'ws_4551', state.t3.address,   T3_BASE_POS.address.x, T3_BASE_POS.address.y);
+  applyT3Overlay('ov3_4615', 'ws_4615', state.t3.address,   T3_BASE_POS.addr2.x,   T3_BASE_POS.addr2.y);
+  // ws_4576 = text (left 252px) + aperture logo (right 66px).
+  // keepSource keeps the logo visible & animating; bgColor covers the baked text behind the overlay.
+  applyT3Overlay('ov3_4576', 'ws_4576', state.t3.agentName, T3_BASE_POS.agent.x,   T3_BASE_POS.agent.y,
+    { keepSource: true, width: 252, height: 72, bgColor: '#070710' });
+}
+
+const T3_PHOTO_MAP = { 1:'ws_3260', 2:'ws_3333', 3:'ws_4558', 4:'ws_3477' };
+
+function applyT3Photo(n) {
+  const ps  = state.t3['photo'+n];
+  const img = document.getElementById(T3_PHOTO_MAP[n]);
+  if (!img || !ps.dataUrl) return;
+  img.src = ps.dataUrl;
+  img.style.objectFit = ps.fit;
+  img.style.objectPosition = `${ps.pos.x}% ${ps.pos.y}%`;
+  img.style.width = '516px'; img.style.height = '250px';
+}
+
+function reapplyT3() {
+  applyT3All();
+  [1,2,3,4].forEach(n => applyT3Photo(n));
+}
+
+// ═══════════════════════════════════════════════════════
+// PHOTO UPLOAD + FIT + POSITION PAD
+// ═══════════════════════════════════════════════════════
+function setupPhotoUpload(inputId, areaId, padImgId, controlsId, tplKey, applyFn) {
+  function bind(id){
+    const inp=document.getElementById(id); if(!inp)return;
+    inp.addEventListener('change',e=>{
+      const f=e.target.files[0]; if(!f) return;
+      const r=new FileReader();
+      r.onload=ev=>{
+        const url=ev.target.result;
+        state[tplKey].photoDataUrl=url;
+        const area=document.getElementById(areaId);
+        const nid=id+'_2';
+        area.classList.add('filled');
+        area.innerHTML=`<img class="upload-preview" src="${url}" alt=""><input type="file" id="${nid}" accept="image/*">`;
+        bind(nid);
+        document.getElementById(padImgId).src=url;
+        document.getElementById(controlsId).classList.add('visible');
+        applyFn();
+        autoSave();
+        if (currentProjectId) PhotoDB.saveProjectPhotos(currentProjectId, state).catch(() => {});
+      };
+      r.readAsDataURL(f);
+    });
+  }
+  bind(inputId);
+}
+
+function setupFit(toggleId, tplKey, applyFn) {
+  document.querySelectorAll(`#${toggleId} .fit-btn`).forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      document.querySelectorAll(`#${toggleId} .fit-btn`).forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      state[tplKey].photoFit=btn.dataset.fit;
+      applyFn();
+    });
+  });
+}
+
+function setupPosPad(padId, dotId, tplKey, applyFn) {
+  const pad=document.getElementById(padId), dot=document.getElementById(dotId);
+  if(!pad||!dot) return;
+  let drag=false;
+  function move(e){
+    const r=pad.getBoundingClientRect();
+    const cx=e.touches?e.touches[0].clientX:e.clientX;
+    const cy=e.touches?e.touches[0].clientY:e.clientY;
+    const x=Math.max(0,Math.min(100,((cx-r.left)/r.width)*100));
+    const y=Math.max(0,Math.min(100,((cy-r.top)/r.height)*100));
+    state[tplKey].photoPos={x,y};
+    dot.style.left=x+'%'; dot.style.top=y+'%';
+    applyFn();
+  }
+  pad.addEventListener('mousedown', e=>{drag=true;move(e);e.preventDefault();});
+  pad.addEventListener('touchstart',e=>{drag=true;move(e);e.preventDefault();},{passive:false});
+  document.addEventListener('mousemove', e=>{if(drag)move(e);});
+  document.addEventListener('touchmove', e=>{if(drag)move(e);},{passive:false});
+  document.addEventListener('mouseup',  ()=>drag=false);
+  document.addEventListener('touchend', ()=>drag=false);
+}
+
+// ═══════════════════════════════════════════════════════
+// EXPORT
+// ═══════════════════════════════════════════════════════
+async function exportAd() {
+  const btn=document.getElementById('export-btn');
+  btn.textContent='Building…'; btn.disabled=true;
+  try {
+    if(activeTemplate==='t1') await exportT1();
+    else if(activeTemplate==='t2') await exportT2();
+    else if(activeTemplate==='t3') await exportT3();
+    else await exportT4();
+  } catch(err){alert('Export failed: '+err.message);console.error(err);}
+  finally {
+    btn.innerHTML=`<svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M6.5 1.5v6M4 5.5l2.5 2.5 2.5-2.5M2 9.5v1a1 1 0 001 1h7a1 1 0 001-1v-1" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Export HTML`;
+    btn.disabled=false;
+  }
+}
+
+function blobToDataUrl(blob){return new Promise((res,rej)=>{const r=new FileReader();r.onload=e=>res(e.target.result);r.onerror=rej;r.readAsDataURL(blob);});}
+async function fetchDataUrl(url){try{const r=await fetch(url);if(r.ok)return blobToDataUrl(await r.blob());}catch(e){}return null;}
+function escHtml(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+// Build inline style string for an overlay div from a field state
+function overlayStyle(fieldState, left, top, extraWidth) {
+  return `position:absolute;left:${left}px;top:${top}px;width:${extraWidth}px;color:#fff;white-space:pre-wrap;word-break:break-word;line-height:1.3;pointer-events:none;font-family:'${fieldState.font}',sans-serif;font-size:${fieldState.size}px;text-align:${fieldState.align||'left'};`;
+}
+
+async function exportT1() {
+  const s=state.t1;
+  const imgBase=T1_BASE+'images/';
+  const imgs={};
+  for(const f of T1_IMAGES){
+    if(f==='fafc1efe704728c7be8d2266ca95cafe.jpg'&&s.photoDataUrl){imgs[f]=s.photoDataUrl;continue;}
+    imgs[f]=await fetchDataUrl(imgBase+f)||'';
+  }
+  const photoStyle=`object-fit:${s.photoFit};object-position:${s.photoPos.x}% ${s.photoPos.y}%;width:300px;height:210px;`;
+
+  // Build font link for used fonts
+  const usedFonts=[...new Set([s.h1.font,s.h2.font])];
+  const fontLink=`<link href="https://fonts.googleapis.com/css2?${usedFonts.map(f=>`family=${f.replace(/ /g,'+')}`).join('&')}&display=swap" rel="stylesheet">`;
+
+  const DEFAULT_H1='INFINITE ELEGANCE', DEFAULT_H2='INFINITE VISION';
+
+  const textEl=(imgId,fs,def,src,w,h)=>fs.text===def
+    ?`<img id="${imgId}" class="bnfy-enter" width="${w}" height="${h}" src="${src}"/>`
+    :`<div id="${imgId}" class="bnfy-enter" style="${overlayStyle(fs,fs.x,0,285)}top:calc(50% + ${fs.y}px);transform:translateY(-50%);letter-spacing:0.1em;text-transform:uppercase;">${escHtml(fs.text)}</div>`;
+
+  download(`<!doctype html><html><head><meta charset="utf-8"><title>300x600 Skyscraper</title>
+<meta name="ad.size" content="width=300,height=600">${fontLink}
+<style>body,html{margin:0;padding:0;}#b_506610303{background:#fff;display:block;height:600px;overflow:hidden;position:relative;width:300px;}#b_506610303 div,#b_506610303 img{position:absolute;box-sizing:border-box;}#b_506610303 img{top:0;left:0;display:block;}#el_506810525{top:91px;left:24px;z-index:5;}#img_506810525{width:252px;height:126px;}#img_506810525.bnfy-enter{animation:fade-in 2300ms 6100ms ease 1 both;}#el_506810523{top:118px;left:60px;z-index:4;}#img_506810523{width:184px;height:75px;}#img_506810523.bnfy-enter{animation:slide-in-left 1000ms 3000ms ease 1 both;}#img_506810523.bnfy-exit{animation:slide-out-right 1000ms ease 1 both;}#el_506610310{top:390px;left:0;z-index:3;}#img_506610310{width:300px;height:210px;}#el_506610309{top:118px;left:36px;z-index:2;}#img_506610309{width:232px;height:75px;}#img_506610309.bnfy-enter{animation:slide-in-left 1000ms 0ms ease 1 both;}#img_506610309.bnfy-exit{animation:slide-out-right 1000ms ease 1 both;}#el_506610304{top:0;left:0;z-index:1;}#img_506610304{width:300px;height:600px;}#el_506610303{top:0;left:0;z-index:0;}#img_506610303{width:300px;height:600px;}@keyframes fade-in{0%{opacity:0}to{opacity:1}}@keyframes slide-in-left{0%{transform:translateX(-1000px);opacity:0}to{transform:translateX(0);opacity:1}}@keyframes slide-out-right{0%{transform:translateX(0);opacity:1}to{transform:translateX(1000px);opacity:0}}</style>
+</head><body>
+<div id="b_506610303">
+  <div style="display:none;width:252px;height:126px;" id="el_506810525" class="js-bnfy"><img id="img_506810525" class="bnfy-enter" width="252" height="126" src="${imgs['2b758c6c38dd6cbabc1c289c68a25fc5.svg']}"/></div>
+  <div style="display:none;width:184px;height:75px;" id="el_506810523" class="js-bnfy">${textEl('img_506810523',s.h2,DEFAULT_H2,imgs['5740f88ce777a17138489dafdfc90daa.svg'],184,75)}</div>
+  <div style="display:none;width:300px;height:210px;" id="el_506610310" class="js-bnfy"><img id="img_506610310" class="bnfy-enter" width="300" height="210" src="${imgs['fafc1efe704728c7be8d2266ca95cafe.jpg']}" style="${photoStyle}"/></div>
+  <div style="display:none;width:232px;height:75px;" id="el_506610309" class="js-bnfy">${textEl('img_506610309',s.h1,DEFAULT_H1,imgs['0167be5fe0e957f7234bd522df5716b3.svg'],232,75)}</div>
+  <div style="display:none;width:300px;height:600px;" id="el_506610304" class="js-bnfy"><img id="img_506610304" class="bnfy-enter" width="300" height="600" src="${imgs['48a278655ae40c6e76f2bb67157edab3.svg']}"/></div>
+  <div style="display:none;width:300px;height:600px;" id="el_506610303" class="js-bnfy"><img id="img_506610303" class="bnfy-enter" width="300" height="600" src="${imgs['caf69e60b706e25902718da24ec7c2af.svg']}"/></div>
+</div>
+<script>(function(){function L(c,cb){var p=[].slice.call(c.getElementsByTagName("img")),n=p.length;if(!n)return cb();p.forEach(function(i){if(i.complete){n--;if(!n)cb();}else i.addEventListener("load",function(){n--;if(!n)cb();});});}L(document.getElementById("b_506610303"),function(){var els=document.getElementById("b_506610303").getElementsByClassName("js-bnfy");for(var i=0;i<els.length;i++)els[i].style.display="block";var iv,to=[];function cl(){to.forEach(clearTimeout);to=[];}document.addEventListener("visibilitychange",function(){if(document.hidden){clearInterval(iv);cl();}else{rp();iv=setInterval(rp,10000);}});function ex(){window._t1StartTime=performance.now();var a=document.getElementById("img_506810523");a.className="bnfy-enter";to.push(setTimeout(function(){a.className="";void a.offsetWidth;a.className="bnfy-exit";},5400));var b=document.getElementById("img_506610309");b.className="bnfy-enter";to.push(setTimeout(function(){b.className="";void b.offsetWidth;b.className="bnfy-exit";},2500));}ex();iv=setInterval(rp,10000);function rp(){var bn=document.getElementById("b_506610303");if(bn)for(var i=0;i<bn.children.length;i++){var e=bn.children[i];if(e&&e.tagName.toLowerCase()!=="script"){var d=e.style.display;e.style.display="none";void e.offsetWidth;e.style.display=d;}}ex();}});}());<\/script></body></html>`,
+  'ad-300x600-skyscraper.html');
+}
+
+async function exportT2() {
+  const s=state.t2;
+  const imgBase=T2_BASE+'images/';
+  const imgs={};
+  for(const f of T2_IMAGES){imgs[f]=await fetchDataUrl(imgBase+f)||'';}
+  const photoSrc=s.photoDataUrl||'';
+  const pStyle=s.photoDataUrl?`object-fit:${s.photoFit};object-position:${s.photoPos.x}% ${s.photoPos.y}%;width:767px;height:642px;`:'width:767px;height:642px;';
+
+  const usedFonts=[...new Set([s.title.font,s.address.font,s.agentName.font])];
+  const fontLink=`<link href="https://fonts.googleapis.com/css2?${usedFonts.map(f=>`family=${f.replace(/ /g,'+')}`).join('&')}&display=swap" rel="stylesheet">`;
+
+  const DEFAULT={title:'Luxury offering title goes here',address:'12345 Sample Rd',agentName:'Agent Name'};
+  const titleCustom =s.title.text    !==DEFAULT.title;
+  const addrCustom  =s.address.text  !==DEFAULT.address;
+  const agentCustom =s.agentName.text!==DEFAULT.agentName;
+
+  const vis=(c)=>c?'visibility:hidden;':'';
+  const houseSrc=(f)=>s.photoDataUrl||imgs[f]||'';
+
+  const ovDiv=(id,fs,bx,by)=>
+    `<div id="${id}" style="${overlayStyle(fs,bx+fs.x,by+fs.y,729)}display:none;">${escHtml(fs.text)}</div>`;
+
+  const html=`<!doctype html><html><head><meta charset="utf-8"><title>768x1024 Listing Ad</title>
+<meta name="ad.size" content="width=768,height=1024">${fontLink}
+<style>body,html{margin:0;padding:0;}.t2-ov{position:absolute;color:#fff;white-space:pre-wrap;word-break:break-word;line-height:1.3;pointer-events:none;}</style>
+</head><body style="margin:0;padding:0;">
+<div id="palco" style="width:768px;height:1024px;position:relative;overflow:hidden;background:#000;">
+  <img id="ws_170"  src="${imgs['ws_170.png']}"  style="position:absolute;left:0;top:0;width:768px;height:1024px;display:none"/>
+  <img id="ws_175"  src="${houseSrc('ws_175.png')}" style="position:absolute;left:1px;top:0;${pStyle}display:none"/>
+  <img id="ws_177"  src="${imgs['ws_177.png']}"  style="position:absolute;left:199.83px;top:936.16px;width:362.36px;height:30.74px;display:none"/>
+  <img id="ws_178"  src="${imgs['ws_178.png']}"  style="position:absolute;left:59.49px;top:713.46px;width:650.83px;height:159.05px;${vis(titleCustom)}display:none"/>
+  <img id="ws_1117" src="${imgs['ws_1117.png']}" style="position:absolute;left:139px;top:26px;width:476px;height:68px;display:none"/>
+  <img id="ws_1207" src="${imgs['ws_1207.png']}" style="position:absolute;left:0;top:0;width:768px;height:1024px;display:none"/>
+  <img id="ws_1212" src="${houseSrc('ws_1212.png')}" style="position:absolute;left:1px;top:0;${pStyle}display:none"/>
+  <img id="ws_1213" src="${imgs['ws_1213.png']}" style="position:absolute;left:199.83px;top:936.16px;width:362.36px;height:30.74px;display:none"/>
+  <img id="ws_1214" src="${imgs['ws_1214.png']}" style="position:absolute;left:62.10px;top:753.23px;width:645.89px;height:78.66px;${vis(addrCustom)}display:none"/>
+  <img id="ws_1215" src="${imgs['ws_1215.png']}" style="position:absolute;left:139px;top:26px;width:476px;height:68px;display:none"/>
+  <img id="ws_1218" src="${imgs['ws_1218.png']}" style="position:absolute;left:0;top:0;width:768px;height:1024px;display:none"/>
+  <img id="ws_1223" src="${houseSrc('ws_1223.png')}" style="position:absolute;left:1px;top:0;${pStyle}display:none"/>
+  <img id="ws_1224" src="${imgs['ws_1224.png']}" style="position:absolute;left:199.83px;top:936.16px;width:362.36px;height:30.74px;display:none"/>
+  <img id="ws_1225" src="${imgs['ws_1225.png']}" style="position:absolute;left:285.47px;top:710.61px;width:196.13px;height:39.64px;display:none"/>
+  <img id="ws_1226" src="${imgs['ws_1226.png']}" style="position:absolute;left:139px;top:26px;width:476px;height:68px;display:none"/>
+  <img id="ws_1228" src="${imgs['ws_1228.png']}" style="position:absolute;left:134.10px;top:782.65px;width:493.78px;height:73.86px;${vis(agentCustom)}display:none"/>
+  <img id="ws_1243" src="${imgs['ws_1243.png']}" style="position:absolute;left:0;top:0;width:768px;height:1024px;display:none"/>
+  <img id="ws_1248" src="${houseSrc('ws_1248.png')}" style="position:absolute;left:1px;top:0;${pStyle}display:none"/>
+  <img id="ws_1249" src="${imgs['ws_1249.png']}" style="position:absolute;left:199.83px;top:936.16px;width:362.36px;height:30.74px;display:none"/>
+  <img id="ws_1251" src="${imgs['ws_1251.png']}" style="position:absolute;left:139px;top:26px;width:476px;height:68px;display:none"/>
+  <img id="ws_179"  src="${imgs['ws_179.png']}"  style="position:absolute;left:189px;top:721px;width:384px;height:86.16px;${vis(agentCustom)}display:none"/>
+  ${titleCustom  ? ovDiv('ov_178', s.title,     T2_BASE_POS.title.x,   T2_BASE_POS.title.y)  : ''}
+  ${addrCustom   ? ovDiv('ov_1214',s.address,   T2_BASE_POS.address.x, T2_BASE_POS.address.y): ''}
+  ${agentCustom  ? ovDiv('ov_1228',s.agentName, T2_BASE_POS.agent3.x,  T2_BASE_POS.agent3.y) : ''}
+  ${agentCustom  ? ovDiv('ov_179', s.agentName, T2_BASE_POS.agent4.x,  T2_BASE_POS.agent4.y) : ''}
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.0/gsap.min.js"><\/script>
+<script>(function(){var frames=[{s:0,e:3.75,l:[{id:'ws_170',i:'scale_out',o:'none',d:0,W:768,H:1024},{id:'ws_175',i:'scale_in',o:'opacity',d:0.8,W:767,H:642},{id:'ws_177',i:'opacity',o:'opacity',d:0.6},{id:'ws_178',i:'scale_in',o:'opacity',d:0.4,ov:'ov_178'},{id:'ws_1117',i:'opacity',o:'opacity',d:0.2}]},{s:3.75,e:7.5,l:[{id:'ws_1207',i:'scale_out',o:'none',d:0,W:768,H:1024},{id:'ws_1212',i:'scale_in',o:'opacity',d:0.8,W:767,H:642},{id:'ws_1213',i:'opacity',o:'opacity',d:0.6},{id:'ws_1214',i:'opacity',o:'opacity',d:0.4,ov:'ov_1214'},{id:'ws_1215',i:'opacity',o:'opacity',d:0.2}]},{s:7.5,e:11.25,l:[{id:'ws_1218',i:'scale_out',o:'none',d:0,W:768,H:1024},{id:'ws_1223',i:'scale_in',o:'opacity',d:1.0,W:767,H:642},{id:'ws_1224',i:'opacity',o:'opacity',d:0.8},{id:'ws_1225',i:'opacity',o:'opacity',d:0.6},{id:'ws_1226',i:'opacity',o:'opacity',d:0.4},{id:'ws_1228',i:'opacity',o:'opacity',d:0.2,ov:'ov_1228'}]},{s:11.25,e:15,l:[{id:'ws_1243',i:'scale_out',o:'none',d:0,W:768,H:1024},{id:'ws_1248',i:'scale_in',o:'none',d:0.8,W:767,H:642},{id:'ws_1249',i:'opacity',o:'none',d:0.6},{id:'ws_1251',i:'opacity',o:'none',d:0.4},{id:'ws_179',i:'opacity',o:'none',d:0.2,ov:'ov_179'}]}];var tl=gsap.timeline({repeat:-1,defaults:{ease:'power3.out'}});var DI=1,DO=0.8,L=frames.length;frames.forEach(function(fr,fi){fr.l.forEach(function(ly){var s=fr.s+ly.d,e=fr.e,isLast=fi===L-1,isBg=ly.W===768&&ly.H===1024,endSet=(isBg&&ly.o==='none'&&!isLast)?e+2:e;var targets=['#'+ly.id];if(ly.ov&&document.getElementById(ly.ov))targets.push('#'+ly.ov);targets.forEach(function(sel){tl.set(sel,{display:'block',transformOrigin:'50% 50%'},s).fromTo(sel,{opacity:ly.i!=='none'?0:1,scale:ly.i==='scale_in'?0.5:ly.i==='scale_out'?1.5:1},{opacity:1,scale:1,duration:ly.i==='none'?0.01:DI},s).to(sel,{opacity:ly.o!=='none'?0:1,scale:ly.o==='scale_in'?0.5:ly.o==='scale_out'?1.5:1,duration:ly.o==='none'?0.01:DO},e-DO).set(sel,{display:isLast?'block':'none'},endSet);});});});}());<\/script>
+</body></html>`;
+  download(html,'ad-768x1024-listing.html');
+}
+
+
+
+async function exportT4() {
+  const s = state.t4;
+  const imgBase = T4_BASE + 'images/';
+  const imgs = {};
+  for (const f of T4_IMAGES) { imgs[f] = await fetchDataUrl(imgBase + f) || ''; }
+
+  const photoSrc = (n) => s['photo'+n].dataUrl || imgs[T4_PHOTO_MAP[n].file] || '';
+  const pStyle   = (n) => s['photo'+n].dataUrl
+    ? `object-fit:${s['photo'+n].fit};object-position:${s['photo'+n].pos.x}% ${s['photo'+n].pos.y}%;width:516px;height:250px;`
+    : 'width:516px;height:250px;';
+
+  const def = { st:'Luxury street address', ad:'12345 Sample Rd', ag:'Agent Name', tl:'Luxury tagline goes here' };
+  const usedFonts = [...new Set([s.st.font, s.ad.font, s.ag.font, s.tl.font])];
+  const fontLink = `<link href="https://fonts.googleapis.com/css2?${usedFonts.map(f=>`family=${f.replace(/ /g,'+')}`).join('&')}&display=swap" rel="stylesheet">`;
+
+  function textEl(key, imgId, imgFile, iw, ih, ix, iy) {
+    const fs = s[key];
+    const isCustom = fs.text !== def[key];
+    const src = imgs[imgFile] || '';
+    if (!isCustom) return `<img id="${imgId}" class="bnfy-enter" width="${iw}" height="${ih}" src="${src}"/>`;
+    return `<img id="${imgId}" class="bnfy-enter" width="${iw}" height="${ih}" src="${src}" style="visibility:hidden;"/>
+  <div class="t4-ov ${T4_TEXT_MAP[key].cls} bnfy-enter" style="position:absolute;left:${ix+fs.x}px;top:${iy+fs.y}px;width:${key==='tl'?826:330}px;color:#fff;white-space:pre-wrap;word-break:break-word;line-height:1.3;pointer-events:none;font-family:'${fs.font}',sans-serif;font-size:${fs.size}px;text-align:${fs.align||'left'};">${escHtml(fs.text)}</div>`;
+  }
+
+  const b = T4_BASE + 'images/';
+  const html = `<!doctype html><html><head><meta charset="utf-8"><title>970x250 Leaderboard B</title>
+<meta name="ad.size" content="width=970,height=250">${fontLink}
+<style>${imgs['eb55a0ffb82b38bfe0ca19bb24f17380.svg'] ? '' : ''}${(await fetchDataUrl(imgBase+'eb55a0ffb82b38bfe0ca19bb24f17380.svg'))||''}
+body,html{margin:0;padding:0;}
+.t4-ov{position:absolute;color:#fff;white-space:pre-wrap;word-break:break-word;line-height:1.3;pointer-events:none;}
+.t4st.bnfy-enter{animation:fade-in-left 1000ms 0ms ease 1 both;}
+.t4st.bnfy-exit{animation:fade-out-right 1100ms ease 1 both;}
+.t4ad.bnfy-enter{animation:fade-in-left 900ms 3100ms ease 1 both;}
+.t4ad.bnfy-exit{animation:fade-out-right 1100ms ease 1 both;}
+.t4ag.bnfy-enter{animation:fade-in-left 900ms 7500ms ease 1 both;}
+.t4ag.bnfy-exit{animation:fade-out-right 1100ms ease 1 both;}
+.t4tl.bnfy-enter{animation:fade-in-left 1100ms 11700ms ease 1 both;}
+</style>
+</head><body style="margin:0;padding:0;">
+<div id="b_3254" style="background:#fff;width:970px;height:250px;overflow:hidden;position:relative;">
+  <div style="display:none;width:970px;height:250px;" id="el_3254" class="js-bnfy4"><img id="img_3254" class="bnfy-enter" width="970" height="250" src="${imgs['eb55a0ffb82b38bfe0ca19bb24f17380.svg']||''}"/></div>
+  <div style="display:none;width:970px;height:250px;" id="el_732"  class="js-bnfy4"><img id="img_732"  class="bnfy-enter" width="970" height="250" src="${imgs['b8e68abbc72b1f1786320d655f84437e.jpg']||''}"/></div>
+  <div style="display:none;width:516px;height:250px;" id="el_3260" class="js-bnfy4"><img id="img_3260" class="bnfy-enter" width="516" height="250" src="${photoSrc(1)}" style="${pStyle(1)}"/></div>
+  <div style="display:none;width:205px;height:15px;"  id="el_3322" class="js-bnfy4"><img id="img_3322" class="bnfy-enter" width="205" height="15"  src="${imgs['cf1b709a1c14353b60c6dda08c4c5a66.svg']||''}"/></div>
+  <div style="display:none;width:326px;height:87px;"  id="el_4543" class="js-bnfy4">${textEl('st','img_4543','169787812e3d4ca01d7f1f44f21f9e71.svg',326,87,582,49)}</div>
+  <div style="display:none;width:516px;height:250px;" id="el_74"   class="js-bnfy4"><img id="img_74"   class="bnfy-enter" width="516" height="250" src="${photoSrc(2)}" style="${pStyle(2)}"/></div>
+  <div style="display:none;width:516px;height:250px;" id="el_710"  class="js-bnfy4"><img id="img_710"  class="bnfy-enter" width="516" height="250" src="${photoSrc(3)}" style="${pStyle(3)}"/></div>
+  <div style="display:none;width:235px;height:1px;"   id="el_722"  class="js-bnfy4"><img id="img_722"  class="bnfy-enter" width="235" height="1"   src="${imgs['79e61ae6dc178fa8590e0c7ac5646ada.svg']||''}"/></div>
+  <div style="display:none;width:323px;height:40px;"  id="el_724"  class="js-bnfy4">${textEl('ad','img_724','838a96089f6fabe3b7db3b6597c0b779.svg',323,40,584,74)}</div>
+  <div style="display:none;width:131px;height:27px;"  id="el_726"  class="js-bnfy4"><img id="img_726"  class="bnfy-enter" width="131" height="27"  src="${imgs['78f729121e74d5e779b13c5f5c43d9a0.svg']||''}"/></div>
+  <div style="display:none;width:328px;height:40px;"  id="el_727"  class="js-bnfy4">${textEl('ag','img_727','07e7423745e2c296167e42b22d6c9d58.svg',328,40,581,92)}</div>
+  <div style="display:none;width:281px;height:63px;"  id="el_737"  class="js-bnfy4"><img id="img_737"  class="bnfy-enter" width="281" height="63"  src="${imgs['26f243849b14660ff5f8f07d2317971f.svg']||''}"/></div>
+  <div style="display:none;width:826px;height:87px;"  id="el_775"  class="js-bnfy4">${textEl('tl','img_775','f67edc4d698532ad4941a623aca57078.svg',826,87,41,37)}</div>
+  <div style="display:none;width:291px;height:21px;"  id="el_776"  class="js-bnfy4"><img id="img_776"  class="bnfy-enter" width="291" height="21"  src="${imgs['aa7f1a6e002b7ec6179f625ed1feda10.svg']||''}"/></div>
+  <div style="display:none;width:333px;height:2px;"   id="el_777"  class="js-bnfy4"><img id="img_777"  class="bnfy-enter" width="333" height="2"   src="${imgs['bc1f1c18407acd6801c8e06b4dbad11c.svg']||''}"/></div>
+</div>
+<script>(function(){function onLoad(c,cb){var p=[].slice.call(c.getElementsByTagName("img")),n=p.length;if(!n)return cb();p.forEach(function(i){if(i.complete){n--;if(!n)cb();}else i.addEventListener("load",function(){n--;if(!n)cb();});});}onLoad(document.getElementById("b_3254"),function(){if(!document.getElementById("b_3254"))return;var els=document.getElementById("b_3254").getElementsByClassName("js-bnfy4");for(var i=0;i<els.length;i++)els[i].style.display="block";var iv,to=[];function cl(){to.forEach(clearTimeout);to=[];}document.addEventListener("visibilitychange",function(){if(document.hidden){clearInterval(iv);cl();}else{rp();iv=setInterval(rp,15000);}});function ex(){function arm(id,ms){var el=document.getElementById(id);if(!el)return;el.className="bnfy-enter";to.push(setTimeout(function(){el.className="";void el.offsetWidth;el.className="bnfy-exit";},ms));}arm("img_727",10700);arm("img_726",10800);arm("img_724",6500);arm("img_722",10000);arm("img_710",11000);arm("img_74",6000);arm("img_4543",2100);arm("img_3322",10000);arm("img_3260",2100);}ex();iv=setInterval(rp,15000);function rp(){var bn=document.getElementById("b_3254");if(bn)for(var i=0;i<bn.children.length;i++){var e=bn.children[i];if(e&&e.tagName.toLowerCase()!=="script"){var d=e.style.display;e.style.display="none";void e.offsetWidth;e.style.display=d;}}ex();}});}());<\/script>
+</body></html>`;
+  download(html, 'ad-970x250-leaderboard-b.html');
+}
+
+async function exportT3() {
+  const s = state.t3;
+  const imgBase = T3_BASE + 'images/';
+  const imgs = {};
+  for (const f of T3_IMAGES) { imgs[f] = await fetchDataUrl(imgBase + f) || ''; }
+  // Per-frame photo sources and styles
+  const photoMap = {1:'ws_3260.png',2:'ws_3333.png',3:'ws_4558.png',4:'ws_3477.png'};
+  const photoSrc = n => { const ps=s['photo'+n]; return ps.dataUrl ? ps.dataUrl : (imgs[photoMap[n]]||''); };
+  const photoStyle = n => { const ps=s['photo'+n]; return ps.dataUrl ? `object-fit:${ps.fit};object-position:${ps.pos.x}% ${ps.pos.y}%;width:516px;height:250px;` : 'width:516px;height:250px;'; };
+
+  const usedFonts = [...new Set([s.title.font, s.address.font, s.agentName.font])];
+  const fontLink = `<link href="https://fonts.googleapis.com/css2?${usedFonts.map(f=>`family=${f.replace(/ /g,'+')}`).join('&')}&display=swap" rel="stylesheet">`;
+
+  const DEFAULT = { title:'Luxury offering title goes here', address:'12345 Sample Rd', agentName:'Agent Name' };
+  const titleC  = s.title.text     !== DEFAULT.title;
+  const addrC   = s.address.text   !== DEFAULT.address;
+  const agentC  = s.agentName.text !== DEFAULT.agentName;
+
+  const vis = c => c ? 'visibility:hidden;' : '';
+  const houseSrc = f => s.photoDataUrl || imgs[f] || '';
+  const ovDiv = (id, fs, bx, by) =>
+    `<div id="${id}" style="${overlayStyle(fs, bx+fs.x, by+fs.y, 380)}display:none;">${escHtml(fs.text)}</div>`;
+
+  const html = `<!doctype html><html><head><meta charset="utf-8"><title>970x250 Leaderboard</title>
+<meta name="ad.size" content="width=970,height=250">${fontLink}
+<style>body,html{margin:0;padding:0;}.t3-ov{position:absolute;color:#fff;white-space:pre-wrap;word-break:break-word;line-height:1.3;pointer-events:none;}</style>
+</head><body style="margin:0;padding:0;">
+<div id="palco3" style="width:970px;height:250px;position:relative;overflow:hidden;background:#000;">
+  <img id="ws_3255" src="${imgs['ws_3255.png']}" style="position:absolute;left:515.58px;top:0;width:454.42px;height:250px;display:none"/>
+  <img id="ws_3260" src="${photoSrc(1)}" style="position:absolute;left:0;top:0;${photoStyle(1)}display:none"/>
+  <img id="ws_3321" src="${imgs['ws_3321.png']}" style="position:absolute;left:648.19px;top:172.01px;width:191.62px;height:48.79px;display:none"/>
+  <img id="ws_4543" src="${imgs['ws_4543.png']}" style="position:absolute;left:582.24px;top:48.73px;width:325.41px;height:86.52px;${vis(titleC)}display:none"/>
+  <img id="ws_3328" src="${imgs['ws_3328.png']}" style="position:absolute;left:515.58px;top:0;width:454.42px;height:250px;display:none"/>
+  <img id="ws_3333" src="${photoSrc(2)}" style="position:absolute;left:0;top:0;${photoStyle(2)}display:none"/>
+  <img id="ws_4549" src="${imgs['ws_4549.png']}" style="position:absolute;left:648.19px;top:168.01px;width:191.62px;height:48.79px;display:none"/>
+  <img id="ws_4551" src="${imgs['ws_4551.png']}" style="position:absolute;left:583.55px;top:73.61px;width:322.95px;height:39.33px;${vis(addrC)}display:none"/>
+  <img id="ws_4553" src="${imgs['ws_4553.png']}" style="position:absolute;left:515.58px;top:0;width:454.42px;height:250px;display:none"/>
+  <img id="ws_4558" src="${photoSrc(3)}" style="position:absolute;left:0;top:0;${photoStyle(3)}display:none"/>
+  <img id="ws_4571" src="${imgs['ws_4571.png']}" style="position:absolute;left:648.19px;top:168.01px;width:191.62px;height:48.79px;display:none"/>
+  <img id="ws_4573" src="${imgs['ws_4573.png']}" style="position:absolute;left:678.81px;top:42.74px;width:130.76px;height:26.43px;display:none"/>
+  <img id="ws_4615" src="${imgs['ws_4615.png']}" style="position:absolute;left:581.18px;top:91.61px;width:327.48px;height:39.64px;${vis(addrC)}display:none"/>
+  <img id="ws_3472" src="${imgs['ws_3472.png']}" style="position:absolute;left:515.58px;top:0;width:454.42px;height:250px;display:none"/>
+  <img id="ws_3477" src="${photoSrc(4)}" style="position:absolute;left:0;top:0;${photoStyle(4)}display:none"/>
+  <img id="ws_4576" src="${imgs['ws_4576.png']}" style="position:absolute;left:587px;top:85px;width:318px;height:71.35px;display:none"/>
+  ${titleC ? ovDiv('ov3_4543', s.title,     T3_BASE_POS.title.x,   T3_BASE_POS.title.y)   : ''}
+  ${addrC  ? ovDiv('ov3_4551', s.address,   T3_BASE_POS.address.x, T3_BASE_POS.address.y) : ''}
+  ${addrC  ? ovDiv('ov3_4615', s.address,   T3_BASE_POS.addr2.x,   T3_BASE_POS.addr2.y)   : ''}
+  ${agentC ? `<div id="ov3_4576" style="${overlayStyle(s.agentName, T3_BASE_POS.agent.x+s.agentName.x, T3_BASE_POS.agent.y+s.agentName.y, 252)}height:72px;background-color:#070710;display:none;">${escHtml(s.agentName.text)}</div>` : ''}
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.0/gsap.min.js"><\/script>
+<script>(function(){var frames=[{s:0,e:3.75,l:[{id:'ws_3255',i:'none',o:'none',d:0},{id:'ws_3260',i:'none',o:'none',d:0},{id:'ws_3321',i:'none',o:'none',d:0},{id:'ws_4543',i:'left',o:'right',d:0,ov:'ov3_4543'}]},{s:3.75,e:7.5,l:[{id:'ws_3328',i:'none',o:'none',d:0},{id:'ws_3333',i:'none',o:'none',d:0},{id:'ws_4549',i:'none',o:'none',d:0},{id:'ws_4551',i:'left',o:'right',d:0,ov:'ov3_4551'}]},{s:7.5,e:11.25,l:[{id:'ws_4553',i:'none',o:'none',d:0},{id:'ws_4558',i:'none',o:'none',d:0},{id:'ws_4571',i:'none',o:'none',d:0},{id:'ws_4573',i:'none',o:'none',d:0},{id:'ws_4615',i:'left',o:'right',d:0,ov:'ov3_4615'}]},{s:11.25,e:15,l:[{id:'ws_3472',i:'none',o:'none',d:0},{id:'ws_3477',i:'none',o:'none',d:0},{id:'ws_4576',i:'opacity',o:'opacity',d:0,ov:'ov3_4576'}]}];var tl=gsap.timeline({repeat:-1,defaults:{ease:'power3.out'}});var DI=1,DO=0.8,L=frames.length;frames.forEach(function(fr,fi){fr.l.forEach(function(ly){var s=fr.s+ly.d,e=fr.e,isLast=fi===L-1;var targets=['#'+ly.id];if(ly.ov&&document.getElementById(ly.ov))targets.push('#'+ly.ov);targets.forEach(function(sel){tl.set(sel,{display:'block',transformOrigin:'50% 50%'},s).fromTo(sel,{opacity:ly.i!=='none'?0:1,x:ly.i==='left'?-50:ly.i==='right'?50:0,y:0,scale:1},{opacity:1,x:0,y:0,scale:1,duration:ly.i==='none'?0.01:DI},s).to(sel,{opacity:ly.o!=='none'?0:1,x:ly.o==='left'?-50:ly.o==='right'?50:0,y:0,scale:1,duration:ly.o==='none'?0.01:DO},e-DO).set(sel,{display:isLast?'block':'none'},e);});});});}());<\/script>
+</body></html>`;
+
+  download(html, 'ad-970x250-leaderboard.html');
+}
+
+function download(html,filename){
+  const b=new Blob([html],{type:'text/html;charset=utf-8'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download=filename;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(a.href),5000);
+}
+
+// ═══════════════════════════════════════════════════════
+// WIRE TYPOGRAPHY CONTROLS
+// ═══════════════════════════════════════════════════════
+// Each field: prefix → { stateObj, applyFn, defaultText }
+const T1_FIELDS = {
+  't1-h1': { get:()=>state.t1.h1, applyFn:(fs)=>applyT1Overlay('img_506610309',fs), default:'INFINITE ELEGANCE' },
+  't1-h2': { get:()=>state.t1.h2, applyFn:(fs)=>applyT1Overlay('img_506810523',fs), default:'INFINITE VISION'   },
+};
+const T4_FIELDS = {
+  't4-st': { get:()=>state.t4.st, applyFn:()=>applyT4All() },
+  't4-ad': { get:()=>state.t4.ad, applyFn:()=>applyT4All() },
+  't4-ag': { get:()=>state.t4.ag, applyFn:()=>applyT4All() },
+  't4-tl': { get:()=>state.t4.tl, applyFn:()=>applyT4All() },
+};
+const T3_FIELDS = {
+  't3-ti': { get:()=>state.t3.title,     applyFn:()=>applyT3All() },
+  't3-ad': { get:()=>state.t3.address,   applyFn:()=>applyT3All() },
+  't3-ag': { get:()=>state.t3.agentName, applyFn:()=>applyT3All() },
+};
+const T2_FIELDS = {
+  't2-ti': { get:()=>state.t2.title,     applyFn:()=>applyT2All(), default:'Luxury offering title goes here' },
+  't2-ad': { get:()=>state.t2.address,   applyFn:()=>applyT2All(), default:'12345 Sample Rd'                 },
+  't2-ag': { get:()=>state.t2.agentName, applyFn:()=>applyT2All(), default:'Agent Name'                      },
+};
+
+function wireTextField(prefix, stateGetter, applyFn) {
+  function fmt(v) { return (v > 0 ? '+' : '') + v + ' px'; }
+
+  function sync() {
+    const fs = stateGetter();
+    fs.text = document.getElementById(prefix+'-text')?.value ?? fs.text;
+    fs.font = document.getElementById(prefix+'-font')?.value ?? fs.font;
+    fs.size = parseInt(document.getElementById(prefix+'-size')?.value) || fs.size;
+    fs.x    = parseInt(document.getElementById(prefix+'-x')?.value)    || 0;
+    fs.y    = parseInt(document.getElementById(prefix+'-y')?.value)    || 0;
+    // Update slider value labels
+    const xv = document.getElementById(prefix+'-x-val');
+    const yv = document.getElementById(prefix+'-y-val');
+    if (xv) xv.textContent = fmt(fs.x);
+    if (yv) yv.textContent = fmt(fs.y);
+    applyFn(fs);
+    autoSave();
+  }
+  ['text','font','size','x','y'].forEach(k=>{
+    document.getElementById(prefix+'-'+k)?.addEventListener('input', sync);
+    document.getElementById(prefix+'-'+k)?.addEventListener('change', sync);
+  });
+
+  // Wire alignment buttons
+  const alignWrap = document.getElementById(prefix+'-align');
+  if (alignWrap) {
+    alignWrap.querySelectorAll('.align-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        alignWrap.querySelectorAll('.align-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const fs = stateGetter();
+        fs.align = btn.dataset.align;
+        applyFn(fs);
+      });
+    });
+  }
+}
+
+// ═══════════════════════════════════════════════════════
+// CENTER HORIZONTAL
+// ═══════════════════════════════════════════════════════
+// Returns the x offset (px) that horizontally centers a text overlay
+// within its ad. T1 overlays (285px wide) live inside containers offset
+// from the ad root, so we subtract that offset. T2 overlays (729px wide)
+// are absolute inside the 768px palco, so we subtract the base position.
+const FIELD_CENTER_CFG = {
+  't1-h1': { adW: 300, ovW: 285, containerLeft: 36  },
+  't1-h2': { adW: 300, ovW: 285, containerLeft: 60  },
+  't2-ti': { adW: 768, ovW: 729, containerLeft: T2_BASE_POS.title.x   },
+  't2-ad': { adW: 768, ovW: 729, containerLeft: T2_BASE_POS.address.x },
+  't2-ag': { adW: 768, ovW: 729, containerLeft: T2_BASE_POS.agent3.x  },
+  't3-ti': { adW: 970, ovW: 380, containerLeft: T3_BASE_POS.title.x   },
+  't3-ad': { adW: 970, ovW: 380, containerLeft: T3_BASE_POS.address.x },
+  't3-ag': { adW: 970, ovW: 380, containerLeft: T3_BASE_POS.agent.x   },
+  't4-st': { adW: 970, ovW: 330, containerLeft: 582 },
+  't4-ad': { adW: 970, ovW: 330, containerLeft: 584 },
+  't4-ag': { adW: 970, ovW: 330, containerLeft: 581 },
+  't4-tl': { adW: 970, ovW: 826, containerLeft: 41  },
+};
+
+function getCenterX(prefix) {
+  const cfg = FIELD_CENTER_CFG[prefix];
+  if (!cfg) return 0;
+  // T3 text is in the right half (starts at x≈516 in a 970px ad)
+  if (prefix.startsWith('t3') || (prefix.startsWith('t4') && prefix !== 't4-tl')) {
+    const rightStart = 516, rightWidth = 454;
+    const centerOfRight = rightStart + rightWidth / 2;
+    return Math.round(centerOfRight - cfg.ovW / 2 - cfg.containerLeft);
+  }
+  return Math.round((cfg.adW - cfg.ovW) / 2 - cfg.containerLeft);
+}
+
+// ═══════════════════════════════════════════════════════
+// PAUSE / PLAY
+// ═══════════════════════════════════════════════════════
+function setPaused(paused) {
+  isPaused = paused;
+  const btn = document.getElementById('pause-btn');
+  const pauseIcon = document.getElementById('pause-icon');
+  const playIcon  = document.getElementById('play-icon');
+  if (!btn) return;
+
+  btn.classList.toggle('paused', paused);
+  btn.title = paused ? 'Resume animation' : 'Pause animation';
+  if (pauseIcon) pauseIcon.style.display = paused ? 'none' : '';
+  if (playIcon)  playIcon.style.display  = paused ? ''     : 'none';
+
+  if (activeTemplate === 't1') {
+    if (paused) { if (window._t1Pause) window._t1Pause(); }
+    else        { if (window._t1Resume) window._t1Resume(); }
+  } else if (activeTemplate === 't2') {
+    if (window._t2tl) { paused ? window._t2tl.pause() : window._t2tl.resume(); }
+  } else {
+    if (window._t3tl) { paused ? window._t3tl.pause() : window._t3tl.resume(); }
+  }
+}
+
+function togglePause() { setPaused(!isPaused); }
+
+// Reset to playing whenever a template loads
+function resetPauseState() {
+  isPaused = false;
+  const btn = document.getElementById('pause-btn');
+  const pauseIcon = document.getElementById('pause-icon');
+  const playIcon  = document.getElementById('play-icon');
+  if (btn) { btn.classList.remove('paused'); btn.title = 'Pause animation'; }
+  if (pauseIcon) pauseIcon.style.display = '';
+  if (playIcon)  playIcon.style.display  = 'none';
+}
+
+// ═══════════════════════════════════════════════════════
+// TIMELINE SCRUBBER
+// ═══════════════════════════════════════════════════════
+let tlRaf = null;
+let isDraggingTl = false;
+const TL_DUR = { t1:10, t2:15, t3:15, t4:15 };
+function tlDur() { return TL_DUR[activeTemplate] || 10; }
+
+function getAnimTime() {
+  if (activeTemplate === 't1') {
+    if (!window._t1StartTime) return 0;
+    return ((performance.now() - window._t1StartTime) % (tlDur() * 1000)) / 1000;
+  }
+  if (activeTemplate === 't4') {
+    if (!window._t4StartTime) return 0;
+    return ((performance.now() - window._t4StartTime) % (tlDur()*1000)) / 1000;
+  }
+  const tl = activeTemplate === 't2' ? window._t2tl : window._t3tl;
+  return tl ? tl.time() % tlDur() : 0;
+}
+
+function fmtTime(t) {
+  return Math.floor(t) + '.' + Math.floor((t % 1) * 10) + 's';
+}
+
+function setTlPos(t) {
+  const pct = Math.min(100, (t / tlDur()) * 100);
+  document.getElementById('timeline-fill').style.width = pct + '%';
+  document.getElementById('timeline-thumb').style.left = pct + '%';
+  document.getElementById('tl-current').textContent = fmtTime(t);
+}
+
+function buildTlTicks() {
+  const c = document.getElementById('timeline-ticks');
+  c.innerHTML = '';
+  if (activeTemplate !== 't1') {
+    [25,50,75].forEach(p => {
+      const d = document.createElement('div');
+      d.className = 'timeline-tick'; d.style.left = p + '%';
+      c.appendChild(d);
+    });
+  }
+  document.getElementById('tl-total').textContent = fmtTime(tlDur());
+}
+
+function startTlLoop() {
+  stopTlLoop();
+  function tick() {
+    if (!isDraggingTl && !isPaused) setTlPos(getAnimTime());
+    tlRaf = requestAnimationFrame(tick);
+  }
+  tlRaf = requestAnimationFrame(tick);
+}
+function stopTlLoop() { cancelAnimationFrame(tlRaf); tlRaf = null; }
+
+// Seek each template to time t
+function seekAnimation(t) {
+  t = Math.max(0, Math.min(tlDur() - 0.01, t));
+  if      (activeTemplate === 't1') seekT1(t);
+  else if (activeTemplate === 't2' && window._t2tl) window._t2tl.seek(t);
+  else if (activeTemplate === 't3' && window._t3tl) window._t3tl.seek(t);
+  else if (activeTemplate === 't4') seekT4(t);
+  setTlPos(t);
+}
+
+// T4: seek to time t using the CSS animation-delay trick (same approach as T1)
+function seekT4(t) {
+  const ban = document.getElementById('b_3254');
+  if (!ban) return;
+  ban.querySelectorAll('.js-bnfy4').forEach(el => el.style.display = 'block');
+
+  function applyPaused(id, name, dur, elapsed) {
+    const el = document.getElementById(id); if (!el) return;
+    const delay = -Math.min(elapsed, dur);
+    el.style.animation = `${name} ${dur}s ${delay}s ease 1 both`;
+    el.style.animationPlayState = 'paused';
+    el.style.opacity = ''; el.style.transform = '';
+    const ov = ban.querySelector('.t4-ov[data-key="'+id+'"]');
+    if (ov) { ov.style.animation = el.style.animation; ov.style.animationPlayState = 'paused'; }
+  }
+  function hide(id) {
+    const el = document.getElementById(id); if (!el) return;
+    el.style.animation = 'none'; el.style.opacity = '0';
+    const ov = ban.querySelector('.t4-ov[data-key="'+id+'"]'); if (ov) ov.style.opacity = '0';
+  }
+
+  // pic1 (img_3260): instant-show at 0, exits at 2.1s
+  if (t < 2.1) applyPaused('img_3260', 'instant-show', 1, t);
+  else hide('img_3260');
+
+  // street text (img_4543): fade-in-left at 0, exits at 2.1s
+  if (t >= 3.2)      hide('img_4543');
+  else if (t >= 2.1) applyPaused('img_4543', 'fade-out-right', 1.1, t - 2.1);
+  else               applyPaused('img_4543', 'fade-in-left',   1,   t);
+
+  // pic2 (img_74): fade-in at 2.1s, exits at 6s
+  if      (t < 2.1)  hide('img_74');
+  else if (t >= 7.2) hide('img_74');
+  else if (t >= 6.0) applyPaused('img_74', 'fade-out',    1.1, t - 6.0);
+  else               applyPaused('img_74', 'fade-in',     1.2, t - 2.1);
+
+  // address (img_724): fade-in-left at 3.1s, exits at 6.5s
+  if      (t < 3.1)  hide('img_724');
+  else if (t >= 7.6) hide('img_724');
+  else if (t >= 6.5) applyPaused('img_724', 'fade-out-right', 1.1, t - 6.5);
+  else               applyPaused('img_724', 'fade-in-left',   0.9, t - 3.1);
+
+  // pic3 (img_710): fade-in at 6.6s, exits at 11s
+  if      (t < 6.6)  hide('img_710');
+  else if (t >= 12.1)hide('img_710');
+  else if (t >= 11.0)applyPaused('img_710', 'fade-out',    1.1, t - 11.0);
+  else               applyPaused('img_710', 'fade-in',     0.9, t - 6.6);
+
+  // listed by (img_726): fade-in at 7.3s, exits at 10.8s
+  if      (t < 7.3)  hide('img_726');
+  else if (t >= 11.9)hide('img_726');
+  else if (t >= 10.8)applyPaused('img_726', 'fade-out',    1.1, t - 10.8);
+  else               applyPaused('img_726', 'fade-in',     0.9, t - 7.3);
+
+  // agent name (img_727): fade-in-left at 7.5s, exits at 10.7s
+  if      (t < 7.5)  hide('img_727');
+  else if (t >= 11.8)hide('img_727');
+  else if (t >= 10.7)applyPaused('img_727', 'fade-out-right', 1.1, t - 10.7);
+  else               applyPaused('img_727', 'fade-in-left',   0.9, t - 7.5);
+
+  // tagline (img_775): fade-in-left at 11.7s, stays
+  if (t >= 11.7) applyPaused('img_775', 'fade-in-left', 1.1, t - 11.7);
+  else { const el=document.getElementById('img_775'); if(el){el.style.animation='none';el.style.opacity='0';} }
+
+  // logo (img_737): fade-in at 11.7s, stays
+  if (t >= 11.7) applyPaused('img_737', 'fade-in', 1.1, t - 11.7);
+  else { const el=document.getElementById('img_737'); if(el){el.style.animation='none';el.style.opacity='0';} }
+}
+
+// T1: apply correct visual state at time t via CSS animation-delay trick
+function seekT1(t) {
+  const ban = document.getElementById('b_506610303');
+  if (!ban) return;
+  ban.querySelectorAll('.js-bnfy').forEach(el => el.style.display = 'block');
+
+  function applyPaused(id, name, dur, elapsed) {
+    const el = document.getElementById(id); if (!el) return;
+    const delay = -Math.min(elapsed, dur);
+    el.style.animation = `${name} ${dur}s ${delay}s ease 1 both`;
+    el.style.animationPlayState = 'paused';
+    el.style.opacity = ''; el.style.transform = '';
+    const ov = el.parentElement?.querySelector('.ad-ov');
+    if (ov) { ov.style.animation = el.style.animation; ov.style.animationPlayState = 'paused'; }
+  }
+  function hide(id) {
+    const el = document.getElementById(id); if (!el) return;
+    el.style.animation = 'none'; el.style.opacity = '0'; el.style.transform = 'translateX(-1000px)';
+    const ov = el.parentElement?.querySelector('.ad-ov'); if (ov) ov.style.opacity = '0';
+  }
+
+  // Headline 1: enters 0s, exits 2.5s
+  if      (t >= 3.5) hide('img_506610309');
+  else if (t >= 2.5) applyPaused('img_506610309', 'slide-out-right', 1, t - 2.5);
+  else               applyPaused('img_506610309', 'slide-in-left',   1, t);
+
+  // Headline 2: enters 3s, exits 5.4s
+  if      (t >= 6.4) hide('img_506810523');
+  else if (t >= 5.4) applyPaused('img_506810523', 'slide-out-right', 1, t - 5.4);
+  else if (t >= 3.0) applyPaused('img_506810523', 'slide-in-left',   1, t - 3.0);
+  else               hide('img_506810523');
+
+  // Decorative: fades in at 6.1s over 2.3s
+  const dec = document.getElementById('img_506810525');
+  if (t >= 6.1) applyPaused('img_506810525', 'fade-in', 2.3, t - 6.1);
+  else if (dec) { dec.style.animation = 'none'; dec.style.opacity = '0'; }
+}
+
+// Drag handling
+function initTimelineDrag() {
+  const bar = document.getElementById('timeline-bar'); if (!bar) return;
+
+  function posFromEvt(e) {
+    const r = bar.getBoundingClientRect();
+    const cx = e.touches ? e.touches[0].clientX : e.clientX;
+    return Math.max(0, Math.min(1, (cx - r.left) / r.width)) * tlDur();
+  }
+  function onStart(e) {
+    isDraggingTl = true;
+    if (!isPaused) setPaused(true);
+    seekAnimation(posFromEvt(e));
+    e.preventDefault();
+  }
+  function onMove(e) { if (isDraggingTl) { seekAnimation(posFromEvt(e)); e.preventDefault(); } }
+  function onEnd()   { isDraggingTl = false; }
+
+  bar.addEventListener('mousedown',  onStart);
+  bar.addEventListener('touchstart', onStart, { passive: false });
+  document.addEventListener('mousemove',  onMove);
+  document.addEventListener('touchmove',  onMove, { passive: false });
+  document.addEventListener('mouseup',  onEnd);
+  document.addEventListener('touchend', onEnd);
+}
+
+// Keep timeline bar width in sync with the scaled ad
+function syncTlWidth() {
+  const outer = document.getElementById('ad-outer');
+  const tl    = document.getElementById('timeline-wrap');
+  if (outer && tl) tl.style.width = outer.style.width || '100%';
+}
+
+// ═══════════════════════════════════════════════════════
+// TEMPLATE 4 — 970x250 Leaderboard B
+// ═══════════════════════════════════════════════════════
+
+const T4_BASE = '970x250_b/banners/970x250/';
+const T4_IMAGES = ['bc1f1c18407acd6801c8e06b4dbad11c.svg','aa7f1a6e002b7ec6179f625ed1feda10.svg','f67edc4d698532ad4941a623aca57078.svg','26f243849b14660ff5f8f07d2317971f.svg','07e7423745e2c296167e42b22d6c9d58.svg','78f729121e74d5e779b13c5f5c43d9a0.svg','838a96089f6fabe3b7db3b6597c0b779.svg','79e61ae6dc178fa8590e0c7ac5646ada.svg','26abc202ec39d97c5d63cdffad81762d.jpg','de2f05e503f93b3cd994509d1100f98c.jpg','169787812e3d4ca01d7f1f44f21f9e71.svg','cf1b709a1c14353b60c6dda08c4c5a66.svg','a897724966d1ca5f249c5a82e7563937.jpg','b8e68abbc72b1f1786320d655f84437e.jpg','eb55a0ffb82b38bfe0ca19bb24f17380.svg'];
+const T4_PHOTO_MAP = {
+  1: { imgId:'img_3260', file:'a897724966d1ca5f249c5a82e7563937.jpg' },
+  2: { imgId:'img_74',   file:'de2f05e503f93b3cd994509d1100f98c.jpg' },
+  3: { imgId:'img_710',  file:'26abc202ec39d97c5d63cdffad81762d.jpg' },
+};
+const T4_TEXT_MAP = {
+  st: { imgId:'img_4543', cls:'t4st', baseX:582, baseY:49  },
+  ad: { imgId:'img_724',  cls:'t4ad', baseX:584, baseY:74  },
+  ag: { imgId:'img_727',  cls:'t4ag', baseX:581, baseY:92  },
+  tl: { imgId:'img_775',  cls:'t4tl', baseX:41,  baseY:37  },
+};
+
+const T4_CSS = `#b_3254{background-color:#ffffff;border:0;box-sizing:border-box;cursor:default;display:block;height:250px;overflow:hidden;position:relative;width:970px;z-index:1;}#b_3254 div{position:absolute;box-sizing:border-box;padding:0;margin:0;}#b_3254 img{position:absolute;top:0;left:0;display:block;padding:0;margin:0;}#el_777{top:201px;left:581px;z-index:14;pointer-events:none;mix-blend-mode:normal;}#img_777{width:333px;height:2px;}#img_777.bnfy-enter{-webkit-animation:fade-in 1100ms 11700ms ease 1 both;animation:fade-in 1100ms 11700ms ease 1 both;}#el_776{top:161px;left:599px;z-index:13;pointer-events:none;mix-blend-mode:normal;}#img_776{width:291px;height:21px;}#img_776.bnfy-enter{-webkit-animation:fade-in 1100ms 11700ms ease 1 both;animation:fade-in 1100ms 11700ms ease 1 both;}#el_775{top:37px;left:41px;z-index:12;pointer-events:none;mix-blend-mode:normal;}#img_775{width:826px;height:87px;}#img_775.bnfy-enter{-webkit-animation:fade-in-left 1100ms 11700ms ease 1 both;animation:fade-in-left 1100ms 11700ms ease 1 both;}#el_737{top:149px;left:52px;z-index:11;pointer-events:none;mix-blend-mode:normal;}#img_737{width:281px;height:63px;}#img_737.bnfy-enter{-webkit-animation:fade-in 1100ms 11700ms ease 1 both;animation:fade-in 1100ms 11700ms ease 1 both;}#el_727{top:92px;left:581px;z-index:10;pointer-events:none;mix-blend-mode:normal;}#img_727{width:328px;height:40px;}#img_727.bnfy-enter{-webkit-animation:fade-in-left 900ms 7500ms ease 1 both;animation:fade-in-left 900ms 7500ms ease 1 both;}#img_727.bnfy-exit{-webkit-animation:fade-out-right 1100ms ease 1 both;animation:fade-out-right 1100ms ease 1 both;}#el_726{top:43px;left:679px;z-index:9;pointer-events:none;mix-blend-mode:normal;}#img_726{width:131px;height:27px;}#img_726.bnfy-enter{-webkit-animation:fade-in 900ms 7300ms ease 1 both;animation:fade-in 900ms 7300ms ease 1 both;}#img_726.bnfy-exit{-webkit-animation:fade-out 1100ms ease 1 both;animation:fade-out 1100ms ease 1 both;}#el_724{top:74px;left:584px;z-index:8;pointer-events:none;mix-blend-mode:normal;}#img_724{width:323px;height:40px;}#img_724.bnfy-enter{-webkit-animation:fade-in-left 900ms 3100ms ease 1 both;animation:fade-in-left 900ms 3100ms ease 1 both;}#img_724.bnfy-exit{-webkit-animation:fade-out-right 1100ms ease 1 both;animation:fade-out-right 1100ms ease 1 both;}#el_722{top:217px;left:629px;z-index:7;pointer-events:none;mix-blend-mode:normal;}#img_722{width:235px;height:1px;}#img_722.bnfy-enter{-webkit-animation:fade-in-left 1000ms 0ms ease 1 both;animation:fade-in-left 1000ms 0ms ease 1 both;}#img_722.bnfy-exit{-webkit-animation:fade-out-right 1300ms ease 1 both;animation:fade-out-right 1300ms ease 1 both;}#el_710{top:0px;left:0px;z-index:6;pointer-events:none;mix-blend-mode:normal;}#img_710{width:516px;height:250px;}#img_710.bnfy-enter{-webkit-animation:fade-in 900ms 6600ms ease 1 both;animation:fade-in 900ms 6600ms ease 1 both;}#img_710.bnfy-exit{-webkit-animation:fade-out 1100ms ease 1 both;animation:fade-out 1100ms ease 1 both;}#el_74{top:0px;left:0px;z-index:5;pointer-events:none;mix-blend-mode:normal;}#img_74{width:516px;height:250px;}#img_74.bnfy-enter{-webkit-animation:fade-in 1200ms 2100ms ease 1 both;animation:fade-in 1200ms 2100ms ease 1 both;}#img_74.bnfy-exit{-webkit-animation:fade-out 700ms ease 1 both;animation:fade-out 700ms ease 1 both;}#el_4543{top:49px;left:582px;z-index:4;pointer-events:none;mix-blend-mode:normal;}#img_4543{width:326px;height:87px;}#img_4543.bnfy-enter{-webkit-animation:fade-in-left 1000ms 0ms ease 1 both;animation:fade-in-left 1000ms 0ms ease 1 both;}#img_4543.bnfy-exit{-webkit-animation:fade-out-right 1100ms ease 1 both;animation:fade-out-right 1100ms ease 1 both;}#el_3322{top:183px;left:642px;z-index:3;pointer-events:none;mix-blend-mode:normal;}#img_3322{width:205px;height:15px;}#img_3322.bnfy-enter{-webkit-animation:fade-in-left 1000ms 0ms ease 1 both;animation:fade-in-left 1000ms 0ms ease 1 both;}#img_3322.bnfy-exit{-webkit-animation:fade-out-right 1300ms ease 1 both;animation:fade-out-right 1300ms ease 1 both;}#el_3260{top:0px;left:0px;z-index:2;pointer-events:none;mix-blend-mode:normal;}#img_3260{width:516px;height:250px;}#img_3260.bnfy-enter{-webkit-animation:instant-show 1000ms 0ms ease 1 both;animation:instant-show 1000ms 0ms ease 1 both;}#img_3260.bnfy-exit{-webkit-animation:fade-out 1100ms ease 1 both;animation:fade-out 1100ms ease 1 both;}#el_732{top:0px;left:0px;z-index:1;pointer-events:none;mix-blend-mode:normal;}#img_732{width:970px;height:250px;}#img_732.bnfy-enter{-webkit-animation:none 12100ms 0ms ease 1 both;animation:none 12100ms 0ms ease 1 both;}#el_3254{top:0px;left:0px;z-index:0;pointer-events:none;mix-blend-mode:normal;}#img_3254{width:970px;height:250px;}#img_3254.bnfy-enter{-webkit-animation:none 0ms 0ms ease 1 both;animation:none 0ms 0ms ease 1 both;}@-webkit-keyframes fade-in{0%{opacity:0}to{opacity:1}}@keyframes fade-in{0%{opacity:0}to{opacity:1}}@-webkit-keyframes fade-in-left{0%{-webkit-transform:translateX(-50px);transform:translateX(-50px);opacity:0}to{-webkit-transform:translateX(0);transform:translateX(0);opacity:1}}@keyframes fade-in-left{0%{-webkit-transform:translateX(-50px);transform:translateX(-50px);opacity:0}to{-webkit-transform:translateX(0);transform:translateX(0);opacity:1}}@-webkit-keyframes fade-out-right{0%{-webkit-transform:translateX(0);transform:translateX(0);opacity:1}to{-webkit-transform:translateX(50px);transform:translateX(50px);opacity:0}}@keyframes fade-out-right{0%{-webkit-transform:translateX(0);transform:translateX(0);opacity:1}to{-webkit-transform:translateX(50px);transform:translateX(50px);opacity:0}}@-webkit-keyframes fade-out{0%{opacity:1}to{opacity:0}}@keyframes fade-out{0%{opacity:1}to{opacity:0}}@-webkit-keyframes instant-show{0%{opacity:0;}0.001%{opacity:1;}1%{opacity:1;}100%{opacity:1;}}@keyframes instant-show{0%{opacity:0;}0.001%{opacity:1;}1%{opacity:1;}100%{opacity:1;}}
+.t4-ov{position:absolute;color:#fff;white-space:pre-wrap;word-break:break-word;line-height:1.3;pointer-events:none;}
+.t4st.bnfy-enter{animation:fade-in-left 1000ms 0ms ease 1 both;}
+.t4st.bnfy-exit{animation:fade-out-right 1100ms ease 1 both;}
+.t4ad.bnfy-enter{animation:fade-in-left 900ms 3100ms ease 1 both;}
+.t4ad.bnfy-exit{animation:fade-out-right 1100ms ease 1 both;}
+.t4ag.bnfy-enter{animation:fade-in-left 900ms 7500ms ease 1 both;}
+.t4ag.bnfy-exit{animation:fade-out-right 1100ms ease 1 both;}
+.t4tl.bnfy-enter{animation:fade-in-left 1100ms 11700ms ease 1 both;}
+`;
+
+let t4StyleInjected = false;
+
+function buildT4Html() {
+  const b = T4_BASE+'images/';
+  return `<div id="b_3254">
+  <div style="display:none;width:970px;height:250px;" id="el_3254" class="js-bnfy4"><img id="img_3254" class="bnfy-enter" width="970" height="250" src="${b}eb55a0ffb82b38bfe0ca19bb24f17380.svg"/></div>
+  <div style="display:none;width:970px;height:250px;" id="el_732"  class="js-bnfy4"><img id="img_732"  class="bnfy-enter" width="970" height="250" src="${b}b8e68abbc72b1f1786320d655f84437e.jpg"/></div>
+  <div style="display:none;width:516px;height:250px;" id="el_3260" class="js-bnfy4"><img id="img_3260" class="bnfy-enter" width="516" height="250" src="${b}a897724966d1ca5f249c5a82e7563937.jpg"/></div>
+  <div style="display:none;width:205px;height:15px;"  id="el_3322" class="js-bnfy4"><img id="img_3322" class="bnfy-enter" width="205" height="15"  src="${b}cf1b709a1c14353b60c6dda08c4c5a66.svg"/></div>
+  <div style="display:none;width:326px;height:87px;"  id="el_4543" class="js-bnfy4"><img id="img_4543" class="bnfy-enter" width="326" height="87"  src="${b}169787812e3d4ca01d7f1f44f21f9e71.svg"/></div>
+  <div style="display:none;width:516px;height:250px;" id="el_74"   class="js-bnfy4"><img id="img_74"   class="bnfy-enter" width="516" height="250" src="${b}de2f05e503f93b3cd994509d1100f98c.jpg"/></div>
+  <div style="display:none;width:516px;height:250px;" id="el_710"  class="js-bnfy4"><img id="img_710"  class="bnfy-enter" width="516" height="250" src="${b}26abc202ec39d97c5d63cdffad81762d.jpg"/></div>
+  <div style="display:none;width:235px;height:1px;"   id="el_722"  class="js-bnfy4"><img id="img_722"  class="bnfy-enter" width="235" height="1"   src="${b}79e61ae6dc178fa8590e0c7ac5646ada.svg"/></div>
+  <div style="display:none;width:323px;height:40px;"  id="el_724"  class="js-bnfy4"><img id="img_724"  class="bnfy-enter" width="323" height="40"  src="${b}838a96089f6fabe3b7db3b6597c0b779.svg"/></div>
+  <div style="display:none;width:131px;height:27px;"  id="el_726"  class="js-bnfy4"><img id="img_726"  class="bnfy-enter" width="131" height="27"  src="${b}78f729121e74d5e779b13c5f5c43d9a0.svg"/></div>
+  <div style="display:none;width:328px;height:40px;"  id="el_727"  class="js-bnfy4"><img id="img_727"  class="bnfy-enter" width="328" height="40"  src="${b}07e7423745e2c296167e42b22d6c9d58.svg"/></div>
+  <div style="display:none;width:281px;height:63px;"  id="el_737"  class="js-bnfy4"><img id="img_737"  class="bnfy-enter" width="281" height="63"  src="${b}26f243849b14660ff5f8f07d2317971f.svg"/></div>
+  <div style="display:none;width:826px;height:87px;"  id="el_775"  class="js-bnfy4"><img id="img_775"  class="bnfy-enter" width="826" height="87"  src="${b}f67edc4d698532ad4941a623aca57078.svg"/></div>
+  <div style="display:none;width:291px;height:21px;"  id="el_776"  class="js-bnfy4"><img id="img_776"  class="bnfy-enter" width="291" height="21"  src="${b}aa7f1a6e002b7ec6179f625ed1feda10.svg"/></div>
+  <div style="display:none;width:333px;height:2px;"   id="el_777"  class="js-bnfy4"><img id="img_777"  class="bnfy-enter" width="333" height="2"   src="${b}bc1f1c18407acd6801c8e06b4dbad11c.svg"/></div>
+</div>`;
+}
+
+const T4_SCRIPT = `(function(){function onLoad(c,cb){var p=[].slice.call(c.getElementsByTagName("img")),n=p.length;if(!n)return cb();p.forEach(function(i){if(i.complete){n--;if(!n)cb();}else i.addEventListener("load",function(){n--;if(!n)cb();});});}onLoad(document.getElementById("b_3254"),function(){if(!document.getElementById("b_3254"))return;var els=document.getElementById("b_3254").getElementsByClassName("js-bnfy4");for(var i=0;i<els.length;i++)els[i].style.display="block";var iv,to=[];function cl(){to.forEach(clearTimeout);to=[];}document.addEventListener("visibilitychange",function(){if(document.hidden){clearInterval(iv);cl();}else{rp();iv=setInterval(rp,15000);}});function ex(){window._t4StartTime=performance.now();function arm(id,ms){var el=document.getElementById(id);if(!el)return;el.className="bnfy-enter";to.push(setTimeout(function(){el.className="";void el.offsetWidth;el.className="bnfy-exit";},ms));}arm("img_727",10700);arm("img_726",10800);arm("img_724",6500);arm("img_722",10000);arm("img_710",11000);arm("img_74",6000);arm("img_4543",2100);arm("img_3322",10000);arm("img_3260",2100);}ex();iv=setInterval(rp,15000);function rp(){var bn=document.getElementById("b_3254");if(bn)for(var i=0;i<bn.children.length;i++){var e=bn.children[i];if(e&&e.tagName.toLowerCase()!=="script"){var d=e.style.display;e.style.display="none";void e.offsetWidth;e.style.display=d;}}ex();}window._t4Pause=function(){clearInterval(iv);iv=null;cl();var ban=document.getElementById("b_3254");if(ban)ban.querySelectorAll("img,.t4-ov").forEach(function(el){el.style.animationPlayState="paused";});};window._t4Resume=function(){var ban=document.getElementById("b_3254");if(ban)ban.querySelectorAll("img,.t4-ov").forEach(function(el){el.style.animationPlayState="";});rp();iv=setInterval(rp,15000);};});}());`;
+
+function loadT4() {
+  const c = document.getElementById('ad-container');
+  c.innerHTML = '<div id="ad-loading"><div class="spinner"></div>Loading…</div>';
+  if (!t4StyleInjected) { injectStyle(T4_CSS); t4StyleInjected = true; }
+  c.innerHTML = buildT4Html();
+  runScript(T4_SCRIPT);
+  scalePreview();
+  resetPauseState();
+  buildTlTicks(); syncTlWidth(); startTlLoop();
+  reapplyT4();
+}
+
+function applyT4Overlay(key, fieldState) {
+  const cfg = T4_TEXT_MAP[key]; if (!cfg) return;
+  const img = document.getElementById(cfg.imgId);
+  const ban = document.getElementById('b_3254');
+  if (!img || !ban) return;
+
+  // Always hide the original SVG and show the HTML overlay whenever text is set.
+  // (Original SVGs contain placeholder text that should never show once text is entered.)
+  const hasText = !!(fieldState.text);
+  img.style.visibility = hasText ? 'hidden' : '';
+
+  let ov = ban.querySelector('.t4-ov[data-key="'+cfg.imgId+'"]');
+  if (!hasText) {
+    // No text → remove overlay, restore original SVG
+    if (ov) { ov._obs && ov._obs.disconnect(); ov.remove(); }
+    return;
+  }
+  if (!ov) {
+    ov = document.createElement('div');
+    ov.className = 't4-ov '+cfg.cls+' '+img.className;
+    ov.dataset.key = cfg.imgId;
+    ban.appendChild(ov);
+    const obs = new MutationObserver(() => { ov.className = 't4-ov '+cfg.cls+' '+img.className; });
+    obs.observe(img, { attributes:true, attributeFilter:['class'] });
+    ov._obs = obs;
+  }
+  ov.textContent    = fieldState.text;
+  ov.style.fontFamily = `'${fieldState.font}', sans-serif`;
+  ov.style.fontSize   = fieldState.size + 'px';
+  ov.style.textAlign  = fieldState.align || 'left';
+  ov.style.left       = (cfg.baseX + fieldState.x) + 'px';
+  ov.style.top        = (cfg.baseY + fieldState.y) + 'px';
+  ov.style.width      = (key === 'tl') ? '826px' : '330px';
+}
+
+function applyT4All() { ['st','ad','ag','tl'].forEach(k => applyT4Overlay(k, state.t4[k])); }
+
+function applyT4Photo(n) {
+  const cfg = T4_PHOTO_MAP[n]; const ps = state.t4['photo'+n];
+  if (!cfg || !ps || !ps.dataUrl) return;
+  const img = document.getElementById(cfg.imgId); if (!img) return;
+  img.src = ps.dataUrl;
+  img.style.objectFit = ps.fit;
+  img.style.objectPosition = ps.pos.x+'% '+ps.pos.y+'%';
+  img.style.width = '516px'; img.style.height = '250px';
+}
+
+function reapplyT4() { applyT4All(); [1,2,3].forEach(n => applyT4Photo(n)); }
+
+
+function setupT4Photos() {
+  [1,2,3].forEach(n => {
+    const inputId    = `t4-p${n}-input`;
+    const areaId     = `t4-p${n}-upload`;
+    const padImgId   = `t4-p${n}-pos-img`;
+    const controlsId = `t4-p${n}-controls`;
+    const fitId      = `t4-p${n}-fit`;
+    const padId      = `t4-p${n}-pad`;
+    const dotId      = `t4-p${n}-dot`;
+    const ps         = () => state.t4[`photo${n}`];
+    const apply      = () => applyT4Photo(n);
+
+    function bindInput(id) {
+      const inp = document.getElementById(id); if (!inp) return;
+      inp.addEventListener('change', e => {
+        const file = e.target.files[0]; if (!file) return;
+        const reader = new FileReader();
+        reader.onload = ev => {
+          const url = ev.target.result;
+          ps().dataUrl = url;
+          const area = document.getElementById(areaId);
+          const nid = id+'_2';
+          area.classList.add('filled');
+          area.innerHTML = `<img class="upload-preview" src="${url}" alt=""><input type="file" id="${nid}" accept="image/*">`;
+          bindInput(nid);
+          document.getElementById(padImgId).src = url;
+          document.getElementById(controlsId).classList.add('visible');
+          apply();
+          if (currentProjectId) PhotoDB.saveProjectPhotos(currentProjectId, state).catch(() => {});
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+    bindInput(inputId);
+
+    document.querySelectorAll(`#${fitId} .fit-btn`).forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll(`#${fitId} .fit-btn`).forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        ps().fit = btn.dataset.fit;
+        apply();
+      });
+    });
+
+    const pad = document.getElementById(padId);
+    const dot = document.getElementById(dotId);
+    if (!pad || !dot) return;
+    let drag = false;
+    function move(ev) {
+      const r = pad.getBoundingClientRect();
+      const cx = ev.touches ? ev.touches[0].clientX : ev.clientX;
+      const cy = ev.touches ? ev.touches[0].clientY : ev.clientY;
+      const x = Math.max(0, Math.min(100, ((cx-r.left)/r.width)*100));
+      const y = Math.max(0, Math.min(100, ((cy-r.top)/r.height)*100));
+      ps().pos = {x,y}; dot.style.left=x+'%'; dot.style.top=y+'%'; apply();
+    }
+    pad.addEventListener('mousedown',  ev=>{drag=true;move(ev);ev.preventDefault();});
+    pad.addEventListener('touchstart', ev=>{drag=true;move(ev);ev.preventDefault();},{passive:false});
+    document.addEventListener('mousemove',  ev=>{if(drag)move(ev);});
+    document.addEventListener('touchmove',  ev=>{if(drag)move(ev);},{passive:false});
+    document.addEventListener('mouseup',  ()=>drag=false);
+    document.addEventListener('touchend', ()=>drag=false);
+  });
+}
+
+// ═══════════════════════════════════════════════════════
+// T3 PHOTO SETUP (4 independent slots)
+// ═══════════════════════════════════════════════════════
+function setupT3Photos() {
+  [1, 2, 3, 4].forEach(n => {
+    const inputId   = `t3-p${n}-input`;
+    const areaId    = `t3-p${n}-upload`;
+    const padImgId  = `t3-p${n}-pos-img`;
+    const controlsId = `t3-p${n}-controls`;
+    const fitId     = `t3-p${n}-fit`;
+    const padId     = `t3-p${n}-pad`;
+    const dotId     = `t3-p${n}-dot`;
+    const ps        = () => state.t3[`photo${n}`];
+    const apply     = () => applyT3Photo(n);
+
+    // Upload
+    function bindInput(id) {
+      const inp = document.getElementById(id); if (!inp) return;
+      inp.addEventListener('change', e => {
+        const file = e.target.files[0]; if (!file) return;
+        const reader = new FileReader();
+        reader.onload = ev => {
+          const url = ev.target.result;
+          ps().dataUrl = url;
+
+          const area = document.getElementById(areaId);
+          const nid = id + '_2';
+          area.classList.add('filled');
+          area.innerHTML = `<img class="upload-preview" src="${url}" alt=""><input type="file" id="${nid}" accept="image/*">`;
+          bindInput(nid);
+
+          document.getElementById(padImgId).src = url;
+          document.getElementById(controlsId).classList.add('visible');
+          apply();
+          if (currentProjectId) PhotoDB.saveProjectPhotos(currentProjectId, state).catch(() => {});
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+    bindInput(inputId);
+
+    // Fit buttons
+    document.querySelectorAll(`#${fitId} .fit-btn`).forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll(`#${fitId} .fit-btn`).forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        ps().fit = btn.dataset.fit;
+        apply();
+      });
+    });
+
+    // Position pad
+    const pad = document.getElementById(padId);
+    const dot = document.getElementById(dotId);
+    if (!pad || !dot) return;
+    let drag = false;
+    function move(ev) {
+      const r = pad.getBoundingClientRect();
+      const cx = ev.touches ? ev.touches[0].clientX : ev.clientX;
+      const cy = ev.touches ? ev.touches[0].clientY : ev.clientY;
+      const x = Math.max(0, Math.min(100, ((cx - r.left) / r.width)  * 100));
+      const y = Math.max(0, Math.min(100, ((cy - r.top)  / r.height) * 100));
+      ps().pos = { x, y };
+      dot.style.left = x + '%'; dot.style.top = y + '%';
+      apply();
+    }
+    pad.addEventListener('mousedown',  ev => { drag=true; move(ev); ev.preventDefault(); });
+    pad.addEventListener('touchstart', ev => { drag=true; move(ev); ev.preventDefault(); }, { passive:false });
+    document.addEventListener('mousemove',  ev => { if (drag) move(ev); });
+    document.addEventListener('touchmove',  ev => { if (drag) move(ev); }, { passive:false });
+    document.addEventListener('mouseup',   () => drag = false);
+    document.addEventListener('touchend',  () => drag = false);
+  });
+}
+
+
+// ═══════════════════════════════════════════════════════════════════════
+// PROJECT PERSISTENCE
+// ═══════════════════════════════════════════════════════════════════════
+const STORE_KEY  = 'animad_projects';
+const ACTIVE_KEY = 'animad_active_project';
+let currentProjectId = null;
+let autoSaveTimer = null;
+
+function getProjects() {
+  try { return JSON.parse(localStorage.getItem(STORE_KEY)) || []; } catch { return []; }
+}
+// Strip base64 photo data before writing to localStorage (photos are too large)
+function stripPhotosFromState(stateObj) {
+  if (!stateObj) return stateObj;
+  const s = JSON.parse(JSON.stringify(stateObj));
+  ['t1','t2','t3','t4'].forEach(t => {
+    if (!s[t]) return;
+    s[t].photoDataUrl = null;
+    ['photo1','photo2','photo3','photo4'].forEach(k => {
+      if (s[t][k]) s[t][k].dataUrl = null;
+    });
+  });
+  return s;
+}
+
+function saveProjectsStore(projects) {
+  const slim = projects.map(p => ({ ...p, state: stripPhotosFromState(p.state) }));
+  try {
+    localStorage.setItem(STORE_KEY, JSON.stringify(slim));
+  } catch (e) {
+    localStorage.removeItem(STORE_KEY);
+    try { localStorage.setItem(STORE_KEY, JSON.stringify(slim)); } catch {}
+  }
+}
+
+function loadProjectFromStorage() {
+  const id = localStorage.getItem(ACTIVE_KEY);
+  if (!id) return;
+  const projects = getProjects();
+  const project  = projects.find(p => p.id === id);
+  if (!project) return;
+
+  currentProjectId = id;
+
+  // Show project name in header
+  const chip = document.getElementById('project-name-chip');
+  if (chip) { chip.textContent = project.name; chip.style.display = ''; }
+
+  // ── Filter sidebar to only show templates in this project ──────────────
+  const selected = project.templates || [];
+  document.querySelectorAll('.tpl-card').forEach(card => {
+    const show = selected.includes(card.dataset.tpl);
+    card.style.display = show ? '' : 'none';
+  });
+  // Update grid columns based on how many templates are shown
+  const tplGrid = document.querySelector('.tpl-grid');
+  if (tplGrid) tplGrid.style.gridTemplateColumns = `repeat(${selected.length}, 1fr)`;
+
+  // Also hide field sections for templates not in this project
+  document.querySelectorAll('.tpl-fields').forEach(section => {
+    const tplId = section.id.replace('fields-', '');
+    section.style.display = selected.includes(tplId) ? '' : 'none';
+  });
+
+  // Merge saved state into editor state
+  if (project.state) {
+    ['t1','t2','t3','t4'].forEach(tplId => {
+      if (project.state[tplId]) {
+        // Deep merge: replace each top-level key so nested objects aren't shared
+        Object.keys(project.state[tplId]).forEach(k => {
+          state[tplId][k] = project.state[tplId][k];
+        });
+      }
+    });
+  }
+
+  // Switch to first template in the project
+  if (selected.length > 0) {
+    switchTemplate(selected[0]);
+  }
+}
+
+function autoSave() {
+  if (!currentProjectId) return;
+  clearTimeout(autoSaveTimer);
+  autoSaveTimer = setTimeout(() => {
+    const projects = getProjects();
+    const idx = projects.findIndex(p => p.id === currentProjectId);
+    if (idx === -1) return;
+    // saveProjectsStore already strips photos before writing
+    projects[idx].state   = JSON.parse(JSON.stringify(state));
+    projects[idx].updated = Date.now();
+    saveProjectsStore(projects);
+    showSaveIndicator('Saved ✓');
+  }, 800);
+}
+
+function showSaveIndicator(msg) {
+  const el = document.getElementById('save-indicator');
+  if (!el) return;
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(el._timer);
+  el._timer = setTimeout(() => el.classList.remove('show'), 2000);
+}
+
+// ═══════════════════════════════════════════════════════
+// SYNC SIDEBAR → STATE
+// ═══════════════════════════════════════════════════════
+// After loading a project, push state values back into the DOM inputs
+// so the sidebar shows the correct saved values instead of HTML defaults.
+function syncSidebarFromState() {
+  const FIELD_MAP = [
+    { prefix:'t1-h1', fs:()=>state.t1.h1 },
+    { prefix:'t1-h2', fs:()=>state.t1.h2 },
+    { prefix:'t2-ti', fs:()=>state.t2.title },
+    { prefix:'t2-ad', fs:()=>state.t2.address },
+    { prefix:'t2-ag', fs:()=>state.t2.agentName },
+    { prefix:'t3-ti', fs:()=>state.t3.title },
+    { prefix:'t3-ad', fs:()=>state.t3.address },
+    { prefix:'t3-ag', fs:()=>state.t3.agentName },
+    { prefix:'t4-st', fs:()=>state.t4.st },
+    { prefix:'t4-ad', fs:()=>state.t4.ad },
+    { prefix:'t4-ag', fs:()=>state.t4.ag },
+    { prefix:'t4-tl', fs:()=>state.t4.tl },
+  ];
+
+  FIELD_MAP.forEach(({ prefix, fs }) => {
+    const fieldState = fs();
+    if (!fieldState) return;
+
+    const textEl = document.getElementById(prefix+'-text');
+    const fontEl = document.getElementById(prefix+'-font');
+    const sizeEl = document.getElementById(prefix+'-size');
+    const xEl    = document.getElementById(prefix+'-x');
+    const yEl    = document.getElementById(prefix+'-y');
+
+    if (textEl && fieldState.text !== undefined) textEl.value = fieldState.text;
+    if (fontEl && fieldState.font)               fontEl.value = fieldState.font;
+    if (sizeEl && fieldState.size)               sizeEl.value = fieldState.size;
+    if (xEl    && fieldState.x !== undefined)    xEl.value    = fieldState.x;
+    if (yEl    && fieldState.y !== undefined)    yEl.value    = fieldState.y;
+
+    // Update slider labels
+    const xv = document.getElementById(prefix+'-x-val');
+    const yv = document.getElementById(prefix+'-y-val');
+    const fmt = v => (v > 0 ? '+' : '') + v + ' px';
+    if (xv) xv.textContent = fmt(fieldState.x || 0);
+    if (yv) yv.textContent = fmt(fieldState.y || 0);
+
+    // Update alignment toggle
+    if (fieldState.align) {
+      const alignWrap = document.getElementById(prefix+'-align');
+      if (alignWrap) {
+        alignWrap.querySelectorAll('.align-btn').forEach(btn => {
+          btn.classList.toggle('active', btn.dataset.align === fieldState.align);
+        });
+      }
+    }
+  });
+}
+
+// ═══════════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════════
+function init() {
+  populateFontSelects();
+
+  // Template switcher
+  document.querySelectorAll('.tpl-card').forEach(c=>{
+    c.addEventListener('click',()=>switchTemplate(c.dataset.tpl));
+  });
+
+  // Wire all text fields
+  Object.entries(T1_FIELDS).forEach(([p,def])=>wireTextField(p,def.get,def.applyFn));
+  Object.entries(T2_FIELDS).forEach(([p,def])=>wireTextField(p,def.get,def.applyFn));
+  Object.entries(T3_FIELDS).forEach(([p,def])=>wireTextField(p,def.get,def.applyFn));
+  Object.entries(T4_FIELDS).forEach(([p,def])=>wireTextField(p,def.get,def.applyFn));
+
+  // Photo upload / fit / pad — T1
+  setupPhotoUpload('t1-photo-input','t1-photo-upload','t1-pos-img','photo-controls-t1','t1',applyT1PhotoStyles);
+  setupFit('t1-fit-toggle','t1',applyT1PhotoStyles);
+  setupPosPad('t1-pos-pad','t1-pos-dot','t1',applyT1PhotoStyles);
+
+  // Photo upload / fit / pad — T2
+  setupPhotoUpload('t2-photo-input','t2-photo-upload','t2-pos-img','photo-controls-t2','t2',applyT2PhotoStyles);
+  setupFit('t2-fit-toggle','t2',applyT2PhotoStyles);
+  setupPosPad('t2-pos-pad','t2-pos-dot','t2',applyT2PhotoStyles);
+
+  // Center horizontal buttons
+  document.querySelectorAll('.center-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const prefix = btn.dataset.prefix;
+      const x = getCenterX(prefix);
+      const xInput = document.getElementById(prefix + '-x');
+      if (xInput) {
+        xInput.value = x;
+        xInput.dispatchEvent(new Event('input')); // triggers wireTextField → apply + label update
+      }
+    });
+  });
+
+  // Timeline
+  initTimelineDrag();
+
+  // Pause / play
+  document.getElementById('pause-btn').addEventListener('click', togglePause);
+
+  // Photo upload / fit / pad — T3 (4 independent slots)
+  setupT3Photos();
+
+  // T4 photos
+  setupT4Photos();
+
+  // Export
+  document.getElementById('export-btn').addEventListener('click',exportAd);
+
+  // Load project or default template
+  const c = document.getElementById('ad-container');
+
+  // Check for an active project FIRST so we load the right template immediately
+  // instead of loading T1 then switching (which caused the T1 callback race condition)
+  const _pid = localStorage.getItem(ACTIVE_KEY);
+  const _proj = _pid ? (getProjects().find(p => p.id === _pid) || null) : null;
+
+  if (_proj && _proj.templates && _proj.templates.length > 0) {
+    // Merge project state before loading the template
+    if (_proj.state) {
+      ['t1','t2','t3','t4'].forEach(tplId => {
+        if (_proj.state[tplId]) {
+          Object.keys(_proj.state[tplId]).forEach(k => {
+            state[tplId][k] = _proj.state[tplId][k];
+          });
+        }
+      });
+    }
+
+    // ── Sync sidebar DOM inputs to match the loaded state ─────────────────
+    // Without this, textareas show HTML defaults while the ad shows project values.
+    syncSidebarFromState();
+
+    // Show project name
+    const chip = document.getElementById('project-name-chip');
+    if (chip) { chip.textContent = _proj.name; chip.style.display = ''; }
+
+    currentProjectId = _pid;
+    const _sel = _proj.templates;
+    const firstTpl = _sel[0];
+
+    // ── Photos loaded from IndexedDB after template renders (async) ──
+    // We kick off the load now; applyPhotosFromBundle() applies them when ready
+    PhotoDB.loadProjectPhotos(_pid).then(photos => {
+      if (!photos) return;
+      if (photos.t1) { state.t1.photoDataUrl = photos.t1; applyT1PhotoStyles(); }
+      if (photos.t2) { state.t2.photoDataUrl = photos.t2; applyT2PhotoStyles(); }
+      if (photos.t3) {
+        ['p1','p2','p3','p4'].forEach((p,i) => {
+          if (photos.t3[p]) { state.t3['photo'+(i+1)].dataUrl = photos.t3[p]; applyT3Photo(i+1); }
+        });
+      }
+      if (photos.t4) {
+        ['p1','p2','p3'].forEach((p,i) => {
+          if (photos.t4[p]) { state.t4['photo'+(i+1)].dataUrl = photos.t4[p]; applyT4Photo(i+1); }
+        });
+      }
+    }).catch(() => {});
+
+    // ── Filter sidebar: only show selected templates ───────────────────────
+    document.querySelectorAll('.tpl-card').forEach(card => {
+      const inProj = _sel.includes(card.dataset.tpl);
+      card.style.display = inProj ? '' : 'none';
+      card.classList.toggle('active', card.dataset.tpl === firstTpl);
+    });
+    const tplGrid = document.querySelector('.tpl-grid');
+    if (tplGrid) tplGrid.style.gridTemplateColumns = `repeat(${_sel.length}, 1fr)`;
+
+    document.querySelectorAll('.tpl-fields').forEach(section => {
+      const tplId = section.id.replace('fields-', '');
+      const inProj = _sel.includes(tplId);
+      const isFirst = tplId === firstTpl;
+      section.style.display = inProj ? '' : 'none';
+      section.classList.toggle('active', isFirst); // CSS: .tpl-fields.active{display:block}
+    });
+
+    // ── Update header + preview badge for the first template ──────────────
+    const CHIP_NAMES = { t1:'300×600 Skyscraper', t2:'768×1024 Listing Ad', t3:'970×250 Leaderboard', t4:'970×250 Leader B' };
+    const BADGE_NAMES = { t1:'300 × 600 · Live preview', t2:'768 × 1024 · Live preview', t3:'970 × 250 · Live preview (A)', t4:'970 × 250 · Live preview (B)' };
+    document.getElementById('header-chip').textContent = CHIP_NAMES[firstTpl] || firstTpl;
+    document.getElementById('preview-badge').textContent = BADGE_NAMES[firstTpl] || firstTpl;
+
+    // ── Load the first template directly (no T1 pre-load → no race condition) ─
+    const [w, h] = firstTpl==='t1'?[300,600]:firstTpl==='t2'?[768,1024]:[970,250];
+    c.style.width = w+'px'; c.style.height = h+'px';
+    activeTemplate = firstTpl;
+    if      (firstTpl==='t1') loadT1();
+    else if (firstTpl==='t2') loadT2();
+    else if (firstTpl==='t3') loadT3();
+    else                      loadT4();
+
+  } else {
+    // No project — load default T1
+    c.style.width='300px'; c.style.height='600px';
+    loadT1();
+  }
+}
+
+init();
+</script>
+</body>
+</html>

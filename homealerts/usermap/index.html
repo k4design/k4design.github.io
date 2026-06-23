@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>HomeAlerts — User Map</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,700;9..144,900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --accent:       #ff4e00;
+    --accent-dark:  #e64500;
+    --accent-pale:  #fff3ed;
+    --navy:         #0f172a;
+    --navy-soft:    #1e293b;
+    --ink-900:      #0f172a;
+    --ink-700:      #334155;
+    --ink-500:      #64748b;
+    --ink-300:      #cbd5e1;
+    --paper:        #f8fafc;
+    --paper-warm:   #f1f5f9;
+    --line:         #e2e8f0;
+    --shadow-sm:    0 2px 8px rgba(15,23,42,.06);
+    --shadow-md:    0 12px 32px rgba(15,23,42,.10);
+    --shadow-lg:    0 24px 60px rgba(15,23,42,.22);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: var(--paper);
+    color: var(--ink-900);
+    line-height: 1.55;
+    overflow-x: hidden;
+  }
+  .serif { font-family: 'Fraunces', serif; font-feature-settings: "ss01"; }
+  .mono  { font-family: 'JetBrains Mono', monospace; }
+
+  /* ── Top frame ────────────────────────────────────────── */
+  .topbar {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(248, 250, 252, 0.92);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--line);
+    padding: 14px 32px;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 16px;
+  }
+  .brand { display: flex; align-items: center; gap: 14px; }
+  .brand-logo { height: 26px; width: auto; display: block; }
+  .brand-sub { color: var(--ink-500); font-size: 13px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; }
+  .topbar-cta {
+    font-size: 12px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;
+    padding: 8px 16px; border-radius: 4px;
+    background: var(--accent); color: #fff; text-decoration: none;
+    transition: background .2s;
+  }
+  .topbar-cta:hover { background: var(--accent-dark); }
+
+  /* ── Hero ─────────────────────────────────────────────── */
+  .hero {
+    padding: 96px 32px 64px;
+    max-width: 1280px; margin: 0 auto;
+    position: relative;
+  }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--accent);
+    padding: 6px 14px;
+    background: var(--accent-pale);
+    border-radius: 999px;
+    margin-bottom: 28px;
+  }
+  .eyebrow::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+  .hero h1 {
+    font-family: 'Fraunces', serif; font-weight: 400;
+    font-variation-settings: "opsz" 144;
+    font-size: clamp(48px, 7vw, 116px);
+    line-height: .96; letter-spacing: -0.035em;
+    color: var(--ink-900); margin-bottom: 28px;
+  }
+  .hero h1 em {
+    font-style: italic; font-weight: 400;
+    background: linear-gradient(95deg, var(--accent) 0%, var(--navy) 100%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .hero p { font-size: 19px; line-height: 1.6; color: var(--ink-700); max-width: 660px; margin-bottom: 40px; }
+  .hero-meta { display: flex; gap: 48px; padding-top: 32px; border-top: 1px solid var(--line); flex-wrap: wrap; }
+  .meta-item .label { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-500); margin-bottom: 4px; }
+  .meta-item .value { font-family: 'Fraunces', serif; font-weight: 500; font-size: 28px; color: var(--ink-900); line-height: 1; }
+  .meta-item .value .accent { color: var(--accent); }
+  .hero-deco {
+    position: absolute; top: 50%; right: -20px; transform: translateY(-50%);
+    font-family: 'Fraunces', serif; font-weight: 900;
+    font-size: clamp(200px, 24vw, 380px); line-height: .8;
+    color: var(--accent); opacity: 0.05; pointer-events: none; user-select: none;
+    letter-spacing: -0.04em; z-index: -1;
+  }
+
+  /* ── Section ──────────────────────────────────────────── */
+  section.group {
+    padding: 80px 32px 96px;
+    max-width: 1280px; margin: 0 auto;
+    border-top: 1px solid var(--line); position: relative;
+  }
+  .group-head { display: grid; grid-template-columns: 100px 1fr auto; gap: 32px; align-items: end; margin-bottom: 40px; }
+  .group-num { font-family: 'Fraunces', serif; font-weight: 900; font-variation-settings: "opsz" 144; font-size: 84px; line-height: .85; color: var(--accent); letter-spacing: -0.04em; }
+  .group-title h2 { font-family: 'Fraunces', serif; font-weight: 500; font-variation-settings: "opsz" 144; font-size: clamp(32px, 4vw, 52px); line-height: 1; letter-spacing: -0.025em; color: var(--ink-900); margin-bottom: 12px; }
+  .group-title h2 em { font-style: italic; color: var(--accent); }
+  .group-title p { font-size: 15px; color: var(--ink-500); max-width: 580px; }
+  .group-meta { text-align: right; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--ink-500); letter-spacing: 0.04em; }
+  .group-meta div + div { margin-top: 4px; }
+
+  /* ── Logo / brand board ───────────────────────────────── */
+  .logo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(258px, 1fr)); gap: 24px; }
+  .logo-plate { border: 1px solid var(--line); border-radius: 6px; overflow: hidden; background: #fff; display: flex; flex-direction: column; transition: transform .25s, box-shadow .25s, border-color .25s; }
+  .logo-plate:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); border-color: var(--navy); }
+  .plate-stage { aspect-ratio: 16 / 10; display: grid; place-items: center; padding: 34px; }
+  .plate-stage.light { background: var(--paper); }
+  .plate-stage.warm  { background: var(--paper-warm); }
+  .plate-stage.dark  { background: var(--navy); }
+  .plate-stage img { max-width: 100%; max-height: 100%; width: auto; height: auto; display: block; }
+  .plate-meta { padding: 16px 18px 18px; border-top: 1px solid var(--line); }
+  .plate-name { font-family: 'Fraunces', serif; font-weight: 500; font-size: 20px; letter-spacing: -0.015em; color: var(--ink-900); }
+  .plate-use  { font-size: 13px; color: var(--ink-500); margin-top: 4px; line-height: 1.45; }
+  .plate-file { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--accent-dark); margin-top: 10px; word-break: break-all; }
+
+  /* color palette swatches */
+  .swatch-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 16px; margin-top: 28px; }
+  .swatch { border: 1px solid var(--line); border-radius: 6px; overflow: hidden; background: #fff; }
+  .swatch-chip { height: 78px; }
+  .swatch-meta { padding: 12px 14px 14px; }
+  .swatch-name { font-size: 13px; font-weight: 700; color: var(--ink-900); }
+  .swatch-hex  { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--ink-500); margin-top: 2px; }
+
+  /* ── Cards (page tiles) ───────────────────────────────── */
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 28px; }
+  .grid.mobile-grid { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
+  .grid.mobile-grid > .card { max-width: 320px; }
+  .card {
+    background: #fff; border: 1px solid var(--line); border-radius: 6px; overflow: hidden;
+    transition: transform .3s cubic-bezier(.2,.8,.2,1), box-shadow .3s, border-color .3s;
+    cursor: pointer; position: relative; text-decoration: none; color: inherit;
+    display: flex; flex-direction: column;
+  }
+  .card:hover { transform: translateY(-6px); box-shadow: var(--shadow-md); border-color: var(--navy); }
+  .card-img-wrap { position: relative; aspect-ratio: 16 / 11; background: linear-gradient(135deg, var(--paper-warm) 0%, var(--accent-pale) 100%); overflow: hidden; }
+  .card-img { width: 100%; height: 100%; object-fit: cover; object-position: top center; transition: transform .6s cubic-bezier(.2,.8,.2,1); }
+  .card:hover .card-img { transform: scale(1.04); }
+  .card.mobile-card .card-img-wrap { aspect-ratio: 9 / 16; max-height: 420px; }
+  .card.mobile-card .card-img { object-fit: contain; background: var(--paper-warm); }
+  .card-num { position: absolute; top: 12px; left: 12px; background: rgba(255,255,255,0.95); backdrop-filter: blur(8px); padding: 4px 10px; border-radius: 999px; font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 500; letter-spacing: 0.05em; color: var(--ink-900); border: 1px solid var(--line); }
+  .card-badge { position: absolute; top: 12px; right: 12px; padding: 4px 10px; border-radius: 999px; font-size: 10px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; }
+  .badge-page   { background: var(--accent-pale); color: var(--accent-dark); border: 1px solid var(--accent); }
+  .badge-state  { background: #ecfdf5; color: #047857; border: 1px solid #10b981; }
+  .badge-mobile { background: var(--navy); color: #fff; border: 1px solid var(--navy); }
+  .card-body { padding: 18px 20px 22px; flex: 1; display: flex; flex-direction: column; }
+  .card-name { font-family: 'Fraunces', serif; font-weight: 500; font-size: 22px; letter-spacing: -0.015em; color: var(--ink-900); margin-bottom: 6px; }
+  .card-route { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--accent-dark); margin-bottom: 12px; word-break: break-all; }
+  .card-desc { font-size: 13px; color: var(--ink-500); line-height: 1.5; margin-top: auto; }
+
+  /* ── User flows ────────────────────────────────────────── */
+  .flows { background: var(--navy); color: #fff; padding: 96px 32px 120px; margin-top: 80px; }
+  .flows-inner { max-width: 1280px; margin: 0 auto; }
+  .flows h2 { font-family: 'Fraunces', serif; font-weight: 400; font-variation-settings: "opsz" 144; font-size: clamp(36px, 5vw, 72px); line-height: 1; letter-spacing: -0.03em; margin-bottom: 64px; }
+  .flows h2 em { font-style: italic; color: var(--accent); }
+  .flow-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 56px; }
+  .flow { border-left: 2px solid rgba(255,255,255,0.15); padding-left: 28px; position: relative; }
+  .flow::before { content: ''; position: absolute; left: -7px; top: 0; width: 12px; height: 12px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 4px rgba(255, 78, 0, 0.2); }
+  .flow-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; }
+  .flow h3 { font-family: 'Fraunces', serif; font-weight: 500; font-size: 26px; letter-spacing: -0.015em; margin-bottom: 20px; color: #fff; }
+  .flow-step { display: flex; align-items: baseline; gap: 14px; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.08); font-size: 14px; color: rgba(255,255,255,0.78); }
+  .flow-step:last-child { border-bottom: none; }
+  .flow-step .step-num { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 500; color: rgba(255,255,255,0.35); min-width: 22px; }
+  .flow-step strong { color: #fff; font-weight: 600; }
+
+  /* ── Footer ────────────────────────────────────────────── */
+  footer { padding: 48px 32px 32px; background: var(--navy); border-top: 1px solid var(--navy-soft); color: rgba(255,255,255,0.55); font-size: 13px; }
+  footer .inner { max-width: 1280px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+  footer .brand-logo { height: 24px; }
+
+  /* ── Lightbox ─────────────────────────────────────────── */
+  .lightbox { position: fixed; inset: 0; z-index: 1000; background: rgba(15, 23, 42, 0.96); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); display: none; align-items: center; justify-content: center; padding: 40px; cursor: zoom-out; }
+  .lightbox.open { display: flex; }
+  .lightbox img { max-width: 95vw; max-height: 95vh; object-fit: contain; box-shadow: var(--shadow-lg); border-radius: 4px; }
+  .lightbox-close { position: absolute; top: 24px; right: 32px; color: #fff; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; cursor: pointer; font-size: 20px; transition: all .2s; }
+  .lightbox-close:hover { background: var(--accent); border-color: var(--accent); }
+  .lightbox-caption { position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%); color: #fff; font-family: 'JetBrains Mono', monospace; font-size: 12px; background: rgba(0,0,0,0.5); padding: 8px 16px; border-radius: 999px; }
+
+  /* ── TOC sticky sidebar ────────────────────────────────── */
+  .toc { position: fixed; left: 16px; top: 50%; transform: translateY(-50%); z-index: 50; display: flex; flex-direction: column; gap: 12px; padding: 16px 12px; background: rgba(255,255,255,0.92); backdrop-filter: blur(12px); border: 1px solid var(--line); border-radius: 4px; box-shadow: var(--shadow-sm); }
+  .toc a { display: flex; align-items: center; gap: 8px; font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 500; color: var(--ink-500); text-decoration: none; letter-spacing: 0.05em; transition: color .2s; }
+  .toc a::before { content: ''; width: 16px; height: 1px; background: var(--ink-300); transition: all .2s; }
+  .toc a:hover { color: var(--ink-900); }
+  .toc a:hover::before { background: var(--accent); width: 24px; }
+  @media (max-width: 1500px) { .toc { display: none; } }
+
+  /* ── Responsive ────────────────────────────────────────── */
+  @media (max-width: 720px) {
+    .topbar { padding: 12px 20px; flex-wrap: wrap; }
+    .brand-sub { display: none; }
+    .hero { padding: 64px 20px 48px; }
+    .hero-meta { gap: 28px; }
+    section.group { padding: 56px 20px 72px; }
+    .group-head { grid-template-columns: 1fr; gap: 12px; }
+    .group-num { font-size: 56px; }
+    .group-meta { text-align: left; }
+    .flows { padding: 64px 20px 80px; }
+    .grid { gap: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <button class="lightbox-close" onclick="event.stopPropagation(); closeLightbox()">×</button>
+  <img id="lightbox-img" alt="" />
+  <div class="lightbox-caption" id="lightbox-cap"></div>
+</div>
+
+<!-- Top bar -->
+<div class="topbar">
+  <div class="brand">
+    <img class="brand-logo" src="logo-dark.svg" alt="HomeAlerts" />
+    <span class="brand-sub">User Map · 6 screens</span>
+  </div>
+  <a class="topbar-cta" href="../index.html">View live site →</a>
+</div>
+
+<!-- TOC -->
+<nav class="toc" aria-label="Sections">
+  <a href="#brand">◆ · Brand</a>
+  <a href="#g1">01 · Landing</a>
+  <a href="#g2">02 · Search</a>
+  <a href="#flows">→ · Flows</a>
+</nav>
+
+<!-- Hero -->
+<header class="hero">
+  <div class="hero-deco" aria-hidden="true">HA</div>
+  <div class="eyebrow">Sitemap · Updated June 18, 2026</div>
+  <h1>Every screen.<br /><em>One product.</em></h1>
+  <p>A page-by-page reference of the HomeAlerts surface — the marketing landing page where buyers search Florida MLS listings and sign up for instant alerts, and the full map-based property search results page. Click any tile to enlarge.</p>
+  <div class="hero-meta">
+    <div class="meta-item">
+      <div class="label">Core pages</div>
+      <div class="value"><span class="accent">2</span></div>
+    </div>
+    <div class="meta-item">
+      <div class="label">Captured screens</div>
+      <div class="value">6</div>
+    </div>
+    <div class="meta-item">
+      <div class="label">Audience</div>
+      <div class="value">Home buyers</div>
+    </div>
+    <div class="meta-item">
+      <div class="label">Channels</div>
+      <div class="value">Desktop · Mobile</div>
+    </div>
+  </div>
+</header>
+
+<!-- ━━━━━━━━━━━━━━━━━━━━ BRAND MARK ━━━━━━━━━━━━━━━━━━━━ -->
+<section class="group" id="brand" style="border-top:none; padding-top:24px;">
+  <div class="group-head">
+    <div class="group-num" style="font-size:64px;">◆</div>
+    <div class="group-title">
+      <h2>Brand <em>mark</em></h2>
+      <p>One HomeAlerts lockup — the wordmark with its location-pin "o" in signal orange. The mark stays constant; only the color of the type flips to suit the surface. Vector source is the same <span class="mono">homealerts_logo_white.svg</span> the live site ships.</p>
+    </div>
+    <div class="group-meta">
+      <div>2 LOCKUPS · 4 COLORS</div>
+      <div>SVG · VECTOR</div>
+    </div>
+  </div>
+
+  <div class="logo-grid">
+
+    <div class="logo-plate">
+      <div class="plate-stage dark"><img src="logo-white.svg" alt="HomeAlerts logo reversed on navy" /></div>
+      <div class="plate-meta">
+        <div class="plate-name">Primary · reversed</div>
+        <div class="plate-use">The default lockup — white wordmark on the navy <span class="mono">#0f172a</span> nav, hero, and footer surfaces.</div>
+        <div class="plate-file">img/homealerts_logo_white.svg</div>
+      </div>
+    </div>
+
+    <div class="logo-plate">
+      <div class="plate-stage light"><img src="logo-dark.svg" alt="HomeAlerts logo on light" /></div>
+      <div class="plate-meta">
+        <div class="plate-name">Ink · on light</div>
+        <div class="plate-use">Navy wordmark for light &amp; paper surfaces — this user-map's top bar and any light document.</div>
+        <div class="plate-file">usermap/logo-dark.svg</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="swatch-grid">
+    <div class="swatch">
+      <div class="swatch-chip" style="background:#ff4e00"></div>
+      <div class="swatch-meta"><div class="swatch-name">Signal Orange</div><div class="swatch-hex">#ff4e00 · --accent</div></div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-chip" style="background:#e64500"></div>
+      <div class="swatch-meta"><div class="swatch-name">Orange · hover</div><div class="swatch-hex">#e64500 · --accent-dark</div></div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-chip" style="background:#0f172a"></div>
+      <div class="swatch-meta"><div class="swatch-name">Navy / Ink</div><div class="swatch-hex">#0f172a · --navy</div></div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-chip" style="background:#1e293b"></div>
+      <div class="swatch-meta"><div class="swatch-name">Navy · soft</div><div class="swatch-hex">#1e293b · --navy-soft</div></div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-chip" style="background:#64748b"></div>
+      <div class="swatch-meta"><div class="swatch-name">Slate</div><div class="swatch-hex">#64748b · --ink-500</div></div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-chip" style="background:#f8fafc;border-bottom:1px solid var(--line)"></div>
+      <div class="swatch-meta"><div class="swatch-name">Paper</div><div class="swatch-hex">#f8fafc · --paper</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ━━━━━━━━━━━━━━━━━━━━ GROUP 01: LANDING ━━━━━━━━━━━━━━━━━━━━ -->
+<section class="group" id="g1">
+  <div class="group-head">
+    <div class="group-num">01</div>
+    <div class="group-title">
+      <h2>Landing <em>page</em></h2>
+      <p>The flagship marketing page (<span class="mono">index.html</span>). A hero search over Florida MLS data, a live grid of featured listings, the "Analyst's Edge" feature story, and an inline create-account / sign-in module. A listing-detail modal opens in place from any card.</p>
+    </div>
+    <div class="group-meta">
+      <div>1 PAGE · 4 STATES</div>
+      <div>PUBLIC · BUYER</div>
+    </div>
+  </div>
+  <div class="grid">
+
+    <a class="card" data-img="shots/01-landing/01_home.png" data-cap="Landing — Home">
+      <div class="card-img-wrap"><img class="card-img" src="shots/01-landing/01_home.png" loading="lazy" alt="Home" /><span class="card-num">01.01</span><span class="card-badge badge-page">Page</span></div>
+      <div class="card-body">
+        <div class="card-name">Home</div>
+        <div class="card-route">/ · index.html</div>
+        <div class="card-desc">Hero MLS search (price / beds / type), live featured-listing grid with sort &amp; filter, "Analyst's Edge" features, and conversion CTA.</div>
+      </div>
+    </a>
+
+    <a class="card" data-img="shots/01-landing/03_listing-detail.png" data-cap="Landing — Listing detail modal">
+      <div class="card-img-wrap"><img class="card-img" src="shots/01-landing/03_listing-detail.png" loading="lazy" alt="Listing detail modal" /><span class="card-num">01.02</span><span class="card-badge badge-state">State</span></div>
+      <div class="card-body">
+        <div class="card-name">Listing detail</div>
+        <div class="card-route">openModal() · overlay</div>
+        <div class="card-desc">In-page modal opened from any listing card — photo, price, beds/baths/sqft, description, plus Schedule a Showing &amp; Save Listing.</div>
+      </div>
+    </a>
+
+    <a class="card" data-img="shots/01-landing/04_signup.png" data-cap="Landing — Create account / sign in">
+      <div class="card-img-wrap"><img class="card-img" src="shots/01-landing/04_signup.png" loading="lazy" alt="Sign up" /><span class="card-num">01.03</span><span class="card-badge badge-state">State</span></div>
+      <div class="card-body">
+        <div class="card-name">Create account / Sign in</div>
+        <div class="card-route">#signup</div>
+        <div class="card-desc">Inline tabbed module — create a free account or log in. Submitting confirms with a "You're in!" success state.</div>
+      </div>
+    </a>
+
+    <a class="card mobile-card" data-img="shots/01-landing/02_home-mobile.png" data-cap="Landing — Home (mobile)">
+      <div class="card-img-wrap"><img class="card-img" src="shots/01-landing/02_home-mobile.png" loading="lazy" alt="Home mobile" /><span class="card-num">01.04</span><span class="card-badge badge-mobile">Mobile</span></div>
+      <div class="card-body">
+        <div class="card-name">Home — mobile</div>
+        <div class="card-route">/ · 390 × 844</div>
+        <div class="card-desc">Responsive landing layout with the slide-in mobile nav and stacked single-column listing grid.</div>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<!-- ━━━━━━━━━━━━━━━━━━━━ GROUP 02: SEARCH ━━━━━━━━━━━━━━━━━━━━ -->
+<section class="group" id="g2">
+  <div class="group-head">
+    <div class="group-num">02</div>
+    <div class="group-title">
+      <h2>Property <em>search</em></h2>
+      <p>The full search-results experience (<span class="mono">propertysearch.html</span>) — a filterable, paginated listing column paired with a live Leaflet map. Buyers land here from the hero search or the live site's <span class="mono">search.cfm</span>, and can set a HomeAlert for new matches.</p>
+    </div>
+    <div class="group-meta">
+      <div>1 PAGE · 2 VIEWS</div>
+      <div>PUBLIC · BUYER</div>
+    </div>
+  </div>
+  <div class="grid">
+
+    <a class="card" data-img="shots/02-search/01_property-search.png" data-cap="Property search — results">
+      <div class="card-img-wrap"><img class="card-img" src="shots/02-search/01_property-search.png" loading="lazy" alt="Property search" /><span class="card-num">02.01</span><span class="card-badge badge-page">Page</span></div>
+      <div class="card-body">
+        <div class="card-name">Search results</div>
+        <div class="card-route">/search.cfm · propertysearch.html</div>
+        <div class="card-desc">Listing column with location, price, beds &amp; advanced filters, paging, and a synced interactive map. "Set a HomeAlert" CTA in the header.</div>
+      </div>
+    </a>
+
+    <a class="card mobile-card" data-img="shots/02-search/02_property-search-mobile.png" data-cap="Property search — results (mobile)">
+      <div class="card-img-wrap"><img class="card-img" src="shots/02-search/02_property-search-mobile.png" loading="lazy" alt="Property search mobile" /><span class="card-num">02.02</span><span class="card-badge badge-mobile">Mobile</span></div>
+      <div class="card-body">
+        <div class="card-name">Search results — mobile</div>
+        <div class="card-route">/search.cfm · 390 × 844</div>
+        <div class="card-desc">Mobile-first results view with collapsed filters and the map stacked above the listing feed.</div>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<!-- ━━━━━━━━━━━━━━━━━━━━ FLOWS ━━━━━━━━━━━━━━━━━━━━ -->
+<section class="flows" id="flows">
+  <div class="flows-inner">
+    <h2>How buyers <em>move</em> through it.</h2>
+    <div class="flow-grid">
+
+      <div class="flow">
+        <div class="flow-eyebrow">— Discovery</div>
+        <h3>From landing to listing</h3>
+        <div class="flow-step"><span class="step-num">01</span><div>Arrives on the <strong>Home</strong> page from search or ads</div></div>
+        <div class="flow-step"><span class="step-num">02</span><div>Runs the <strong>hero search</strong> (price · beds · type)</div></div>
+        <div class="flow-step"><span class="step-num">03</span><div>Browses the <strong>featured listing grid</strong></div></div>
+        <div class="flow-step"><span class="step-num">04</span><div>Opens a <strong>listing-detail modal</strong></div></div>
+        <div class="flow-step"><span class="step-num">05</span><div>Taps <strong>Schedule a Showing</strong> or saves it</div></div>
+      </div>
+
+      <div class="flow">
+        <div class="flow-eyebrow">— Search</div>
+        <h3>Working the results</h3>
+        <div class="flow-step"><span class="step-num">01</span><div>Lands on <strong>Property search</strong> from the hero or live site</div></div>
+        <div class="flow-step"><span class="step-num">02</span><div>Refines with <strong>location &amp; advanced filters</strong></div></div>
+        <div class="flow-step"><span class="step-num">03</span><div>Pans the <strong>map</strong> and pages the listing column</div></div>
+        <div class="flow-step"><span class="step-num">04</span><div>Opens a result to view details</div></div>
+        <div class="flow-step"><span class="step-num">05</span><div>Hits <strong>Set a HomeAlert</strong> for new matches</div></div>
+      </div>
+
+      <div class="flow">
+        <div class="flow-eyebrow">— Conversion</div>
+        <h3>Becoming a subscriber</h3>
+        <div class="flow-step"><span class="step-num">01</span><div>Scrolls to the <strong>sign-up module</strong></div></div>
+        <div class="flow-step"><span class="step-num">02</span><div>Picks <strong>Create account</strong> or <strong>Sign in</strong></div></div>
+        <div class="flow-step"><span class="step-num">03</span><div>Submits email &amp; password</div></div>
+        <div class="flow-step"><span class="step-num">04</span><div>Sees the <strong>"You're in!"</strong> confirmation</div></div>
+        <div class="flow-step"><span class="step-num">05</span><div>Receives <strong>instant HomeAlerts</strong> by email</div></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ━━━━━━━━━━━━━━━━━━━━ FOOTER ━━━━━━━━━━━━━━━━━━━━ -->
+<footer>
+  <div class="inner">
+    <img class="brand-logo" src="logo-white.svg" alt="HomeAlerts" />
+    <div>User Map · 2 pages · 6 screens · Updated <span class="mono">June 18, 2026</span></div>
+  </div>
+</footer>
+
+<script>
+  // ── Lightbox ───────────────────────────────────────────────────────────────
+  const lb    = document.getElementById('lightbox');
+  const lbImg = document.getElementById('lightbox-img');
+  const lbCap = document.getElementById('lightbox-cap');
+  document.querySelectorAll('.card').forEach(card => {
+    card.addEventListener('click', e => {
+      e.preventDefault();
+      lbImg.src = card.getAttribute('data-img');
+      lbCap.textContent = card.getAttribute('data-cap');
+      lb.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    });
+  });
+  function closeLightbox() {
+    lb.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+
+  // ── TOC active highlight ─────────────────────────────────────────────────────
+  const tocLinks = document.querySelectorAll('.toc a');
+  const sections = document.querySelectorAll('section[id]');
+  function syncTOC() {
+    let active = null;
+    const y = window.scrollY + 200;
+    sections.forEach(s => { if (s.offsetTop <= y) active = s.id; });
+    tocLinks.forEach(a => {
+      const on = a.getAttribute('href') === '#' + active;
+      a.style.color = on ? 'var(--accent-dark)' : '';
+      a.style.fontWeight = on ? '700' : '500';
+    });
+  }
+  window.addEventListener('scroll', syncTOC, { passive: true });
+  syncTOC();
+</script>
+
+</body>
+</html>

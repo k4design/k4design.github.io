@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>BuyMyHouse.com — User Map</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --brand:       #2dc495;
+    --brand-deep:  #157a5b;
+    --brand-dark:  #0f5b44;
+    --brand-hover: #157a5b;
+    --brand-pale:  #e7f8f1;
+    --ink-900:     #07252c;
+    --ink-700:     #334155;
+    --ink-500:     #64748b;
+    --ink-300:     #94a3b8;
+    --paper:       #FAFAF8;
+    --surface:     #f8fafc;
+    --line:        #e2e8f0;
+    --line-strong: #07252c;
+    --shadow-sm:   0 2px 8px rgba(7,37,44,.06);
+    --shadow-md:   0 12px 32px rgba(7,37,44,.10);
+    --shadow-lg:   0 24px 60px rgba(7,37,44,.20);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Jost', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--paper);
+    color: var(--ink-900);
+    line-height: 1.55;
+    overflow-x: hidden;
+  }
+
+  .serif { font-family: 'Cormorant', Georgia, serif; }
+  .mono  { font-family: 'JetBrains Mono', monospace; }
+
+  /* ── Top frame ──────────────────────────────────────── */
+  .topbar {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(250, 250, 248, 0.92);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--line);
+    padding: 14px 32px;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 16px;
+  }
+  .brand { display: flex; align-items: center; gap: 14px; }
+  .brand-logo { height: 30px; width: auto; display: block; }
+  .brand-sub {
+    color: var(--ink-500); font-size: 12px; font-weight: 600;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    padding-left: 14px; border-left: 1px solid var(--line);
+  }
+  .topbar-link {
+    font-size: 12px; font-weight: 600; letter-spacing: 0.02em;
+    color: var(--brand-deep); text-decoration: none;
+    padding: 8px 16px; border-radius: 999px; border: 1px solid var(--line);
+    background: #fff; transition: all .2s;
+  }
+  .topbar-link:hover { border-color: var(--brand); background: var(--brand-pale); }
+
+  /* ── TOC ────────────────────────────────────────────── */
+  .toc {
+    position: fixed; top: 50%; left: 18px; transform: translateY(-50%);
+    z-index: 90; display: flex; flex-direction: column; gap: 4px;
+  }
+  .toc a {
+    font-size: 11px; font-weight: 600; letter-spacing: 0.03em;
+    color: var(--ink-500); text-decoration: none;
+    padding: 5px 10px; border-radius: 999px; transition: all .2s;
+    background: rgba(255,255,255,.6);
+  }
+  .toc a:hover { color: var(--brand); background: var(--brand-pale); }
+  @media (max-width: 1320px) { .toc { display: none; } }
+
+  /* ── Hero ───────────────────────────────────────────── */
+  .hero { padding: 84px 32px 56px; max-width: 1180px; margin: 0 auto; position: relative; }
+  .hero-deco {
+    position: absolute; top: 24px; right: 16px; font-family: 'Cormorant', serif;
+    font-size: 200px; line-height: 1; font-style: italic; color: var(--brand);
+    opacity: .05; pointer-events: none; user-select: none; letter-spacing: -0.04em;
+  }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--brand-deep);
+    padding: 6px 14px; background: var(--brand-pale); border-radius: 999px; margin-bottom: 26px;
+  }
+  .eyebrow::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--brand); }
+  .hero h1 {
+    font-family: 'Cormorant', Georgia, serif; font-weight: 500;
+    font-size: clamp(48px, 8vw, 92px); line-height: .98; letter-spacing: -0.01em;
+    margin-bottom: 22px;
+  }
+  .hero h1 em { font-style: italic; color: var(--brand); }
+  .hero p { max-width: 660px; font-size: 17px; color: var(--ink-700); line-height: 1.65; }
+  .hero p strong { color: var(--ink-900); font-weight: 600; }
+
+  .hero-meta {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;
+    margin-top: 48px; border: 1px solid var(--line); border-radius: 16px;
+    overflow: hidden; background: #fff; box-shadow: var(--shadow-sm);
+  }
+  .meta-item { padding: 22px 24px; border-right: 1px solid var(--line); }
+  .meta-item:last-child { border-right: none; }
+  .meta-item .label {
+    font-size: 10px; font-weight: 700; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--ink-500); margin-bottom: 8px;
+  }
+  .meta-item .value { font-family: 'Cormorant', serif; font-size: 30px; font-weight: 600; line-height: 1; }
+  .meta-item .value .accent { color: var(--brand); }
+  @media (max-width: 720px) { .hero-meta { grid-template-columns: repeat(2, 1fr); } .meta-item:nth-child(2){border-right:none;} }
+
+  /* ── Group section ──────────────────────────────────── */
+  .group { max-width: 1180px; margin: 0 auto; padding: 56px 32px; border-top: 1px solid var(--line); }
+  .group-head { display: flex; align-items: flex-start; gap: 28px; margin-bottom: 36px; }
+  .group-num {
+    font-family: 'Cormorant', serif; font-size: 56px; font-weight: 600; font-style: italic;
+    color: var(--brand); line-height: 1; flex-shrink: 0; min-width: 64px;
+  }
+  .group-title h2 { font-family: 'Cormorant', serif; font-weight: 500; font-size: 38px; line-height: 1.05; margin-bottom: 8px; }
+  .group-title h2 em { font-style: italic; color: var(--brand); }
+  .group-title p { max-width: 620px; color: var(--ink-700); font-size: 15px; line-height: 1.6; }
+  .group-meta { margin-left: auto; text-align: right; flex-shrink: 0; }
+  .group-meta div {
+    font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--ink-500); margin-bottom: 6px; white-space: nowrap;
+  }
+  @media (max-width: 720px) { .group-head { flex-wrap: wrap; gap: 16px; } .group-meta { margin-left: 0; text-align: left; } }
+
+  /* ── Card grid ──────────────────────────────────────── */
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 24px; }
+  .mobile-grid { grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); }
+
+  .card {
+    display: block; text-decoration: none; color: inherit; cursor: zoom-in;
+    background: #fff; border: 1px solid var(--line); border-radius: 14px;
+    overflow: hidden; box-shadow: var(--shadow-sm); transition: transform .22s, box-shadow .22s, border-color .22s;
+  }
+  .card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); border-color: var(--brand); }
+  .card-img-wrap { position: relative; aspect-ratio: 1280 / 760; overflow: hidden; background: var(--surface); border-bottom: 1px solid var(--line); }
+  .mobile-card .card-img-wrap { aspect-ratio: 390 / 720; }
+  .card-img { width: 100%; height: 100%; object-fit: cover; object-position: top center; display: block; }
+  .card-num {
+    position: absolute; top: 10px; left: 10px; font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; font-weight: 500; color: #fff; background: rgba(7,37,44,.62);
+    padding: 4px 8px; border-radius: 6px; backdrop-filter: blur(4px);
+  }
+  .card-badge {
+    position: absolute; top: 10px; right: 10px; font-size: 10px; font-weight: 700;
+    letter-spacing: 0.04em; padding: 4px 9px; border-radius: 999px; text-transform: uppercase;
+  }
+  .badge-live   { background: var(--brand-deep); color: #fff; }
+  .badge-mobile { background: var(--ink-900); color: #fff; }
+  .badge-cta    { background: var(--brand); color: var(--ink-900); }
+  .card-body { padding: 16px 18px 18px; }
+  .card-name { font-family: 'Cormorant', serif; font-size: 23px; font-weight: 600; line-height: 1.1; }
+  .card-route { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--brand-deep); margin: 5px 0 8px; }
+  .card-desc { font-size: 13px; color: var(--ink-700); line-height: 1.55; }
+  .mobile-card .card-body { padding: 12px 14px 14px; }
+  .mobile-card .card-name { font-size: 18px; }
+
+  /* ── Brand plates ───────────────────────────────────── */
+  .logo-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
+  .logo-plate { border: 1px solid var(--line); border-radius: 14px; overflow: hidden; background: #fff; box-shadow: var(--shadow-sm); }
+  .plate-stage { display: flex; align-items: center; justify-content: center; padding: 40px 24px; min-height: 150px; }
+  .plate-stage.light { background: #fff; }
+  .plate-stage.paper { background: var(--paper); }
+  .plate-stage.brand { background: var(--brand); }
+  .plate-stage.dark  { background: var(--ink-900); }
+  .plate-stage img { max-width: 70%; max-height: 64px; }
+  .plate-meta { padding: 16px 18px; border-top: 1px solid var(--line); }
+  .plate-name { font-family: 'Cormorant', serif; font-size: 20px; font-weight: 600; }
+  .plate-use { font-size: 13px; color: var(--ink-700); margin: 4px 0 8px; line-height: 1.5; }
+  .plate-file { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--ink-500); }
+
+  /* ── User flow ──────────────────────────────────────── */
+  .flows { background: var(--ink-900); color: #fff; padding: 72px 32px; }
+  .flows-inner { max-width: 1180px; margin: 0 auto; }
+  .flows h2 { font-family: 'Cormorant', serif; font-weight: 500; font-size: 44px; margin-bottom: 40px; }
+  .flows h2 em { font-style: italic; color: #6ee7b7; }
+  .flow-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 32px; }
+  .flow-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #6ee7b7; margin-bottom: 10px; }
+  .flow h3 { font-family: 'Cormorant', serif; font-size: 26px; font-weight: 600; margin-bottom: 18px; color: #fff; }
+  .flow-step { display: flex; gap: 14px; align-items: flex-start; padding: 10px 0; border-top: 1px solid rgba(255,255,255,.12); font-size: 14px; color: #cbd5e1; }
+  .flow-step .step-num { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #6ee7b7; flex-shrink: 0; padding-top: 2px; }
+  .flow-step strong { color: #fff; font-weight: 600; }
+
+  /* ── Footer ─────────────────────────────────────────── */
+  footer { max-width: 1180px; margin: 0 auto; padding: 40px 32px 64px; }
+  footer .inner { display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; border-top: 1px solid var(--line); padding-top: 28px; }
+  footer .brand-logo { height: 26px; }
+  footer .meta { font-size: 13px; color: var(--ink-500); }
+
+  /* ── Lightbox ───────────────────────────────────────── */
+  .lightbox { position: fixed; inset: 0; z-index: 200; background: rgba(7,37,44,.88); backdrop-filter: blur(6px); display: none; align-items: center; justify-content: center; flex-direction: column; padding: 36px; cursor: zoom-out; }
+  .lightbox.open { display: flex; }
+  .lightbox img { max-width: 92vw; max-height: 82vh; border-radius: 10px; box-shadow: var(--shadow-lg); }
+  .lightbox-caption { color: #fff; margin-top: 18px; font-size: 14px; letter-spacing: 0.02em; }
+</style>
+</head>
+<body>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <img id="lightbox-img" alt="" />
+  <div class="lightbox-caption" id="lightbox-cap"></div>
+</div>
+
+<!-- Top bar -->
+<div class="topbar">
+  <div class="brand">
+    <img class="brand-logo" src="../img/buymyhouse_logo.svg" alt="BuyMyHouse.com" />
+    <span class="brand-sub">User Map · 7 sections</span>
+  </div>
+  <a class="topbar-link" href="../index.html">View live site →</a>
+</div>
+
+<!-- TOC -->
+<nav class="toc" aria-label="Sections">
+  <a href="#brand">◆ Brand</a>
+  <a href="#g1">01 Landing</a>
+  <a href="#g2">02 Mobile</a>
+  <a href="#flows">→ Flow</a>
+</nav>
+
+<!-- Hero -->
+<header class="hero">
+  <div class="hero-deco serif" aria-hidden="true">$</div>
+  <div class="eyebrow">Sitemap · Updated June 18, 2026</div>
+  <h1>One page.<br /><em>One cash offer.</em></h1>
+  <p>A section-by-section reference of the <strong>BuyMyHouse.com</strong> landing experience — the single-page funnel that turns a curious homeowner into an address-backed cash offer. The page is a guided scroll: hook, proof, process, and reassurance, with the address field repeated at every decision point. Click any tile to enlarge.</p>
+  <div class="hero-meta">
+    <div class="meta-item">
+      <div class="label">Page sections</div>
+      <div class="value"><span class="accent">7</span></div>
+    </div>
+    <div class="meta-item">
+      <div class="label">Address CTAs</div>
+      <div class="value">4</div>
+    </div>
+    <div class="meta-item">
+      <div class="label">Audience</div>
+      <div class="value" style="font-size:22px;">Homeowner</div>
+    </div>
+    <div class="meta-item">
+      <div class="label">Channels</div>
+      <div class="value" style="font-size:22px;">Desktop · Mobile</div>
+    </div>
+  </div>
+</header>
+
+<!-- ━━━━━━━━━━ BRAND MARK ━━━━━━━━━━ -->
+<section class="group" id="brand">
+  <div class="group-head">
+    <div class="group-num">◆</div>
+    <div class="group-title">
+      <h2>Brand <em>mark</em></h2>
+      <p>The wordmark — a green lowercase “buy” with a rooftop arch over the “y,” joined to “myhouse” — sits on light surfaces in the nav, trust band, and footer. Alongside it, the three palette cores: the signature green carried through the page accents, its pine companion, and ink. Vector source lives in <span class="mono">/img</span>.</p>
+    </div>
+    <div class="group-meta">
+      <div>1 LOCKUP · 3 CORES</div>
+      <div>SVG · VECTOR</div>
+    </div>
+  </div>
+  <div class="logo-grid">
+    <div class="logo-plate">
+      <div class="plate-stage light"><img src="../img/buymyhouse_logo.svg" alt="BuyMyHouse logo on light" /></div>
+      <div class="plate-meta">
+        <div class="plate-name">Primary · on light</div>
+        <div class="plate-use">The default lockup, used in the sticky nav and on the warm paper background.</div>
+        <div class="plate-file">img/buymyhouse_logo.svg</div>
+      </div>
+    </div>
+    <div class="logo-plate">
+      <div class="plate-stage paper"><img src="../img/buymyhouse_logo.svg" alt="BuyMyHouse logo on paper" /></div>
+      <div class="plate-meta">
+        <div class="plate-name">On paper</div>
+        <div class="plate-use">Same mark over the <span class="mono">#FAFAF8</span> page background that runs behind most sections.</div>
+        <div class="plate-file">img/buymyhouse_logo.svg</div>
+      </div>
+    </div>
+    <div class="logo-plate">
+      <div class="plate-stage" style="background:#2dc495;"><span style="font-family:'JetBrains Mono',monospace;font-size:15px;font-weight:500;color:#07252c;letter-spacing:0.04em;">#2dc495</span></div>
+      <div class="plate-meta">
+        <div class="plate-name">Signature green</div>
+        <div class="plate-use">The “buy” in the logo, and the live accent on the page — step numbers, dividers, and underlines.</div>
+        <div class="plate-file">logo · page accent</div>
+      </div>
+    </div>
+    <div class="logo-plate">
+      <div class="plate-stage" style="background:#2a3f34;"><span style="font-family:'JetBrains Mono',monospace;font-size:15px;font-weight:500;color:#fff;letter-spacing:0.04em;">#2a3f34</span></div>
+      <div class="plate-meta">
+        <div class="plate-name">Pine</div>
+        <div class="plate-use">The deep green of the rooftop arch over the “y” — the logo’s darker companion.</div>
+        <div class="plate-file">logo arch</div>
+      </div>
+    </div>
+    <div class="logo-plate">
+      <div class="plate-stage dark"><span style="font-family:'JetBrains Mono',monospace;font-size:15px;font-weight:500;color:#fff;letter-spacing:0.04em;">#07252c</span></div>
+      <div class="plate-meta">
+        <div class="plate-name">Ink</div>
+        <div class="plate-use">Ink <span class="mono">#07252c</span> — body text plus the dark split-CTA and trust surfaces.</div>
+        <div class="plate-file">--ink-900</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ━━━━━━━━━━ GROUP 01: LANDING SURFACE ━━━━━━━━━━ -->
+<section class="group" id="g1">
+  <div class="group-head">
+    <div class="group-num">01</div>
+    <div class="group-title">
+      <h2>Landing <em>surface</em></h2>
+      <p>The full desktop scroll, top to bottom. Each section advances the homeowner one step — from the headline hook to the FAQ — and the “Start with your address” field reappears at four points along the way.</p>
+    </div>
+    <div class="group-meta">
+      <div>7 SECTIONS</div>
+      <div>1280 WIDE</div>
+    </div>
+  </div>
+  <div class="grid">
+
+    <a class="card" data-img="screens/01_hero.png" data-cap="Hero · Your home has a price.">
+      <div class="card-img-wrap"><img class="card-img" src="screens/01_hero.png" loading="lazy" alt="Hero" /><span class="card-num">01.01</span><span class="card-badge badge-live">CTA</span></div>
+      <div class="card-body">
+        <div class="card-name">Hero</div>
+        <div class="card-route">#hero</div>
+        <div class="card-desc">“Your home has a price.” The headline hook over a home image, with the first address-entry field — the primary call to action.</div>
+      </div>
+    </a>
+
+    <a class="card" data-img="screens/02_recognize.png" data-cap="Recognition · You may recognize us.">
+      <div class="card-img-wrap"><img class="card-img" src="screens/02_recognize.png" loading="lazy" alt="Recognition" /><span class="card-num">01.02</span></div>
+      <div class="card-body">
+        <div class="card-name">You may recognize us</div>
+        <div class="card-route">#recognize</div>
+        <div class="card-desc">Brand-awareness proof: the “Seen on billboards across the United States” billboard image builds familiarity and trust.</div>
+      </div>
+    </a>
+
+    <a class="card" data-img="screens/03_howitworks.png" data-cap="How it works · Three steps to a cash offer.">
+      <div class="card-img-wrap"><img class="card-img" src="screens/03_howitworks.png" loading="lazy" alt="How it works" /><span class="card-num">01.03</span></div>
+      <div class="card-body">
+        <div class="card-name">Three steps to a cash offer</div>
+        <div class="card-route">#how-it-works</div>
+        <div class="card-desc">The process overview — 01 enter address · 02 evaluate · 03 see options — that frames the rest of the section.</div>
+      </div>
+    </a>
+
+    <a class="card" data-img="screens/04_steps.png" data-cap="Step detail · Enter address → evaluate → options.">
+      <div class="card-img-wrap"><img class="card-img" src="screens/04_steps.png" loading="lazy" alt="Step detail" /><span class="card-num">01.04</span><span class="card-badge badge-live">CTA</span></div>
+      <div class="card-body">
+        <div class="card-name">Step detail</div>
+        <div class="card-route">#how-it-works</div>
+        <div class="card-desc">Each step expanded with supporting photography — “Enter your address,” “We evaluate your property” — and an inline address field.</div>
+      </div>
+    </a>
+
+    <a class="card" data-img="screens/05_cta.png" data-cap="Split CTA · Find out what it is.">
+      <div class="card-img-wrap"><img class="card-img" src="screens/05_cta.png" loading="lazy" alt="Split CTA" /><span class="card-num">01.05</span><span class="card-badge badge-cta">CTA</span></div>
+      <div class="card-body">
+        <div class="card-name">Split CTA</div>
+        <div class="card-route">#cta-split</div>
+        <div class="card-desc">“Your home has a price. Find out what it is.” A dark conversion band with the address field on a contrasting surface.</div>
+      </div>
+    </a>
+
+    <a class="card" data-img="screens/06_trust.png" data-cap="Trust band · Backed by LPT Aperture Holdings.">
+      <div class="card-img-wrap"><img class="card-img" src="screens/06_trust.png" loading="lazy" alt="Trust band" /><span class="card-num">01.06</span></div>
+      <div class="card-body">
+        <div class="card-name">Trust band</div>
+        <div class="card-route">#trust-bar</div>
+        <div class="card-desc">“Backed by LPT Aperture Holdings,” with the logo and parent-company credibility — risk reduction before the FAQ.</div>
+      </div>
+    </a>
+
+    <a class="card" data-img="screens/07_faq.png" data-cap="FAQ · Common questions.">
+      <div class="card-img-wrap"><img class="card-img" src="screens/07_faq.png" loading="lazy" alt="FAQ" /><span class="card-num">01.07</span></div>
+      <div class="card-body">
+        <div class="card-name">Common questions</div>
+        <div class="card-route">#faq</div>
+        <div class="card-desc">A two-column FAQ grid that handles last-mile objections, followed by the footer.</div>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<!-- ━━━━━━━━━━ GROUP 02: MOBILE ━━━━━━━━━━ -->
+<section class="group" id="g2">
+  <div class="group-head">
+    <div class="group-num">02</div>
+    <div class="group-title">
+      <h2>Mobile <em>views</em></h2>
+      <p>The same funnel on a phone — where most homeowners arrive from social and billboard QR traffic. The layout reflows to a single column and the address field stays within thumb reach.</p>
+    </div>
+    <div class="group-meta">
+      <div>5 VIEWS</div>
+      <div>390 × 844</div>
+    </div>
+  </div>
+  <div class="grid mobile-grid">
+
+    <a class="card mobile-card" data-img="screens/mobile/01_hero.png" data-cap="Mobile · Hero">
+      <div class="card-img-wrap"><img class="card-img" src="screens/mobile/01_hero.png" loading="lazy" alt="Mobile hero" /><span class="card-num">02.01</span><span class="card-badge badge-mobile">Mobile</span></div>
+      <div class="card-body"><div class="card-name">Hero</div><div class="card-route">#hero</div></div>
+    </a>
+
+    <a class="card mobile-card" data-img="screens/mobile/02_recognize.png" data-cap="Mobile · You may recognize us">
+      <div class="card-img-wrap"><img class="card-img" src="screens/mobile/02_recognize.png" loading="lazy" alt="Mobile recognition" /><span class="card-num">02.02</span><span class="card-badge badge-mobile">Mobile</span></div>
+      <div class="card-body"><div class="card-name">Recognition</div><div class="card-route">#recognize</div></div>
+    </a>
+
+    <a class="card mobile-card" data-img="screens/mobile/03_howitworks.png" data-cap="Mobile · Three steps">
+      <div class="card-img-wrap"><img class="card-img" src="screens/mobile/03_howitworks.png" loading="lazy" alt="Mobile how it works" /><span class="card-num">02.03</span><span class="card-badge badge-mobile">Mobile</span></div>
+      <div class="card-body"><div class="card-name">How it works</div><div class="card-route">#how-it-works</div></div>
+    </a>
+
+    <a class="card mobile-card" data-img="screens/mobile/04_cta.png" data-cap="Mobile · See your options / CTA">
+      <div class="card-img-wrap"><img class="card-img" src="screens/mobile/04_cta.png" loading="lazy" alt="Mobile CTA" /><span class="card-num">02.04</span><span class="card-badge badge-mobile">Mobile</span></div>
+      <div class="card-body"><div class="card-name">Options &amp; CTA</div><div class="card-route">#cta-split</div></div>
+    </a>
+
+    <a class="card mobile-card" data-img="screens/mobile/05_faq.png" data-cap="Mobile · Trust &amp; FAQ">
+      <div class="card-img-wrap"><img class="card-img" src="screens/mobile/05_faq.png" loading="lazy" alt="Mobile FAQ" /><span class="card-num">02.05</span><span class="card-badge badge-mobile">Mobile</span></div>
+      <div class="card-body"><div class="card-name">Trust &amp; FAQ</div><div class="card-route">#faq</div></div>
+    </a>
+
+  </div>
+</section>
+
+<!-- ━━━━━━━━━━ USER FLOW ━━━━━━━━━━ -->
+<section class="flows" id="flows">
+  <div class="flows-inner">
+    <h2>How a homeowner <em>moves</em> through it.</h2>
+    <div class="flow-grid">
+
+      <div class="flow">
+        <div class="flow-eyebrow">— The hook</div>
+        <h3>From curiosity to address</h3>
+        <div class="flow-step"><span class="step-num">01</span><div>Arrives from a <strong>billboard</strong>, TV spot, or social ad</div></div>
+        <div class="flow-step"><span class="step-num">02</span><div>Reads <strong>“Your home has a price.”</strong> in the hero</div></div>
+        <div class="flow-step"><span class="step-num">03</span><div>Types their <strong>address</strong> into the first field</div></div>
+      </div>
+
+      <div class="flow">
+        <div class="flow-eyebrow">— Building trust</div>
+        <h3>From skeptic to believer</h3>
+        <div class="flow-step"><span class="step-num">01</span><div>Recognizes the brand — <strong>“seen on billboards”</strong></div></div>
+        <div class="flow-step"><span class="step-num">02</span><div>Learns the <strong>three steps</strong> to a cash offer</div></div>
+        <div class="flow-step"><span class="step-num">03</span><div>Sees it’s <strong>backed by LPT Aperture Holdings</strong></div></div>
+      </div>
+
+      <div class="flow">
+        <div class="flow-eyebrow">— Conversion</div>
+        <h3>From believer to lead</h3>
+        <div class="flow-step"><span class="step-num">01</span><div>Hits the <strong>split CTA</strong>: “Find out what it is.”</div></div>
+        <div class="flow-step"><span class="step-num">02</span><div>Resolves doubts in the <strong>FAQ</strong></div></div>
+        <div class="flow-step"><span class="step-num">03</span><div>Submits the <strong>address</strong> → enters the offer flow</div></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="inner">
+    <img class="brand-logo" src="../img/buymyhouse_logo.svg" alt="BuyMyHouse.com" />
+    <div class="meta">User Map · 7 sections · Updated <span class="mono">June 18, 2026</span></div>
+  </div>
+</footer>
+
+<script>
+  // ── Lightbox ──
+  const lb    = document.getElementById('lightbox');
+  const lbImg = document.getElementById('lightbox-img');
+  const lbCap = document.getElementById('lightbox-cap');
+  document.querySelectorAll('.card').forEach(card => {
+    card.addEventListener('click', e => {
+      e.preventDefault();
+      lbImg.src = card.getAttribute('data-img');
+      lbCap.textContent = card.getAttribute('data-cap');
+      lb.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    });
+  });
+  function closeLightbox() {
+    lb.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+
+  // ── TOC active highlight ──
+  const tocLinks = document.querySelectorAll('.toc a');
+  const sections = document.querySelectorAll('section[id], header.hero');
+  function syncTOC() {
+    let active = null; const y = window.scrollY + 200;
+    document.querySelectorAll('[id]').forEach(s => { if (s.offsetTop <= y) active = s.id; });
+    tocLinks.forEach(a => {
+      const on = a.getAttribute('href') === '#' + active;
+      a.style.color = on ? 'var(--brand)' : '';
+      a.style.background = on ? 'var(--brand-pale)' : '';
+    });
+  }
+  window.addEventListener('scroll', syncTOC, { passive: true });
+  syncTOC();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>35353 — User Map</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,700;9..144,900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --coral:        #f37655;
+    --coral-dark:   #e05e3f;
+    --coral-pale:   #fff5f3;
+    --teal:         #006a64;
+    --teal-dark:    #00504c;
+    --teal-pale:    #e6f3f2;
+    --ink-900:      #1a1a1a;
+    --ink-700:      #3f3f3f;
+    --ink-500:      #6b6b6b;
+    --ink-300:      #b8b8b8;
+    --paper:        #fdfaf9;
+    --paper-warm:   #f7f1ea;
+    --line:         #ebe4df;
+    --line-strong:  #1a1a1a;
+    --shadow-sm:    0 2px 8px rgba(26,26,26,.06);
+    --shadow-md:    0 12px 32px rgba(26,26,26,.10);
+    --shadow-lg:    0 24px 60px rgba(26,26,26,.18);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: var(--paper);
+    color: var(--ink-900);
+    line-height: 1.55;
+    overflow-x: hidden;
+  }
+
+  /* ── Editorial typography ─────────────────────────────── */
+  .serif { font-family: 'Fraunces', serif; font-feature-settings: "ss01"; }
+  .mono  { font-family: 'JetBrains Mono', monospace; }
+
+  /* ── Top frame ────────────────────────────────────────── */
+  .topbar {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(253, 250, 249, 0.92);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--line);
+    padding: 14px 32px;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 16px;
+  }
+  .brand {
+    display: flex; align-items: center; gap: 12px;
+    font-family: 'Plus Jakarta Sans'; font-weight: 800; font-size: 18px;
+    letter-spacing: -0.02em; color: var(--ink-900);
+  }
+  .brand-logo { height: 26px; width: auto; display: block; }
+  footer .brand-logo { height: 24px; }
+  .brand-sub { color: var(--ink-500); font-size: 13px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; }
+  .nav-pills { display: flex; gap: 6px; flex-wrap: wrap; }
+  .nav-pill {
+    font-size: 12px; font-weight: 600; letter-spacing: 0.02em;
+    padding: 7px 12px; border-radius: 999px;
+    color: var(--ink-700); background: transparent;
+    text-decoration: none; transition: all .2s;
+    border: 1px solid transparent;
+  }
+  .nav-pill:hover { background: var(--coral-pale); color: var(--coral-dark); border-color: var(--coral); }
+
+  /* ── Version look-switcher (drives all .versioned thumbnails) ─────────── */
+  .look-switch {
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 4px;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    box-shadow: var(--shadow-sm);
+  }
+  .look-switch .ls-label {
+    font-size: 10px; font-weight: 700; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--ink-500);
+    padding: 0 8px 0 6px;
+  }
+  .ls-btn {
+    font-family: 'Plus Jakarta Sans'; font-size: 12px; font-weight: 700;
+    letter-spacing: 0.01em;
+    padding: 7px 16px; border-radius: 999px;
+    border: none; background: transparent; color: var(--ink-700);
+    cursor: pointer; transition: all .2s; white-space: nowrap;
+  }
+  .ls-btn:hover { color: var(--ink-900); }
+  .ls-btn[aria-pressed="true"] { background: var(--ink-900); color: #fff; }
+  .ls-btn[data-v="bold"][aria-pressed="true"]    { background: #15110e; }
+  .ls-btn[data-v="warm"][aria-pressed="true"]    { background: var(--coral-dark); }
+  .ls-btn[data-v="classic"][aria-pressed="true"] { background: var(--teal-dark); }
+
+  /* ── Hero ─────────────────────────────────────────────── */
+  .hero {
+    padding: 96px 32px 64px;
+    max-width: 1280px; margin: 0 auto;
+    position: relative;
+  }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--coral);
+    padding: 6px 14px;
+    background: var(--coral-pale);
+    border-radius: 999px;
+    margin-bottom: 28px;
+  }
+  .eyebrow::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--coral); }
+
+  .hero h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 400;
+    font-variation-settings: "opsz" 144;
+    font-size: clamp(48px, 7vw, 120px);
+    line-height: .96;
+    letter-spacing: -0.035em;
+    color: var(--ink-900);
+    margin-bottom: 28px;
+  }
+  .hero h1 em {
+    font-style: italic;
+    font-weight: 400;
+    background: linear-gradient(95deg, var(--coral) 0%, var(--teal) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .hero p {
+    font-size: 19px; line-height: 1.6; color: var(--ink-700);
+    max-width: 640px; margin-bottom: 40px;
+  }
+  .hero-meta {
+    display: flex; gap: 48px; padding-top: 32px;
+    border-top: 1px solid var(--line);
+    flex-wrap: wrap;
+  }
+  .meta-item .label {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--ink-500); margin-bottom: 4px;
+  }
+  .meta-item .value {
+    font-family: 'Fraunces', serif; font-weight: 500;
+    font-size: 28px; color: var(--ink-900);
+    line-height: 1;
+  }
+  .meta-item .value .accent { color: var(--coral); }
+
+  /* Decorative number 35353 */
+  .hero-deco {
+    position: absolute; top: 50%; right: -40px; transform: translateY(-50%);
+    font-family: 'Fraunces', serif;
+    font-weight: 900;
+    font-size: clamp(280px, 30vw, 480px);
+    line-height: .8;
+    color: var(--coral);
+    opacity: 0.05;
+    pointer-events: none;
+    user-select: none;
+    letter-spacing: -0.04em;
+    z-index: -1;
+  }
+
+  /* ── Versions comparison ──────────────────────────────── */
+  section.versions {
+    max-width: 1280px; margin: 0 auto;
+    padding: 24px 32px 88px;
+  }
+  .versions-head {
+    display: flex; align-items: flex-end; justify-content: space-between;
+    gap: 24px; flex-wrap: wrap;
+    margin-bottom: 40px;
+  }
+  .versions-head h2 {
+    font-family: 'Fraunces', serif; font-weight: 500;
+    font-variation-settings: "opsz" 144;
+    font-size: clamp(30px, 4vw, 48px); line-height: 1;
+    letter-spacing: -0.025em; color: var(--ink-900);
+  }
+  .versions-head h2 em { font-style: italic; color: var(--teal); }
+  .versions-head p { font-size: 15px; color: var(--ink-500); max-width: 520px; margin-top: 12px; }
+  .vgrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .vcard {
+    border: 1px solid var(--line); border-radius: 8px; overflow: hidden;
+    background: #fff; display: flex; flex-direction: column;
+    transition: transform .25s, box-shadow .25s, border-color .25s; cursor: pointer;
+  }
+  .vcard:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+  .vcard.is-active { border-color: var(--ink-900); box-shadow: var(--shadow-md); }
+  .vcard-top { padding: 22px 22px 18px; border-bottom: 1px solid var(--line); }
+  .vcard.classic .vcard-top { background: linear-gradient(135deg, #fff 0%, var(--teal-pale) 130%); }
+  .vcard.bold .vcard-top    { background: #15110e; }
+  .vcard.warm .vcard-top    { background: linear-gradient(135deg, var(--paper-warm) 0%, var(--coral-pale) 130%); }
+  .vcard-tag {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 500;
+    letter-spacing: 0.06em; margin-bottom: 8px;
+  }
+  .vcard.classic .vcard-tag { color: var(--teal-dark); }
+  .vcard.bold .vcard-tag    { color: var(--coral); }
+  .vcard.warm .vcard-tag    { color: var(--coral-dark); }
+  .vcard-name { font-family: 'Fraunces', serif; font-weight: 600; font-size: 26px; letter-spacing: -0.02em; line-height: 1; }
+  .vcard.bold .vcard-name { color: #fff; }
+  .vcard.bold .vcard-name em { font-style: italic; color: var(--coral); font-weight: 500; }
+  .vcard.classic .vcard-name em, .vcard.warm .vcard-name em { font-style: italic; color: var(--coral-dark); font-weight: 500; }
+  .vcard-swatches { display: flex; gap: 6px; margin-top: 14px; }
+  .vcard-swatches span { width: 22px; height: 22px; border-radius: 5px; border: 1px solid rgba(0,0,0,.08); }
+  .vcard-body { padding: 18px 22px 22px; flex: 1; }
+  .vrow { display: grid; grid-template-columns: 76px 1fr; gap: 10px; padding: 7px 0; border-bottom: 1px dashed var(--line); font-size: 13px; }
+  .vrow:last-child { border-bottom: none; }
+  .vrow dt { font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-500); padding-top: 2px; }
+  .vrow dd { color: var(--ink-700); line-height: 1.45; }
+  .vcard-route { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--teal); margin-top: 16px; }
+  .vcard.bold .vcard-route { color: var(--coral); }
+
+  /* ── Logo board ───────────────────────────────────────── */
+  .logo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(258px, 1fr));
+    gap: 24px;
+  }
+  .logo-plate {
+    border: 1px solid var(--line); border-radius: 8px; overflow: hidden;
+    background: #fff; display: flex; flex-direction: column;
+    transition: transform .25s, box-shadow .25s, border-color .25s;
+  }
+  .logo-plate:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); border-color: var(--ink-900); }
+  .plate-stage { aspect-ratio: 16 / 10; display: grid; place-items: center; padding: 30px; }
+  .plate-stage.light { background: var(--paper); }
+  .plate-stage.warm  { background: var(--paper-warm); }
+  .plate-stage.dark  { background: #15110e; }
+  .plate-stage img { max-width: 100%; max-height: 100%; width: auto; height: auto; display: block; }
+  .plate-stage.icon img { max-height: 92px; }
+  .plate-meta { padding: 16px 18px 18px; border-top: 1px solid var(--line); }
+  .plate-name { font-family: 'Fraunces', serif; font-weight: 500; font-size: 20px; letter-spacing: -0.015em; color: var(--ink-900); }
+  .plate-use  { font-size: 13px; color: var(--ink-500); margin-top: 4px; line-height: 1.45; }
+  .plate-file { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--teal); margin-top: 10px; word-break: break-all; }
+
+  /* ── Section ──────────────────────────────────────────── */
+  section.group {
+    padding: 80px 32px 96px;
+    max-width: 1280px; margin: 0 auto;
+    border-top: 1px solid var(--line);
+    position: relative;
+  }
+  .group-head {
+    display: grid; grid-template-columns: 100px 1fr auto;
+    gap: 32px; align-items: end;
+    margin-bottom: 40px;
+  }
+  .group-num {
+    font-family: 'Fraunces', serif;
+    font-weight: 900; font-variation-settings: "opsz" 144;
+    font-size: 84px; line-height: .85;
+    color: var(--coral);
+    letter-spacing: -0.04em;
+  }
+  .group-title h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-variation-settings: "opsz" 144;
+    font-size: clamp(32px, 4vw, 52px);
+    line-height: 1;
+    letter-spacing: -0.025em;
+    color: var(--ink-900);
+    margin-bottom: 12px;
+  }
+  .group-title h2 em { font-style: italic; color: var(--teal); }
+  .group-title p { font-size: 15px; color: var(--ink-500); max-width: 560px; }
+  .group-meta {
+    text-align: right;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; color: var(--ink-500);
+    letter-spacing: 0.04em;
+  }
+  .group-meta div + div { margin-top: 4px; }
+
+  /* Inline version banner inside a versioned group */
+  .ver-banner {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 16px; flex-wrap: wrap;
+    margin-bottom: 28px; padding: 14px 18px;
+    border: 1px dashed var(--coral); border-radius: 8px;
+    background: var(--coral-pale);
+  }
+  .ver-banner .vb-text { font-size: 13px; color: var(--ink-700); }
+  .ver-banner .vb-text strong { color: var(--coral-dark); }
+  .ver-banner .vb-now { font-family: 'JetBrains Mono', monospace; font-weight: 500; }
+
+  /* ── Cards (page tiles) ───────────────────────────────── */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 28px;
+  }
+  /* Wide-screen ceiling so admin single-card sections don't span 1200px+ */
+  .grid > .card { max-width: 380px; width: 100%; }
+  .grid.mobile-grid {
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  }
+  .grid.mobile-grid > .card { max-width: 320px; }
+  .card {
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    overflow: hidden;
+    transition: transform .3s cubic-bezier(.2,.8,.2,1), box-shadow .3s, border-color .3s;
+    cursor: pointer;
+    position: relative;
+    text-decoration: none;
+    color: inherit;
+    display: flex; flex-direction: column;
+  }
+  .card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--ink-900);
+  }
+  .card-img-wrap {
+    position: relative;
+    aspect-ratio: 16 / 11;
+    background:
+      linear-gradient(135deg, var(--paper-warm) 0%, var(--coral-pale) 100%);
+    overflow: hidden;
+  }
+  .card-img {
+    width: 100%; height: 100%; object-fit: cover; object-position: top center;
+    transition: transform .6s cubic-bezier(.2,.8,.2,1), opacity .25s ease;
+  }
+  .card:hover .card-img { transform: scale(1.04); }
+  .card.mobile-card .card-img-wrap { aspect-ratio: 9 / 16; max-height: 380px; }
+  .card.mobile-card .card-img { object-fit: contain; background: var(--paper-warm); }
+
+  .card-num {
+    position: absolute; top: 12px; left: 12px;
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(8px);
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    color: var(--ink-900);
+    border: 1px solid var(--line);
+  }
+  .card-badge {
+    position: absolute; top: 12px; right: 12px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .badge-auth   { background: var(--teal-pale); color: var(--teal-dark); border: 1px solid var(--teal); }
+  .badge-staff  { background: #fef3c7; color: #92400e; border: 1px solid #f59e0b; }
+  .badge-stub   { background: #f4f4f5; color: #6b6b6b; border: 1px dashed var(--ink-300); }
+  .badge-mobile { background: var(--coral-pale); color: var(--coral-dark); border: 1px solid var(--coral); }
+  .badge-ver    { background: var(--ink-900); color: #fff; border: 1px solid var(--ink-900); }
+  .card.mobile-card .badge-ver { top: 12px; right: 12px; }
+
+  .card-body { padding: 18px 20px 22px; flex: 1; display: flex; flex-direction: column; }
+  .card-name {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 22px;
+    letter-spacing: -0.015em;
+    color: var(--ink-900);
+    margin-bottom: 6px;
+  }
+  .card-route {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--teal);
+    margin-bottom: 12px;
+    word-break: break-all;
+  }
+  .card-desc {
+    font-size: 13px;
+    color: var(--ink-500);
+    line-height: 1.5;
+    margin-top: auto;
+  }
+
+  /* ── User flows ────────────────────────────────────────── */
+  .flows {
+    background: var(--ink-900);
+    color: white;
+    padding: 96px 32px 120px;
+    margin-top: 80px;
+  }
+  .flows-inner { max-width: 1280px; margin: 0 auto; }
+  .flows h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 400;
+    font-variation-settings: "opsz" 144;
+    font-size: clamp(36px, 5vw, 72px);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    margin-bottom: 64px;
+  }
+  .flows h2 em { font-style: italic; color: var(--coral); }
+  .flow-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 56px; }
+  .flow {
+    border-left: 2px solid rgba(255,255,255,0.15);
+    padding-left: 28px;
+    position: relative;
+  }
+  .flow::before {
+    content: ''; position: absolute; left: -7px; top: 0;
+    width: 12px; height: 12px; border-radius: 50%;
+    background: var(--coral);
+    box-shadow: 0 0 0 4px rgba(243, 118, 85, 0.2);
+  }
+  .flow-eyebrow {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--coral);
+    margin-bottom: 10px;
+  }
+  .flow h3 {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 26px;
+    letter-spacing: -0.015em;
+    margin-bottom: 20px;
+    color: white;
+  }
+  .flow-step {
+    display: flex; align-items: baseline; gap: 14px;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    font-size: 14px;
+    color: rgba(255,255,255,0.78);
+  }
+  .flow-step:last-child { border-bottom: none; }
+  .flow-step .step-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; font-weight: 500;
+    color: rgba(255,255,255,0.35);
+    min-width: 22px;
+  }
+  .flow-step strong { color: white; font-weight: 600; }
+
+  /* ── Footer ────────────────────────────────────────────── */
+  footer {
+    padding: 48px 32px 32px;
+    background: var(--paper-warm);
+    border-top: 1px solid var(--line);
+    color: var(--ink-500);
+    font-size: 13px;
+  }
+  footer .inner {
+    max-width: 1280px; margin: 0 auto;
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 16px;
+  }
+  footer .brand { color: var(--ink-900); }
+
+  /* ── Lightbox ─────────────────────────────────────────── */
+  .lightbox {
+    position: fixed; inset: 0; z-index: 1000;
+    background: rgba(15, 15, 15, 0.96);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    display: none;
+    align-items: center; justify-content: center;
+    padding: 40px;
+    cursor: zoom-out;
+  }
+  .lightbox.open { display: flex; }
+  .lightbox img {
+    max-width: 95vw; max-height: 95vh;
+    object-fit: contain;
+    box-shadow: var(--shadow-lg);
+    border-radius: 4px;
+  }
+  .lightbox-close {
+    position: absolute; top: 24px; right: 32px;
+    color: white; background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    display: grid; place-items: center;
+    cursor: pointer;
+    font-size: 20px;
+    transition: all .2s;
+  }
+  .lightbox-close:hover { background: var(--coral); border-color: var(--coral); }
+  .lightbox-caption {
+    position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%);
+    color: white;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    background: rgba(0,0,0,0.5);
+    padding: 8px 16px;
+    border-radius: 999px;
+  }
+
+  /* ── TOC sticky sidebar (only on truly wide viewports) ─────────────────── */
+  .toc {
+    position: fixed; left: 16px; top: 50%; transform: translateY(-50%);
+    z-index: 50;
+    display: flex; flex-direction: column; gap: 12px;
+    padding: 16px 12px;
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    box-shadow: var(--shadow-sm);
+  }
+  .toc a {
+    display: flex; align-items: center; gap: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; font-weight: 500;
+    color: var(--ink-500);
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    transition: color .2s;
+  }
+  .toc a::before { content: ''; width: 16px; height: 1px; background: var(--ink-300); transition: all .2s; }
+  .toc a:hover { color: var(--ink-900); }
+  .toc a:hover::before { background: var(--coral); width: 24px; }
+  /* Only show on viewports wide enough that it won't overlap content */
+  @media (max-width: 1500px) { .toc { display: none; } }
+
+  /* ── Responsive ────────────────────────────────────────── */
+  @media (max-width: 980px) {
+    .vgrid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 720px) {
+    .topbar { padding: 12px 20px; flex-wrap: wrap; }
+    .brand-sub { display: none; }
+    .nav-pills { display: none; }
+    .topbar .look-switch .ls-label { display: none; }
+    .hero { padding: 64px 20px 48px; }
+    .hero-meta { gap: 28px; }
+    section.versions { padding: 16px 20px 64px; }
+    section.group { padding: 56px 20px 72px; }
+    .group-head { grid-template-columns: 1fr; gap: 12px; }
+    .group-num { font-size: 56px; }
+    .group-meta { text-align: left; }
+    .flows { padding: 64px 20px 80px; }
+    .grid { gap: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <button class="lightbox-close" onclick="event.stopPropagation(); closeLightbox()">×</button>
+  <img id="lightbox-img" alt="" />
+  <div class="lightbox-caption" id="lightbox-cap"></div>
+</div>
+
+<!-- Top bar -->
+<div class="topbar">
+  <div class="brand">
+    <img class="brand-logo" src="logo.svg" alt="35353" />
+    <span class="brand-sub">User Map · 52 screens · 3 looks</span>
+  </div>
+  <div class="look-switch" role="group" aria-label="Design version">
+    <span class="ls-label">Look</span>
+    <button class="ls-btn" data-v="classic" aria-pressed="true"  onclick="setVersion('classic')">Classic</button>
+    <button class="ls-btn" data-v="bold"    aria-pressed="false" onclick="setVersion('bold')">Bold</button>
+    <button class="ls-btn" data-v="warm"    aria-pressed="false" onclick="setVersion('warm')">Warm</button>
+  </div>
+</div>
+
+<!-- TOC -->
+<nav class="toc" aria-label="Sections">
+  <a href="#logos">◆ · Brand</a>
+  <a href="#versions">00 · Looks</a>
+  <a href="#g1">01 · Marketing</a>
+  <a href="#g2">02 · Consumer</a>
+  <a href="#g3">03 · Auth</a>
+  <a href="#g4">04 · Dashboard</a>
+  <a href="#g5">05 · Admin</a>
+  <a href="#g6">06 · Legal</a>
+  <a href="#g7">07 · Errors</a>
+  <a href="#g8">08 · Mobile</a>
+</nav>
+
+<!-- Hero -->
+<header class="hero">
+  <div class="hero-deco" aria-hidden="true">35353</div>
+  <div class="eyebrow">Sitemap · Updated June 16, 2026</div>
+  <h1>Every screen.<br /><em>Three looks.</em></h1>
+  <p>A page-by-page reference of every screen in the 35353 ecosystem — the consumer surface buyers reach by texting, the agent dashboard, the admin platform, and the legal surface. The marketing pages exist in three parallel design directions; use the <strong>Look</strong> switch (top-right) to flip every marketing tile between Classic, Bold, and Warm. Click any tile to enlarge.</p>
+  <div class="hero-meta">
+    <div class="meta-item">
+      <div class="label">Total screens</div>
+      <div class="value"><span class="accent">52</span></div>
+    </div>
+    <div class="meta-item">
+      <div class="label">Design looks</div>
+      <div class="value">3</div>
+    </div>
+    <div class="meta-item">
+      <div class="label">Audiences</div>
+      <div class="value">Buyer · Agent · Staff</div>
+    </div>
+    <div class="meta-item">
+      <div class="label">Channels</div>
+      <div class="value">Desktop · Mobile</div>
+    </div>
+  </div>
+</header>
+
+<!-- ━━━━━━━━━━━━━━━━━━━━ BRAND MARK ━━━━━━━━━━━━━━━━━━━━ -->
+<section class="group" id="logos" style="border-top:none; padding-top:24px;">
+  <div class="group-head">
+    <div class="group-num" style="font-size:64px;">◆</div>
+    <div class="group-title">
+      <h2>Brand <em>mark</em></h2>
+      <p>One logo — a rooftop fused with a speech bubble and three texting dots — used across all three looks. Only the color variant changes with the surface. Vector sources live in <span class="mono">/logos</span>.</p>
+    </div>
+    <div class="group-meta">
+      <div>4 LOCKUPS</div>
+      <div>SVG · VECTOR</div>
+    </div>
+  </div>
+  <div class="logo-grid">
+
+    <div class="logo-plate">
+      <div class="plate-stage light"><img src="logos/35353-horizontal.svg" alt="35353 horizontal logo" /></div>
+      <div class="plate-meta">
+        <div class="plate-name">Primary · horizontal</div>
+        <div class="plate-use">The default lockup. Light &amp; warm surfaces — Classic, Warm, light footers, and sign templates. (Same mark the app ships as <span class="mono">logo.svg</span>.)</div>
+        <div class="plate-file">logos/35353-horizontal.svg</div>
+      </div>
+    </div>
+
+    <div class="logo-plate">
+      <div class="plate-stage dark"><img src="logos/35353-horizontal-ondark.svg" alt="35353 reversed logo on dark" /></div>
+      <div class="plate-meta">
+        <div class="plate-name">Reversed · on dark</div>
+        <div class="plate-use">White wordmark for dark surfaces — the Bold look and dark footers.</div>
+        <div class="plate-file">logos/35353-horizontal-ondark.svg</div>
+      </div>
+    </div>
+
+    <div class="logo-plate">
+      <div class="plate-stage warm"><img src="logos/35353-vertical.svg" alt="35353 vertical stacked logo" /></div>
+      <div class="plate-meta">
+        <div class="plate-name">Stacked · vertical</div>
+        <div class="plate-use">Square-ish spaces — social avatars, app splash, centered layouts.</div>
+        <div class="plate-file">logos/35353-vertical.svg</div>
+      </div>
+    </div>
+
+    <div class="logo-plate">
+      <div class="plate-stage dark icon"><img src="logos/35353-icon.svg" alt="35353 icon mark only" /></div>
+      <div class="plate-meta">
+        <div class="plate-name">Icon · mark only</div>
+        <div class="plate-use">Favicon, app tile, and compact spaces where the wordmark won't fit. Works on light or dark.</div>
+        <div class="plate-file">logos/35353-icon.svg</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ━━━━━━━━━━━━━━━━━━━━ VERSIONS COMPARISON ━━━━━━━━━━━━━━━━━━━━ -->
+<section class="versions" id="versions">
+  <div class="versions-head">
+    <div>
+      <h2>Three design <em>directions</em></h2>
+      <p>The consumer-facing marketing surface is being explored as three parallel looks — not a sequence of upgrades. Pick one and the tiles below update. They share the 35353 product, copy spine, and coral accent; they differ in palette, type, layout, and tone.</p>
+    </div>
+    <div class="look-switch" role="group" aria-label="Design version">
+      <button class="ls-btn" data-v="classic" aria-pressed="true"  onclick="setVersion('classic')">Classic</button>
+      <button class="ls-btn" data-v="bold"    aria-pressed="false" onclick="setVersion('bold')">Bold</button>
+      <button class="ls-btn" data-v="warm"    aria-pressed="false" onclick="setVersion('warm')">Warm</button>
+    </div>
+  </div>
+
+  <div class="vgrid">
+
+    <div class="vcard classic" data-v="classic" onclick="setVersion('classic')">
+      <div class="vcard-top">
+        <div class="vcard-tag">V1 · LIGHT</div>
+        <div class="vcard-name">Classic</div>
+        <div class="vcard-swatches">
+          <span style="background:#ffffff" title="#ffffff base"></span><span style="background:#f37655" title="coral #f37655"></span>
+          <span style="background:#006a64" title="teal #006a64"></span><span style="background:#1a1a1a" title="ink #1a1a1a"></span>
+        </div>
+      </div>
+      <div class="vcard-body">
+        <dl>
+          <div class="vrow"><dt>Mood</dt><dd>Bright, friendly, familiar PropTech SaaS. The safe, high-trust default.</dd></div>
+          <div class="vrow"><dt>Palette</dt><dd>White / near-white base, coral <span class="mono">#f37655</span> + teal <span class="mono">#006a64</span> on dark ink <span class="mono">#1a1a1a</span>.</dd></div>
+          <div class="vrow"><dt>Type</dt><dd>Plus Jakarta Sans throughout — clean geometric sans, bold headlines.</dd></div>
+          <div class="vrow"><dt>Layout</dt><dd>Centered hero + phone mockup, stat bar, “text vs QR” comparison, feature cards, teal CTA band.</dd></div>
+          <div class="vrow"><dt>Best for</dt><dd>Maximum legibility & broad appeal; lowest-risk conversion look.</dd></div>
+        </dl>
+        <div class="vcard-route">/</div>
+      </div>
+    </div>
+
+    <div class="vcard bold" data-v="bold" onclick="setVersion('bold')">
+      <div class="vcard-top">
+        <div class="vcard-name">Bold <em>cinematic</em></div>
+        <div class="vcard-tag" style="margin:8px 0 0">V2 · DARK</div>
+        <div class="vcard-swatches">
+          <span style="background:#15110e" title="canvas #15110e"></span><span style="background:#f37655" title="coral #f37655"></span>
+          <span style="background:#1b1611" title="raised panel #1b1611"></span><span style="background:#f6efe8" title="off-white text #f6efe8"></span>
+        </div>
+      </div>
+      <div class="vcard-body">
+        <dl>
+          <div class="vrow"><dt>Mood</dt><dd>Premium, high-energy, app-startup confidence. Most distinctive.</dd></div>
+          <div class="vrow"><dt>Palette</dt><dd>Near-black canvas <span class="mono">#15110e</span>, warm off-white text <span class="mono">#f6efe8</span>, coral <span class="mono">#f37655</span> as the single hot accent over full-bleed photography.</dd></div>
+          <div class="vrow"><dt>Type</dt><dd>Plus Jakarta Sans + Hanken Grotesk; oversized expressive display headers.</dd></div>
+          <div class="vrow"><dt>Layout</dt><dd>Cinematic dark sections, interactive phone-demo hero, “every sign rider becomes a lead” coral panel.</dd></div>
+          <div class="vrow"><dt>Watch-out</dt><dd>Dark contrast is hardest to read for 45–65 agents & in bright curbside sun (reviewed 7.5/10).</dd></div>
+        </dl>
+        <div class="vcard-route">/v2</div>
+      </div>
+    </div>
+
+    <div class="vcard warm" data-v="warm" onclick="setVersion('warm')">
+      <div class="vcard-top">
+        <div class="vcard-tag">V3 · WARM EDITORIAL</div>
+        <div class="vcard-name">Warm</div>
+        <div class="vcard-swatches">
+          <span style="background:#f7f1ea" title="paper #f7f1ea"></span><span style="background:#f37655" title="coral #f37655"></span>
+          <span style="background:#211a15" title="espresso #211a15"></span><span style="background:#241c16" title="warm ink #241c16"></span>
+        </div>
+      </div>
+      <div class="vcard-body">
+        <dl>
+          <div class="vrow"><dt>Mood</dt><dd>Warm, human, editorial. Boldness of V2 tempered for readability.</dd></div>
+          <div class="vrow"><dt>Palette</dt><dd>Warm paper <span class="mono">#f7f1ea</span>, high-contrast warm ink <span class="mono">#241c16</span> (legibility-first), coral accent, one espresso anchor <span class="mono">#211a15</span>.</dd></div>
+          <div class="vrow"><dt>Type</dt><dd>Fraunces display serif paired with Jakarta/Hanken — magazine voice.</dd></div>
+          <div class="vrow"><dt>Layout</dt><dd>Serif headlines, “three steps” numbered story, espresso “real person” section with team photos.</dd></div>
+          <div class="vrow"><dt>Best for</dt><dd>Relationship-led positioning that keeps strong contrast outdoors.</dd></div>
+        </dl>
+        <div class="vcard-route">/v3</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ━━━━━━━━━━━━━━━━━━━━ GROUP 01: MARKETING ━━━━━━━━━━━━━━━━━━━━ -->
+<section class="group" id="g1">
+  <div class="group-head">
+    <div class="group-num">01</div>
+    <div class="group-title">
+      <h2>Marketing <em>surface</em></h2>
+      <p>Public top-of-funnel pages a prospect — agent or curious consumer — lands on from organic search, ads, or word of mouth. These five exist in all three looks.</p>
+    </div>
+    <div class="group-meta">
+      <div>5 PAGES × 3 LOOKS</div>
+      <div>PUBLIC</div>
+    </div>
+  </div>
+
+  <div class="ver-banner">
+    <div class="vb-text">Showing the <strong class="vb-now" data-vlabel>Classic</strong> look — change it with the <strong>Look</strong> switch at the top.</div>
+    <div class="look-switch" role="group" aria-label="Design version">
+      <button class="ls-btn" data-v="classic" aria-pressed="true"  onclick="setVersion('classic')">Classic</button>
+      <button class="ls-btn" data-v="bold"    aria-pressed="false" onclick="setVersion('bold')">Bold</button>
+      <button class="ls-btn" data-v="warm"    aria-pressed="false" onclick="setVersion('warm')">Warm</button>
+    </div>
+  </div>
+
+  <div class="grid">
+
+    <a class="card versioned" data-vtpl="01-marketing/{v}/01_home.png" data-cap="Home">
+      <div class="card-img-wrap"><img class="card-img" src="01-marketing/classic/01_home.png" loading="lazy" alt="Home" /><span class="card-num">01.01</span><span class="card-badge badge-ver" data-vbadge>Classic</span></div>
+      <div class="card-body">
+        <div class="card-name">Home</div>
+        <div class="card-route" data-vroute="/ · /v2 · /v3">/</div>
+        <div class="card-desc">Hero, value props, text-vs-QR comparison, agent CTA. The flagship landing for both consumers and agents.</div>
+      </div>
+    </a>
+
+    <a class="card versioned" data-vtpl="01-marketing/{v}/02_for-agents.png" data-cap="For Agents">
+      <div class="card-img-wrap"><img class="card-img" src="01-marketing/classic/02_for-agents.png" loading="lazy" alt="For Agents" /><span class="card-num">01.02</span><span class="card-badge badge-ver" data-vbadge>Classic</span></div>
+      <div class="card-body">
+        <div class="card-name">For Agents</div>
+        <div class="card-route" data-vroute="/for-agents · /v2 · /v3">/for-agents</div>
+        <div class="card-desc">Agent value proposition, sample sign mockup, friction-reduction story.</div>
+      </div>
+    </a>
+
+    <a class="card versioned" data-vtpl="01-marketing/{v}/03_pricing.png" data-cap="Pricing">
+      <div class="card-img-wrap"><img class="card-img" src="01-marketing/classic/03_pricing.png" loading="lazy" alt="Pricing" /><span class="card-num">01.03</span><span class="card-badge badge-ver" data-vbadge>Classic</span></div>
+      <div class="card-body">
+        <div class="card-name">Pricing</div>
+        <div class="card-route" data-vroute="/pricing · /v2 · /v3">/pricing</div>
+        <div class="card-desc">Three plan tiers (Starter / Pro / Enterprise), monthly–yearly toggle, FAQ.</div>
+      </div>
+    </a>
+
+    <a class="card versioned" data-vtpl="01-marketing/{v}/04_integrations.png" data-cap="Integrations">
+      <div class="card-img-wrap"><img class="card-img" src="01-marketing/classic/04_integrations.png" loading="lazy" alt="Integrations" /><span class="card-num">01.04</span><span class="card-badge badge-ver" data-vbadge>Classic</span></div>
+      <div class="card-body">
+        <div class="card-name">Integrations</div>
+        <div class="card-route" data-vroute="/integrations · /v2 · /v3">/integrations</div>
+        <div class="card-desc">CRM &amp; MLS integration directory (Zillow, kvCORE, Follow Up Boss, etc).</div>
+      </div>
+    </a>
+
+    <a class="card versioned" data-vtpl="01-marketing/{v}/05_resources.png" data-cap="Resources">
+      <div class="card-img-wrap"><img class="card-img" src="01-marketing/classic/05_resources.png" loading="lazy" alt="Resources" /><span class="card-num">01.05</span><span class="card-badge badge-ver" data-vbadge>Classic</span></div>
+      <div class="card-body">
+        <div class="card-name">Resources</div>
+        <div class="card-route" data-vroute="/resources · /v2 · /v3">/resources</div>
+        <div class="card-desc">Blog, playbooks, agent training material.</div>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<!-- ━━━━━━━━━━━━━━━━━━━━ GROUP 02: CONSUMER ━━━━━━━━━━━━━━━━━━━━ -->
+<section class="group" id="g2">
+  <div class="group-head">
+    <div class="group-num">02</div>
+    <div class="group-title">
+      <h2>Consumer <em>surface</em></h2>
+      <p>Buyer-facing pages — the destination after texting the property code, and the web search fallback. Find has all three looks; the public listing is shared.</p>
+    </div>
+    <div class="group-meta">
+      <div>4 PAGES</div>
+      <div>BUYER</div>
+    </div>
+  </div>
+  <div class="grid">
+
+    <a class="card versioned" data-vtpl="02-consumer/{v}/01_find.png" data-cap="Find">
+      <div class="card-img-wrap"><img class="card-img" src="02-consumer/classic/01_find.png" loading="lazy" alt="Find" /><span class="card-num">02.01</span><span class="card-badge badge-ver" data-vbadge>Classic</span></div>
+      <div class="card-body">
+        <div class="card-name">Find</div>
+        <div class="card-route" data-vroute="/find · /v2/find · /v3/find">/find</div>
+        <div class="card-desc">Search hub. Accepts code, address, MLS#, or zip. Entry point for web-search-after-broadcast traffic.</div>
+      </div>
+    </a>
+
+    <a class="card versioned" data-vtpl="02-consumer/{v}/02_find-with-results.png" data-cap="Find — results">
+      <div class="card-img-wrap"><img class="card-img" src="02-consumer/classic/02_find-with-results.png" loading="lazy" alt="Find with results" /><span class="card-num">02.02</span><span class="card-badge badge-ver" data-vbadge>Classic</span></div>
+      <div class="card-body">
+        <div class="card-name">Find — results</div>
+        <div class="card-route" data-vroute="/find?q=… (all looks)">/find?q=Maple</div>
+        <div class="card-desc">Search-results state. Links to public listing pages.</div>
+      </div>
+    </a>
+
+    <a class="card" data-img="02-consumer/03_public-listing.png" data-cap="Public listing · /p/:code">
+      <div class="card-img-wrap"><img class="card-img" src="02-consumer/03_public-listing.png" loading="lazy" alt="Public listing" /><span class="card-num">02.03</span></div>
+      <div class="card-body">
+        <div class="card-name">Public listing</div>
+        <div class="card-route">/p/:code</div>
+        <div class="card-desc">Mobile-first listing detail. Hero photo, price, beds/baths, agent contact, sticky “Schedule a Showing” CTA. Shared across looks.</div>
+      </div>
+    </a>
+
+    <a class="card" data-img="02-consumer/04_public-listing-notfound.png" data-cap="Public listing — not found">
+      <div class="card-img-wrap"><img class="card-img" src="02-consumer/04_public-listing-notfound.png" loading="lazy" alt="Public listing not found" /><span class="card-num">02.04</span></div>
+      <div class="card-body">
+        <div class="card-name">Public listing — not found</div>
+        <div class="card-route">/p/INVALID</div>
+        <div class="card-desc">Empty state when code doesn't resolve. Offers search fallback.</div>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<!-- ━━━━━━━━━━━━━━━━━━━━ GROUP 03: AUTH ━━━━━━━━━━━━━━━━━━━━ -->
+<section class="group" id="g3">
+  <div class="group-head">
+    <div class="group-num">03</div>
+    <div class="group-title">
+      <h2>Auth <em>flows</em></h2>
+      <p>Agent sign-in, registration, password recovery, and email verification. One shared look across versions.</p>
+    </div>
+    <div class="group-meta">
+      <div>5 PAGES</div>
+      <div>PUBLIC + AGENTS</div>
+    </div>
+  </div>
+  <div class="grid">
+
+    <a class="card" data-img="03-auth/01_signin.png" data-cap="Sign in · /signin">
+      <div class="card-img-wrap"><img class="card-img" src="03-auth/01_signin.png" loading="lazy" alt="Sign in" /><span class="card-num">03.01</span></div>
+      <div class="card-body">
+        <div class="card-name">Sign in</div>
+        <div class="card-route">/signin</div>
+        <div class="card-desc">Agent login. Forgot password + Register links.</div>
+      </div>
+    </a>
+
+    <a class="card" data-img="03-auth/02_register.png" data-cap="Register · /register">
+      <div class="card-img-wrap"><img class="card-img" src="03-auth/02_register.png" loading="lazy" alt="Register" /><span class="card-num">03.02</span></div>
+      <div class="card-body">
+        <div class="card-name">Register</div>
+        <div class="card-route">/register</div>
+        <div class="card-desc">3-step onboarding: account → claim number → select plan.</div>
+      </div>
+    </a>
+
+    <a class="card" data-img="03-auth/03_forgot-password.png" data-cap="Forgot password · /forgot-password">
+      <div class="card-img-wrap"><img class="card-img" src="03-auth/03_forgot-password.png" loading="lazy" alt="Forgot password" /><span class="card-num">03.03</span></div>
+      <div class="card-body">
+        <div class="card-name">Forgot password</div>
+        <div class="card-route">/forgot-password</div>
+        <div class="card-desc">Email-based reset request.</div>
+      </div>
+    </a>
+
+    <a class="card" data-img="03-auth/04_reset-password.png" data-cap="Reset password · /reset-password">
+      <div class="card-img-wrap"><img class="card-img" src="03-auth/04_reset-password.png" loading="lazy" alt="Reset password" /><span class="card-num">03.04</span></div>
+      <div class="card-body">
+        <div class="card-name">Reset password</div>
+        <div class="card-route">/reset-password?token=…</div>
+        <div class="card-desc">Reached via email-link token; sets new password.</div>
+      </div>
+    </a>
+
+    <a class="card" data-img="03-auth/05_verify-email-placeholder.png" data-cap="Verify email · /verify-email">
+      <div class="card-img-wrap"><img class="card-img" src="03-auth/05_verify-email-placeholder.png" loading="lazy" alt="Verify email" /><span class="card-num">03.05</span><span class="card-badge badge-stub">Stub</span></div>
+      <div class="card-body">
+        <div class="card-name">Verify email</div>
+        <div class="card-route">/verify-email</div>
+        <div class="card-desc">Phase-3 placeholder. Email verification not yet wired up.</div>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<!-- ━━━━━━━━━━━━━━━━━━━━ GROUP 04: AGENT DASHBOARD ━━━━━━━━━━━━━━━━━━━━ -->
+<section class="group" id="g4">
+  <div class="group-head">
+    <div class="group-num">04</div>
+    <div class="group-title">
+      <h2>Agent <em>dashboard</em></h2>
+      <p>The authenticated agent workspace — every page under <span class="mono">/app/*</span>. Shared left-sidebar layout with a top bar for search and notifications.</p>
+    </div>
+    <div class="group-meta">
+      <div>14 PAGES</div>
+      <div>AUTH-GATED</div>
+    </div>
+  </div>
+  <div class="grid">
+
+    <a class="card" data-img="04-agent-dashboard/01_dashboard.png" data-cap="Dashboard · /app/dashboard">
+      <div class="card-img-wrap"><img class="card-img" src="04-agent-dashboard/01_dashboard.png" loading="lazy" alt="Dashboard" /><span class="card-num">04.01</span><span class="card-badge badge-auth">Auth</span></div>
+      <div class="card-body">
+        <div class="card-name">Dashboard</div>
+        <div class="card-route">/app/dashboard</div>
+        <div class="card-desc">KPI cards, live lead feed, top listings, recent showings — the agent's daily hub.</div>
+      </div>
+    </a>
+
+    <a class="card" data-img="04-agent-dashboard/02_listings.png" data-cap="Listings · /app/listings">
+      <div class="card-img-wrap"><img class="card-img" src="04-agent-dashboard/02_listings.png" loading="lazy" alt="Listings" /><span class="card-num">04.02</span><span class="card-badge badge-auth">Auth</span></div>
+      <div class="card-body">
+        <div class="card-name">Listings</div>
+        <div class="card-route">/app/listings</div>
+        <div class="card-desc">All listings with status filter, search, and quick actions.</div>
+      </div>
+    </a>
+
+    <a class="card" data-img="04-agent-dashboard/03_listing-new.png" data-cap="New listing · /app/listings/new">
+      <div class="card-img-wrap"><img class="card-img" src="04-agent-dashboard/03_listing-new.png" loading="lazy" alt="New listing" /><span class="card-num">04.03</span><span class="card-badge badge-auth">Auth</span></div>
+      <div class="card-body">
+        <div class="card-name">New listing</div>
+        <div class="card-route">/app/listings/new</div>
+        <div class="card-desc">Multi-step form: address, photos, code, price, sign template.</div>
+      </div>
+    </a>
+
+    <a class="card" data-img="04-agent-dashboard/04_listing-detail.png" data-cap="Listing detail · /app/listings/:id">
+      <div class="card-img-wrap"><img class="card-img" src="04-agent-dashboard/04_listing-detail.png" loading="lazy" alt="Listing detail" /><span class="card-num">04.04</span><span class="card-badge badge-auth">Auth</span></div>
+      <div class="card-body">
+        <div class="card-name">Listing detail</div>
+        <div class="card-route">/app/listings/:id</div>
+        <div class="card-desc">Per-listing analytics, edit form, archive controls.</div>
+      </div>
+    </a>
+
+    <a class="card" data-img="04-agent-dashboard/05_prospects.png" data-cap="Prospects · /app/prospects">
+      <div class="card-img-wrap"><img class="card-img" src="04-agent-dashboard/05_prospects.png" loading="lazy" alt="Prospects" /><span class="card-num">04.05</span><span class="card-badge badge-auth">Auth</span></div>
+      <div class="card-body">
+        <div class="card-name">Prospects</div>
+        <div class="card-route">/app/prospects</div>
+        <div class="card-desc">Lead pipeline with status filters, source tags, hot-lead heatmap.</div>
+      </div>
+    </a>
+
+    <a class="card" data-img="04-agent-dashboard/06_lead-detail.png" data-cap="Lead detail · /app/prospects/:id">
+      <div class="card-img-wrap"><img class="card-img" src="04-agent-dashboard/06_lead-detail.png" loading="lazy" alt="Lead detail" /><span class="card-num">04.06</span><span class="card-badge badge-auth">Auth</span></div>
+      <div class="card-body">
+        <div class="card-name">Lead detail</div>
+        <div class="card-route">/app/prospects/:id</div>
+        <div class="card-desc">Conversation history, notes, status transitions, assignment.</div>
+      </div>
+    </a>
+
+    <a class="card" data-img="04-agent-dashboard/07_showings.png" data-cap="Showings · /app/showings">
+      <div class="card-img-wrap"><img class="card-img" src="04-agent-dashboard/07_showings.png" loading="lazy" alt="Showings" /><span class="card-num">04.07</span><span class="card-badge badge-auth">Auth</span></div>
+      <div class="card-body">
+        <div class="card-name">Showings</div>
+        <div class="card-route">/app/showings</div>
+        <div class="card-desc">Calendar of booked showings, confirm/reschedule actions.</div>
+      </div>
+    </a>
+
+    <a class="card" data-img="04-agent-dashboard/08_messages.png" data-cap="Messages · /app/messages">
+      <div class="card-img-wrap"><img class="card-img" src="04-agent-dashboard/08_messages.png" loading="lazy" alt="Messages" /><span class="card-num">04.08</span><span class="card-badge badge-auth">Auth · Pro+</span></div>
+      <div class="card-body">
+        <div class="card-name">Messages</div>
+        <div class="card-route">/app/messages</div>
+        <div class="card-desc">Inbox of every SMS conversation. Plan-gated to Pro+.</div>
+      </div>
+    </a>
+
+    <a class="card" data-img="04-agent-dashboard/09_team.png" data-cap="Team · /app/team">
+      <div class="card-img-wrap"><img class="card-img" src="04-agent-dashboard/09_team.png" loading="lazy" alt="Team" /><span class="card-num">04.09</span><span class="card-badge badge-auth">Auth · Pro+</span></div>
+      <div class="card-body">
+        <div class="card-name">Team</div>
+        <div class="card-route">/app/team</div>
+        <div class="card-desc">Member roster, role management, invitations, per-member pipeline.</div>
+      </div>
+    </a>
+
+    <a class="card" data-img="04-agent-dashboard/10_analytics.png" data-cap="Analytics · /app/analytics">
+      <div class="card-img-wrap"><img class="card-img" src="04-agent-dashboard/10_analytics.png" loading="lazy" alt="Analytics" /><span class="card-num">04.10</span><span class="card-badge badge-auth">Auth</span></div>
+      <div class="card-body">
+        <div class="card-name">Analytics</div>
+        <div class="card-route">/app/analytics</div>
+        <div class="card-desc">Charts: leads over time, by source, conversion funnel, top listings.</div>
+      </div>
+    </a>
+
+    <a class="card" data-img="04-agent-dashboard/11_notifications.png" data-cap="Notifications · /app/notifications">
+      <div class="card-img-wrap"><img class="card-img" src="04-agent-dashboard/11_notifications.png" loading="lazy" alt="Notifications" /><span class="card-num">04.11</span><span class="card-badge badge-auth">Auth</span></div>
+      <div class="card-body">
+        <div class="card-name">Notifications</div>
+        <div class="card-route">/app/notifications</div>
+        <div class="card-desc">Activity feed and notification preferences.</div>
+      </div>
+    </a>
+
+    <a class="card" data-img="04-agent-dashboard/12_account-settings.png" data-cap="Account settings · /app/settings">
+      <div class="card-img-wrap"><img class="card-img" src="04-agent-dashboard/12_account-settings.png" loading="lazy" alt="Account settings" /><span class="card-num">04.12</span><span class="card-badge badge-auth">Auth</span></div>
+      <div class="card-body">
+        <div class="card-name">Account settings</div>
+        <div class="card-route">/app/settings</div>
+        <div class="card-desc">Tabbed: profile, billing, integrations, team, security.</div>
+      </div>
+    </a>
+
+    <a class="card" data-img="04-agent-dashboard/13_support.png" data-cap="Support · /app/support">
+      <div class="card-img-wrap"><img class="card-img" src="04-agent-dashboard/13_support.png" loading="lazy" alt="Support" /><span class="card-num">04.13</span><span class="card-badge badge-auth">Auth</span></div>
+      <div class="card-body">
+        <div class="card-name">Support</div>
+        <div class="card-route">/app/support</div>
+        <div class="card-desc">Help articles, contact form, system status.</div>
+      </div>
+    </a>
+
+    <a class="card" data-img="04-agent-dashboard/14_billing-placeholder.png" data-cap="Billing · /app/billing">
+      <div class="card-img-wrap"><img class="card-img" src="04-agent-dashboard/14_billing-placeholder.png" loading="lazy" alt="Billing" /><span class="card-num">04.14</span><span class="card-badge badge-stub">Stub</span></div>
+      <div class="card-body">
+        <div class="card-name">Billing</div>
+        <div class="card-route">/app/billing</div>
+        <div class="card-desc">Phase-4 placeholder. Stripe integration not yet wired.</div>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<!-- ━━━━━━━━━━━━━━━━━━━━ GROUP 05: ADMIN ━━━━━━━━━━━━━━━━━━━━ -->
+<section class="group" id="g5">
+  <div class="group-head">
+    <div class="group-num">05</div>
+    <div class="group-title">
+      <h2>Admin <em>console</em></h2>
+      <p>35353 internal staff console. Staff users are auto-routed here from any agent-only page.</p>
+    </div>
+    <div class="group-meta">
+      <div>1 PAGE</div>
+      <div>STAFF ONLY</div>
+    </div>
+  </div>
+  <div class="grid">
+    <a class="card" data-img="05-admin/01_admin-overview.png" data-cap="Admin · /app/admin">
+      <div class="card-img-wrap"><img class="card-img" src="05-admin/01_admin-overview.png" loading="lazy" alt="Admin" /><span class="card-num">05.01</span><span class="card-badge badge-staff">Staff</span></div>
+      <div class="card-body">
+        <div class="card-name">Platform Operations</div>
+        <div class="card-route">/app/admin</div>
+        <div class="card-desc">Tabbed: Overview, Activations, Deletions, Users, Teams, Inquiries. MRR &amp; signup trends.</div>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- ━━━━━━━━━━━━━━━━━━━━ GROUP 06: LEGAL ━━━━━━━━━━━━━━━━━━━━ -->
+<section class="group" id="g6">
+  <div class="group-head">
+    <div class="group-num">06</div>
+    <div class="group-title">
+      <h2>Legal &amp; <em>compliance</em></h2>
+      <p>Required surface for TCPA compliance as an SMS-first product, plus the help center and sign-templates library.</p>
+    </div>
+    <div class="group-meta">
+      <div>5 PAGES</div>
+      <div>PUBLIC</div>
+    </div>
+  </div>
+  <div class="grid">
+
+    <a class="card" data-img="06-legal-compliance/01_privacy.png" data-cap="Privacy · /legal/privacy">
+      <div class="card-img-wrap"><img class="card-img" src="06-legal-compliance/01_privacy.png" loading="lazy" alt="Privacy" /><span class="card-num">06.01</span></div>
+      <div class="card-body">
+        <div class="card-name">Privacy policy</div>
+        <div class="card-route">/legal/privacy</div>
+        <div class="card-desc">Standard privacy policy. Linked from every footer.</div>
+      </div>
+    </a>
+
+    <a class="card" data-img="06-legal-compliance/02_terms.png" data-cap="Terms · /legal/terms">
+      <div class="card-img-wrap"><img class="card-img" src="06-legal-compliance/02_terms.png" loading="lazy" alt="Terms" /><span class="card-num">06.02</span></div>
+      <div class="card-body">
+        <div class="card-name">Terms of service</div>
+        <div class="card-route">/legal/terms</div>
+        <div class="card-desc">Master agreement for agent and consumer use.</div>
+      </div>
+    </a>
+
+    <a class="card" data-img="06-legal-compliance/03_tcpa.png" data-cap="TCPA · /legal/tcpa">
+      <div class="card-img-wrap"><img class="card-img" src="06-legal-compliance/03_tcpa.png" loading="lazy" alt="TCPA" /><span class="card-num">06.03</span></div>
+      <div class="card-body">
+        <div class="card-name">TCPA compliance</div>
+        <div class="card-route">/legal/tcpa</div>
+        <div class="card-desc">SMS-specific compliance language. Required for the product to operate legally.</div>
+      </div>
+    </a>
+
+    <a class="card" data-img="06-legal-compliance/04_help-center-placeholder.png" data-cap="Help center · /help">
+      <div class="card-img-wrap"><img class="card-img" src="06-legal-compliance/04_help-center-placeholder.png" loading="lazy" alt="Help center" /><span class="card-num">06.04</span><span class="card-badge badge-stub">Stub</span></div>
+      <div class="card-body">
+        <div class="card-name">Help center</div>
+        <div class="card-route">/help</div>
+        <div class="card-desc">Coming soon. Public help articles for consumers and agents.</div>
+      </div>
+    </a>
+
+    <a class="card" data-img="06-legal-compliance/05_sign-templates-placeholder.png" data-cap="Sign templates · /help/sign-templates">
+      <div class="card-img-wrap"><img class="card-img" src="06-legal-compliance/05_sign-templates-placeholder.png" loading="lazy" alt="Sign templates" /><span class="card-num">06.05</span><span class="card-badge badge-stub">Stub</span></div>
+      <div class="card-body">
+        <div class="card-name">Sign templates</div>
+        <div class="card-route">/help/sign-templates</div>
+        <div class="card-desc">Downloadable yard sign / billboard / broadcast templates. Strategic asset for the multi-channel pitch.</div>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<!-- ━━━━━━━━━━━━━━━━━━━━ GROUP 07: ERROR ━━━━━━━━━━━━━━━━━━━━ -->
+<section class="group" id="g7">
+  <div class="group-head">
+    <div class="group-num">07</div>
+    <div class="group-title">
+      <h2>Error <em>states</em></h2>
+      <p>Catch-alls and edge cases. Worth including in the user map for completeness.</p>
+    </div>
+    <div class="group-meta">
+      <div>3 PAGES</div>
+      <div>SYSTEM</div>
+    </div>
+  </div>
+  <div class="grid">
+
+    <a class="card" data-img="07-error/01_404-not-found.png" data-cap="404 — Not found">
+      <div class="card-img-wrap"><img class="card-img" src="07-error/01_404-not-found.png" loading="lazy" alt="404" /><span class="card-num">07.01</span></div>
+      <div class="card-body">
+        <div class="card-name">404 — Not found</div>
+        <div class="card-route">* catch-all</div>
+        <div class="card-desc">Friendly fallback for unknown routes.</div>
+      </div>
+    </a>
+
+    <a class="card" data-img="07-error/02_500-server-error.png" data-cap="500 — Server error">
+      <div class="card-img-wrap"><img class="card-img" src="07-error/02_500-server-error.png" loading="lazy" alt="500" /><span class="card-num">07.02</span></div>
+      <div class="card-body">
+        <div class="card-name">500 — Server error</div>
+        <div class="card-route">/500</div>
+        <div class="card-desc">Server failure page with retry CTA.</div>
+      </div>
+    </a>
+
+    <a class="card" data-img="07-error/03_public-listing-empty.png" data-cap="Public listing skeleton">
+      <div class="card-img-wrap"><img class="card-img" src="07-error/03_public-listing-empty.png" loading="lazy" alt="Listing skeleton" /><span class="card-num">07.03</span></div>
+      <div class="card-body">
+        <div class="card-name">Listing skeleton</div>
+        <div class="card-route">/p/INVALID</div>
+        <div class="card-desc">Empty/loading state of the public listing before data resolves.</div>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<!-- ━━━━━━━━━━━━━━━━━━━━ GROUP 08: MOBILE ━━━━━━━━━━━━━━━━━━━━ -->
+<section class="group" id="g8">
+  <div class="group-head">
+    <div class="group-num">08</div>
+    <div class="group-title">
+      <h2>Mobile <em>views</em></h2>
+      <p>Mobile-first responsive layout for the most-traveled flows. The buyer journey starts on phones standing in front of yard signs. The four marketing views follow the <strong>Look</strong> switch too.</p>
+    </div>
+    <div class="group-meta">
+      <div>8 VIEWS</div>
+      <div>390 × 844</div>
+    </div>
+  </div>
+  <div class="grid mobile-grid">
+
+    <a class="card mobile-card versioned" data-vtpl="09-mobile/{v}/01_home.png" data-cap="Mobile · Home">
+      <div class="card-img-wrap"><img class="card-img" src="09-mobile/classic/01_home.png" loading="lazy" alt="Mobile home" /><span class="card-num">09.01</span><span class="card-badge badge-ver" data-vbadge>Classic</span></div>
+      <div class="card-body"><div class="card-name">Home</div><div class="card-route" data-vroute="/ · /v2 · /v3">/</div></div>
+    </a>
+
+    <a class="card mobile-card versioned" data-vtpl="09-mobile/{v}/02_find.png" data-cap="Mobile · Find">
+      <div class="card-img-wrap"><img class="card-img" src="09-mobile/classic/02_find.png" loading="lazy" alt="Mobile find" /><span class="card-num">09.02</span><span class="card-badge badge-ver" data-vbadge>Classic</span></div>
+      <div class="card-body"><div class="card-name">Find</div><div class="card-route" data-vroute="/find · /v2 · /v3">/find</div></div>
+    </a>
+
+    <a class="card mobile-card versioned" data-vtpl="09-mobile/{v}/03_for-agents.png" data-cap="Mobile · For Agents">
+      <div class="card-img-wrap"><img class="card-img" src="09-mobile/classic/03_for-agents.png" loading="lazy" alt="Mobile for agents" /><span class="card-num">09.03</span><span class="card-badge badge-ver" data-vbadge>Classic</span></div>
+      <div class="card-body"><div class="card-name">For Agents</div><div class="card-route" data-vroute="/for-agents · /v2 · /v3">/for-agents</div></div>
+    </a>
+
+    <a class="card mobile-card versioned" data-vtpl="09-mobile/{v}/04_pricing.png" data-cap="Mobile · Pricing">
+      <div class="card-img-wrap"><img class="card-img" src="09-mobile/classic/04_pricing.png" loading="lazy" alt="Mobile pricing" /><span class="card-num">09.04</span><span class="card-badge badge-ver" data-vbadge>Classic</span></div>
+      <div class="card-body"><div class="card-name">Pricing</div><div class="card-route" data-vroute="/pricing · /v2 · /v3">/pricing</div></div>
+    </a>
+
+    <a class="card mobile-card" data-img="09-mobile/05_public-listing.png" data-cap="Mobile · Public listing">
+      <div class="card-img-wrap"><img class="card-img" src="09-mobile/05_public-listing.png" loading="lazy" alt="Mobile public listing" /><span class="card-num">09.05</span><span class="card-badge badge-mobile">Mobile</span></div>
+      <div class="card-body"><div class="card-name">Public listing</div><div class="card-route">/p/:code</div></div>
+    </a>
+
+    <a class="card mobile-card" data-img="09-mobile/06_dashboard.png" data-cap="Mobile · Dashboard">
+      <div class="card-img-wrap"><img class="card-img" src="09-mobile/06_dashboard.png" loading="lazy" alt="Mobile dashboard" /><span class="card-num">09.06</span><span class="card-badge badge-mobile">Mobile</span></div>
+      <div class="card-body"><div class="card-name">Dashboard</div><div class="card-route">/app/dashboard</div></div>
+    </a>
+
+    <a class="card mobile-card" data-img="09-mobile/07_listings.png" data-cap="Mobile · Listings">
+      <div class="card-img-wrap"><img class="card-img" src="09-mobile/07_listings.png" loading="lazy" alt="Mobile listings" /><span class="card-num">09.07</span><span class="card-badge badge-mobile">Mobile</span></div>
+      <div class="card-body"><div class="card-name">Listings</div><div class="card-route">/app/listings</div></div>
+    </a>
+
+    <a class="card mobile-card" data-img="09-mobile/08_prospects.png" data-cap="Mobile · Prospects">
+      <div class="card-img-wrap"><img class="card-img" src="09-mobile/08_prospects.png" loading="lazy" alt="Mobile prospects" /><span class="card-num">09.08</span><span class="card-badge badge-mobile">Mobile</span></div>
+      <div class="card-body"><div class="card-name">Prospects</div><div class="card-route">/app/prospects</div></div>
+    </a>
+
+  </div>
+</section>
+
+<!-- ━━━━━━━━━━━━━━━━━━━━ USER FLOWS ━━━━━━━━━━━━━━━━━━━━ -->
+<section class="flows" id="flows">
+  <div class="flows-inner">
+    <h2>How users <em>move</em> through it.</h2>
+    <div class="flow-grid">
+
+      <div class="flow">
+        <div class="flow-eyebrow">— Buyer journey</div>
+        <h3>From sign to showing</h3>
+        <div class="flow-step"><span class="step-num">01</span><div>Sees yard sign, billboard, or hears radio spot for <strong>35353</strong></div></div>
+        <div class="flow-step"><span class="step-num">02</span><div>Texts the property <strong>code</strong> to the agent's number</div></div>
+        <div class="flow-step"><span class="step-num">03</span><div>Receives SMS reply with link to <strong>/p/:code</strong></div></div>
+        <div class="flow-step"><span class="step-num">04</span><div>Lands on the <strong>public listing</strong> page (mobile)</div></div>
+        <div class="flow-step"><span class="step-num">05</span><div>Taps <strong>Schedule a Showing</strong> → submits form</div></div>
+      </div>
+
+      <div class="flow">
+        <div class="flow-eyebrow">— Agent acquisition</div>
+        <h3>From visitor to first listing</h3>
+        <div class="flow-step"><span class="step-num">01</span><div>Lands on <strong>Home</strong> or <strong>For Agents</strong> from organic / ads</div></div>
+        <div class="flow-step"><span class="step-num">02</span><div>Reviews <strong>Pricing</strong> and <strong>Integrations</strong></div></div>
+        <div class="flow-step"><span class="step-num">03</span><div>Clicks <strong>Register</strong> → fills 3-step form</div></div>
+        <div class="flow-step"><span class="step-num">04</span><div>Lands in <strong>Dashboard</strong>, takes the onboarding tour</div></div>
+        <div class="flow-step"><span class="step-num">05</span><div>Creates first <strong>listing</strong>, gets the code, prints the sign</div></div>
+      </div>
+
+      <div class="flow">
+        <div class="flow-eyebrow">— Agent daily</div>
+        <h3>Working the pipeline</h3>
+        <div class="flow-step"><span class="step-num">01</span><div>Signs in → <strong>Dashboard</strong> for the morning KPI scan</div></div>
+        <div class="flow-step"><span class="step-num">02</span><div>Reviews new leads in <strong>Prospects</strong></div></div>
+        <div class="flow-step"><span class="step-num">03</span><div>Replies via <strong>Lead detail</strong> conversation thread</div></div>
+        <div class="flow-step"><span class="step-num">04</span><div>Books appointments in <strong>Showings</strong> calendar</div></div>
+        <div class="flow-step"><span class="step-num">05</span><div>Reviews trends in <strong>Analytics</strong> weekly</div></div>
+      </div>
+
+      <div class="flow">
+        <div class="flow-eyebrow">— Internal staff</div>
+        <h3>Platform operations</h3>
+        <div class="flow-step"><span class="step-num">01</span><div>Signs in → auto-routed to <strong>Admin</strong> console</div></div>
+        <div class="flow-step"><span class="step-num">02</span><div>Reviews <strong>Overview</strong>: MRR, signups, churn</div></div>
+        <div class="flow-step"><span class="step-num">03</span><div>Handles <strong>Inquiries</strong> from contact form</div></div>
+        <div class="flow-step"><span class="step-num">04</span><div>Approves <strong>Deletion requests</strong></div></div>
+        <div class="flow-step"><span class="step-num">05</span><div>Audits <strong>Users</strong> and <strong>Teams</strong> as needed</div></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ━━━━━━━━━━━━━━━━━━━━ FOOTER ━━━━━━━━━━━━━━━━━━━━ -->
+<footer>
+  <div class="inner">
+    <div class="brand">
+      <img class="brand-logo" src="logo.svg" alt="35353" />
+    </div>
+    <div>User Map · 52 screens · 3 looks · Updated <span class="mono">June 16, 2026</span></div>
+  </div>
+</footer>
+
+<script>
+  // ── Version switcher: swaps every .versioned thumbnail in place ──────────
+  const LABELS = { classic: 'Classic', bold: 'Bold', warm: 'Warm' };
+  let currentVersion = 'classic';
+
+  function setVersion(v) {
+    if (!LABELS[v]) return;
+    currentVersion = v;
+    // swap thumbnails
+    document.querySelectorAll('.card.versioned').forEach(card => {
+      const tpl = card.getAttribute('data-vtpl');
+      const src = tpl.replace('{v}', v);
+      const img = card.querySelector('img');
+      img.src = src;
+      card.setAttribute('data-img', src);                       // lightbox source
+      const baseCap = card.getAttribute('data-cap').split('  ·  ')[0];
+      card.setAttribute('data-cap', baseCap + '  ·  ' + LABELS[v]);
+      const badge = card.querySelector('[data-vbadge]');
+      if (badge) badge.textContent = LABELS[v];
+    });
+    // reflect active state on every toggle group + labels
+    document.querySelectorAll('.ls-btn').forEach(b =>
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-v') === v)));
+    document.querySelectorAll('[data-vlabel]').forEach(el => el.textContent = LABELS[v]);
+    document.querySelectorAll('.vcard').forEach(c =>
+      c.classList.toggle('is-active', c.getAttribute('data-v') === v));
+  }
+
+  // ── Lightbox ─────────────────────────────────────────────────────────────
+  const lb     = document.getElementById('lightbox');
+  const lbImg  = document.getElementById('lightbox-img');
+  const lbCap  = document.getElementById('lightbox-cap');
+  document.querySelectorAll('.card').forEach(card => {
+    card.addEventListener('click', e => {
+      e.preventDefault();
+      lbImg.src = card.getAttribute('data-img');
+      lbCap.textContent = card.getAttribute('data-cap');
+      lb.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    });
+  });
+  function closeLightbox() {
+    lb.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+
+  // ── Smooth-scroll active TOC highlight ───────────────────────────────────
+  const tocLinks = document.querySelectorAll('.toc a');
+  const sections = document.querySelectorAll('section[id]');
+  function syncTOC() {
+    let active = null;
+    const y = window.scrollY + 200;
+    sections.forEach(s => { if (s.offsetTop <= y) active = s.id; });
+    tocLinks.forEach(a => {
+      const on = a.getAttribute('href') === '#' + active;
+      a.style.color = on ? 'var(--coral-dark)' : '';
+      a.style.fontWeight = on ? '700' : '500';
+    });
+  }
+  window.addEventListener('scroll', syncTOC, { passive: true });
+
+  // init
+  setVersion('classic');
+  syncTOC();
+</script>
+
+</body>
+</html>

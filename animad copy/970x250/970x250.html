@@ -1,0 +1,359 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>BannerBolt-970x250</title>
+	<meta charset="utf-8">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="ad.size" content="width=970, height=250">
+    
+    
+</head>
+<body style="margin: 0; padding: 0;">
+	
+<div id="preloader"><div class="loader"></div></div>
+<style>
+#preloader {
+	position: absolute;
+	width: 970px;
+	height: 250px;
+	background: #fff;
+	z-index: 9999;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	top: 0;
+	left: 0;
+}
+.loader {
+	border: 6px solid #f3f3f3;
+	border-top: 6px solid #3498db;
+	border-radius: 50%;
+	width: 40px;
+	height: 40px;
+	animation: spin 1s linear infinite;
+}
+@keyframes spin {
+	0% { transform: rotate(0deg);}
+	100% { transform: rotate(360deg);}
+}
+</style>
+
+	<div style="cursor:pointer" id="click"><div class="palco" style="width:970px; height:250px; position: relative; overflow: hidden; cursor: pointer; border: 0px solid #dfdfdf; box-sizing: border-box; -moz-box-sizing: border-box; -webkit-box-sizing: border-box; background:#ffffff;" id="palco"><img id="ws_3255" src="images/ws_3255.png" style="position: absolute; left: 515.58001708984px; top: 0px; width: 454.41998291016px; height: 250px; display:none" /><img id="ws_3260" src="images/ws_3260.png" style="position: absolute; left: 0px; top: 0px; width: 516.00006103516px; height: 250px; display:none" /><img id="ws_3321" src="images/ws_3321.png" style="position: absolute; left: 648.18804931641px; top: 172.00854492188px; width: 191.62391662598px; height: 48.794921875px; display:none" /><img id="ws_4543" src="images/ws_4543.png" style="position: absolute; left: 582.24444580078px; top: 48.72900390625px; width: 325.41351318359px; height: 86.522705078125px; display:none" /><img id="ws_3328" src="images/ws_3328.png" style="position: absolute; left: 515.58001708984px; top: 0px; width: 454.41998291016px; height: 250px; display:none" /><img id="ws_3333" src="images/ws_3333.png" style="position: absolute; left: 0px; top: 0px; width: 516.00006103516px; height: 250px; display:none" /><img id="ws_4549" src="images/ws_4549.png" style="position: absolute; left: 648.18804931641px; top: 168.00854492188px; width: 191.62391662598px; height: 48.794921875px; display:none" /><img id="ws_4551" src="images/ws_4551.png" style="position: absolute; left: 583.55090332031px; top: 73.61279296875px; width: 322.94668579102px; height: 39.3291015625px; display:none" /><img id="ws_4553" src="images/ws_4553.png" style="position: absolute; left: 515.58001708984px; top: 0px; width: 454.41998291016px; height: 250px; display:none" /><img id="ws_4558" src="images/ws_4558.png" style="position: absolute; left: 0px; top: 0px; width: 516.00006103516px; height: 250px; display:none" /><img id="ws_4571" src="images/ws_4571.png" style="position: absolute; left: 648.18804931641px; top: 168.00854492188px; width: 191.62391662598px; height: 48.794921875px; display:none" /><img id="ws_4573" src="images/ws_4573.png" style="position: absolute; left: 678.81402587891px; top: 42.741943359375px; width: 130.75523376465px; height: 26.42578125px; display:none" /><img id="ws_4615" src="images/ws_4615.png" style="position: absolute; left: 581.18161010742px; top: 91.61279296875px; width: 327.48083496094px; height: 39.638916015625px; display:none" /><img id="ws_3472" src="images/ws_3472.png" style="position: absolute; left: 515.580078125px; top: 0px; width: 454.419921875px; height: 250px; display:none" /><img id="ws_3477" src="images/ws_3477.png" style="position: absolute; left: 0px; top: 0px; width: 516.00006103516px; height: 250px; display:none" /><img id="ws_4576" src="images/ws_4576.png" style="position: absolute; left: 587px; top: 85px; width: 318px; height: 71.353355407715px; display:none" /></div></div>
+    <script type="text/javascript">
+    var clickTag = "apertureglobal.com";
+		document.getElementById("click").addEventListener("click", function () {
+           window.open(window.clickTag);
+        });
+	</script>
+    
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.0/gsap.min.js"></script>
+	<script>
+	// Preloader logic
+	function preloadImages(imageIds, callback) {
+		let loaded = 0;
+		const total = imageIds.length;
+		if (total === 0) {
+			callback();
+			return;
+		}
+		imageIds.forEach(function(id) {
+			const img = document.getElementById(id);
+			if (!img) {
+				loaded++;
+				if (loaded === total) callback();
+				return;
+			}
+			if (img.complete) {
+				loaded++;
+				if (loaded === total) callback();
+			} else {
+				img.addEventListener("load", function() {
+					loaded++;
+					if (loaded === total) callback();
+				});
+				img.addEventListener("error", function() {
+					loaded++;
+					if (loaded === total) callback();
+				});
+			}
+		});
+	}
+
+	document.addEventListener("DOMContentLoaded", function (event) {
+		var imageIds = [];
+		// Coleta todos os ids de imagens do banner
+		var imgs = document.querySelectorAll("#palco img");
+		imgs.forEach(function(img) {
+			imageIds.push(img.id);
+		});
+		preloadImages(imageIds, function() {
+			var preloader = document.getElementById("preloader");
+			if (preloader) preloader.style.display = "none";
+			// ...restante do código de animação...
+			const banner = {
+				"bannerHeight": "250",
+				"bannerWidth": "970",
+				"frames":[
+            { "elementsData": [
+                        {
+            "layerId": "ws_3255",
+            "x": 515.58001708984,
+            "y": 0,
+            "delay": 0,
+            "in": "none",
+            "out": "none",
+            "startTime": 0,
+            "endTime": 3.75,
+            "width": 454.41998291016,
+            "height": 250
+        },{
+            "layerId": "ws_3260",
+            "x": 0,
+            "y": 0,
+            "delay": 0,
+            "in": "none",
+            "out": "none",
+            "startTime": 0,
+            "endTime": 3.75,
+            "width": 516.00006103516,
+            "height": 250
+        },{
+            "layerId": "ws_3321",
+            "x": 648.18804931641,
+            "y": 172.00854492188,
+            "delay": 0,
+            "in": "none",
+            "out": "none",
+            "startTime": 0,
+            "endTime": 3.75,
+            "width": 191.62391662598,
+            "height": 48.794921875
+        },{
+            "layerId": "ws_4543",
+            "x": 582.24444580078,
+            "y": 48.72900390625,
+            "delay": 0,
+            "in": "left",
+            "out": "right",
+            "startTime": 0,
+            "endTime": 3.75,
+            "width": 325.41351318359,
+            "height": 86.522705078125
+        },
+                    ]
+                },
+            
+            { "elementsData": [
+                        {
+            "layerId": "ws_3328",
+            "x": 515.58001708984,
+            "y": 0,
+            "delay": 0,
+            "in": "none",
+            "out": "none",
+            "startTime": 3.75,
+            "endTime": 7.5,
+            "width": 454.41998291016,
+            "height": 250
+        },{
+            "layerId": "ws_3333",
+            "x": 0,
+            "y": 0,
+            "delay": 0,
+            "in": "none",
+            "out": "none",
+            "startTime": 3.75,
+            "endTime": 7.5,
+            "width": 516.00006103516,
+            "height": 250
+        },{
+            "layerId": "ws_4549",
+            "x": 648.18804931641,
+            "y": 168.00854492188,
+            "delay": 0,
+            "in": "none",
+            "out": "none",
+            "startTime": 3.75,
+            "endTime": 7.5,
+            "width": 191.62391662598,
+            "height": 48.794921875
+        },{
+            "layerId": "ws_4551",
+            "x": 583.55090332031,
+            "y": 73.61279296875,
+            "delay": 0,
+            "in": "left",
+            "out": "right",
+            "startTime": 3.75,
+            "endTime": 7.5,
+            "width": 322.94668579102,
+            "height": 39.3291015625
+        },
+                    ]
+                },
+            
+            { "elementsData": [
+                        {
+            "layerId": "ws_4553",
+            "x": 515.58001708984,
+            "y": 0,
+            "delay": 0,
+            "in": "none",
+            "out": "none",
+            "startTime": 7.5,
+            "endTime": 11.25,
+            "width": 454.41998291016,
+            "height": 250
+        },{
+            "layerId": "ws_4558",
+            "x": 0,
+            "y": 0,
+            "delay": 0,
+            "in": "none",
+            "out": "none",
+            "startTime": 7.5,
+            "endTime": 11.25,
+            "width": 516.00006103516,
+            "height": 250
+        },{
+            "layerId": "ws_4571",
+            "x": 648.18804931641,
+            "y": 168.00854492188,
+            "delay": 0,
+            "in": "none",
+            "out": "none",
+            "startTime": 7.5,
+            "endTime": 11.25,
+            "width": 191.62391662598,
+            "height": 48.794921875
+        },{
+            "layerId": "ws_4573",
+            "x": 678.81402587891,
+            "y": 42.741943359375,
+            "delay": 0,
+            "in": "none",
+            "out": "none",
+            "startTime": 7.5,
+            "endTime": 11.25,
+            "width": 130.75523376465,
+            "height": 26.42578125
+        },{
+            "layerId": "ws_4615",
+            "x": 581.18161010742,
+            "y": 91.61279296875,
+            "delay": 0,
+            "in": "left",
+            "out": "right",
+            "startTime": 7.5,
+            "endTime": 11.25,
+            "width": 327.48083496094,
+            "height": 39.638916015625
+        },
+                    ]
+                },
+            
+            { "elementsData": [
+                        {
+            "layerId": "ws_3472",
+            "x": 515.580078125,
+            "y": 0,
+            "delay": 0,
+            "in": "none",
+            "out": "none",
+            "startTime": 11.25,
+            "endTime": 15,
+            "width": 454.419921875,
+            "height": 250
+        },{
+            "layerId": "ws_3477",
+            "x": 0,
+            "y": 0,
+            "delay": 0,
+            "in": "none",
+            "out": "none",
+            "startTime": 11.25,
+            "endTime": 15,
+            "width": 516.00006103516,
+            "height": 250
+        },{
+            "layerId": "ws_4576",
+            "x": 587,
+            "y": 85,
+            "delay": 0,
+            "in": "opacity",
+            "out": "opacity",
+            "startTime": 11.25,
+            "endTime": 15,
+            "width": 318,
+            "height": 71.353355407715
+        },
+                    ]
+                },
+            ]
+
+			}
+			const bannerWidth = parseInt(banner.bannerWidth);
+			const bannerHeight = parseInt(banner.bannerHeight);
+			masterTimeline = gsap.timeline({
+				paused: false,
+				repeat: -1,
+				defaults: { ease: "power3.out" },
+			});
+			banner.frames.forEach((frame, index) => {
+
+				frame.elementsData.forEach((layer) => {
+
+					const start = parseFloat(layer.startTime.toFixed(1)) + layer.delay;
+					const end = parseFloat(layer.endTime.toFixed(1));
+
+					const durationAnimDefaultIn = 1;
+					const durationAnimDefaultOut = 0.8;
+					// Configura as animações no masterTimeline
+
+					const w = layer.width;
+					const h = layer.height;
+					const l = banner.frames.length;
+					const d = parseFloat(layer.delay.toFixed(1));
+
+					const newEnd = (w === bannerWidth && h === bannerHeight && layer.out === "none" && index < (l - 1) ? end + 2 : end);
+
+					masterTimeline
+						.set(`#${layer.layerId}`, { display: "block", transformOrigin: "50% 50%" }, start) // Garante que o elemento esteja visível
+						.fromTo(
+							`#${layer.layerId}`,
+							{
+								opacity: layer.in === "opacity" || layer.in != "none" ? 0 : 1,
+								x: layer.in === "left" ? -50 : layer.in === "right" ? 50 : 0,
+								y: layer.in === "top" ? -50 : layer.in === "bottom" ? 50 : 0,
+								scale: layer.in === "scale_in" ? 0.5 : layer.in === "scale_out" ? 1.5 : 1,
+							},
+							{
+								opacity: 1,
+								y: 0,
+								x: 0,
+								scale: 1,
+								duration: layer.in === "none" ? 0.01 : durationAnimDefaultIn
+							},
+							start
+						)
+						.to(
+							`#${layer.layerId}`,
+							{
+								opacity: layer.out === "opacity" || layer.out != "none" ? 0 : 1,
+								x: layer.out === "left" ? -50 : layer.out === "right" ? 50 : 0,
+								y: layer.out === "top" ? -50 : layer.out === "bottom" ? 50 : 0,
+								scale: layer.out === "scale_in" ? 0.5 : layer.out === "scale_out" ? 1.5 : 1,
+								duration: layer.out === "none" ? 0.01 : durationAnimDefaultOut
+							},
+							end - durationAnimDefaultOut
+						)
+						.set(`#${layer.layerId}`, { display: index < (l - 1)?"none":"block" }, newEnd);
+				});
+			});
+			masterTimeline.play();
+		});
+	});
+	</script>
+</body>
+</html>

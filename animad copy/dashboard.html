@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>AnimAd — Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#0d0d0f;--surface:#111114;--surface2:#17171b;--border:#1f1f26;
+  --text:#e4e4ed;--muted:#5e5e72;--accent:#6c63ff;--accent-h:#7d75ff;
+  --red:#ef4444;--red-bg:rgba(239,68,68,.08);
+  --green:#34d399;
+}
+body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+
+/* ── Header ── */
+header{display:flex;align-items:center;padding:0 32px;height:56px;border-bottom:1px solid var(--border);background:var(--surface);position:sticky;top:0;z-index:20;}
+.logo{font-size:15px;font-weight:600;letter-spacing:-.03em;}
+.logo em{color:var(--accent);font-style:normal;}
+.header-spacer{flex:1;}
+.btn-primary{display:inline-flex;align-items:center;gap:7px;padding:8px 18px;background:var(--accent);color:#fff;border:none;border-radius:7px;font-size:13px;font-weight:500;font-family:inherit;cursor:pointer;transition:background .15s;}
+.btn-primary:hover{background:var(--accent-h);}
+.btn-secondary{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;background:var(--surface2);color:var(--text);border:1px solid var(--border);border-radius:7px;font-size:13px;font-weight:400;font-family:inherit;cursor:pointer;transition:all .15s;}
+.btn-secondary:hover{border-color:var(--accent);color:var(--accent);}
+.btn-danger{display:inline-flex;align-items:center;gap:5px;padding:6px 12px;background:var(--red-bg);color:var(--red);border:1px solid rgba(239,68,68,.2);border-radius:6px;font-size:12px;font-family:inherit;cursor:pointer;transition:all .15s;}
+.btn-danger:hover{background:rgba(239,68,68,.15);border-color:rgba(239,68,68,.4);}
+.btn-icon{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;cursor:pointer;color:var(--muted);transition:all .12s;}
+.btn-icon:hover{border-color:var(--accent);color:var(--text);}
+
+/* ── Main ── */
+.main{max-width:1140px;margin:0 auto;padding:36px 32px 60px;}
+.page-title{font-size:22px;font-weight:600;letter-spacing:-.02em;margin-bottom:6px;}
+.page-sub{font-size:13px;color:var(--muted);margin-bottom:28px;}
+
+/* ── Empty state ── */
+.empty{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 20px;text-align:center;border:1px dashed var(--border);border-radius:12px;background:var(--surface);}
+.empty-icon{font-size:40px;margin-bottom:16px;opacity:.4;}
+.empty h2{font-size:17px;font-weight:600;margin-bottom:8px;}
+.empty p{font-size:13px;color:var(--muted);max-width:320px;line-height:1.6;margin-bottom:24px;}
+
+/* ── Ad set grid ── */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden;transition:border-color .15s;}
+.card:hover{border-color:rgba(108,99,255,.4);}
+.card-preview{height:100px;background:linear-gradient(135deg,#16213e 0%,#0f3460 100%);display:flex;align-items:center;justify-content:center;gap:8px;padding:16px;position:relative;}
+.tpl-thumb-sm{border-radius:3px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);}
+.card-body{padding:16px;}
+.card-name{font-size:14px;font-weight:600;margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.card-meta{font-size:11px;color:var(--muted);margin-bottom:12px;}
+.card-tags{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:14px;}
+.tag{font-size:10px;font-weight:500;padding:2px 7px;border-radius:4px;background:rgba(108,99,255,.12);color:var(--accent);border:1px solid rgba(108,99,255,.2);}
+.card-actions{display:flex;gap:6px;}
+.card-actions .btn-primary{flex:1;justify-content:center;padding:7px 12px;font-size:12px;}
+.card-actions .btn-icon{flex-shrink:0;}
+
+/* ── Modal ── */
+.backdrop{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:50;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .2s;}
+.backdrop.open{opacity:1;pointer-events:all;}
+.modal{background:var(--surface);border:1px solid var(--border);border-radius:14px;width:100%;max-width:580px;max-height:88vh;display:flex;flex-direction:column;overflow:hidden;transform:translateY(12px);transition:transform .2s;}
+.backdrop.open .modal{transform:translateY(0);}
+.modal-header{display:flex;align-items:center;padding:20px 24px 0;gap:12px;flex-shrink:0;}
+.modal-title{font-size:16px;font-weight:600;flex:1;}
+.modal-close{background:none;border:none;color:var(--muted);cursor:pointer;font-size:18px;padding:4px;line-height:1;transition:color .1s;}
+.modal-close:hover{color:var(--text);}
+.modal-body{flex:1;overflow-y:auto;padding:20px 24px;}
+.modal-body::-webkit-scrollbar{width:4px;}
+.modal-body::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
+.modal-footer{display:flex;align-items:center;justify-content:space-between;padding:16px 24px;border-top:1px solid var(--border);flex-shrink:0;gap:10px;}
+
+/* ── Steps ── */
+.steps{display:flex;align-items:center;gap:0;margin-bottom:24px;}
+.step{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted);}
+.step.active{color:var(--text);font-weight:500;}
+.step.done{color:var(--green);}
+.step-num{width:22px;height:22px;border-radius:50%;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;flex-shrink:0;}
+.step.active .step-num{background:var(--accent);border-color:var(--accent);color:#fff;}
+.step.done .step-num{background:rgba(52,211,153,.15);border-color:var(--green);color:var(--green);}
+.step-sep{width:28px;height:1px;background:var(--border);margin:0 4px;}
+
+/* ── Step 1: Name ── */
+.field-group{margin-bottom:18px;}
+.field-group label{display:block;font-size:12px;color:var(--muted);margin-bottom:6px;}
+.field-group input[type="text"],
+.field-group textarea{
+  width:100%;background:var(--bg);border:1px solid var(--border);border-radius:7px;
+  padding:10px 12px;color:var(--text);font-size:14px;font-family:inherit;
+  outline:none;transition:border-color .15s;resize:vertical;
+}
+.field-group input[type="text"]:focus,
+.field-group textarea:focus{border-color:var(--accent);}
+
+/* ── Step 2: Template chooser ── */
+.tpl-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.tpl-option{position:relative;border:1px solid var(--border);border-radius:9px;padding:14px;cursor:pointer;transition:all .15s;background:var(--bg);user-select:none;}
+.tpl-option:hover{border-color:var(--accent);background:rgba(108,99,255,.04);}
+.tpl-option.selected{border-color:var(--accent);background:rgba(108,99,255,.08);}
+.tpl-option input[type="checkbox"]{position:absolute;opacity:0;pointer-events:none;}
+.tpl-check{position:absolute;top:10px;right:10px;width:18px;height:18px;border-radius:50%;border:1.5px solid var(--border);background:var(--bg);display:flex;align-items:center;justify-content:center;transition:all .15s;}
+.tpl-option.selected .tpl-check{background:var(--accent);border-color:var(--accent);}
+.tpl-option.selected .tpl-check::after{content:'✓';font-size:10px;color:#fff;font-weight:700;}
+.tpl-vis{width:100%;height:56px;border-radius:5px;background:linear-gradient(135deg,#1a1a2e 0%,#16213e 100%);margin-bottom:10px;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+.tpl-vis-inner{background:rgba(255,255,255,.07);border-radius:2px;}
+.tpl-option-name{font-size:13px;font-weight:500;margin-bottom:2px;}
+.tpl-option-meta{font-size:10px;color:var(--muted);}
+
+/* ── Step 3: Content fields ── */
+.content-section{margin-bottom:24px;}
+.content-section-title{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:12px;}
+.photo-slots{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.photo-slot{border:1px dashed var(--border);border-radius:7px;padding:14px 12px;text-align:center;cursor:pointer;position:relative;overflow:hidden;transition:all .15s;}
+.photo-slot:hover{border-color:var(--accent);background:rgba(108,99,255,.04);}
+.photo-slot input[type="file"]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
+.photo-slot.filled{padding:5px;border-style:solid;}
+.photo-slot-icon{font-size:20px;color:var(--muted);margin-bottom:5px;}
+.photo-slot-label{font-size:11px;color:var(--muted);line-height:1.4;}
+.photo-slot-hint{font-size:10px;color:rgba(94,94,114,.7);margin-top:3px;}
+.photo-slot img{width:100%;height:64px;object-fit:cover;border-radius:4px;display:block;}
+
+/* ── Delete confirm ── */
+.confirm-modal .modal{max-width:380px;}
+.confirm-modal .modal-body{text-align:center;padding:24px;}
+.confirm-modal .modal-body p{font-size:13px;color:var(--muted);margin-top:8px;line-height:1.6;}
+.confirm-modal .modal-footer{justify-content:center;gap:10px;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">Anim<em>Ad</em></div>
+  <div class="header-spacer"></div>
+  <button class="btn-primary" id="new-btn">
+    <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M6.5 1v11M1 6.5h11" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+    New Ad Set
+  </button>
+</header>
+
+<div class="main">
+  <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:24px;">
+    <div>
+      <div class="page-title">Ad Sets</div>
+      <div class="page-sub" id="count-label">Loading…</div>
+    </div>
+  </div>
+
+  <div id="empty-state" class="empty" style="display:none;">
+    <div class="empty-icon">🎯</div>
+    <h2>No ad sets yet</h2>
+    <p>Create your first ad set to start building animated HTML5 ads across multiple formats.</p>
+    <button class="btn-primary" onclick="openCreate()">
+      <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M6.5 1v11M1 6.5h11" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      Create Ad Set
+    </button>
+  </div>
+
+  <div id="projects-grid" class="grid"></div>
+</div>
+
+<!-- ── Create / Edit Modal ── -->
+<div class="backdrop" id="create-backdrop">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="modal-title">New Ad Set</div>
+      <button class="modal-close" onclick="closeCreate()">✕</button>
+    </div>
+    <div class="modal-body">
+      <!-- Steps indicator -->
+      <div class="steps">
+        <div class="step" id="si-1"><div class="step-num">1</div><span>Name</span></div>
+        <div class="step-sep"></div>
+        <div class="step" id="si-2"><div class="step-num">2</div><span>Templates</span></div>
+        <div class="step-sep"></div>
+        <div class="step" id="si-3"><div class="step-num">3</div><span>Content</span></div>
+      </div>
+
+      <!-- Step 1 -->
+      <div id="step-1-body">
+        <div class="field-group">
+          <label>Ad set name</label>
+          <input type="text" id="project-name-input" placeholder="e.g. Infinity Villas Campaign" autocomplete="off">
+        </div>
+        <div class="field-group">
+          <label>Description <span style="color:#3a3a50">(optional)</span></label>
+          <textarea id="project-desc-input" rows="2" placeholder="Notes about this campaign…"></textarea>
+        </div>
+      </div>
+
+      <!-- Step 2 -->
+      <div id="step-2-body" style="display:none;">
+        <p style="font-size:13px;color:var(--muted);margin-bottom:16px;line-height:1.6;">
+          Select the ad formats you need. You can choose one or more.
+        </p>
+        <div class="tpl-grid">
+          <div class="tpl-option" data-tpl="t1">
+            <input type="checkbox" value="t1">
+            <div class="tpl-check"></div>
+            <div class="tpl-vis"><div class="tpl-vis-inner" style="width:22px;height:44px;"></div></div>
+            <div class="tpl-option-name">Skyscraper</div>
+            <div class="tpl-option-meta">300 × 600 · Animated</div>
+          </div>
+          <div class="tpl-option" data-tpl="t2">
+            <input type="checkbox" value="t2">
+            <div class="tpl-check"></div>
+            <div class="tpl-vis"><div class="tpl-vis-inner" style="width:30px;height:40px;"></div></div>
+            <div class="tpl-option-name">Listing Ad</div>
+            <div class="tpl-option-meta">768 × 1024 · Animated</div>
+          </div>
+          <div class="tpl-option" data-tpl="t3">
+            <input type="checkbox" value="t3">
+            <div class="tpl-check"></div>
+            <div class="tpl-vis"><div class="tpl-vis-inner" style="width:44px;height:12px;"></div></div>
+            <div class="tpl-option-name">Leaderboard A</div>
+            <div class="tpl-option-meta">970 × 250 · Animated</div>
+          </div>
+          <div class="tpl-option" data-tpl="t4">
+            <input type="checkbox" value="t4">
+            <div class="tpl-check"></div>
+            <div class="tpl-vis"><div class="tpl-vis-inner" style="width:44px;height:12px;"></div></div>
+            <div class="tpl-option-name">Leaderboard B</div>
+            <div class="tpl-option-meta">970 × 250 · Animated</div>
+          </div>
+        </div>
+        <p id="tpl-error" style="font-size:12px;color:#ef4444;margin-top:10px;display:none;">Please select at least one template.</p>
+      </div>
+
+      <!-- Step 3 -->
+      <div id="step-3-body" style="display:none;">
+        <p style="font-size:13px;color:var(--muted);margin-bottom:18px;line-height:1.6;">
+          Enter your content. It will be applied across all selected templates. You can fine-tune per-template in the editor.
+        </p>
+
+        <!-- Copy fields (always visible) -->
+        <div class="content-section">
+          <div class="content-section-title">Copy</div>
+          <div class="field-group">
+            <label>Headline <span id="hint-headline" style="color:#3a3a50;font-size:10px;"></span></label>
+            <input type="text" id="f-headline" placeholder="Main headline or property title" autocomplete="off">
+          </div>
+          <div class="field-group">
+            <label>Sub-headline / Address <span id="hint-subline" style="color:#3a3a50;font-size:10px;"></span></label>
+            <input type="text" id="f-subline" placeholder="Address or sub-heading" autocomplete="off">
+          </div>
+          <div class="field-group" id="f-agent-group">
+            <label>Agent Name</label>
+            <input type="text" id="f-agent" placeholder="Your name or team name" autocomplete="off">
+          </div>
+          <div class="field-group" id="f-tagline-group" style="display:none;">
+            <label>Tagline <span style="color:#3a3a50;font-size:10px;">(Leaderboard B)</span></label>
+            <input type="text" id="f-tagline" placeholder="Brand tagline for final slide" autocomplete="off">
+          </div>
+        </div>
+
+        <!-- Photos -->
+        <div class="content-section">
+          <div class="content-section-title">Media</div>
+          <div class="photo-slots" id="photo-slots"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn-secondary" id="modal-back-btn" onclick="modalBack()" style="display:none;">← Back</button>
+      <div style="flex:1"></div>
+      <button class="btn-secondary" onclick="closeCreate()" id="modal-cancel-btn">Cancel</button>
+      <button class="btn-primary" id="modal-next-btn" onclick="modalNext()">Continue →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── Delete Confirm Modal ── -->
+<div class="backdrop confirm-modal" id="delete-backdrop">
+  <div class="modal">
+    <div class="modal-header"><div class="modal-title">Delete Ad Set</div></div>
+    <div class="modal-body">
+      <div style="font-size:32px;margin-bottom:8px;">🗑️</div>
+      <p>Are you sure you want to delete <strong id="delete-project-name">"…"</strong>?<br>This cannot be undone.</p>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="closeDelete()">Cancel</button>
+      <button class="btn-primary" style="background:var(--red);" id="confirm-delete-btn">Delete</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════════════════
+// DATA LAYER
+// ═══════════════════════════════════════════════════════════════════════
+const STORE_KEY = 'animad_projects';
+const ACTIVE_KEY = 'animad_active_project';
+
+function getProjects() {
+  try { return JSON.parse(localStorage.getItem(STORE_KEY)) || []; } catch { return []; }
+}
+
+// Strip all base64 photo data before writing — photos can be hundreds of KB
+// and will fill localStorage (5 MB limit) quickly. Text settings are tiny.
+// Photos are kept in-memory for the session and need re-uploading across sessions.
+function stripPhotos(stateObj) {
+  if (!stateObj) return stateObj;
+  const s = JSON.parse(JSON.stringify(stateObj));
+  ['t1','t2','t3','t4'].forEach(t => {
+    if (!s[t]) return;
+    s[t].photoDataUrl = null;
+    ['photo1','photo2','photo3','photo4'].forEach(k => {
+      if (s[t][k]) s[t][k].dataUrl = null;
+    });
+  });
+  return s;
+}
+
+function saveProjects(projects) {
+  // Always strip photos before writing to localStorage
+  const slim = projects.map(p => ({ ...p, state: stripPhotos(p.state) }));
+  try {
+    localStorage.setItem(STORE_KEY, JSON.stringify(slim));
+  } catch (e) {
+    // If still over quota, clear all localStorage and retry
+    console.warn('localStorage quota exceeded — clearing and retrying');
+    localStorage.removeItem(STORE_KEY);
+    try { localStorage.setItem(STORE_KEY, JSON.stringify(slim)); }
+    catch (e2) { console.error('Could not save projects:', e2); }
+  }
+}
+function genId() {
+  return 'proj_' + Date.now() + '_' + Math.random().toString(36).slice(2,7);
+}
+
+const TEMPLATE_INFO = {
+  t1: { label:'Skyscraper',    size:'300×600'   },
+  t2: { label:'Listing Ad',    size:'768×1024'  },
+  t3: { label:'Leaderboard A', size:'970×250'   },
+  t4: { label:'Leaderboard B', size:'970×250'   },
+};
+
+// Friendly label for photo slots given selected templates
+function photoSlotDefs(selectedTpls) {
+  const slots = [];
+  const hasSingle = selectedTpls.some(t => ['t1','t2'].includes(t));
+  const hasMulti  = selectedTpls.some(t => ['t3','t4'].includes(t));
+
+  if (hasSingle || hasMulti) {
+    let hint = [];
+    if (selectedTpls.includes('t1')) hint.push('T1 bg');
+    if (selectedTpls.includes('t2')) hint.push('T2 house');
+    if (selectedTpls.includes('t3')) hint.push('T3 slide 1');
+    if (selectedTpls.includes('t4')) hint.push('T4 slide 1');
+    slots.push({ key:'p1', label:'Photo 1', hint: hint.join(', ') });
+  }
+  if (hasMulti) {
+    let hint = [];
+    if (selectedTpls.includes('t3')) hint.push('T3 slide 2');
+    if (selectedTpls.includes('t4')) hint.push('T4 slide 2');
+    slots.push({ key:'p2', label:'Photo 2', hint: hint.join(', ') });
+    if (selectedTpls.includes('t3')) hint.push('T3 slide 3');
+    if (selectedTpls.includes('t4')) hint.push('T4 slide 3');
+    slots.push({ key:'p3', label:'Photo 3', hint: [selectedTpls.includes('t3')?'T3 slide 3':'',selectedTpls.includes('t4')?'T4 slide 3':''].filter(Boolean).join(', ') });
+  }
+  if (selectedTpls.includes('t3')) {
+    slots.push({ key:'p4', label:'Photo 4', hint: 'T3 slide 4' });
+  }
+  return slots;
+}
+
+// Map campaign vars → template state fields
+function campaignToState(campaign, selectedTpls) {
+  const def = txt => ({ text:txt, font:'Cormorant Garamond', size:17, x:0, y:0, align:'left' });
+  const defM = (txt,font,size) => ({ text:txt, font:font||'Montserrat', size:size||22, x:0, y:0, align:'left' });
+  const state = {};
+
+  if (selectedTpls.includes('t1')) {
+    state.t1 = {
+      h1: { ...def(campaign.headline||'INFINITE ELEGANCE'), font:'Cormorant Garamond', size:17 },
+      h2: { ...def(campaign.subline||'INFINITE VISION'),   font:'Cormorant Garamond', size:17 },
+      photoDataUrl: campaign.photos.p1||null, photoFit:'cover', photoPos:{x:50,y:50},
+    };
+  }
+  if (selectedTpls.includes('t2')) {
+    state.t2 = {
+      title:     { ...def(campaign.headline||'Luxury offering title goes here'), font:'Cormorant Garamond', size:52 },
+      address:   { ...defM(campaign.subline||'12345 Sample Rd'), size:32 },
+      agentName: { ...defM(campaign.agentName||'Agent Name'), size:32 },
+      photoDataUrl: campaign.photos.p1||null, photoFit:'cover', photoPos:{x:50,y:50},
+    };
+  }
+  if (selectedTpls.includes('t3')) {
+    state.t3 = {
+      title:     { ...def(campaign.headline||'Luxury offering title goes here'), font:'Cormorant Garamond', size:38 },
+      address:   { ...defM(campaign.subline||'12345 Sample Rd'), size:22 },
+      agentName: { ...defM(campaign.agentName||'Agent Name'), size:22 },
+      photo1:{dataUrl:campaign.photos.p1||null, fit:'cover', pos:{x:50,y:50}},
+      photo2:{dataUrl:campaign.photos.p2||null, fit:'cover', pos:{x:50,y:50}},
+      photo3:{dataUrl:campaign.photos.p3||null, fit:'cover', pos:{x:50,y:50}},
+      photo4:{dataUrl:campaign.photos.p4||null, fit:'cover', pos:{x:50,y:50}},
+    };
+  }
+  if (selectedTpls.includes('t4')) {
+    state.t4 = {
+      st: { ...def(campaign.headline||'Luxury street address'), font:'Cormorant Garamond', size:32 },
+      ad: { ...defM(campaign.subline||'12345 Sample Rd'), size:22 },
+      ag: { ...defM(campaign.agentName||'Agent Name'), size:22 },
+      tl: { ...def(campaign.tagline||'Luxury tagline goes here'), font:'Cormorant Garamond', size:36 },
+      photo1:{dataUrl:campaign.photos.p1||null, fit:'cover', pos:{x:50,y:50}},
+      photo2:{dataUrl:campaign.photos.p2||null, fit:'cover', pos:{x:50,y:50}},
+      photo3:{dataUrl:campaign.photos.p3||null, fit:'cover', pos:{x:50,y:50}},
+    };
+  }
+  return state;
+}
+
+
+// ═══════════════════════════════════════════════════════════════════════
+// PhotoDB — IndexedDB wrapper for photo storage (no size limit vs localStorage)
+// ═══════════════════════════════════════════════════════════════════════
+const PhotoDB = {
+  _db: null,
+  async open() {
+    if (this._db) return this._db;
+    return new Promise((resolve, reject) => {
+      const req = indexedDB.open('animad_photos', 1);
+      req.onupgradeneeded = e => e.target.result.createObjectStore('photos');
+      req.onsuccess  = e => { this._db = e.target.result; resolve(this._db); };
+      req.onerror    = e => reject(e.target.error);
+    });
+  },
+  async set(key, value) {
+    const db = await this.open();
+    return new Promise((res, rej) => {
+      const tx = db.transaction('photos', 'readwrite');
+      tx.objectStore('photos').put(value, key);
+      tx.oncomplete = res;
+      tx.onerror    = e => rej(e.target.error);
+    });
+  },
+  async get(key) {
+    const db = await this.open();
+    return new Promise((res, rej) => {
+      const tx  = db.transaction('photos', 'readonly');
+      const req = tx.objectStore('photos').get(key);
+      req.onsuccess = e => res(e.target.result ?? null);
+      req.onerror   = e => rej(e.target.error);
+    });
+  },
+  async del(key) {
+    const db = await this.open();
+    return new Promise((res, rej) => {
+      const tx = db.transaction('photos', 'readwrite');
+      tx.objectStore('photos').delete(key);
+      tx.oncomplete = res;
+      tx.onerror    = e => rej(e.target.error);
+    });
+  },
+  // Bundle all photos for a project into one object and store it
+  async saveProjectPhotos(projectId, stateObj) {
+    const bundle = {
+      t1: stateObj.t1?.photoDataUrl || null,
+      t2: stateObj.t2?.photoDataUrl || null,
+      t3: {
+        p1: stateObj.t3?.photo1?.dataUrl || null,
+        p2: stateObj.t3?.photo2?.dataUrl || null,
+        p3: stateObj.t3?.photo3?.dataUrl || null,
+        p4: stateObj.t3?.photo4?.dataUrl || null,
+      },
+      t4: {
+        p1: stateObj.t4?.photo1?.dataUrl || null,
+        p2: stateObj.t4?.photo2?.dataUrl || null,
+        p3: stateObj.t4?.photo3?.dataUrl || null,
+      },
+    };
+    // Only save if there's at least one photo
+    const hasPhotos = bundle.t1 || bundle.t2 ||
+      Object.values(bundle.t3).some(Boolean) ||
+      Object.values(bundle.t4).some(Boolean);
+    if (hasPhotos) await this.set('proj_' + projectId, bundle);
+  },
+  async loadProjectPhotos(projectId) {
+    try { return await this.get('proj_' + projectId); } catch { return null; }
+  },
+  async deleteProjectPhotos(projectId) {
+    try { await this.del('proj_' + projectId); } catch {}
+  },
+};
+
+// ═══════════════════════════════════════════════════════════════════════
+// RENDER
+// ═══════════════════════════════════════════════════════════════════════
+function relativeDate(ts) {
+  const diff = Date.now() - ts;
+  const min = Math.floor(diff/60000);
+  if (min < 1)  return 'just now';
+  if (min < 60) return `${min}m ago`;
+  const h = Math.floor(min/60);
+  if (h < 24)   return `${h}h ago`;
+  const d = Math.floor(h/24);
+  if (d < 30)   return `${d}d ago`;
+  return new Date(ts).toLocaleDateString();
+}
+
+function renderProjectCard(p) {
+  const tags = p.templates.map(t => `<span class="tag">${TEMPLATE_INFO[t]?.label||t}</span>`).join('');
+  const thumbs = p.templates.map(t => {
+    if (t==='t1') return `<div class="tpl-thumb-sm" style="width:14px;height:28px;"></div>`;
+    if (t==='t2') return `<div class="tpl-thumb-sm" style="width:18px;height:24px;"></div>`;
+    return `<div class="tpl-thumb-sm" style="width:28px;height:8px;"></div>`;
+  }).join('');
+
+  return `<div class="card">
+    <div class="card-preview">${thumbs}</div>
+    <div class="card-body">
+      <div class="card-name" title="${p.name}">${p.name}</div>
+      <div class="card-meta">Updated ${relativeDate(p.updated||p.created)}</div>
+      <div class="card-tags">${tags}</div>
+      <div class="card-actions">
+        <button class="btn-primary" onclick="openProject('${p.id}')">
+          <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M1 5.5h9M6 1.5l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Open
+        </button>
+        <button class="btn-icon" title="Duplicate" onclick="duplicateProject('${p.id}')">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><rect x="1" y="4" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M4 4V2.5A1.5 1.5 0 015.5 1H10.5A1.5 1.5 0 0112 2.5V7.5A1.5 1.5 0 0110.5 9H9" stroke="currentColor" stroke-width="1.3"/></svg>
+        </button>
+        <button class="btn-icon" title="Delete" onclick="confirmDelete('${p.id}')" style="color:#ef4444;border-color:rgba(239,68,68,.2);">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 3.5h9M5 3.5V2h3v1.5M5.5 6v4M7.5 6v4M3 3.5l.7 7A1 1 0 004.7 11.5h3.6a1 1 0 001-.9l.7-7" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderDashboard() {
+  const projects = getProjects();
+  const grid = document.getElementById('projects-grid');
+  const empty = document.getElementById('empty-state');
+  const count = document.getElementById('count-label');
+
+  count.textContent = projects.length === 0
+    ? 'No ad sets yet'
+    : `${projects.length} ad set${projects.length!==1?'s':''}`;
+
+  if (projects.length === 0) {
+    grid.style.display = 'none';
+    empty.style.display = 'flex';
+  } else {
+    empty.style.display = 'none';
+    grid.style.display = 'grid';
+    grid.innerHTML = projects
+      .slice().sort((a,b) => (b.updated||b.created) - (a.updated||a.created))
+      .map(renderProjectCard).join('');
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════════
+// NAVIGATION
+// ═══════════════════════════════════════════════════════════════════════
+function openProject(id) {
+  localStorage.setItem(ACTIVE_KEY, id);
+  window.location.href = 'index.html';
+}
+
+function duplicateProject(id) {
+  const projects = getProjects();
+  const orig = projects.find(p => p.id === id);
+  if (!orig) return;
+  const copy = JSON.parse(JSON.stringify(orig));
+  copy.id = genId();
+  copy.name = orig.name + ' (copy)';
+  copy.created = Date.now();
+  copy.updated = Date.now();
+  projects.push(copy);
+  saveProjects(projects);
+  renderDashboard();
+}
+
+// ═══════════════════════════════════════════════════════════════════════
+// CREATE FLOW
+// ═══════════════════════════════════════════════════════════════════════
+let createStep = 1;
+let editingProjectId = null;
+let pendingPhotos = { p1:null, p2:null, p3:null, p4:null };
+
+function openCreate(projectId) {
+  editingProjectId = projectId || null;
+  pendingPhotos = { p1:null, p2:null, p3:null, p4:null };
+
+  // Reset form
+  document.getElementById('project-name-input').value = '';
+  document.getElementById('project-desc-input').value = '';
+  document.querySelectorAll('.tpl-option').forEach(o => {
+    o.classList.remove('selected');
+    o.querySelector('input').checked = false;
+  });
+  document.getElementById('f-headline').value = '';
+  document.getElementById('f-subline').value = '';
+  document.getElementById('f-agent').value = '';
+  document.getElementById('f-tagline').value = '';
+
+  if (projectId) {
+    const p = getProjects().find(x => x.id === projectId);
+    if (p) {
+      document.getElementById('project-name-input').value = p.name;
+      document.getElementById('project-desc-input').value = p.description || '';
+      p.templates.forEach(t => {
+        const opt = document.querySelector(`.tpl-option[data-tpl="${t}"]`);
+        if (opt) { opt.classList.add('selected'); opt.querySelector('input').checked = true; }
+      });
+      // Pre-fill campaign fields
+      if (p.campaign) {
+        document.getElementById('f-headline').value = p.campaign.headline || '';
+        document.getElementById('f-subline').value  = p.campaign.subline  || '';
+        document.getElementById('f-agent').value    = p.campaign.agentName|| '';
+        document.getElementById('f-tagline').value  = p.campaign.tagline  || '';
+        pendingPhotos = { ...p.campaign.photos };
+      }
+    }
+    document.getElementById('modal-title').textContent = 'Edit Ad Set';
+  } else {
+    document.getElementById('modal-title').textContent = 'New Ad Set';
+  }
+
+  goToStep(1);
+  document.getElementById('create-backdrop').classList.add('open');
+  setTimeout(() => document.getElementById('project-name-input').focus(), 100);
+}
+
+function closeCreate() {
+  document.getElementById('create-backdrop').classList.remove('open');
+}
+
+function goToStep(n) {
+  createStep = n;
+  document.getElementById('step-1-body').style.display = n===1?'block':'none';
+  document.getElementById('step-2-body').style.display = n===2?'block':'none';
+  document.getElementById('step-3-body').style.display = n===3?'block':'none';
+  document.getElementById('modal-back-btn').style.display = n>1?'inline-flex':'none';
+  document.getElementById('modal-cancel-btn').style.display = n<3?'inline-flex':'none';
+
+  const nextBtn = document.getElementById('modal-next-btn');
+  if (n === 3) {
+    nextBtn.textContent = editingProjectId ? 'Save Changes ✓' : 'Create & Open →';
+    nextBtn.style.background = n===3 ? 'var(--accent)' : '';
+  } else {
+    nextBtn.textContent = 'Continue →';
+  }
+
+  // Step indicators
+  ['si-1','si-2','si-3'].forEach((id, i) => {
+    const el = document.getElementById(id);
+    el.className = 'step' + (i+1 < n ? ' done' : i+1 === n ? ' active' : '');
+  });
+
+  // Step 3: build photo slots based on selections
+  if (n === 3) buildStep3();
+}
+
+function modalBack() { if (createStep > 1) goToStep(createStep - 1); }
+
+function modalNext() {
+  if (createStep === 1) {
+    const name = document.getElementById('project-name-input').value.trim();
+    if (!name) {
+      document.getElementById('project-name-input').focus();
+      document.getElementById('project-name-input').style.borderColor = '#ef4444';
+      setTimeout(() => document.getElementById('project-name-input').style.borderColor = '', 1500);
+      return;
+    }
+    goToStep(2);
+  } else if (createStep === 2) {
+    const selected = getSelectedTemplates();
+    if (selected.length === 0) {
+      document.getElementById('tpl-error').style.display = 'block';
+      return;
+    }
+    document.getElementById('tpl-error').style.display = 'none';
+    goToStep(3);
+  } else if (createStep === 3) {
+      finishCreate();
+  }
+}
+
+function getSelectedTemplates() {
+  return [...document.querySelectorAll('.tpl-option.selected')].map(o => o.dataset.tpl);
+}
+
+function buildStep3() {
+  const selected = getSelectedTemplates();
+  const hasT4 = selected.includes('t4');
+  document.getElementById('f-tagline-group').style.display = hasT4 ? 'block' : 'none';
+
+  // Photo slots
+  const slots = photoSlotDefs(selected);
+  const container = document.getElementById('photo-slots');
+  container.innerHTML = slots.map(slot => {
+    const url = pendingPhotos[slot.key];
+    return `<div class="photo-slot${url?' filled':''}" id="slot-${slot.key}">
+      ${url
+        ? `<img src="${url}" alt=""><input type="file" onchange="slotChange('${slot.key}',this)" accept="image/*">`
+        : `<div class="photo-slot-icon">↑</div>
+           <div class="photo-slot-label">${slot.label}</div>
+           <div class="photo-slot-hint">${slot.hint}</div>
+           <input type="file" onchange="slotChange('${slot.key}',this)" accept="image/*">`
+      }
+    </div>`;
+  }).join('');
+
+  if (slots.length === 0) {
+    container.innerHTML = '<p style="font-size:12px;color:var(--muted)">No photo slots needed for selected templates.</p>';
+  }
+}
+
+function slotChange(key, input) {
+  const file = input.files[0]; if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    pendingPhotos[key] = e.target.result;
+    const slot = document.getElementById('slot-'+key);
+    slot.classList.add('filled');
+    slot.innerHTML = `<img src="${e.target.result}" alt=""><input type="file" onchange="slotChange('${key}',this)" accept="image/*">`;
+  };
+  reader.readAsDataURL(file);
+}
+
+function finishCreate() {
+  try {
+  const name      = document.getElementById('project-name-input').value.trim();
+  const desc      = document.getElementById('project-desc-input').value.trim();
+  const templates = getSelectedTemplates();
+  const campaign  = {
+    headline:  document.getElementById('f-headline').value.trim(),
+    subline:   document.getElementById('f-subline').value.trim(),
+    agentName: document.getElementById('f-agent').value.trim(),
+    tagline:   document.getElementById('f-tagline').value.trim(),
+    photos:    { ...pendingPhotos },
+  };
+
+  const state = campaignToState(campaign, templates);
+  const projects = getProjects();
+
+  if (editingProjectId) {
+    const idx = projects.findIndex(p => p.id === editingProjectId);
+    if (idx !== -1) {
+      projects[idx].name = name;
+      projects[idx].description = desc;
+      projects[idx].templates = templates;
+      projects[idx].campaign = campaign;
+      // Merge state: only update template states that are in the new selection
+      templates.forEach(t => { projects[idx].state[t] = state[t]; });
+      projects[idx].updated = Date.now();
+    }
+    saveProjects(projects);
+    closeCreate();
+    renderDashboard();
+  } else {
+    const project = {
+      id: genId(), name, description: desc, templates, campaign,
+      created: Date.now(), updated: Date.now(),
+      state,
+    };
+    projects.push(project);
+    saveProjects(projects);
+
+    // Save photos to IndexedDB (no size limit, persists across sessions)
+    PhotoDB.saveProjectPhotos(project.id, state).catch(e => console.warn('PhotoDB save:', e));
+
+    closeCreate();
+    openProject(project.id);
+  }
+  } catch(e) { console.error('finishCreate error:', e); alert('Error: ' + e.message); }
+}
+
+// ── Template option click ──────────────────────────────────────────────
+document.querySelectorAll('.tpl-option').forEach(opt => {
+  opt.addEventListener('click', () => {
+    const cb = opt.querySelector('input');
+    cb.checked = !cb.checked;
+    opt.classList.toggle('selected', cb.checked);
+    document.getElementById('tpl-error').style.display = 'none';
+  });
+});
+
+// ── Enter key on name field ────────────────────────────────────────────
+document.getElementById('project-name-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter') modalNext();
+});
+
+// ── Backdrop click to close ────────────────────────────────────────────
+document.getElementById('create-backdrop').addEventListener('click', e => {
+  if (e.target === document.getElementById('create-backdrop')) closeCreate();
+});
+document.getElementById('delete-backdrop').addEventListener('click', e => {
+  if (e.target === document.getElementById('delete-backdrop')) closeDelete();
+});
+
+// ═══════════════════════════════════════════════════════════════════════
+// DELETE
+// ═══════════════════════════════════════════════════════════════════════
+let pendingDeleteId = null;
+
+function confirmDelete(id) {
+  pendingDeleteId = id;
+  const p = getProjects().find(x => x.id === id);
+  document.getElementById('delete-project-name').textContent = `"${p?.name || 'this ad set'}"`;
+  document.getElementById('delete-backdrop').classList.add('open');
+}
+function closeDelete() {
+  document.getElementById('delete-backdrop').classList.remove('open');
+  pendingDeleteId = null;
+}
+document.getElementById('confirm-delete-btn').addEventListener('click', () => {
+  if (!pendingDeleteId) return;
+  PhotoDB.deleteProjectPhotos(pendingDeleteId).catch(() => {});
+  const projects = getProjects().filter(p => p.id !== pendingDeleteId);
+  saveProjects(projects);
+  closeDelete();
+  renderDashboard();
+});
+
+// ── Keyboard shortcuts ─────────────────────────────────────────────────
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') { closeCreate(); closeDelete(); }
+});
+
+// ── New button ─────────────────────────────────────────────────────────
+document.getElementById('new-btn').addEventListener('click', () => openCreate());
+
+// ── Init ──────────────────────────────────────────────────────────────
+// Re-save existing projects stripped of any photo data to free up space
+(function cleanStorage() {
+  try {
+    const existing = getProjects();
+    if (existing.length > 0) saveProjects(existing); // saveProjects strips photos
+  } catch(e) {
+    localStorage.removeItem(STORE_KEY);
+  }
+})();
+
+renderDashboard();
+</script>
+</body>
+</html>

@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>AnimAd — Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{--bg:#0d0d0f;--surface:#111114;--surface2:#17171b;--border:#1f1f26;--text:#e4e4ed;--muted:#5e5e72;--accent:#6c63ff;--accent-h:#7d75ff;--red:#ef4444;--green:#34d399;}
+body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+header{display:flex;align-items:center;padding:0 28px;height:54px;border-bottom:1px solid var(--border);background:var(--surface);position:sticky;top:0;z-index:20;gap:12px;}
+.logo{font-size:15px;font-weight:600;letter-spacing:-.03em;}
+.logo em{color:var(--accent);font-style:normal;}
+.spacer{flex:1;}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:7px 16px;border:none;border-radius:7px;font-size:13px;font-weight:500;font-family:inherit;cursor:pointer;transition:all .14s;}
+.btn-primary{background:var(--accent);color:#fff;}
+.btn-primary:hover{background:var(--accent-h);}
+.btn-primary:disabled{opacity:.45;cursor:default;}
+.btn-secondary{background:var(--surface2);color:var(--text);border:1px solid var(--border);}
+.btn-secondary:hover{border-color:var(--accent);color:var(--accent);}
+.btn-danger{background:rgba(239,68,68,.08);color:var(--red);border:1px solid rgba(239,68,68,.2);}
+.btn-danger:hover{background:rgba(239,68,68,.15);}
+.icon-btn{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;cursor:pointer;color:var(--muted);transition:all .12s;}
+.icon-btn:hover{border-color:var(--accent);color:var(--text);}
+.icon-btn.danger:hover{border-color:var(--red);color:var(--red);}
+.page{max-width:1100px;margin:0 auto;padding:32px 28px 60px;}
+.page-head{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:24px;gap:16px;}
+.page-title{font-size:21px;font-weight:600;letter-spacing:-.02em;}
+.page-sub{font-size:13px;color:var(--muted);margin-top:3px;}
+.section-title{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:14px;}
+.divider{height:1px;background:var(--border);margin:30px 0;}
+.empty{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:64px 20px;text-align:center;border:1px dashed var(--border);border-radius:12px;background:var(--surface);}
+.empty-icon{font-size:34px;margin-bottom:12px;opacity:.35;}
+.empty h3{font-size:16px;font-weight:600;margin-bottom:7px;}
+.empty p{font-size:13px;color:var(--muted);max-width:300px;line-height:1.6;margin-bottom:20px;}
+.themes-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;}
+.theme-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden;cursor:pointer;transition:border-color .14s;}
+.theme-card:hover{border-color:rgba(108,99,255,.5);}
+.theme-preview{height:84px;background:linear-gradient(135deg,#1a1a2e 0%,#0f3460 100%);display:flex;align-items:center;justify-content:center;gap:10px;padding:14px;}
+.theme-preview .sz{border-radius:3px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.12);}
+.theme-body{padding:14px;}
+.theme-name{font-size:13px;font-weight:600;margin-bottom:3px;}
+.theme-meta{font-size:11px;color:var(--muted);}
+.theme-tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:9px;}
+.tag{font-size:10px;padding:2px 7px;border-radius:4px;background:rgba(108,99,255,.1);color:var(--accent);border:1px solid rgba(108,99,255,.18);}
+.sets-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:14px;}
+.set-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden;transition:border-color .14s;}
+.set-card:hover{border-color:rgba(108,99,255,.4);}
+.set-preview{height:84px;background:linear-gradient(135deg,#1a1a2e 0%,#0f3460 100%);display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;}
+.set-preview .sz{border-radius:3px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.12);}
+.set-body{padding:14px;}
+.set-name{font-size:14px;font-weight:600;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.set-meta{font-size:11px;color:var(--muted);margin-bottom:11px;}
+.set-tags{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:13px;}
+.set-actions{display:flex;gap:6px;}
+.set-actions .btn{flex:1;justify-content:center;padding:6px 10px;font-size:12px;}
+.backdrop{position:fixed;inset:0;background:rgba(0,0,0,.78);z-index:50;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .18s;}
+.backdrop.open{opacity:1;pointer-events:all;}
+.modal{background:var(--surface);border:1px solid var(--border);border-radius:14px;width:100%;max-width:540px;max-height:90vh;display:flex;flex-direction:column;transform:translateY(10px);transition:transform .18s;}
+.backdrop.open .modal{transform:translateY(0);}
+.modal-head{display:flex;align-items:center;padding:18px 22px 0;gap:10px;flex-shrink:0;}
+.modal-title{font-size:15px;font-weight:600;flex:1;}
+.modal-close{background:none;border:none;color:var(--muted);cursor:pointer;font-size:18px;line-height:1;padding:2px;}
+.modal-close:hover{color:var(--text);}
+.modal-body{flex:1;overflow-y:auto;padding:18px 22px;}
+.modal-body::-webkit-scrollbar{width:4px;}
+.modal-body::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
+.modal-foot{display:flex;align-items:center;padding:14px 22px;border-top:1px solid var(--border);flex-shrink:0;gap:8px;}
+.steps{display:flex;align-items:center;margin-bottom:22px;}
+.step{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--muted);}
+.step.active{color:var(--text);font-weight:500;}
+.step.done{color:var(--green);}
+.step-n{width:20px;height:20px;border-radius:50%;border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;flex-shrink:0;}
+.step.active .step-n{background:var(--accent);border-color:var(--accent);color:#fff;}
+.step.done .step-n{background:rgba(52,211,153,.14);border-color:var(--green);color:var(--green);}
+.step.done .step-n::after{content:'✓';}
+.step-sep{width:24px;height:1px;background:var(--border);margin:0 3px;}
+.field{margin-bottom:16px;}
+.field:last-child{margin-bottom:0;}
+.field label{display:block;font-size:11px;color:var(--muted);margin-bottom:5px;}
+.field input,.field textarea{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:7px;padding:9px 11px;color:var(--text);font-size:13px;font-family:inherit;outline:none;transition:border-color .14s;resize:vertical;}
+.field input:focus,.field textarea:focus{border-color:var(--accent);}
+.opt-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;}
+.opt{position:relative;border:1.5px solid var(--border);border-radius:9px;padding:13px;cursor:pointer;transition:all .14s;background:var(--bg);user-select:none;}
+.opt:hover{border-color:var(--accent);background:rgba(108,99,255,.04);}
+.opt.selected{border-color:var(--accent);background:rgba(108,99,255,.09);}
+.opt-check{position:absolute;top:9px;right:9px;width:17px;height:17px;border-radius:50%;border:1.5px solid var(--border);background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;transition:all .14s;}
+.opt.selected .opt-check{background:var(--accent);border-color:var(--accent);color:#fff;}
+.opt.selected .opt-check::after{content:'✓';}
+.opt-vis{width:100%;height:54px;border-radius:5px;background:linear-gradient(135deg,#1a1a2e 0%,#16213e 100%);margin-bottom:9px;display:flex;align-items:center;justify-content:center;}
+.opt-vis .sz{background:rgba(255,255,255,.08);border-radius:2px;}
+.opt-name{font-size:12px;font-weight:500;margin-bottom:2px;}
+.opt-meta{font-size:10px;color:var(--muted);}
+.photo-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px;}
+.photo-slot{border:1px dashed var(--border);border-radius:7px;padding:12px 8px;text-align:center;cursor:pointer;position:relative;overflow:hidden;transition:all .14s;}
+.photo-slot:hover{border-color:var(--accent);background:rgba(108,99,255,.04);}
+.photo-slot.filled{padding:4px;border-style:solid;}
+.photo-slot input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer;}
+.photo-slot-icon{font-size:16px;color:var(--muted);margin-bottom:3px;}
+.photo-slot-label{font-size:10px;color:var(--muted);font-weight:500;line-height:1.3;}
+.photo-slot img{width:100%;height:46px;object-fit:cover;border-radius:4px;display:block;}
+.confirm-modal .modal{max-width:360px;}
+.confirm-modal .modal-body{text-align:center;padding:22px;}
+.confirm-icon{font-size:32px;margin-bottom:10px;}
+.confirm-modal .modal-body p{font-size:13px;color:var(--muted);line-height:1.6;margin-top:6px;}
+.confirm-modal .modal-foot{justify-content:center;gap:8px;}
+.err{font-size:12px;color:var(--red);margin-top:9px;display:none;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">Anim<em>Ad</em></div>
+  <div class="spacer"></div>
+  <button class="btn btn-primary" id="new-btn"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg> New Ad Set</button>
+</header>
+
+<div class="page">
+  <div class="section-title">Templates</div>
+  <div class="themes-grid" id="themes-grid"></div>
+  <div class="divider"></div>
+  <div class="page-head">
+    <div><div class="page-title">My Ad Sets</div><div class="page-sub" id="sets-count"></div></div>
+  </div>
+  <div id="empty-state" class="empty" style="display:none;">
+    <div class="empty-icon">📋</div><h3>No ad sets yet</h3>
+    <p>Create an ad set to start building your animated real-estate ads.</p>
+    <button class="btn btn-primary" onclick="openCreate()"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg> Create Ad Set</button>
+  </div>
+  <div class="sets-grid" id="sets-grid"></div>
+</div>
+
+<div class="backdrop" id="create-backdrop">
+  <div class="modal">
+    <div class="modal-head"><div class="modal-title" id="modal-title">New Ad Set</div><button class="modal-close" onclick="closeCreate()">✕</button></div>
+    <div class="modal-body">
+      <div class="steps">
+        <div class="step active" id="si-1"><div class="step-n">1</div><span>Name</span></div>
+        <div class="step-sep"></div>
+        <div class="step" id="si-2"><div class="step-n">2</div><span>Sizes</span></div>
+        <div class="step-sep"></div>
+        <div class="step" id="si-3"><div class="step-n">3</div><span>Content</span></div>
+      </div>
+      <div id="s1">
+        <div class="field"><label>Ad set name</label><input type="text" id="f-name" placeholder="e.g. Mountain Estate Campaign" autocomplete="off"></div>
+        <div class="field"><label>Notes <span style="color:#3a3a50">(optional)</span></label><textarea id="f-desc" rows="2" placeholder="Campaign notes…"></textarea></div>
+      </div>
+      <div id="s2" style="display:none;">
+        <p style="font-size:13px;color:var(--muted);margin-bottom:16px;line-height:1.6;">Select the ad sizes to include. Choose one or both — your content applies to all of them.</p>
+        <div class="opt-grid" id="size-opts"></div>
+        <p class="err" id="size-err">Please select at least one size.</p>
+      </div>
+      <div id="s3" style="display:none;">
+        <p style="font-size:13px;color:var(--muted);margin-bottom:18px;line-height:1.6;">Enter your content. You can fine-tune fonts, sizes & positions per size in the editor.</p>
+        <div id="content-fields"></div>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-secondary" id="back-btn" onclick="stepBack()" style="display:none;">← Back</button>
+      <div style="flex:1"></div>
+      <button class="btn btn-secondary" id="cancel-btn" onclick="closeCreate()">Cancel</button>
+      <button class="btn btn-primary" id="next-btn" onclick="stepNext()">Continue →</button>
+    </div>
+  </div>
+</div>
+
+<div class="backdrop confirm-modal" id="del-backdrop">
+  <div class="modal">
+    <div class="modal-head"><div class="modal-title">Delete Ad Set</div></div>
+    <div class="modal-body"><div class="confirm-icon">🗑️</div><strong id="del-name"></strong><p>This cannot be undone.</p></div>
+    <div class="modal-foot"><button class="btn btn-secondary" onclick="closeDel()">Cancel</button><button class="btn btn-danger" id="del-confirm-btn">Delete</button></div>
+  </div>
+</div>
+
+<script>
+'use strict';
+// ═══════════════════════════════════════════════════════
+// THEME REGISTRY — extend here to add themes / ad sizes
+// ═══════════════════════════════════════════════════════
+const THEMES={
+  aperture:{
+    id:'aperture', name:'Aperture Global', description:'Luxury real estate',
+    ads:[
+      { id:'leaderboard', name:'Leaderboard', size:'970×250', thumbW:48, thumbH:13 },
+      { id:'skyscraper',  name:'Skyscraper',  size:'300×600', thumbW:16, thumbH:32 },
+    ],
+  },
+};
+// Field defaults: leaderboard blank (uses baked SVG placeholders); skyscraper shows copy
+const AD_DEFAULT_TEXT={
+  leaderboard:{ headline:'', address:'', agent:'', tagline:'' },
+  skyscraper:{ headline:'Luxury Estate', address:'123 Sample Ave', agent:'Agent Name', tagline:'You are Aperture' },
+};
+const CONTENT_FIELDS=[
+  { key:'headline', label:'Headline',   placeholder:'Luxury offering headline', type:'textarea' },
+  { key:'address',  label:'Address',    placeholder:'12345 Sample Rd',          type:'input' },
+  { key:'agent',    label:'Agent Name', placeholder:'Agent Name',               type:'input' },
+  { key:'tagline',  label:'Tagline',    placeholder:'Luxury tagline goes here', type:'input' },
+];
+
+// ═══════════════════════════════════════════════════════
+// PhotoDB — stores { adId:{p1,p2,p3} } per project
+// ═══════════════════════════════════════════════════════
+const PhotoDB={ _db:null,
+  async open(){ if(this._db)return this._db; return new Promise((res,rej)=>{ const r=indexedDB.open('animad_photos',1); r.onupgradeneeded=e=>e.target.result.createObjectStore('photos'); r.onsuccess=e=>{this._db=e.target.result;res(this._db);}; r.onerror=e=>rej(e.target.error); }); },
+  async set(k,v){ const db=await this.open(); return new Promise((res,rej)=>{ const tx=db.transaction('photos','readwrite'); tx.objectStore('photos').put(v,k); tx.oncomplete=res; tx.onerror=e=>rej(e.target.error); }); },
+  async get(k){ const db=await this.open(); return new Promise((res,rej)=>{ const tx=db.transaction('photos','readonly'); const rq=tx.objectStore('photos').get(k); rq.onsuccess=e=>res(e.target.result??null); rq.onerror=e=>rej(e.target.error); }); },
+  async del(k){ const db=await this.open(); return new Promise((res,rej)=>{ const tx=db.transaction('photos','readwrite'); tx.objectStore('photos').delete(k); tx.oncomplete=res; tx.onerror=e=>rej(e.target.error); }); },
+  async saveProject(id,bundle){ await this.set('proj_'+id,bundle); },
+  async loadProject(id){ try{ return await this.get('proj_'+id); }catch{ return null; } },
+  async delProject(id){ try{ await this.del('proj_'+id); }catch{} },
+};
+
+// ═══════════════════════════════════════════════════════
+// STORE (localStorage — text only)
+// ═══════════════════════════════════════════════════════
+const STORE_KEY='animad_projects', ACTIVE_KEY='animad_active_project';
+function getProjects(){ try{ return JSON.parse(localStorage.getItem(STORE_KEY))||[]; }catch{ return []; } }
+function saveProjects(projects){
+  const slim=projects.map(p=>{ const c=JSON.parse(JSON.stringify(p)); if(c.adStates){ Object.values(c.adStates).forEach(ad=>{ if(ad.photos)['p1','p2','p3'].forEach(k=>{ if(ad.photos[k])ad.photos[k].dataUrl=null; }); }); } return c; });
+  try{ localStorage.setItem(STORE_KEY,JSON.stringify(slim)); }catch{ localStorage.removeItem(STORE_KEY); try{ localStorage.setItem(STORE_KEY,JSON.stringify(slim)); }catch{} }
+}
+function genId(){ return 'proj_'+Date.now()+'_'+Math.random().toString(36).slice(2,6); }
+
+// Build per-ad state from shared content (editor fills font/size/pos defaults)
+function buildAdStates(selectedAds, fields, photos){
+  const out={};
+  selectedAds.forEach(adId=>{
+    const defs=AD_DEFAULT_TEXT[adId]||{};
+    out[adId]={
+      fields:{
+        headline:{ text: fields.headline || defs.headline || '' },
+        address: { text: fields.address  || defs.address  || '' },
+        agent:   { text: fields.agent    || defs.agent    || '' },
+        tagline: { text: fields.tagline  || defs.tagline  || '' },
+      },
+      photos:{ p1:{dataUrl:photos.p1||null}, p2:{dataUrl:photos.p2||null}, p3:{dataUrl:photos.p3||null} },
+    };
+  });
+  return out;
+}
+
+// ═══════════════════════════════════════════════════════
+// RENDER
+// ═══════════════════════════════════════════════════════
+function relDate(ts){ const d=Date.now()-ts,m=Math.floor(d/6e4); if(m<1)return'just now'; if(m<60)return m+'m ago'; const h=Math.floor(m/60); if(h<24)return h+'h ago'; const dy=Math.floor(h/24); return dy<30?dy+'d ago':new Date(ts).toLocaleDateString(); }
+function adById(id){ for(const t of Object.values(THEMES)){ const a=t.ads.find(x=>x.id===id); if(a)return a; } return null; }
+
+function renderThemes(){
+  document.getElementById('themes-grid').innerHTML=Object.values(THEMES).map(theme=>{
+    const thumbs=theme.ads.map(a=>`<div class="sz" style="width:${a.thumbW}px;height:${a.thumbH}px;"></div>`).join('');
+    const tags=theme.ads.map(a=>`<span class="tag">${a.name} · ${a.size}</span>`).join('');
+    return `<div class="theme-card" onclick="openCreate('${theme.id}')"><div class="theme-preview">${thumbs}</div><div class="theme-body"><div class="theme-name">${theme.name}</div><div class="theme-meta">${theme.description}</div><div class="theme-tags">${tags}</div></div></div>`;
+  }).join('');
+}
+function renderSets(){
+  const projects=getProjects().slice().sort((a,b)=>(b.updated||b.created)-(a.updated||a.created));
+  const grid=document.getElementById('sets-grid'), empty=document.getElementById('empty-state'), count=document.getElementById('sets-count');
+  count.textContent=projects.length?`${projects.length} ad set${projects.length>1?'s':''}`:'No ad sets yet';
+  if(!projects.length){ grid.innerHTML=''; empty.style.display='flex'; return; }
+  empty.style.display='none';
+  grid.innerHTML=projects.map(p=>{
+    const sel=p.selectedAds||['leaderboard'];
+    const thumbs=sel.map(id=>{ const a=adById(id); return a?`<div class="sz" style="width:${a.thumbW}px;height:${a.thumbH}px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.12);border-radius:3px;"></div>`:''; }).join('');
+    const tags=sel.map(id=>{ const a=adById(id); return a?`<span class="tag">${a.name} · ${a.size}</span>`:''; }).join('');
+    return `<div class="set-card"><div class="set-preview">${thumbs}</div><div class="set-body">
+      <div class="set-name" title="${p.name}">${p.name}</div>
+      <div class="set-meta">Updated ${relDate(p.updated||p.created)}</div>
+      <div class="set-tags">${tags}</div>
+      <div class="set-actions">
+        <button class="btn btn-primary" onclick="openProject('${p.id}')">Open →</button>
+        <div class="icon-btn" title="Duplicate" onclick="dupProject('${p.id}')"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><rect x="1" y="4" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M4 4V2.5A1.5 1.5 0 015.5 1H10.5A1.5 1.5 0 0112 2.5V7.5A1.5 1.5 0 0110.5 9H9" stroke="currentColor" stroke-width="1.3"/></svg></div>
+        <div class="icon-btn danger" title="Delete" onclick="confirmDel('${p.id}')"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 3.5h9M5 3.5V2h3v1.5M5.5 6v4M7.5 6v4M3 3.5l.7 7A1 1 0 004.7 11.5h3.6a1 1 0 001-.9l.7-7" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </div></div></div>`;
+  }).join('');
+}
+
+// ═══════════════════════════════════════════════════════
+// CREATE FLOW
+// ═══════════════════════════════════════════════════════
+let cStep=1, cThemeId=null, pendingPhotos={};
+function openCreate(themeId){
+  cThemeId=themeId||Object.keys(THEMES)[0];
+  cStep=1; pendingPhotos={};
+  document.getElementById('f-name').value=''; document.getElementById('f-desc').value='';
+  document.getElementById('modal-title').textContent='New Ad Set';
+  buildSizeOpts(); buildContentFields();
+  showStep(1);
+  document.getElementById('create-backdrop').classList.add('open');
+  setTimeout(()=>document.getElementById('f-name').focus(),80);
+}
+function closeCreate(){ document.getElementById('create-backdrop').classList.remove('open'); }
+
+function buildSizeOpts(){
+  const theme=THEMES[cThemeId];
+  document.getElementById('size-opts').innerHTML=theme.ads.map(a=>`
+    <div class="opt selected" data-id="${a.id}" onclick="toggleOpt(this)">
+      <div class="opt-check"></div>
+      <div class="opt-vis"><div class="sz" style="width:${a.thumbW}px;height:${a.thumbH}px;"></div></div>
+      <div class="opt-name">${a.name}</div><div class="opt-meta">${a.size}</div>
+    </div>`).join('');
+}
+function toggleOpt(el){ el.classList.toggle('selected'); document.getElementById('size-err').style.display='none'; }
+function getSelectedSizes(){ return [...document.querySelectorAll('#size-opts .opt.selected')].map(o=>o.dataset.id); }
+
+function buildContentFields(){
+  let html='<div style="margin-bottom:20px;"><div class="section-title" style="margin-bottom:12px;">Copy</div>';
+  CONTENT_FIELDS.forEach(f=>{ const id='cf-'+f.key; html+=`<div class="field"><label>${f.label}</label>`; html+= f.type==='textarea'?`<textarea id="${id}" rows="2" placeholder="${f.placeholder}"></textarea>`:`<input type="text" id="${id}" placeholder="${f.placeholder}">`; html+=`</div>`; });
+  html+='</div><div class="section-title" style="margin-bottom:12px;">Photos</div><div class="photo-grid">';
+  ['p1','p2','p3'].forEach((pk,i)=>{ const url=pendingPhotos[pk]; html+=`<div class="photo-slot${url?' filled':''}" id="ps-${pk}">${url?`<img src="${url}" alt=""><input type="file" onchange="slotPick('${pk}',this)" accept="image/*">`:`<div class="photo-slot-icon">↑</div><div class="photo-slot-label">Scene ${i+1}</div><input type="file" onchange="slotPick('${pk}',this)" accept="image/*">`}</div>`; });
+  html+='</div>';
+  document.getElementById('content-fields').innerHTML=html;
+}
+function slotPick(pk,input){ const file=input.files[0]; if(!file)return; const r=new FileReader(); r.onload=e=>{ pendingPhotos[pk]=e.target.result; const slot=document.getElementById('ps-'+pk); if(slot){ slot.classList.add('filled'); slot.innerHTML=`<img src="${e.target.result}" alt=""><input type="file" onchange="slotPick('${pk}',this)" accept="image/*">`; } }; r.readAsDataURL(file); }
+
+function showStep(n){
+  cStep=n;
+  ['s1','s2','s3'].forEach((id,i)=>document.getElementById(id).style.display=i+1===n?'':'none');
+  document.getElementById('back-btn').style.display=n>1?'':'none';
+  document.getElementById('cancel-btn').style.display=n<3?'':'none';
+  document.getElementById('next-btn').textContent=n===3?'Create & Open →':'Continue →';
+  ['si-1','si-2','si-3'].forEach((id,i)=>document.getElementById(id).className='step'+(i+1<n?' done':i+1===n?' active':''));
+}
+function stepBack(){ if(cStep>1)showStep(cStep-1); }
+function stepNext(){
+  if(cStep===1){ const name=document.getElementById('f-name').value.trim(); if(!name){ const el=document.getElementById('f-name'); el.style.borderColor='var(--red)'; el.focus(); setTimeout(()=>el.style.borderColor='',1500); return; } showStep(2); }
+  else if(cStep===2){ if(!getSelectedSizes().length){ document.getElementById('size-err').style.display='block'; return; } showStep(3); }
+  else finishCreate();
+}
+async function finishCreate(){
+  const btn=document.getElementById('next-btn'); btn.disabled=true; btn.textContent='Creating…';
+  try{
+    const name=document.getElementById('f-name').value.trim();
+    const desc=document.getElementById('f-desc').value.trim();
+    const selectedAds=getSelectedSizes();
+    const fields={}; CONTENT_FIELDS.forEach(f=>{ const el=document.getElementById('cf-'+f.key); if(el)fields[f.key]=el.value.trim(); });
+    const adStates=buildAdStates(selectedAds,fields,pendingPhotos);
+    const projectId=genId();
+    // Save photos to IndexedDB as { adId:{p1,p2,p3} } — same uploads for each size
+    const bundle={};
+    selectedAds.forEach(adId=>{ bundle[adId]={p1:pendingPhotos.p1||null,p2:pendingPhotos.p2||null,p3:pendingPhotos.p3||null}; });
+    await PhotoDB.saveProject(projectId,bundle);
+    const project={ id:projectId, name, description:desc, themeId:cThemeId, selectedAds, adStates, created:Date.now(), updated:Date.now() };
+    const projects=getProjects(); projects.push(project); saveProjects(projects);
+    closeCreate(); openProject(projectId);
+  }catch(e){ console.error('Create failed:',e); alert('Error creating ad set: '+e.message); btn.disabled=false; btn.textContent='Create & Open →'; }
+}
+
+// ═══════════════════════════════════════════════════════
+// NAV / DUP / DELETE
+// ═══════════════════════════════════════════════════════
+function openProject(id){ localStorage.setItem(ACTIVE_KEY,id); window.location.href='index.html'; }
+function dupProject(id){
+  const projects=getProjects(); const orig=projects.find(p=>p.id===id); if(!orig)return;
+  const copy=JSON.parse(JSON.stringify(orig)); copy.id=genId(); copy.name=orig.name+' (copy)'; copy.created=copy.updated=Date.now();
+  projects.push(copy); saveProjects(projects);
+  PhotoDB.loadProject(id).then(b=>{ if(b)PhotoDB.saveProject(copy.id,b).catch(()=>{}); });
+  renderSets();
+}
+let pendingDelId=null;
+function confirmDel(id){ pendingDelId=id; const p=getProjects().find(x=>x.id===id); document.getElementById('del-name').textContent=`"${p?.name||'this ad set'}"`; document.getElementById('del-backdrop').classList.add('open'); }
+function closeDel(){ document.getElementById('del-backdrop').classList.remove('open'); pendingDelId=null; }
+document.getElementById('del-confirm-btn').addEventListener('click',()=>{ if(!pendingDelId)return; PhotoDB.delProject(pendingDelId).catch(()=>{}); saveProjects(getProjects().filter(p=>p.id!==pendingDelId)); closeDel(); renderSets(); });
+
+document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ closeCreate(); closeDel(); } if(e.key==='Enter' && document.getElementById('create-backdrop').classList.contains('open') && cStep===1) stepNext(); });
+['create-backdrop','del-backdrop'].forEach(id=>document.getElementById(id).addEventListener('click',e=>{ if(e.target.id===id){ closeCreate(); closeDel(); } }));
+document.getElementById('new-btn').addEventListener('click',()=>openCreate());
+
+// ═══════════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════════
+(function init(){ try{ const p=getProjects(); if(p.length)saveProjects(p); }catch{ localStorage.removeItem(STORE_KEY); } renderThemes(); renderSets(); })();
+</script>
+</body>
+</html>
