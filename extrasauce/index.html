@@ -101,7 +101,7 @@ nav.scrolled .logo img{filter:brightness(0) invert(1) drop-shadow(0 0 1px rgba(0
 /* spherical vignette over the gradient — expands & fades on scroll (set via JS) */
 .hero-vignette{position:absolute;inset:0;z-index:1;pointer-events:none;transform-origin:center;will-change:transform,opacity;mix-blend-mode:multiply;
   background:radial-gradient(circle at 50% 45%,rgba(0,0,0,0) 22%,rgba(0,0,0,.45) 52%,rgba(0,0,0,0) 82%)}
-.hero-burger{position:absolute;top:50%;left:50%;width:min(20vw,320px);transform:translate(-50%,-50%);aspect-ratio:1;z-index:4;will-change:transform;
+.hero-burger{position:absolute;top:50%;left:50%;width:min(20vw,320px);transform:translate(-50%,-50%) rotate(15deg);aspect-ratio:1;z-index:4;will-change:transform;
   background:var(--blue);-webkit-mask:url(burger.png) center/contain no-repeat;mask:url(burger.png) center/contain no-repeat}
 .hero-title{position:relative;z-index:3;text-align:center;pointer-events:none;mix-blend-mode:exclusion}
 .hero-title h1{font-family:'Anton';font-size:clamp(4rem,20vw,20rem);line-height:.78;color:var(--cream);letter-spacing:-.02em}
@@ -619,7 +619,7 @@ addEventListener('scroll',updateHeroScroll,{passive:true});
   function applyParallax(){
     ticking=false;
     const y=scrollY,vh=innerHeight;
-    if(hero&&y<vh) hero.style.transform=`translate(-50%,calc(-50% + ${y*.25}px)) rotate(${y*.03}deg)`;
+    if(hero&&y<vh) hero.style.transform=`translate(-50%,calc(-50% + ${y*.25}px)) rotate(${15+y*.03}deg)`;
     for(const r of rows){
       const rect=r.getBoundingClientRect();
       if(rect.bottom<-50||rect.top>vh+50) continue; // skip off-screen rows
