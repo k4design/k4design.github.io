@@ -40,7 +40,7 @@ a{color:inherit;text-decoration:none}
 
 /* GRAIN OVERLAY */
 .grain{
-  position:fixed;inset:-50%;z-index:9000;pointer-events:none;opacity:.06;
+  position:fixed;inset:-15%;z-index:9000;pointer-events:none;opacity:.06;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   animation:grain 1.2s steps(4) infinite;
 }
@@ -54,39 +54,21 @@ a{color:inherit;text-decoration:none}
 @media(hover:none){.cursor,.cursor-label{display:none}}
 
 /* PRELOADER */
-/* intro reveal — a pink liquid sheet that drips away (goo + blobs) */
+/* intro reveal — a pink rectangle with a drip fringe (topdrip.png) that slides up */
 .loader{position:fixed;inset:0;z-index:11000;pointer-events:none;overflow:hidden}
-/* embossed chrome edge: light bevel up-left, dark bevel down-right on the goo'd mass */
-.loader-goo{position:absolute;inset:0;
-  filter:url(#sauceGoo)
-    drop-shadow(-1px -1px 0.4px rgba(255,255,255,.95))
-    drop-shadow(-3px -3px 2px rgba(255,205,232,.6))
-    drop-shadow(2px 3px 1px rgba(150,15,76,.92))
-    drop-shadow(4px 6px 4px rgba(86,5,43,.5))}
-.loader .sheet{position:absolute;top:0;left:0;width:100%;height:100%;background:var(--sauce)}
-/* blobs hang just off the sheet's bottom edge so the goo fuses them into a
-   dripping liquid border that stretches as the sheet recedes */
-.loader .ld-blob{position:absolute;bottom:calc(var(--w,70px) * -0.42);left:var(--x,50%);width:var(--w,70px);height:var(--w,70px);
-  margin-left:calc(var(--w,70px) * -0.5);border-radius:50%;background:var(--sauce);transform-origin:top center}
-.loader .ld-word{position:absolute;left:50%;top:44%;transform:translate(-50%,-50%);z-index:2;
-  width:clamp(160px,30vw,400px);height:auto;mix-blend-mode:multiply}
-/* the sheet recedes upward; its bottom edge stretches into long gooey tendrils
-   that stay fused to the mass the whole time and get drawn up with it */
-.loader.reveal .sheet{animation:lqSheet 2.3s cubic-bezier(.62,0,.38,1) forwards}
-.loader.reveal .ld-blob{animation:lqBlob 2.3s cubic-bezier(.58,0,.4,1) var(--d,0s) forwards}
-.loader.reveal .ld-word{animation:lqWord .8s ease forwards}
-@keyframes lqSheet{to{height:0}}
-/* top stays glued to the receding edge; the body stretches into a long thin
-   tendril, then is drawn back up into the sheet — never detaches or drops */
-@keyframes lqBlob{
-  0%{transform:translateY(0) scaleY(1) scaleX(1)}
-  28%{transform:translateY(5px) scaleY(calc(var(--st,4) * .6)) scaleX(.82)}
-  52%{transform:translateY(9px) scaleY(var(--st,4)) scaleX(var(--sx,.6))}
-  74%{transform:translateY(9px) scaleY(calc(var(--st,4) * .8)) scaleX(calc(var(--sx,.6) + .06))}
-  100%{transform:translateY(2px) scaleY(1) scaleX(1)}
-}
+.loader .drip-sheet{position:absolute;top:0;left:0;width:100%;height:100%;background:var(--sauce);will-change:transform}
+/* topdrip.png attached just below the rectangle's bottom edge = the drips */
+.loader .drip-sheet::after{content:"";position:absolute;top:100%;left:0;width:100%;
+  height:clamp(70px,13vw,160px);background:url('topdrip.png') repeat-x top center/auto 100%}
+.loader .ld-mark{position:absolute;left:50%;top:44%;transform:translate(-50%,-50%);z-index:2;
+  display:flex;flex-direction:column;align-items:center;gap:clamp(.8rem,3vw,1.8rem)}
+.loader .ld-mark .ld-burger{width:clamp(150px,28vw,340px);height:auto;mix-blend-mode:multiply}
+.loader .ld-mark .ld-logo{width:clamp(200px,42vw,480px);height:auto}
+.loader.reveal .drip-sheet{animation:dripReveal 1.5s cubic-bezier(.66,0,.34,1) forwards}
+.loader.reveal .ld-mark{animation:lqWord .7s ease forwards}
+@keyframes dripReveal{to{transform:translateY(-132%)}}
 @keyframes lqWord{to{opacity:0;transform:translate(-50%,-130%)}}
-@media(prefers-reduced-motion:reduce){.loader.reveal .sheet{animation:none;height:0}.loader.reveal .ld-blob{display:none}}
+@media(prefers-reduced-motion:reduce){.loader.reveal .drip-sheet{animation:none;transform:translateY(-132%)}}
 
 /* NAV */
 nav{position:fixed;top:0;left:0;width:100%;z-index:8000;display:flex;justify-content:space-between;align-items:center;padding:1.4rem clamp(1rem,4vw,3rem)}
@@ -102,33 +84,29 @@ nav .logo img{height:34px;width:auto;display:block;filter:drop-shadow(0 0 1px rg
 
 /* HERO */
 .hero{height:calc(var(--vh)*100);position:relative;display:flex;flex-direction:column;justify-content:center;align-items:center;overflow:hidden}
-/* hero background — moving color gradient frosted by a static "glass" grain */
-.hero-bg{position:absolute;inset:0;overflow:hidden;
-  background:linear-gradient(0.33turn,#1f2b6e,#3f54c0,#7286d8,#3aa888,#d24a9c,#1f2b6e);
-  background-size:400% 400%;
-  animation:heroGradient 16s ease infinite}
-.hero-bg::after{content:"";position:absolute;inset:0;pointer-events:none;mix-blend-mode:overlay;opacity:.12;
-  background:
-    repeating-radial-gradient(#000 0 0.0001%,#fff 0 0.0002%) 50% 0/2500px 2500px,
-    repeating-conic-gradient(#000 0 0.0001%,#fff 0 0.0002%) 60% 60%/2500px 2500px;
-  background-blend-mode:difference;
-  animation:heroStatic .2s infinite alternate}
-@keyframes heroGradient{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
-@keyframes heroStatic{100%{background-position:50% 0,60% 50%}}
-@media(prefers-reduced-motion:reduce){.hero-bg{animation:none}.hero-bg::after{animation:none}}
+/* hero background — solid dark base frosted by a static grain */
+.hero-bg{position:absolute;inset:0;overflow:hidden;background:var(--ink)}
+/* animated TV-static grain (cheap SVG noise tile shifted on the GPU) */
+.hero-bg::after{content:"";position:absolute;inset:-12%;pointer-events:none;mix-blend-mode:screen;opacity:.26;will-change:transform;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.6' numOctaves='2'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='gamma' amplitude='1.6' exponent='1.4'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+  background-size:220px 220px;animation:heroStatic .6s steps(4) infinite}
+@keyframes heroStatic{0%{transform:translate(0,0)}25%{transform:translate(-4%,3%)}50%{transform:translate(3%,-3%)}75%{transform:translate(-3%,-4%)}100%{transform:translate(3%,3%)}}
+@media(prefers-reduced-motion:reduce){.hero-bg::after{animation:none}}
 /* black & white Brooklyn Bridge multiplied over the moving gradient */
-.hero-bridge{position:absolute;inset:0;pointer-events:none;mix-blend-mode:multiply;opacity:.55;
-  background:url('https://upload.wikimedia.org/wikipedia/commons/0/00/Brooklyn_Bridge_Manhattan.jpg') center/cover no-repeat;
+.hero-drip-img{position:absolute;top:0;left:0;width:100%;height:auto;z-index:1;pointer-events:none;opacity:.5;mix-blend-mode:multiply}
+.hero-bridge{position:absolute;top:-20%;left:0;width:100%;height:140%;pointer-events:none;mix-blend-mode:multiply;opacity:.55;will-change:transform;
+  background:url('img/brooklyn-bridge.jpg') center/cover no-repeat;
   filter:grayscale(1) contrast(1.15) brightness(1.05)}
 /* spherical vignette over the gradient — expands & fades on scroll (set via JS) */
-.hero-vignette{position:absolute;inset:0;z-index:1;pointer-events:none;transform-origin:center;will-change:transform,opacity;
-  background:radial-gradient(circle at 50% 45%,rgba(0,0,0,0) 26%,rgba(0,0,0,.2) 50%,rgba(0,0,0,.62) 80%)}
-.hero-burger{position:absolute;top:50%;left:50%;width:min(46vw,560px);transform:translate(-50%,-50%);border-radius:50%;object-fit:cover;aspect-ratio:1;z-index:2;box-shadow:0 40px 120px rgba(0,0,0,.6);will-change:transform}
+.hero-vignette{position:absolute;inset:0;z-index:1;pointer-events:none;transform-origin:center;will-change:transform,opacity;mix-blend-mode:multiply;
+  background:radial-gradient(circle at 50% 45%,rgba(0,0,0,0) 22%,rgba(0,0,0,.45) 52%,rgba(0,0,0,0) 82%)}
+.hero-burger{position:absolute;top:50%;left:50%;width:min(20vw,320px);transform:translate(-50%,-50%);object-fit:contain;aspect-ratio:1;z-index:2;will-change:transform;filter:invert(1)}
 .hero-title{position:relative;z-index:3;text-align:center;pointer-events:none;mix-blend-mode:exclusion}
 .hero-title h1{font-family:'Anton';font-size:clamp(4rem,20vw,20rem);line-height:.78;color:var(--cream);letter-spacing:-.02em}
 .hero-title .lo{display:block}
 .hero-sub{position:absolute;bottom:8%;z-index:4;display:flex;flex-direction:column;align-items:center;gap:.4rem}
-.hero-sub p{font-family:'Archivo Black';font-size:.85rem;letter-spacing:.3em;text-transform:uppercase;color:var(--sauce)}
+.hero-sub p{font-family:'Archivo Black';font-size:2rem;letter-spacing:.3em;text-transform:uppercase;color:var(--sauce)}
+.m-br{display:none}
 .scroll-cue{font-size:.7rem;letter-spacing:.3em;opacity:.6;animation:bob 1.6s infinite}
 @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(8px)}}
 .tag-spin{position:absolute;top:14%;right:7%;z-index:5;width:120px;height:120px;animation:spin 9s linear infinite}
@@ -137,6 +115,18 @@ nav .logo img{height:34px;width:auto;display:block;filter:drop-shadow(0 0 1px rg
 .tag-spin .dot{font-family:'Anton';font-size:34px}
 @keyframes spin{to{transform:rotate(360deg)}}
 @media(max-width:760px){.tag-spin{width:84px;height:84px;top:11%;right:5%}}
+/* mobile: hero elements 50% bigger */
+@media(max-width:760px){
+  .hero-title h1{font-size:30vw}
+  .hero-burger{width:30vw}
+  /* tagline sits right under EXTRA SAUCE with a small gap */
+  .hero-sub{position:static;margin-top:1.1rem;gap:0}
+  .hero-sub p{font-size:1.6rem;line-height:1.15}
+  .m-br{display:inline}
+  /* keep the scroll cue pinned to the bottom */
+  .scroll-cue{position:absolute;bottom:5%;left:50%;transform:translateX(-50%);font-size:1.05rem}
+  .tag-spin{width:126px;height:126px}
+}
 
 /* MARQUEE */
 .marquee{background:var(--sauce);color:var(--ink);padding:1.1rem 0;overflow:hidden;white-space:nowrap;border-top:3px solid var(--ink);border-bottom:3px solid var(--ink)}
@@ -166,8 +156,11 @@ section{position:relative;z-index:1}
 @media(max-width:860px){.story-grid{grid-template-columns:1fr}.story-img .stamp{width:110px;height:110px;font-size:.85rem;left:auto;right:10px}}
 
 /* MENU */
-.menu{padding:clamp(4rem,10vw,9rem) 0;background:var(--ink);position:relative}
+.menu{padding:clamp(4rem,10vw,9rem) 0 0;background:var(--ink);position:relative}
+.menu-drip{display:block;width:100%;max-width:1400px;height:auto;margin:0 auto}
 .menu-head{padding:0 clamp(1.2rem,5vw,6rem);max-width:1400px;margin:0 auto 3rem;display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:1rem}
+.menu-head-title{display:flex;align-items:center;gap:clamp(.8rem,2.5vw,2rem)}
+.menu-head-title .goods-cc{height:clamp(112px,18vw,240px);width:auto;display:block}
 .menu-head h2{font-family:'Anton';font-size:clamp(2.6rem,8vw,7rem);line-height:.85;letter-spacing:-.02em}
 .menu-head h2 span{color:var(--sauce);-webkit-text-stroke:0}
 .menu-head .note{font-size:.85rem;opacity:.6;max-width:24ch;text-align:right}
@@ -186,6 +179,7 @@ section{position:relative;z-index:1}
   .menu-row:hover{background:transparent;color:inherit}
   .menu-row:hover .idx{color:var(--sauce)}
   .menu-row:hover .name{transform:none}
+  .menu-row:hover .reveal{transform:none;opacity:1}
   .menu-row{grid-template-columns:auto 1fr auto;row-gap:0}
   .menu-row .reveal{position:static;width:100%;height:0;opacity:1;border-radius:10px;transform:none;transition:height .45s cubic-bezier(.16,1,.3,1),margin .45s cubic-bezier(.16,1,.3,1);grid-column:1 / -1;object-fit:cover;margin:0}
   .menu-row.open .reveal{height:230px;margin-top:1.2rem}
@@ -197,7 +191,7 @@ section{position:relative;z-index:1}
 .menu-cat{padding:2.5rem clamp(1.2rem,5vw,6rem) .5rem;max-width:1400px;margin:0 auto;font-family:'Archivo Black';font-size:.8rem;letter-spacing:.3em;text-transform:uppercase;color:var(--blue)}
 
 /* GALLERY */
-.gallery{padding:clamp(4rem,10vw,9rem) 0;background:var(--ink);overflow:hidden}
+.gallery{padding:0 0 clamp(4rem,10vw,9rem);background:transparent;overflow:hidden;position:relative;z-index:2;margin-top:clamp(-300px,-22vw,-140px)}
 .gallery h2{font-family:'Anton';font-size:clamp(2.6rem,9vw,8rem);text-align:center;line-height:.85;margin-bottom:.4rem;letter-spacing:-.02em}
 .gallery .sub{text-align:center;opacity:.5;margin-bottom:3rem;letter-spacing:.2em;font-size:.8rem;text-transform:uppercase}
 .gal-row{display:flex;gap:1.4rem;padding:0 1.4rem;margin-bottom:1.4rem;will-change:transform}
@@ -205,12 +199,16 @@ section{position:relative;z-index:1}
 
 /* SAUCE / ATTITUDE */
 .attitude{background:var(--sauce);color:var(--ink);padding:clamp(5rem,12vw,11rem) clamp(1.2rem,5vw,6rem);text-align:center;overflow:hidden}
-.attitude h2{font-family:'Anton';font-size:clamp(2.6rem,11vw,11rem);line-height:.82;letter-spacing:-.02em;max-width:18ch;margin:0 auto}
+.attitude .pattern-row{position:absolute;left:0;width:100%;height:clamp(64px,10vw,130px);background:url('patternrow.png') repeat-x center/auto 100%;pointer-events:none}
+.attitude .pattern-row.top{top:0}
+.attitude .pattern-row.bottom{bottom:0}
+.attitude h2{font-family:'Anton';font-size:clamp(2.6rem,11vw,11rem);line-height:1;letter-spacing:-.02em;max-width:18ch;margin:0 auto}
 .attitude h2 em{font-style:normal;-webkit-text-stroke:2px var(--ink);color:transparent}
 .attitude p{max-width:50ch;margin:2rem auto 0;font-size:clamp(1rem,1.6vw,1.35rem);font-weight:500;line-height:1.5}
 
 /* LOCATIONS */
-.locations{padding:clamp(4rem,10vw,9rem) clamp(1.2rem,5vw,6rem);background:var(--cream);color:var(--ink)}
+.locations{padding:clamp(4rem,10vw,9rem) clamp(1.2rem,5vw,6rem);background:var(--cream);color:var(--ink);overflow:hidden}
+.locations .spots-burger{position:absolute;top:clamp(1rem,3vw,2.6rem);right:clamp(1rem,4vw,3rem);width:25%;height:auto;pointer-events:none;z-index:0}
 .loc-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem;max-width:1400px;margin:2.5rem auto 0}
 .loc-card{border:3px solid var(--ink);border-radius:14px;padding:clamp(1.6rem,3vw,2.6rem);position:relative;overflow:hidden;transition:transform .4s,background .4s,color .4s}
 .loc-card:hover{transform:translateY(-8px);background:var(--ink);color:var(--cream)}
@@ -244,9 +242,9 @@ footer{background:var(--ink);padding:clamp(4rem,9vw,8rem) clamp(1.2rem,5vw,6rem)
     <filter id="sauceGoo" x="-20%" y="-20%" width="140%" height="170%" color-interpolation-filters="sRGB">
       <!-- metaball merge: blur, then a hard alpha threshold rounds & fuses
            everything within reach into one continuous liquid mass -->
-      <feGaussianBlur in="SourceGraphic" stdDeviation="12" result="blur"/>
+      <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur"/>
       <feColorMatrix in="blur" type="matrix"
-        values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 24 -11"/>
+        values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 20 -9"/>
     </filter>
   </defs>
 </svg>
@@ -254,33 +252,11 @@ footer{background:var(--ink);padding:clamp(4rem,9vw,8rem) clamp(1.2rem,5vw,6rem)
 <div class="cursor-label" id="cursorLabel">VIEW</div>
 
 <div class="loader" id="loader">
-  <div class="loader-goo">
-    <div class="sheet">
-      <span class="ld-blob" style="--x:3%;--w:84px;--st:5.5;--sx:.55;--d:0s"></span>
-      <span class="ld-blob" style="--x:7.5%;--w:46px;--st:3;--sx:.7;--d:.22s"></span>
-      <span class="ld-blob" style="--x:12%;--w:72px;--st:6.2;--sx:.5;--d:.05s"></span>
-      <span class="ld-blob" style="--x:16.5%;--w:40px;--st:2.6;--sx:.75;--d:.3s"></span>
-      <span class="ld-blob" style="--x:21%;--w:90px;--st:4.8;--sx:.58;--d:.1s"></span>
-      <span class="ld-blob" style="--x:25.5%;--w:54px;--st:3.6;--sx:.66;--d:.26s"></span>
-      <span class="ld-blob" style="--x:30%;--w:62px;--st:5.8;--sx:.52;--d:.02s"></span>
-      <span class="ld-blob" style="--x:34.5%;--w:96px;--st:4.2;--sx:.6;--d:.15s"></span>
-      <span class="ld-blob" style="--x:39%;--w:44px;--st:2.8;--sx:.72;--d:.34s"></span>
-      <span class="ld-blob" style="--x:43.5%;--w:78px;--st:6;--sx:.54;--d:.08s"></span>
-      <span class="ld-blob" style="--x:48%;--w:56px;--st:3.4;--sx:.68;--d:.2s"></span>
-      <span class="ld-blob" style="--x:52.5%;--w:88px;--st:5.2;--sx:.56;--d:.12s"></span>
-      <span class="ld-blob" style="--x:57%;--w:42px;--st:2.5;--sx:.76;--d:.3s"></span>
-      <span class="ld-blob" style="--x:61.5%;--w:70px;--st:5.6;--sx:.55;--d:.04s"></span>
-      <span class="ld-blob" style="--x:66%;--w:100px;--st:4.5;--sx:.58;--d:.18s"></span>
-      <span class="ld-blob" style="--x:70.5%;--w:48px;--st:3.2;--sx:.7;--d:.28s"></span>
-      <span class="ld-blob" style="--x:75%;--w:66px;--st:6.4;--sx:.5;--d:.06s"></span>
-      <span class="ld-blob" style="--x:79.5%;--w:86px;--st:4;--sx:.62;--d:.14s"></span>
-      <span class="ld-blob" style="--x:84%;--w:44px;--st:2.7;--sx:.74;--d:.32s"></span>
-      <span class="ld-blob" style="--x:88.5%;--w:76px;--st:5.4;--sx:.56;--d:.1s"></span>
-      <span class="ld-blob" style="--x:93%;--w:52px;--st:3.5;--sx:.67;--d:.24s"></span>
-      <span class="ld-blob" style="--x:97%;--w:72px;--st:5;--sx:.58;--d:.02s"></span>
-    </div>
+  <div class="drip-sheet"></div>
+  <div class="ld-mark">
+    <img class="ld-burger" src="burger.png" alt="" />
+    <img class="ld-logo" src="logo_alt.png" alt="Extra Sauce" />
   </div>
-  <img class="ld-word" src="burger.png" alt="Extra Sauce" />
 </div>
 
 <nav>
@@ -297,20 +273,21 @@ footer{background:var(--ink);padding:clamp(4rem,9vw,8rem) clamp(1.2rem,5vw,6rem)
 <header class="hero" id="top">
   <div class="hero-bg"></div>
   <div class="hero-bridge"></div>
+  <img class="hero-drip-img" src="topdrip_b.png" alt="" />
   <div class="hero-vignette" id="heroVignette"></div>
-  <img class="hero-burger" id="heroBurger" src="https://images.squarespace-cdn.com/content/v1/6413a73ceebce40bebc600a3/0a2283c7-1124-44b8-86f3-8f29b4281ec7/DSC02679.JPG?format=1200w" alt="Extra Sauce smash burger" />
+  <img class="hero-burger" id="heroBurger" src="burger.png" alt="Extra Sauce burger" />
   <div class="hero-title">
     <h1><span class="lo">EXTRA</span><span class="lo" style="color:var(--sauce)">SAUCE</span></h1>
   </div>
   <div class="tag-spin">
     <svg viewBox="0 0 100 100">
       <defs><path id="circ" d="M50,50 m-37,0 a37,37 0 1,1 74,0 a37,37 0 1,1 -74,0" /></defs>
-      <text><textPath href="#circ">BROOKLYN · NYC · SMASH · SINCE THE POP-UP · </textPath></text>
+      <text><textPath href="#circ">BROOKLYN · NYC · SMASH · ZERO CHILL · </textPath></text>
       <text x="50" y="62" text-anchor="middle" class="dot" fill="#FB4491">★</text>
     </svg>
   </div>
   <div class="hero-sub">
-    <p>Smash Burgers at Their Finest</p>
+    <p>Smashed thin. <br class="m-br">Hyped hard.</p>
     <span class="scroll-cue">SCROLL ↓</span>
   </div>
 </header>
@@ -318,8 +295,8 @@ footer{background:var(--ink);padding:clamp(4rem,9vw,8rem) clamp(1.2rem,5vw,6rem)
 <!-- MARQUEE 1 -->
 <div class="marquee">
   <div class="marquee-track">
-    <span>MADE WITH LOVE IN NYC</span><span>CRISPY EDGES</span><span>WAFFLE FRIES</span><span>EXTRA SAUCE</span>
-    <span>MADE WITH LOVE IN NYC</span><span>CRISPY EDGES</span><span>WAFFLE FRIES</span><span>EXTRA SAUCE</span>
+    <span>MADE IN BK, NOT IN A LAB</span><span>CRISPY EDGE GANG</span><span>WAFFLE FRY SUPREMACY</span><span>EXTRA, OBVIOUSLY</span>
+    <span>MADE IN BK, NOT IN A LAB</span><span>CRISPY EDGE GANG</span><span>WAFFLE FRY SUPREMACY</span><span>EXTRA, OBVIOUSLY</span>
   </div>
 </div>
 
@@ -327,19 +304,19 @@ footer{background:var(--ink);padding:clamp(4rem,9vw,8rem) clamp(1.2rem,5vw,6rem)
 <section class="story" id="story">
   <div class="story-grid">
     <div class="up">
-      <div class="eyebrow">The Origin</div>
-      <h2>Born in a <em>Brooklyn</em> pop-up. Raised on attitude.</h2>
-      <p>We started slinging smash burgers out of a pop-up on the streets of Brooklyn — no frills, no shortcuts, just screaming-hot griddles and beef smashed thin until the edges go lacy and gold.</p>
-      <p>That cult following followed us downtown. Now we're bringing the borough's energy and our obsession with quality ingredients straight to Wall Street — with Bushwick loading next.</p>
+      <div class="eyebrow">The Lore</div>
+      <h2>From a <br><em>Brooklyn</em> alley...<br> to <em>Wall Street</em>…<br>and back.</h2>
+      <p>We started on a folding table in Brooklyn with a screaming-hot griddle and zero business plan — just beef smashed thin until the edges went lacy, gold, and frankly illegal.</p>
+      <p>The line got long, the internet got loud, and here we are. Same beef, same sauce, same chip on our shoulder — now with a Wall Street counter and Bushwick loading next.</p>
       <div>
-        <span class="pill">Smashed Daily</span>
-        <span class="pill">Local Beef</span>
-        <span class="pill">House Sauce</span>
-        <span class="pill">No Compromise</span>
+        <span class="pill">Smashed to Order</span>
+        <span class="pill">Beef With Standards</span>
+        <span class="pill">Sauce You'll Text About</span>
+        <span class="pill">Zero Corporate Energy</span>
       </div>
     </div>
     <div class="story-img up">
-      <img src="https://images.squarespace-cdn.com/content/v1/6413a73ceebce40bebc600a3/9705952d-8ec6-4adf-9cba-cbc9d77fa8b3/DSC02577.JPG?format=1000w" alt="Smash burger close up" />
+      <img src="img/DSC02577.jpg" alt="Smash burger close up" />
       <div class="stamp">EST.<br>BK</div>
     </div>
   </div>
@@ -348,43 +325,46 @@ footer{background:var(--ink);padding:clamp(4rem,9vw,8rem) clamp(1.2rem,5vw,6rem)
 <!-- MARQUEE 2 -->
 <div class="marquee blue rev">
   <div class="marquee-track">
-    <span>CHICKEN SANDWICHES</span><span>SMASH BURGERS</span><span>SHAKES</span><span>SAUCE ON SAUCE</span>
-    <span>CHICKEN SANDWICHES</span><span>SMASH BURGERS</span><span>SHAKES</span><span>SAUCE ON SAUCE</span>
+    <span>CRISPY CHICKEN CULT</span><span>SMASH OR DIE</span><span>SHAKES WITH A SPINE</span><span>SAUCE ON SAUCE ON SAUCE</span>
+    <span>CRISPY CHICKEN CULT</span><span>SMASH OR DIE</span><span>SHAKES WITH A SPINE</span><span>SAUCE ON SAUCE ON SAUCE</span>
   </div>
 </div>
 
 <!-- MENU -->
 <section class="menu" id="menu">
   <div class="menu-head up">
-    <h2>THE<br><span>GOODS</span></h2>
-    <p class="note">Smashed to order. Hover a name to see the damage.</p>
+    <div class="menu-head-title">
+      <h2>THE<br><span>GOODS</span></h2>
+      <img class="goods-cc" src="cowchicken_w.png" alt="" />
+    </div>
+    <p class="note">Smashed to order. Hover if you're brave enough.</p>
   </div>
 
   <div class="menu-cat">— Smash Burgers</div>
   <div class="menu-list" id="menuList">
     <div class="menu-row" data-cursor>
       <span class="idx">01</span>
-      <div><div class="name">The OG Smash</div><div class="desc">Double smashed patty, American, pickles, onion, house Extra Sauce.</div></div>
+      <div><div class="name">The OG Smash</div><div class="desc">Double patty, American, pickles, onion, and the sauce that started the whole mess.</div></div>
       <span class="price">$10</span>
-      <img class="reveal" src="https://images.squarespace-cdn.com/content/v1/6413a73ceebce40bebc600a3/2a5f7622-2956-4c26-a165-a5e0cb9b7b5c/DSC02591.JPG?format=600w" alt="">
+      <img class="reveal" src="img/DSC02591.jpg" alt="">
     </div>
     <div class="menu-row" data-cursor>
       <span class="idx">02</span>
-      <div><div class="name">Triple Trouble</div><div class="desc">Three patties, triple cheese, grilled onions, for the brave.</div></div>
+      <div><div class="name">The Overachiever</div><div class="desc">Three patties, triple cheese, grilled onions. A personality, on a bun.</div></div>
       <span class="price">$14</span>
-      <img class="reveal" src="https://images.squarespace-cdn.com/content/v1/6413a73ceebce40bebc600a3/30ae07fd-bb59-41a1-83f8-2f00fc4ccef5/DSC02601.JPG?format=600w" alt="">
+      <img class="reveal" src="img/DSC02601.jpg" alt="">
     </div>
     <div class="menu-row" data-cursor>
       <span class="idx">03</span>
-      <div><div class="name">Bacon Borough</div><div class="desc">Double smash, candied bacon, sharp cheddar, smoked aioli.</div></div>
+      <div><div class="name">Bacon Borough</div><div class="desc">Double smash, candied bacon, sharp cheddar, smoked aioli. Moved here in 2014.</div></div>
       <span class="price">$13</span>
-      <img class="reveal" src="https://images.squarespace-cdn.com/content/v1/6413a73ceebce40bebc600a3/62fe3ec2-6db3-4e52-bb70-7a5fe1d8dd70/DSC02594.JPG?format=600w" alt="">
+      <img class="reveal" src="img/DSC02594.jpg" alt="">
     </div>
     <div class="menu-row" data-cursor>
       <span class="idx">04</span>
-      <div><div class="name">Sauce Boss</div><div class="desc">Double patty drowning in queso, jalapeño, crispy onions.</div></div>
+      <div><div class="name">Sauce Boss</div><div class="desc">Double patty drowning in queso, jalapeño, crispy onions. Napkins not included.</div></div>
       <span class="price">$12</span>
-      <img class="reveal" src="https://images.squarespace-cdn.com/content/v1/6413a73ceebce40bebc600a3/66a00f58-0bdf-4cce-b00b-5aa4b2322521/DSC02598.JPG?format=600w" alt="">
+      <img class="reveal" src="img/DSC02598.jpg" alt="">
     </div>
   </div>
 
@@ -392,21 +372,21 @@ footer{background:var(--ink);padding:clamp(4rem,9vw,8rem) clamp(1.2rem,5vw,6rem)
   <div class="menu-list">
     <div class="menu-row" data-cursor>
       <span class="idx">05</span>
-      <div><div class="name">The Cluck</div><div class="desc">Buttermilk-fried thigh, slaw, pickles, garlic mayo.</div></div>
+      <div><div class="name">The Cluck</div><div class="desc">Buttermilk-fried thigh, slaw, pickles, garlic mayo. Quietly the best thing here.</div></div>
       <span class="price">$11</span>
-      <img class="reveal" src="https://images.squarespace-cdn.com/content/v1/6413a73ceebce40bebc600a3/4e8a6ee5-b6fb-4e48-bdfc-9e86a2bb27c5/DSC02714.JPG?format=600w" alt="">
+      <img class="reveal" src="img/DSC02714.jpg" alt="">
     </div>
     <div class="menu-row" data-cursor>
       <span class="idx">06</span>
-      <div><div class="name">Nashville Heat</div><div class="desc">Cayenne-lacquered crispy chicken, comeback sauce, dill.</div></div>
+      <div><div class="name">Hot Take</div><div class="desc">Cayenne-lacquered crispy chicken, comeback sauce, dill. Spicy, like your group chat.</div></div>
       <span class="price">$12</span>
-      <img class="reveal" src="https://images.squarespace-cdn.com/content/v1/6413a73ceebce40bebc600a3/68a136b7-2337-4f93-aa42-04a4c374e5dc/DSC02711.JPG?format=600w" alt="">
+      <img class="reveal" src="img/DSC02711.jpg" alt="">
     </div>
     <div class="menu-row" data-cursor>
       <span class="idx">07</span>
-      <div><div class="name">Honey Hush</div><div class="desc">Crispy chicken, hot honey, swiss, crunchy slaw.</div></div>
+      <div><div class="name">Honey Hush</div><div class="desc">Crispy chicken, hot honey, swiss, crunchy slaw. Sweet, then it bites back.</div></div>
       <span class="price">$12</span>
-      <img class="reveal" src="https://images.squarespace-cdn.com/content/v1/6413a73ceebce40bebc600a3/3902f544-3228-4b5d-80b3-56db02cf066a/DSC02733.JPG?format=600w" alt="">
+      <img class="reveal" src="img/DSC02733.jpg" alt="">
     </div>
   </div>
 
@@ -414,55 +394,59 @@ footer{background:var(--ink);padding:clamp(4rem,9vw,8rem) clamp(1.2rem,5vw,6rem)
   <div class="menu-list">
     <div class="menu-row" data-cursor>
       <span class="idx">08</span>
-      <div><div class="name">Waffle Fries</div><div class="desc">Crispy, craggy, dusted in our seasoning. Add sauce, obviously.</div></div>
+      <div><div class="name">Waffle Fries</div><div class="desc">Crispy, craggy, dusted in our seasoning. The shape is a flex.</div></div>
       <span class="price">$6</span>
-      <img class="reveal" src="https://images.squarespace-cdn.com/content/v1/6413a73ceebce40bebc600a3/a362e560-b219-4a20-986e-d2f3440371e7/DSC02627.JPG?format=600w" alt="">
+      <img class="reveal" src="img/DSC02627.jpg" alt="">
     </div>
     <div class="menu-row" data-cursor>
       <span class="idx">09</span>
-      <div><div class="name">Loaded Fries</div><div class="desc">Waffle fries, queso, bacon, scallion, Extra Sauce drizzle.</div></div>
+      <div><div class="name">Loaded Fries</div><div class="desc">Waffle fries, queso, bacon, scallion, sauce drizzle. Sharing is optional.</div></div>
       <span class="price">$9</span>
-      <img class="reveal" src="https://images.squarespace-cdn.com/content/v1/6413a73ceebce40bebc600a3/c01f1c16-1e7e-4f93-8119-8fe3c862ad51/DSC02645.JPG?format=600w" alt="">
+      <img class="reveal" src="img/DSC02645.jpg" alt="">
     </div>
     <div class="menu-row" data-cursor>
       <span class="idx">10</span>
-      <div><div class="name">Brooklyn Shake</div><div class="desc">Thick-pour vanilla, chocolate, or black & white. Cup runneth over.</div></div>
+      <div><div class="name">Brooklyn Shake</div><div class="desc">Thick-pour vanilla, chocolate, or black & white. Straws fear it.</div></div>
       <span class="price">$7</span>
-      <img class="reveal" src="https://images.squarespace-cdn.com/content/v1/6413a73ceebce40bebc600a3/bb9f274d-32d2-4089-bba5-9220a692ed66/DSC02650.JPG?format=600w" alt="">
+      <img class="reveal" src="img/DSC02650.jpg" alt="">
     </div>
   </div>
+  <img class="menu-drip" src="drip.png" alt="" />
 </section>
 
 <!-- GALLERY -->
 <section class="gallery">
   <h2>SAUCE<br>ON SAUCE</h2>
-  <p class="sub">Shot in Brooklyn · Eaten everywhere</p>
+  <p class="sub">Shot in Brooklyn · Posted everywhere</p>
   <div class="gal-row" data-speed="1">
-    <img src="https://images.squarespace-cdn.com/content/v1/6413a73ceebce40bebc600a3/526d690f-d309-427f-beac-8cf77070fa33/DSC02689.JPG?format=750w" alt="">
-    <img src="https://images.squarespace-cdn.com/content/v1/6413a73ceebce40bebc600a3/d86996a2-1d44-439e-867f-dd0367318933/DSC02580.JPG?format=750w" alt="">
-    <img src="https://images.squarespace-cdn.com/content/v1/6413a73ceebce40bebc600a3/e48c9b25-3cec-4965-ab16-f66820c98b63/DSC02730.JPG?format=750w" alt="">
-    <img src="https://images.squarespace-cdn.com/content/v1/6413a73ceebce40bebc600a3/ac751f51-503d-4952-a31a-2494ed2a5098/DSC02596.JPG?format=750w" alt="">
-    <img src="https://images.squarespace-cdn.com/content/v1/6413a73ceebce40bebc600a3/bf7bac40-7f61-407d-b5f6-dc6219cc3559/DSC02618.JPG?format=750w" alt="">
+    <img src="img/DSC02689.jpg" alt="">
+    <img src="img/DSC02580.jpg" alt="">
+    <img src="img/DSC02730.jpg" alt="">
+    <img src="img/DSC02596.jpg" alt="">
+    <img src="img/DSC02618.jpg" alt="">
   </div>
   <div class="gal-row" data-speed="-1">
-    <img src="https://images.squarespace-cdn.com/content/v1/6413a73ceebce40bebc600a3/4e8a6ee5-b6fb-4e48-bdfc-9e86a2bb27c5/DSC02714.JPG?format=750w" alt="">
-    <img src="https://images.squarespace-cdn.com/content/v1/6413a73ceebce40bebc600a3/3902f544-3228-4b5d-80b3-56db02cf066a/DSC02733.JPG?format=750w" alt="">
-    <img src="https://images.squarespace-cdn.com/content/v1/6413a73ceebce40bebc600a3/a362e560-b219-4a20-986e-d2f3440371e7/DSC02627.JPG?format=750w" alt="">
-    <img src="https://images.squarespace-cdn.com/content/v1/6413a73ceebce40bebc600a3/30ae07fd-bb59-41a1-83f8-2f00fc4ccef5/DSC02601.JPG?format=750w" alt="">
-    <img src="https://images.squarespace-cdn.com/content/v1/6413a73ceebce40bebc600a3/2a5f7622-2956-4c26-a165-a5e0cb9b7b5c/DSC02591.JPG?format=750w" alt="">
+    <img src="img/DSC02714.jpg" alt="">
+    <img src="img/DSC02733.jpg" alt="">
+    <img src="img/DSC02627.jpg" alt="">
+    <img src="img/DSC02601.jpg" alt="">
+    <img src="img/DSC02591.jpg" alt="">
   </div>
 </section>
 
 <!-- ATTITUDE -->
 <section class="attitude">
+  <div class="pattern-row top"></div>
   <h2 class="up">NO <em>FRILLS.</em><br>ALL <em>FLAVOR.</em></h2>
-  <p class="up">Quality ingredients. Exceptional service. The taste of Brooklyn — smashed thin, stacked high, and served with way more sauce than strictly necessary.</p>
+  <p class="up">Good beef, loud sauce, no gimmicks. Smashed thin, stacked high, and served with way more sauce than anyone technically asked for.</p>
+  <div class="pattern-row bottom"></div>
 </section>
 
 <!-- LOCATIONS -->
 <section class="locations" id="spots">
+  <img class="spots-burger" src="burger.png" alt="" />
   <div class="up">
-    <div class="eyebrow">Find Us</div>
+    <div class="eyebrow">Pull Up</div>
     <h2 style="font-family:'Anton';font-size:clamp(2.4rem,7vw,6rem);line-height:.85;letter-spacing:-.01em">TWO SPOTS.<br>ONE OBSESSION.</h2>
   </div>
   <div class="loc-grid">
@@ -477,7 +461,7 @@ footer{background:var(--ink);padding:clamp(4rem,9vw,8rem) clamp(1.2rem,5vw,6rem)
       <h3>Bushwick</h3>
       <p class="addr">1495 Dekalb Avenue<br>Brooklyn, NY 11237</p>
       <p class="hrs">Mon–Sun · 11am – 12am</p>
-      <p class="soon">★ The home turf returns</p>
+      <p class="soon">★ Back where it all started</p>
     </div>
   </div>
 </section>
@@ -495,30 +479,30 @@ footer{background:var(--ink);padding:clamp(4rem,9vw,8rem) clamp(1.2rem,5vw,6rem)
   <div class="foot-cta"><a href="#spots" data-cursor>GET SAUCED →</a></div>
   <div class="foot-grid">
     <div class="foot-col">
-      <h4>Visit</h4>
+      <h4>Pull Up</h4>
       <p>100 Pearl St, NYC</p>
       <p>1495 Dekalb Ave, BK</p>
     </div>
     <div class="foot-col">
-      <h4>Connect</h4>
+      <h4>Slide In</h4>
       <a href="https://instagram.com/extrasaucebk" target="_blank" rel="noopener">Instagram ↗</a>
       <a href="https://www.yelp.com" target="_blank" rel="noopener">Yelp ↗</a>
       <a href="mailto:extrasaucebk@gmail.com">extrasaucebk@gmail.com</a>
     </div>
     <div class="foot-col">
-      <h4>Order</h4>
+      <h4>Feed Me</h4>
       <a href="#spots" data-cursor>Pickup</a>
       <a href="#spots" data-cursor>Delivery</a>
       <a href="#menu">Full Menu</a>
     </div>
     <div class="foot-col">
       <h4>Extra Sauce</h4>
-      <p>Made with love<br>in New York City.</p>
+      <p>Made with love and<br>zero chill in NYC.</p>
     </div>
   </div>
   <div class="foot-bottom">
     <span>© 2026 Extra Sauce BK — Brooklyn, NY</span>
-    <span>Smashed thin · Served bold</span>
+    <span>Smashed thin · Hyped hard</span>
   </div>
 </footer>
 
@@ -531,7 +515,7 @@ setVH();addEventListener('resize',setVH);
 const loader=document.getElementById('loader');
 setTimeout(()=>{
   loader.classList.add('reveal');
-  setTimeout(()=>{loader.style.display='none';},2900);
+  setTimeout(()=>{loader.style.display='none';},2300);
 },700);
 
 // CURSOR
@@ -579,15 +563,17 @@ document.querySelectorAll('.menu-row').forEach(row=>{
 const io=new IntersectionObserver(es=>es.forEach(en=>{if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target);}}),{threshold:.15});
 document.querySelectorAll('.up').forEach(el=>io.observe(el));
 
-// hero vignette — expands and fades out as you scroll down the hero
+// hero vignette (expand+fade) and background parallax on scroll
 const heroVig=document.getElementById('heroVignette');
-function updateVignette(){
-  const p=Math.min(scrollY/(innerHeight*0.85),1);
+const heroBridge=document.querySelector('.hero-bridge');
+function updateHeroScroll(){
+  const y=scrollY,p=Math.min(y/(innerHeight*0.85),1);
   heroVig.style.transform='scale('+(1+p*1.9)+')';
   heroVig.style.opacity=String(1-p);
+  if(heroBridge&&y<innerHeight*1.2) heroBridge.style.transform='translateY('+(y*0.18)+'px)';
 }
-updateVignette();
-addEventListener('scroll',updateVignette,{passive:true});
+updateHeroScroll();
+addEventListener('scroll',updateHeroScroll,{passive:true});
 
 // PARALLAX (hero burger + gallery rows) — desktop only.
 // On mobile these continuous layout reads/writes starve the menu
@@ -595,22 +581,21 @@ addEventListener('scroll',updateVignette,{passive:true});
 if(!isTouch){
   const hero=document.getElementById('heroBurger');
   const rows=[...document.querySelectorAll('.gal-row')];
-  addEventListener('scroll',()=>{
-    const y=scrollY;
-    hero.style.transform=`translate(-50%,calc(-50% + ${y*.25}px)) rotate(${y*.03}deg)`;
-  },{passive:true});
   let ticking=false;
-  function galLoop(){
-    const vh=innerHeight;
-    rows.forEach(r=>{
+  function applyParallax(){
+    ticking=false;
+    const y=scrollY,vh=innerHeight;
+    if(y<vh) hero.style.transform=`translate(-50%,calc(-50% + ${y*.25}px)) rotate(${y*.03}deg)`;
+    for(const r of rows){
       const rect=r.getBoundingClientRect();
+      if(rect.bottom<-50||rect.top>vh+50) continue; // skip off-screen rows
       const prog=(vh-rect.top)/(vh+rect.height);
-      const sp=parseFloat(r.dataset.speed);
-      r.style.transform=`translateX(${(prog-.5)*220*sp}px)`;
-    });
-    requestAnimationFrame(galLoop);
+      r.style.transform=`translateX(${(prog-.5)*220*parseFloat(r.dataset.speed)}px)`;
+    }
   }
-  galLoop();
+  // rAF-throttled, runs only while scrolling (no idle loop)
+  addEventListener('scroll',()=>{if(!ticking){ticking=true;requestAnimationFrame(applyParallax);}},{passive:true});
+  applyParallax();
 }
 </script>
 </body>
