@@ -607,18 +607,17 @@ function updateHeroScroll(){
 updateHeroScroll();
 addEventListener('scroll',updateHeroScroll,{passive:true});
 
-// PARALLAX (hero burger + gallery rows) — desktop only.
-// On mobile these continuous layout reads/writes starve the menu
-// reveal transition, so we skip them entirely there.
-if(!isTouch){
-  const hero=document.getElementById('heroBurger');
+// PARALLAX — gallery rows + menu watermark run on ALL devices; the hero burger
+// transform is desktop-only. rAF-throttled, runs only while scrolling.
+{
+  const hero=isTouch?null:document.getElementById('heroBurger');
   const rows=[...document.querySelectorAll('.gal-row')];
   const menuCC=document.getElementById('menuCC');
   let ticking=false;
   function applyParallax(){
     ticking=false;
     const y=scrollY,vh=innerHeight;
-    if(y<vh) hero.style.transform=`translate(-50%,calc(-50% + ${y*.25}px)) rotate(${y*.03}deg)`;
+    if(hero&&y<vh) hero.style.transform=`translate(-50%,calc(-50% + ${y*.25}px)) rotate(${y*.03}deg)`;
     for(const r of rows){
       const rect=r.getBoundingClientRect();
       if(rect.bottom<-50||rect.top>vh+50) continue; // skip off-screen rows
@@ -633,7 +632,6 @@ if(!isTouch){
       }
     }
   }
-  // rAF-throttled, runs only while scrolling (no idle loop)
   addEventListener('scroll',()=>{if(!ticking){ticking=true;requestAnimationFrame(applyParallax);}},{passive:true});
   applyParallax();
 }
