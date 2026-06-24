@@ -131,7 +131,7 @@ section{position:relative;z-index:1}
 .menu-row:hover .idx{color:#fff}
 .menu-row:hover .name{transform:translateX(20px)}
 .menu-row:hover .reveal{opacity:1;transform:translate(-50%,-50%) rotate(-6deg) scale(1)}
-@media(hover:none){
+@media(max-width:760px){
   .menu-row:hover{background:transparent;color:inherit}
   .menu-row:hover .idx{color:var(--sauce)}
   .menu-row:hover .name{transform:none}
@@ -459,7 +459,7 @@ document.addEventListener('mouseover',e=>{
 document.addEventListener('mouseout',e=>{if(e.target.closest('[data-cursor]'))cursor.classList.remove('big');});
 
 // menu reveal — desktop: image follows cursor; touch: tap name to expand image below
-const isTouch=matchMedia('(hover:none)').matches;
+const isTouch=matchMedia('(max-width:760px)').matches;
 document.querySelectorAll('.menu-row').forEach(row=>{
   const img=row.querySelector('.reveal');
   if(isTouch){
