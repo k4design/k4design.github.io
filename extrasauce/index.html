@@ -117,13 +117,15 @@ nav.scrolled .logo img{filter:brightness(0) invert(1) drop-shadow(0 0 1px rgba(0
 .tag-spin .dot{font-family:'Anton';font-size:34px}
 @keyframes spin{to{transform:rotate(360deg)}}
 @media(max-width:760px){.tag-spin{width:84px;height:84px;top:11%;right:5%}}
-/* mobile: hero elements 50% bigger */
+/* mobile: hero elements 50% bigger, all center-aligned */
 @media(max-width:760px){
+  .hero{justify-content:center;align-items:center;text-align:center}
+  .hero-title,.hero-title h1{text-align:center}
   .hero-title h1{font-size:30vw}
   .hero-burger{width:30vw}
   /* tagline sits right under EXTRA SAUCE with a small gap */
-  .hero-sub{position:static;margin-top:1.1rem;gap:0}
-  .hero-sub p{font-size:1.6rem;line-height:1.15}
+  .hero-sub{position:static;margin-top:1.1rem;gap:0;align-items:center;text-align:center}
+  .hero-sub p{font-size:1.6rem;line-height:1.15;text-align:center}
   .m-br{display:inline}
   /* keep the scroll cue pinned to the bottom */
   .scroll-cue{position:absolute;bottom:5%;left:50%;transform:translateX(-50%);font-size:1.05rem}
@@ -159,7 +161,7 @@ section{position:relative;z-index:1}
 
 /* MENU */
 /* one continuous dark block + static behind both menu & gallery (no seam) */
-.darkwrap{position:relative;background:var(--ink);overflow:hidden}
+.darkwrap{position:relative;background:#000;overflow:hidden}
 .darkwrap::before{content:"";position:absolute;inset:-6%;pointer-events:none;mix-blend-mode:screen;opacity:.2;z-index:0;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.6' numOctaves='2'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='gamma' amplitude='1.6' exponent='1.4'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
   background-size:220px 220px;animation:heroStatic .6s steps(4) infinite}
@@ -245,6 +247,17 @@ footer{background:var(--ink);padding:clamp(4rem,9vw,8rem) clamp(1.2rem,5vw,6rem)
 /* reveal anim */
 .up{opacity:0;transform:translateY(40px);transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1)}
 .up.in{opacity:1;transform:none}
+
+/* mobile: section type + spacing tweaks (placed last so it overrides base rules) */
+@media(max-width:760px){
+  .story .up h2{font-size:6rem}
+  .story .up p{font-size:1.5rem}
+  .attitude{padding:20vh 0}
+  .attitude .pattern-row.top{top:5vh}
+  .attitude .pattern-row.bottom{bottom:5vh}
+  .gallery h2{font-size:18vw}
+  .locations h2{font-size:18vw;line-height:1}
+}
 </style>
 </head>
 <body>
