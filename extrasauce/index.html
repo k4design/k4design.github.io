@@ -477,24 +477,29 @@ document.querySelectorAll('.menu-row').forEach(row=>{
 const io=new IntersectionObserver(es=>es.forEach(en=>{if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target);}}),{threshold:.15});
 document.querySelectorAll('.up').forEach(el=>io.observe(el));
 
-// PARALLAX (hero burger + gallery rows)
-const hero=document.getElementById('heroBurger');
-const rows=[...document.querySelectorAll('.gal-row')];
-addEventListener('scroll',()=>{
-  const y=scrollY;
-  hero.style.transform=`translate(-50%,calc(-50% + ${y*.25}px)) rotate(${y*.03}deg)`;
-},{passive:true});
-function galLoop(){
-  const vh=innerHeight;
-  rows.forEach(r=>{
-    const rect=r.getBoundingClientRect();
-    const prog=(vh-rect.top)/(vh+rect.height);
-    const sp=parseFloat(r.dataset.speed);
-    r.style.transform=`translateX(${(prog-.5)*220*sp}px)`;
-  });
-  requestAnimationFrame(galLoop);
+// PARALLAX (hero burger + gallery rows) — desktop only.
+// On mobile these continuous layout reads/writes starve the menu
+// reveal transition, so we skip them entirely there.
+if(!isTouch){
+  const hero=document.getElementById('heroBurger');
+  const rows=[...document.querySelectorAll('.gal-row')];
+  addEventListener('scroll',()=>{
+    const y=scrollY;
+    hero.style.transform=`translate(-50%,calc(-50% + ${y*.25}px)) rotate(${y*.03}deg)`;
+  },{passive:true});
+  let ticking=false;
+  function galLoop(){
+    const vh=innerHeight;
+    rows.forEach(r=>{
+      const rect=r.getBoundingClientRect();
+      const prog=(vh-rect.top)/(vh+rect.height);
+      const sp=parseFloat(r.dataset.speed);
+      r.style.transform=`translateX(${(prog-.5)*220*sp}px)`;
+    });
+    requestAnimationFrame(galLoop);
+  }
+  galLoop();
 }
-galLoop();
 </script>
 </body>
 </html>
