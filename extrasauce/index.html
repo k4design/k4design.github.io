@@ -73,7 +73,8 @@ a{color:inherit;text-decoration:none}
 /* NAV */
 nav{position:fixed;top:0;left:0;width:100%;z-index:8000;display:flex;justify-content:space-between;align-items:center;padding:1.4rem clamp(1rem,4vw,3rem)}
 nav .logo{display:flex;align-items:center}
-nav .logo img{height:34px;width:auto;display:block;filter:drop-shadow(0 0 1px rgba(0,0,0,.9)) drop-shadow(0 2px 4px rgba(0,0,0,.5))}
+nav .logo img{height:34px;width:auto;display:block;filter:drop-shadow(0 0 1px rgba(0,0,0,.9)) drop-shadow(0 2px 4px rgba(0,0,0,.5));transition:filter .3s ease}
+nav.scrolled .logo img{filter:brightness(0) invert(1) drop-shadow(0 0 1px rgba(0,0,0,.55)) drop-shadow(0 2px 4px rgba(0,0,0,.4))}
 .nav-links{display:flex;gap:2rem;align-items:center;mix-blend-mode:difference}
 .nav-links a{font-family:'Space Grotesk';font-weight:700;font-size:.8rem;text-transform:uppercase;letter-spacing:.15em;color:#fff;position:relative}
 .nav-links a::after{content:"";position:absolute;left:0;bottom:-5px;width:0;height:2px;background:var(--sauce);transition:width .3s}
@@ -156,7 +157,13 @@ section{position:relative;z-index:1}
 @media(max-width:860px){.story-grid{grid-template-columns:1fr}.story-img .stamp{width:110px;height:110px;font-size:.85rem;left:auto;right:10px}}
 
 /* MENU */
-.menu{padding:clamp(4rem,10vw,9rem) 0 0;background:var(--ink);position:relative}
+.menu{padding:clamp(4rem,10vw,9rem) 0 0;background:var(--ink);position:relative;overflow:hidden}
+/* animated static grain on menu + gallery, behind their content (oversized so the
+   shimmer translate never exposes the section edges) */
+.menu::before,.gallery::before{content:"";position:absolute;inset:-14%;pointer-events:none;mix-blend-mode:screen;opacity:.2;z-index:0;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.6' numOctaves='2'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='gamma' amplitude='1.6' exponent='1.4'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+  background-size:220px 220px;animation:heroStatic .6s steps(4) infinite}
+.menu>*,.gallery>*{position:relative;z-index:1}
 .menu-drip{display:block;width:100%;max-width:1400px;height:auto;margin:0 auto}
 .menu-head{padding:0 clamp(1.2rem,5vw,6rem);max-width:1400px;margin:0 auto 3rem;display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:1rem}
 .menu-head-title{display:flex;align-items:center;gap:clamp(.8rem,2.5vw,2rem)}
@@ -287,7 +294,7 @@ footer{background:var(--ink);padding:clamp(4rem,9vw,8rem) clamp(1.2rem,5vw,6rem)
     </svg>
   </div>
   <div class="hero-sub">
-    <p>Smashed thin. <br class="m-br">Hyped hard.</p>
+    <p><span style="color:var(--blue)">Smashed thin.</span> <br class="m-br">Hyped hard.</p>
     <span class="scroll-cue">SCROLL ↓</span>
   </div>
 </header>
@@ -566,11 +573,16 @@ document.querySelectorAll('.up').forEach(el=>io.observe(el));
 // hero vignette (expand+fade) and background parallax on scroll
 const heroVig=document.getElementById('heroVignette');
 const heroBridge=document.querySelector('.hero-bridge');
+const navEl=document.querySelector('nav');
 function updateHeroScroll(){
   const y=scrollY,p=Math.min(y/(innerHeight*0.85),1);
   heroVig.style.transform='scale('+(1+p*1.9)+')';
   heroVig.style.opacity=String(1-p);
+  // ring color shifts black -> sauce pink (251,68,145) as you scroll
+  const ring='rgba('+Math.round(251*p)+','+Math.round(68*p)+','+Math.round(145*p)+',.5)';
+  heroVig.style.background='radial-gradient(circle at 50% 45%,rgba(0,0,0,0) 22%,'+ring+' 52%,rgba(0,0,0,0) 82%)';
   if(heroBridge&&y<innerHeight*1.2) heroBridge.style.transform='translateY('+(y*0.18)+'px)';
+  navEl.classList.toggle('scrolled',y>60);
 }
 updateHeroScroll();
 addEventListener('scroll',updateHeroScroll,{passive:true});
