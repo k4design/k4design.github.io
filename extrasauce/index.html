@@ -458,7 +458,19 @@ document.addEventListener('mouseover',e=>{
 });
 document.addEventListener('mouseout',e=>{if(e.target.closest('[data-cursor]'))cursor.classList.remove('big');});
 
-// menu reveal — desktop: image follows cursor; touch: tap name to expand image below
+// menu reveal — desktop: image follows cursor; touch: tap name to expand image below.
+// Pump animation frames for the transition's duration so the reveal always
+// completes on its own, even when the cursor is still and the page isn't scrolling
+// (an idle browser otherwise pauses in-flight transitions until the next input).
+let pumpUntil=0,pumping=false;
+function pump(ms){
+  pumpUntil=Math.max(pumpUntil,performance.now()+ms);
+  if(pumping)return;
+  pumping=true;
+  (function frame(){
+    if(performance.now()<pumpUntil){requestAnimationFrame(frame);}else{pumping=false;}
+  })();
+}
 const isTouch=matchMedia('(max-width:760px)').matches;
 document.querySelectorAll('.menu-row').forEach(row=>{
   const img=row.querySelector('.reveal');
@@ -467,8 +479,11 @@ document.querySelectorAll('.menu-row').forEach(row=>{
       const wasOpen=row.classList.contains('open');
       document.querySelectorAll('.menu-row.open').forEach(r=>r.classList.remove('open'));
       if(!wasOpen)row.classList.add('open');
+      pump(550);
     });
   }else{
+    row.addEventListener('mouseenter',()=>pump(400));
+    row.addEventListener('mouseleave',()=>pump(400));
     row.addEventListener('mousemove',e=>{img.style.left=e.clientX+'px';img.style.top=e.clientY+'px';});
   }
 });
