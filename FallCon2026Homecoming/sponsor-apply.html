@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sponsor Application — FallCon 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo+Black&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  :root{--ink:#121010;--orange:#F4501E;--orangeL:#FF6A3D;--cream:#F7F1E6;--muted:#8a8175;--line:rgba(247,241,230,.16);}
+  html{scroll-behavior:smooth;}
+  body{background:var(--ink);color:var(--cream);font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased;line-height:1.5;min-height:100vh;}
+  a{color:inherit;}
+  ::selection{background:var(--orange);color:var(--ink);}
+  input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-visible,a:focus-visible{outline:3px solid var(--orange);outline-offset:2px;}
+
+  header{position:sticky;top:0;z-index:10;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px clamp(16px,4vw,48px);background:rgba(18,16,16,.82);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);}
+  header img{height:56px;width:auto;display:block;}
+  .back{display:inline-flex;align-items:center;gap:8px;color:var(--cream);text-decoration:none;font-size:13px;font-weight:600;letter-spacing:1px;text-transform:uppercase;opacity:.82;}
+  .back:hover{opacity:1;}
+
+  .wrap{max-width:760px;margin:0 auto;padding:clamp(40px,7vw,88px) clamp(16px,4vw,48px) clamp(64px,9vw,120px);}
+  .eyebrow{font-size:12px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--orange);margin-bottom:16px;}
+  h1{font-family:'Anton',sans-serif;font-weight:400;text-transform:uppercase;line-height:.92;letter-spacing:-.01em;font-size:clamp(40px,8vw,84px);margin-bottom:22px;}
+  h1 .o{color:var(--orange);}
+  .lede{font-size:clamp(16px,1.6vw,20px);line-height:1.55;color:#C9C2B4;max-width:56ch;text-wrap:pretty;}
+
+  form{margin-top:clamp(36px,6vw,56px);display:flex;flex-direction:column;gap:clamp(18px,2.4vw,26px);}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:clamp(16px,2vw,22px);}
+  @media(max-width:560px){.row{grid-template-columns:1fr;}}
+  .field{display:flex;flex-direction:column;gap:9px;}
+  label{font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);}
+  label .req{color:var(--orange);}
+  input,select,textarea{width:100%;background:#1b1918;border:1.5px solid var(--line);border-radius:12px;color:var(--cream);font-family:inherit;font-size:16px;padding:15px 16px;transition:border-color .2s;}
+  input::placeholder,textarea::placeholder{color:#6f675b;}
+  input:focus,select:focus,textarea:focus{border-color:var(--orange);outline:none;}
+  select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%238a8175' stroke-width='3' stroke-linecap='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center;padding-right:44px;}
+  textarea{resize:vertical;min-height:120px;line-height:1.5;}
+
+  .submit{display:inline-flex;align-items:center;justify-content:center;gap:10px;background:var(--orange);color:var(--ink);border:none;cursor:pointer;font-family:'Archivo Black',sans-serif;font-size:17px;padding:18px 34px;border-radius:999px;transition:background .2s,transform .2s;}
+  .submit:hover{background:var(--orangeL);transform:translateY(-2px);}
+  .fineprint{font-size:13px;color:var(--muted);line-height:1.6;}
+
+  .success{display:none;margin-top:clamp(36px,6vw,56px);background:#1b1918;border:1.5px solid var(--line);border-left:4px solid var(--orange);border-radius:16px;padding:clamp(24px,4vw,40px);}
+  .success h2{font-family:'Anton',sans-serif;font-weight:400;text-transform:uppercase;font-size:clamp(24px,3vw,38px);line-height:1;margin-bottom:12px;}
+  .success h2 .o{color:var(--orange);}
+  .success p{color:#C9C2B4;font-size:15px;line-height:1.6;}
+  .success a{color:var(--orange);font-weight:700;}
+</style>
+</head>
+<body>
+  <header>
+    <a href="index.html" aria-label="FallCon 2026 home"><img src="img/logo_h.png" alt="FallCon 2026 — Homecoming"></a>
+    <a class="back" href="index.html"><span aria-hidden="true">←</span> Back to FallCon</a>
+  </header>
+
+  <main class="wrap">
+    <div class="eyebrow">Sponsor Application · FallCon 2026</div>
+    <h1>Put your brand <span class="o">in the room.</span></h1>
+    <p class="lede">Tell us a little about your company and we'll send the FallCon 2026 sponsorship deck and follow up personally. It takes about a minute — no commitment, just the start of the conversation.</p>
+
+    <form id="applyForm" novalidate>
+      <div class="row">
+        <div class="field">
+          <label for="company">Company / Brand <span class="req">*</span></label>
+          <input id="company" name="company" type="text" required placeholder="Your company">
+        </div>
+        <div class="field">
+          <label for="website">Website</label>
+          <input id="website" name="website" type="text" inputmode="url" placeholder="https://">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <label for="name">Your name <span class="req">*</span></label>
+          <input id="name" name="name" type="text" required placeholder="First &amp; last">
+        </div>
+        <div class="field">
+          <label for="title">Title / Role</label>
+          <input id="title" name="title" type="text" placeholder="e.g. Marketing Director">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <label for="email">Email <span class="req">*</span></label>
+          <input id="email" name="email" type="email" required placeholder="you@company.com">
+        </div>
+        <div class="field">
+          <label for="phone">Phone</label>
+          <input id="phone" name="phone" type="tel" placeholder="(000) 000-0000">
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="tier">Sponsorship interest</label>
+        <select id="tier" name="tier">
+          <option value="Not sure yet — send the deck">Not sure yet — send me the deck</option>
+          <option value="Presenting Partner">Presenting Partner</option>
+          <option value="Gold Partner">Gold Partner</option>
+          <option value="Community Partner">Community Partner</option>
+          <option value="Exhibitor / Expo booth">Exhibitor / Expo booth</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="goals">What would you like to get out of FallCon?</label>
+        <textarea id="goals" name="goals" placeholder="Brand awareness, lead generation, product demos, hiring, a booth on the Expo floor — tell us what success looks like for you."></textarea>
+      </div>
+
+      <button class="submit" type="submit">Submit application <span aria-hidden="true">→</span></button>
+      <p class="fineprint">Prefer email? Reach us directly at <a href="mailto:fallcon@lptrealty.com?subject=FallCon%202026%20Sponsorship">fallcon@lptrealty.com</a>. We typically reply within two business days.</p>
+    </form>
+
+    <div class="success" id="successMsg" role="status" aria-live="polite">
+      <h2>Thanks — <span class="o">we're on it.</span></h2>
+      <p>Your application is ready to send. If your email app didn't open automatically, <a id="mailtoFallback" href="#">click here to send it</a>. We'll follow up with the sponsorship deck and next steps. In the meantime, <a href="index.html">head back to FallCon 2026 →</a></p>
+    </div>
+  </main>
+
+  <script>
+    (function(){
+      var form = document.getElementById('applyForm');
+      var success = document.getElementById('successMsg');
+      var fallback = document.getElementById('mailtoFallback');
+      var TO = 'fallcon@lptrealty.com';
+
+      function val(id){ var el = document.getElementById(id); return el ? el.value.trim() : ''; }
+
+      form.addEventListener('submit', function(e){
+        e.preventDefault();
+        // minimal required-field check
+        var missing = ['company','name','email'].filter(function(id){ return !val(id); });
+        if (missing.length){
+          var first = document.getElementById(missing[0]);
+          first.style.borderColor = '#F4501E';
+          first.focus();
+          return;
+        }
+
+        var lines = [
+          'Company / Brand: ' + val('company'),
+          'Website: ' + (val('website') || '—'),
+          'Contact: ' + val('name') + (val('title') ? ' (' + val('title') + ')' : ''),
+          'Email: ' + val('email'),
+          'Phone: ' + (val('phone') || '—'),
+          'Sponsorship interest: ' + val('tier'),
+          '',
+          'Goals:',
+          (val('goals') || '—')
+        ];
+        var subject = 'FallCon 2026 Sponsorship — ' + val('company');
+        var href = 'mailto:' + TO + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(lines.join('\n'));
+
+        fallback.setAttribute('href', href);
+        form.style.display = 'none';
+        success.style.display = 'block';
+        success.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        // open the user's email client with everything pre-filled
+        window.location.href = href;
+      });
+    })();
+  </script>
+</body>
+</html>
