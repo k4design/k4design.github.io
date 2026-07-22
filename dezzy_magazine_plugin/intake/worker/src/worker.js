@@ -57,7 +57,8 @@ async function route(request, env, cors) {
   const m = request.method;
   const seg = p.split("/").filter(Boolean); // ["api","projects","id",...]
 
-  if (p === "/api/health") return json({ ok: true }, 200, cors);
+  if (p === "" || p === "/" || p === "/api" || p === "/api/health")
+    return json({ ok: true, service: "dezzy-intake", api: "/api/*" }, 200, cors);
 
   // /api/projects ...
   if (seg[0] === "api" && seg[1] === "projects") {

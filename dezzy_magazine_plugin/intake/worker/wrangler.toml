@@ -1,4 +1,4 @@
-name = "dezzy-intake"
+name = "apertureintake"
 main = "src/worker.js"
 compatibility_date = "2024-11-01"
 
