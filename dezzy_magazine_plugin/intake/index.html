@@ -1,0 +1,1247 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dezzy — Property Intake</title>
+<style>
+  :root {
+    --bg:#f7f6f3; --panel:#fff; --ink:#1c1b19; --muted:#6b6862; --line:#e4e1da;
+    --accent:#b45f3a; --accent-soft:#f3e7df; --code-bg:#f0eee9;
+    --ok:#2f8f5b; --ok-soft:#e2f2e8; --warn:#c08a1e; --warn-soft:#f7edd6;
+    --info:#3a6ea5; --info-soft:#e2ecf6; --gray:#8a8680; --gray-soft:#eceae5;
+  }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink);
+    font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; }
+  h1,h2,h3 { font-family:Georgia,"Times New Roman",serif; font-weight:600; }
+  a { color:var(--accent); }
+  button { font:inherit; cursor:pointer; }
+
+  .topbar { display:flex; align-items:center; gap:12px; padding:14px 22px;
+    background:var(--panel); border-bottom:1px solid var(--line); position:sticky; top:0; z-index:5; }
+  .topbar h1 { font-size:20px; margin:0; }
+  .topbar .brand-dot { width:26px; height:26px; border-radius:7px; background:var(--accent);
+    color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-family:Georgia,serif; }
+  .grow { flex:1; }
+
+  .btn { border:1px solid var(--line); background:var(--panel); color:var(--ink);
+    border-radius:8px; padding:8px 14px; font-weight:600; }
+  .btn:hover { border-color:var(--accent); }
+  .btn.primary { background:var(--accent); border-color:var(--accent); color:#fff; }
+  .btn.primary:hover { filter:brightness(1.05); }
+  .btn.ghost { background:transparent; border-color:transparent; color:var(--muted); }
+  .btn.ghost:hover { color:var(--accent); }
+  .btn.danger:hover { border-color:#c0392b; color:#c0392b; }
+  .btn:disabled { opacity:.5; cursor:default; }
+  .btn.sm { padding:5px 10px; font-size:13px; }
+
+  .wrap { max-width:960px; margin:0 auto; padding:22px; }
+
+  /* status chips */
+  .chip { display:inline-flex; align-items:center; gap:6px; font-size:12px; font-weight:700;
+    padding:3px 10px; border-radius:999px; letter-spacing:.02em; }
+  .chip::before { content:""; width:7px; height:7px; border-radius:50%; background:currentColor; }
+  .s-draft { color:var(--gray); background:var(--gray-soft); }
+  .s-submitted { color:var(--info); background:var(--info-soft); }
+  .s-in_design { color:var(--warn); background:var(--warn-soft); }
+  .s-delivered { color:var(--ok); background:var(--ok-soft); }
+  .s-archived { color:#8a6d5a; background:#efe6df; }
+
+  /* list */
+  .filters { display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-bottom:16px; }
+  .filters input[type=search] { flex:1; min-width:180px; border:1px solid var(--line);
+    border-radius:8px; padding:8px 12px; background:var(--panel); }
+  .fbtn { border:1px solid var(--line); background:var(--panel); border-radius:999px;
+    padding:5px 12px; font-size:13px; font-weight:600; color:var(--muted); }
+  .fbtn.active { background:var(--ink); color:#fff; border-color:var(--ink); }
+
+  .proj { background:var(--panel); border:1px solid var(--line); border-radius:12px;
+    padding:12px 14px; margin-bottom:10px; display:flex; align-items:center; gap:14px; flex-wrap:wrap; }
+  .proj .thumb { width:72px; height:54px; border-radius:8px; object-fit:cover;
+    background:var(--code-bg); flex:0 0 auto; display:block; }
+  .proj .thumb.ph { display:flex; align-items:center; justify-content:center; color:var(--gray); font-size:22px; }
+  .proj .meta { flex:1; min-width:150px; }
+  .proj .addr { font-weight:700; font-size:16px; }
+  .proj .agent { color:var(--ink); font-size:13px; font-weight:600; }
+  .proj .agent .none { color:var(--gray); font-weight:400; font-style:italic; }
+  .proj .sub { color:var(--muted); font-size:13px; }
+  .proj .sub .none { color:var(--gray); font-style:italic; }
+  .proj .ticket { font-family:"SF Mono",ui-monospace,Menlo,Consolas,monospace; font-size:11px;
+    font-weight:700; color:var(--accent); background:var(--accent-soft); padding:2px 7px;
+    border-radius:6px; margin-left:8px; vertical-align:middle; }
+  .proj .assignee { border:1px solid var(--line); border-radius:8px; padding:6px 8px;
+    font-size:13px; background:var(--panel); max-width:140px; }
+  .proj .actions { display:flex; gap:6px; flex-wrap:wrap; justify-content:flex-end; }
+  .empty { text-align:center; color:var(--muted); padding:60px 20px; }
+  .filters select.order { border:1px solid var(--line); border-radius:8px; padding:8px 10px;
+    background:var(--panel); font-weight:600; color:var(--muted); font-size:13px; }
+
+  /* editor */
+  .ed-head { display:flex; align-items:center; gap:12px; margin-bottom:6px; flex-wrap:wrap; }
+  .ed-head h2 { margin:0; font-size:24px; flex:1; min-width:180px; }
+  .section { background:var(--panel); border:1px solid var(--line); border-radius:12px;
+    margin:14px 0; overflow:hidden; }
+  .section > summary { list-style:none; cursor:pointer; padding:14px 16px; font-weight:700;
+    font-family:Georgia,serif; font-size:16px; display:flex; align-items:center; gap:8px; }
+  .section > summary::-webkit-details-marker { display:none; }
+  .section > summary::before { content:"▸"; color:var(--accent); transition:transform .15s; }
+  .section[open] > summary::before { transform:rotate(90deg); }
+  .section .body { padding:4px 16px 16px; }
+
+  .field { margin:12px 0; }
+  .field label { display:block; font-size:12px; font-weight:600; color:var(--muted);
+    text-transform:uppercase; letter-spacing:.04em; margin-bottom:4px; }
+  .field input, .field textarea, select { width:100%; border:1px solid var(--line);
+    border-radius:8px; padding:9px 11px; background:var(--panel); color:var(--ink); font:inherit; }
+  .field textarea { resize:vertical; min-height:70px; }
+  .row2 { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  @media (max-width:560px){ .row2 { grid-template-columns:1fr; } }
+
+  /* photos */
+  .pdf-import { display:flex; align-items:center; gap:12px; flex-wrap:wrap;
+    background:var(--accent-soft); border:1px solid var(--line); border-radius:12px;
+    padding:12px 16px; margin:14px 0; }
+  .pdf-import .pdf-info { flex:1; min-width:180px; }
+  .dropzone { border:2px dashed var(--line); border-radius:12px; padding:26px; text-align:center;
+    color:var(--muted); background:var(--panel); cursor:pointer; }
+  .dropzone.drag { border-color:var(--accent); background:var(--accent-soft); color:var(--accent); }
+  .gallery { display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:12px; margin-top:14px; }
+  .ph { background:var(--panel); border:1px solid var(--line); border-radius:10px; overflow:hidden; }
+  .ph .thumb { width:100%; aspect-ratio:4/3; object-fit:cover; background:var(--code-bg); display:block; }
+  .ph .ph-body { padding:8px; }
+  .ph select { padding:5px 7px; font-size:13px; margin-top:4px; }
+  .ph .ph-name { font-size:11px; color:var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .ph .ph-row { display:flex; gap:4px; margin-top:6px; }
+  .ph .ph-row button { flex:0 0 auto; border:1px solid var(--line); background:var(--panel);
+    border-radius:6px; padding:2px 8px; font-size:12px; }
+  .ph .ph-row .del { margin-left:auto; }
+  .ph .ph-row .del:hover { border-color:#c0392b; color:#c0392b; }
+
+  .savebar { position:sticky; bottom:0; background:var(--panel); border-top:1px solid var(--line);
+    padding:12px 22px; display:flex; gap:10px; align-items:center; z-index:5; }
+  .savebar .hint { color:var(--muted); font-size:13px; }
+
+  .toast { position:fixed; bottom:74px; left:50%; transform:translateX(-50%);
+    background:var(--ink); color:#fff; padding:10px 18px; border-radius:999px; font-size:14px;
+    z-index:20; box-shadow:0 6px 24px rgba(0,0,0,.18); }
+  .toast.err { background:#c0392b; }
+
+  .modal-bg { position:fixed; inset:0; background:rgba(0,0,0,.35); display:flex;
+    align-items:center; justify-content:center; z-index:30; padding:20px; }
+  .modal { background:var(--panel); border-radius:14px; padding:22px; max-width:420px; width:100%; }
+  .modal h3 { margin:0 0 8px; }
+  .modal .modal-actions { display:flex; gap:8px; justify-content:flex-end; margin-top:18px; }
+
+  .note { font-size:13px; color:var(--muted); }
+  .banner { background:var(--info-soft); color:var(--info); border-radius:10px; padding:10px 14px;
+    font-size:13px; margin-bottom:14px; }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand-dot">D</div>
+  <h1>Property Intake</h1>
+  <div class="grow"></div>
+  <button class="btn ghost" id="settingsBtn" title="Settings">⚙</button>
+  <button class="btn primary" id="newBtn">+ New property</button>
+</div>
+
+<div class="wrap" id="app"></div>
+
+<script>
+"use strict";
+
+/* ---------------------------------------------------------------- schema
+   Field keys MUST match the Dezzy Magazine plugin exactly — they become the
+   data.csv keys the plugin reads on import. */
+const FIELD_GROUPS = [
+  { group:"Property", fields:[
+    ["street","Street address"],["street2","Street address line 2"],
+    ["cityState","City / State / Zip (combined)"],["city","City"],["state","State"],["zip","Zip code"],
+    ["price","Price"],["tagline","Tagline"],
+    ["description","Description",true],["communityDescription","Community description",true],
+    ["bedrooms","Bedrooms"],["bathrooms","Bathrooms"],["sqft","Square feet"],
+    ["lotSize","Lot size"],["yearBuilt","Year built"],
+  ]},
+  { group:"Features", fields:[
+    ["feature1","Feature 1"],["feature2","Feature 2"],["feature3","Feature 3"],
+    ["feature4","Feature 4"],["feature5","Feature 5"],["feature6","Feature 6"],
+    ["feature7","Feature 7"],["feature8","Feature 8"],["feature9","Feature 9"],
+    ["featuresBulleted","Features (bulleted block)",true],
+  ]},
+  { group:"Agent", fields:[
+    ["name","Agent name"],["agentTitle","Agent title"],["phone","Agent phone"],["email","Agent email"],
+  ]},
+  { group:"Captions", fields: (()=>{ const a=[]; for(let n=1;n<=8;n++){
+      a.push([`caption.${n}.title`,`Caption ${n} title`]);
+      a.push([`caption.${n}.body`,`Caption ${n} body`,true]); } return a; })() },
+];
+const ALL_FIELD_KEYS = FIELD_GROUPS.flatMap(g=>g.fields.map(f=>f[0]));
+
+/* Sample content for testing (mirrors the plugin's sample-content.csv). */
+const SAMPLE_VALUES = {
+  street:"538 Outlook Trail", street2:"Lot 14, Cascade Ridge",
+  cityState:"Big Sky, MT 59716", city:"Big Sky", state:"MT", zip:"59716",
+  price:"$4,750,000", tagline:"Modern Mountain Living Above the Meadow",
+  description:"Perched on a private ridge in Big Sky's coveted Cascade neighborhood, 538 Outlook Trail is a study in warm contemporary design and effortless indoor-outdoor living. Walls of glass frame uninterrupted views of Lone Peak and the Spanish Peaks, while reclaimed timber, blackened steel, and honed stone lend a grounded, tactile warmth throughout. The open great room flows to a chef's kitchen with a waterfall island and professional appliances, and out to a wraparound deck with a private hot tub. A main-level primary suite, dedicated office, and a lower-level rec room with wet bar and bunk room make this an exceptional full-time residence or turnkey mountain retreat.",
+  communityDescription:"Cascade is one of Big Sky's most sought-after enclaves — a quiet, forested community minutes from the Town Center, world-class skiing at Big Sky Resort, and blue-ribbon fly fishing on the Gallatin River. Miles of trails connect directly to National Forest, and the neighborhood's elevated position captures panoramic sunset light across the entire range.",
+  bedrooms:"5", bathrooms:"4.5", sqft:"4,180", lotSize:"1.02 acres", yearBuilt:"2021",
+  feature1:"Floor-to-ceiling mountain views", feature2:"Chef's kitchen with waterfall island",
+  feature3:"Main-level primary suite", feature4:"Private hot tub & wraparound deck",
+  feature5:"Lower-level rec room with wet bar", feature6:"Dedicated home office",
+  feature7:"Bunk room sleeps six", feature8:"Radiant heated floors", feature9:"Two-car heated garage",
+  featuresBulleted:"◆ 5 bedrooms / 4.5 baths\n◆ 4,180 sq ft on 1.02 acres\n◆ Built 2021, turnkey furnished\n◆ Ski-in access via Cascade trail\n◆ Smart-home & security package",
+  name:"Martha Johnson", agentTitle:"Founding Broker", phone:"406.580.5891",
+  email:"martha.johnson@apertureglobal.com",
+  "caption.1.title":"The Great Room", "caption.1.body":"Vaulted ceilings and a floor-to-ceiling stone fireplace anchor a living space built for gathering, with glass doors that open the entire wall to the deck and the peaks beyond.",
+  "caption.2.title":"Chef's Kitchen", "caption.2.body":"A honed-marble waterfall island seats five, paired with professional-grade appliances, custom rift-oak cabinetry, and a walk-in pantry.",
+  "caption.3.title":"Primary Suite", "caption.3.body":"A serene main-level retreat with private deck access, a gas fireplace, and a spa bath featuring a freestanding soaking tub and oversized glass shower.",
+  "caption.4.title":"Lower-Level Retreat", "caption.4.body":"The rec room delivers a wet bar, media lounge, and a playful bunk room — the heart of après-ski evenings and family visits.",
+  "caption.5.title":"Outdoor Living", "caption.5.body":"A wraparound deck with built-in seating and a private hot tub frames the sunset over the Spanish Peaks.",
+  "caption.6.title":"Mountain Office", "caption.6.body":"A quiet, light-filled workspace with a peak-facing window — remote work with a view of the ski runs.",
+  "caption.7.title":"Bunk Room", "caption.7.body":"Custom built-in bunks sleep six, making room for the whole crew after a day on the mountain.",
+  "caption.8.title":"The Setting", "caption.8.body":"Sited to capture sunset over the Spanish Peaks, with direct trail access to National Forest just beyond the back deck.",
+};
+
+/* Categories seeded when filling sample data — one placeholder photo each. */
+const SAMPLE_PHOTOS = [
+  ["exterior","Exterior"],["entry","Front Entry"],["living","Living Room"],
+  ["kitchen","Kitchen"],["dining","Dining"],["master","Master Bedroom"],
+  ["masterbath","Master Bath"],["office","Office"],["outdoor","Outdoor Living"],
+  ["floorplan","Floor Plan"],["agent","Agent Headshot"],
+];
+
+/* Photo categories the concierge tags with. `file` is the filename base used on
+   export so the plugin's name-scan / auto-assign routes the photo. */
+const PHOTO_CATEGORIES = [
+  { key:"uncategorized", label:"Uncategorized", file:"photo" },
+  { key:"exterior",     label:"Exterior",        file:"exterior" },
+  { key:"entry",        label:"Front porch / entry", file:"entry" },
+  { key:"living",       label:"Living room",     file:"living" },
+  { key:"kitchen",      label:"Kitchen",         file:"kitchen" },
+  { key:"dining",       label:"Dining",          file:"dining" },
+  { key:"master",       label:"Master bedroom",  file:"master" },
+  { key:"masterbath",   label:"Master bath",     file:"master bath" },
+  { key:"secondary",    label:"Secondary bedroom", file:"secondary bedroom" },
+  { key:"secondarybath",label:"Secondary bath",  file:"secondary bath" },
+  { key:"office",       label:"Office / den",    file:"office" },
+  { key:"amenities",    label:"Amenities / bonus", file:"amenities" },
+  { key:"garage",       label:"Garage",          file:"garage" },
+  { key:"outdoor",      label:"Outdoor living",  file:"outdoor" },
+  { key:"interior",     label:"Interior (general)", file:"interior" },
+  { key:"floorplan",    label:"Floor plan",      file:"floorplan" },
+  { key:"cover",        label:"Cover photo",     file:"cover" },
+  { key:"hero",         label:"Hero photo",      file:"hero" },
+  { key:"agent",        label:"Agent headshot",  file:"headshot" },
+];
+const VALID_CATS = new Set(PHOTO_CATEGORIES.map(c=>c.key));
+
+/* AI photo classification (optional). Prompt + strict schema so the model must
+   return exactly one of our category keys. */
+const AI_PROMPT =
+  "You are tagging photos for a real-estate property magazine. Look at the image and choose the single best category from the list below. "+
+  "Rules: a portrait/headshot of a person -> \"agent\"; a floor plan, site plan, or map -> \"floorplan\"; "+
+  "a room that doesn't clearly fit a specific category (hallway, stairs, landing) -> \"interior\"; "+
+  "if you truly cannot tell -> \"uncategorized\". Categories:\n"+
+  PHOTO_CATEGORIES.map(c=>`- ${c.key}: ${c.label}`).join("\n");
+const AI_SCHEMA = { type:"object", additionalProperties:false, required:["category"],
+  properties:{ category:{ type:"string", enum:PHOTO_CATEGORIES.map(c=>c.key) } } };
+
+/* Deterministic PDF import for Aperture WorkForms submission exports. No AI —
+   the form has fixed question labels (left column) with the answer indented
+   below. We read text via pdf.js, match known labels, and map to form fields. */
+const WF_LABELS = [
+  { re:/^agent name$/i,               f:"name" },
+  { re:/^listing address$/i,          f:"__address" },
+  { re:/^marketing package/i,         f:"__package" },
+  { re:/^light or dark/i,             f:"__ignore" },
+  { re:/^language for/i,              f:"__ignore" },
+  { re:/^listing price$/i,            f:"price" },
+  { re:/^phone$/i,                    f:"phone" },
+  { re:/^email$/i,                    f:"email" },
+  { re:/^agent top 5 photos$/i,       f:"__ignore" },
+  { re:/^square footage$/i,           f:"sqft" },
+  { re:/^lot size$/i,                 f:"lotSize" },
+  { re:/^bedroom count$/i,            f:"bedrooms" },
+  { re:/^bathroom count$/i,           f:"bathrooms" },
+  { re:/^order assets/i,              f:"__ignore" },
+  { re:/^notes$/i,                    f:"__notes" },
+  { re:/^aperture listing orders$/i,  f:"__ignore" },
+];
+// Page header/footer chrome to drop before parsing.
+const WF_NOISE = [/^workforms submission view$/i, /^about:blank$/i, /^\d+\s+of\s+\d+$/i, /^\d{1,2}\/\d{1,2}\/\d{2,4}/];
+
+/* Split "538 Outlook Trail, Big Sky, MT 59716" → street + city/state/zip;
+   leaves city/state/zip blank for non-US addresses (keeps them in cityState). */
+function parseAddress(addr){
+  const out={ street:"", cityState:"", city:"", state:"", zip:"" };
+  if(!addr) return out;
+  const ci=addr.indexOf(",");
+  if(ci===-1){ out.street=addr.trim(); return out; }
+  out.street=addr.slice(0,ci).trim();
+  out.cityState=addr.slice(ci+1).trim();
+  const m=out.cityState.match(/^(.*),\s*([A-Za-z]{2})\.?\s*(\d{5}(?:-\d{4})?)?$/);
+  if(m){ out.city=m[1].trim(); out.state=m[2].toUpperCase(); if(m[3]) out.zip=m[3]; }
+  return out;
+}
+
+const STATUSES = [
+  { key:"draft",     label:"Draft" },
+  { key:"submitted", label:"Submitted" },
+  { key:"in_design", label:"In Design" },
+  { key:"delivered", label:"Delivered" },
+  { key:"archived",  label:"Archived" },
+];
+const statusLabel = k => (STATUSES.find(s=>s.key===k)||{}).label || k;
+
+/* Marketing package each property is sold under. */
+const PACKAGES = ["A La Carte","Basic","Opal","Diamond","Diamond Black"];
+const pkgRank = p => { const i=PACKAGES.indexOf(p&&p.package); return i===-1?PACKAGES.length:i; };
+
+/* ---------------------------------------------------------------- IndexedDB */
+const DB_NAME = "dezzy-intake", STORE = "projects";
+let _db;
+function db(){
+  if(_db) return Promise.resolve(_db);
+  return new Promise((res,rej)=>{
+    const r = indexedDB.open(DB_NAME,1);
+    r.onupgradeneeded = e => { e.target.result.createObjectStore(STORE,{keyPath:"id"}); };
+    r.onsuccess = e => { _db=e.target.result; res(_db); };
+    r.onerror = () => rej(r.error);
+  });
+}
+async function idbAll(){
+  const d = await db();
+  return new Promise((res,rej)=>{ const out=[]; const c=d.transaction(STORE).objectStore(STORE).openCursor();
+    c.onsuccess=e=>{ const cur=e.target.result; if(cur){out.push(cur.value); cur.continue();} else res(out); };
+    c.onerror=()=>rej(c.error); });
+}
+async function idbGet(id){ const d=await db(); return new Promise((res,rej)=>{ const r=d.transaction(STORE).objectStore(STORE).get(id); r.onsuccess=()=>res(r.result); r.onerror=()=>rej(r.error); }); }
+async function idbPut(p){ const d=await db(); return new Promise((res,rej)=>{ const t=d.transaction(STORE,"readwrite"); t.objectStore(STORE).put(p); t.oncomplete=()=>res(); t.onerror=()=>rej(t.error); }); }
+async function idbDel(id){ const d=await db(); return new Promise((res,rej)=>{ const t=d.transaction(STORE,"readwrite"); t.objectStore(STORE).delete(id); t.oncomplete=()=>res(); t.onerror=()=>rej(t.error); }); }
+
+/* ------------------------------------------------- storage mode: local IDB vs cloud API
+   Cloud mode activates when an API base URL is set (Settings); otherwise data
+   stays in this browser's IndexedDB (offline fallback). A single `store` facade
+   hides the difference so the UI is mode-agnostic. Photos:
+     local -> {blob,...}; thumbs via object URLs, save-state built in-browser
+     cloud -> no blob; thumbs/originals via Worker URLs, save-state from server */
+const API_KEY_LS="dezzy-api";
+function apiBase(){ return (localStorage.getItem(API_KEY_LS)||"").replace(/\/+$/,""); }
+function setApiBase(u){ u=(u||"").trim().replace(/\/+$/,""); if(u) localStorage.setItem(API_KEY_LS,u); else localStorage.removeItem(API_KEY_LS); }
+function isCloud(){ return !!apiBase(); }
+async function api(path, opts){
+  const r=await fetch(apiBase()+path, opts);
+  if(!r.ok){ let msg=r.status; try{ const j=await r.json(); if(j&&j.error) msg=j.error; }catch{} throw new Error("API "+msg); }
+  return r;
+}
+async function apiJson(path, opts){ return (await api(path,opts)).json(); }
+
+const store = {
+  isCloud,
+  async list(){
+    if(isCloud()){ const { projects:ps }=await apiJson("/api/projects"); return ps; }
+    return (await idbAll()).sort((a,b)=>b.updatedAt-a.updatedAt);
+  },
+  async get(id){
+    if(isCloud()){ const { project, photos }=await apiJson("/api/projects/"+id); return { ...project, photos:(photos||[]).map(p=>({...p})) }; }
+    return await idbGet(id);
+  },
+  async create(){
+    if(isCloud()){ const { project }=await apiJson("/api/projects",{method:"POST",headers:{"content-type":"application/json"},body:"{}"}); return project.id; }
+    const p={ id:uid(), status:"draft", package:"", submitted:false, createdAt:Date.now(), updatedAt:Date.now(), values:{}, photos:[] };
+    await idbPut(p); return p.id;
+  },
+  async saveProject(p){
+    p.updatedAt=Date.now();
+    if(isCloud()){ await api("/api/projects/"+p.id,{method:"PATCH",headers:{"content-type":"application/json"},
+      body:JSON.stringify({ values:p.values, package:p.package, status:p.status, assignee:p.assignee||"" })}); return; }
+    await idbPut(p);
+  },
+  async patch(id, fields){
+    if(isCloud()){ await api("/api/projects/"+id,{method:"PATCH",headers:{"content-type":"application/json"},body:JSON.stringify(fields)}); return; }
+    const p=await idbGet(id); if(!p) return; Object.assign(p,fields); p.updatedAt=Date.now(); await idbPut(p);
+  },
+  async remove(id){
+    if(isCloud()){ await api("/api/projects/"+id,{method:"DELETE"}); return; }
+    await idbDel(id);
+  },
+  async submit(id){
+    if(isCloud()){ const { project }=await apiJson("/api/projects/"+id+"/submit",{method:"POST"}); return project; }
+    const p=await idbGet(id); if(!p) return null; markSubmitted(p); p.updatedAt=Date.now(); await idbPut(p); return p;
+  },
+  async addPhoto(projectId, blobs, meta){
+    if(isCloud()){
+      const fd=new FormData();
+      fd.append("meta", JSON.stringify(meta));
+      fd.append("file", blobs.file, meta.filename||("photo."+(meta.ext||"jpg")));
+      if(blobs.thumb) fd.append("thumb", blobs.thumb, "thumb.jpg");
+      const { photo }=await apiJson("/api/projects/"+projectId+"/photos",{method:"POST",body:fd});
+      return photo;
+    }
+    return { id:uid(), filename:meta.filename, category:meta.category, ext:meta.ext, sort:meta.sort,
+             type:blobs.file.type, size:blobs.file.size, blob:blobs.file };
+  },
+  async patchPhoto(photoId, fields){ if(isCloud()) await api("/api/photos/"+photoId,{method:"PATCH",headers:{"content-type":"application/json"},body:JSON.stringify(fields)}); },
+  async removePhoto(photoId){ if(isCloud()) await api("/api/photos/"+photoId,{method:"DELETE"}); },
+  thumbUrl(ph){ return isCloud() ? apiBase()+"/api/photos/"+ph.id+"/thumb" : null; },
+  originalUrl(ph){ return isCloud() ? apiBase()+"/api/photos/"+ph.id+"/original" : null; },
+  cardThumbUrl(card){ return isCloud() && card.thumbPhotoId ? apiBase()+"/api/photos/"+card.thumbPhotoId+"/thumb" : null; },
+  async saveStateBlob(id){
+    if(isCloud()){ const r=await api("/api/projects/"+id+"/savestate"); return await r.blob(); }
+    const p=await idbGet(id); const zip=await buildSaveState(p); return new Blob([zip],{type:"application/zip"});
+  },
+};
+
+/* ~240px JPEG thumbnail blob (cloud uploads store this alongside the original). */
+async function makeThumbBlob(blob){
+  const bmp=await createImageBitmap(blob);
+  try{ const s=Math.min(1, 240/Math.max(bmp.width,bmp.height));
+    return await encodeCanvas(bmp, Math.max(1,Math.round(bmp.width*s)), Math.max(1,Math.round(bmp.height*s)), 0.72);
+  } finally { if(bmp.close) bmp.close(); }
+}
+
+/* ---------------------------------------------------------------- helpers */
+const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2,8);
+const esc = s => String(s??"").replace(/[&<>"]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function toast(msg,err){ const t=document.createElement("div"); t.className="toast"+(err?" err":"");
+  t.textContent=msg; document.body.appendChild(t); setTimeout(()=>t.remove(),2600); }
+function fmtDate(ts){ try{ return new Date(ts).toLocaleDateString(undefined,{month:"short",day:"numeric",year:"numeric"}); }catch{ return ""; } }
+function fmtDateTime(ts){ try{ return new Date(ts).toLocaleString(undefined,{month:"short",day:"numeric",year:"numeric",hour:"numeric",minute:"2-digit"}); }catch{ return ""; } }
+
+/* Sequential, human-friendly ticket numbers (DZ-0001, DZ-0002, …). */
+function nextTicket(){
+  let n=0; try{ n=parseInt(localStorage.getItem("dezzy-ticket-seq")||"0",10)||0; }catch{}
+  n++; try{ localStorage.setItem("dezzy-ticket-seq", String(n)); }catch{}
+  return "DZ-"+String(n).padStart(4,"0");
+}
+/* Stamp a property as submitted: assigns a ticket + submission time once.
+   Backfills either field if an older record is missing it. Returns true if
+   anything changed. */
+function markSubmitted(p){
+  let changed=false;
+  if(!p.submitted){ p.submitted=true; changed=true; }
+  if(!p.submittedAt){ p.submittedAt=Date.now(); changed=true; }
+  if(!p.ticket){ p.ticket=nextTicket(); changed=true; }
+  return changed;
+}
+function extOf(name,type){ const m=/\.([a-z0-9]+)$/i.exec(name||""); if(m) return m[1].toLowerCase();
+  return ({ "image/png":"png","image/jpeg":"jpg","image/gif":"gif","image/webp":"webp" })[type] || "jpg"; }
+function extForType(t){ return ({ "image/png":"png","image/jpeg":"jpg","image/gif":"gif" })[t] || "jpg"; }
+
+/* ------------------------------------------------- image processing (mirrors the plugin)
+   Same rules as the plugin's processFile: only downscale past Figma's 4096px
+   ceiling, keep PNG/JPEG/GIF bytes untouched when they already fit (print
+   quality preserved), and re-encode other formats (WebP/AVIF) to JPEG. Storing
+   processed bytes here is idempotent with the plugin — an image already fit to
+   4096px is passed through on import, never recompressed twice. */
+const MAX_DIM = 4096;
+const PASSTHROUGH_TYPES = new Set(["image/png","image/jpeg","image/gif"]);
+function encodeCanvas(bitmap,w,h,quality){
+  const canvas = (typeof OffscreenCanvas!=="undefined")
+    ? new OffscreenCanvas(w,h)
+    : Object.assign(document.createElement("canvas"),{width:w,height:h});
+  const ctx = canvas.getContext("2d");
+  ctx.drawImage(bitmap,0,0,w,h);
+  return canvas.convertToBlob
+    ? canvas.convertToBlob({type:"image/jpeg",quality})
+    : new Promise(res=>canvas.toBlob(res,"image/jpeg",quality));
+}
+async function processImage(file){
+  let bitmap;
+  try{ bitmap = await createImageBitmap(file); }
+  catch{ return { blob:file, type:file.type||"image/jpeg" }; } // undecodable: keep as-is
+  try{
+    const { width, height } = bitmap;
+    const scale = Math.min(1, MAX_DIM/Math.max(width,height));
+    if(scale < 1){
+      const w=Math.round(width*scale), h=Math.round(height*scale);
+      return { blob: await encodeCanvas(bitmap,w,h,0.9), type:"image/jpeg" };
+    }
+    if(PASSTHROUGH_TYPES.has(file.type)) return { blob:file, type:file.type }; // already fits, keep original
+    return { blob: await encodeCanvas(bitmap,width,height,0.92), type:"image/jpeg" }; // WebP/AVIF → JPEG
+  } finally { if(bitmap.close) bitmap.close(); }
+}
+
+/* ------------------------------------------------- AI photo classification (optional)
+   Off by default. Two modes: a server-side "proxy" that holds the Anthropic key
+   (recommended — see intake/anthropic-proxy.worker.js), or "direct" with a key
+   pasted into this browser (simpler, but the key lives in localStorage on this
+   machine — use only on a trusted device). */
+const AI_KEY="dezzy-ai";
+function getAiConfig(){
+  const def={ mode:"proxy", endpoint:"", apiKey:"", model:"claude-opus-4-8" };
+  try{ return { ...def, ...(JSON.parse(localStorage.getItem(AI_KEY))||{}) }; }catch{ return def; }
+}
+function setAiConfig(c){ try{ localStorage.setItem(AI_KEY, JSON.stringify(c)); }catch{} }
+function aiConfigured(c){ if(isCloud()) return true; c=c||getAiConfig(); return c.mode==="proxy" ? !!c.endpoint.trim() : !!c.apiKey.trim(); }
+
+function aiTarget(cfg){
+  if(isCloud()) return { url:apiBase()+"/api/ai", headers:{ "content-type":"application/json" } }; // Worker holds the key
+  if(cfg.mode==="proxy") return { url:cfg.endpoint.trim(), headers:{ "content-type":"application/json" } };
+  return { url:"https://api.anthropic.com/v1/messages", headers:{
+    "content-type":"application/json", "x-api-key":cfg.apiKey.trim(),
+    "anthropic-version":"2023-06-01", "anthropic-dangerous-direct-browser-access":"true" } };
+}
+
+/* Source bytes for classification — the in-memory blob (local) or the stored original (cloud). */
+async function photoBytes(ph){
+  if(ph.blob) return ph.blob;
+  const r=await fetch(store.originalUrl(ph)); if(!r.ok) throw new Error("image fetch "+r.status);
+  return await r.blob();
+}
+
+/* Downscale to a small JPEG for classification (cheaper/faster than full-res). */
+async function blobToBase64(blob){
+  return new Promise((res,rej)=>{ const fr=new FileReader();
+    fr.onload=()=>res(String(fr.result).split(",")[1]); fr.onerror=()=>rej(fr.error); fr.readAsDataURL(blob); });
+}
+async function smallJpegBase64(blob, maxDim){
+  const bmp=await createImageBitmap(blob);
+  try{
+    const s=Math.min(1, maxDim/Math.max(bmp.width,bmp.height));
+    const w=Math.max(1,Math.round(bmp.width*s)), h=Math.max(1,Math.round(bmp.height*s));
+    return await blobToBase64(await encodeCanvas(bmp,w,h,0.8));
+  } finally { if(bmp.close) bmp.close(); }
+}
+
+async function aiClassify(blob){
+  const cfg=getAiConfig();
+  const data=await smallJpegBase64(blob, 768);
+  const body={ model:cfg.model, max_tokens:256, messages:[{ role:"user", content:[
+    { type:"image", source:{ type:"base64", media_type:"image/jpeg", data } },
+    { type:"text", text:AI_PROMPT },
+  ]}], output_config:{ format:{ type:"json_schema", schema:AI_SCHEMA } } };
+  const { url, headers }=aiTarget(cfg);
+  const r=await fetch(url,{ method:"POST", headers, body:JSON.stringify(body) });
+  if(!r.ok){ const t=await r.text().catch(()=>""); throw new Error(`API ${r.status}${t?": "+t.slice(0,140):""}`); }
+  const json=await r.json();
+  if(json.stop_reason==="refusal") throw new Error("refused");
+  const text=(json.content||[]).filter(b=>b.type==="text").map(b=>b.text).join("");
+  let cat="uncategorized"; try{ cat=JSON.parse(text).category; }catch{}
+  return VALID_CATS.has(cat) ? cat : "uncategorized";
+}
+
+/* Classify uncategorized photos (or all, if none are uncategorized). */
+async function aiAutoTag(){
+  if(!aiConfigured()){ openAiSettings(); return; }
+  const pool = editing.photos.filter(p=>p.category==="uncategorized");
+  const list = pool.length ? pool : editing.photos.slice();
+  if(!list.length){ toast("No photos to tag."); return; }
+  if(!pool.length && !confirm(`Re-tag all ${list.length} photos with AI? This overwrites current categories.`)) return;
+  const btn=document.getElementById("aiTag"); if(btn){ btn.disabled=true; }
+  const note=document.getElementById("aiState");
+  let done=0, ok=0, fail=0, lastErr=null, i=0;
+  const CONC=3;
+  const cloud=store.isCloud();
+  const worker=async()=>{ while(i<list.length){ const p=list[i++];
+    try{ const cat=await aiClassify(await photoBytes(p)); p.category=cat;
+      if(cloud) await store.patchPhoto(p.id,{category:cat}); ok++; }
+    catch(e){ fail++; lastErr=e; }
+    done++; if(note) note.textContent=`AI tagging ${done}/${list.length}…`; } };
+  await Promise.all(Array.from({length:Math.min(CONC,list.length)}, worker));
+  if(!cloud) markDirty();
+  const catOpts=PHOTO_CATEGORIES.map(c=>`<option value="${c.key}">${c.label}</option>`).join("");
+  renderGallery(catOpts);
+  if(btn) btn.disabled=false;
+  if(note) note.textContent="";
+  toast(fail ? `AI tagged ${ok}, ${fail} failed${lastErr?" ("+lastErr.message+")":""}.` : `AI tagged ${ok} photo${ok===1?"":"s"}.`, fail&&!ok);
+}
+
+function openAiSettings(){
+  const c=getAiConfig();
+  const bg=document.createElement("div"); bg.className="modal-bg";
+  bg.innerHTML=`<div class="modal" style="max-width:460px">
+    <h3>AI photo tagging</h3>
+    <p class="note">Uses Claude vision to categorize photos by their content. Optional — the site works without it.</p>
+    <div class="field"><label>Mode</label>
+      <select id="aiMode">
+        <option value="proxy" ${c.mode==="proxy"?"selected":""}>Proxy URL (recommended — key stays server-side)</option>
+        <option value="direct" ${c.mode==="direct"?"selected":""}>Direct (paste Anthropic key on this device)</option>
+      </select>
+    </div>
+    <div class="field" id="proxyWrap"><label>Proxy endpoint URL</label>
+      <input type="text" id="aiEndpoint" placeholder="https://your-worker.example.workers.dev" value="${esc(c.endpoint)}"></div>
+    <div class="field" id="keyWrap"><label>Anthropic API key</label>
+      <input type="password" id="aiApiKey" placeholder="sk-ant-…" value="${esc(c.apiKey)}">
+      <div class="note" style="color:var(--warn)">Stored in this browser only. Anyone with access to this device can read it — prefer a proxy for shared machines.</div></div>
+    <div class="field"><label>Model</label>
+      <select id="aiModel">
+        <option value="claude-opus-4-8" ${c.model==="claude-opus-4-8"?"selected":""}>Claude Opus 4.8 — most accurate</option>
+        <option value="claude-haiku-4-5" ${c.model==="claude-haiku-4-5"?"selected":""}>Claude Haiku 4.5 — cheapest / fastest for bulk</option>
+        <option value="claude-sonnet-5" ${c.model==="claude-sonnet-5"?"selected":""}>Claude Sonnet 5 — balanced</option>
+      </select>
+      <div class="note">Tagging is a simple task; Haiku 4.5 is dramatically cheaper for large shoots.</div></div>
+    <div class="modal-actions">
+      <button class="btn" data-cancel>Cancel</button>
+      <button class="btn primary" data-ok>Save</button>
+    </div>
+  </div>`;
+  document.body.appendChild(bg);
+  const syncMode=()=>{ const m=bg.querySelector("#aiMode").value;
+    bg.querySelector("#proxyWrap").style.display = m==="proxy"?"block":"none";
+    bg.querySelector("#keyWrap").style.display = m==="direct"?"block":"none"; };
+  bg.querySelector("#aiMode").onchange=syncMode; syncMode();
+  const close=()=>bg.remove();
+  bg.querySelector("[data-cancel]").onclick=close;
+  bg.onclick=e=>{ if(e.target===bg) close(); };
+  bg.querySelector("[data-ok]").onclick=()=>{
+    const next={ mode:bg.querySelector("#aiMode").value,
+      endpoint:bg.querySelector("#aiEndpoint").value, apiKey:bg.querySelector("#aiApiKey").value,
+      model:bg.querySelector("#aiModel").value };
+    setAiConfig(next); close();
+    const st=document.getElementById("aiState"); if(st) st.textContent = aiConfigured(next)?"AI ready":"AI not configured";
+    toast(aiConfigured(next)?"AI settings saved.":"AI settings saved (not configured yet).");
+  };
+}
+
+/* Lazily load the vendored pdf.js (kept local so the page stays self-contained). */
+let _pdfjs=null;
+async function loadPdfjs(){
+  if(_pdfjs) return _pdfjs;
+  const lib=await import("./vendor/pdf.min.mjs");
+  lib.GlobalWorkerOptions.workerSrc=new URL("./vendor/pdf.worker.min.mjs", location.href).href;
+  _pdfjs=lib; return lib;
+}
+
+/* Pull every text run out of a PDF, in reading order, dropping header/footer. */
+async function pdfTextItems(file){
+  const pdfjs=await loadPdfjs();
+  const buf=new Uint8Array(await file.arrayBuffer());
+  const doc=await pdfjs.getDocument({ data:buf }).promise;
+  const items=[];
+  for(let i=1;i<=doc.numPages;i++){
+    const page=await doc.getPage(i);
+    const tc=await page.getTextContent();
+    for(const it of tc.items){
+      const s=it.str; if(!s || !s.trim()) continue;
+      const x=it.transform[4], y=it.transform[5];
+      if(y>760 || y<20) continue;                        // page chrome
+      if(WF_NOISE.some(re=>re.test(s.trim()))) continue;
+      items.push({ s, x, y, page:i });
+    }
+  }
+  items.sort((a,b)=> a.page-b.page || b.y-a.y || a.x-b.x); // reading order
+  return items;
+}
+
+/* Map a WorkForms submission to form values. Returns {values, package}. */
+function parseWorkForms(items){
+  const answers={}; let cur=null;
+  for(const it of items){
+    const lab=WF_LABELS.find(l=>l.re.test(it.s.trim()));
+    if(lab){ cur=lab.f; if(!(cur in answers)) answers[cur]=[]; continue; }
+    if(cur && cur!=="__ignore") answers[cur].push(it.s);
+  }
+  const get=k=>(answers[k]||[]).join(" ").replace(/\s+/g," ").trim();
+  const fullText=items.map(i=>i.s).join(" ");
+
+  // Price: prefer a currency-formatted figure anywhere in the doc, else the raw
+  // "Listing price" (grouped if it's bare digits).
+  let price=get("price");
+  const curMatch=fullText.match(/[€$£]\s?\d[\d.,]*/);
+  if(curMatch) price=curMatch[0].replace(/\s+/g,"");
+  else if(/^\d+$/.test(price)) price=Number(price).toLocaleString();
+
+  const a=parseAddress(get("__address"));
+  const values={
+    name:get("name"), street:a.street, cityState:a.cityState, city:a.city, state:a.state, zip:a.zip,
+    price, phone:get("phone"), email:get("email"),
+    sqft:get("sqft"), lotSize:get("lotSize"), bedrooms:get("bedrooms"), bathrooms:get("bathrooms"),
+  };
+  const pk=get("__package");
+  const pkg=PACKAGES.find(p=>p.toLowerCase()===pk.toLowerCase()) || "";
+  return { values, package:pkg, matched:Object.keys(answers).filter(k=>!k.startsWith("__")||k==="__address"||k==="__package").length };
+}
+
+/* Deterministically scan an Aperture WorkForms PDF and fill the form. */
+async function importFromPdf(file){
+  if(location.protocol==="file:"){
+    toast("Open this page over http (a local server or the published URL), not by double-clicking the file — browsers block PDF reading and saving on file://.", true);
+    return;
+  }
+  if(file.type!=="application/pdf" && !/\.pdf$/i.test(file.name)){ toast("Please choose a PDF file.", true); return; }
+  const btn=document.getElementById("pdfBtn");
+  if(btn){ btn.disabled=true; btn.textContent="Reading…"; }
+  try{
+    const items=await pdfTextItems(file);
+    const { values:extracted, package:pkg, matched }=parseWorkForms(items);
+    const incoming=Object.keys(extracted).filter(k=>(extracted[k]||"").trim());
+    if(!incoming.length && !pkg){
+      toast("No listing fields found — is this an Aperture WorkForms submission?", true);
+      return;
+    }
+    // Conflict = a field you've already filled that the PDF would change.
+    const conflicts=incoming.filter(k=>{ const c=(editing.values[k]||"").trim(); return c && c!==extracted[k].trim(); });
+    if(pkg && editing.package && editing.package!==pkg) conflicts.push("package");
+    let overwrite=true;
+    if(conflicts.length){
+      overwrite=confirm(
+        `The PDF has data for ${conflicts.length} field(s) you've already filled.\n\n`+
+        `OK = overwrite them with the PDF values.\nCancel = keep your entries, only fill blank fields.`);
+    }
+    let filled=0, kept=0;
+    for(const k of incoming){
+      const val=extracted[k].trim(); const c=(editing.values[k]||"").trim();
+      if(c && !overwrite){ kept++; continue; }
+      editing.values[k]=val; filled++;
+    }
+    if(pkg && (!editing.package || overwrite)){ if(editing.package!==pkg) filled++; editing.package=pkg; }
+    else if(pkg && editing.package && !overwrite) kept++;
+    markDirty();
+    renderEditor();
+    toast(`Imported ${filled} field${filled===1?"":"s"} from the submission${kept?`, kept ${kept}`:""}.`);
+  }catch(e){
+    console.error(e);
+    toast("Couldn't read that PDF: "+(e.message||e), true);
+    if(btn){ btn.disabled=false; btn.textContent="Choose PDF…"; }
+  }
+}
+
+/* ------------------------------------------------- CSV (RFC-4180, plugin-compatible) */
+function csvCell(v){ v=String(v??""); return /[",\r\n]/.test(v) ? '"'+v.replace(/"/g,'""')+'"' : v; }
+function buildDataCsv(values){
+  const rows=[["field","value"]];
+  for(const k of ALL_FIELD_KEYS) rows.push([k, values[k] ?? ""]);
+  return rows.map(r=>r.map(csvCell).join(",")).join("\r\n")+"\r\n";
+}
+
+/* ------------------------------------------------- ZIP (store / level-0, CRC32) */
+const CRC_TABLE = (()=>{ const t=new Uint32Array(256);
+  for(let n=0;n<256;n++){ let c=n; for(let k=0;k<8;k++) c = (c&1) ? (0xEDB88320 ^ (c>>>1)) : (c>>>1); t[n]=c>>>0; }
+  return t; })();
+function crc32(buf){ let c=0xFFFFFFFF; for(let i=0;i<buf.length;i++) c = CRC_TABLE[(c ^ buf[i]) & 0xFF] ^ (c>>>8); return (c ^ 0xFFFFFFFF)>>>0; }
+
+/* files: [{name, data:Uint8Array}] -> Uint8Array (a valid stored zip fflate reads) */
+function buildZip(files){
+  const enc=new TextEncoder();
+  const parts = files.map(f=>({ name:enc.encode(f.name), data:f.data, crc:crc32(f.data) }));
+  let total=0; for(const p of parts) total += 30 + p.name.length + p.data.length;   // local records
+  for(const p of parts) total += 46 + p.name.length;                                // central dir
+  total += 22;                                                                       // EOCD
+  const out=new Uint8Array(total); const dv=new DataView(out.buffer); let p=0;
+  const w16=v=>{dv.setUint16(p,v,true);p+=2;}, w32=v=>{dv.setUint32(p,v>>>0,true);p+=4;}, wb=u=>{out.set(u,p);p+=u.length;};
+  const offsets=[];
+  for(const f of parts){
+    offsets.push(p);
+    w32(0x04034b50); w16(20); w16(0x0800); w16(0); w16(0); w16(0);   // sig,ver,flag(utf8),method,time,date
+    w32(f.crc); w32(f.data.length); w32(f.data.length);             // crc, comp, uncomp
+    w16(f.name.length); w16(0); wb(f.name); wb(f.data);             // namelen, extralen, name, data
+  }
+  const cdStart=p;
+  for(let i=0;i<parts.length;i++){ const f=parts[i];
+    w32(0x02014b50); w16(20); w16(20); w16(0x0800); w16(0); w16(0); w16(0);  // sig,vermade,verneed,flag,method,time,date
+    w32(f.crc); w32(f.data.length); w32(f.data.length);
+    w16(f.name.length); w16(0); w16(0); w16(0); w16(0); w32(0); w32(offsets[i]); // lens, disk, attrs, offset
+    wb(f.name);
+  }
+  const cdSize=p-cdStart;
+  w32(0x06054b50); w16(0); w16(0); w16(parts.length); w16(parts.length); w32(cdSize); w32(cdStart); w16(0);
+  return out;
+}
+
+/* Build the plugin save-state zip for a project. Renames photos by category so
+   the plugin's auto-assign routes them; numbers per category by order. */
+async function buildSaveState(project){
+  const files=[{ name:"data.csv", data:new TextEncoder().encode(buildDataCsv(project.values||{})) }];
+  const counter={}; const usedNames=new Set();
+  for(const ph of (project.photos||[])){
+    const cat = PHOTO_CATEGORIES.find(c=>c.key===ph.category) || PHOTO_CATEGORIES[0];
+    const n = (counter[cat.key]=(counter[cat.key]||0)+1);
+    const ext = ph.ext || extOf(ph.filename, ph.type);
+    let base = `${cat.file}-${String(n).padStart(2,"0")}`;
+    let name = `${base}.${ext}`;
+    while(usedNames.has(name)) name = `${base}-${uid().slice(0,4)}.${ext}`;
+    usedNames.add(name);
+    const buf = new Uint8Array(await ph.blob.arrayBuffer());
+    files.push({ name:`images/${name}`, data:buf });
+  }
+  return buildZip(files);
+}
+
+/* ---------------------------------------------------------------- app state */
+let projects=[];        // in-memory cache
+let view="list";        // "list" | "edit"
+let editingId=null;
+let editing=null;       // working copy of the project being edited
+let listFilter="active";// "active" | status key | "all" | "archived"
+let listSearch="";
+let listSort="updated"; // updated | created | address | status | agent | assignee
+let dirty=false;
+
+/* Team members available for assignment (persisted locally; editable inline). */
+const ASSIGN_KEY="dezzy-assignees";
+function getAssignees(){
+  try{ const a=JSON.parse(localStorage.getItem(ASSIGN_KEY)); if(Array.isArray(a)) return a; }catch{}
+  return ["Concierge","Design team"];
+}
+function saveAssignees(list){ try{ localStorage.setItem(ASSIGN_KEY, JSON.stringify(list)); }catch{} }
+let saveTimer=null;
+let thumbUrls=[];       // object URLs to revoke on re-render
+
+function revokeThumbs(){ for(const u of thumbUrls) URL.revokeObjectURL(u); thumbUrls=[]; }
+
+async function loadProjects(){ projects = await store.list(); }
+
+/* ---------------------------------------------------------------- render: list */
+function projectAddress(p){ return (p.values && (p.values.street || p.values.cityState)) || p.name || "Untitled property"; }
+function agentName(p){ return (p.values && p.values.name) || ""; }
+
+/* Card thumbnail: prefer the exterior photo, then cover/hero, then the first. */
+function thumbBlob(p){
+  const ph=p.photos||[];
+  return (ph.find(x=>x.category==="exterior")
+    || ph.find(x=>x.category==="cover")
+    || ph.find(x=>x.category==="hero")
+    || ph[0] || {}).blob || null;
+}
+
+const SORTS = [
+  ["updated","Last updated"], ["created","Date created"], ["address","Address A–Z"],
+  ["agent","Agent A–Z"], ["package","Marketing package"], ["assignee","Assignee"], ["status","Status"],
+];
+function sortProjects(list){
+  const a=[...list];
+  const cmp=(x,y)=>x.localeCompare(y,undefined,{sensitivity:"base",numeric:true});
+  if(listSort==="created") a.sort((x,y)=>y.createdAt-x.createdAt);
+  else if(listSort==="address") a.sort((x,y)=>cmp(projectAddress(x),projectAddress(y)));
+  else if(listSort==="agent") a.sort((x,y)=>cmp(agentName(x)||"~",agentName(y)||"~"));
+  else if(listSort==="package") a.sort((x,y)=>pkgRank(x)-pkgRank(y) || y.updatedAt-x.updatedAt);
+  else if(listSort==="assignee") a.sort((x,y)=>cmp(x.assignee||"~",y.assignee||"~"));
+  else if(listSort==="status") a.sort((x,y)=>STATUSES.findIndex(s=>s.key===x.status)-STATUSES.findIndex(s=>s.key===y.status) || y.updatedAt-x.updatedAt);
+  else a.sort((x,y)=>y.updatedAt-x.updatedAt); // updated (default)
+  return a;
+}
+
+function renderList(){
+  revokeThumbs();
+  const app=document.getElementById("app");
+  const q=listSearch.trim().toLowerCase();
+  let items = projects.filter(p=>{
+    if(listFilter==="active") { if(p.status==="archived") return false; }
+    else if(listFilter==="archived") { if(p.status!=="archived") return false; }
+    else if(listFilter!=="all") { if(p.status!==listFilter) return false; }
+    if(q){ const hay=(projectAddress(p)+" "+(p.values&&p.values.name||"")).toLowerCase(); if(!hay.includes(q)) return false; }
+    return true;
+  });
+
+  items = sortProjects(items);
+  const assignees = getAssignees();
+
+  const filterBtn=(key,label)=>`<button class="fbtn ${listFilter===key?"active":""}" data-filter="${key}">${label}</button>`;
+  const assigneeSelect=(p)=>{
+    const opts = [`<option value="">Unassigned</option>`]
+      .concat(assignees.map(a=>`<option value="${esc(a)}" ${p.assignee===a?"selected":""}>${esc(a)}</option>`))
+      .concat(p.assignee && !assignees.includes(p.assignee) ? [`<option value="${esc(p.assignee)}" selected>${esc(p.assignee)}</option>`] : [])
+      .concat([`<option value="__add">+ Add person…</option>`]);
+    return `<select class="assignee" title="Assigned to">${opts.join("")}</select>`;
+  };
+
+  app.innerHTML = `
+    <div class="banner">Fill in a property, tag its photos, then <b>Download save state</b> for the design team (they open it in the plugin via <b>Bulk → Import save-state</b>). ${store.isCloud() ? "☁ <b>Cloud mode</b> — shared across your team." : "💾 <b>Local mode</b> — stored on this device only. Set a server in ⚙ Settings to share."}</div>
+    <div class="filters">
+      ${filterBtn("active","Active")}
+      ${STATUSES.filter(s=>s.key!=="archived").map(s=>filterBtn(s.key,s.label)).join("")}
+      ${filterBtn("archived","Archived")}
+      ${filterBtn("all","All")}
+      <input type="search" id="search" placeholder="Search address or agent…" value="${esc(listSearch)}">
+      <select class="order" id="order" title="Sort by">
+        ${SORTS.map(([k,l])=>`<option value="${k}" ${listSort===k?"selected":""}>Sort: ${l}</option>`).join("")}
+      </select>
+    </div>
+    ${items.length===0 ? `<div class="empty">No properties here yet.<br><br><button class="btn primary" id="emptyNew">+ New property</button></div>`
+    : items.map(p=>{
+        let thumb;
+        const blob = store.isCloud() ? null : thumbBlob(p);
+        const curl = store.isCloud() ? store.cardThumbUrl(p) : null;
+        if(blob){ const u=URL.createObjectURL(blob); thumbUrls.push(u); thumb=`<img class="thumb" src="${u}" loading="lazy" alt="">`; }
+        else if(curl){ thumb=`<img class="thumb" src="${curl}" loading="lazy" alt="">`; }
+        else thumb=`<div class="thumb ph">🏠</div>`;
+        const nPhotos = store.isCloud() ? (p.photoCount||0) : (p.photos||[]).length;
+        return `
+      <div class="proj" data-id="${p.id}">
+        ${thumb}
+        <div class="meta">
+          <div class="addr">${esc(projectAddress(p))}${p.ticket?`<span class="ticket">${esc(p.ticket)}</span>`:""}</div>
+          <div class="agent">${agentName(p) ? esc(agentName(p)) : `<span class="none">No agent yet</span>`}</div>
+          <div class="sub">${p.package?`<b>${esc(p.package)}</b> · `:""}${esc(p.values&&p.values.price||"")} ${p.values&&p.values.price?"·":""} ${nPhotos} photo${nPhotos===1?"":"s"}</div>
+          <div class="sub">${p.submittedAt?`Submitted ${fmtDateTime(p.submittedAt)}`:`<span class="none">Draft — not submitted</span> · created ${fmtDate(p.createdAt)}`}</div>
+        </div>
+        <span class="chip s-${p.status}">${statusLabel(p.status)}</span>
+        ${assigneeSelect(p)}
+        <div class="actions">
+          <button class="btn sm" data-act="open">Open</button>
+          <button class="btn sm primary" data-act="download">Save state</button>
+          <button class="btn sm ghost" data-act="menu">⋯</button>
+        </div>
+      </div>`;}).join("")}
+  `;
+
+  app.querySelectorAll(".fbtn").forEach(b=>b.onclick=()=>{ listFilter=b.dataset.filter; renderList(); });
+  const s=document.getElementById("search"); if(s) s.oninput=()=>{ listSearch=s.value; renderList(); };
+  const ord=document.getElementById("order"); if(ord) ord.onchange=()=>{ listSort=ord.value; renderList(); };
+  const en=document.getElementById("emptyNew"); if(en) en.onclick=newProject;
+  app.querySelectorAll(".proj").forEach(row=>{
+    const id=row.dataset.id;
+    row.querySelector('[data-act="open"]').onclick=()=>openProject(id);
+    row.querySelector('[data-act="download"]').onclick=()=>downloadSaveState(id);
+    row.querySelector('[data-act="menu"]').onclick=()=>rowMenu(id);
+    row.querySelector(".assignee").onchange=e=>assignPerson(id, e.target);
+  });
+}
+
+async function assignPerson(id, sel){
+  const p=projects.find(x=>x.id===id); if(!p) return;
+  let val=sel.value;
+  if(val==="__add"){
+    const name=(prompt("Add a team member:")||"").trim();
+    if(!name){ sel.value=p.assignee||""; return; }
+    const list=getAssignees(); if(!list.includes(name)){ list.push(name); saveAssignees(list); }
+    val=name;
+  }
+  try{ await store.patch(id,{assignee:val}); }catch(err){ toast("Assign failed: "+err.message,true); return; }
+  await loadProjects(); renderList();
+  toast(val?("Assigned to "+val):"Unassigned.");
+}
+
+function rowMenu(id){
+  const p=projects.find(x=>x.id===id); if(!p) return;
+  const archived = p.status==="archived";
+  confirmModal({
+    title: projectAddress(p),
+    bodyHtml: `<div class="field"><label>Status</label><select id="mStatus">${
+      STATUSES.map(s=>`<option value="${s.key}" ${p.status===s.key?"selected":""}>${s.label}</option>`).join("")
+    }</select></div>`,
+    okLabel:"Save",
+    extra:[ {label: archived?"Restore to Draft":"Archive", cls:"", act:async()=>{
+        await store.patch(id,{status: archived ? "draft" : "archived"}); await loadProjects(); renderList(); toast(archived?"Restored.":"Archived."); }},
+      {label:"Delete", cls:"danger", act:async()=>{ if(!confirm("Delete this property and its photos permanently?")) return; await store.remove(id); await loadProjects(); renderList(); toast("Deleted."); }} ],
+    onOk: async ()=>{ const v=document.getElementById("mStatus").value; await store.patch(id,{status:v}); await loadProjects(); renderList(); toast("Status updated."); }
+  });
+}
+
+/* ---------------------------------------------------------------- render: editor */
+function fieldInput(key,label,multi){
+  const v = esc(editing.values[key]||"");
+  return `<div class="field"><label>${esc(label)}</label>${
+    multi ? `<textarea data-key="${key}">${v}</textarea>` : `<input type="text" data-key="${key}" value="${v}">`
+  }</div>`;
+}
+
+function renderEditor(){
+  revokeThumbs();
+  const app=document.getElementById("app");
+  const catOpts = PHOTO_CATEGORIES.map(c=>`<option value="${c.key}">${c.label}</option>`).join("");
+
+  app.innerHTML = `
+    <div class="ed-head">
+      <button class="btn ghost" id="backBtn">← All properties</button>
+      <h2 id="edTitle">${esc(projectAddress(editing))}</h2>
+      <button class="btn sm" id="fillSample" title="Populate every field and add placeholder photos (testing)">✨ Fill sample data</button>
+      <select id="edPackage" title="Marketing package">
+        <option value="">— Marketing package —</option>
+        ${PACKAGES.map(pk=>`<option ${editing.package===pk?"selected":""}>${esc(pk)}</option>`).join("")}
+      </select>
+    </div>
+
+    <div class="pdf-import">
+      <div class="pdf-info"><b>📄 Import from WorkForms PDF</b>
+        <div class="note">Upload the Aperture Listing Orders submission PDF — it reads the fields and fills the form below. No AI, fully on-device.</div>
+      </div>
+      <button class="btn" id="pdfBtn">Choose PDF…</button>
+      <input type="file" id="pdfFile" accept="application/pdf,.pdf" style="display:none">
+    </div>
+
+    ${FIELD_GROUPS.map((g,gi)=>`
+      <details class="section" ${gi<2?"open":""}>
+        <summary>${g.group}</summary>
+        <div class="body">
+          ${g.group==="Captions"
+            ? Array.from({length:8},(_,i)=>{ const n=i+1;
+                return `<div class="row2">${fieldInput(`caption.${n}.title`,`Caption ${n} title`)}<div></div></div>${fieldInput(`caption.${n}.body`,`Caption ${n} body`,true)}`;
+              }).join("")
+            : g.fields.map(f=>f[2]?fieldInput(f[0],f[1],true):fieldInput(f[0],f[1])).join("")}
+        </div>
+      </details>`).join("")}
+
+    <details class="section" open>
+      <summary>Photos <span class="note" style="font-weight:400">· ${editing.photos.length}</span></summary>
+      <div class="body">
+        <div class="dropzone" id="drop">Drop photos here or click to choose.
+          <div class="note" style="margin-top:6px">Processed like the plugin — only images over 4096px are scaled, print quality preserved. Tag each with a room so the plugin auto-places them; order sets the number within a category.</div>
+          <input type="file" id="file" accept="image/*" multiple style="display:none">
+        </div>
+        <div class="row" style="display:flex; gap:8px; align-items:center; margin-top:10px; flex-wrap:wrap">
+          <button class="btn sm" id="aiTag">✨ AI auto-tag photos</button>
+          <button class="btn sm ghost" id="aiSettings" title="Configure AI photo tagging">⚙ AI settings</button>
+          <span class="note" id="aiState"></span>
+        </div>
+        <div class="gallery" id="gallery"></div>
+      </div>
+    </details>
+
+    <div class="savebar">
+      <span class="hint">${editing.submitted ? "Editing a submitted property — Save to keep your changes." : "Changes autosave to this device."}</span>
+      <div class="grow"></div>
+      ${editing.submitted
+        ? `<button class="btn primary" id="saveBtn" disabled>Save changes</button>`
+        : `<button class="btn primary" id="submitBtn">Submit property →</button>`}
+    </div>
+  `;
+
+  document.getElementById("backBtn").onclick=()=>leaveEditor();
+  document.getElementById("fillSample").onclick=fillSample;
+  document.getElementById("edPackage").onchange=e=>{ editing.package=e.target.value; markDirty(); };
+  const pdfBtn=document.getElementById("pdfBtn"), pdfFile=document.getElementById("pdfFile");
+  pdfBtn.onclick=()=>pdfFile.click();
+  pdfFile.onchange=()=>{ const f=pdfFile.files&&pdfFile.files[0]; pdfFile.value=""; if(f) importFromPdf(f); };
+  const submitEl=document.getElementById("submitBtn"); if(submitEl) submitEl.onclick=submitProperty;
+  const saveEl=document.getElementById("saveBtn"); if(saveEl) saveEl.onclick=saveNow;
+  app.querySelectorAll("[data-key]").forEach(el=>{
+    el.oninput=()=>{ editing.values[el.dataset.key]=el.value;
+      if(el.dataset.key==="street"||el.dataset.key==="cityState") document.getElementById("edTitle").textContent=projectAddress(editing);
+      markDirty(); };
+  });
+  const drop=document.getElementById("drop"), file=document.getElementById("file");
+  drop.onclick=()=>file.click();
+  file.onchange=()=>{ addPhotos([...file.files]); file.value=""; };
+  drop.ondragover=e=>{ e.preventDefault(); drop.classList.add("drag"); };
+  drop.ondragleave=()=>drop.classList.remove("drag");
+  drop.ondrop=e=>{ e.preventDefault(); drop.classList.remove("drag"); addPhotos([...(e.dataTransfer.files||[])]); };
+  document.getElementById("aiTag").onclick=aiAutoTag;
+  document.getElementById("aiSettings").onclick=openAiSettings;
+  document.getElementById("aiState").textContent = aiConfigured() ? "AI ready" : "AI not configured";
+  renderGallery(catOpts);
+}
+
+function renderGallery(catOpts){
+  const g=document.getElementById("gallery"); if(!g) return;
+  revokeThumbs();
+  g.innerHTML = editing.photos.map((ph,i)=>{
+    let url;
+    if(ph.blob){ url=URL.createObjectURL(ph.blob); thumbUrls.push(url); }
+    else url=store.thumbUrl(ph);
+    return `<div class="ph" data-i="${i}">
+      <img class="thumb" src="${url}" loading="lazy">
+      <div class="ph-body">
+        <div class="ph-name" title="${esc(ph.filename)}">${esc(ph.filename)}</div>
+        <select data-cat>${catOpts.replace(`value="${ph.category}"`,`value="${ph.category}" selected`)}</select>
+        <div class="ph-row">
+          <button data-up title="Move up">↑</button>
+          <button data-down title="Move down">↓</button>
+          <button class="del" data-del title="Remove">✕</button>
+        </div>
+      </div>
+    </div>`;
+  }).join("");
+  const photoNote=()=>{ const n=document.querySelector("#gallery")&&document.querySelector("#gallery").closest(".section").querySelector(".note"); if(n) n.textContent="· "+editing.photos.length; };
+  // Reorder writes new sort indices; in cloud that's persisted per photo.
+  const reorder=async(a,b)=>{ const arr=editing.photos; [arr[a],arr[b]]=[arr[b],arr[a]];
+    if(store.isCloud()){ arr[a].sort=a; arr[b].sort=b; await store.patchPhoto(arr[a].id,{sort:a}); await store.patchPhoto(arr[b].id,{sort:b}); }
+    else markDirty();
+    renderGallery(catOpts); };
+  g.querySelectorAll(".ph").forEach(el=>{
+    const i=+el.dataset.i;
+    el.querySelector("[data-cat]").onchange=async e=>{ const v=e.target.value; editing.photos[i].category=v;
+      if(store.isCloud()) await store.patchPhoto(editing.photos[i].id,{category:v}); else markDirty(); };
+    el.querySelector("[data-up]").onclick=()=>{ if(i>0) reorder(i-1,i); };
+    el.querySelector("[data-down]").onclick=()=>{ if(i<editing.photos.length-1) reorder(i+1,i); };
+    el.querySelector("[data-del]").onclick=async()=>{ const ph=editing.photos[i];
+      if(store.isCloud()){ try{ await store.removePhoto(ph.id); }catch(err){ toast("Delete failed: "+err.message,true); return; } }
+      editing.photos.splice(i,1); if(!store.isCloud()) markDirty();
+      renderGallery(catOpts); photoNote(); };
+  });
+}
+
+async function addPhotos(files){
+  const imgs=files.filter(f=>f.type.startsWith("image/") || /\.(png|jpe?g|gif|webp)$/i.test(f.name));
+  const note=document.querySelector("#gallery") && document.querySelector("#gallery").closest(".section").querySelector(".note");
+  let done=0;
+  const cloud=store.isCloud();
+  // Process one at a time (like the plugin) to keep peak memory flat; in cloud
+  // each is uploaded to R2 as it's processed.
+  for(const f of imgs){
+    if(note) note.textContent=`· ${cloud?"uploading":"processing"} ${++done}/${imgs.length}…`;
+    const { blob, type } = await processImage(f);
+    const meta={ filename:f.name, category:guessCategory(f.name), ext:extForType(type), sort:editing.photos.length };
+    try{
+      const thumb = cloud ? await makeThumbBlob(blob) : null;
+      const photo = await store.addPhoto(editing.id, { file:blob, thumb }, meta);
+      editing.photos.push(photo);
+    }catch(err){ toast("Upload failed for "+f.name+": "+err.message, true); }
+  }
+  if(!cloud) markDirty();
+  const catOpts=PHOTO_CATEGORIES.map(c=>`<option value="${c.key}">${c.label}</option>`).join("");
+  renderGallery(catOpts);
+  if(note) note.textContent="· "+editing.photos.length;
+}
+
+/* Testing: fill every field with sample data and add labeled placeholder photos. */
+async function fillSample(){
+  editing.values = { ...SAMPLE_VALUES };
+  const existing = new Set(editing.photos.map(p=>p.filename));
+  const cloud=store.isCloud();
+  let added=0;
+  for(const [cat,label] of SAMPLE_PHOTOS){
+    const fn = `sample-${cat}.jpg`;
+    if(existing.has(fn)) continue;
+    const blob = await placeholderImage(label, cat);
+    const meta={ filename:fn, category:cat, ext:"jpg", sort:editing.photos.length };
+    const thumb = cloud ? await makeThumbBlob(blob) : null;
+    editing.photos.push(await store.addPhoto(editing.id, { file:blob, thumb }, meta));
+    added++;
+  }
+  if(!cloud) markDirty(); else await store.saveProject(editing);
+  renderEditor();
+  toast("Sample data filled — "+added+" placeholder photos added.");
+}
+
+/* Draw a labeled placeholder JPEG on a canvas (deterministic color per label). */
+function placeholderImage(label, seed){
+  return new Promise((resolve)=>{
+    const w=1200,h=900, c=document.createElement("canvas"); c.width=w; c.height=h;
+    const x=c.getContext("2d");
+    let s=0; for(const ch of (seed||label)) s=(s*31+ch.charCodeAt(0))>>>0;
+    const hue=s%360;
+    const g=x.createLinearGradient(0,0,w,h);
+    g.addColorStop(0,`hsl(${hue} 42% 42%)`); g.addColorStop(1,`hsl(${(hue+40)%360} 38% 26%)`);
+    x.fillStyle=g; x.fillRect(0,0,w,h);
+    x.strokeStyle="rgba(255,255,255,.35)"; x.lineWidth=6; x.strokeRect(28,28,w-56,h-56);
+    x.fillStyle="rgba(255,255,255,.95)"; x.textAlign="center"; x.textBaseline="middle";
+    x.font="600 84px Georgia, serif"; x.fillText(label, w/2, h/2-20);
+    x.font="500 34px -apple-system, Arial, sans-serif"; x.fillStyle="rgba(255,255,255,.75)";
+    x.fillText("SAMPLE PHOTO", w/2, h/2+64);
+    c.toBlob(b=>resolve(b), "image/jpeg", 0.85);
+  });
+}
+
+/* lightweight filename → category guess (mirrors the plugin's spirit) */
+function guessCategory(name){
+  const n=name.toLowerCase();
+  const has=w=>new RegExp(`(^|[^a-z])${w}`).test(n);
+  if(has("headshot")||has("agent")||has("portrait")) return "agent";
+  if(has("master")&&has("bath")) return "masterbath";
+  if(has("master")||has("primary")) return "master";
+  if(has("bath")) return "secondarybath";
+  if(has("kitchen")) return "kitchen";
+  if(has("dining")) return "dining";
+  if(has("living")||has("great room")) return "living";
+  if(has("office")||has("study")||has("den")) return "office";
+  if(has("garage")) return "garage";
+  if(has("pool")||has("patio")||has("deck")||has("outdoor")||has("yard")) return "outdoor";
+  if(has("exterior")||has("aerial")||has("front")||has("facade")) return "exterior";
+  if(has("floor")||has("plan")) return "floorplan";
+  if(has("entry")||has("foyer")||has("porch")) return "entry";
+  if(has("bed")||has("guest")) return "secondary";
+  return "uncategorized";
+}
+
+/* ---------------------------------------------------------------- actions */
+function setSaveBtn(enabled){ const b=document.getElementById("saveBtn"); if(b) b.disabled=!enabled; }
+function markDirty(){ dirty=true; setSaveBtn(true); clearTimeout(saveTimer); saveTimer=setTimeout(saveEditing,600); }
+async function saveEditing(){ if(!editing) return; await store.saveProject(editing); dirty=false; setSaveBtn(false); }
+/* Explicit Save for edits to an already-submitted property. */
+async function saveNow(){ clearTimeout(saveTimer); await saveEditing(); toast("Changes saved."); }
+
+async function newProject(){
+  const id=await store.create(); await loadProjects(); openProject(id);
+}
+async function openProject(id){
+  const p=await store.get(id); if(!p) return;
+  if(!p.photos) p.photos=[];
+  editing=p; editingId=id; view="edit"; dirty=false; renderEditor();
+}
+async function leaveEditor(){ clearTimeout(saveTimer); await saveEditing(); editing=null; view="list"; await loadProjects(); renderList(); }
+
+/* Apply a submit result to the in-memory editing copy. */
+function applySubmitResult(u){ if(!u) return; editing.submitted=true; editing.ticket=u.ticket; editing.submittedAt=u.submittedAt; editing.status=u.status; }
+
+/* Submit the intake form: assign ticket, save, return to the list. */
+async function submitProperty(){
+  const addr = projectAddress(editing);
+  try{ applySubmitResult(await store.submit(editing.id)); }
+  catch(err){ toast("Submit failed: "+err.message, true); return; }
+  const ticket = editing.ticket;
+  await leaveEditor();
+  toast(`Submitted “${addr}” — ${ticket}.`);
+}
+
+async function downloadSaveState(id){
+  if(editing && editing.id===id) await saveEditing();
+  toast("Building save state…");
+  try{
+    // Handing off the zip counts as submitting: assign a ticket + submission time.
+    const updated=await store.submit(id);
+    if(editing && editing.id===id) applySubmitResult(updated);
+    const blob=await store.saveStateBlob(id);
+    const p = (editing && editing.id===id) ? editing : (updated || await store.get(id));
+    const slug = (projectAddress(p)||"property").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"").slice(0,40) || "property";
+    const stamp = new Date().toISOString().slice(0,10);
+    const url=URL.createObjectURL(blob); const a=document.createElement("a");
+    a.href=url; a.download=`dezzy-save-${slug}-${stamp}.zip`; document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url),5000);
+    await loadProjects(); if(view==="list") renderList();
+    toast("Save state downloaded.");
+  }catch(err){ console.error(err); toast("Could not build save state: "+(err.message||err), true); }
+}
+
+/* ---------------------------------------------------------------- modal */
+function confirmModal({title,bodyHtml,okLabel,onOk,extra}){
+  const bg=document.createElement("div"); bg.className="modal-bg";
+  bg.innerHTML=`<div class="modal"><h3>${esc(title)}</h3>${bodyHtml||""}
+    <div class="modal-actions">
+      ${(extra||[]).map((e,i)=>`<button class="btn ${e.cls||""}" data-extra="${i}" style="margin-right:auto">${esc(e.label)}</button>`).join("")}
+      <button class="btn" data-cancel>Cancel</button>
+      <button class="btn primary" data-ok>${esc(okLabel||"OK")}</button>
+    </div></div>`;
+  document.body.appendChild(bg);
+  const close=()=>bg.remove();
+  bg.querySelector("[data-cancel]").onclick=close;
+  bg.querySelector("[data-ok]").onclick=async()=>{ await (onOk&&onOk()); close(); };
+  (extra||[]).forEach((e,i)=>{ bg.querySelector(`[data-extra="${i}"]`).onclick=async()=>{ await e.act(); close(); }; });
+  bg.onclick=e=>{ if(e.target===bg) close(); };
+}
+
+/* Settings: point the app at a shared server (Cloud) or leave blank (Local). */
+function openSettings(){
+  const cur=apiBase();
+  const bg=document.createElement("div"); bg.className="modal-bg";
+  bg.innerHTML=`<div class="modal" style="max-width:480px">
+    <h3>Settings</h3>
+    <div class="field"><label>Server (API base URL)</label>
+      <input type="text" id="setApi" placeholder="https://dezzy-intake.your-subdomain.workers.dev" value="${esc(cur)}">
+      <div class="note">Set this to your Cloudflare Worker URL to share properties across the team (Cloud mode). Leave blank to store everything only in this browser (Local mode).</div>
+    </div>
+    <div class="note" style="margin-top:4px">Current mode: <b>${cur?"☁ Cloud":"💾 Local"}</b></div>
+    <div class="modal-actions">
+      <button class="btn" data-cancel>Cancel</button>
+      <button class="btn primary" data-ok>Save</button>
+    </div>
+  </div>`;
+  document.body.appendChild(bg);
+  const close=()=>bg.remove();
+  bg.querySelector("[data-cancel]").onclick=close;
+  bg.onclick=e=>{ if(e.target===bg) close(); };
+  bg.querySelector("[data-ok]").onclick=async()=>{
+    const v=bg.querySelector("#setApi").value.trim();
+    if(v && !/^https?:\/\//i.test(v)){ toast("Enter a full URL starting with https://", true); return; }
+    setApiBase(v); close();
+    editing=null; view="list";
+    try{ await loadProjects(); renderList(); toast(v?"Connected to server (Cloud mode).":"Switched to Local mode."); }
+    catch(err){ projects=[]; renderList(); toast("Couldn't reach that server: "+err.message, true); }
+  };
+}
+
+/* ---------------------------------------------------------------- boot */
+document.getElementById("newBtn").onclick=newProject;
+document.getElementById("settingsBtn").onclick=openSettings;
+window.addEventListener("beforeunload", e=>{ if(dirty){ saveEditing(); } });
+(async()=>{
+  try{ await loadProjects(); renderList(); }
+  catch(err){ projects=[]; renderList(); toast("Couldn't reach the server — check ⚙ Settings. "+err.message, true); }
+})();
+</script>
+</body>
+</html>

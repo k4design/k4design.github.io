@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dezzy Magazine — User Guide</title>
+<style>
+  :root {
+    --bg: #f7f6f3;
+    --panel: #ffffff;
+    --ink: #1c1b19;
+    --muted: #6b6862;
+    --line: #e4e1da;
+    --accent: #b45f3a;
+    --accent-soft: #f3e7df;
+    --code-bg: #f0eee9;
+    --max: 820px;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font: 16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+  .wrap { max-width: var(--max); margin: 0 auto; padding: 0 20px 80px; }
+
+  header.hero {
+    background: linear-gradient(180deg, #fbf9f5 0%, var(--bg) 100%);
+    border-bottom: 1px solid var(--line);
+    padding: 56px 20px 40px;
+    text-align: center;
+  }
+  .hero-inner { max-width: var(--max); margin: 0 auto; }
+  .kicker {
+    display: inline-block;
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: var(--accent-soft);
+    padding: 4px 12px;
+    border-radius: 999px;
+    margin-bottom: 18px;
+  }
+  h1 {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 40px;
+    line-height: 1.1;
+    margin: 0 0 12px;
+    font-weight: 600;
+  }
+  .subtitle { color: var(--muted); font-size: 18px; max-width: 560px; margin: 0 auto; }
+
+  h2 {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 26px;
+    margin: 48px 0 8px;
+    padding-top: 8px;
+    font-weight: 600;
+  }
+  h3 { font-size: 17px; margin: 26px 0 6px; }
+  p { margin: 10px 0; }
+  .muted { color: var(--muted); }
+
+  a { color: var(--accent); }
+
+  ol.steps { counter-reset: step; list-style: none; padding: 0; margin: 20px 0; }
+  ol.steps > li {
+    counter-increment: step;
+    position: relative;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 16px 18px 16px 60px;
+    margin-bottom: 12px;
+  }
+  ol.steps > li::before {
+    content: counter(step);
+    position: absolute;
+    left: 16px; top: 16px;
+    width: 28px; height: 28px;
+    background: var(--accent);
+    color: #fff;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; font-weight: 700;
+  }
+  ol.steps > li b { display: block; margin-bottom: 2px; }
+
+  .tabline {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    margin: 16px 0 8px; padding: 0; list-style: none;
+  }
+  .tabline li {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 4px 20px;
+    margin: 16px 0;
+  }
+  .card h3:first-child { margin-top: 18px; }
+
+  code, .kbd {
+    background: var(--code-bg);
+    border-radius: 5px;
+    padding: 1px 6px;
+    font-family: "SF Mono", ui-monospace, Menlo, Consolas, monospace;
+    font-size: 0.88em;
+  }
+
+  ul.plain { margin: 10px 0; padding-left: 20px; }
+  ul.plain li { margin: 5px 0; }
+
+  table { width: 100%; border-collapse: collapse; margin: 14px 0; display: block; overflow-x: auto; }
+  th, td { border: 1px solid var(--line); padding: 8px 12px; text-align: left; font-size: 14px; }
+  th { background: var(--accent-soft); font-weight: 600; }
+  td code { white-space: nowrap; }
+
+  .callout {
+    border-left: 3px solid var(--accent);
+    background: var(--accent-soft);
+    border-radius: 0 8px 8px 0;
+    padding: 12px 16px;
+    margin: 16px 0;
+    font-size: 15px;
+  }
+  .callout b { color: var(--accent); }
+
+  footer {
+    border-top: 1px solid var(--line);
+    margin-top: 60px;
+    padding-top: 20px;
+    color: var(--muted);
+    font-size: 13px;
+    text-align: center;
+  }
+
+  @media (max-width: 560px) {
+    h1 { font-size: 30px; }
+    .hero { padding: 40px 16px 28px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <span class="kicker">User Guide</span>
+    <h1>Dezzy Magazine</h1>
+    <p class="subtitle">Turn any layout into a data-driven property magazine — tag once, then fill text and photos in seconds.</p>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <h2>What it does</h2>
+  <p>Dezzy Magazine turns an existing Figma layout into a reusable, data-driven template. You tag each text layer and photo container <em>once</em>; after that you enter listing details, upload the photo shoot, and the plugin places everything — headlines, captions, prices, and dozens of photos — exactly where it belongs.</p>
+  <p class="muted">Everything runs locally in your file. There is no network access, no account, and nothing is uploaded to a server.</p>
+
+  <h2>The five tabs</h2>
+  <ul class="tabline">
+    <li>Tag</li>
+    <li>Content</li>
+    <li>Photos</li>
+    <li>Apply</li>
+    <li>Bulk</li>
+  </ul>
+  <p class="muted">Open the plugin on your template page and work left to right: tag the layout, enter content, load photos, then apply.</p>
+
+  <h2>Quick start</h2>
+  <ol class="steps">
+    <li><b>Tag your template</b>On the <strong>Tag</strong> tab, run <em>Scan layer names</em> to auto-tag layers you've named after fields and rooms, then <em>Auto-number photo slots</em> to turn the rest of the photo containers into numbered slots. You can also select any layer and tag it by hand.</li>
+    <li><b>Enter the listing</b>On the <strong>Content</strong> tab, fill in the grouped fields (address, price, description, captions, agent…). Values autosave into the file. Or import a CSV.</li>
+    <li><b>Load the photos</b>On the <strong>Photos</strong> tab, drop in the shoot. Click <em>Auto-assign</em> to route photos into slots by filename, or set any slot by hand.</li>
+    <li><b>Apply</b>Use the fixed <em>Apply all content</em> / <em>Apply photos</em> bars, or go to the <strong>Apply</strong> tab to validate first and apply everything in one pass.</li>
+  </ol>
+
+  <h2>Tagging</h2>
+  <div class="card">
+    <h3>Name-based scan</h3>
+    <p>Name a text layer after a field (<code>price</code>, <code>#tagline</code>) or a photo layer after a room (<code>Kitchen</code>, <code>Master Bath 2</code>) and the scan tags it automatically. First matching category wins, so "master bathroom" counts as Master Bath, not Secondary. Layers that match nothing are left alone — sweep those into generic slots with Auto-number.</p>
+    <h3>Tags travel with the file</h3>
+    <p>Tags and entered content are stored in the Figma file itself, so they survive duplication. Set the template up once and reuse it for every new listing.</p>
+    <h3>Partial (template) text</h3>
+    <p>You can tag only part of a text layer — swap the dynamic words while leaving boilerplate untouched — using template tokens like <code>{{price}}</code>.</p>
+  </div>
+
+  <h2>Content</h2>
+  <p>The Content tab is a clean, grouped form (Property, Features, Agent, Captions). It autosaves as you type. A fixed <strong>Apply all content</strong> bar sits at the bottom of the tab.</p>
+  <ul class="plain">
+    <li><b>CSV import/export.</b> Download a fill-in <code>field,value</code> CSV, complete it in a spreadsheet, and import it back — handy for handing data entry to someone else.</li>
+    <li><b>Locked layers.</b> Mark boilerplate or disclaimers as locked so Apply never overwrites them.</li>
+  </ul>
+
+  <h2>Photos</h2>
+  <div class="card">
+    <h3>Print quality preserved</h3>
+    <p>Upload 50–100 photos at once; each is processed one at a time to keep memory flat. Images are only downscaled if they exceed Figma's 4096&nbsp;px limit — anything that already fits is stored untouched. Placement uses cover-fit cropping (never stretched), and you can pin the crop <em>left</em>, <em>center</em>, or <em>right</em> per container.</p>
+    <h3>One photo, many slots</h3>
+    <p>A photo can be assigned to as many slots as you like — just pick it in each slot's dropdown. The gallery badge shows every slot a photo lands in.</p>
+  </div>
+
+  <h3>How auto-assign routes photos</h3>
+  <p>Name photos after rooms and the plugin sends them to matching slots, in filename order within each category.</p>
+  <table>
+    <thead><tr><th>Slot type</th><th>How it fills</th></tr></thead>
+    <tbody>
+      <tr><td>Room categories<br><span class="muted">kitchen, master, dining…</span></td><td>Photos whose filename matches the room (e.g. <code>kitchen-2.jpg</code>).</td></tr>
+      <tr><td>Full page</td><td>Progress through the home in order: entry → living → kitchen → dining → master → bath → secondary → office → amenities → garage → outdoor → exterior.</td></tr>
+      <tr><td>Interior / Exterior pools</td><td>Draw from any photo in that pool; repeats allowed.</td></tr>
+      <tr><td>Preview</td><td>Leads with one image from <b>exterior, kitchen, living, then master</b>, then continues through the rest of the shoot in filename order.</td></tr>
+      <tr><td>Mini preview</td><td>One representative image per category, in the full-page order.</td></tr>
+      <tr><td>Agent headshot</td><td>Detected by name — a filename matching the agent's entered name (e.g. <code>marthajohnson.png</code>), or wording like <code>headshot</code> / <code>portrait</code> — and reserved for the agent slot automatically.</td></tr>
+      <tr><td>Generic numbered</td><td>Everything left over, in filename order.</td></tr>
+    </tbody>
+  </table>
+  <div class="callout"><b>Tip:</b> For the agent photo to be recognized from a name like <code>marthajohnson.png</code>, enter the agent's name on the Content tab first — the plugin matches the filename against it.</div>
+
+  <h3>Coupled spreads</h3>
+  <p>Couple two containers on facing pages and a single photo tiles seamlessly across both — the crop windows are computed so the image reads as one continuous shot across the gutter. Use <em>Align spread</em> to make the two halves line up perfectly.</p>
+
+  <h2>Apply &amp; validate</h2>
+  <ul class="plain">
+    <li><b>Pre-flight check.</b> The Apply tab flags empty fields, unassigned slots, and mismatched spreads before you commit.</li>
+    <li><b>Apply text, photos, or everything</b> in one pass, with a progress bar and cancel.</li>
+    <li><b>Magenta placeholders.</b> Any slot left unassigned fills magenta after Apply, so nothing ships half-finished.</li>
+  </ul>
+
+  <h2>Save state (Bulk tab)</h2>
+  <p>Export a single <code>.zip</code> that bundles your entered content, photo assignments, every layer tag, and the image files themselves — for backup or hand-off. Import it into a fresh copy of the template to restore all of it. Tags re-apply immediately; content and photos wait until you Apply.</p>
+
+  <footer>
+    Dezzy Magazine — private, offline, print-first. This guide describes the plugin's Tag, Content, Photos, Apply, and Bulk workflows.
+  </footer>
+
+</main>
+</body>
+</html>

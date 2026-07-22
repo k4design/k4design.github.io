@@ -1,0 +1,794 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dezzy Magazine — Operator's Guide</title>
+<style>
+  :root{
+    --paper:#F3F2EF; --paper-2:#EAE8E2; --ink:#181410; --ink-soft:#3B352C;
+    --taupe:#8B8578; --line:rgba(24,20,16,.14); --line-soft:rgba(24,20,16,.08);
+    --mag:#C81E67; --mag-tint:rgba(200,30,103,.10); --mag-line:rgba(200,30,103,.34);
+    --card:#FBFAF8;
+    --sans:"Helvetica Neue",-apple-system,system-ui,"Segoe UI",sans-serif;
+    --serif:"Iowan Old Style",Georgia,"Times New Roman",serif;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+    --maxw:940px;
+  }
+  @media (prefers-color-scheme:dark){
+    :root{
+      --paper:#16130F; --paper-2:#1F1B15; --ink:#EFEBE3; --ink-soft:#C7C0B3;
+      --taupe:#948D7F; --line:rgba(239,235,227,.16); --line-soft:rgba(239,235,227,.08);
+      --mag:#F0629A; --mag-tint:rgba(240,98,154,.13); --mag-line:rgba(240,98,154,.40);
+      --card:#1D1913;
+    }
+  }
+  :root[data-theme="light"]{
+    --paper:#F3F2EF; --paper-2:#EAE8E2; --ink:#181410; --ink-soft:#3B352C;
+    --taupe:#8B8578; --line:rgba(24,20,16,.14); --line-soft:rgba(24,20,16,.08);
+    --mag:#C81E67; --mag-tint:rgba(200,30,103,.10); --mag-line:rgba(200,30,103,.34);
+    --card:#FBFAF8;
+  }
+  :root[data-theme="dark"]{
+    --paper:#16130F; --paper-2:#1F1B15; --ink:#EFEBE3; --ink-soft:#C7C0B3;
+    --taupe:#948D7F; --line:rgba(239,235,227,.16); --line-soft:rgba(239,235,227,.08);
+    --mag:#F0629A; --mag-tint:rgba(240,98,154,.13); --mag-line:rgba(240,98,154,.40);
+    --card:#1D1913;
+  }
+
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{background:var(--paper);}
+  .wrap{background:var(--paper);color:var(--ink);font-family:var(--sans);
+    line-height:1.65;-webkit-font-smoothing:antialiased;
+    padding:clamp(1.4rem,4vw,4rem) clamp(1.1rem,4vw,2rem);}
+  .page{max-width:var(--maxw);margin:0 auto;}
+  .eyebrow{font-family:var(--mono);font-size:11.5px;letter-spacing:.24em;
+    text-transform:uppercase;color:var(--taupe);}
+  .accent{color:var(--mag);}
+  code,.mono{font-family:var(--mono);}
+  code{background:var(--mag-tint);color:var(--mag);padding:.08em .38em;
+    border-radius:3px;font-size:.86em;border:1px solid var(--mag-line);white-space:nowrap;}
+  a{color:var(--mag);text-underline-offset:3px;}
+
+  /* MASTHEAD */
+  .masthead{border-top:2px solid var(--ink);padding-top:1rem;}
+  .mast-meta{display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem 1.2rem;
+    font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--taupe);border-bottom:1px solid var(--line);padding-bottom:.9rem;}
+  .title{font-family:var(--serif);font-weight:400;line-height:.92;letter-spacing:-.015em;
+    font-size:clamp(3.2rem,12vw,7.2rem);margin:2.2rem 0 .2rem;text-wrap:balance;}
+  .title em{font-style:italic;color:var(--mag);}
+  .subtitle{font-family:var(--serif);font-style:italic;font-size:clamp(1.1rem,3vw,1.5rem);
+    color:var(--ink-soft);max-width:34ch;margin:.3rem 0 2.6rem;}
+
+  .lede{font-family:var(--serif);font-size:clamp(1.15rem,2.6vw,1.5rem);line-height:1.5;
+    max-width:30ch;}
+  .drop{float:left;font-family:var(--serif);font-size:3.6em;line-height:.72;
+    padding:.06em .1em 0 0;color:var(--mag);font-style:normal;}
+
+  /* three beats */
+  .beats{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin:2.6rem 0 0;
+    border-top:1px solid var(--line);}
+  .beat{padding:1.3rem 1.2rem 1.4rem;border-bottom:1px solid var(--line);}
+  .beat:not(:last-child){border-right:1px solid var(--line);}
+  .beat h3{font-family:var(--serif);font-weight:400;font-size:1.15rem;margin:.5rem 0 .3rem;}
+  .beat p{font-size:.92rem;color:var(--ink-soft);margin:0;}
+  .beat .n{font-family:var(--mono);font-size:11px;color:var(--mag);letter-spacing:.1em;}
+
+  /* section headers */
+  .sec{margin-top:clamp(3rem,7vw,5.5rem);}
+  .sec-head{display:flex;align-items:baseline;gap:1rem;border-bottom:2px solid var(--ink);
+    padding-bottom:.7rem;flex-wrap:wrap;}
+  .sec-head .part{font-family:var(--mono);font-size:11px;letter-spacing:.22em;
+    text-transform:uppercase;color:var(--mag);}
+  .sec-head h2{font-family:var(--serif);font-weight:400;letter-spacing:-.01em;
+    font-size:clamp(1.9rem,5.5vw,3rem);margin:.15rem 0 0;line-height:1;flex:1 1 100%;}
+  .sec-head .cadence{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--taupe);border:1px solid var(--line);
+    padding:.3em .7em;border-radius:99px;white-space:nowrap;}
+  .sec-intro{font-family:var(--serif);font-size:1.05rem;color:var(--ink-soft);
+    max-width:56ch;margin:1rem 0 0;font-style:italic;}
+
+  /* tabs legend */
+  .tabs{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.4rem;}
+  .tab{font-family:var(--mono);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;
+    border:1px solid var(--line);border-radius:99px;padding:.42em .95em;color:var(--ink-soft);
+    display:flex;align-items:center;gap:.5em;}
+  .tab .dot{width:6px;height:6px;border-radius:50%;background:var(--mag);}
+
+  /* steps */
+  .steps{margin-top:1.6rem;display:grid;gap:0;}
+  .step{display:grid;grid-template-columns:auto 1fr;gap:1.3rem;
+    padding:1.5rem 0;border-bottom:1px solid var(--line-soft);}
+  .step:first-child{border-top:1px solid var(--line-soft);}
+  .step .num{font-family:var(--serif);font-size:clamp(2.2rem,6vw,3.2rem);line-height:.8;
+    color:var(--mag);font-variant-numeric:tabular-nums;min-width:1.6em;}
+  .step h4{font-family:var(--serif);font-weight:400;font-size:1.3rem;margin:0 0 .35rem;
+    letter-spacing:-.01em;}
+  .step p{margin:.45rem 0;color:var(--ink-soft);font-size:.96rem;max-width:62ch;}
+  .step ul{margin:.5rem 0 0;padding:0;list-style:none;max-width:62ch;}
+  .step li{position:relative;padding-left:1.1em;margin:.35rem 0;color:var(--ink-soft);
+    font-size:.94rem;}
+  .step li::before{content:"—";position:absolute;left:0;color:var(--mag);}
+  .path{font-family:var(--mono);font-size:.82rem;color:var(--ink);background:var(--paper-2);
+    border:1px solid var(--line);border-radius:5px;padding:.14em .5em;white-space:nowrap;
+    display:inline-block;}
+
+  /* callout */
+  .note{border-left:3px solid var(--mag);background:var(--mag-tint);
+    padding:.9rem 1.1rem;margin:1rem 0 0;border-radius:0 6px 6px 0;font-size:.92rem;
+    color:var(--ink);}
+  .note b{color:var(--mag);}
+
+  /* concept cards */
+  .concepts{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+    gap:1px;background:var(--line);border:1px solid var(--line);margin-top:1.6rem;
+    border-radius:8px;overflow:hidden;}
+  .concept{background:var(--card);padding:1.2rem 1.25rem;}
+  .concept .k{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--mag);}
+  .concept h5{font-family:var(--serif);font-weight:400;font-size:1.15rem;margin:.45rem 0 .4rem;}
+  .concept p{margin:0;font-size:.9rem;color:var(--ink-soft);}
+
+  /* magenta swatch inline */
+  .swatch{display:inline-block;width:.85em;height:.85em;border-radius:2px;
+    background:#FF00FF;border:1px solid rgba(0,0,0,.25);vertical-align:-1px;margin:0 .1em;}
+
+  /* table */
+  .tbl-wrap{overflow-x:auto;margin-top:1.4rem;border:1px solid var(--line);border-radius:8px;}
+  table{width:100%;border-collapse:collapse;font-size:.92rem;min-width:520px;}
+  th,td{text-align:left;padding:.85rem 1.1rem;border-bottom:1px solid var(--line-soft);
+    vertical-align:top;}
+  thead th{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--taupe);background:var(--paper-2);border-bottom:1px solid var(--line);}
+  tbody tr:last-child td{border-bottom:none;}
+  td:first-child{font-family:var(--serif);font-size:1rem;color:var(--ink);width:38%;}
+  td:last-child{color:var(--ink-soft);}
+
+  /* cheat sheet */
+  .cheat{margin-top:clamp(3rem,7vw,5rem);background:var(--ink);color:var(--paper);
+    border-radius:12px;padding:clamp(1.6rem,4vw,2.6rem);}
+  @media (prefers-color-scheme:dark){.cheat{background:#0F0C08;}}
+  :root[data-theme="dark"] .cheat{background:#0F0C08;}
+  .cheat .eyebrow{color:#C81E67;}
+  @media (prefers-color-scheme:dark){.cheat .eyebrow{color:#F0629A;}}
+  .cheat h2{font-family:var(--serif);font-weight:400;font-size:clamp(1.6rem,4.5vw,2.4rem);
+    margin:.4rem 0 1.4rem;color:var(--paper);}
+  .cheat-row{display:grid;grid-template-columns:auto 1fr;gap:1rem 1.3rem;align-items:baseline;
+    padding:1rem 0;border-top:1px solid rgba(255,255,255,.14);}
+  .cheat-row .lbl{font-family:var(--mono);font-size:11px;letter-spacing:.12em;
+    text-transform:uppercase;color:#F0629A;white-space:nowrap;}
+  .cheat-row .flow{font-family:var(--serif);font-size:1.05rem;line-height:1.6;color:var(--paper);}
+  .cheat-row .flow b{color:#fff;font-weight:400;border-bottom:1px solid #F0629A;}
+  .arrow{color:#F0629A;padding:0 .35em;}
+
+  footer{margin-top:2.4rem;border-top:1px solid var(--line);padding-top:1.1rem;
+    display:flex;justify-content:space-between;flex-wrap:wrap;gap:.6rem;
+    font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--taupe);}
+
+  /* ---- reconstructed plugin panels ---- */
+  .shots{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:1.7rem;
+    margin-top:1.8rem;align-items:start;}
+  .figshot{margin:0;}
+  .figshot figcaption{font-family:var(--mono);font-size:11px;letter-spacing:.05em;color:var(--taupe);
+    margin-top:.75rem;line-height:1.5;}
+  .figshot figcaption b{color:var(--mag);font-weight:400;}
+  .shots-note{font-family:var(--serif);font-style:italic;font-size:.95rem;color:var(--taupe);
+    margin-top:1.4rem;max-width:60ch;}
+  .pg{font-family:Inter,-apple-system,"Segoe UI",sans-serif;font-size:11px;line-height:1.4;
+    color:#1a1a1a;background:#fff;border:1px solid rgba(0,0,0,.13);border-radius:11px;overflow:hidden;
+    box-shadow:0 16px 38px rgba(24,20,16,.20);width:100%;}
+  .pg *{box-sizing:border-box;}
+  .pg-bar{display:flex;align-items:center;gap:7px;padding:7px 11px;border-bottom:1px solid #ececec;background:#fbfbfa;}
+  .pg-mark{width:9px;height:9px;border-radius:2px;background:var(--mag);transform:rotate(45deg);flex-shrink:0;}
+  .pg-title{font-weight:600;font-size:11px;flex:1;color:#1a1a1a;}
+  .pg-x{color:#c2c2c2;font-size:13px;line-height:1;}
+  .pg-tabs{display:flex;border-bottom:1px solid #e6e6e6;}
+  .pg-tab{padding:8px 10px;font-weight:500;color:#6a6a6a;border-bottom:2px solid transparent;font-size:11px;}
+  .pg-tab.on{color:#1a1a1a;border-bottom-color:#0d99ff;}
+  .pg-body{padding:12px;}
+  .pg-h{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.4px;color:#6a6a6a;margin:0 0 7px;}
+  .pg-card{border:1px solid #e6e6e6;border-radius:6px;padding:8px;}
+  .pg-muted{color:#9a9a9a;}
+  .pg-row{display:flex;gap:6px;align-items:center;margin-top:8px;}
+  .pg-row .grow{flex:1;}
+  .pg-sel{display:flex;align-items:center;gap:6px;padding:3px 0;}
+  .pg-name{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .pg-type{font-size:9px;color:#9a9a9a;}
+  .pg-chip{display:inline-block;padding:1px 6px;border-radius:8px;font-size:10px;font-weight:500;
+    background:#e5d5ff;color:#7b2fbf;white-space:nowrap;}
+  .pg-chip.img,.pg-chip.ready{background:#d5f7e2;color:#067647;}
+  .pg-chip.empty{background:#f0f0f0;color:#9a9a9a;}
+  .pg-label{margin-top:10px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.4px;color:#6a6a6a;}
+  .pg-select{display:flex;align-items:center;height:28px;padding:0 8px;border:1px solid #e6e6e6;
+    border-radius:4px;background:#fff;color:#1a1a1a;white-space:nowrap;overflow:hidden;}
+  .pg-select .txt{flex:1;overflow:hidden;text-overflow:ellipsis;}
+  .pg-select::after{content:"▾";color:#9a9a9a;margin-left:6px;}
+  .pg-select.mono .txt{font-family:"SF Mono",Menlo,monospace;font-size:10px;}
+  .pg-btn{display:inline-flex;align-items:center;justify-content:center;height:28px;padding:0 12px;
+    border-radius:4px;background:#0d99ff;color:#fff;font-weight:500;white-space:nowrap;border:1px solid transparent;}
+  .pg-btn.sec{background:#f0f0f0;color:#333;border-color:#e6e6e6;}
+  .pg-btn.sec.on{background:#0d99ff;color:#fff;border-color:#0d99ff;}
+  .pg-btn.dan{background:#dc3412;color:#fff;}
+  .pg-idx{display:flex;align-items:center;gap:6px;padding:4px 6px;border-radius:4px;}
+  .pg-field{flex:1;font-family:"SF Mono",Menlo,monospace;font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .pg-count{color:#6a6a6a;}
+  .pg-frow{margin-bottom:8px;}
+  .pg-flabel{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:3px;font-weight:500;}
+  .pg-tc{font-size:9px;color:#067647;font-weight:400;}
+  .pg-tc.none{color:#bbb;}
+  .pg-input{height:28px;padding:0 8px;border:1px solid #e6e6e6;border-radius:4px;display:flex;align-items:center;
+    white-space:nowrap;overflow:hidden;color:#333;}
+  .pg-input.place{color:#bbb;}
+  .pg-ta{min-height:46px;padding:6px 8px;border:1px solid #e6e6e6;border-radius:4px;line-height:1.45;color:#555;}
+  .pg-drop{border:1.5px dashed #ccc;border-radius:6px;padding:16px 12px;text-align:center;font-weight:500;color:#333;}
+  .pg-drop .pg-muted{font-weight:400;margin-top:4px;}
+  .pg-slot{display:flex;align-items:center;gap:8px;padding:3px 0;}
+  .pg-slot .pg-select{width:55%;}
+  .pg-check{display:flex;align-items:center;gap:6px;color:#555;}
+  .pg-box{width:12px;height:12px;border:1px solid #bbb;border-radius:3px;flex-shrink:0;}
+  .pg-gal{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;}
+  .pg-ph{position:relative;}
+  .pg-ph .tile{aspect-ratio:1;border-radius:4px;display:block;}
+  .pg-ph-name{margin-top:2px;font-size:8px;color:#6a6a6a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .pg-ph-badge{position:absolute;top:4px;left:4px;padding:1px 5px;border-radius:6px;
+    background:rgba(0,0,0,.72);color:#fff;font-size:8px;font-weight:600;}
+  .pg-line{margin-bottom:6px;color:#333;}
+  .pg-ok{margin-top:6px;color:#067647;font-weight:500;}
+  .pg-tools{padding:0;overflow:hidden;}
+  .pg-tool{display:flex;align-items:flex-start;gap:10px;padding:10px;}
+  .pg-tool+.pg-tool{border-top:1px solid #e6e6e6;}
+  .pg-tool-ic{font-size:15px;flex-shrink:0;line-height:1.2;}
+  .pg-tool-info{flex:1;min-width:0;}
+  .pg-tool-t{font-weight:600;margin-bottom:2px;color:#1a1a1a;}
+  .pg-tool-d{color:#6a6a6a;line-height:1.45;}
+  .pg-tool .pg-btn{flex-shrink:0;min-width:64px;margin-top:1px;}
+
+  /* ---- per-step annotated crops ---- */
+  .crop{position:relative;background:#fff;border:1px solid rgba(0,0,0,.13);border-radius:10px;
+    box-shadow:0 10px 26px rgba(24,20,16,.16);padding:10px;margin-top:1.15rem;max-width:400px;
+    font-family:Inter,-apple-system,"Segoe UI",sans-serif;font-size:11px;line-height:1.4;color:#1a1a1a;}
+  .crop *{box-sizing:border-box;}
+  .crop-ctx{display:flex;align-items:center;gap:6px;margin:0 0 8px;font-family:var(--mono);
+    font-size:9.5px;letter-spacing:.11em;text-transform:uppercase;color:#9a9a9a;}
+  .crop-ctx .d{width:6px;height:6px;border-radius:1px;background:var(--mag);transform:rotate(45deg);flex-shrink:0;}
+  .crop .box{border:1px solid #e6e6e6;border-radius:6px;padding:8px;}
+  .crop .hl{box-shadow:0 0 0 2px var(--mag),0 0 0 6px var(--mag-tint);border-radius:5px;}
+  .crop .cur{position:absolute;z-index:4;pointer-events:none;filter:drop-shadow(0 1px 1.5px rgba(0,0,0,.45));}
+  .crop-cap{font-family:var(--mono);font-size:10.5px;letter-spacing:.02em;color:var(--mag);
+    margin-top:.6rem;line-height:1.55;max-width:44ch;}
+  .crop-cap::before{content:"▸ ";}
+  .crop-cap b{font-weight:600;}
+
+  .js .reveal{opacity:0;transform:translateY(14px);transition:opacity .7s ease,transform .7s ease;}
+  .js .reveal.in{opacity:1;transform:none;}
+  @media (prefers-reduced-motion:reduce){.js .reveal{opacity:1;transform:none;transition:none;}}
+
+  @media(max-width:620px){
+    .beats{grid-template-columns:1fr;}
+    .beat:not(:last-child){border-right:none;}
+    .step{grid-template-columns:1fr;gap:.3rem;}
+    .step .num{font-size:2rem;}
+  }
+</style>
+</head>
+<body>
+<script>document.documentElement.classList.add('js');</script>
+
+<div class="wrap">
+<div class="page">
+  <h1 class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Dezzy Magazine plugin — operator's guide covering tagging a template once, then building each listing with content, photos, and apply.</h1>
+
+  <!-- MASTHEAD -->
+  <header class="masthead reveal">
+    <div class="mast-meta">
+      <span>The Operator's Guide</span>
+      <span>Figma Plugin · v0.1</span>
+      <span>Luxury Property Magazines</span>
+    </div>
+    <h1 class="title">Dezzy<br><em>Magazine</em></h1>
+    <p class="subtitle">Tag the template once. Pour a hundred pages in one pass, for every listing after.</p>
+  </header>
+
+  <!-- THE IDEA -->
+  <section class="reveal">
+    <p class="lede"><span class="drop">A</span> single-property magazine is dozens of text boxes and photo frames laid out beautifully — and re-typed by hand for every new listing. Dezzy ends the re-typing. You <span class="accent">tag</span> each placeholder once, then fill the whole issue from a form and a folder of photos.</p>
+
+    <div class="beats">
+      <div class="beat">
+        <span class="n">01 / Tag</span>
+        <h3>Label the placeholders</h3>
+        <p>Tell the plugin which box is the price, which frame is a kitchen photo. Tags live on the layers.</p>
+      </div>
+      <div class="beat">
+        <span class="n">02 / Fill</span>
+        <h3>Enter &amp; upload</h3>
+        <p>Type the listing details into a form; drag in the photo shoot. Everything autosaves into the file.</p>
+      </div>
+      <div class="beat">
+        <span class="n">03 / Apply</span>
+        <h3>Pour it in</h3>
+        <p>One click writes text and photos into every tagged spot — as a single, undoable step.</p>
+      </div>
+    </div>
+
+    <div class="tabs" aria-label="The five plugin tabs, in order of use">
+      <span class="tab"><span class="dot"></span>Tag</span>
+      <span class="tab"><span class="dot"></span>Content</span>
+      <span class="tab"><span class="dot"></span>Photos</span>
+      <span class="tab"><span class="dot"></span>Apply</span>
+      <span class="tab"><span class="dot"></span>Bulk</span>
+    </div>
+    <p style="font-size:.85rem;color:var(--taupe);margin:.8rem 0 0;font-style:italic;font-family:var(--serif)">Five tabs, left to right, roughly the order you use them.</p>
+  </section>
+
+  <!-- PART A -->
+  <section class="sec reveal">
+    <div class="sec-head">
+      <span class="part">Part A</span>
+      <span class="cadence">Do once per template</span>
+      <h2>Tag the template</h2>
+    </div>
+    <p class="sec-intro">Let the bulk tools do the heavy lifting, then fix up by hand. When you're done, save the template — every future listing is a duplicate, and the tags come along for free.</p>
+
+    <div class="steps">
+      <div class="step">
+        <span class="num">1</span>
+        <div>
+          <h4>Auto-number the photo boxes</h4>
+          <p><span class="path">Bulk → Auto-number photo slots</span></p>
+          <p>Walks your page frames in reading order — <code>Cover_Outside</code>, <code>Insert Page 1</code>, and so on — finds the placeholder rectangles, and tags them <code>photo.slot.001</code>, <code>photo.slot.002</code>… Two matching boxes across facing pages are detected as a spread and share one number.</p>
+          <div class="crop">
+            <div class="crop-ctx"><span class="d"></span>Bulk tab · Tagging</div>
+            <div class="box" style="display:flex;align-items:flex-start;gap:10px;padding:10px">
+              <div class="pg-tool-ic">🔢</div>
+              <div class="pg-tool-info"><div class="pg-tool-t">Auto-number photo slots</div><div class="pg-tool-d">Tags placeholder rectangles in “Insert Page N” frames as photo.slot.001… in reading order.</div></div>
+              <span class="pg-btn sec hl" style="min-width:64px">Number</span>
+            </div>
+            <svg class="cur" width="20" height="20" viewBox="0 0 22 22" style="right:24px;top:42px"><path d="M4 2 L4 19 L8.6 14.6 L11.2 20.4 L13.4 19.4 L10.9 13.8 L17 13.8 Z" fill="#fff" stroke="#1a1a1a" stroke-width="1.3" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="crop-cap">Click <b>Number</b> — every placeholder rectangle becomes a numbered slot.</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <span class="num">2</span>
+        <div>
+          <h4>Scan layer names into tags</h4>
+          <p><span class="path">Bulk → Scan layer names → tags</span></p>
+          <p>Any well-named layer tags itself. This is the reward for naming your template layers sensibly.</p>
+          <ul>
+            <li>A text layer named <code>price</code>, <code>description</code>, <code>feature1</code>, <code>caption.1.body</code> → the matching field.</li>
+            <li>Any layer named <code>#something</code> → a custom tag (text layer becomes text, image frame becomes image).</li>
+          </ul>
+          <div class="crop">
+            <div class="crop-ctx"><span class="d"></span>Bulk tab · Tagging</div>
+            <div class="box" style="display:flex;align-items:flex-start;gap:10px;padding:10px">
+              <div class="pg-tool-ic">🏷️</div>
+              <div class="pg-tool-info"><div class="pg-tool-t">Scan layer names</div><div class="pg-tool-d">Turns #field names and schema-named layers (street, price, description…) into tags. Idempotent — already-tagged layers are skipped.</div></div>
+              <span class="pg-btn sec hl" style="min-width:64px">Scan</span>
+            </div>
+            <svg class="cur" width="20" height="20" viewBox="0 0 22 22" style="right:24px;top:42px"><path d="M4 2 L4 19 L8.6 14.6 L11.2 20.4 L13.4 19.4 L10.9 13.8 L17 13.8 Z" fill="#fff" stroke="#1a1a1a" stroke-width="1.3" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="crop-cap">Click <b>Scan</b> — well-named layers tag themselves in one pass.</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <span class="num">3</span>
+        <div>
+          <h4>Categorize the photo frames</h4>
+          <p>Generic slots work, but <span class="accent">categories</span> are the magic — a "kitchen" photo lands in a kitchen frame automatically. A frame named <code>Master Bath 2</code> becomes <code>photo.masterbath.02</code>; or on the <b>Tag</b> tab pick "Kitchen slot (next #)" from the Photos picker.</p>
+          <p style="font-size:.88rem;color:var(--taupe)">Known categories: entry, kitchen, dining, living, master bed, master bath, secondary bed, secondary bath, office, amenities, garage, outdoor, exterior, floor plan, interior.</p>
+          <div class="crop">
+            <div class="crop-ctx"><span class="d"></span>Tag tab · Selection</div>
+            <div class="box">
+              <div class="pg-label" style="margin-top:0">Photos (image)</div>
+              <div class="pg-row" style="margin-top:4px"><span class="pg-select grow hl"><span class="txt">Kitchen slot (next #)</span></span><span class="pg-btn">Assign</span></div>
+            </div>
+            <svg class="cur" width="20" height="20" viewBox="0 0 22 22" style="left:150px;top:52px"><path d="M4 2 L4 19 L8.6 14.6 L11.2 20.4 L13.4 19.4 L10.9 13.8 L17 13.8 Z" fill="#fff" stroke="#1a1a1a" stroke-width="1.3" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="crop-cap">Pick a <b>category slot</b> so a kitchen photo lands in a kitchen frame.</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <span class="num">4</span>
+        <div>
+          <h4>Tag anything left over, by hand</h4>
+          <p><span class="path">Tag tab</span> — select layer(s) on the canvas, then use the picker that fits:</p>
+          <ul>
+            <li><b>Content (text)</b> — Property, Features, Agent, Captions, or a custom key.</li>
+            <li><b>Photos (image)</b> — named slots (cover, hero, agent headshot), category slots, full-page, or a custom key.</li>
+          </ul>
+          <p>Each picker has its own Assign button, so the tag type is never ambiguous.</p>
+          <div class="crop">
+            <div class="crop-ctx"><span class="d"></span>Tag tab · Selection</div>
+            <div class="box">
+              <div class="pg-sel"><span class="pg-name">Price · Display</span><span class="pg-type">text</span><span class="pg-chip">price</span></div>
+              <div class="pg-label">Content (text)</div>
+              <div class="pg-row" style="margin-top:4px"><span class="pg-select grow"><span class="txt">Price (price)</span></span><span class="pg-btn hl">Assign</span></div>
+            </div>
+            <svg class="cur" width="20" height="20" viewBox="0 0 22 22" style="right:22px;top:70px"><path d="M4 2 L4 19 L8.6 14.6 L11.2 20.4 L13.4 19.4 L10.9 13.8 L17 13.8 Z" fill="#fff" stroke="#1a1a1a" stroke-width="1.3" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="crop-cap">Select a layer, choose a field, then <b>Assign</b>.</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <span class="num">5</span>
+        <div>
+          <h4>Couple spreads &amp; set crops</h4>
+          <p>One image bleeding across two facing frames? Select <b>both</b> and click <span class="path">Couple 2 as spread ⇔</span> — they share one photo and pin to opposite edges, reading as one continuous picture with no seam down the gutter.</p>
+          <p>Any image tag can pin its crop with the <b>Align</b> toggle — <span class="mono">◄ Left · Center · Right ►</span>.</p>
+          <div class="crop">
+            <div class="crop-ctx"><span class="d"></span>Tag tab · Spread &amp; alignment</div>
+            <div class="box">
+              <div class="pg-row" style="margin-top:0"><span class="pg-btn sec grow hl">Couple 2 as spread ⇔</span></div>
+              <div class="pg-row"><span class="pg-muted" style="margin-right:2px">Align</span><span class="pg-btn sec grow">◄ Left</span><span class="pg-btn sec grow on">Center</span><span class="pg-btn sec grow">Right ►</span></div>
+            </div>
+            <svg class="cur" width="20" height="20" viewBox="0 0 22 22" style="left:150px;top:34px"><path d="M4 2 L4 19 L8.6 14.6 L11.2 20.4 L13.4 19.4 L10.9 13.8 L17 13.8 Z" fill="#fff" stroke="#1a1a1a" stroke-width="1.3" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="crop-cap">Select both halves → <b>Couple</b>; set each side's <b>Align</b> for a seamless spread.</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <span class="num">6</span>
+        <div>
+          <h4>Lock what must never change</h4>
+          <p>In the Tag picker, under <b>Locks</b>: mark permanent artwork with <code>photo.locked</code> and boilerplate or disclaimers with <code>text.locked</code>. Locked layers are skipped everywhere and reported as "N locked" rather than flagged empty.</p>
+          <div class="crop">
+            <div class="crop-ctx"><span class="d"></span>Tag tab · Photos (image)</div>
+            <div class="box">
+              <div class="pg-row" style="margin-top:0"><span class="pg-select grow hl"><span class="txt">🔒 Locked — keep current image</span></span><span class="pg-btn">Assign</span></div>
+              <div class="pg-muted" style="margin-top:9px">🔒 3 locked containers — kept as-is, not replaced.</div>
+            </div>
+          </div>
+          <div class="crop-cap">Mark artwork the plugin must <b>never</b> overwrite.</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <span class="num">7</span>
+        <div>
+          <h4>Check your tags</h4>
+          <p>The <b>Tag index</b> card lists every field and how many layers carry it. <b>Click any row</b> to select and zoom to those layers — the fastest way to confirm you tagged the right box. <span class="path">Rebuild index</span> renumbers category slots by layer order, confirming before it changes anything.</p>
+          <div class="crop">
+            <div class="crop-ctx"><span class="d"></span>Tag tab · Tag index</div>
+            <div class="box">
+              <div class="pg-idx hl"><span class="pg-chip">txt</span><span class="pg-field">price</span><span class="pg-count">×1</span></div>
+              <div class="pg-idx"><span class="pg-chip img">img</span><span class="pg-field">photo.kitchen.01</span><span class="pg-count">×2 ⇔</span></div>
+              <div class="pg-idx"><span class="pg-chip img">img</span><span class="pg-field">photo.agent</span><span class="pg-count">×1</span></div>
+            </div>
+            <svg class="cur" width="20" height="20" viewBox="0 0 22 22" style="left:120px;top:34px"><path d="M4 2 L4 19 L8.6 14.6 L11.2 20.4 L13.4 19.4 L10.9 13.8 L17 13.8 Z" fill="#fff" stroke="#1a1a1a" stroke-width="1.3" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="crop-cap">Click a row to select every layer carrying that tag.</div>
+          <div class="note"><b>Template done.</b> Save the file. From here on, every listing starts as a duplicate — all tags included.</div>
+        </div>
+      </div>
+    </div>
+
+    <p class="shots-note">The panels below are faithful reconstructions of the plugin's own interface, built from its source — not live screenshots.</p>
+    <div class="shots">
+      <figure class="figshot">
+        <div class="pg">
+          <div class="pg-bar"><span class="pg-mark"></span><span class="pg-title">Dezzy Magazine</span><span class="pg-x">×</span></div>
+          <div class="pg-tabs"><span class="pg-tab">Tag</span><span class="pg-tab">Content</span><span class="pg-tab">Photos</span><span class="pg-tab">Apply</span><span class="pg-tab on">Bulk</span></div>
+          <div class="pg-body">
+            <div class="pg-muted" style="margin-bottom:9px">One-click passes over the whole template. Typical order: scan names → auto-number → upload photos → apply.</div>
+            <div class="pg-h">Tagging</div>
+            <div class="pg-card pg-tools">
+              <div class="pg-tool"><div class="pg-tool-ic">🏷️</div><div class="pg-tool-info"><div class="pg-tool-t">Scan layer names</div><div class="pg-tool-d">Turns #field names, schema-named text layers, and room-named photo layers into tags.</div></div><span class="pg-btn sec">Scan</span></div>
+              <div class="pg-tool"><div class="pg-tool-ic">🔢</div><div class="pg-tool-info"><div class="pg-tool-t">Auto-number photo slots</div><div class="pg-tool-d">Tags placeholder rectangles in “Insert Page N” frames as photo.slot.001… in reading order.</div></div><span class="pg-btn sec">Number</span></div>
+              <div class="pg-tool"><div class="pg-tool-ic">🖼️</div><div class="pg-tool-info"><div class="pg-tool-t">Retag containers from images</div><div class="pg-tool-d">Re-tags each filled container to the category of the photo inside it.</div></div><span class="pg-btn sec">Preview</span></div>
+            </div>
+            <div class="pg-h" style="margin-top:13px">Save state</div>
+            <div class="pg-card pg-tools">
+              <div class="pg-tool"><div class="pg-tool-ic">📦</div><div class="pg-tool-info"><div class="pg-tool-t">Download save state</div><div class="pg-tool-d">Zip with data.csv, assignments.csv, and images/.</div></div><span class="pg-btn sec">Download</span></div>
+              <div class="pg-tool"><div class="pg-tool-ic">📂</div><div class="pg-tool-info"><div class="pg-tool-t">Upload save state</div><div class="pg-tool-d">Restores fields, photos, and slot assignments from a zip.</div></div><span class="pg-btn sec">Upload</span></div>
+            </div>
+          </div>
+        </div>
+        <figcaption><b>Bulk tab</b> — steps 1–2. Scan and auto-number do most of the tagging in one pass.</figcaption>
+      </figure>
+
+      <figure class="figshot">
+        <div class="pg">
+          <div class="pg-bar"><span class="pg-mark"></span><span class="pg-title">Dezzy Magazine</span><span class="pg-x">×</span></div>
+          <div class="pg-tabs"><span class="pg-tab on">Tag</span><span class="pg-tab">Content</span><span class="pg-tab">Photos</span><span class="pg-tab">Apply</span><span class="pg-tab">Bulk</span></div>
+          <div class="pg-body">
+            <div class="pg-h">Selection</div>
+            <div class="pg-card">
+              <div class="pg-sel"><span class="pg-name">Price · Display</span><span class="pg-type">text</span><span class="pg-chip">price</span></div>
+              <div class="pg-sel"><span class="pg-name">Kitchen — Hero</span><span class="pg-type">rectangle</span><span class="pg-chip img">photo.kitchen.01</span></div>
+              <div class="pg-label">Content (text)</div>
+              <div class="pg-row" style="margin-top:4px"><span class="pg-select grow"><span class="txt">Price (price)</span></span><span class="pg-btn">Assign</span></div>
+              <div class="pg-label">Photos (image)</div>
+              <div class="pg-row" style="margin-top:4px"><span class="pg-select grow"><span class="txt">Kitchen slot (next #)</span></span><span class="pg-btn">Assign</span></div>
+              <div class="pg-label">Spread &amp; alignment</div>
+              <div class="pg-row" style="margin-top:4px"><span class="pg-btn sec grow">Couple 2 as spread ⇔</span></div>
+              <div class="pg-row"><span class="pg-muted" style="margin-right:2px">Align</span><span class="pg-btn sec grow">◄ Left</span><span class="pg-btn sec grow on">Center</span><span class="pg-btn sec grow">Right ►</span></div>
+            </div>
+            <div class="pg-h" style="margin-top:14px">Tag index · 63 nodes</div>
+            <div class="pg-card">
+              <div class="pg-row" style="margin-top:0"><span class="pg-btn sec grow">Rebuild index</span><span class="pg-btn dan">Clear all tags</span></div>
+              <div style="margin-top:6px">
+                <div class="pg-idx"><span class="pg-chip img">img</span><span class="pg-field">photo.agent</span><span class="pg-count">×1</span></div>
+                <div class="pg-idx"><span class="pg-chip">txt</span><span class="pg-field">price</span><span class="pg-count">×1</span></div>
+                <div class="pg-idx"><span class="pg-chip img">img</span><span class="pg-field">photo.kitchen.01</span><span class="pg-count">×2 ⇔</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <figcaption><b>Tag tab</b> — steps 3–7. Assign a field to the selection; click any index row to select those layers.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- PART B -->
+  <section class="sec reveal">
+    <div class="sec-head">
+      <span class="part">Part B</span>
+      <span class="cadence">Repeat per property</span>
+      <h2>Build a listing</h2>
+    </div>
+    <p class="sec-intro">Duplicate the template, open the plugin, and move through Content → Photos → Apply.</p>
+
+    <div class="steps">
+      <div class="step">
+        <span class="num">1</span>
+        <div>
+          <h4>Enter the content</h4>
+          <p><span class="path">Content tab</span> — fill the form: Property, Features, Agent, Captions. Values <b>autosave</b> into the file as you type. Each field shows how many layers carry it; <code>untagged</code> means a value there won't land anywhere — a hint you missed a tag in Part A.</p>
+          <p style="font-size:.9rem"><b>Shortcut:</b> Download a <code>field,value</code> CSV as a fill-in template for coordinators, then Import it back in bulk.</p>
+          <div class="crop">
+            <div class="crop-ctx"><span class="d"></span>Content tab · Property</div>
+            <div class="box">
+              <div class="pg-frow"><div class="pg-flabel"><span>Price</span><span class="pg-tc">×1</span></div><div class="pg-input">$4,750,000</div></div>
+              <div class="pg-frow" style="margin-bottom:0"><div class="pg-flabel"><span>Tagline</span><span class="pg-tc none">untagged</span></div><div class="pg-input place hl">Modern Mountain Living…</div></div>
+            </div>
+          </div>
+          <div class="crop-cap"><b>untagged</b> means the value has no layer to land in — add a tag first.</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <span class="num">2</span>
+        <div>
+          <h4>Upload the photos</h4>
+          <p><span class="path">Photos tab</span> — drag-and-drop the whole shoot at once. Full print resolution is preserved (images are only downscaled past Figma's 4096px hard limit). Peak memory stays at about one image no matter how large the batch.</p>
+          <div class="crop">
+            <div class="crop-ctx"><span class="d"></span>Photos tab · Upload</div>
+            <div class="pg-drop hl" style="border-color:var(--mag);background:var(--mag-tint);color:#1a1a1a">Drop photos here or click to choose.<div class="pg-muted">Processed one at a time — scaled to Figma's 4096px limit, print quality preserved.</div></div>
+            <svg class="cur" width="20" height="20" viewBox="0 0 22 22" style="left:180px;top:56px"><path d="M4 2 L4 19 L8.6 14.6 L11.2 20.4 L13.4 19.4 L10.9 13.8 L17 13.8 Z" fill="#fff" stroke="#1a1a1a" stroke-width="1.3" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="crop-cap">Drag the whole shoot in at once — full print resolution is kept.</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <span class="num">3</span>
+        <div>
+          <h4>Assign photos to slots</h4>
+          <p>Try <span class="path">Auto-assign</span> first — it reads filenames: <code>master-bath-2.jpg</code> goes to a master-bath slot, <code>Kitchen2.jpg</code> to a kitchen slot; anything unrecognized flows into generic slots in filename order. Then fix up any dropdown by hand.</p>
+          <div class="crop">
+            <div class="crop-ctx"><span class="d"></span>Photos tab · Slots · 8/12</div>
+            <div class="box">
+              <div class="pg-row" style="margin-top:0"><span class="pg-btn sec grow hl">Auto-assign by filename order</span></div>
+              <div class="pg-slot" style="margin-top:8px"><span class="pg-field">photo.kitchen.01</span><span class="pg-select mono"><span class="txt">kitchen-01.jpg</span></span></div>
+              <div class="pg-slot"><span class="pg-field">photo.master.01</span><span class="pg-select mono"><span class="txt">master-bed-2.jpg</span></span></div>
+            </div>
+            <svg class="cur" width="20" height="20" viewBox="0 0 22 22" style="left:150px;top:34px"><path d="M4 2 L4 19 L8.6 14.6 L11.2 20.4 L13.4 19.4 L10.9 13.8 L17 13.8 Z" fill="#fff" stroke="#1a1a1a" stroke-width="1.3" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="crop-cap">Hit <b>Auto-assign</b> — filenames route photos to matching slots.</div>
+          <div class="note">Name your files sensibly — <code>kitchen-1.jpg</code>, <code>exterior-drone.jpg</code> — and Auto-assign does almost everything.</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <span class="num">4</span>
+        <div>
+          <h4>Preview before you commit</h4>
+          <p><span class="path">Apply → Dry run</span> shows, instantly and with no canvas changes: how many text layers will update, which tagged fields are still empty, and which values have nowhere to go. Click any row to select those layers. <span class="path">Check magazine</span> goes deeper and flags spread drift.</p>
+          <div class="crop">
+            <div class="crop-ctx"><span class="d"></span>Apply tab · Dry run</div>
+            <div class="box">
+              <div class="pg-line"><b>42</b> text layers will update across <b>18</b> fields.</div>
+              <div class="pg-idx"><span class="pg-chip ready">ready</span><span class="pg-field">price</span><span class="pg-count">×1</span></div>
+              <div class="pg-idx hl"><span class="pg-chip empty">empty</span><span class="pg-field">caption.5.body</span><span class="pg-count">×1</span></div>
+            </div>
+          </div>
+          <div class="crop-cap"><b>empty</b> rows are tagged fields still waiting for a value.</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <span class="num">5</span>
+        <div>
+          <h4>Apply</h4>
+          <p><span class="path">Apply all text</span> pours text into every tagged layer. <span class="path">Apply photos</span> cover-fits each assigned photo, renders coupled spreads seamlessly, and fills any unassigned slot solid <span class="swatch"></span> <b class="accent">magenta</b> so empty placeholders are impossible to miss. Each apply is one Undo step and can be cancelled mid-run.</p>
+          <div class="crop">
+            <div class="crop-ctx"><span class="d"></span>Apply tab · Apply</div>
+            <div class="box">
+              <div class="pg-row" style="margin-top:0"><span class="pg-btn grow hl">Apply everything (18 fields + 12 photo slots)</span></div>
+              <div class="pg-row"><span class="pg-btn sec grow">Apply all text (18)</span><span class="pg-btn sec grow">Apply photos (12/12)</span></div>
+            </div>
+            <svg class="cur" width="20" height="20" viewBox="0 0 22 22" style="left:150px;top:34px"><path d="M4 2 L4 19 L8.6 14.6 L11.2 20.4 L13.4 19.4 L10.9 13.8 L17 13.8 Z" fill="#fff" stroke="#1a1a1a" stroke-width="1.3" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="crop-cap">One click pours it all in — a single, undoable step.</div>
+          <p style="font-family:var(--serif);font-style:italic;color:var(--ink)">Then export your pages from Figma as usual. That's the whole loop.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="shots">
+      <figure class="figshot">
+        <div class="pg">
+          <div class="pg-bar"><span class="pg-mark"></span><span class="pg-title">Dezzy Magazine</span><span class="pg-x">×</span></div>
+          <div class="pg-tabs"><span class="pg-tab">Tag</span><span class="pg-tab on">Content</span><span class="pg-tab">Photos</span><span class="pg-tab">Apply</span><span class="pg-tab">Bulk</span></div>
+          <div class="pg-body">
+            <div class="pg-row" style="margin-top:0"><span class="pg-btn sec grow">Download CSV</span><span class="pg-btn sec grow">Import CSV</span></div>
+            <div class="pg-muted" style="margin:9px 0">Values autosave into this Figma file and stay with it when duplicated.</div>
+            <div class="pg-h">Property</div>
+            <div class="pg-card">
+              <div class="pg-frow"><div class="pg-flabel"><span>Street</span><span class="pg-tc">×1</span></div><div class="pg-input">538 Outlook Trail</div></div>
+              <div class="pg-frow"><div class="pg-flabel"><span>Price</span><span class="pg-tc">×1</span></div><div class="pg-input">$4,750,000</div></div>
+              <div class="pg-frow"><div class="pg-flabel"><span>Tagline</span><span class="pg-tc none">untagged</span></div><div class="pg-input place">Modern Mountain Living…</div></div>
+              <div class="pg-frow" style="margin-bottom:0"><div class="pg-flabel"><span>Description</span><span class="pg-tc">×1</span></div><div class="pg-ta">Perched on a private ridge in Big Sky's coveted Cascade neighborhood, 538 Outlook Trail is a study in warm contemporary design…</div></div>
+            </div>
+          </div>
+        </div>
+        <figcaption><b>Content tab</b> — step 1. Each field shows its tag count; <b>untagged</b> means the value has nowhere to land.</figcaption>
+      </figure>
+
+      <figure class="figshot">
+        <div class="pg">
+          <div class="pg-bar"><span class="pg-mark"></span><span class="pg-title">Dezzy Magazine</span><span class="pg-x">×</span></div>
+          <div class="pg-tabs"><span class="pg-tab">Tag</span><span class="pg-tab">Content</span><span class="pg-tab on">Photos</span><span class="pg-tab">Apply</span><span class="pg-tab">Bulk</span></div>
+          <div class="pg-body">
+            <div class="pg-h">Upload</div>
+            <div class="pg-drop">Drop photos here or click to choose.<div class="pg-muted">Processed one at a time — scaled to Figma's 4096px limit, print quality preserved.</div></div>
+            <div class="pg-h" style="margin-top:13px">Slots · 8/12 assigned</div>
+            <div class="pg-card">
+              <div class="pg-row" style="margin-top:0"><span class="pg-btn sec grow">Auto-assign by filename order</span></div>
+              <div class="pg-row"><span class="pg-check"><span class="pg-box"></span>Overwrite existing assignments</span></div>
+              <div style="margin-top:6px">
+                <div class="pg-slot"><span class="pg-field">photo.kitchen.01</span><span class="pg-select mono"><span class="txt">kitchen-01.jpg</span></span></div>
+                <div class="pg-slot"><span class="pg-field">photo.master.01</span><span class="pg-select mono"><span class="txt">master-bed-2.jpg</span></span></div>
+                <div class="pg-slot"><span class="pg-field">photo.slot.007</span><span class="pg-select mono"><span class="txt">—</span></span></div>
+              </div>
+              <div class="pg-row"><span class="pg-btn grow">Apply photos (8 slots)</span></div>
+            </div>
+            <div class="pg-h" style="margin-top:13px">Library · 24 photos</div>
+            <div class="pg-gal">
+              <div class="pg-ph"><span class="tile" style="background:linear-gradient(150deg,#d8c7a8,#a88a5f)"></span><span class="pg-ph-badge">kitchen.01</span><div class="pg-ph-name">kitchen-01.jpg</div></div>
+              <div class="pg-ph"><span class="tile" style="background:linear-gradient(150deg,#c9d6df,#8ba0ad)"></span><div class="pg-ph-name">exterior-03.jpg</div></div>
+              <div class="pg-ph"><span class="tile" style="background:linear-gradient(150deg,#e2d4cf,#b39a8f)"></span><div class="pg-ph-name">master-bed-2.jpg</div></div>
+              <div class="pg-ph"><span class="tile" style="background:linear-gradient(150deg,#cdd8c8,#8fa383)"></span><div class="pg-ph-name">outdoor-05.jpg</div></div>
+              <div class="pg-ph"><span class="tile" style="background:linear-gradient(150deg,#d5ccdc,#9b8fae)"></span><div class="pg-ph-name">dining-01.jpg</div></div>
+              <div class="pg-ph"><span class="tile" style="background:linear-gradient(150deg,#dccfc6,#ad9384)"></span><div class="pg-ph-name">entry-02.jpg</div></div>
+              <div class="pg-ph"><span class="tile" style="background:linear-gradient(150deg,#c6d2da,#879aa6)"></span><div class="pg-ph-name">amenities-04.jpg</div></div>
+              <div class="pg-ph"><span class="tile" style="background:linear-gradient(150deg,#dfd8c4,#b0a279)"></span><div class="pg-ph-name">floorplan-01.jpg</div></div>
+            </div>
+          </div>
+        </div>
+        <figcaption><b>Photos tab</b> — steps 2–3. Drop the shoot, hit Auto-assign, then adjust any slot by hand.</figcaption>
+      </figure>
+
+      <figure class="figshot">
+        <div class="pg">
+          <div class="pg-bar"><span class="pg-mark"></span><span class="pg-title">Dezzy Magazine</span><span class="pg-x">×</span></div>
+          <div class="pg-tabs"><span class="pg-tab">Tag</span><span class="pg-tab">Content</span><span class="pg-tab">Photos</span><span class="pg-tab on">Apply</span><span class="pg-tab">Bulk</span></div>
+          <div class="pg-body">
+            <div class="pg-h">Magazine check</div>
+            <div class="pg-card">
+              <div class="pg-row" style="margin-top:0"><span class="pg-btn sec grow">Check magazine</span></div>
+              <div class="pg-line" style="margin-top:8px"><b>63</b> tagged layers · <b>18</b> text fields ready · <b>12/12</b> photo slots assigned</div>
+              <div class="pg-ok">Everything checks out — ready to apply.</div>
+            </div>
+            <div class="pg-h" style="margin-top:13px">Dry run</div>
+            <div class="pg-card">
+              <div class="pg-line"><b>42</b> text layers will update across <b>18</b> fields.</div>
+              <div class="pg-idx"><span class="pg-chip ready">ready</span><span class="pg-field">price</span><span class="pg-count">×1</span></div>
+              <div class="pg-idx"><span class="pg-chip ready">ready</span><span class="pg-field">description</span><span class="pg-count">×1</span></div>
+              <div class="pg-idx"><span class="pg-chip empty">empty</span><span class="pg-field">caption.5.body</span><span class="pg-count">×1</span></div>
+            </div>
+            <div class="pg-h" style="margin-top:13px">Apply</div>
+            <div class="pg-card">
+              <div class="pg-row" style="margin-top:0"><span class="pg-btn grow">Apply everything (18 fields + 12 photo slots)</span></div>
+              <div class="pg-row"><span class="pg-btn sec grow">Apply all text (18)</span><span class="pg-btn sec grow">Apply photos (12/12)</span></div>
+            </div>
+          </div>
+        </div>
+        <figcaption><b>Apply tab</b> — steps 4–5. Dry run previews the write; then pour it in as one undoable step.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- CONCEPTS WORTH KNOWING -->
+  <section class="sec reveal">
+    <div class="sec-head">
+      <span class="part">Reference</span>
+      <h2>Worth knowing</h2>
+    </div>
+    <div class="concepts">
+      <div class="concept">
+        <span class="k">Portability</span>
+        <h5>Save state (.zip)</h5>
+        <p>Bundle every field value, photo, and assignment into one archive on the Bulk tab — then restore it in another file. A complete, portable listing.</p>
+      </div>
+      <div class="concept">
+        <span class="k">Fix-up</span>
+        <h5>Retag from images</h5>
+        <p>Photos already placed but tags wrong? Bulk reads each frame's image, identifies it by filename, and re-tags to the right category — after a preview.</p>
+      </div>
+      <div class="concept">
+        <span class="k">Full bleed</span>
+        <h5>Full-page slots</h5>
+        <p>Big full-bleed images are fed room-by-room rather than by filename, so a shoot flows through the magazine in a natural order.</p>
+      </div>
+      <div class="concept">
+        <span class="k">Persistence</span>
+        <h5>The image vault</h5>
+        <p>An invisible off-canvas rectangle pins your uploaded photos' bytes in the file so Figma won't discard them. Don't delete <span class="mono">🗄 Dezzy image vault</span>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- TROUBLESHOOTING -->
+  <section class="sec reveal">
+    <div class="sec-head">
+      <span class="part">When something's off</span>
+      <h2>Troubleshooting</h2>
+    </div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Symptom</th><th>Cause &amp; fix</th></tr></thead>
+        <tbody>
+          <tr><td>A value didn't show up</td><td>The field is <b>untagged</b> — check the count on the Content tab, then tag the layer.</td></tr>
+          <tr><td>A frame came out magenta</td><td>Its slot was <b>unassigned</b> — pick a photo on the Photos tab and re-apply.</td></tr>
+          <tr><td>Some text didn't apply</td><td>The layer is <b>text-locked</b>, or its <b>font is missing</b> (check the apply report).</td></tr>
+          <tr><td>A spread has a seam</td><td><b>Spread drift</b> — the halves changed size. Run Check magazine, then <span class="mono">Align spread fills</span>.</td></tr>
+          <tr><td>A thumbnail is blank</td><td>Photo lost before the vault existed — re-upload the same file and it re-links automatically.</td></tr>
+          <tr><td>Gallery empty on reopen</td><td>Normal — thumbnails rebuild themselves as the plugin pulls bytes back from Figma.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- CHEAT SHEET -->
+  <section class="cheat reveal">
+    <span class="eyebrow">The 30-second version</span>
+    <h2>The whole thing, twice</h2>
+    <div class="cheat-row">
+      <span class="lbl">Once / template</span>
+      <span class="flow"><b>Auto-number</b><span class="arrow">→</span><b>Scan layer names</b><span class="arrow">→</span>hand-tag the rest<span class="arrow">→</span>check the <b>Tag index</b></span>
+    </div>
+    <div class="cheat-row">
+      <span class="lbl">Per / listing</span>
+      <span class="flow">Duplicate<span class="arrow">→</span><b>Content</b> form<span class="arrow">→</span><b>Photos</b> upload<span class="arrow">→</span><b>Auto-assign</b><span class="arrow">→</span><b>Dry run</b><span class="arrow">→</span><b>Apply text</b><span class="arrow">→</span><b>Apply photos</b><span class="arrow">→</span>export</span>
+    </div>
+  </section>
+
+  <footer>
+    <span>Dezzy Magazine · Operator's Guide</span>
+    <span>Tag once · Pour forever</span>
+  </footer>
+</div>
+</div>
+
+<script>
+  (function(){
+    var els=document.querySelectorAll('.reveal');
+    if(!('IntersectionObserver'in window)){els.forEach(function(e){e.classList.add('in')});return;}
+    var io=new IntersectionObserver(function(rows){
+      rows.forEach(function(r){if(r.isIntersecting){r.target.classList.add('in');io.unobserve(r.target);}});
+    },{rootMargin:'0px 0px -8% 0px',threshold:.08});
+    els.forEach(function(e){io.observe(e);});
+  })();
+</script>
+</body>
+</html>

@@ -1,0 +1,20 @@
+{
+  "name": "dezzy-magazine-plugin",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs",
+    "watch": "node build.mjs --watch",
+    "typecheck": "tsc -p tsconfig.main.json && tsc -p tsconfig.ui.json"
+  },
+  "dependencies": {
+    "fflate": "^0.8.3",
+    "preact": "^10.24.0"
+  },
+  "devDependencies": {
+    "@figma/plugin-typings": "^1.100.0",
+    "esbuild": "^0.24.0",
+    "typescript": "^5.6.0"
+  }
+}
