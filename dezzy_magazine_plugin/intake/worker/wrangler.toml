@@ -5,17 +5,17 @@ compatibility_date = "2024-11-01"
 # Image bytes (originals + thumbnails).
 [[r2_buckets]]
 binding = "BUCKET"
-bucket_name = "dezzy-intake-photos"
+bucket_name = "apertureintake"
 
 # Project + photo metadata.
 [[d1_databases]]
 binding = "DB"
-database_name = "dezzy-intake"
-database_id = "REPLACE_WITH_YOUR_D1_DATABASE_ID"
+database_name = "apertureintake"
+database_id = "365d87c0-1483-4406-8985-8a0d30efc696"
 
 [vars]
-# Lock this to your site origin in production, e.g. "https://k4design.github.io".
-ALLOWED_ORIGIN = "*"
+# Locked to your GitHub Pages site (the app that calls this Worker).
+ALLOWED_ORIGIN = "https://k4design.github.io"
 # "true" rejects requests without a Cloudflare Access identity (see README).
 REQUIRE_AUTH = "false"
 
