@@ -60,6 +60,10 @@ async function route(request, env, cors) {
   if (p === "" || p === "/" || p === "/api" || p === "/api/health")
     return json({ ok: true, service: "dezzy-intake", api: "/api/*" }, 200, cors);
 
+  // Diagnostic: is the AI key bound to THIS running worker? (length only, never the value)
+  if (p === "/api/ai-status" && m === "GET")
+    return json({ ai_key_present: !!env.ANTHROPIC_API_KEY, ai_key_len: (env.ANTHROPIC_API_KEY || "").length }, 200, cors);
+
   // /api/projects ...
   if (seg[0] === "api" && seg[1] === "projects") {
     if (seg.length === 2 && m === "GET") return listProjects(env, cors);
