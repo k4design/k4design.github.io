@@ -1,0 +1,48 @@
+========================================================================
+NotebookLM  ▸  VIDEO OVERVIEW  ▸  customization prompt
+Paste this into the "Customize" box when you generate the Video Overview
+for the source "Dezzy Magazine — Plugin Guide."
+========================================================================
+
+Create a step-by-step screen-walkthrough tutorial for brand-new users of the
+Dezzy Magazine Figma plugin (real-estate magazine coordinators, non-technical).
+Tone: clear, friendly, practical — like a product onboarding video.
+
+Use the numbered Figures in the source as the on-screen visuals. For EVERY step
+you narrate, display that step's screenshot (Figure 1–12) full-frame while you
+explain it, and keep the visual on screen until you move to the next step. Do not
+invent or generate other UI graphics — rely on the screenshots already in the
+document.
+
+Follow the guide's exact order:
+1. Open with the big idea: Dezzy fills a whole property magazine automatically —
+   you TAG each placeholder once, then FILL from a form + a photo folder, then
+   APPLY. Name the five tabs: Tag, Content, Photos, Apply, Bulk.
+2. Part A — Tag the template (done once): walk Figures 1–7 in order
+   (Auto-number, Scan layer names, category slots, assign a field, couple
+   spreads & align, lock a layer, check the Tag index).
+3. Part B — Build a listing (repeated per property): walk Figures 8–12 in order
+   (enter content, upload photos, auto-assign, dry run, apply everything).
+4. Newer features — briefly show Figures 13–15: partial text tagging with
+   {{field}} templates, "Rename layers to tags", and applying straight from the
+   Content/Photos tabs.
+5. Close with the 30-second recap.
+
+For each figure, say the tab and button/field names exactly as shown, and point
+out what's highlighted in that screenshot (the outlined button, the cursor, the
+"untagged"/"empty" labels) so viewers know where to look. Use the figure's
+"In this screenshot" line as your guide for what to describe.
+
+Keep it concise — roughly one short beat per figure.
+
+------------------------------------------------------------------------
+SHORT VERSION (if the Customize box is length-limited)
+------------------------------------------------------------------------
+Step-by-step onboarding walkthrough of the Dezzy Magazine Figma plugin for
+non-technical real-estate coordinators. Use the source's numbered screenshots as
+the on-screen visuals — show each step's Figure full-frame while narrating it,
+in order: intro + the five tabs (Tag, Content, Photos, Apply, Bulk); then Part A
+"tag the template" (Figures 1–7); then Part B "build a listing" (Figures 8–12);
+then the newer features (Figures 13–15: text templates, rename layers to tags,
+apply from any tab); then a 30-second recap. Use exact tab/button names and call out what's
+highlighted in each screenshot. Don't invent other visuals.

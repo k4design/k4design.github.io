@@ -1,0 +1,58 @@
+========================================================================
+NotebookLM  ▸  VIDEO OVERVIEW  ▸  VISUAL STYLE prompt
+Use alongside the content/walkthrough prompt. Paste into the "Customize"
+box (append to the walkthrough instructions) or the visual-style field.
+========================================================================
+
+Visual style: a clean, minimalist technology-company product walkthrough —
+calm, precise, and premium, like a modern SaaS onboarding video (Linear /
+Vercel / Apple keynote energy). The screenshots are the star; everything around
+them is quiet.
+
+LAYOUT & BACKGROUNDS
+- Lots of negative space. One idea per frame — never crowd two UI screenshots
+  together.
+- Present each plugin screenshot large and centered on a plain, soft neutral
+  background (near-white warm grey, or a deep charcoal for dark frames), with a
+  gentle soft shadow and generous margins, as if it's floating on a clean canvas.
+- Flat, uncluttered backgrounds only. No busy gradients, mesh blobs, stock
+  photos, textures, 3D, or decorative clip art.
+
+COLOR
+- Mostly neutral: soft off-white, light grey, charcoal, black text.
+- ONE restrained accent — magenta/pink (#C81E67) — used sparingly for a thin
+  underline, a small highlight ring, or the callout that points at the exact
+  button being described. Never flood the frame with color or use neon.
+
+TYPOGRAPHY
+- Clean modern sans-serif (geometric / grotesque). Large, calm headings.
+- Minimal on-screen text: short labels only, sentence case, no dense bullet
+  lists or paragraphs on screen. Let the narration carry the detail.
+- Optional tiny step label in a corner (e.g. "Step 3 · Tag"), understated.
+
+MOTION & PACING
+- Subtle, smooth motion: gentle fades and slides, a soft zoom or a highlight
+  that draws the eye to the specific control being explained.
+- Unhurried pacing — one control per beat, each screenshot given room to breathe.
+- No flashy transitions, spins, bounces, sparkles, or fast cuts.
+
+USE THE SOURCE VISUALS
+- Keep the plugin's own screenshots from the document as the on-screen visuals;
+  don't generate alternate or fictional UI. Style the framing around them, not
+  the interface itself.
+
+AVOID: emojis, stickers, meme/comic styling, heavy drop shadows, glow/neon, 3D
+renders, busy collages, and stock imagery.
+
+------------------------------------------------------------------------
+SHORT VERSION (if the Customize box is length-limited)
+------------------------------------------------------------------------
+Clean, minimalist tech-company product-walkthrough look (think Linear / Vercel /
+Apple). Show each plugin screenshot large and centered on a plain soft-neutral
+background with generous whitespace and a subtle shadow — one screenshot per
+frame. Mostly neutral greys/charcoal with a single restrained magenta (#C81E67)
+accent for highlights and the callout pointing at the button being described.
+Modern sans-serif, minimal on-screen text, calm unhurried pacing, subtle fades
+and gentle highlight zooms — no busy backgrounds, gradients, stock imagery,
+emojis, neon, 3D, or flashy transitions. Use the document's own screenshots as
+the visuals; don't invent alternate UI.

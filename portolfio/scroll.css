@@ -1,0 +1,168 @@
+/* ============================================================
+   Kyle Foreman — GSAP scroll build
+   Loaded AFTER style.css. Contains only what the scroll-driven
+   version changes or adds; the design system itself is unchanged.
+   ============================================================ */
+
+/* Lenis owns scrolling — native smooth scroll fights it. */
+html { scroll-behavior: auto; }
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-stopped { overflow: hidden; }
+
+/* ------------------------------------------------------------
+   Pre-animation states
+   Gated behind .js (set by an inline script in <head>) so that if
+   GSAP fails to load, nothing is ever left invisible. animations.js
+   removes .js on failure, and a 3s watchdog does the same.
+   ------------------------------------------------------------ */
+.js [data-anim] { opacity: 0; }
+.js .line-in { transform: translateY(105%); }
+
+/* Masked line wrapper. The padding/margin pair keeps descenders
+   from clipping against the overflow edge. */
+.line {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.12em;
+  margin-bottom: -0.12em;
+}
+.line-in { display: block; will-change: transform; }
+
+/* ------------------------------------------------------------
+   Page shell + footer reveal
+   The footer is fixed behind an opaque .page; scrolling the page
+   off the bottom uncovers it. Pure CSS — works with JS disabled.
+   ------------------------------------------------------------ */
+:root { --footer-h: 172px; }
+
+.page {
+  position: relative;
+  z-index: 1;
+  background: var(--canvas);
+  margin-bottom: var(--footer-h);
+}
+
+.footer {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 0;
+  border-top: 0;
+}
+
+/* ---------- Nav ---------- */
+.nav { will-change: transform; }
+.nav-solid { background: rgba(9, 9, 9, 0.92); }
+
+/* ---------- Hero ---------- */
+.hero-h1 { margin-bottom: 0; }
+
+/* ---------- Marquee: GSAP drives it now ---------- */
+.marquee-track {
+  animation: none;
+  will-change: transform;
+}
+
+/* ---------- Work list: scroll-linked row emphasis ----------
+   .has-focus is added by JS only, so with no JS every title
+   stays at full ink. */
+.work-list.has-focus .work-title { color: var(--ink-muted); }
+.work-list.has-focus li.is-active .work-title { color: var(--ink); }
+.work-list.has-focus .work-row:hover .work-title { color: var(--accent-blue); }
+
+/* ---------- Capabilities ----------
+   GSAP writes an inline transform on the two spotlight cards for
+   parallax, which would beat the CSS hover lift. Those two get a
+   brightness shift instead. */
+.spotlight-violet:hover,
+.spotlight-orange:hover { transform: none; filter: brightness(1.08); }
+.spotlight-violet, .spotlight-orange { transition: filter 0.25s ease; will-change: transform; }
+
+/* ------------------------------------------------------------
+   Shots: horizontal scroll section (>= 1024px)
+   ------------------------------------------------------------ */
+.shots-viewport {
+  height: 100vh;
+  height: 100svh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+.shots-track {
+  display: flex;
+  gap: var(--sp-md);
+  width: max-content;
+  padding: 0 var(--gutter);
+  will-change: transform;
+}
+/* Full-bleed rounded tiles in the rail. The inner image is scaled 1.08 to
+   give the counter-parallax room to drift, so the tile must clip it —
+   which also means dropping the grid version's 12px inset padding. */
+.shots-track .shot {
+  flex: 0 0 auto;
+  width: clamp(280px, 26vw, 400px);
+  padding: 0;
+  overflow: hidden;
+  border-radius: var(--r-lg);
+}
+.shots-track .shot img {
+  transform: scale(1.08);
+  border-radius: 0;
+  will-change: transform;
+}
+
+/* Below 1024px the track is a plain grid again — no pin, no
+   horizontal scroll, per the reduced-motion-on-small-screens rule. */
+@media (max-width: 1023.98px) {
+  .shots-viewport {
+    height: auto;
+    display: block;
+    overflow: visible;
+  }
+  .shots-track {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    width: auto;
+    max-width: 1199px;
+    margin: 0 auto;
+    will-change: auto;
+  }
+  .shots-track .shot {
+    width: auto;
+    padding: 12px;
+    overflow: visible;
+  }
+  .shots-track .shot img {
+    transform: none;
+    border-radius: var(--r-md);
+    will-change: auto;
+  }
+}
+@media (max-width: 810px) {
+  .shots-track { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 480px) {
+  .shots-track { grid-template-columns: 1fr; }
+}
+
+/* ------------------------------------------------------------
+   Case study overlay
+   `data-lenis-prevent` on .cs-scroll keeps Lenis off the nested
+   scroller. Body overflow lock is dropped here because Lenis.stop()
+   already blocks page scroll and toggling body overflow under Lenis
+   can clamp the restored scroll position.
+   ------------------------------------------------------------ */
+body.cs-lock { overflow: visible; }
+
+/* ------------------------------------------------------------
+   Reduced motion: final state, instantly, no exceptions.
+   ------------------------------------------------------------ */
+@media (prefers-reduced-motion: reduce) {
+  .js [data-anim] { opacity: 1; }
+  .js .line-in { transform: none; }
+  .line { overflow: visible; }
+  .marquee-track { animation: none; transform: none; }
+  .nav, .line-in, .shots-track, .spotlight-violet, .spotlight-orange { will-change: auto; }
+}

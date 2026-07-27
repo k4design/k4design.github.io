@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="auto">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The AI Design Resource Library</title>
+<meta name="description" content="A curated directory of skills, DESIGN.md collections, MCP servers and assets for designing better websites with Claude and other AI tools.">
+<style>
+/* ── Tokens ─────────────────────────────────────────────── */
+:root{
+  --s1:8px; --s2:16px; --s3:24px; --s4:32px; --s5:48px; --s6:64px; --s7:96px;
+  --font-display:'Iowan Old Style','Palatino Linotype','Book Antiqua',Palatino,'Hoefler Text',Georgia,serif;
+  --font-sans:'Avenir Next','Avenir','Segoe UI Variable Text','Segoe UI',Tahoma,sans-serif;
+  --font-mono:ui-monospace,'SF Mono','Menlo','Cascadia Mono','Consolas',monospace;
+
+  --paper:#faf7f2; --surface:#ffffff; --surface-2:#f2ede4;
+  --ink:#1a1714; --ink-2:#57504a; --ink-3:#7d746c;
+  --rule:#e2d9cc; --rule-2:#cfc3b2;
+  --accent:#a83812; --accent-ink:#8c2f0e; --accent-soft:#f7e9e1;
+  --shadow:0 1px 2px rgba(40,28,16,.06),0 6px 20px -8px rgba(40,28,16,.14);
+  --shadow-lift:0 2px 4px rgba(40,28,16,.07),0 14px 34px -10px rgba(40,28,16,.20);
+  --focus:#0b5fa5;
+}
+html[data-theme="dark"]{
+  --paper:#141218; --surface:#1c1a21; --surface-2:#24212a;
+  --ink:#efeae2; --ink-2:#b6ada2; --ink-3:#8d8479;
+  --rule:#2f2b35; --rule-2:#413c49;
+  --accent:#f0906a; --accent-ink:#f4a684; --accent-soft:#2c2028;
+  --shadow:0 1px 2px rgba(0,0,0,.5),0 8px 24px -10px rgba(0,0,0,.7);
+  --shadow-lift:0 2px 6px rgba(0,0,0,.55),0 18px 40px -12px rgba(0,0,0,.8);
+  --focus:#7fbcf5;
+}
+@media (prefers-color-scheme:dark){
+  html[data-theme="auto"]{
+    --paper:#141218; --surface:#1c1a21; --surface-2:#24212a;
+    --ink:#efeae2; --ink-2:#b6ada2; --ink-3:#8d8479;
+    --rule:#2f2b35; --rule-2:#413c49;
+    --accent:#f0906a; --accent-ink:#f4a684; --accent-soft:#2c2028;
+    --shadow:0 1px 2px rgba(0,0,0,.5),0 8px 24px -10px rgba(0,0,0,.7);
+    --shadow-lift:0 2px 6px rgba(0,0,0,.55),0 18px 40px -12px rgba(0,0,0,.8);
+    --focus:#7fbcf5;
+  }
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;background:var(--paper);color:var(--ink);
+  font-family:var(--font-sans);font-size:16px;line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3{font-family:var(--font-display);font-weight:600;line-height:1.15;margin:0;letter-spacing:-.01em}
+a{color:var(--accent-ink)}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:3px}
+.skip{position:absolute;left:-9999px;top:0;background:var(--surface);color:var(--ink);padding:12px 16px;z-index:100}
+.skip:focus{left:8px;top:8px}
+.mono{font-family:var(--font-mono);font-size:11px;letter-spacing:.09em;text-transform:uppercase}
+
+/* ── Top bar ────────────────────────────────────────────── */
+.topbar{
+  position:sticky;top:0;z-index:40;background:color-mix(in srgb,var(--paper) 88%,transparent);
+  backdrop-filter:blur(12px);border-bottom:1px solid var(--rule);
+}
+.topbar-in{max-width:1200px;margin:0 auto;padding:10px var(--s3);display:flex;align-items:center;gap:var(--s2)}
+.brand{display:flex;align-items:baseline;gap:10px;flex-shrink:0;text-decoration:none;color:inherit}
+.brand b{font-family:var(--font-display);font-size:18px;font-weight:600;letter-spacing:-.015em}
+.brand .cnt{color:var(--ink-3)}
+.searchwrap{position:relative;flex:1;min-width:0;max-width:460px;margin-left:auto}
+.searchwrap svg{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--ink-3);pointer-events:none}
+#q{
+  width:100%;padding:9px 64px 9px 34px;font:inherit;font-size:14px;color:var(--ink);
+  background:var(--surface);border:1px solid var(--rule-2);border-radius:7px;
+}
+#q::placeholder{color:var(--ink-3)}
+.kbd{
+  position:absolute;right:9px;top:50%;transform:translateY(-50%);pointer-events:none;
+  font-family:var(--font-mono);font-size:10px;color:var(--ink-3);
+  border:1px solid var(--rule-2);border-radius:4px;padding:2px 5px;background:var(--surface-2);
+}
+.iconbtn{
+  display:inline-grid;place-items:center;width:36px;height:36px;flex-shrink:0;
+  background:var(--surface);border:1px solid var(--rule-2);border-radius:7px;
+  color:var(--ink-2);cursor:pointer;transition:background .16s ease,color .16s ease;
+}
+.iconbtn:hover{background:var(--surface-2);color:var(--ink)}
+.menubtn{display:none}
+@media(max-width:900px){.menubtn{display:inline-grid}}
+
+/* ── Shell ──────────────────────────────────────────────── */
+.shell{max-width:1200px;margin:0 auto;padding:0 var(--s3);display:grid;grid-template-columns:236px minmax(0,1fr);gap:var(--s5)}
+@media(max-width:900px){.shell{grid-template-columns:minmax(0,1fr);gap:0}}
+
+/* ── Sidebar ────────────────────────────────────────────── */
+.sidebar{position:sticky;top:64px;align-self:start;max-height:calc(100vh - 80px);overflow-y:auto;padding:var(--s4) 0 var(--s5)}
+.sidebar h2{font-size:11px;font-family:var(--font-mono);font-weight:500;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3);margin-bottom:12px}
+.catlist{list-style:none;margin:0 0 var(--s4);padding:0}
+.catlist a{
+  display:flex;align-items:center;gap:9px;padding:6px 8px;border-radius:6px;
+  color:var(--ink-2);text-decoration:none;font-size:13.5px;line-height:1.3;
+  border-left:2px solid transparent;transition:background .16s ease,color .16s ease;
+}
+.catlist a:hover{background:var(--surface-2);color:var(--ink)}
+.catlist a .dot{width:7px;height:7px;border-radius:50%;background:var(--cat);flex-shrink:0}
+html[data-theme="dark"] .catlist a .dot{background:var(--catd)}
+@media(prefers-color-scheme:dark){html[data-theme="auto"] .catlist a .dot{background:var(--catd)}}
+.catlist a .n{margin-left:auto;font-family:var(--font-mono);font-size:10.5px;color:var(--ink-3)}
+@media(max-width:900px){
+  .sidebar{
+    position:fixed;inset:0 auto 0 0;width:280px;z-index:60;background:var(--surface);
+    border-right:1px solid var(--rule);padding:var(--s3);max-height:none;
+    transform:translateX(-100%);transition:transform .22s cubic-bezier(.2,0,0,1);
+  }
+  .sidebar.open{transform:none}
+  .scrim{position:fixed;inset:0;background:rgba(20,14,8,.45);z-index:55;opacity:0;pointer-events:none;transition:opacity .22s ease}
+  .scrim.on{opacity:1;pointer-events:auto}
+}
+
+/* ── Hero ───────────────────────────────────────────────── */
+.hero{padding:var(--s6) 0 var(--s4);max-width:65ch}
+.eyebrow{font-family:var(--font-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent-ink);margin-bottom:var(--s2)}
+.hero h1{font-size:clamp(38px,6.2vw,60px);letter-spacing:-.025em;margin-bottom:var(--s2)}
+.hero h1 em{font-style:italic;color:var(--accent-ink)}
+.hero p{font-size:18px;line-height:1.6;color:var(--ink-2);margin:0}
+
+/* ── Stacks ─────────────────────────────────────────────── */
+.section-head{display:flex;align-items:baseline;gap:12px;margin:var(--s5) 0 var(--s3);padding-top:var(--s2)}
+.section-head h2{font-size:24px}
+.section-head .rule{flex:1;height:1px;background:var(--rule)}
+.stacks{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:var(--s2)}
+.stack{background:var(--surface);border:1px solid var(--rule);border-radius:10px;padding:var(--s2) var(--s2) 14px}
+.stack h3{font-size:16px;margin-bottom:4px}
+.stack .sub{font-size:12.5px;color:var(--ink-3);margin:0 0 12px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{
+  font-size:12px;padding:3px 9px;border-radius:20px;text-decoration:none;
+  background:var(--surface-2);color:var(--ink-2);border:1px solid var(--rule);
+  transition:background .16s ease,color .16s ease,border-color .16s ease;
+}
+.chip:hover{background:var(--accent-soft);color:var(--accent-ink);border-color:var(--accent)}
+
+/* ── Filters ────────────────────────────────────────────── */
+.filters{
+  position:sticky;top:57px;z-index:30;background:color-mix(in srgb,var(--paper) 92%,transparent);
+  backdrop-filter:blur(10px);padding:14px 0;margin-top:var(--s5);
+  border-bottom:1px solid var(--rule);display:flex;flex-wrap:wrap;gap:8px;align-items:center;
+}
+.fbtn{
+  font-family:var(--font-mono);font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;
+  padding:5px 11px;border-radius:20px;cursor:pointer;
+  background:transparent;color:var(--ink-2);border:1px solid var(--rule-2);
+  transition:background .16s ease,color .16s ease,border-color .16s ease;
+}
+.fbtn:hover{background:var(--surface-2);color:var(--ink)}
+.fbtn[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.fsep{width:1px;height:20px;background:var(--rule-2);margin:0 4px}
+.clearbtn{margin-left:auto;font-size:12px;background:none;border:0;color:var(--accent-ink);cursor:pointer;padding:4px 6px;text-decoration:underline;text-underline-offset:3px}
+.clearbtn[hidden]{display:none}
+
+/* ── Cards ──────────────────────────────────────────────── */
+main{padding-bottom:var(--s7)}
+.catsection{padding-top:var(--s5);scroll-margin-top:120px}
+.cathead{display:flex;align-items:center;gap:11px;margin-bottom:var(--s3)}
+.cathead .bar{width:3px;height:26px;border-radius:2px;background:var(--cat)}
+html[data-theme="dark"] .cathead .bar{background:var(--catd)}
+@media(prefers-color-scheme:dark){html[data-theme="auto"] .cathead .bar{background:var(--catd)}}
+.cathead h2{font-size:22px}
+.cathead .n{font-family:var(--font-mono);font-size:11px;color:var(--ink-3);margin-left:auto}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:var(--s2);align-items:start}
+.card{
+  position:relative;display:flex;flex-direction:column;
+  background:var(--surface);border:1px solid var(--rule);border-radius:11px;
+  padding:var(--s2) var(--s2) 14px;box-shadow:var(--shadow);scroll-margin-top:130px;
+  transition:transform .18s cubic-bezier(.2,0,0,1),box-shadow .18s cubic-bezier(.2,0,0,1),border-color .18s ease;
+}
+.card:hover{transform:translateY(-2px);box-shadow:var(--shadow-lift);border-color:var(--rule-2)}
+.card:target{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft),var(--shadow-lift)}
+.card.feat{grid-column:span 2;background-color:var(--surface);background-image:linear-gradient(170deg,transparent 0%,var(--surface-2) 190%);border-color:var(--rule-2)}
+@media(max-width:700px){.card.feat{grid-column:span 1}}
+.card.feat .title{font-size:23px}
+.card.feat .desc{font-size:15px}
+
+.cardtop{display:flex;align-items:flex-start;gap:10px;margin-bottom:9px}
+.type{
+  font-family:var(--font-mono);font-size:9.5px;letter-spacing:.09em;text-transform:uppercase;
+  padding:3px 7px;border-radius:4px;border:1px solid currentColor;color:var(--cat);white-space:nowrap;
+}
+html[data-theme="dark"] .type{color:var(--catd)}
+@media(prefers-color-scheme:dark){html[data-theme="auto"] .type{color:var(--catd)}}
+.stars{font-family:var(--font-mono);font-size:10.5px;color:var(--ink-3);white-space:nowrap;margin-left:auto;padding-top:3px}
+.card.feat .stars{color:var(--accent-ink)}
+.linkicon{
+  display:grid;place-items:center;width:26px;height:26px;border-radius:6px;flex-shrink:0;
+  background:none;border:1px solid transparent;color:var(--ink-3);cursor:pointer;
+  transition:background .16s ease,color .16s ease;
+}
+.linkicon:hover{background:var(--surface-2);color:var(--ink)}
+.linkicon.ok{color:#2f7a4a}
+html[data-theme="dark"] .linkicon.ok{color:#7fd6a0}
+
+.title{font-family:var(--font-display);font-size:19px;font-weight:600;letter-spacing:-.015em;margin:0 0 7px;line-height:1.2;word-break:break-word}
+.desc{font-size:14px;line-height:1.55;color:var(--ink-2);margin:0 0 11px;max-width:65ch}
+.how{
+  font-size:13px;line-height:1.5;color:var(--ink-2);margin:0 0 14px;
+  padding-left:11px;border-left:2px solid var(--rule-2);max-width:65ch;
+}
+.how b{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3);display:block;margin-bottom:3px;font-weight:500}
+.cardfoot{margin-top:auto;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.visit{
+  display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;text-decoration:none;
+  padding:7px 13px;border-radius:7px;background:var(--ink);color:var(--paper);
+  transition:background .16s ease,transform .16s ease;
+}
+.visit:hover{background:var(--accent-ink);transform:translateX(1px)}
+.tags{display:flex;gap:5px;flex-wrap:wrap}
+.tag{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);background:var(--surface-2);padding:3px 7px;border-radius:4px}
+
+/* ── Empty ──────────────────────────────────────────────── */
+.empty{text-align:center;padding:var(--s7) var(--s3);display:none}
+.empty.on{display:block}
+.empty h2{font-size:24px;margin-bottom:10px}
+.empty p{color:var(--ink-2);margin:0 auto var(--s3);max-width:44ch}
+
+footer{border-top:1px solid var(--rule);padding:var(--s4) 0 var(--s6);color:var(--ink-3);font-size:13px;max-width:65ch}
+footer p{margin:0 0 6px}
+
+/* ── Motion ─────────────────────────────────────────────── */
+.reveal{opacity:0;transform:translateY(10px);animation:rise .5s cubic-bezier(.2,0,0,1) forwards}
+@keyframes rise{to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;animation-delay:0ms!important;transition-duration:.001ms!important}
+  .reveal{opacity:1;transform:none}
+  .card:hover{transform:none}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<div class="topbar">
+  <div class="topbar-in">
+    <button class="iconbtn menubtn" id="menu" aria-label="Open category menu" aria-expanded="false" aria-controls="sidebar">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M2 4h12M2 8h12M2 12h12"/></svg>
+    </button>
+    <a class="brand" href="#top"><b>AI Design Library</b><span class="mono cnt"><span id="count">78</span> resources</span></a>
+    <div class="searchwrap">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5L14 14" stroke-linecap="round"/></svg>
+      <input id="q" type="search" placeholder="Search resources, tags, descriptions…" aria-label="Search resources" autocomplete="off">
+      <span class="kbd" id="kbdhint">/</span>
+    </div>
+    <button class="iconbtn" id="theme" aria-label="Toggle dark mode">
+      <svg id="ticon" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"></svg>
+    </button>
+  </div>
+</div>
+
+<div class="scrim" id="scrim"></div>
+
+<div class="shell" id="top">
+  <nav class="sidebar" id="sidebar" aria-label="Categories">
+    <h2>Categories</h2>
+    <ul class="catlist" id="catnav"></ul>
+    <h2>About</h2>
+    <p style="font-size:12.5px;color:var(--ink-3);line-height:1.5;margin:0">Every link verified live. Star counts from the GitHub API at time of research.</p>
+  </nav>
+
+  <div>
+    <header class="hero">
+      <div class="eyebrow">Add-ons · Style guides · Connectors · Assets</div>
+      <h1>The AI Design <em>Resource Library</em></h1>
+      <p>Seventy-eight tried-and-tested add-ons, ready-made style guides, browser connectors and asset collections that help Claude and other AI tools design genuinely good websites. Every entry explains what it is and when you'd reach for it.</p>
+    </header>
+
+    <section aria-labelledby="stacks-h">
+      <div class="section-head"><h2 id="stacks-h">Starter stacks</h2><span class="rule"></span></div>
+      <div class="stacks" id="stacks"></div>
+    </section>
+
+    <div class="filters" role="group" aria-label="Filter resources">
+      <span class="mono" style="color:var(--ink-3);margin-right:2px">Type</span>
+      <div id="typef" style="display:flex;gap:8px;flex-wrap:wrap"></div>
+      <span class="fsep" aria-hidden="true"></span>
+      <button class="fbtn" id="officialf" aria-pressed="false">Official only</button>
+      <span class="fsep" aria-hidden="true"></span>
+      <button class="fbtn" id="sortf" aria-pressed="false">Sort: Category</button>
+      <button class="clearbtn" id="clear" hidden>Clear all</button>
+    </div>
+
+    <main id="main"></main>
+
+    <div class="empty" id="empty">
+      <h2>Nothing matches that</h2>
+      <p>No resource matches your search and filters. Try a broader term — or reset and browse all seventy-eight.</p>
+      <button class="visit" id="reset" style="border:0;cursor:pointer;font-family:inherit">Reset everything</button>
+    </div>
+
+    <footer>
+      <p>All links verified July 2026; star counts from the GitHub API.</p>
+      <p>Curated for designers working with Claude, Cursor, and other coding agents.</p>
+    </footer>
+  </div>
+</div>
+
+<script>
+const CATS=[
+ {id:"official",  name:"Official Anthropic Design Skills", c:"#a83812", d:"#f0906a"},
+ {id:"designmd",  name:"Ready-Made Style Guides",          c:"#8a6224", d:"#dcb069"},
+ {id:"skillpacks",name:"Design Skill Packs",               c:"#456b4a", d:"#8fc196"},
+ {id:"metalists", name:"Big Lists & Rule Files",           c:"#55606e", d:"#a9b5c4"},
+ {id:"animation", name:"Animation & Motion Skills",        c:"#8a4a6b", d:"#dd9ac0"},
+ {id:"dataviz",   name:"Chart & Graph Skills",             c:"#2f6b6b", d:"#79c5c5"},
+ {id:"components",name:"Ready-Made Components",            c:"#3e5c8a", d:"#93b3e0"},
+ {id:"mcp",       name:"Browser & Figma Connectors",       c:"#6a4e9c", d:"#b8a3ee"},
+ {id:"tokens",    name:"Colour & Theme Tools",             c:"#646a1f", d:"#c3cb6b"},
+ {id:"assets",    name:"Icons, Fonts & Assets",            c:"#9c3a4e", d:"#eb93a4"},
+ {id:"reference", name:"Inspiration & Reference",          c:"#2e6b4a", d:"#7fc9a3"},
+ {id:"animlibs",  name:"Animation Libraries",              c:"#8d5b16", d:"#e0b165"}
+];
+
+const R=[
+// 1 — Official Anthropic
+{c:0,n:"anthropics/skills",s:"164k",v:164000,t:"Skill",g:["official","anthropic","canonical"],u:"https://github.com/anthropics/skills",
+ d:"Anthropic's own collection of add-ons that teach Claude new tricks. The design-related ones cover building good-looking web pages, making posters and art, applying a brand's colours and fonts, picking a ready-made visual theme, and creating artwork with code.",
+ h:"Download it and copy the folders you want into <code>.claude/skills/</code> in your project. Start with frontend-design — it improves how things look more than anything else on this page."},
+{c:0,n:"frontend-design SKILL.md",s:"",v:0,t:"Skill",g:["official","anthropic","anti-slop"],u:"https://github.com/anthropics/skills/blob/main/skills/frontend-design/SKILL.md",
+ d:"A single instruction file that tells Claude how to design properly: plan the look first, then build it. It also names the tired styles Claude falls back on so it stops using them, and pushes for one bold element rather than everything shouting at once.",
+ h:"Worth reading yourself even if you never install it. Once it's in place, Claude has to choose colours, sketch a layout and pick one standout feature before writing any code."},
+{c:0,n:"frontend-design plugin",s:"",v:0,t:"Skill",g:["official","plugin","claude-code"],u:"https://github.com/anthropics/claude-code/tree/main/plugins/frontend-design",
+ d:"The same instruction file, packaged so it installs in one command.",
+ h:"Run <code>/plugin install</code> and it applies to every design task in that project automatically, so you never have to remember to ask."},
+{c:0,n:"Agent Skills documentation",s:"",v:0,t:"Reference",g:["official","docs","authoring"],u:"https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview",
+ d:"The official guide to writing your own instruction files for Claude. The idea is to write one like you'd brief a new hire, and Claude only reads it when the task actually calls for it.",
+ h:"Use this to turn your own design rules into something Claude follows automatically, instead of a document nobody opens."},
+{c:0,n:"Improving frontend design through Skills",s:"",v:0,t:"Reference",g:["official","prompting","altitude"],u:"https://claude.com/blog/improving-frontend-design-through-skills",
+ d:"An article about how specific your design instructions should be. Too vague (“make it look nice”) and you get generic work; too exact (naming every colour code) and you've done the design yourself. This shows the middle ground.",
+ h:"The quickest read here if you want to understand why your design requests aren't landing."},
+{c:0,n:"Frontend aesthetics cookbook",s:"",v:0,t:"Reference",g:["official","prompting","cookbook"],u:"https://platform.claude.com/cookbook/coding-prompting-for-frontend-aesthetics",
+ d:"Anthropic's practical tips for better-looking results: talk about fonts, colour and animation separately, tell Claude which clichés to avoid, and change one thing at a time.",
+ h:"Copy the wording straight into your own requests — especially the “don't use these fonts, no purple gradients” style instructions."},
+
+// 2 — DESIGN.md
+{c:1,n:"VoltAgent/awesome-design-md",s:"105k",v:105000,t:"DESIGN.md",g:["drop-in","brands","biggest"],u:"https://github.com/VoltAgent/awesome-design-md",
+ d:"Seventy-three ready-made style guides copied from the look of real companies — Linear, Stripe, Apple, Tesla, even 1990s Dell and early-2000s Nintendo. Each is a plain text file describing that company's colours, fonts and spacing.",
+ h:"Pick the company whose look you want, drop its file into your project folder, and tell Claude to follow it. You get a consistent style without having to describe anything yourself."},
+{c:1,n:"google-labs-code/design.md",s:"26k",v:26000,t:"Tool",g:["spec","cli","standard"],u:"https://github.com/google-labs-code/design.md",
+ d:"Google's official format for writing down a project's visual rules, plus a tool that checks your file for problems — including colour combinations too faint to read.",
+ h:"Use this format so your style guide can be checked automatically. The checker catches unreadable colour pairs before they reach a real page."},
+{c:1,n:"rohitg00/awesome-claude-design",s:"922",v:922,t:"DESIGN.md",g:["aesthetics","prompt-packs","anti-slop"],u:"https://github.com/rohitg00/awesome-claude-design",
+ d:"Thirty-plus style guides grouped into nine looks — clean magazine, retro terminal, moody cinematic, loud neon and more. It also lists the visual habits that make a site look obviously AI-made.",
+ h:"If no single look fits the job, it explains how to blend two of them and which one wins where they disagree."},
+{c:1,n:"kzhrknt/awesome-design-md-jp",s:"881",v:881,t:"DESIGN.md",g:["japanese","cjk","typography"],u:"https://github.com/kzhrknt/awesome-design-md-jp",
+ d:"The same idea as the collections above, in Japanese, with rules for how Japanese and Chinese text should be set.",
+ h:"Necessary if you build Japanese-language sites — where lines break and which fonts work are things AI tools regularly get wrong."},
+{c:1,n:"ShriPunta/generate-design-md",s:"",v:0,t:"Skill",g:["generator","validator","export"],u:"https://github.com/ShriPunta/generate-design-md",
+ d:"A tool that writes one of these style-guide files for you, checks it for mistakes, and converts it into code.",
+ h:"Point it at a website or brand deck you already have instead of writing the style guide from scratch."},
+
+// 3 — UI/UX skill packs
+{c:2,n:"UI/UX Pro Max",s:"110k",v:110000,t:"Skill",g:["database","palettes","cross-agent"],u:"https://github.com/nextlevelbuilder/ui-ux-pro-max-skill",
+ d:"A big searchable reference Claude can look things up in: 84 visual styles, 192 colour schemes, 74 font combinations, plus usability rules and chart advice.",
+ h:"Works in Claude Code, Cursor and Windsurf. Ask for a style by name and it pulls up a matching colour scheme and font pairing instead of guessing."},
+{c:2,n:"Dammyjay93/interface-design",s:"5.3k",v:5300,t:"Skill",g:["design-memory","review","dashboards"],u:"https://github.com/Dammyjay93/interface-design",
+ d:"A kit that gives Claude a memory for design decisions so choices stay consistent between sessions. It also includes a reviewer that grades a screen on layout, text, colour and movement.",
+ h:"Best for apps and dashboards, where you need the same decisions honoured weeks later."},
+{c:2,n:"plugin87/ux-ui-agent-skills",s:"475",v:475,t:"Skill",g:["dtcg","wcag","component-specs"],u:"https://github.com/plugin87/ux-ui-agent-skills",
+ d:"A more formal package aimed at professional teams: reusable colour and spacing definitions, specifications for 42 common interface pieces, and scripts that genuinely test whether your colours and text are readable enough.",
+ h:"Set it up with <code>npx ux-ui-agent-skills init</code>. Because it runs real tests, accessibility gets verified rather than just claimed."},
+{c:2,n:"Ilm-Alan/frontend-design",s:"89",v:89,t:"Skill",g:["aesthetics","css-tokens","multi-agent"],u:"https://github.com/Ilm-Alan/frontend-design",
+ d:"Eight strong visual directions — Swiss, industrial, brutalist, retro-futuristic, organic, lo-fi and others — each with its colours, fonts and textures fully pinned down.",
+ h:"Name the direction in your request and you get a committed look rather than a safe average. Works with Claude, Codex and Gemini."},
+{c:2,n:"jiji262/claude-design-skill",s:"160",v:160,t:"Skill",g:["artifacts","posters","decks"],u:"https://github.com/jiji262/claude-design-skill",
+ d:"A copy of the design instructions Claude.ai uses internally, repackaged so you can use it elsewhere. Good for slide decks, landing pages, posters and animations.",
+ h:"Use it when you want the polish of Claude.ai's built-in design sense inside Claude Code."},
+{c:2,n:"Koomook/claude-frontend-skills",s:"20",v:20,t:"Skill",g:["anti-slop","themes","motion"],u:"https://github.com/Koomook/claude-frontend-skills",
+ d:"An add-on focused on avoiding generic output, with distinct moods like cyberpunk, brutalist, vaporwave and Nordic, plus movement and layered backgrounds.",
+ h:"Install when you want a strong, specific mood rather than something safe and neutral."},
+{c:2,n:"lotfb86/web-design-skills",s:"",v:0,t:"Skill",g:["pipeline","astro","validator"],u:"https://github.com/lotfb86/web-design-skills",
+ d:"Seven connected instruction sets, including a checker for interface quality and a step-by-step process for rebuilding an existing website from scratch.",
+ h:"Use the rebuild process when modernising a site you already have rather than starting over."},
+{c:2,n:"murphytrueman/design-system-ops",s:"148",v:148,t:"Skill",g:["governance","maintenance","indexing"],u:"https://github.com/murphytrueman/design-system-ops",
+ d:"Tools for looking after a design system you already have: recording the rules, cataloguing what exists, and deciding whether a new piece is really needed.",
+ h:"For teams whose problem is maintenance rather than creation — it stops Claude building duplicates of things you already own."},
+{c:2,n:"mattbx/shadcn-skills",s:"14",v:14,t:"Skill",g:["shadcn","discovery","review"],u:"https://github.com/mattbx/shadcn-skills",
+ d:"Two tools that make Claude check the 1,500-plus ready-made shadcn/ui components before building something custom, then review what it built against the usual patterns.",
+ h:"Add it to any shadcn project so Claude stops hand-building components that already exist."},
+
+// 4 — Meta-lists
+{c:3,n:"Claude Code Frontend Design Toolkit",s:"460",v:460,t:"Reference",g:["index","curated","install-profiles"],u:"https://github.com/wilwaldon/Claude-Code-Frontend-Design-Toolkit",
+ d:"A hand-picked directory of more than 70 design tools for Claude Code, sorted into ten groups, with notes on how much of Claude's limited reading capacity each one uses up.",
+ h:"The best place to start if you don't know what to install first — those capacity notes stop you overloading your setup."},
+{c:3,n:"ComposioHQ/awesome-claude-skills",s:"71k",v:71000,t:"Reference",g:["catalog","1000+","integrations"],u:"https://github.com/ComposioHQ/awesome-claude-skills",
+ d:"A catalogue of over a thousand add-ons for Claude, with a section devoted to design.",
+ h:"Search here for something specific that the smaller, design-only lists don't include."},
+{c:3,n:"travisvn/awesome-claude-skills",s:"14k",v:14000,t:"Reference",g:["catalog","curated"],u:"https://github.com/travisvn/awesome-claude-skills",
+ d:"A smaller, more selective list of Claude add-ons, including the poster and generative-art ones.",
+ h:"Less noise than the thousand-item catalogues, so it's better for browsing when you don't know what you want."},
+{c:3,n:"PatrickJS/awesome-cursorrules",s:"40k",v:40000,t:"Reference",g:["cursor","rules","tailwind"],u:"https://github.com/PatrickJS/awesome-cursorrules",
+ d:"The main collection of rule files for the Cursor editor, many of them about styling — Tailwind, shadcn and React setups.",
+ h:"Adapt one into your project's instructions file so your colours, spacing and banned patterns are enforced on every single edit."},
+{c:3,n:"spencergoldade/cursor-designer",s:"19",v:19,t:"Reference",g:["cursor","design-first","a11y"],u:"https://github.com/spencergoldade/cursor-designer",
+ d:"A starter set of design rules for Cursor covering user experience, layout, page structure and accessibility, offered in three sizes.",
+ h:"Begin with the smallest version — long rule files crowd out the actual work you're asking for."},
+{c:3,n:"System prompts of AI tools",s:"142k",v:142000,t:"Reference",g:["prompts","v0","lovable"],u:"https://github.com/x1xhlol/system-prompts-and-models-of-ai-tools",
+ d:"The behind-the-scenes instructions used by AI website builders such as v0, Lovable, Cursor and Devin, all collected in one place.",
+ h:"Read v0's and Lovable's to see exactly which design rules professional tools build in permanently, then borrow them."},
+{c:3,n:"github/awesome-copilot",s:"37k",v:37000,t:"Reference",g:["skills","gsap","scroll"],u:"https://github.com/github/awesome-copilot",
+ d:"GitHub's community collection of AI instruction files, including well-tested recipes for effects that trigger as you scroll down a page.",
+ h:"Despite the Copilot branding, these work in Claude Code too."},
+
+// 5 — Animation skills
+{c:4,n:"greensock/gsap-skills",s:"12k",v:12000,t:"Skill",g:["official","gsap","scrolltrigger"],u:"https://github.com/greensock/gsap-skills",
+ d:"Official instructions from GSAP, the most widely used animation tool on the web, covering timed sequences, effects that fire as you scroll, splitting text apart, and keeping it all running smoothly.",
+ h:"Install with <code>npx skills add</code>. GSAP recently became completely free, including the paid extras, so there's no cost reason to avoid it."},
+{c:4,n:"freshtechbro/claudedesignskills",s:"613",v:613,t:"Skill",g:["3d","threejs","r3f"],u:"https://github.com/freshtechbro/claudedesignskills",
+ d:"Instructions for 3D and heavy animation work on the web, covering the main 3D libraries and scroll-driven effects.",
+ h:"The one to install when a project needs genuine 3D rather than simple movement."},
+{c:4,n:"motion-dev-animations-skill",s:"78",v:78,t:"Skill",g:["motion.dev","springs","gestures"],u:"https://github.com/199-biotechnologies/motion-dev-animations-skill",
+ d:"Instructions for Motion, the current version of a popular animation library, covering bouncy spring-like movement, scroll reactions and touch gestures.",
+ h:"Keeps Claude writing today's version of the code instead of the outdated one it may remember."},
+{c:4,n:"AThevon/genjutsu",s:"113",v:113,t:"Skill",g:["creative-coding","multi-framework"],u:"https://github.com/AThevon/genjutsu",
+ d:"Creative-coding instructions covering animation, 3D and design systems across several web frameworks, plus iPhone and Android apps.",
+ h:"The broadest coverage here — useful if you aren't building in React."},
+{c:4,n:"Schoepplake/framer-motion-skill",s:"",v:0,t:"Skill",g:["framer-motion","focused"],u:"https://github.com/Schoepplake/framer-motion-skill",
+ d:"A small, single-purpose instruction file for the Framer Motion animation library.",
+ h:"Barely any setup — good if you want animation help without installing a whole 3D toolkit."},
+
+// 6 — Dataviz
+{c:5,n:"NTCoding/claude-skillz",s:"327",v:327,t:"Skill",g:["dataviz","perception","charts"],u:"https://github.com/NTCoding/claude-skillz",
+ d:"Includes a detailed guide to charts: how people actually read visual information, and which chart suits which kind of question.",
+ h:"Install it before asking for any chart — it stops Claude reaching for a pie chart every time."},
+{c:5,n:"careerhackeralex/visualize",s:"180",v:180,t:"Skill",g:["html","chartjs","d3"],u:"https://github.com/careerhackeralex/visualize",
+ d:"Turns a single request into a finished interactive chart, diagram, map or slideshow as a web page.",
+ h:"Hand it a spreadsheet and get something you can show people straight away, with no setup."},
+{c:5,n:"dtran320/claud3",s:"",v:0,t:"Skill",g:["d3","tufte","chart-choice"],u:"https://github.com/dtran320/claud3",
+ d:"A chart-building tool based on the principles of Edward Tufte, the best-known writer on presenting data. It picks the chart type from the question you're asking of the numbers.",
+ h:"Use it when the choice of chart genuinely matters and you want the reasoning spelled out."},
+
+// 7 — Components
+{c:6,n:"shadcn/ui",s:"",v:0,t:"Library",g:["react","tailwind","ai-native"],u:"https://github.com/shadcn-ui/ui",
+ d:"Ready-made buttons, forms, menus and similar pieces that get copied into your own project rather than installed as a sealed package.",
+ h:"Because the code sits in your project, Claude can read and change it directly instead of working around a black box. That's exactly why it suits AI so well."},
+{c:6,n:"Radix Primitives",s:"",v:0,t:"Library",g:["a11y","unstyled","react"],u:"https://github.com/radix-ui/primitives",
+ d:"The unstyled machinery behind many component libraries. It handles keyboard control and screen-reader support correctly and leaves all the appearance to you.",
+ h:"Let Claude do the styling while Radix guarantees the accessibility details AI routinely gets wrong."},
+{c:6,n:"Magic UI",s:"",v:0,t:"Library",g:["animated","registry","marketing"],u:"https://github.com/magicuidesign/magicui",
+ d:"More than 150 animated components, published so they install the same way shadcn's do.",
+ h:"Claude can fetch these itself, so you don't have to paste in code for showy landing-page effects."},
+{c:6,n:"Aceternity UI",s:"",v:0,t:"Library",g:["animated","premium","landing"],u:"https://ui.aceternity.com",
+ d:"Eye-catching animated components with all the code there to copy.",
+ h:"Paste a component's code into your conversation to give Claude high-end landing-page pieces it would never invent on its own."},
+{c:6,n:"daisyUI",s:"",v:0,t:"Library",g:["tailwind","semantic","plain-html"],u:"https://github.com/saadeghi/daisyui",
+ d:"Short, readable names for common pieces — button, card, pop-up — instead of the long strings of styling code Tailwind normally needs.",
+ h:"Uses very little of Claude's reading capacity, which makes it ideal for simple pages with no build setup."},
+{c:6,n:"HeroUI",s:"",v:0,t:"Library",g:["react","batteries-included"],u:"https://github.com/heroui-inc/heroui",
+ d:"A complete set of components that already look good with no styling work (previously called NextUI).",
+ h:"Choose it when you want something polished quickly rather than styling every element by hand."},
+{c:6,n:"Park UI",s:"",v:0,t:"Library",g:["ark-ui","panda-css","copy-paste"],u:"https://github.com/cschroeter/park-ui",
+ d:"Copy-into-your-project components for teams who don't use Tailwind.",
+ h:"The option when your setup is different but you still want code Claude can edit directly."},
+{c:6,n:"HyperUI",s:"",v:0,t:"Library",g:["tailwind","snippets","framework-free"],u:"https://github.com/markmead/hyperui",
+ d:"Free ready-made page sections — pricing tables, banners, product grids — as plain web code.",
+ h:"No framework needed, so Claude can drop these into almost anything exactly as they are."},
+
+// 8 — MCP
+{c:7,n:"Figma Dev Mode MCP",s:"",v:0,t:"MCP",g:["official","figma","design-to-code"],u:"https://help.figma.com/hc/en-us/articles/32132100833559",
+ d:"Figma's official connector, which lets Claude read your actual design files — the sizes, spacing, colours and reusable pieces you already defined.",
+ h:"Give Claude a link to a frame and it builds from your real design values instead of guessing from a picture. Avoid selecting very large frames at once."},
+{c:7,n:"Framelink Figma MCP",s:"",v:0,t:"MCP",g:["figma","api-token","community"],u:"https://github.com/GLips/Figma-Context-MCP",
+ d:"A community-built alternative Figma connector that works through an access key and boils files down to just the layout and styling facts.",
+ h:"Doesn't need the Figma desktop app, which makes it the practical choice on a server or in an automated pipeline."},
+{c:7,n:"Playwright MCP",s:"",v:0,t:"MCP",g:["browser","verification","a11y-tree"],u:"https://github.com/microsoft/playwright-mcp",
+ d:"Lets Claude open a real web browser, look at the page it just built, and click through it.",
+ h:"This is what allows Claude to check its own work and fix what's broken — probably the single most valuable thing to install from this whole page."},
+{c:7,n:"Chrome DevTools MCP",s:"",v:0,t:"MCP",g:["official","debugging","performance"],u:"https://github.com/ChromeDevTools/chrome-devtools-mcp",
+ d:"Google's official connector, giving Claude access to browser error messages, network activity, speed measurements and screenshots.",
+ h:"Best for working out why a page is slow, why it jumps around as it loads, or why something is silently failing."},
+{c:7,n:"shadcn MCP",s:"",v:0,t:"MCP",g:["official","registry","components"],u:"https://ui.shadcn.com/docs/mcp",
+ d:"Lets Claude search for and install shadcn-style components just by asking in plain language.",
+ h:"Pair it with Magic UI so a single request can search both collections at once."},
+{c:7,n:"Context7",s:"",v:0,t:"MCP",g:["docs","versioning","anti-hallucination"],u:"https://github.com/upstash/context7",
+ d:"Feeds Claude the current instructions for the tools you're using, matched to the exact version you have installed.",
+ h:"Stops Claude inventing features that don't exist — especially valuable just after a tool you use gets a major update."},
+{c:7,n:"Magic MCP (21st.dev)",s:"",v:0,t:"MCP",g:["generation","components","natural-language"],u:"https://github.com/21st-dev/magic-mcp",
+ d:"Creates finished components from a plain-language description and puts them straight into your project.",
+ h:"Useful for filling gaps when neither your own designs nor shadcn have the piece you need."},
+{c:7,n:"screenshot-website-fast",s:"",v:0,t:"MCP",g:["screenshots","lightweight","qa"],u:"https://github.com/just-every/mcp-screenshot-website-fast",
+ d:"A lightweight connector that takes full-page screenshots already sized so Claude can actually see them properly.",
+ h:"A cheap way to let Claude look at its own work when you don't need it controlling a whole browser."},
+
+// 9 — Tokens
+{c:8,n:"tweakcn",s:"10k",v:10000,t:"Tool",g:["shadcn","themes","css-vars"],u:"https://github.com/jnsahaj/tweakcn",
+ d:"A visual editor for building a colour and font theme by clicking, with no code involved.",
+ h:"Design your theme on the site, paste the result into one file, and everything Claude builds afterwards inherits it — an instant escape from default styling."},
+{c:8,n:"Style Dictionary",s:"",v:0,t:"Tool",g:["tokens","build","multi-platform"],u:"https://github.com/amzn/style-dictionary",
+ d:"Amazon's tool for keeping one master list of your colours, sizes and fonts, then automatically converting it for websites, iPhone apps and Android apps.",
+ h:"Give Claude the single master file and it produces every version, so the platforms can't drift apart over time."},
+{c:8,n:"W3C Design Tokens spec",s:"",v:0,t:"Reference",g:["standard","dtcg","format"],u:"https://github.com/design-tokens/community-group",
+ d:"The emerging shared standard for writing down colours, spacing and fonts in a way that any design tool can read.",
+ h:"Ask Claude to follow this format so your settings can move between tools without being rebuilt each time."},
+{c:8,n:"uicolors.app",s:"",v:0,t:"Tool",g:["tailwind","palette","ramps"],u:"https://uicolors.app",
+ d:"Turns one brand colour into a full range of shades from very light to very dark.",
+ h:"Paste that range into your project so Claude picks from your colours instead of inventing random ones."},
+{c:8,n:"Realtime Colors",s:"",v:0,t:"Tool",g:["preview","pairing","shareable"],u:"https://www.realtimecolors.com",
+ d:"Shows a colour scheme and font pairing on a realistic sample website, and stores the whole scheme inside the page address.",
+ h:"Send Claude the link and it has your complete colour brief in a single line."},
+{c:8,n:"oklch.com",s:"",v:0,t:"Tool",g:["oklch","tailwind-v4","perceptual"],u:"https://oklch.com",
+ d:"A colour picker built on a newer way of describing colour that matches how eyes actually judge brightness.",
+ h:"Build your range of shades here so each step looks evenly spaced to a person, not just evenly numbered on paper."},
+{c:8,n:"Huetone",s:"",v:0,t:"Tool",g:["apca","contrast","accessible"],u:"https://github.com/ardov/huetone",
+ d:"A colour tool that checks readability as you build up a range of shades.",
+ h:"Use it when readable colour combinations have to be guaranteed rather than just hoped for."},
+
+// 10 — Assets
+{c:9,n:"Lucide",s:"",v:0,t:"Library",g:["icons","svg","react"],u:"https://github.com/lucide-icons/lucide",
+ d:"More than 1,500 simple line icons drawn in a consistent style.",
+ h:"Claude knows this set very well, and the icons paste directly into a page with nothing else to install."},
+{c:9,n:"Heroicons",s:"",v:0,t:"Library",g:["icons","tailwind","mit"],u:"https://github.com/tailwindlabs/heroicons",
+ d:"A free icon set from the team behind Tailwind, in both outline and filled versions.",
+ h:"The safest default for Tailwind projects — paste the icon code straight in for a fully self-contained page."},
+{c:9,n:"Phosphor Icons",s:"",v:0,t:"Library",g:["icons","weights","flexible"],u:"https://github.com/phosphor-icons/homepage",
+ d:"Over 9,000 icons, each available in six thicknesses from hairline-thin to solid.",
+ h:"Lets Claude change the feel of an entire interface without switching to a different icon set."},
+{c:9,n:"Tabler Icons",s:"",v:0,t:"Library",g:["icons","dashboards","grid"],u:"https://github.com/tabler/tabler-icons",
+ d:"Nearly 6,000 free line icons drawn to a consistent grid.",
+ h:"The broadest coverage for admin screens and dashboards, where the unusual icons you need are normally missing."},
+{c:9,n:"Fontsource",s:"",v:0,t:"Library",g:["fonts","self-host","offline"],u:"https://github.com/fontsource/fontsource",
+ d:"Google Fonts packaged so they live inside your project instead of loading from Google's servers.",
+ h:"One line adds a font. It works offline, and the page doesn't jump around as the text loads in."},
+{c:9,n:"google/fonts",s:"",v:0,t:"Library",g:["fonts","binaries","licenses"],u:"https://github.com/google/fonts",
+ d:"The actual font files and licences behind Google Fonts.",
+ h:"Grab files directly when you want everything bundled together with no installer involved."},
+{c:9,n:"unDraw",s:"",v:0,t:"Library",g:["illustrations","svg","tintable"],u:"https://undraw.co",
+ d:"Free illustrations where you can change the main colour to anything you like.",
+ h:"Claude can recolour them to match your palette and paste them straight in, with no image files to manage."},
+
+// 11 — Reference
+{c:10,n:"Godly",s:"",v:0,t:"Reference",g:["gallery","inspiration","curated"],u:"https://godly.website",
+ d:"A tightly curated showcase of unusually good website design.",
+ h:"Screenshot one you like and give it to Claude as the look you're aiming for — it can read images."},
+{c:10,n:"Land-book",s:"",v:0,t:"Reference",g:["landing-pages","filterable"],u:"https://land-book.com",
+ d:"Over 5,000 hand-picked homepages and portfolio sites, which you can filter by industry and colour.",
+ h:"It blocks automated access, so browse it yourself and then pass Claude the screenshots."},
+{c:10,n:"Mobbin",s:"",v:0,t:"Reference",g:["screenshots","flows","patterns"],u:"https://mobbin.com",
+ d:"A large library of screenshots from real, released apps, organised by what each screen is for.",
+ h:"The reference behind any “make it look like a real, shipped app” request."},
+{c:10,n:"SaaS Landing Page",s:"",v:0,t:"Reference",g:["sections","saas","structure"],u:"https://saaslandingpage.com",
+ d:"Homepages broken up by section — top banners, pricing tables, customer quotes, footers.",
+ h:"Ideal for building a page one section at a time rather than asking for all of it at once."},
+{c:10,n:"Dark Mode Design",s:"",v:0,t:"Reference",g:["dark-mode","gallery"],u:"https://www.darkmodedesign.com",
+ d:"A showcase of websites shown only in dark mode.",
+ h:"A focused reference for the thing AI gets wrong most often — dark themes that are simply flipped rather than properly rethought."},
+{c:10,n:"design-resources-for-developers",s:"60k+",v:60000,t:"Reference",g:["mega-list","assets","index"],u:"https://github.com/bradtraversy/design-resources-for-developers",
+ d:"An enormous curated list of free design assets, tools and resources for people who build websites.",
+ h:"Treat it as a lookup list Claude can search whenever it needs a particular kind of asset."},
+{c:10,n:"Awesome-Design-Tools",s:"",v:0,t:"Reference",g:["tools","categories","discovery"],u:"https://github.com/goabstract/Awesome-Design-Tools",
+ d:"A sorted list of design tools by purpose — colour, accessibility, animation, and handing work to developers.",
+ h:"Useful background when you want Claude to recommend the right tool rather than build something itself."},
+
+// 12 — Animation libraries
+{c:11,n:"GSAP",s:"",v:0,t:"Library",g:["animation","scroll","free"],u:"https://github.com/greensock/GSAP",
+ d:"The most established animation tool on the web, now completely free including all the extras that used to cost money.",
+ h:"The right choice for scroll effects and complex sequences. Pair it with the official GSAP instructions listed further up this page."},
+{c:11,n:"Motion",s:"",v:0,t:"Library",g:["react","declarative","springs"],u:"https://github.com/motiondivision/motion",
+ d:"A popular animation library for React, previously called Framer Motion.",
+ h:"Claude knows it extremely well, so a description like “fade in and slide up” translates almost directly into working code."},
+{c:11,n:"Animata",s:"",v:0,t:"Library",g:["copy-paste","react","effects"],u:"https://github.com/codse/animata",
+ d:"A collection of hand-made animated effects and interactions that you copy into your project.",
+ h:"The code lives in your project, so Claude can adapt the effects rather than only using them as they come."},
+{c:11,n:"Vaul",s:"",v:0,t:"Library",g:["drawer","gestures","mobile"],u:"https://github.com/emilkowalski/vaul",
+ d:"The sliding panel that comes up from the bottom of the screen on phones, built to feel like a real app.",
+ h:"Much harder to get right than it looks — this is one to install rather than let Claude build from scratch."},
+{c:11,n:"AutoAnimate",s:"",v:0,t:"Library",g:["zero-config","lists","polish"],u:"https://github.com/formkit/auto-animate",
+ d:"One line of code that smoothly animates things appearing, disappearing and changing order in a list.",
+ h:"The cheapest polish available — a single line and lists stop snapping abruptly into place."},
+{c:11,n:"ldrs",s:"",v:0,t:"Library",g:["loaders","web-components","tree-shakable"],u:"https://github.com/GriffinJohnston/ldrs",
+ d:"A set of modern loading spinners that work in any setup.",
+ h:"Gives you decent loading states, which AI otherwise tends to skip entirely or build badly."}
+];
+
+const STACKS=[
+ {t:"Minimal",s:"Any project, any stack",items:["frontend-design SKILL.md","VoltAgent/awesome-design-md","Playwright MCP"]},
+ {t:"shadcn / Next.js",s:"The modern React default",items:["frontend-design SKILL.md","shadcn MCP","tweakcn","Context7","Magic UI","Lucide"]},
+ {t:"Figma design-system team",s:"Design-to-code with real tokens",items:["Figma Dev Mode MCP","plugin87/ux-ui-agent-skills","Style Dictionary"]},
+ {t:"Marketing & landing pages",s:"Visual impact first",items:["UI/UX Pro Max","greensock/gsap-skills","Aceternity UI","Magic UI","Godly"]}
+];
+
+const slug=s=>s.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
+const esc=s=>s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+const TYPES=["Skill","DESIGN.md","MCP","Library","Tool","Reference"];
+R.forEach(r=>r.id=slug(r.n));
+
+const state={q:"",types:new Set(),official:false,sortStars:false};
+
+/* Sidebar nav */
+document.getElementById("catnav").innerHTML=CATS.map((c,i)=>{
+  const n=R.filter(r=>r.c===i).length;
+  return `<li><a href="#cat-${c.id}" style="--cat:${c.c};--catd:${c.d}"><span class="dot"></span>${c.name}<span class="n">${n}</span></a></li>`;
+}).join("");
+
+/* Stacks */
+document.getElementById("stacks").innerHTML=STACKS.map(s=>`
+  <article class="stack">
+    <h3>${s.t}</h3>
+    <p class="sub">${s.s}</p>
+    <div class="chips">${s.items.map(i=>{
+      const m=R.find(r=>r.n===i)||R.find(r=>r.n.includes(i));
+      return m?`<a class="chip" href="#${m.id}">${i}</a>`:`<span class="chip">${i}</span>`;
+    }).join("")}</div>
+  </article>`).join("");
+
+/* Type filters */
+document.getElementById("typef").innerHTML=TYPES.map(t=>
+  `<button class="fbtn tf" data-t="${t}" aria-pressed="false">${t}</button>`).join("");
+
+/* Icons */
+const svgLink='<svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M6.5 9.5a3 3 0 004.24 0l2.12-2.12a3 3 0 00-4.24-4.24L7.7 4.06"/><path d="M9.5 6.5a3 3 0 00-4.24 0L3.14 8.62a3 3 0 004.24 4.24l.92-.92"/></svg>';
+const svgOk='<svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3.2 3.2L13 5"/></svg>';
+const svgOut='<svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3H3.5A.5.5 0 003 3.5v9a.5.5 0 00.5.5h9a.5.5 0 00.5-.5V10"/><path d="M9.5 2.5H13.5V6.5M13.5 2.5L7.5 8.5"/></svg>';
+
+function card(r,idx){
+  const cat=CATS[r.c];
+  const feat=r.v>=10000;
+  return `<article class="card${feat?" feat":""} reveal" id="${r.id}" style="--cat:${cat.c};--catd:${cat.d};animation-delay:${Math.min(idx*22,300)}ms">
+    <div class="cardtop">
+      <span class="type">${r.t}</span>
+      ${r.s?`<span class="stars">★ ${r.s}</span>`:`<span class="stars"></span>`}
+      <button class="linkicon copy" data-id="${r.id}" aria-label="Copy link to ${esc(r.n)}" title="Copy link">${svgLink}</button>
+    </div>
+    <h3 class="title">${esc(r.n)}</h3>
+    <p class="desc">${r.d}</p>
+    <div class="how"><b>How to use it</b>${r.h}</div>
+    <div class="cardfoot">
+      <a class="visit" href="${r.u}" target="_blank" rel="noopener noreferrer">Open ${svgOut}</a>
+      <span class="tags">${r.g.map(t=>`<span class="tag">${t}</span>`).join("")}</span>
+    </div>
+  </article>`;
+}
+
+function matches(r){
+  if(state.official && !r.g.includes("official")) return false;
+  if(state.types.size && !state.types.has(r.t)) return false;
+  if(state.q){
+    const hay=(r.n+" "+r.d+" "+r.h+" "+r.g.join(" ")+" "+r.t+" "+CATS[r.c].name).toLowerCase();
+    if(!state.q.split(/\s+/).every(w=>hay.includes(w))) return false;
+  }
+  return true;
+}
+
+function render(){
+  const list=R.filter(matches);
+  document.getElementById("count").textContent=list.length;
+  const main=document.getElementById("main");
+  const empty=document.getElementById("empty");
+  const active=state.q||state.types.size||state.official;
+  document.getElementById("clear").hidden=!active && !state.sortStars;
+
+  if(!list.length){ main.innerHTML=""; empty.classList.add("on"); return; }
+  empty.classList.remove("on");
+
+  if(state.sortStars){
+    const sorted=[...list].sort((a,b)=>b.v-a.v);
+    main.innerHTML=`<section class="catsection" aria-label="All resources by popularity">
+      <div class="cathead" style="--cat:var(--accent);--catd:var(--accent)"><span class="bar"></span><h2>By stars</h2><span class="n">${sorted.length} shown</span></div>
+      <div class="grid">${sorted.map(card).join("")}</div></section>`;
+  }else{
+    main.innerHTML=CATS.map((c,i)=>{
+      const items=list.filter(r=>r.c===i);
+      if(!items.length) return "";
+      return `<section class="catsection" id="cat-${c.id}" style="--cat:${c.c};--catd:${c.d}" aria-labelledby="h-${c.id}">
+        <div class="cathead"><span class="bar"></span><h2 id="h-${c.id}">${c.name}</h2><span class="n">${items.length}</span></div>
+        <div class="grid">${items.map(card).join("")}</div></section>`;
+    }).join("");
+  }
+}
+
+/* Events */
+const q=document.getElementById("q");
+q.addEventListener("input",()=>{state.q=q.value.trim().toLowerCase();render()});
+document.addEventListener("keydown",e=>{
+  if(e.key==="/"&&document.activeElement!==q){e.preventDefault();q.focus();q.select()}
+  if(e.key==="Escape"&&document.activeElement===q){q.value="";state.q="";render();q.blur()}
+});
+q.addEventListener("focus",()=>document.getElementById("kbdhint").style.opacity="0");
+q.addEventListener("blur",()=>document.getElementById("kbdhint").style.opacity="1");
+
+document.getElementById("typef").addEventListener("click",e=>{
+  const b=e.target.closest(".tf"); if(!b) return;
+  const t=b.dataset.t;
+  if(state.types.has(t)){state.types.delete(t);b.setAttribute("aria-pressed","false")}
+  else{state.types.add(t);b.setAttribute("aria-pressed","true")}
+  render();
+});
+const off=document.getElementById("officialf");
+off.addEventListener("click",()=>{state.official=!state.official;off.setAttribute("aria-pressed",String(state.official));render()});
+const sortf=document.getElementById("sortf");
+sortf.addEventListener("click",()=>{
+  state.sortStars=!state.sortStars;
+  sortf.setAttribute("aria-pressed",String(state.sortStars));
+  sortf.textContent="Sort: "+(state.sortStars?"Stars":"Category");
+  render();
+});
+function resetAll(){
+  state.q="";state.types.clear();state.official=false;state.sortStars=false;
+  q.value="";off.setAttribute("aria-pressed","false");sortf.setAttribute("aria-pressed","false");
+  sortf.textContent="Sort: Category";
+  document.querySelectorAll(".tf").forEach(b=>b.setAttribute("aria-pressed","false"));
+  render();
+}
+document.getElementById("clear").addEventListener("click",resetAll);
+document.getElementById("reset").addEventListener("click",resetAll);
+
+document.addEventListener("click",e=>{
+  const b=e.target.closest(".copy"); if(!b) return;
+  const url=location.href.split("#")[0]+"#"+b.dataset.id;
+  const done=()=>{b.innerHTML=svgOk;b.classList.add("ok");setTimeout(()=>{b.innerHTML=svgLink;b.classList.remove("ok")},1400)};
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(url).then(done).catch(done)}
+  else{const t=document.createElement("textarea");t.value=url;document.body.appendChild(t);t.select();try{document.execCommand("copy")}catch(_){}t.remove();done()}
+});
+
+/* Theme */
+const root=document.documentElement, tbtn=document.getElementById("theme"), ticon=document.getElementById("ticon");
+const sun='<circle cx="8" cy="8" r="3.1"/><path d="M8 1v1.6M8 13.4V15M15 8h-1.6M2.6 8H1M12.9 3.1l-1.1 1.1M4.2 11.8l-1.1 1.1M12.9 12.9l-1.1-1.1M4.2 4.2L3.1 3.1" stroke-linecap="round"/>';
+const moon='<path d="M13.4 9.6A5.8 5.8 0 016.4 2.6a5.9 5.9 0 107 7z" stroke-linejoin="round"/>';
+function isDark(){const t=root.dataset.theme;return t==="dark"||(t==="auto"&&matchMedia("(prefers-color-scheme:dark)").matches)}
+function syncIcon(){ticon.innerHTML=isDark()?sun:moon;tbtn.setAttribute("aria-label",isDark()?"Switch to light mode":"Switch to dark mode")}
+try{const saved=localStorage.getItem("aidl-theme");if(saved)root.dataset.theme=saved}catch(_){}
+syncIcon();
+tbtn.addEventListener("click",()=>{
+  root.dataset.theme=isDark()?"light":"dark";
+  try{localStorage.setItem("aidl-theme",root.dataset.theme)}catch(_){}
+  syncIcon();
+});
+matchMedia("(prefers-color-scheme:dark)").addEventListener("change",syncIcon);
+
+/* Mobile drawer */
+const sb=document.getElementById("sidebar"), scrim=document.getElementById("scrim"), menu=document.getElementById("menu");
+function drawer(open){sb.classList.toggle("open",open);scrim.classList.toggle("on",open);menu.setAttribute("aria-expanded",String(open));if(open)sb.querySelector("a").focus()}
+menu.addEventListener("click",()=>drawer(!sb.classList.contains("open")));
+scrim.addEventListener("click",()=>drawer(false));
+sb.addEventListener("click",e=>{if(e.target.closest("a")&&innerWidth<=900)drawer(false)});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&sb.classList.contains("open")){drawer(false);menu.focus()}});
+
+render();
+if(location.hash){const el=document.querySelector(location.hash);if(el)setTimeout(()=>el.scrollIntoView({block:"center"}),80)}
+</script>
+</body>
+</html>

@@ -222,10 +222,11 @@ That's the whole loop. Export your pages from Figma as usual.
 On the **Bulk** tab:
 
 - **Download save state (.zip)** — bundles all field values (`data.csv`), photo
-  assignments (`assignments.csv`), and every photo (`images/`) into one archive. Your
-  complete listing, portable.
-- **Upload save state (.zip)** — restores content, photos, and assignments from such
-  an archive (after a confirmation). Nothing changes on the canvas until you Apply.
+  assignments (`assignments.csv`), **every layer tag (`tags.json`)**, and every photo
+  (`images/`) into one archive. Your complete listing, portable.
+- **Upload save state (.zip)** — restores content, photos, assignments, **and layer
+  tags** from such an archive (after a confirmation). Tags re-apply immediately;
+  content and photos wait until you Apply.
 
 Great for handing a listing between people or archiving finished issues.
 
@@ -238,6 +239,26 @@ Great for handing a listing between people or archiving finished issues.
   the right category. Shows a preview and only changes tags after you confirm.
 - **Clear all tags** — strips every tag from the page (keeps your content and photos).
   Use when you want to re-tag from scratch.
+
+---
+
+## Newer features
+
+Added since the first release — all in the tabs you already know:
+
+- **Partial text tagging (templates)** — for a layer that mixes fixed words with data
+  ("Offered at $4,750,000 · 5 bd / 4.5 ba"), expand **Tag part of this text (template)**
+  on the **Tag** tab, highlight the part that changes, pick a Content field, and click
+  **Wrap selection** to turn it into a `{{field}}` token. Everything else stays literal,
+  and one layer can hold several tokens.
+- **Rename layers to tags** (Bulk tab) — renames every tagged layer to its tag
+  (`price`, `photo.kitchen.01`, …) so the Figma layers panel mirrors your tagging.
+  Layers inside component instances are left alone.
+- **Save state now carries tags** — the save-state `.zip` includes `tags.json`, so
+  uploading it into a fresh file restores the full tagging (tags re-apply immediately).
+- **Apply from any tab** — the **Content** tab has an **Apply all content** button and
+  the **Photos** tab an **Apply photos** button, each pinned at the bottom, so you can
+  commit without switching to the Apply tab.
 
 ---
 

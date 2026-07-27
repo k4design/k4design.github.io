@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <!--
+    The dashboard server runs on your Mac over plain HTTP on the LAN. Rather
+    than switching off App Transport Security wholesale, this allows insecure
+    loads ONLY to local-network hosts. Public HTTPS rules stay fully enforced,
+    so a Netlify URL is unaffected.
+  -->
+  <key>NSAppTransportSecurity</key>
+  <dict>
+    <key>NSAllowsLocalNetworking</key>
+    <true/>
+  </dict>
+
+  <!-- iOS asks the user before an app may talk to devices on the local network. -->
+  <key>NSLocalNetworkUsageDescription</key>
+  <string>Connects to the Creative Direction dashboard server running on your Mac to read your monday.com boards.</string>
+
+  <key>UILaunchScreen</key>
+  <dict/>
+</dict>
+</plist>
