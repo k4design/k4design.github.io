@@ -25,7 +25,9 @@ const ui = await build({
   target: 'es2020',
   minify: true,
 });
-const js = ui.outputFiles[0].text.replace(/<\/script/gi, '<\\/script');
+// h264-mp4-encoder's web build is a plain script defining a global `HME` (wasm inlined)
+const hme = readFileSync('node_modules/h264-mp4-encoder/embuild/dist/h264-mp4-encoder.web.js', 'utf8');
+const js = (hme + ';\n' + ui.outputFiles[0].text).replace(/<\/script/gi, '<\\/script');
 const template = readFileSync('src/ui-template.html', 'utf8');
 mkdirSync('app', { recursive: true });
 writeFileSync('app/index.html', template.replace('/*__UI_JS__*/', () => js));

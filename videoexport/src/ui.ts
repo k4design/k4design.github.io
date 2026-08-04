@@ -1,19 +1,32 @@
-// UI side: settings, video file intake, compositing, and MP4 encoding
-// (WebCodecs via Mediabunny) — all in the plugin iframe, no network.
+// UI side: settings, video file intake, compositing, and MP4 encoding.
+//
+// IMPORTANT: Figma plugin iframes are not "secure contexts" (even when the
+// page is hosted on HTTPS inside a nested iframe, the sandbox propagates), so
+// the WebCodecs API is unavailable. Everything here avoids it:
+//   - H.264 encoding: h264-mp4-encoder (pure WebAssembly)
+//   - source video decoding: <video> element seek + drawImage
+//   - audio: passthrough of the source file's encoded packets (no re-encode),
+//     muxed with Mediabunny's packet API (parse-only, no WebCodecs)
 
 import {
   Output,
   Mp4OutputFormat,
   BufferTarget,
-  CanvasSource,
-  AudioBufferSource,
+  BufferSource,
   Input,
   ALL_FORMATS,
   BlobSource,
-  CanvasSink,
-  QUALITY_HIGH,
-  QUALITY_MEDIUM,
+  EncodedPacketSink,
+  EncodedVideoPacketSource,
+  EncodedAudioPacketSource,
+  type AudioCodec,
 } from 'mediabunny';
+import type { H264MP4Encoder } from 'h264-mp4-encoder';
+
+// h264-mp4-encoder's web build is a plain script that defines a global `HME`;
+// the build script prepends it to this bundle.
+declare const HME: { createH264MP4Encoder(): Promise<H264MP4Encoder> };
+const { createH264MP4Encoder } = HME;
 
 interface VideoLayerInfo {
   nodeId: string;
@@ -46,7 +59,7 @@ const $ = (id: string) => document.getElementById(id)!;
 let frames: FrameState[] = [];
 let exporting = false;
 
-// ---------- messaging with the sandbox ----------
+// ---------- messaging with the sandbox (relayed through the plugin shell) ----------
 
 type Pending = { resolve: (v: any) => void; reject: (e: any) => void };
 const pending = new Map<string, Pending>();
@@ -59,7 +72,7 @@ function request<T>(key: string, msg: object): Promise<T> {
 }
 
 window.onmessage = (event: MessageEvent) => {
-  const msg = event.data.pluginMessage;
+  const msg = event.data && event.data.pluginMessage;
   if (!msg) return;
   if (msg.type === 'frames') {
     if (!exporting) mergeFrames(msg.frames as FrameInfo[]);
@@ -185,12 +198,33 @@ function roundRectPath(ctx: CanvasRenderingContext2D, x: number, y: number, w: n
   ctx.closePath();
 }
 
-// Draw a bitmap contain-fit into the output canvas
 function drawContain(ctx: CanvasRenderingContext2D, img: ImageBitmap, W: number, H: number) {
   const s = Math.min(W / img.width, H / img.height);
   const dw = img.width * s;
   const dh = img.height * s;
   ctx.drawImage(img, (W - dw) / 2, (H - dh) / 2, dw, dh);
+}
+
+function loadVideo(file: File): Promise<HTMLVideoElement> {
+  return new Promise((resolve, reject) => {
+    const v = document.createElement('video');
+    v.muted = true;
+    v.playsInline = true;
+    v.preload = 'auto';
+    v.src = URL.createObjectURL(file);
+    v.onloadedmetadata = () => resolve(v);
+    v.onerror = () => reject(new Error(`Can't decode “${file.name}” — is it an MP4/MOV/WebM?`));
+  });
+}
+
+function seekTo(v: HTMLVideoElement, t: number): Promise<void> {
+  return new Promise((resolve) => {
+    const target = Math.min(t, Math.max(0, v.duration - 0.001));
+    if (Math.abs(v.currentTime - target) < 0.0001 && v.readyState >= 2) { resolve(); return; }
+    const done = () => { v.removeEventListener('seeked', done); resolve(); };
+    v.addEventListener('seeked', done);
+    v.currentTime = target;
+  });
 }
 
 // ---------- export pipeline ----------
@@ -203,8 +237,8 @@ interface Segment {
   // video frames
   below?: ImageBitmap;
   above?: ImageBitmap | null;
-  videoInput?: Input;
-  audio?: AudioBuffer | null;
+  video?: HTMLVideoElement;
+  file?: File;
 }
 
 function setProgress(pct: number, label: string) {
@@ -217,7 +251,68 @@ function fail(message: string) {
   exporting = false;
   ($('export-btn') as HTMLButtonElement).disabled = false;
   $('progress-label').textContent = `Error: ${message}`;
+  $('progress-wrap').style.display = 'block';
   notify(`Export failed: ${message}`, true);
+}
+
+// Mux audio from the source video files into the encoded MP4 without
+// re-encoding: copy the encoded audio packets, shifted to each video
+// segment's position on the timeline.
+async function muxAudio(
+  videoMp4: Uint8Array,
+  audioSegs: { file: File; offset: number; duration: number }[],
+  fps: number
+): Promise<Uint8Array | null> {
+  const videoInput = new Input({
+    formats: ALL_FORMATS,
+    source: new BufferSource(videoMp4.buffer as ArrayBuffer),
+  });
+  const vTrack = await videoInput.getPrimaryVideoTrack();
+  if (!vTrack) return null;
+
+  // Probe audio tracks; all segments must share the first one's codec
+  const inputs: { input: Input; offset: number; duration: number }[] = [];
+  let codec: AudioCodec | null = null;
+  for (const seg of audioSegs) {
+    const input = new Input({ formats: ALL_FORMATS, source: new BlobSource(seg.file) });
+    const aTrack = await input.getPrimaryAudioTrack();
+    if (!aTrack || !aTrack.codec) continue;
+    if (codec === null) codec = aTrack.codec;
+    if (aTrack.codec !== codec) continue; // mixed codecs: keep first codec only
+    inputs.push({ input, offset: seg.offset, duration: seg.duration });
+  }
+  if (codec === null || inputs.length === 0) return null;
+
+  const output = new Output({ format: new Mp4OutputFormat(), target: new BufferTarget() });
+  const vSource = new EncodedVideoPacketSource('avc');
+  output.addVideoTrack(vSource, { frameRate: fps });
+  const aSource = new EncodedAudioPacketSource(codec);
+  output.addAudioTrack(aSource);
+  await output.start();
+
+  const vConfig = await vTrack.getDecoderConfig();
+  let firstV = true;
+  for await (const packet of new EncodedPacketSink(vTrack).packets()) {
+    await vSource.add(packet, firstV && vConfig ? { decoderConfig: vConfig } : undefined);
+    firstV = false;
+  }
+
+  let firstA = true;
+  for (const { input, offset, duration } of inputs) {
+    const aTrack = (await input.getPrimaryAudioTrack())!;
+    const aConfig = await aTrack.getDecoderConfig();
+    for await (const packet of new EncodedPacketSink(aTrack).packets()) {
+      if (packet.timestamp >= duration) break;
+      const shifted = packet.clone({ timestamp: packet.timestamp + offset });
+      await aSource.add(shifted, firstA && aConfig ? { decoderConfig: aConfig } : undefined);
+      firstA = false;
+    }
+  }
+
+  vSource.close();
+  aSource.close();
+  await output.finalize();
+  return new Uint8Array((output.target as BufferTarget).buffer!);
 }
 
 async function runExport() {
@@ -228,8 +323,8 @@ async function runExport() {
     fail(`“${missing[0].name}” has a video layer — choose its source file first.`);
     return;
   }
-  if (typeof VideoEncoder === 'undefined') {
-    fail('WebCodecs unavailable — this page must be served over HTTPS (is GitHub Pages up to date?).');
+  if (typeof WebAssembly === 'undefined') {
+    fail('WebAssembly is not available in this environment.');
     return;
   }
 
@@ -251,7 +346,7 @@ async function runExport() {
     const segments: Segment[] = [];
     for (let i = 0; i < included.length; i++) {
       const f = included[i];
-      setProgress((i / included.length) * 0.3, `Exporting “${f.name}” from Figma…`);
+      setProgress((i / included.length) * 0.2, `Exporting “${f.name}” from Figma…`);
       if (f.videoLayer && f.videoFile) {
         const layers = await request<{ below: Uint8Array; above: Uint8Array | null }>(
           `layers:${f.id}`,
@@ -259,17 +354,8 @@ async function runExport() {
         );
         const below = await bitmapFromPng(layers.below);
         const above = layers.above ? await bitmapFromPng(layers.above) : null;
-        const videoInput = new Input({ formats: ALL_FORMATS, source: new BlobSource(f.videoFile) });
-        const duration = await videoInput.computeDuration();
-        let audio: AudioBuffer | null = null;
-        try {
-          const ac = new AudioContext();
-          audio = await ac.decodeAudioData(await f.videoFile.arrayBuffer());
-          await ac.close();
-        } catch {
-          audio = null; // silent video, or codec WebAudio can't decode
-        }
-        segments.push({ frame: f, duration, below, above, videoInput, audio });
+        const video = await loadVideo(f.videoFile);
+        segments.push({ frame: f, duration: video.duration, below, above, video, file: f.videoFile });
       } else {
         const png = await request<Uint8Array>(`png:${f.id}`, {
           type: 'export-frame', frameId: f.id, scale,
@@ -278,85 +364,80 @@ async function runExport() {
       }
     }
 
-    // 2) Set up encoder
+    // 2) Set up the WASM encoder
     const canvas = document.createElement('canvas');
     canvas.width = W;
     canvas.height = H;
-    const ctx = canvas.getContext('2d')!;
+    const ctx = canvas.getContext('2d', { willReadFrequently: true })!;
 
-    const output = new Output({ format: new Mp4OutputFormat(), target: new BufferTarget() });
-    const videoSource = new CanvasSource(canvas, { codec: 'avc', bitrate: QUALITY_HIGH });
-    output.addVideoTrack(videoSource, { frameRate: fps });
-
-    const hasAudio = segments.some((s) => s.audio);
-    const sampleRate = hasAudio ? segments.find((s) => s.audio)!.audio!.sampleRate : 48000;
-    let audioSource: AudioBufferSource | null = null;
-    if (hasAudio) {
-      audioSource = new AudioBufferSource({ codec: 'aac', bitrate: QUALITY_MEDIUM });
-      output.addAudioTrack(audioSource);
-    }
-
-    await output.start();
+    const encoder = await createH264MP4Encoder();
+    encoder.width = W;
+    encoder.height = H;
+    encoder.frameRate = fps;
+    encoder.speed = 5;
+    encoder.quantizationParameter = 26; // lower = better quality; 26 ≈ visually clean
+    encoder.initialize();
 
     // 3) Render every output frame
     const frameDur = 1 / fps;
     const totalDur = segments.reduce((a, s) => a + s.duration, 0);
     const totalFrames = Math.max(1, Math.round(totalDur * fps));
-    let t = 0; // global timestamp
     let framesDone = 0;
-    let prevSnapshot: ImageBitmap | null = null; // last frame of previous segment, for crossfade
+    let elapsed = 0;
+    let prevSnapshot: ImageBitmap | null = null;
+    const audioSegs: { file: File; offset: number; duration: number }[] = [];
 
     for (let si = 0; si < segments.length; si++) {
       const seg = segments[si];
       const segFrames = Math.max(1, Math.round(seg.duration * fps));
       const fadeFrames = si > 0 && fade > 0 ? Math.min(Math.round(fade * fps), segFrames) : 0;
 
-      // Video segment setup: iterate decoded canvases in display order
-      let vIter: AsyncIterator<{ canvas: HTMLCanvasElement | OffscreenCanvas; timestamp: number } | any> | null = null;
-      let vCur: any = null;
-      let vNext: any = null;
-      let vDraw: { dx: number; dy: number; dw: number; dh: number; r: number } | null = null;
-
-      if (seg.videoInput && seg.frame.videoLayer) {
+      let vDraw: { dx: number; dy: number; dw: number; dh: number; r: number; cover: boolean } | null = null;
+      if (seg.video && seg.frame.videoLayer) {
         const vl = seg.frame.videoLayer;
-        const dx = vl.x * scale, dy = vl.y * scale;
-        const dw = Math.max(2, Math.round(vl.width * scale));
-        const dh = Math.max(2, Math.round(vl.height * scale));
-        vDraw = { dx, dy, dw, dh, r: vl.cornerRadius * scale };
-        const track = await seg.videoInput.getPrimaryVideoTrack();
-        if (!track) throw new Error(`No video track in file for “${seg.frame.name}”.`);
-        const fit = vl.scaleMode === 'FIT' ? 'contain' : 'cover';
-        const sink = new CanvasSink(track, { width: dw, height: dh, fit, poolSize: 2 });
-        vIter = sink.canvases()[Symbol.asyncIterator]();
-        vCur = await vIter.next();
-        vNext = await vIter.next();
+        vDraw = {
+          dx: vl.x * scale,
+          dy: vl.y * scale,
+          dw: Math.max(2, vl.width * scale),
+          dh: Math.max(2, vl.height * scale),
+          r: vl.cornerRadius * scale,
+          cover: vl.scaleMode !== 'FIT',
+        };
+        audioSegs.push({ file: seg.file!, offset: elapsed, duration: seg.duration });
       }
 
       for (let fi = 0; fi < segFrames; fi++) {
         const local = fi * frameDur;
 
-        // draw current segment content
         ctx.fillStyle = '#000';
         ctx.fillRect(0, 0, W, H);
         if (seg.flat) {
           drawContain(ctx, seg.flat, W, H);
-        } else if (seg.below && vDraw) {
+        } else if (seg.below && seg.video && vDraw) {
           drawContain(ctx, seg.below, W, H);
-          if (vIter && !vCur.done) {
-            while (vNext && !vNext.done && vNext.value.timestamp <= local) {
-              vCur = vNext;
-              vNext = await vIter.next();
-            }
-            ctx.save();
-            if (vDraw.r > 0) { roundRectPath(ctx, vDraw.dx, vDraw.dy, vDraw.dw, vDraw.dh, vDraw.r); ctx.clip(); }
-            else { ctx.beginPath(); ctx.rect(vDraw.dx, vDraw.dy, vDraw.dw, vDraw.dh); ctx.clip(); }
-            ctx.drawImage(vCur.value.canvas, vDraw.dx, vDraw.dy, vDraw.dw, vDraw.dh);
-            ctx.restore();
-          }
+          await seekTo(seg.video, local);
+          const vw = seg.video.videoWidth || 1;
+          const vh = seg.video.videoHeight || 1;
+          const s = vDraw.cover
+            ? Math.max(vDraw.dw / vw, vDraw.dh / vh)
+            : Math.min(vDraw.dw / vw, vDraw.dh / vh);
+          const sw = vw * s;
+          const sh = vh * s;
+          ctx.save();
+          if (vDraw.r > 0) roundRectPath(ctx, vDraw.dx, vDraw.dy, vDraw.dw, vDraw.dh, vDraw.r);
+          else { ctx.beginPath(); ctx.rect(vDraw.dx, vDraw.dy, vDraw.dw, vDraw.dh); }
+          ctx.clip();
+          ctx.drawImage(
+            seg.video,
+            vDraw.dx + (vDraw.dw - sw) / 2,
+            vDraw.dy + (vDraw.dh - sh) / 2,
+            sw,
+            sh
+          );
+          ctx.restore();
           if (seg.above) drawContain(ctx, seg.above, W, H);
         }
 
-        // crossfade from previous segment
         if (fadeFrames > 0 && fi < fadeFrames && prevSnapshot) {
           ctx.save();
           ctx.globalAlpha = 1 - (fi + 1) / (fadeFrames + 1);
@@ -364,57 +445,46 @@ async function runExport() {
           ctx.restore();
         }
 
-        await videoSource.add(t, frameDur);
-        t += frameDur;
+        encoder.addFrameRgba(ctx.getImageData(0, 0, W, H).data);
         framesDone++;
-        if (framesDone % 15 === 0) {
-          setProgress(0.3 + (framesDone / totalFrames) * 0.65, `Encoding frame ${framesDone}/${totalFrames}…`);
+        if (framesDone % 10 === 0) {
+          setProgress(0.2 + (framesDone / totalFrames) * 0.7, `Encoding frame ${framesDone}/${totalFrames}…`);
           await new Promise((r) => setTimeout(r, 0)); // keep UI alive
         }
       }
+      elapsed += segFrames * frameDur;
 
-      // snapshot last rendered frame for the next segment's crossfade
       prevSnapshot?.close();
       prevSnapshot = await createImageBitmap(canvas);
-
-      // audio for this segment: decoded audio (trim/pad) or silence
-      if (audioSource) {
-        const segSamples = Math.max(1, Math.round(seg.duration * sampleRate));
-        const channels = seg.audio ? seg.audio.numberOfChannels : 2;
-        const buf = new AudioBuffer({ length: segSamples, numberOfChannels: channels, sampleRate });
-        if (seg.audio) {
-          const src = seg.audio;
-          for (let ch = 0; ch < channels; ch++) {
-            const dst = buf.getChannelData(ch);
-            const srcData = src.getChannelData(Math.min(ch, src.numberOfChannels - 1));
-            if (src.sampleRate === sampleRate) {
-              dst.set(srcData.subarray(0, Math.min(srcData.length, segSamples)));
-            } else {
-              const ratio = src.sampleRate / sampleRate;
-              const n = Math.min(segSamples, Math.floor(srcData.length / ratio));
-              for (let s = 0; s < n; s++) dst[s] = srcData[Math.floor(s * ratio)];
-            }
-          }
-        }
-        await audioSource.add(buf);
-      }
 
       seg.flat?.close();
       seg.below?.close();
       seg.above?.close();
-      if (seg.videoInput) seg.videoInput.dispose?.();
+      if (seg.video) URL.revokeObjectURL(seg.video.src);
     }
 
     prevSnapshot?.close();
-    videoSource.close();
-    audioSource?.close();
 
-    setProgress(0.97, 'Finalizing MP4…');
-    await output.finalize();
-    const buffer = (output.target as BufferTarget).buffer!;
+    setProgress(0.92, 'Finalizing video…');
+    await new Promise((r) => setTimeout(r, 0));
+    encoder.finalize();
+    let mp4 = encoder.FS.readFile(encoder.outputFilename) as Uint8Array;
+    encoder.delete();
 
-    // 4) Download
-    const blob = new Blob([buffer], { type: 'video/mp4' });
+    // 4) Mux in audio from the source video(s), if any
+    if (audioSegs.length > 0) {
+      setProgress(0.96, 'Adding audio…');
+      try {
+        const withAudio = await muxAudio(mp4, audioSegs, fps);
+        if (withAudio) mp4 = withAudio;
+      } catch (e) {
+        console.warn('Audio mux failed, exporting silent video:', e);
+        notify('Audio could not be carried over — exported silent video.', true);
+      }
+    }
+
+    // 5) Download
+    const blob = new Blob([mp4.buffer as ArrayBuffer], { type: 'video/mp4' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
