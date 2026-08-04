@@ -1,0 +1,18 @@
+{
+  "name": "figma-mp4-export",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Figma plugin: export frames (including embedded video layers) as a single MP4",
+  "scripts": {
+    "build": "node build.mjs",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@figma/plugin-typings": "^1.100.2",
+    "esbuild": "^0.24.0",
+    "typescript": "^5.6.0"
+  },
+  "dependencies": {
+    "mediabunny": "^1.0.0"
+  }
+}

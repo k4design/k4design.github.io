@@ -1,0 +1,87 @@
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  body {
+    font: 11px/1.45 Inter, -apple-system, "Segoe UI", sans-serif;
+    color: #eee; background: #2c2c2c; padding: 12px;
+  }
+  h1 { font-size: 13px; margin-bottom: 10px; }
+  .settings { display: flex; gap: 10px; margin-bottom: 12px; }
+  .settings label { display: flex; flex-direction: column; gap: 3px; color: #aaa; }
+  select, input[type="number"] {
+    background: #1e1e1e; color: #eee; border: 1px solid #444;
+    border-radius: 4px; padding: 4px 6px; font: inherit;
+  }
+  input[type="number"] { width: 52px; }
+  #frame-list { border: 1px solid #444; border-radius: 6px; max-height: 330px; overflow-y: auto; margin-bottom: 12px; }
+  .empty { padding: 16px; color: #999; text-align: center; }
+  .frame-row {
+    display: flex; align-items: flex-start; gap: 8px;
+    padding: 8px 10px; border-bottom: 1px solid #3a3a3a;
+  }
+  .frame-row:last-child { border-bottom: none; }
+  .frame-row.excluded { opacity: 0.45; }
+  .frame-info { flex: 1; min-width: 0; }
+  .frame-name { font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .frame-meta { color: #999; }
+  .frame-controls { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; max-width: 55%; }
+  .hold { display: flex; align-items: center; gap: 4px; color: #aaa; }
+  .video-badge {
+    background: #4a3800; color: #ffd666; border-radius: 4px;
+    padding: 2px 6px; font-size: 10px; text-align: right;
+  }
+  .video-badge.ok { background: #12421c; color: #7ee08a; }
+  .warn { color: #ffa940; font-size: 10px; text-align: right; }
+  button {
+    background: #0d99ff; color: #fff; border: none; border-radius: 6px;
+    padding: 8px 14px; font: inherit; font-weight: 600; cursor: pointer;
+  }
+  button:disabled { background: #555; cursor: default; }
+  button.small { padding: 3px 8px; font-weight: 400; background: #444; }
+  button.secondary { background: #444; }
+  .actions { display: flex; gap: 8px; }
+  #progress-wrap { display: none; margin-top: 12px; }
+  #progress-track { background: #1e1e1e; border-radius: 4px; height: 8px; overflow: hidden; }
+  #progress-bar { background: #0d99ff; height: 100%; width: 0; transition: width .2s; }
+  #progress-label { margin-top: 5px; color: #aaa; }
+</style>
+
+<h1>Frame to MP4</h1>
+
+<div class="settings">
+  <label>Frame rate
+    <select id="fps">
+      <option value="24">24 fps</option>
+      <option value="30" selected>30 fps</option>
+      <option value="60">60 fps</option>
+    </select>
+  </label>
+  <label>Resolution
+    <select id="scale">
+      <option value="1">1×</option>
+      <option value="2" selected>2×</option>
+      <option value="3">3×</option>
+    </select>
+  </label>
+  <label>Crossfade
+    <select id="fade">
+      <option value="0" selected>None</option>
+      <option value="0.3">0.3 s</option>
+      <option value="0.5">0.5 s</option>
+      <option value="1">1 s</option>
+    </select>
+  </label>
+</div>
+
+<div id="frame-list"></div>
+
+<div class="actions">
+  <button id="export-btn">Export MP4</button>
+  <button id="refresh-btn" class="secondary">Refresh frames</button>
+</div>
+
+<div id="progress-wrap">
+  <div id="progress-track"><div id="progress-bar"></div></div>
+  <div id="progress-label"></div>
+</div>
+
+<script>/*__UI_JS__*/</script>

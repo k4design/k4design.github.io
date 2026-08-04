@@ -1,0 +1,11 @@
+{
+  "name": "Frame to MP4",
+  "id": "frame-to-mp4-export",
+  "api": "1.0.0",
+  "main": "dist/code.js",
+  "ui": "dist/ui.html",
+  "editorType": ["figma"],
+  "networkAccess": {
+    "allowedDomains": ["https://k4design.github.io"]
+  }
+}
