@@ -95,6 +95,13 @@ document, so it treats iframe messages as untrusted input and Zod-parses them
 before dispatch; the iframe does the same in reverse, since it also receives
 unrelated `window.message` traffic.
 
+**`localhost`, never `127.0.0.1`, in `allowedDomains`.** Figma's manifest
+validator rejects IP-literal origins with "must be a valid URL", so the
+loopback IP cannot be declared at all — which makes it useless as the plugin's
+default API URL, however well it works from curl. The default is
+`http://localhost:8787` and the API still binds to `127.0.0.1`; Chromium falls
+back from `::1` to IPv4, and `HOST=::1` is the escape hatch if anything does not.
+
 **Vite single-file build for the UI.** Figma loads the UI from one local HTML
 file, so CSS and JS are inlined and code splitting is off. The sandbox bundle
 is built separately with esbuild as an IIFE, because the sandbox has no DOM, no

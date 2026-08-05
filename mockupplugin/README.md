@@ -50,7 +50,7 @@ npm run dev:api
 It listens on `http://127.0.0.1:8787`. Check it:
 
 ```bash
-curl http://127.0.0.1:8787/health
+curl http://localhost:8787/health
 ```
 
 Build the plugin (or `npm run dev:plugin` to watch both bundles):
@@ -64,9 +64,19 @@ choose `apps/plugin/manifest.json`. Run it from **Plugins → Development → Mo
 Forge**.
 
 The plugin's API URL lives in its Settings tab, remembered per user via
-`clientStorage`. Any URL you point it at must also appear in `manifest.json`
-under `networkAccess.allowedDomains` — Figma blocks every other origin, and the
-failure surfaces as a network error rather than a permission one.
+`clientStorage`, and defaults to `http://localhost:8787`.
+
+Any URL you point it at must also appear in `manifest.json` under
+`networkAccess.allowedDomains` — Figma blocks every other origin, and the failure
+surfaces as a network error rather than a permission one. Two constraints there
+are easy to trip over:
+
+- **Use a hostname, not an IP.** Figma's manifest validator rejects
+  `http://127.0.0.1:8787` outright with "must be a valid URL". `localhost` with a
+  port is the supported form for local development.
+- The server binds to `127.0.0.1`. `localhost` resolves to `::1` first on macOS,
+  but Chromium-based clients fall back to IPv4, so this works. If some client
+  refuses to, start the API with `HOST=::1`.
 
 ### Working without Figma
 

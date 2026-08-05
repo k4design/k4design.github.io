@@ -71,7 +71,7 @@
     </div>
 
     <script>
-      const API_BASE = new URLSearchParams(location.search).get('api') ?? 'http://127.0.0.1:8787';
+      const API_BASE = new URLSearchParams(location.search).get('api') ?? 'http://localhost:8787';
       const config = { apiBase: API_BASE, outputWidth: null };
       const logEl = document.getElementById('log');
       const ui = document.getElementById('ui');

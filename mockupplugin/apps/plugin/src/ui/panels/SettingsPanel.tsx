@@ -39,7 +39,7 @@ export function SettingsPanel({ state, api }: { state: Bridge['state']; api: Bri
           value={draft}
           spellCheck={false}
           onChange={(e) => setDraft(e.target.value)}
-          placeholder="http://127.0.0.1:8787"
+          placeholder="http://localhost:8787"
         />
       </label>
       <p className="muted">

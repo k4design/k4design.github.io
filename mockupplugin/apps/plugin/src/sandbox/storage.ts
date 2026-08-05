@@ -2,8 +2,13 @@ import { PluginConfigSchema, type PluginConfig } from '@mf/shared';
 
 const KEY = 'mf:config';
 
+/**
+ * `localhost`, not `127.0.0.1`: Figma's manifest validator rejects IP-literal
+ * origins in `networkAccess.allowedDomains`, so an address the manifest cannot
+ * declare is useless as a default.
+ */
 const DEFAULT_CONFIG: PluginConfig = {
-  apiBase: 'http://127.0.0.1:8787',
+  apiBase: 'http://localhost:8787',
   outputWidth: null,
 };
 
