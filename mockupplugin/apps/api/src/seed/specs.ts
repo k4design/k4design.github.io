@@ -47,6 +47,11 @@ export interface SeedColorize {
   default: string;
   /** Normalized polygons defining the recolourable region. */
   regions: Point[][];
+  /**
+   * Extra mask markup in *pixel* coordinates, for parts a polygon cannot
+   * describe — a mug handle is a stroked path, not an outline.
+   */
+  extraMaskSvg?: string;
   feather?: number;
 }
 
@@ -378,6 +383,15 @@ function ceramicMug(): SeedSpec {
     pt(bodyLeft + 0.014, bodyBottom),
   ];
 
+  // Declared once and used by both the photograph and the colorize mask, so
+  // recolouring the mug takes the handle with it.
+  const handlePath = `M ${nx(bodyRight - 0.004, canvas)} ${ny(0.36, canvas)}
+    C ${nx(0.755, canvas)} ${ny(0.335, canvas)}, ${nx(0.765, canvas)} ${ny(0.63, canvas)}, ${nx(
+      bodyRight - 0.008,
+      canvas,
+    )} ${ny(0.6, canvas)}`;
+  const handleStroke = nx(0.028, canvas);
+
   return {
     id: 'mug-ceramic-front-01',
     name: 'Ceramic Mug, Front View',
@@ -405,6 +419,7 @@ function ceramicMug(): SeedSpec {
         label: 'Mug body',
         default: '#ffffff',
         regions: [bodyPoly],
+        extraMaskSvg: `<path d="${handlePath}" fill="none" stroke="#ffffff" stroke-width="${handleStroke}" stroke-linecap="round"/>`,
         feather: 3,
       },
     ],
@@ -422,12 +437,7 @@ function ceramicMug(): SeedSpec {
       </defs>
       ${contactShadow(canvas, 0.49, 0.79, 0.17, 0.026, 0.3)}
       <!-- handle sits behind the body so the body edge stays clean -->
-      <path d="M ${nx(bodyRight - 0.004, canvas)} ${ny(0.36, canvas)}
-               C ${nx(0.755, canvas)} ${ny(0.335, canvas)}, ${nx(0.765, canvas)} ${ny(0.63, canvas)}, ${nx(
-                 bodyRight - 0.008,
-                 canvas,
-               )} ${ny(0.6, canvas)}"
-            fill="none" stroke="#dcdce0" stroke-width="${nx(0.028, canvas)}" stroke-linecap="round"/>
+      <path d="${handlePath}" fill="none" stroke="#dcdce0" stroke-width="${handleStroke}" stroke-linecap="round"/>
       <path d="M ${nx(bodyLeft, canvas)} ${ny(bodyTop, canvas)}
                L ${nx(bodyRight, canvas)} ${ny(bodyTop, canvas)}
                L ${nx(bodyRight - 0.014, canvas)} ${ny(bodyBottom, canvas)}

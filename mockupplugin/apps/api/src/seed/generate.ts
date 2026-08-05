@@ -57,6 +57,7 @@ async function buildItem(spec: SeedSpec): Promise<{ item: MockupItem; files: Map
           canvas,
           colour.regions.map((region) => px(region, canvas)),
           colour.feather ?? 2,
+          colour.extraMaskSvg ?? '',
         ),
       ),
     );

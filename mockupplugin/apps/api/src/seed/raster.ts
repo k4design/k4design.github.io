@@ -36,10 +36,18 @@ export async function svgToOpaquePng(markup: string, background = '#ffffff'): Pr
  * `feather` softens the edge so warped artwork does not end in a hard jaggy
  * line against the product.
  */
-export function polygonMaskSvg(size: Size, polygons: Point[][], feather = 1.5): string {
-  const shapes = polygons
-    .map((points) => `<polygon points="${svgPoints(points)}" fill="#ffffff"/>`)
-    .join('');
+export function polygonMaskSvg(
+  size: Size,
+  polygons: Point[][],
+  feather = 1.5,
+  /** Extra white-on-black markup, for regions a polygon cannot describe (a
+   *  stroked handle, a curved seam). Drawn with the polygons, inside the blur. */
+  extra = '',
+): string {
+  const shapes =
+    polygons
+      .map((points) => `<polygon points="${svgPoints(points)}" fill="#ffffff"/>`)
+      .join('') + extra;
   const defs = feather > 0 ? `<filter id="f"><feGaussianBlur stdDeviation="${feather}"/></filter>` : '';
   return svg(
     size,

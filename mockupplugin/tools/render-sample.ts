@@ -6,6 +6,8 @@
  *   npx tsx tools/render-sample.ts                       # every item
  *   npx tsx tools/render-sample.ts mug-ceramic-front-01  # one item
  *   MF_API=http://127.0.0.1:8787 npx tsx tools/render-sample.ts --width 1200
+ *   npx tsx tools/render-sample.ts --colorize '#1c1c22'  # recolour every
+ *                                                        # colorize layer
  */
 import fs from 'node:fs/promises';
 import path from 'node:path';
@@ -66,7 +68,11 @@ async function main(): Promise<void> {
   const argv = process.argv.slice(2);
   const widthArg = argv.indexOf('--width');
   const outputWidth = widthArg >= 0 ? Number(argv[widthArg + 1]) : undefined;
-  const ids = argv.filter((a) => !a.startsWith('--') && a !== String(outputWidth));
+  const colorizeArg = argv.indexOf('--colorize');
+  const colorizeHex = colorizeArg >= 0 ? argv[colorizeArg + 1] : undefined;
+  const consumed = new Set([String(outputWidth), colorizeHex]);
+  const ids = argv.filter((a) => !a.startsWith('--') && !consumed.has(a));
+  const suffix = colorizeHex ? `-${colorizeHex.replace('#', '')}` : '';
 
   const catalogResponse = await fetch(`${API}/catalog?limit=60`);
   if (!catalogResponse.ok) {
@@ -95,10 +101,15 @@ async function main(): Promise<void> {
       designs.push({ surfaceId: surface.id, design: png.toString('base64'), width: w, height: h });
     }
 
+    const colorize: Record<string, string> = {};
+    if (colorizeHex) {
+      for (const layer of detail.colorize) colorize[layer.id] = colorizeHex;
+    }
+
     const body = {
       itemId: item.id,
       designs,
-      colorize: {},
+      colorize,
       ...(outputWidth ? { outputWidth } : {}),
     };
 
@@ -122,7 +133,7 @@ async function main(): Promise<void> {
       ms: number;
       warnings: { message: string }[];
     };
-    const file = path.join(OUT_DIR, `${item.id}.png`);
+    const file = path.join(OUT_DIR, `${item.id}${suffix}.png`);
     await fs.writeFile(file, Buffer.from(result.png, 'base64'));
     console.log(
       `${item.id.padEnd(28)} ${String(result.width).padStart(4)}x${String(result.height).padEnd(
