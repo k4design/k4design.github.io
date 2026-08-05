@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Mockup Forge — Figma Plugin</title>
+<style>
+  :root {
+    --bg: #05060a;
+    --bg2: #0a0c12;
+    --panel: rgba(255,255,255,0.03);
+    --panel-solid: #0e1118;
+    --border: rgba(255,255,255,0.08);
+    --border-bright: rgba(255,255,255,0.16);
+    --text: #f2f4f8;
+    --muted: #8b93a5;
+    --dim: #5c6373;
+    --blue: #3d9bff;
+    --violet: #8b6cff;
+    --pink: #f472b6;
+    --cyan: #38e1d4;
+    --green: #4ade80;
+    --amber: #fbbf24;
+    --grad: linear-gradient(93deg, #8b6cff 0%, #f472b6 55%, #fbbf24 110%);
+    --mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, monospace;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font: 16px/1.7 -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  ::selection { background: rgba(139,108,255,0.35); }
+
+  /* ---------- nav ---------- */
+  nav {
+    position: sticky; top: 0; z-index: 50;
+    display: flex; align-items: center; gap: 28px;
+    padding: 14px 28px;
+    background: rgba(5,6,10,0.72);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-brand { display: flex; align-items: center; gap: 10px; font-weight: 700; letter-spacing: -0.2px; }
+  .nav-mark {
+    width: 26px; height: 26px; border-radius: 7px;
+    background: var(--grad);
+    display: inline-flex; align-items: center; justify-content: center;
+    flex-shrink: 0; font-size: 14px;
+  }
+  nav a { color: var(--muted); text-decoration: none; font-size: 14px; transition: color .15s; }
+  nav a:hover { color: var(--text); }
+  .nav-links { display: flex; gap: 22px; margin-left: auto; }
+  @media (max-width: 720px) { .nav-links { display: none; } }
+
+  /* ---------- hero ---------- */
+  .hero {
+    position: relative;
+    text-align: center;
+    padding: 110px 24px 90px;
+    background:
+      radial-gradient(ellipse 60% 45% at 50% -5%, rgba(139,108,255,0.16), transparent 70%),
+      radial-gradient(ellipse 45% 35% at 78% 15%, rgba(244,114,182,0.10), transparent 70%),
+      radial-gradient(ellipse 40% 30% at 22% 20%, rgba(251,191,36,0.07), transparent 70%);
+  }
+  .hero::before {
+    content: "";
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+    background-size: 44px 44px;
+    mask-image: radial-gradient(ellipse 70% 60% at 50% 30%, #000 30%, transparent 75%);
+    pointer-events: none;
+  }
+  .hero > * { position: relative; }
+  .hero-mark {
+    width: 72px; height: 72px; border-radius: 16px; margin: 0 auto 26px;
+    background: var(--grad);
+    display: grid; place-items: center;
+    font-size: 36px;
+    box-shadow: 0 14px 40px rgba(0,0,0,0.45);
+  }
+  .pill {
+    display: inline-flex; align-items: center; gap: 8px;
+    border: 1px solid var(--border-bright);
+    border-radius: 999px;
+    padding: 5px 14px;
+    font: 12px/1 var(--mono);
+    color: var(--muted);
+    letter-spacing: 0.4px;
+    margin-bottom: 28px;
+    background: var(--panel);
+  }
+  .pill .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); box-shadow: 0 0 8px var(--green); }
+  h1 {
+    font-size: clamp(40px, 7vw, 64px);
+    line-height: 1.08;
+    letter-spacing: -2px;
+    font-weight: 800;
+    max-width: 760px;
+    margin: 0 auto;
+  }
+  h1 .grad {
+    background: var(--grad);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .hero-sub {
+    color: var(--muted);
+    font-size: 19px;
+    max-width: 580px;
+    margin: 22px auto 0;
+  }
+  .hero-ctas { margin-top: 36px; display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 12px 24px; border-radius: 10px;
+    font-size: 15px; font-weight: 600; text-decoration: none;
+    transition: transform .15s, box-shadow .15s, border-color .15s;
+  }
+  .btn-primary {
+    background: var(--grad); color: #fff;
+    box-shadow: 0 8px 32px rgba(139,108,255,0.35);
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(139,108,255,0.45); }
+  .btn-ghost { border: 1px solid var(--border-bright); color: var(--text); background: var(--panel); }
+  .btn-ghost:hover { border-color: rgba(255,255,255,0.3); transform: translateY(-2px); }
+
+  /* ---------- terminal mock ---------- */
+  .term {
+    max-width: 620px; margin: 64px auto 0;
+    background: var(--panel-solid);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.02) inset;
+    text-align: left;
+    overflow: hidden;
+  }
+  .term-bar {
+    display: flex; align-items: center; gap: 7px;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .term-bar i { width: 11px; height: 11px; border-radius: 50%; display: block; }
+  .term-bar i:nth-child(1) { background: #ff5f57; }
+  .term-bar i:nth-child(2) { background: #febc2e; }
+  .term-bar i:nth-child(3) { background: #28c840; }
+  .term-title { margin-left: 8px; font: 12px var(--mono); color: var(--dim); }
+  .term-body { padding: 18px 20px 22px; font: 13.5px/1.9 var(--mono); }
+  .term-body .c { color: var(--dim); }
+  .term-body .b { color: var(--blue); }
+  .term-body .g { color: var(--green); }
+  .term-body .v { color: var(--violet); }
+  .term-body .p { color: var(--pink); }
+  .term-body .y { color: var(--amber); }
+  .bar-track { display: inline-block; width: 180px; height: 6px; border-radius: 3px; background: rgba(255,255,255,0.08); vertical-align: middle; margin: 0 10px; overflow: hidden; }
+  .bar-fill { display: block; height: 100%; width: 100%; border-radius: 3px; background: var(--grad); animation: fill 3s ease-out infinite; }
+  @keyframes fill { 0% { width: 4%; } 70% { width: 96%; } 100% { width: 100%; } }
+
+  /* ---------- layout ---------- */
+  main { max-width: 980px; margin: 0 auto; padding: 0 24px 100px; }
+  section { margin-top: 110px; }
+  .kicker {
+    font: 12px var(--mono); letter-spacing: 2.5px; text-transform: uppercase;
+    color: var(--violet); margin-bottom: 12px;
+  }
+  h2 { font-size: 32px; letter-spacing: -1px; font-weight: 750; }
+  .section-sub { color: var(--muted); margin-top: 10px; max-width: 620px; }
+
+  /* ---------- feature grid ---------- */
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 36px; }
+  @media (max-width: 820px) { .grid { grid-template-columns: 1fr; } }
+  .feature {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 24px;
+    transition: border-color .2s, background .2s;
+  }
+  .feature:hover { border-color: var(--border-bright); background: rgba(255,255,255,0.05); }
+  .feature .ico {
+    width: 40px; height: 40px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 19px;
+    background: rgba(139,108,255,0.12);
+    border: 1px solid rgba(139,108,255,0.28);
+    margin-bottom: 16px;
+  }
+  .feature:nth-child(2) .ico { background: rgba(244,114,182,0.10); border-color: rgba(244,114,182,0.26); }
+  .feature:nth-child(3) .ico { background: rgba(251,191,36,0.10); border-color: rgba(251,191,36,0.25); }
+  .feature h3 { font-size: 16.5px; margin-bottom: 6px; }
+  .feature p { color: var(--muted); font-size: 14.5px; }
+
+  /* ---------- steps ---------- */
+  .steps { margin-top: 40px; display: flex; flex-direction: column; gap: 0; }
+  .step {
+    display: grid; grid-template-columns: 56px 1fr; gap: 20px;
+    position: relative; padding-bottom: 36px;
+  }
+  .step:last-child { padding-bottom: 0; }
+  .step::before {
+    content: ""; position: absolute; left: 17px; top: 40px; bottom: 4px;
+    width: 1px; background: linear-gradient(var(--border-bright), transparent);
+  }
+  .step:last-child::before { display: none; }
+  .step-num {
+    width: 36px; height: 36px; border-radius: 10px;
+    background: var(--panel-solid);
+    border: 1px solid var(--border-bright);
+    display: flex; align-items: center; justify-content: center;
+    font: 700 14px var(--mono); color: var(--violet);
+  }
+  .step h3 { font-size: 17px; margin: 6px 0 6px; }
+  .step p { color: var(--muted); font-size: 15px; }
+  .path {
+    font: 13px var(--mono); color: var(--cyan);
+    background: rgba(56,225,212,0.07);
+    border: 1px solid rgba(56,225,212,0.18);
+    border-radius: 6px; padding: 2px 8px;
+    white-space: nowrap;
+  }
+  code {
+    font: 13.5px var(--mono);
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 2px 7px;
+    color: var(--violet);
+  }
+  pre {
+    margin-top: 14px;
+    background: var(--panel-solid);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 18px;
+    font: 13px/1.8 var(--mono);
+    color: var(--muted);
+    overflow-x: auto;
+  }
+  pre .g { color: var(--green); }
+  pre .b { color: var(--blue); }
+
+  /* ---------- duo panel ---------- */
+  .duo { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; margin-top: 40px; }
+  @media (max-width: 820px) { .duo { grid-template-columns: 1fr; } }
+  .mock {
+    background: var(--panel-solid);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 18px;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.45);
+  }
+  .mock-row {
+    display: flex; align-items: center; gap: 12px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 14px;
+    margin-bottom: 10px;
+  }
+  .mock-row:last-child { margin-bottom: 0; }
+  .mock-swatch {
+    width: 34px; height: 34px; border-radius: 8px; flex-shrink: 0;
+    border: 1px solid var(--border-bright);
+  }
+  .mock-name { font-size: 13.5px; font-weight: 600; }
+  .mock-meta { font: 11px var(--mono); color: var(--dim); }
+  .tag {
+    margin-left: auto; flex-shrink: 0;
+    font: 11px var(--mono);
+    border-radius: 5px; padding: 3px 8px;
+  }
+  .tag.hold { background: rgba(255,255,255,0.06); color: var(--muted); border: 1px solid var(--border); }
+  .tag.vid { background: rgba(251,191,36,0.1); color: var(--amber); border: 1px solid rgba(251,191,36,0.25); }
+  .tag.ok { background: rgba(74,222,128,0.1); color: var(--green); border: 1px solid rgba(74,222,128,0.25); }
+  .duo-copy h3 { font-size: 20px; margin-bottom: 10px; letter-spacing: -0.3px; }
+  .duo-copy p { color: var(--muted); font-size: 15px; margin-bottom: 12px; }
+  .duo-copy ul { color: var(--muted); font-size: 15px; margin: 0 0 0 18px; }
+  .duo-copy li { margin: 8px 0; }
+  .duo-copy li::marker { color: var(--violet); }
+
+  /* ---------- settings table ---------- */
+  .settings-table {
+    width: 100%; border-collapse: separate; border-spacing: 0;
+    margin-top: 36px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+  }
+  .settings-table th {
+    text-align: left; padding: 14px 20px;
+    font: 11px var(--mono); letter-spacing: 1.5px; text-transform: uppercase;
+    color: var(--dim);
+    border-bottom: 1px solid var(--border);
+    background: rgba(255,255,255,0.02);
+  }
+  .settings-table td {
+    padding: 16px 20px; font-size: 14.5px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  .settings-table tr:last-child td { border-bottom: none; }
+  .settings-table td:first-child { font-weight: 650; white-space: nowrap; }
+  .settings-table td:nth-child(2) { font: 13px var(--mono); color: var(--cyan); white-space: nowrap; }
+  .settings-table td:last-child { color: var(--muted); }
+
+  .callout {
+    display: flex; gap: 14px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--violet);
+    border-radius: 10px;
+    padding: 16px 18px;
+    margin-top: 16px;
+    font-size: 14.5px; color: var(--muted);
+  }
+  .callout.warn { border-left-color: var(--amber); }
+  .callout strong { color: var(--text); }
+
+  /* ---------- faq ---------- */
+  .faq { margin-top: 36px; display: flex; flex-direction: column; gap: 10px; }
+  details {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 0 20px;
+    transition: border-color .2s;
+  }
+  details:hover, details[open] { border-color: var(--border-bright); }
+  summary {
+    cursor: pointer; font-weight: 600; font-size: 15px;
+    padding: 16px 0;
+    list-style: none;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  summary::-webkit-details-marker { display: none; }
+  summary::after {
+    content: "+"; font: 400 20px var(--mono); color: var(--dim);
+    transition: transform .2s;
+  }
+  details[open] summary::after { transform: rotate(45deg); color: var(--violet); }
+  details p { color: var(--muted); font-size: 14.5px; padding-bottom: 18px; margin-top: -4px; }
+  details code { font-size: 12.5px; }
+
+  /* ---------- trust strip ---------- */
+  .trust { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 36px; }
+  @media (max-width: 820px) { .trust { grid-template-columns: repeat(2, 1fr); } }
+  .trust-item {
+    text-align: center;
+    padding: 22px 14px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+  }
+  .trust-item .big { font-size: 22px; display: block; margin-bottom: 8px; }
+  .trust-item .lbl { font: 12px var(--mono); color: var(--muted); letter-spacing: 0.4px; }
+
+  footer {
+    border-top: 1px solid var(--border);
+    margin-top: 110px;
+    padding: 36px 24px;
+    text-align: center;
+    color: var(--dim);
+    font: 13px var(--mono);
+  }
+  footer .grad {
+    background: var(--grad);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    font-weight: 700;
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="nav-brand"><span class="nav-mark">⌗</span> Mockup Forge</span>
+  <div class="nav-links">
+    <a href="#install">Install</a>
+    <a href="#workflow">Workflow</a>
+    <a href="#video">Video</a>
+    <a href="#library">Add mockups</a>
+    <a href="#settings">Settings</a>
+    <a href="#faq">FAQ</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-mark">⌗</div>
+  <div class="pill"><span class="dot"></span> FIGMA DEVELOPMENT PLUGIN · v0.1</div>
+  <h1>Your design,<br>on the <span class="grad">real thing</span>.</h1>
+  <p class="hero-sub">Drop your artwork into a frame, click Render, and it comes back photographically warped onto phones, mugs, shirts, billboards — even video, playing on a curved LED wall. All inside Figma.</p>
+  <div class="hero-ctas">
+    <a class="btn btn-primary" href="#install">Get set up ↓</a>
+    <a class="btn btn-ghost" href="#workflow">See the workflow</a>
+  </div>
+
+  <div class="term">
+    <div class="term-bar"><i></i><i></i><i></i><span class="term-title">mockup-forge — render</span></div>
+    <div class="term-body">
+      <span class="c">$</span> forge <span class="b">render</span> --item mug-ceramic-front-01<br>
+      <span class="g">✓</span> Design frame <span class="c">“[MF] Design → mug / design”</span> · exported <span class="y">1024×768</span><br>
+      <span class="g">✓</span> Warp <span class="v">mesh 14×6</span> · cylindrical wrap · lighting baked<br>
+      <span class="g">✓</span> Colour <span class="p">mugColor #20222c</span> · shading preserved<br>
+      <span class="c">⠿</span> Compositing<span class="bar-track"><span class="bar-fill"></span></span><span class="c">221ms</span><br>
+      <span class="g">✓</span> Fill swapped on canvas <span class="c">— your design frame stays editable</span>
+    </div>
+  </div>
+</div>
+
+<main>
+
+<section>
+  <div class="kicker">Capabilities</div>
+  <h2>Smart-object compositing, minus Photoshop</h2>
+  <div class="grid">
+    <div class="feature">
+      <div class="ico">🌀</div>
+      <h3>Real warps, not skews</h3>
+      <p>Flat surfaces get true perspective transforms; mugs and bottles wrap cylindrically; shirts and totes ripple with fabric displacement. Shadows and highlights from the photo carry into your artwork.</p>
+    </div>
+    <div class="feature">
+      <div class="ico">🎬</div>
+      <h3>Video mockups</h3>
+      <p>Drop an MP4 in as the design and watch it play back on the product inside the plugin. Export the warped clip as an MP4 — encoded locally, nothing uploaded.</p>
+    </div>
+    <div class="feature">
+      <div class="ico">♻️</div>
+      <h3>Never lose work</h3>
+      <p>A render only ever swaps the mockup's image fill. Your design frame stays live and editable — tweak and re-render as many times as you like.</p>
+    </div>
+  </div>
+</section>
+
+<section id="install">
+  <div class="kicker">Setup</div>
+  <h2>Two pieces: a plugin and its render service</h2>
+  <p class="section-sub">The plugin does the canvas work; a small local service does the pixel work. Both live in this repo.</p>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">01</div>
+      <div>
+        <h3>Install and build</h3>
+        <p>Node 20+ required. From the <code>mockupplugin</code> folder:</p>
+        <pre><span class="b">npm</span> install
+<span class="b">npm</span> run build --workspace @mf/shared
+<span class="b">npm</span> run seed --workspace @mf/api      <span class="g"># generates the mockup library</span>
+<span class="b">npm</span> run build --workspace @mf/plugin</pre>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <div>
+        <h3>Start the render service</h3>
+        <p>Run <code>npm run dev:api</code> and leave it running. Check it's alive: <code>curl http://localhost:8787/health</code>.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <div>
+        <h3>Import the manifest</h3>
+        <p>In the Figma <strong>desktop app</strong>, go to <span class="path">Plugins → Development → Import plugin from manifest…</span> and pick <code>apps/plugin/manifest.json</code>.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">04</div>
+      <div>
+        <h3>Launch and connect</h3>
+        <p>Run it from <span class="path">Plugins → Development → Mockup Forge</span>. The badge should read <strong>Canvas connected</strong>, and the Settings tab's <em>Test connection</em> should find your service.</p>
+      </div>
+    </div>
+  </div>
+  <div class="callout warn">
+    <span>🌐</span>
+    <span><strong>Custom service URL?</strong> Any URL you set in Settings must also be listed in <code>manifest.json</code> under <code>networkAccess.allowedDomains</code> — and Figma rejects IP addresses there, so use a hostname like <code>localhost</code>, never <code>127.0.0.1</code>.</span>
+  </div>
+</section>
+
+<section id="workflow">
+  <div class="kicker">Workflow</div>
+  <h2>Browse. Drop in. Render.</h2>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">01</div>
+      <div>
+        <h3>Import a mockup from the Library</h3>
+        <p>Search or filter the grid and click a tile. The mockup lands on your canvas with a <strong>design frame</strong> beside it — checkerboard fill, correct aspect ratio — plus a colour swatch for each recolourable part.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <div>
+        <h3>Place your artwork in the design frame</h3>
+        <p>Anything goes: images, text, components, whole layouts. The hint label hides itself at render time. Scale the frame freely — the plugin warns if its ratio drifts from what the surface expects.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <div>
+        <h3>Set colours (optional)</h3>
+        <p>Recolour the swatch rectangle to change the product itself — a black mug, a navy tee. Shading and texture survive because the tint is applied as a ratio, not a flat fill.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">04</div>
+      <div>
+        <h3>Render</h3>
+        <p>Select the mockup (or its design frame — either works) and hit <strong>Render selected</strong> in the Render tab. Seconds later the product photo updates with your artwork warped on. Select several mockups and <strong>Render all</strong> does them in one pass.</p>
+      </div>
+    </div>
+  </div>
+  <div class="callout">
+    <span>🔗</span>
+    <span><strong>Rename anything, move anything.</strong> The link between a mockup and its design frames lives in plugin data on the nodes, not in their names — the <code>[MF]</code> prefixes are just labels.</span>
+  </div>
+</section>
+
+<section id="video">
+  <div class="kicker">Video</div>
+  <h2>Motion on the mockup</h2>
+  <div class="duo">
+    <div class="mock">
+      <div class="mock-row">
+        <span class="mock-swatch" style="background: linear-gradient(120deg,#1b1f3b,#0f2b46);"></span>
+        <div><div class="mock-name">Curved LED Display</div><div class="mock-meta">screen · 4.70:1 panorama</div></div>
+        <span class="tag ok">▶ 3.0s · 24fps</span>
+      </div>
+      <div class="mock-row">
+        <span class="mock-swatch" style="background: linear-gradient(120deg,#111,#333);"></span>
+        <div><div class="mock-name">Smartphone, Front</div><div class="mock-meta">screen · 9:19.5</div></div>
+        <span class="tag vid">🎬 CHOOSE CLIP</span>
+      </div>
+      <div class="mock-row">
+        <span class="mock-swatch" style="background: linear-gradient(120deg,#0e1118,#1c2030);"></span>
+        <div><div class="mock-name">Street Billboard</div><div class="mock-meta">face · 48:14</div></div>
+        <span class="tag hold">STILL</span>
+      </div>
+    </div>
+    <div class="duo-copy">
+      <h3>The preview is the export</h3>
+      <p>Select a mockup, hit <strong>Choose clip…</strong> on its card, and pick an MP4, MOV, or WebM up to 30 seconds. The plugin decodes it, warps every frame onto the product, and encodes a fresh MP4 — which plays right there in the panel.</p>
+      <ul>
+        <li><strong>Download MP4</strong> saves exactly what you just watched</li>
+        <li><strong>Apply poster to canvas</strong> pins the first frame onto the mockup, since Figma can't play video on canvas</li>
+        <li>Pick 12 / 24 / 30 fps, and whether the clip fills the surface (crop) or fits inside it (letterbox)</li>
+        <li>Encoding is local WebAssembly H.264 — the clip never leaves your machine except as frames sent to your own render service</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="library">
+  <div class="kicker">Growing the library</div>
+  <h2>Add your own mockups from a photo</h2>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">01</div>
+      <div>
+        <h3>Shoot or source the photo</h3>
+        <p>2000–4000px, even lighting, and — most important — the print surface <strong>blank</strong>. A pure white surface is ideal: the authoring tools can then find it automatically.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <div>
+        <h3>Click the corners</h3>
+        <p>Open <span class="path">tools/pick-points.html</span> in a browser, load the photo, and click the surface corners in design order. It hands you the coordinates, normalized and ready.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <div>
+        <h3>Author the item</h3>
+        <pre><span class="b">npx</span> tsx tools/author-item.ts \
+  --id desk-poster-01 --name <span class="g">"Poster on Desk"</span> \
+  --category print --viewpoint scene \
+  --base ~/photos/desk.jpg \
+  --corners <span class="g">"0.21,0.18 0.78,0.25 0.74,0.82 0.19,0.75"</span> \
+  --aspect 0.7071</pre>
+        <p>Masks, shadow and highlight maps are derived from the geometry, so they can't disagree with the warp. Curved surfaces use <code>--rect</code> with <code>--cylinder</code>; fabric adds <code>--fabric --displacement</code>.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">04</div>
+      <div>
+        <h3>Restart the service</h3>
+        <p>The new item appears in the Library tab immediately. Render it against the test grid with <code>npx tsx tools/render-sample.ts your-item-id</code> to sanity-check the warp.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="settings">
+  <div class="kicker">Configuration</div>
+  <h2>Two knobs. Sane defaults.</h2>
+  <table class="settings-table">
+    <tr><th>Setting</th><th>Default</th><th>Guidance</th></tr>
+    <tr>
+      <td>Render service URL</td>
+      <td>http://localhost:8787</td>
+      <td>Where the catalog and renders come from. Remembered per user. Must be in the manifest's allowed domains.</td>
+    </tr>
+    <tr>
+      <td>Render width override</td>
+      <td>full resolution</td>
+      <td>Lower it (e.g. 960) for fast previews while iterating; clear it for the final full-res render. Also caps video export size.</td>
+    </tr>
+  </table>
+  <div class="callout">
+    <span>📐</span>
+    <span><strong>Aspect ratios are the contract.</strong> Design frames can be any size — the render keys off ratio, not pixels. Drift beyond 2% gets a warning naming the exact frame height that would fit, and renders anyway (stretched) unless you fix it.</span>
+  </div>
+  <div class="callout warn">
+    <span>⏱</span>
+    <span><strong>Speed:</strong> stills render in well under a second. A 10-second video is a few hundred frames — expect roughly half a minute, with per-step progress in the panel.</span>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="kicker">Troubleshooting</div>
+  <h2>When something looks off</h2>
+  <div class="faq">
+    <details>
+      <summary>Stuck on “Connecting to the canvas…”</summary>
+      <p>Rebuild the plugin (<code>npm run build --workspace @mf/plugin</code>) and reopen it — Figma caches the old bundle until relaunch. If it persists, open <span class="path">Plugins → Development → Show/Hide console</span> and look for <code>[MF]</code> lines.</p>
+    </details>
+    <details>
+      <summary>“Cannot reach the render service”</summary>
+      <p>Check the service is running (<code>curl http://localhost:8787/health</code>) and that the URL in Settings uses a hostname that's listed in the manifest — Figma silently blocks any other origin, and blocked looks identical to offline. Thumbnails failing while the list loads means the same thing.</p>
+    </details>
+    <details>
+      <summary>The library grid is empty</summary>
+      <p>The catalog is generated, not committed. Run <code>npm run seed --workspace @mf/api</code>, restart the service, and refresh the Library tab.</p>
+    </details>
+    <details>
+      <summary>My artwork looks stretched on the product</summary>
+      <p>The design frame's ratio has drifted from what the surface expects — the Render tab shows the drift percentage and the exact pixel height to restore. Resize the frame and re-render.</p>
+    </details>
+    <details>
+      <summary>The render replaced my design!</summary>
+      <p>It can't — renders only touch the <em>mockup</em> frame's image fill. Your design frame is untouched next to it; it may just be hidden behind the updated mockup. Renaming or moving frames is also safe: the binding lives in plugin data, not names.</p>
+    </details>
+    <details>
+      <summary>The video export has no sound</summary>
+      <p>Correct — v1 exports are silent by design. Audio passthrough is on the roadmap (see <code>docs/VIDEO.md</code>); until then, remux the audio from your source clip in any editor.</p>
+    </details>
+    <details>
+      <summary>Renders suddenly return “rate limited”</summary>
+      <p>The service allows 30 renders per minute per IP as abuse protection. Batch video requests count once per batch, so normal use rarely hits it — wait a moment and retry, or raise <code>RATE_LIMIT_RENDERS</code> on your own service.</p>
+    </details>
+  </div>
+</section>
+
+<section>
+  <div class="kicker">Guarantees</div>
+  <h2>What you can count on</h2>
+  <div class="trust">
+    <div class="trust-item"><span class="big">♻️</span><span class="lbl">design frames never touched</span></div>
+    <div class="trust-item"><span class="big">🪪</span><span class="lbl">no accounts, no login</span></div>
+    <div class="trust-item"><span class="big">🎬</span><span class="lbl">video encoded locally</span></div>
+    <div class="trust-item"><span class="big">🧪</span><span class="lbl">golden-image tested renders</span></div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <span class="grad">Mockup Forge</span> · a Figma development plugin · flat art in, product shots out
+</footer>
+
+</body>
+</html>
