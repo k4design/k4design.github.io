@@ -125,11 +125,11 @@
         return canvas.toDataURL('image/png').split(',')[1];
       }
 
-      function selectionFor(guid) {
-        const instance = instances.get(guid);
+      /** Everything imported so far counts as selected, so batch render is testable. */
+      function selectionMessage() {
         return {
           type: 'selection-changed',
-          targets: instance ? [instance.target] : [],
+          targets: [...instances.values()].map((instance) => instance.target),
           foreignCount: 0,
         };
       }
@@ -182,7 +182,7 @@
               },
             });
             toUi({ type: 'import-done', instanceGuid: guid, itemId: detail.id, itemNodeId: '0:1' });
-            toUi(selectionFor(guid));
+            toUi(selectionMessage());
             break;
           }
           case 'export-designs': {

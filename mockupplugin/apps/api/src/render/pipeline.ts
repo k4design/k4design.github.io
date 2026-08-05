@@ -108,9 +108,14 @@ export async function renderItem(request: RenderRequest): Promise<RenderOutcome>
         const drift = checkAspect(layer, design.width, design.height);
         if (drift) {
           if (!request.allowAspectDrift) {
+            const name = layer.label ?? layer.id;
             throw new ApiFailure(
               'aspect_mismatch',
-              drift.message,
+              `The design frame for "${name}" is ${ratio(
+                design.width! / design.height!,
+              )} but this surface expects ${ratio(
+                layer.placeholder.aspect,
+              )}. Resize the frame, or allow stretching to render anyway.`,
               undefined,
               { surfaceId: layer.id },
             );
@@ -118,9 +123,23 @@ export async function renderItem(request: RenderRequest): Promise<RenderOutcome>
           warnings.push(drift);
         }
 
-        const decoded = await decodeDesign(Buffer.from(design.design, 'base64'), {
-          maxPixels: MAX_DESIGN_PIXELS,
-        });
+        // A corrupt or non-image upload is the caller's problem, not a server
+        // fault — say so, and say what to do about it.
+        let decoded;
+        try {
+          decoded = await decodeDesign(Buffer.from(design.design, 'base64'), {
+            maxPixels: MAX_DESIGN_PIXELS,
+          });
+        } catch (err) {
+          throw new ApiFailure(
+            'unsupported_media',
+            `The design sent for "${
+              layer.label ?? layer.id
+            }" could not be read as a PNG. Re-export the frame and try again.`,
+            undefined,
+            { surfaceId: layer.id, reason: (err as Error).message },
+          );
+        }
 
         if (
           decoded.width < layer.placeholder.recommendedWidth * 0.5 &&
