@@ -200,6 +200,23 @@ mount and a CDN in front of `/assets`.
 Renders are CPU-bound and single-threaded per request, so scale on cores and keep
 `RENDER_TIMEOUT_MS` below your platform's request timeout.
 
+## Publishing
+
+The Community build is plug-and-play: the public origin from
+`apps/plugin/manifest.production.json` is compiled into the bundles, the
+Settings URL field disappears, and the manifest allows only that origin.
+
+```bash
+npm run build:prod --workspace @mf/plugin
+# -> apps/plugin/release/mockup-forge.zip
+```
+
+The packager refuses any bundle still containing localhost. Deployment of the
+render service is documented in [docs/DEPLOY.md](docs/DEPLOY.md); the listing
+copy, artwork, and step-by-step submission checklist live in
+[apps/plugin/community/LISTING.md](apps/plugin/community/LISTING.md). The dev
+workflow (`npm run build`, localhost, Settings URL field) is unchanged.
+
 ## Documentation
 
 - [DECISIONS.md](DECISIONS.md) — every open choice in the brief, and why it went the way it did

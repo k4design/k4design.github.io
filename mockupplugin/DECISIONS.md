@@ -139,6 +139,34 @@ item already declares a `default` colour, so normalizing the masked pixels
 against it and multiplying by the requested colour preserves shading as ratios
 and works in both directions. Requesting the default is exactly the identity.
 
+## Publishing
+
+**Two build profiles, one source of truth for the origin.** The public origin
+lives only in `manifest.production.json`'s first allowedDomains entry;
+`build:prod` compiles it into both bundles as `__MF_API_BASE__`, so the
+manifest and the code cannot disagree. Dev builds keep localhost and the
+Settings URL field; production hides the field entirely, because the manifest
+blocks every other origin anyway — a URL box that can only break the plugin is
+not a feature. Stored config from older installs is normalized to the compiled
+origin so nobody stays pinned to a dead one.
+
+**The catalog bakes into the Docker image.** `catalog/store.ts` already
+treats the catalog as immutable per deploy; baking the generated assets into
+the image makes that literal — a deploy IS a catalog release, with no volume,
+bucket, or cache invalidation to get wrong. Catalog updates never touch the
+plugin, which matters because plugin changes trigger Community re-review and
+server changes do not.
+
+**Batches get a sibling rate limiter, not a nested one.** fastify hooks
+inherit into child scopes, so nesting the batch limiter inside the still
+limiter would double-bill every batch against the still budget. Verified: the
+13th batch in a minute 429s while `/render` keeps answering.
+
+**Width requests clamp instead of rejecting.** A client asking for 8000px
+means "as sharp as possible"; on a public service the cap (3000 — the largest
+catalog canvas) is what that means, and an error would just be a worse way to
+say the same thing.
+
 ## Seed catalog
 
 **Photography is generated, not sourced, and not committed.** The brief said
