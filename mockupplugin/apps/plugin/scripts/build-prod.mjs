@@ -22,9 +22,21 @@ if (!origin || !/^https:\/\//.test(origin)) {
 }
 
 console.log(`Building production bundles against ${origin}`);
-const env = { ...process.env, MF_API_BASE: origin, NODE_ENV: 'production' };
-const run = (command, args) => execFileSync(command, args, { cwd: app, env, stdio: 'inherit' });
+const prodEnv = { ...process.env, MF_API_BASE: origin, NODE_ENV: 'production' };
+const run = (command, args, env) =>
+  execFileSync(command, args, { cwd: app, env, stdio: 'inherit' });
 
-run('npx', ['vite', 'build']);
-run('node', ['scripts/build-code.mjs']);
-run('node', ['scripts/package-release.mjs']);
+run('npx', ['vite', 'build'], prodEnv);
+run('node', ['scripts/build-code.mjs'], prodEnv);
+run('node', ['scripts/package-release.mjs'], prodEnv);
+
+// dist/ is what the DEV manifest points at, and the production bundles were
+// just written into it. Leaving them there silently repoints any imported dev
+// plugin at the public origin — which the dev manifest does not even allow.
+// Rebuild the dev profile so dist/ is always safe to run from Figma.
+console.log('Restoring dev bundles in dist/ (release artifacts live in release/)');
+const devEnv = { ...process.env };
+delete devEnv.MF_API_BASE;
+delete devEnv.NODE_ENV;
+run('npx', ['vite', 'build'], devEnv);
+run('node', ['scripts/build-code.mjs'], devEnv);
