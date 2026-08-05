@@ -175,6 +175,16 @@ export const BatchRenderRequestSchema = z.object({
   height: z.number().int().positive().max(8192),
   colorize: z.record(HexSchema).default({}),
   outputWidth: z.number().int().min(256).max(8192).optional(),
+  /**
+   * Wire format for the returned frames.
+   *
+   * Video frames are headed straight into a lossy H.264 encode, so PNG's
+   * losslessness buys nothing and costs a great deal: a warped 1280px PNG is
+   * ~700KB, and base64-decoding that in the plugin measured 62ms per frame —
+   * 4.5s of a 72-frame clip. JPEG is ~6x smaller for the same visual result
+   * once encoded.
+   */
+  frameFormat: z.enum(['png', 'jpeg']).default('png'),
 });
 export type BatchRenderRequest = z.infer<typeof BatchRenderRequestSchema>;
 
@@ -184,8 +194,10 @@ export const BatchRenderResponseSchema = z.object({
   surfaceId: z.string(),
   width: z.number().int().positive(),
   height: z.number().int().positive(),
-  /** Base64 PNGs, same order as the request. */
+  /** Base64 images, same order as the request. */
   frames: z.array(z.string()),
+  /** Format the frames were encoded as, so the client can decode them. */
+  frameFormat: z.enum(['png', 'jpeg']).default('png'),
   ms: z.number().nonnegative(),
   /** Deduped — an aspect drift is reported once, not once per frame. */
   warnings: z.array(RenderWarningSchema).default([]),

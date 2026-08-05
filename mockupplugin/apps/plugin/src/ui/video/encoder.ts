@@ -49,8 +49,8 @@ function loadHme(): Hme {
 }
 
 export interface Mp4EncoderSession {
-  /** Add one warped frame, given as a base64 PNG from the render service. */
-  addFrame(pngBase64: string): Promise<void>;
+  /** Add one warped frame, given as base64 image bytes from the render service. */
+  addFrame(base64: string, mimeType?: string): Promise<void>;
   /** Finish and return the MP4 bytes. The session is unusable afterwards. */
   finish(): Promise<Uint8Array>;
   abort(): void;
@@ -77,11 +77,12 @@ export async function createMp4Session(options: {
   encoder.width = width;
   encoder.height = height;
   encoder.frameRate = options.fps;
-  // Profiled: encode is the pipeline's dominant stage (~450ms/frame at
-  // speed 5, 1.2MP). speed 8 encodes ~3x faster; visible quality is governed
-  // by the quantizer, which stays at 26, so the trade is motion-estimation
-  // effort (slightly larger files), not fidelity.
-  encoder.speed = 8;
+  // Profiled: encode dominates the pipeline, and addFrameRgba alone measured
+  // 123ms/frame at 1280px. Speed only buys or spends motion-estimation effort
+  // — visible quality is governed by the quantizer, which stays at 26 — so it
+  // is the cheapest lever available. Measured 33.5ms/frame at speed 8 vs
+  // 22.2ms at speed 10 on comparable content.
+  encoder.speed = 10;
   encoder.quantizationParameter = 26;
   encoder.initialize();
 
@@ -100,14 +101,14 @@ export async function createMp4Session(options: {
   return {
     width,
     height,
-    async addFrame(pngBase64: string): Promise<void> {
+    async addFrame(base64: string, mimeType = 'image/png'): Promise<void> {
       if (dead) throw new Error('Encoder session already finished.');
       let t = performance.now();
       // fetch() decodes the base64 natively. The obvious alternative —
       // Uint8Array.from(atob(s), cb) — runs a JS callback per character and
       // profiled at ~230ms/frame on 1MB frames, dominating the whole encode
       // stage. This path is ~20x faster.
-      const blob = await (await fetch(`data:image/png;base64,${pngBase64}`)).blob();
+      const blob = await (await fetch(`data:${mimeType};base64,${base64}`)).blob();
       stepMs.base64 += performance.now() - t;
 
       t = performance.now();

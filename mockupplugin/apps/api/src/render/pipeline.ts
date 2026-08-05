@@ -226,6 +226,8 @@ export interface SequenceRequest {
   frameHeight: number;
   colorize: Record<string, string>;
   outputWidth?: number;
+  /** Wire format for the returned frames; JPEG for video, PNG otherwise. */
+  frameFormat?: 'png' | 'jpeg';
 }
 
 export interface SequenceOutcome {
@@ -382,10 +384,12 @@ export async function renderSequence(request: SequenceRequest): Promise<Sequence
       canvas.drawOverlay(overlay.image, overlay.blend, overlay.opacity);
     }
 
+    const encoder = sharp(canvas.toBuffer(), { raw: { width, height, channels: 4 } });
     out.push(
-      await sharp(canvas.toBuffer(), { raw: { width, height, channels: 4 } })
-        .png({ compressionLevel: 6 })
-        .toBuffer(),
+      await (request.frameFormat === 'jpeg'
+        ? encoder.jpeg({ quality: 92, chromaSubsampling: '4:4:4' })
+        : encoder.png({ compressionLevel: 6 })
+      ).toBuffer(),
     );
   }
 

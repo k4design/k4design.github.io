@@ -110,6 +110,7 @@ export async function registerRenderRoutes(app: FastifyInstance): Promise<void> 
             frameWidth: body.width,
             frameHeight: body.height,
             colorize: body.colorize,
+            frameFormat: body.frameFormat,
             ...(body.outputWidth ? { outputWidth: body.outputWidth } : {}),
           }),
           // A batch is legitimately many renders' worth of work.
@@ -135,6 +136,7 @@ export async function registerRenderRoutes(app: FastifyInstance): Promise<void> 
           width: outcome.width,
           height: outcome.height,
           frames: outcome.frames.map((frame) => frame.toString('base64')),
+          frameFormat: body.frameFormat,
           ms: outcome.ms,
           warnings: outcome.warnings,
         };

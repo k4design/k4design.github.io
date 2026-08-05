@@ -190,6 +190,9 @@ export function useVideoRender() {
             height: designHeight,
             colorize: input.colorize,
             outputWidth,
+            // Frames feed a lossy H.264 encode, so lossless PNG only costs
+            // transfer and base64-decode time in the plugin.
+            frameFormat: 'jpeg',
           },
           {
             // A clip is many batches; losing one to a rate limit would discard
@@ -223,7 +226,7 @@ export function useVideoRender() {
             posterPng = frame;
             posterSize = { width: batch.width, height: batch.height };
           }
-          await session.current.addFrame(frame);
+          await session.current.addFrame(frame, `image/${batch.frameFormat}`);
           encoded += 1;
           progress.encoded = encoded;
           publish();
