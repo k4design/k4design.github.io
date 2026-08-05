@@ -8,6 +8,7 @@
     --taupe:#8B8578; --line:rgba(24,20,16,.14); --line-soft:rgba(24,20,16,.08);
     --mag:#C81E67; --mag-tint:rgba(200,30,103,.10); --mag-line:rgba(200,30,103,.34);
     --card:#FBFAF8;
+    --amber:#9A6212; --amber-tint:rgba(154,98,18,.10); --amber-line:rgba(154,98,18,.30);
     --sans:"Helvetica Neue",-apple-system,system-ui,"Segoe UI",sans-serif;
     --serif:"Iowan Old Style",Georgia,"Times New Roman",serif;
     --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
@@ -19,6 +20,7 @@
       --taupe:#948D7F; --line:rgba(239,235,227,.16); --line-soft:rgba(239,235,227,.08);
       --mag:#F0629A; --mag-tint:rgba(240,98,154,.13); --mag-line:rgba(240,98,154,.40);
       --card:#1D1913;
+      --amber:#E0A33A; --amber-tint:rgba(224,163,58,.13); --amber-line:rgba(224,163,58,.36);
     }
   }
   :root[data-theme="light"]{
@@ -26,12 +28,14 @@
     --taupe:#8B8578; --line:rgba(24,20,16,.14); --line-soft:rgba(24,20,16,.08);
     --mag:#C81E67; --mag-tint:rgba(200,30,103,.10); --mag-line:rgba(200,30,103,.34);
     --card:#FBFAF8;
+    --amber:#9A6212; --amber-tint:rgba(154,98,18,.10); --amber-line:rgba(154,98,18,.30);
   }
   :root[data-theme="dark"]{
     --paper:#16130F; --paper-2:#1F1B15; --ink:#EFEBE3; --ink-soft:#C7C0B3;
     --taupe:#948D7F; --line:rgba(239,235,227,.16); --line-soft:rgba(239,235,227,.08);
     --mag:#F0629A; --mag-tint:rgba(240,98,154,.13); --mag-line:rgba(240,98,154,.40);
     --card:#1D1913;
+    --amber:#E0A33A; --amber-tint:rgba(224,163,58,.13); --amber-line:rgba(224,163,58,.36);
   }
 
   *{box-sizing:border-box}
@@ -168,6 +172,9 @@
     color:var(--taupe);flex-shrink:0;}
   .pill.live{color:var(--mag);border-color:var(--mag-line);background:var(--mag-tint);}
   .pill.beta{color:var(--ink-soft);}
+  /* in review — reads as "not signed off yet" without shouting */
+  .pill.review{color:var(--amber);border-color:var(--amber-line);
+    background:var(--amber-tint);}
 
   .empty-state{font-family:var(--serif);font-style:italic;color:var(--taupe);
     padding:1.6rem 1.4rem;font-size:.95rem;}

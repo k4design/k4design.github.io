@@ -83,6 +83,14 @@ function iconHtml(p) {
     : `<span class="ico is-emoji">${esc(p.icon)}</span>`;
 }
 
+/* Status drives a CSS class, so it stays one word; the label can differ. */
+const STATUS_LABELS = {
+  live: 'live',
+  beta: 'beta',
+  review: 'in review',
+  retired: 'retired',
+};
+
 function itemHtml(p) {
   return `
     <button class="item${p.status === 'retired' ? ' is-retired' : ''}"
@@ -90,7 +98,7 @@ function itemHtml(p) {
       ${iconHtml(p)}
       <span class="row">
         <span class="nm">${esc(p.name)}</span>
-        <span class="pill ${esc(p.status || '')}">${esc(p.status || '')}</span>
+        <span class="pill ${esc(p.status || '')}">${esc(STATUS_LABELS[p.status] || p.status || '')}</span>
       </span>
       <span class="sub">${esc(p.tagline || '')}</span>
     </button>`;

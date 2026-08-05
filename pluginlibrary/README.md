@@ -27,7 +27,7 @@ Live at `https://k4design.github.io/pluginlibrary/` (password below).
   tagline: 'One line on what it removes from your day.',
   category: 'Video & Motion',
   icon: 'assets/icons/video-export.png',   // or an emoji, or omit it
-  status: 'live',            // live | beta | retired
+  status: 'live',            // live | beta | review | retired
   version: '1.0',
   owner: 'Kyle',
   updated: '2026-08-04',     // YYYY-MM-DD, sorts newest-first on the index

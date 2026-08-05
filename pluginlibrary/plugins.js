@@ -9,8 +9,9 @@
              the order the groups appear in the sidebar
    icon:     optional — 'assets/icons/name.png', or a single emoji.
              Omit it and the sidebar shows the plugin's initials.
-   status:   live | beta | retired   (retired sinks to the bottom
-                                      of its category, it doesn't vanish)
+   status:   live | beta | review | retired
+             'review' shows as "in review". 'retired' sinks to the bottom
+             of its category rather than vanishing.
    updated:  YYYY-MM-DD              (sorts newest-first within a group)
    ============================================================ */
 
@@ -50,12 +51,25 @@ const PLUGINS = [
     guide: 'guides/AutoLayout.html',
   },
   {
+    slug: 'mockup-forge',
+    name: 'Mockup Forge',
+    tagline: 'Drop artwork into a frame and get it back photographically warped onto phones, mugs, shirts, billboards — video included.',
+    category: 'Asset Prep',
+    icon: 'assets/icons/mockup-forge.png',
+    status: 'beta',
+    version: '0.1',
+    owner: 'Kyle',
+    updated: '2026-08-05',
+    tags: ['mockups', 'compositing', 'render'],
+    guide: 'guides/mockup-forge-guide.html',
+  },
+  {
     slug: 'frame-to-mp4',
     name: 'Frame to MP4',
     tagline: 'Export a run of frames as one video — embedded videos play for real, audio included, encoded locally.',
     category: 'Video & Motion',
     icon: 'assets/icons/frametomp4.png',
-    status: 'live',
+    status: 'review',
     version: '1.0',
     owner: 'Kyle',
     updated: '2026-08-04',
