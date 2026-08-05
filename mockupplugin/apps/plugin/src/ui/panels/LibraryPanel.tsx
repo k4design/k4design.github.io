@@ -156,7 +156,16 @@ export function LibraryPanel({ state }: { state: Bridge['state']; api: Bridge['a
         </select>
       </div>
 
-      {error ? <div className="notice error">{error}</div> : null}
+      {error ? (
+        <div className="notice error stack">
+          <span>{error}</span>
+          <div className="row">
+            <button className="secondary" disabled={loading} onClick={() => void load('replace')}>
+              Try again
+            </button>
+          </div>
+        </div>
+      ) : null}
 
       {items.length === 0 && !loading && !error ? (
         <div className="empty">

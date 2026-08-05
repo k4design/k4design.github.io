@@ -116,3 +116,71 @@ as `meshPointCountError` for the authoring tool.
 single string encoding two blend passes is ambiguous to implement and to
 validate. An item that needs both authors two overlay layers with explicit
 `multiply` and `screen` blends, in draw order.
+
+**Declaration order is draw order.** The brief's example item lists the surface
+before the colorize layer, while its pipeline description composites colorize
+first. Rather than pick one and hard-code an implicit ordering by layer type,
+the renderer walks `layers` in the order the item declares them. The seed items
+declare base → colorize → surface → overlay, which matches the described
+pipeline, and an item that genuinely needs an overlay beneath a surface can say
+so without a special case.
+
+**Colorize is a ratio against the layer's authored default, not a multiply.** A
+plain multiply can only darken, so a dark cap could never be recoloured white; a
+plain replace discards the shading that makes the render look photographic. The
+item already declares a `default` colour, so normalizing the masked pixels
+against it and multiplying by the requested colour preserves shading as ratios
+and works in both directions. Requesting the default is exactly the identity.
+
+## Seed catalog
+
+**Photography is generated, not sourced, and not committed.** The brief said
+quality matters less than exercising every code path. Generating it from the same
+constants that define the warp means the artwork, the alpha mask and the lighting
+maps are all derived from one source of truth and cannot drift apart. Because
+generation is deterministic, `assets/items/*/*.png` stays out of git and a fresh
+clone runs `npm run seed` — verified to reproduce byte-identical output that
+still matches the committed goldens.
+
+**Wrinkle displacement is procedural, not SVG.** `feTurbulence` support varies
+between rasterizers, and fabric detail needs directional creases rather than
+plain noise. A small value-noise function with a deterministic hash gives
+reproducible maps and creases that read as cloth.
+
+## Testing
+
+**Goldens are rendered at 600px, not full resolution.** Every code path — each
+warp family, masks, lighting, colorize, overlays — runs identically at either
+size, but 600px references are small enough to belong in git and to eyeball in a
+review. Full-resolution goldens would be ~40 MB of binaries nobody inspects.
+
+**The golden test card is drawn procedurally, with no text.** SVG text pulls in
+host fonts, and a font substitution would change every reference on a different
+machine. The pattern is chosen to make regressions visible rather than plausible:
+a grid catches shear, distinct corner colours catch flips, and a diagonal catches
+transposition.
+
+**The comparison tolerates 0.2% of pixels differing by more than 6/255.**
+libvips versions differ very slightly in resampling, so exact equality would fail
+spuriously on a different machine. The threshold was checked against a real
+regression: injecting a 3px offset into the homography sampler fails all six
+homography items by 1.2–5.7% of pixels, three orders of magnitude clear of the
+tolerance — and correctly leaves the four mesh items passing, since they do not
+use that code path.
+
+**A missing golden fails rather than silently passing.** The suite writes the
+reference so it can be reviewed, then fails, because a test that invents its own
+expected value on first run is not a test.
+
+## Video (phase 2)
+
+**Video reuses the still pipeline frame by frame.** A warp is a pure function of
+(design pixels, item geometry) with no state between renders, so `renderVideo`
+is a loop over `renderItem` rather than a second renderer. This is the reason
+geometry is normalized.
+
+**The endpoint returns 501 instead of enqueuing.** The ffmpeg orchestration is
+real and gated behind `MF_VIDEO`, but there is no upload route and no object
+storage, so a finished MP4 has nowhere to live. Reporting that honestly beats
+accepting jobs that cannot complete. `docs/VIDEO.md` lists what remains,
+including the switch from frame dumps on disk to a piped rawvideo stream.

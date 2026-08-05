@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Mockup Forge — point picker</title>
+    <style>
+      :root {
+        color-scheme: dark;
+      }
+      body {
+        margin: 0;
+        padding: 16px;
+        font: 13px/1.5 Inter, -apple-system, sans-serif;
+        background: #1e1e1e;
+        color: #eee;
+        display: grid;
+        grid-template-columns: 1fr 320px;
+        gap: 16px;
+        align-items: start;
+      }
+      #stage {
+        position: relative;
+        display: inline-block;
+        background: #111;
+        border-radius: 8px;
+        overflow: hidden;
+      }
+      #photo {
+        display: block;
+        max-width: 100%;
+        max-height: 82vh;
+      }
+      #overlay {
+        position: absolute;
+        inset: 0;
+        cursor: crosshair;
+      }
+      aside {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      h1 {
+        font-size: 15px;
+        margin: 0;
+      }
+      p {
+        margin: 0;
+        color: #aaa;
+      }
+      textarea {
+        width: 100%;
+        height: 120px;
+        background: #111;
+        color: #9fe6a0;
+        border: 1px solid #333;
+        border-radius: 6px;
+        padding: 8px;
+        font-family: ui-monospace, Menlo, monospace;
+        font-size: 12px;
+        resize: vertical;
+      }
+      button,
+      select,
+      input[type='file'] {
+        font: inherit;
+        background: #2d2d2d;
+        color: #eee;
+        border: 1px solid #444;
+        border-radius: 6px;
+        padding: 6px 10px;
+        cursor: pointer;
+      }
+      button.primary {
+        background: #0d99ff;
+        border-color: #0d99ff;
+        color: #fff;
+        font-weight: 600;
+      }
+      ol {
+        margin: 0;
+        padding-left: 18px;
+        color: #aaa;
+      }
+      code {
+        color: #9fe6a0;
+      }
+    </style>
+  </head>
+  <body>
+    <!--
+      Click the corners of a surface on a photo and get normalized coordinates to
+      paste into tools/author-item.ts. Everything happens locally in the page —
+      the file is never uploaded anywhere.
+
+      Open it directly (file://) or over the dev server; no build step.
+    -->
+    <div id="stage">
+      <img id="photo" alt="" />
+      <canvas id="overlay"></canvas>
+    </div>
+
+    <aside>
+      <h1>Point picker</h1>
+      <input type="file" id="file" accept="image/*" />
+
+      <label>
+        Mode
+        <select id="mode">
+          <option value="corners">Flat surface — 4 corners</option>
+          <option value="rect">Curved / fabric — 2 clicks (top-left, bottom-right)</option>
+          <option value="free">Free polygon — any number of points</option>
+        </select>
+      </label>
+
+      <ol>
+        <li>
+          For <strong>4 corners</strong>, click in design order: top-left,
+          top-right, bottom-right, bottom-left of your <em>artwork</em> as it sits
+          on the product. Order is what tells the warp which way is up.
+        </li>
+        <li>For <strong>curved / fabric</strong>, click the top-left then bottom-right of the print area.</li>
+      </ol>
+
+      <div>
+        <button id="undo">Undo</button>
+        <button id="clear">Clear</button>
+        <button class="primary" id="copy">Copy</button>
+      </div>
+
+      <p>Paste into <code>tools/author-item.ts</code>:</p>
+      <textarea id="out" spellcheck="false" readonly></textarea>
+      <p id="hint"></p>
+    </aside>
+
+    <script>
+      const fileInput = document.getElementById('file');
+      const photo = document.getElementById('photo');
+      const overlay = document.getElementById('overlay');
+      const out = document.getElementById('out');
+      const hint = document.getElementById('hint');
+      const modeSelect = document.getElementById('mode');
+      const ctx = overlay.getContext('2d');
+
+      /** Clicks, stored normalized 0..1 so they survive any display scaling. */
+      let points = [];
+
+      fileInput.addEventListener('change', () => {
+        const file = fileInput.files?.[0];
+        if (!file) return;
+        photo.src = URL.createObjectURL(file);
+        points = [];
+      });
+
+      photo.addEventListener('load', () => {
+        overlay.width = photo.clientWidth;
+        overlay.height = photo.clientHeight;
+        draw();
+      });
+
+      window.addEventListener('resize', () => {
+        if (!photo.src) return;
+        overlay.width = photo.clientWidth;
+        overlay.height = photo.clientHeight;
+        draw();
+      });
+
+      overlay.addEventListener('click', (event) => {
+        const rect = overlay.getBoundingClientRect();
+        points.push({
+          x: (event.clientX - rect.left) / rect.width,
+          y: (event.clientY - rect.top) / rect.height,
+        });
+        draw();
+      });
+
+      document.getElementById('undo').addEventListener('click', () => {
+        points.pop();
+        draw();
+      });
+      document.getElementById('clear').addEventListener('click', () => {
+        points = [];
+        draw();
+      });
+      document.getElementById('copy').addEventListener('click', async () => {
+        await navigator.clipboard.writeText(out.value);
+        hint.textContent = 'Copied.';
+      });
+      modeSelect.addEventListener('change', draw);
+
+      const LABELS = ['TL', 'TR', 'BR', 'BL'];
+
+      function draw() {
+        ctx.clearRect(0, 0, overlay.width, overlay.height);
+        const px = points.map((p) => ({ x: p.x * overlay.width, y: p.y * overlay.height }));
+
+        if (px.length > 1) {
+          ctx.beginPath();
+          ctx.moveTo(px[0].x, px[0].y);
+          for (const p of px.slice(1)) ctx.lineTo(p.x, p.y);
+          if (px.length > 2) ctx.closePath();
+          ctx.strokeStyle = '#0d99ff';
+          ctx.lineWidth = 2;
+          ctx.stroke();
+          ctx.fillStyle = 'rgba(13,153,255,0.16)';
+          if (px.length > 2) ctx.fill();
+        }
+
+        px.forEach((p, i) => {
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, 6, 0, Math.PI * 2);
+          ctx.fillStyle = '#fff';
+          ctx.fill();
+          ctx.strokeStyle = '#0d99ff';
+          ctx.lineWidth = 2;
+          ctx.stroke();
+          ctx.fillStyle = '#fff';
+          ctx.font = 'bold 12px sans-serif';
+          const label = modeSelect.value === 'corners' ? (LABELS[i] ?? String(i + 1)) : String(i + 1);
+          ctx.fillText(label, p.x + 9, p.y - 8);
+        });
+
+        writeOutput();
+      }
+
+      const fmt = (n) => n.toFixed(4).replace(/0+$/, '').replace(/\.$/, '');
+
+      function writeOutput() {
+        const mode = modeSelect.value;
+        if (points.length === 0) {
+          out.value = '';
+          hint.textContent = photo.src ? 'Click the surface corners.' : 'Choose a photo to begin.';
+          return;
+        }
+
+        const list = points.map((p) => `${fmt(p.x)},${fmt(p.y)}`).join(' ');
+
+        if (mode === 'corners') {
+          out.value = `--corners "${list}"`;
+          hint.textContent =
+            points.length === 4
+              ? 'Ready. Order is TL, TR, BR, BL of your artwork.'
+              : `${points.length}/4 corners.`;
+          return;
+        }
+
+        if (mode === 'rect') {
+          if (points.length < 2) {
+            out.value = '';
+            hint.textContent = `${points.length}/2 points.`;
+            return;
+          }
+          const [a, b] = points;
+          const x = Math.min(a.x, b.x);
+          const y = Math.min(a.y, b.y);
+          const w = Math.abs(b.x - a.x);
+          const h = Math.abs(b.y - a.y);
+          out.value = `--rect "${fmt(x)},${fmt(y)} ${fmt(w)},${fmt(h)}"`;
+          hint.textContent = `Ready. Add --cylinder 0.65 for a wrap, or --fabric for cloth. Aspect of this box is ${(
+            w / h
+          ).toFixed(3)}:1.`;
+          return;
+        }
+
+        out.value = `--colorize "regionId:#ffffff:${list}"`;
+        hint.textContent = `${points.length} points. Rename regionId and set the default colour.`;
+      }
+
+      draw();
+    </script>
+  </body>
+</html>

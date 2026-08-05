@@ -5,7 +5,11 @@ dist/
 .env
 .env.local
 
-# Generated seed photography and render output. Regenerate with `npm run seed`.
+# Generated seed photography. Regenerate with `npm run seed`.
 assets/items/*/*.png
-assets/golden/*.png
+# Scratch output from tools/render-sample.ts.
+assets/samples/
+# Golden references are committed on purpose — they are the regression contract.
+assets/golden/*.actual.png
+assets/golden/*.diff.png
 assets/tmp/
