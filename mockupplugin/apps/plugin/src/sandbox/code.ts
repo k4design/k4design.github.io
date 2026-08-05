@@ -1,6 +1,8 @@
-import { onMessage, send } from './bus.js';
+import { onMessage, send, sendError } from './bus.js';
 import { readConfig, writeConfig } from './storage.js';
 import { resolveSelection } from './selection.js';
+import { importItem } from './import.js';
+import { applyRender, exportDesigns } from './render.js';
 
 const UI_WIDTH = 420;
 const UI_HEIGHT = 640;
@@ -54,11 +56,38 @@ onMessage(async (message) => {
       }
       return;
     }
-    // Import, export and render land in later milestones.
-    case 'import-item':
-    case 'export-designs':
+    case 'import-item': {
+      const { instanceGuid, itemNodeId } = await importItem(message.detail, message.preview);
+      send({ type: 'import-done', instanceGuid, itemId: message.detail.id, itemNodeId });
+      figma.notify(`Added ${message.detail.name}. Drop your design in the frame beside it.`);
+      await publishSelection();
+      return;
+    }
+    case 'export-designs': {
+      try {
+        const targets = await exportDesigns(message.instanceGuids);
+        if (targets.length === 0) {
+          sendError(
+            'no_targets',
+            'Could not find those mockups on this page. They may have been deleted.',
+            message.jobId,
+          );
+          return;
+        }
+        send({ type: 'designs-exported', jobId: message.jobId, targets });
+      } catch (err) {
+        sendError('export_failed', (err as Error).message, message.jobId);
+      }
+      return;
+    }
     case 'apply-render': {
-      figma.notify('That action is not available in this build yet.', { error: true });
+      await applyRender(
+        message.instanceGuid,
+        message.png,
+        { width: message.width, height: message.height },
+        message.renderId,
+      );
+      send({ type: 'render-applied', instanceGuid: message.instanceGuid, renderId: message.renderId });
       return;
     }
   }

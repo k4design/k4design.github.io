@@ -25,7 +25,14 @@ export const PD = {
 
 export const PD_VERSION = '1';
 
-export type NodeRole = 'item' | 'design' | 'colorize';
+/**
+ * `group` is the wrapper holding one imported instance together; `item` is the
+ * frame whose image fill a render replaces. They are distinct roles so that
+ * resolving a selection never mistakes the wrapper for the render target.
+ */
+export type NodeRole = 'group' | 'item' | 'design' | 'colorize';
+
+export const NODE_ROLES: NodeRole[] = ['group', 'item', 'design', 'colorize'];
 
 /** "mug-ceramic-front-01" -> "Mug Ceramic Front 01" */
 export function titleize(id: string): string {
