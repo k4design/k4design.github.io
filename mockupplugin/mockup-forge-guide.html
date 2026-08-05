@@ -279,6 +279,17 @@
   .tag.hold { background: rgba(255,255,255,0.06); color: var(--muted); border: 1px solid var(--border); }
   .tag.vid { background: rgba(251,191,36,0.1); color: var(--amber); border: 1px solid rgba(251,191,36,0.25); }
   .tag.ok { background: rgba(74,222,128,0.1); color: var(--green); border: 1px solid rgba(74,222,128,0.25); }
+  .tag.audio { background: rgba(139,108,255,0.12); color: var(--violet); border: 1px solid rgba(139,108,255,0.3); }
+  /* row of small controls in a mock, e.g. Play / Save / Delete */
+  .mock-actions { display: flex; gap: 6px; margin-left: auto; flex-shrink: 0; }
+  .mock-btn {
+    font: 11px var(--mono);
+    border-radius: 5px; padding: 3px 8px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid var(--border);
+    color: var(--muted);
+  }
+  .mock-btn.danger { color: var(--danger, #f87171); border-color: rgba(248,113,113,0.25); }
   .duo-copy h3 { font-size: 20px; margin-bottom: 10px; letter-spacing: -0.3px; }
   .duo-copy p { color: var(--muted); font-size: 15px; margin-bottom: 12px; }
   .duo-copy ul { color: var(--muted); font-size: 15px; margin: 0 0 0 18px; }
@@ -395,7 +406,7 @@
   <div class="hero-mark">⌗</div>
   <div class="pill"><span class="dot"></span> FIGMA DEVELOPMENT PLUGIN · v0.1</div>
   <h1>Your design,<br>on the <span class="grad">real thing</span>.</h1>
-  <p class="hero-sub">Drop your artwork into a frame, click Render, and it comes back photographically warped onto phones, mugs, shirts, billboards — even video, playing on a curved LED wall. All inside Figma.</p>
+  <p class="hero-sub">Drop your artwork into a frame, click Render, and it comes back photographically warped onto phones, mugs, shirts, billboards — even video, audio and all. Every bit of it inside Figma.</p>
   <div class="hero-ctas">
     <a class="btn btn-primary" href="#install">Get set up ↓</a>
     <a class="btn btn-ghost" href="#workflow">See the workflow</a>
@@ -427,8 +438,8 @@
     </div>
     <div class="feature">
       <div class="ico">🎬</div>
-      <h3>Video mockups</h3>
-      <p>Drop an MP4 in as the design and watch it play back on the product inside the plugin. Export the warped clip as an MP4 — encoded locally, nothing uploaded.</p>
+      <h3>Video mockups, with sound</h3>
+      <p>Drop a clip in as the design and watch it play back on the product inside the plugin. Export the warped result as an MP4 that keeps the original's audio.</p>
     </div>
     <div class="feature">
       <div class="ico">♻️</div>
@@ -511,7 +522,7 @@
       <div class="step-num">04</div>
       <div>
         <h3>Render</h3>
-        <p>Select the mockup (or its design frame — either works) and hit <strong>Render selected</strong> in the Render tab. Seconds later the product photo updates with your artwork warped on. Select several mockups and <strong>Render all</strong> does them in one pass.</p>
+        <p>Select the mockup (or its design frame — either works) and hit <strong>Render selected</strong> in the Render tab. Under a second later the product photo updates with your artwork warped on. Select several mockups and <strong>Render all</strong> does the batch in one pass.</p>
       </div>
     </div>
   </div>
@@ -528,29 +539,59 @@
     <div class="mock">
       <div class="mock-row">
         <span class="mock-swatch" style="background: linear-gradient(120deg,#1b1f3b,#0f2b46);"></span>
-        <div><div class="mock-name">Curved LED Display</div><div class="mock-meta">screen · 4.70:1 panorama</div></div>
-        <span class="tag ok">▶ 3.0s · 24fps</span>
+        <div><div class="mock-name">Curved LED Display · screen</div><div class="mock-meta">3.0s · 24fps · 1456×816</div></div>
+        <span class="tag audio">♪ WITH AUDIO</span>
       </div>
       <div class="mock-row">
         <span class="mock-swatch" style="background: linear-gradient(120deg,#111,#333);"></span>
-        <div><div class="mock-name">Smartphone, Front</div><div class="mock-meta">screen · 9:19.5</div></div>
-        <span class="tag vid">🎬 CHOOSE CLIP</span>
+        <div><div class="mock-name">Smartphone, Front · screen</div><div class="mock-meta">6.5s · 30fps · 1180×2556</div></div>
+        <span class="mock-actions">
+          <span class="mock-btn">Play</span><span class="mock-btn">Save</span><span class="mock-btn danger">Delete</span>
+        </span>
       </div>
       <div class="mock-row">
         <span class="mock-swatch" style="background: linear-gradient(120deg,#0e1118,#1c2030);"></span>
-        <div><div class="mock-name">Street Billboard</div><div class="mock-meta">face · 48:14</div></div>
-        <span class="tag hold">STILL</span>
+        <div><div class="mock-name">Street Billboard · face</div><div class="mock-meta">reading 96 · warping 72 · encoding 48</div></div>
+        <span class="tag vid">◴ RENDERING</span>
       </div>
     </div>
     <div class="duo-copy">
       <h3>The preview is the export</h3>
-      <p>Select a mockup, hit <strong>Choose clip…</strong> on its card, and pick an MP4, MOV, or WebM up to 30 seconds. The plugin decodes it, warps every frame onto the product, and encodes a fresh MP4 — which plays right there in the panel.</p>
+      <p>Hit <strong>Choose clip…</strong> on any mockup and pick an MP4, MOV, or WebM up to 30 seconds. Every frame is warped onto the product and encoded into a fresh MP4 that plays right there in the panel.</p>
       <ul>
+        <li>The original clip's <strong>audio comes with it</strong> — the preview starts muted, so unmute to hear it</li>
         <li><strong>Download MP4</strong> saves exactly what you just watched</li>
         <li><strong>Apply poster to canvas</strong> pins the first frame onto the mockup, since Figma can't play video on canvas</li>
-        <li>Pick 12 / 24 / 30 fps, and whether the clip fills the surface (crop) or fits inside it (letterbox)</li>
-        <li>Encoding is local WebAssembly H.264 — the clip never leaves your machine except as frames sent to your own render service</li>
+        <li>Choose 12 / 24 / 30 fps, and whether the clip fills the surface or fits inside it</li>
+        <li>Your clip stays on your machine — nothing is uploaded or stored</li>
       </ul>
+    </div>
+  </div>
+
+  <div class="duo">
+    <div class="duo-copy">
+      <h3>Your clips stay put</h3>
+      <p>Every render lands in a <strong>Rendered clips</strong> list at the top of the Render tab and stays there until you delete it — switch mockups, switch tabs, close and reopen the plugin, and it's still waiting.</p>
+      <ul>
+        <li><strong>Play</strong> any clip again without re-rendering</li>
+        <li><strong>Save</strong> pulls the MP4 down whenever you need it</li>
+        <li><strong>Delete</strong> is the only thing that removes one</li>
+      </ul>
+    </div>
+    <div class="mock">
+      <div class="mock-row">
+        <span class="mock-swatch" style="background: var(--grad);"></span>
+        <div><div class="mock-name">Rendered clips</div><div class="mock-meta">kept until you delete them</div></div>
+        <span class="tag ok">3 SAVED</span>
+      </div>
+      <div class="mock-row">
+        <div><div class="mock-name">Ceramic Mug · design</div><div class="mock-meta">4.0s · 24fps · 1.1 MB</div></div>
+        <span class="tag audio">♪</span>
+      </div>
+      <div class="mock-row">
+        <div><div class="mock-name">Canvas Tote Bag · front</div><div class="mock-meta">2.5s · 24fps · 0.6 MB</div></div>
+        <span class="tag hold">SILENT SOURCE</span>
+      </div>
     </div>
   </div>
 </section>
@@ -609,7 +650,7 @@
     <tr>
       <td>Render width override</td>
       <td>full resolution</td>
-      <td>Lower it (e.g. 960) for fast previews while iterating; clear it for the final full-res render. Also caps video export size.</td>
+      <td>Lower it (e.g. 960) for fast previews while iterating; clear it for the final full-res render. Video exports use it too, and default to 1280px wide when it's empty.</td>
     </tr>
   </table>
   <div class="callout">
@@ -647,12 +688,16 @@
       <p>It can't — renders only touch the <em>mockup</em> frame's image fill. Your design frame is untouched next to it; it may just be hidden behind the updated mockup. Renaming or moving frames is also safe: the binding lives in plugin data, not names.</p>
     </details>
     <details>
-      <summary>The video export has no sound</summary>
-      <p>Correct — v1 exports are silent by design. Audio passthrough is on the roadmap (see <code>docs/VIDEO.md</code>); until then, remux the audio from your source clip in any editor.</p>
+      <summary>My video has no sound</summary>
+      <p>Two things to check. The inline preview always starts muted — browsers require that to autoplay, so unmute it in the player. If the downloaded file is genuinely silent, the clip's audio format couldn't be carried into an MP4: that happens with WebM sources using Opus or Vorbis, and you'll see a warning saying so. Converting the source to MP4 keeps its audio.</p>
     </details>
     <details>
-      <summary>Renders suddenly return “rate limited”</summary>
-      <p>The service allows 30 renders per minute per IP as abuse protection. Batch video requests count once per batch, so normal use rarely hits it — wait a moment and retry, or raise <code>RATE_LIMIT_RENDERS</code> on your own service.</p>
+      <summary>It says the render service is busy</summary>
+      <p>The service limits how many renders one connection can ask for per minute, to keep things fair. A long video is a lot of requests, so it can happen — the plugin waits it out and carries on by itself, telling you how long it's pausing. Nothing is lost.</p>
+    </details>
+    <details>
+      <summary>Where did my rendered clip go?</summary>
+      <p>Nowhere — look at the top of the Render tab. Every clip you render lands in <strong>Rendered clips</strong> and stays until you press Delete, including after you close and reopen the plugin. Very large clips are kept for the current session only, and say so on the row.</p>
     </details>
   </div>
 </section>
@@ -663,7 +708,7 @@
   <div class="trust">
     <div class="trust-item"><span class="big">♻️</span><span class="lbl">design frames never touched</span></div>
     <div class="trust-item"><span class="big">🪪</span><span class="lbl">no accounts, no login</span></div>
-    <div class="trust-item"><span class="big">🎬</span><span class="lbl">video encoded locally</span></div>
+    <div class="trust-item"><span class="big">🎬</span><span class="lbl">video + audio kept local</span></div>
     <div class="trust-item"><span class="big">🧪</span><span class="lbl">golden-image tested renders</span></div>
   </div>
 </section>
