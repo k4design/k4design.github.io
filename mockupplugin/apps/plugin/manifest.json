@@ -1,0 +1,20 @@
+{
+  "name": "Mockup Forge",
+  "id": "mockup-forge-dev-000001",
+  "api": "1.0.0",
+  "main": "dist/code.js",
+  "ui": "dist/ui.html",
+  "editorType": ["figma"],
+  "capabilities": [],
+  "enableProposedApi": false,
+  "documentAccess": "dynamic-page",
+  "networkAccess": {
+    "allowedDomains": [
+      "http://127.0.0.1:8787",
+      "http://localhost:8787",
+      "https://api.mockupforge.dev",
+      "https://cdn.mockupforge.dev"
+    ],
+    "reasoning": "Fetches the mockup catalogue and thumbnails, and posts the user's exported design to the render service that composites it onto the product photo."
+  }
+}

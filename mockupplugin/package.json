@@ -1,0 +1,25 @@
+{
+  "name": "mockup-forge",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Mockup Forge — Figma plugin for realistic server-side mockup rendering",
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "npm run build --workspace @mf/shared && npm run build --workspace @mf/api && npm run build --workspace @mf/plugin",
+    "dev:api": "npm run dev --workspace @mf/api",
+    "dev:plugin": "npm run dev --workspace @mf/plugin",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
+    "author-item": "tsx tools/author-item.ts"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  }
+}

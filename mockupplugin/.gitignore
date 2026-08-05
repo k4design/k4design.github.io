@@ -1,0 +1,11 @@
+node_modules/
+dist/
+*.tsbuildinfo
+.DS_Store
+.env
+.env.local
+
+# Generated seed photography and render output. Regenerate with `npm run seed`.
+assets/items/*/*.png
+assets/golden/*.png
+assets/tmp/
