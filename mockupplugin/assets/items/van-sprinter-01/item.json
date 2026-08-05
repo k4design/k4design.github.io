@@ -1,0 +1,192 @@
+{
+  "id": "van-sprinter-01",
+  "name": "Delivery Van, Front Three-Quarter",
+  "category": "branding",
+  "viewpoint": "angled",
+  "tags": [
+    "van",
+    "vehicle wrap",
+    "livery",
+    "fleet",
+    "delivery",
+    "sprinter",
+    "signage",
+    "branding"
+  ],
+  "canvas": {
+    "width": 1456,
+    "height": 816
+  },
+  "thumbnail": "thumbnail.png",
+  "preview": "preview.png",
+  "layers": [
+    {
+      "type": "base",
+      "src": "base.png"
+    },
+    {
+      "type": "surface",
+      "id": "side",
+      "label": "Left side",
+      "placeholder": {
+        "aspect": 2.132663635044681,
+        "recommendedWidth": 2400,
+        "recommendedHeight": 1125,
+        "hint": "Place your design here, then click Render"
+      },
+      "warp": {
+        "kind": "homography",
+        "corners": {
+          "tl": {
+            "x": 0.4669217983334103,
+            "y": 0.29960772889325515
+          },
+          "tr": {
+            "x": 0.8326372036298764,
+            "y": 0.24243039974261335
+          },
+          "br": {
+            "x": 0.8675293728653879,
+            "y": 0.596041654675164
+          },
+          "bl": {
+            "x": 0.34735686189021986,
+            "y": 0.6182082434008708
+          }
+        }
+      },
+      "lighting": {
+        "multiply": "shadow-side.png",
+        "multiplyOpacity": 1,
+        "screen": "highlight-side.png",
+        "screenOpacity": 1
+      },
+      "mask": "mask-side.png",
+      "opacity": 1,
+      "blend": "normal"
+    },
+    {
+      "type": "surface",
+      "id": "grill",
+      "label": "Grill",
+      "placeholder": {
+        "aspect": 4.7127704743250325,
+        "recommendedWidth": 2400,
+        "recommendedHeight": 509,
+        "hint": "Place your design here, then click Render"
+      },
+      "warp": {
+        "kind": "homography",
+        "corners": {
+          "tl": {
+            "x": 0.14729508786620088,
+            "y": 0.5643979031067576
+          },
+          "tr": {
+            "x": 0.3396393243749083,
+            "y": 0.544655353066968
+          },
+          "br": {
+            "x": 0.3410891069890572,
+            "y": 0.6169660988889996
+          },
+          "bl": {
+            "x": 0.14868977488360682,
+            "y": 0.6379235154771322
+          }
+        }
+      },
+      "lighting": {
+        "multiply": "shadow-grill.png",
+        "multiplyOpacity": 1,
+        "screen": "highlight-grill.png",
+        "screenOpacity": 1
+      },
+      "mask": "mask-grill.png",
+      "opacity": 1,
+      "blend": "normal"
+    },
+    {
+      "type": "surface",
+      "id": "hood",
+      "label": "Hood",
+      "placeholder": {
+        "aspect": 2.0257616297006975,
+        "recommendedWidth": 2400,
+        "recommendedHeight": 1185,
+        "hint": "Place your design here, then click Render"
+      },
+      "warp": {
+        "kind": "homography",
+        "corners": {
+          "tl": {
+            "x": 0.2304045117574037,
+            "y": 0.4898102423367319
+          },
+          "tr": {
+            "x": 0.4443078177420967,
+            "y": 0.4350158780796014
+          },
+          "br": {
+            "x": 0.3690786852893979,
+            "y": 0.5524241502129741
+          },
+          "bl": {
+            "x": 0.101821861129705,
+            "y": 0.5837434523518888
+          }
+        }
+      },
+      "lighting": {
+        "multiply": "shadow-hood.png",
+        "multiplyOpacity": 1,
+        "screen": "highlight-hood.png",
+        "screenOpacity": 1
+      },
+      "mask": "mask-hood.png",
+      "opacity": 1,
+      "blend": "normal"
+    },
+    {
+      "type": "surface",
+      "id": "front",
+      "label": "Front",
+      "placeholder": {
+        "aspect": 0.5120204926432425,
+        "recommendedWidth": 2400,
+        "recommendedHeight": 4687,
+        "hint": "Place your design here, then click Render"
+      },
+      "warp": {
+        "kind": "homography",
+        "corners": {
+          "tl": {
+            "x": 0.41593266048370425,
+            "y": 0.29952919106555753
+          },
+          "tr": {
+            "x": 0.47505864824135596,
+            "y": 0.30040460024102456
+          },
+          "br": {
+            "x": 0.4098825525729758,
+            "y": 0.48023606367508426
+          },
+          "bl": {
+            "x": 0.3564381712238811,
+            "y": 0.4522517617215099
+          }
+        }
+      },
+      "lighting": {
+        "multiply": "shadow-front.png",
+        "multiplyOpacity": 1,
+        "screen": "highlight-front.png",
+        "screenOpacity": 1
+      },
+      "mask": "mask-front.png",
+      "opacity": 1,
+      "blend": "normal"
+    }
+  ]
+}

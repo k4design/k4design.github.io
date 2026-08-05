@@ -66,6 +66,26 @@ interface Config {
    */
   rois?: [number, number, number, number][];
   /**
+   * How a ROI picks its threshold.
+   *
+   * 'otsu' adapts to each box, which is what pale-card-on-pale-ground needs.
+   * 'fixed' uses `threshold` — required when the background is itself bright:
+   * on a white van against grey seamless, Otsu splits at the shadow boundary
+   * and calls the background paint, so artwork spills off the vehicle.
+   */
+  roiThresholdMode?: 'otsu' | 'fixed';
+  /**
+   * Per-surface clip polygons, normalized, one slot per ROI. Where given, the
+   * paint mask is clipped to this outline instead of the axis-aligned box.
+   *
+   * Vehicles need this. A van's paint is one continuous white surface, so panel
+   * boundaries are body lines, not colour changes — no threshold can find them,
+   * and an axis-aligned box leaves straight artificial edges mid-panel. The
+   * polygon supplies the boundary while the threshold still excludes glass,
+   * wheels and trim inside it.
+   */
+  polygons?: (null | [number, number][])[];
+  /**
    * Explicit corner quads, normalized, one slot per ROI. A slot that is null
    * is measured automatically; a slot with corners skips detection entirely.
    *
@@ -91,7 +111,13 @@ interface Config {
    * only the part that happened to be lit — leaving shaded stretches of card
    * unmasked, showing through as pale blotches.
    */
-  maskFromQuad?: boolean;
+  maskFromQuad?: boolean | boolean[];
+  /**
+   * Distinct id/label per surface, in config order. Without this, surfaces are
+   * named from a prefix and sorted into reading order — right for a flat lay of
+   * identical cards, wrong for a vehicle where each panel is a different thing.
+   */
+  surfaceNames?: { id: string; label: string }[];
   /** Longest edge of the design frame the plugin creates. */
   recommendedWidth?: number;
   /** Snap the placeholder to this ratio when the measurement is within 6%. */
@@ -100,6 +126,95 @@ interface Config {
 }
 
 const CONFIGS: Config[] = [
+  {
+    itemId: 'van-sprinter-01',
+    name: 'Delivery Van, Front Three-Quarter',
+    source: 'sprinter-van.png',
+    category: 'branding',
+    viewpoint: 'angled',
+    tags: ['van', 'vehicle wrap', 'livery', 'fleet', 'delivery', 'sprinter', 'signage', 'branding'],
+    // The van is white, so the paint is the bright region — which means windows,
+    // wheels, the dark rocker strip and the grill exclude themselves from every
+    // panel mask automatically. The grill is the exception and is given corners.
+    threshold: 210,
+    roiThresholdMode: 'fixed',
+    surfaces: 4,
+    rois: [
+      // 1. Left flank, from behind the front fender to the rear, roofline to
+      //    the top of the dark rocker trim.
+      [0.405, 0.235, 0.868, 0.650],
+      // 2. Grill (explicit quad below — it is dark, not bright).
+      [0.135, 0.53, 0.35, 0.65],
+      // 3. Hood, from the cowl vents down to the top of the grill surround.
+      [0.145, 0.445, 0.418, 0.562],
+      // 4. Front cab face: pillars and the panel beside the windshield, up to
+      //    the roof. The glass masks itself out.
+      [0.264, 0.286, 0.485, 0.485],
+    ],
+    quads: [
+      null,
+      [
+        [0.1477, 0.5650],
+        [0.3400, 0.5453],
+        [0.3414, 0.6176],
+        [0.1490, 0.6385],
+      ],
+      null,
+      null,
+    ],
+    // Hand-traced panel outlines. Body lines are not colour changes, so these
+    // cannot be measured — but inside them the paint threshold still excludes
+    // glass, wheels and trim.
+    polygons: [
+      [
+        [0.4148, 0.3284],
+        [0.4849, 0.2978],
+        [0.8352, 0.2426],
+        [0.8599, 0.3039],
+        [0.8565, 0.6054],
+        [0.6868, 0.6176],
+        [0.4849, 0.6373],
+        [0.4121, 0.6152],
+      ],
+      null,
+      [
+        [0.2212, 0.4975],
+        [0.2692, 0.4804],
+        [0.3819, 0.4534],
+        [0.4121, 0.4877],
+        [0.3668, 0.5539],
+        [0.2060, 0.5539],
+        [0.1538, 0.5466],
+      ],
+      [
+        [0.2692, 0.3554],
+        [0.3228, 0.3088],
+        [0.3846, 0.2917],
+        [0.4808, 0.3027],
+        [0.4808, 0.3260],
+        [0.4396, 0.3676],
+        [0.4286, 0.4804],
+        [0.4093, 0.4804],
+        [0.2692, 0.4069],
+      ],
+    ],
+    // Only the grill takes its mask from the quad; the painted panels take
+    // theirs from the detected paint so glass and trim stay uncovered.
+    maskFromQuad: [false, true, false, false],
+    surfaceNames: [
+      { id: 'side', label: 'Left side' },
+      { id: 'grill', label: 'Grill' },
+      { id: 'hood', label: 'Hood' },
+      { id: 'front', label: 'Front' },
+    ],
+    naming: { id: 'panel', label: 'Panel' },
+    minArea: 0.002,
+    shadow: { direction: 'horizontal', strength: 0.26 },
+    highlight: { strength: 0.16, sweep: 0.26 },
+    feather: 2,
+    recommendedWidth: 2400,
+    emptyFill: '#dfe3e8',
+  },
   {
     itemId: 'laptop-cafe-01',
     name: 'Laptop on a Café Table',
@@ -534,21 +649,43 @@ async function build(config: Config): Promise<void> {
       const x1 = Math.min(width - 1, Math.round(nx1 * width));
       const y1 = Math.min(height - 1, Math.round(ny1 * height));
 
+      // A clip polygon narrows the box to the panel's real outline.
+      const clip = config.polygons?.[roiIndex];
+      const clipPts = clip?.map(([nx, ny]) => ({ x: nx * width, y: ny * height }));
+      const insideClip = (px: number, py: number): boolean => {
+        if (!clipPts) return true;
+        let hit = false;
+        for (let i = 0, j = clipPts.length - 1; i < clipPts.length; j = i, i += 1) {
+          const a = clipPts[i]!;
+          const b = clipPts[j]!;
+          if (
+            a.y > py !== b.y > py &&
+            px < ((b.x - a.x) * (py - a.y)) / (b.y - a.y) + a.x
+          ) {
+            hit = !hit;
+          }
+        }
+        return hit;
+      };
+
       const histogram = new Array<number>(256).fill(0);
       let count = 0;
       for (let y = y0; y <= y1; y += 1) {
         for (let x = x0; x <= x1; x += 1) {
+          if (!insideClip(x + 0.5, y + 0.5)) continue;
           const o = (y * width + x) * channels;
           const grey = Math.round(0.299 * data[o]! + 0.587 * data[o + 1]! + 0.114 * data[o + 2]!);
           histogram[grey] += 1;
           count += 1;
         }
       }
-      const threshold = otsuThreshold(histogram, count);
+      const threshold =
+        config.roiThresholdMode === 'fixed' ? config.threshold : otsuThreshold(histogram, count);
 
       const bright = new Uint8Array(width * height);
       for (let y = y0; y <= y1; y += 1) {
         for (let x = x0; x <= x1; x += 1) {
+          if (!insideClip(x + 0.5, y + 0.5)) continue;
           const o = (y * width + x) * channels;
           const grey = 0.299 * data[o]! + 0.587 * data[o + 1]! + 0.114 * data[o + 2]!;
           if (grey > threshold) bright[y * width + x] = 1;
@@ -560,7 +697,9 @@ async function build(config: Config): Promise<void> {
       if (!best) {
         throw new Error(`${config.itemId}: nothing found in ROI ${nx0},${ny0} ${nx1},${ny1}.`);
       }
-      console.log(`  roi otsu=${threshold} -> blob ${Math.round(best.area / 1000)}k`);
+      console.log(
+        `  roi ${config.roiThresholdMode === 'fixed' ? 'fixed' : 'otsu'}=${threshold} -> blob ${Math.round(best.area / 1000)}k`,
+      );
       blobs.push(best);
     }
   } else {
@@ -589,9 +728,11 @@ async function build(config: Config): Promise<void> {
     .filter((entry): entry is { blob: Blob; fit: Fitted } => entry.fit !== null);
   if (fitted.length === 0) throw new Error(`${config.itemId}: no region could be fitted to a quad.`);
 
-  // Stable order: reading order (top to bottom, then left to right), so surface
-  // ids do not shuffle between runs.
-  fitted.sort((a, b) => a.blob.minY - b.blob.minY || a.blob.minX - b.blob.minX);
+  // Reading order keeps ids stable for interchangeable surfaces; named
+  // surfaces keep config order, since each one means something specific.
+  if (!config.surfaceNames) {
+    fitted.sort((a, b) => a.blob.minY - b.blob.minY || a.blob.minX - b.blob.minX);
+  }
 
   const outDir = path.join(ITEMS, config.itemId);
   await fs.mkdir(outDir, { recursive: true });
@@ -606,14 +747,16 @@ async function build(config: Config): Promise<void> {
   const placeholderShapes: string[] = [];
 
   for (const [index, entry] of fitted.entries()) {
+    const named = config.surfaceNames?.[index];
     const single = fitted.length === 1;
-    const id = single ? config.naming.id : `${config.naming.id}-${index + 1}`;
-    const label = single ? config.naming.label : `${config.naming.label} ${index + 1}`;
+    const id = named?.id ?? (single ? config.naming.id : `${config.naming.id}-${index + 1}`);
+    const label = named?.label ?? (single ? config.naming.label : `${config.naming.label} ${index + 1}`);
     const polygonPx = quadPoints(entry.fit.corners);
 
-    const maskPixels = config.maskFromQuad
-      ? rasterizeQuad(polygonPx, width, height).pixels
-      : entry.blob.pixels;
+    const fromQuad = Array.isArray(config.maskFromQuad)
+      ? config.maskFromQuad[index] === true
+      : config.maskFromQuad === true;
+    const maskPixels = fromQuad ? rasterizeQuad(polygonPx, width, height).pixels : entry.blob.pixels;
     entry.blob.pixels = maskPixels;
 
     const maskName = `mask-${id}.png`;
