@@ -1,0 +1,70 @@
+{
+  "id": "smartphone-in-hand-01",
+  "name": "Smartphone in Hand, Dark",
+  "category": "devices",
+  "viewpoint": "in-hand",
+  "tags": [
+    "phone",
+    "smartphone",
+    "in hand",
+    "held",
+    "app",
+    "dark",
+    "neon",
+    "night",
+    "screen"
+  ],
+  "canvas": {
+    "width": 1456,
+    "height": 816
+  },
+  "thumbnail": "thumbnail.png",
+  "preview": "preview.png",
+  "layers": [
+    {
+      "type": "base",
+      "src": "base.png"
+    },
+    {
+      "type": "surface",
+      "id": "screen",
+      "label": "Screen",
+      "placeholder": {
+        "aspect": 0.4136901074386801,
+        "recommendedWidth": 1179,
+        "recommendedHeight": 2850,
+        "hint": "Place your design here, then click Render"
+      },
+      "warp": {
+        "kind": "homography",
+        "corners": {
+          "tl": {
+            "x": 0.5033445685374979,
+            "y": 0.10056053644197438
+          },
+          "tr": {
+            "x": 0.6840528858036065,
+            "y": 0.016813554280698292
+          },
+          "br": {
+            "x": 0.6219268643876587,
+            "y": 0.8357490766381929
+          },
+          "bl": {
+            "x": 0.4369135262614423,
+            "y": 0.8736396750447772
+          }
+        }
+      },
+      "lighting": {
+        "multiply": "shadow-screen.png",
+        "multiplyOpacity": 1,
+        "screen": "highlight-screen.png",
+        "screenOpacity": 1
+      },
+      "mask": "mask-screen.png",
+      "opacity": 1,
+      "blend": "normal"
+    }
+  ]
+}
