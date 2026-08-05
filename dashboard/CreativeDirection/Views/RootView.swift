@@ -1,5 +1,8 @@
 import SwiftUI
 
+// The phone shell: bottom tab bar, navigation-bar chrome, pull to refresh. The
+// Mac has its own shell in MacRootView; both drive the identical section views.
+#if os(iOS)
 struct RootView: View {
     @Environment(DashboardStore.self) private var store
     @Environment(\.scenePhase) private var scenePhase
@@ -23,7 +26,10 @@ struct RootView: View {
                         placement: .navigationBarDrawer(displayMode: .automatic),
                         prompt: "Filter by name or person")
             .refreshable { await store.load(force: true) }
-            .safeAreaInset(edge: .bottom) { tabBar }
+            .safeAreaInset(edge: .bottom) {
+                // R&D is one flat list — the pipeline tabs don't apply there.
+                if store.scope != "rnd" { tabBar }
+            }
         }
         .task {
             if store.snapshot == nil { await store.load() }
@@ -42,6 +48,7 @@ struct RootView: View {
     }
 
     private var title: String {
+        if store.scope == "rnd" { return "R&D" }
         switch tab {
         case .today: return "Today"
         case .queue: return "Queue"
@@ -77,7 +84,25 @@ struct RootView: View {
             if store.snapshot?.demo == true {
                 Banner(text: "Sample data — this server has no monday token.", role: "warning")
             }
-            if let error = store.errorMessage {
+            if store.needsAccessKey {
+                // Distinct from a generic failure: this is fixable, and the fix
+                // is one tap away rather than a mystery.
+                Button { showSettings = true } label: {
+                    HStack(alignment: .top, spacing: 7) {
+                        Image(systemName: "lock.fill").font(.system(size: 10)).padding(.top, 2)
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text("Access key required").font(.system(size: 12, weight: .semibold))
+                            Text(store.errorMessage ?? "").font(.system(size: 11))
+                        }
+                        Spacer(minLength: 0)
+                        Image(systemName: "chevron.right").font(.system(size: 10)).padding(.top, 3)
+                    }
+                    .foregroundStyle(Theme.critical)
+                    .padding(.horizontal, 11).padding(.vertical, 8)
+                    .background(RoundedRectangle(cornerRadius: 9).fill(Theme.critical.opacity(0.12)))
+                }
+                .buttonStyle(.plain)
+            } else if let error = store.errorMessage {
                 Banner(text: error, role: "critical")
             }
             if !store.filter.isEmpty {
@@ -96,11 +121,15 @@ struct RootView: View {
 
     @ViewBuilder
     private var content: some View {
+        if store.scope == "rnd" {
+            RnDView()
+        } else {
         switch tab {
         case .today: TodayView()
         case .queue: QueueView()
         case .team: TeamView()
         case .activity: ActivityView()
+        }
         }
     }
 
@@ -163,6 +192,8 @@ struct RootView: View {
         .buttonStyle(.plain)
     }
 }
+
+#endif
 
 struct Banner: View {
     let text: String

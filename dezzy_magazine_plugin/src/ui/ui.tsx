@@ -29,7 +29,17 @@ import type {
   UiToMain,
   ValidationReport,
 } from '../shared/types'
-import { byFilename, makeThumb, processFile } from './images'
+import {
+  AI_CLASSIFY_KEYS,
+  AI_DEFAULT_MODEL,
+  AI_MODELS,
+  AI_PROMPT,
+  AI_SCHEMA,
+  ANTHROPIC_API_URL,
+  ANTHROPIC_VERSION,
+  RENAME_BASE,
+} from '../shared/ai'
+import { byFilename, classifyJpegBase64, makeThumb, processFile } from './images'
 import {
   buildCsv,
   buildZip,
@@ -78,6 +88,9 @@ function App() {
   const [toast, setToast] = useState<{ message: string; error: boolean } | null>(null)
   const [library, setLibrary] = useState<PhotoItem[]>([])
   const [assignments, setAssignments] = useState<PhotoAssignments>({})
+  const [aiModel, setAiModel] = useState<string>(AI_DEFAULT_MODEL)
+  const [aiKey, setAiKey] = useState<string>('')
+  const [aiState, setAiState] = useState<string | null>(null)
   const [confirmDialog, setConfirmDialog] = useState<{
     title: string
     message: string
@@ -93,7 +106,9 @@ function App() {
   const hashByName = useRef(new Map<string, string>())
   const nextPhotoId = useRef(1)
   const pendingUploads = useRef(new Map<number, () => void>())
-  const pendingThumbs = useRef(new Map<string, (bytes: Uint8Array) => void>())
+  // hash -> resolvers awaiting that image's bytes (thumbnail hydration AND AI
+  // classification can request the same hash; every waiter gets the bytes).
+  const pendingBytes = useRef(new Map<string, ((bytes: Uint8Array) => void)[]>())
   const hydratingThumbs = useRef(false)
   // Uploads are serialized: one image's bytes cross to the sandbox at a time,
   // so peak memory stays at ~one photo no matter how many were dropped.
@@ -176,9 +191,15 @@ function App() {
           pendingUploads.current.get(msg.id)?.()
           pendingUploads.current.delete(msg.id)
           break
-        case 'image-bytes':
-          pendingThumbs.current.get(msg.hash)?.(msg.bytes)
-          pendingThumbs.current.delete(msg.hash)
+        case 'image-bytes': {
+          const waiters = pendingBytes.current.get(msg.hash)
+          pendingBytes.current.delete(msg.hash)
+          if (waiters) for (const w of waiters) w(msg.bytes)
+          break
+        }
+        case 'ai-config':
+          if (msg.model) setAiModel(msg.model)
+          setAiKey(msg.apiKey)
           break
         case 'image-error':
           setLibrary((prev) =>
@@ -307,10 +328,7 @@ function App() {
       let missing = 0
       for (const item of needs) {
         const hash = item.hash!
-        const bytes = await new Promise<Uint8Array>((resolve) => {
-          pendingThumbs.current.set(hash, resolve)
-          post({ type: 'fetch-image', hash })
-        })
+        const bytes = await fetchImageBytes(hash)
         if (!bytes.length) {
           // Figma no longer stores this image (GC'd before the vault existed).
           // Flag it so the user re-uploads; same file re-links automatically.
@@ -630,6 +648,205 @@ function App() {
     })
   }
 
+  // ------------------------------------------------------ AI classify & rename
+
+  /** Bytes of a stored library image, via the sandbox (empty = GC'd/missing). */
+  function fetchImageBytes(hash: string): Promise<Uint8Array> {
+    return new Promise<Uint8Array>((resolve) => {
+      const waiters = pendingBytes.current.get(hash)
+      if (waiters) {
+        waiters.push(resolve) // a fetch for this hash is already in flight
+        return
+      }
+      pendingBytes.current.set(hash, [resolve])
+      post({ type: 'fetch-image', hash })
+    })
+  }
+
+  function saveAiConfig(model: string, apiKey: string): void {
+    setAiModel(model)
+    setAiKey(apiKey)
+    post({ type: 'save-ai-config', model, apiKey })
+  }
+
+  /** POST one image to the Claude API with the user's own key; returns a category key. */
+  async function aiClassify(bytes: Uint8Array): Promise<string> {
+    const data = await classifyJpegBase64(bytes)
+    let r: Response
+    try {
+      r = await fetch(ANTHROPIC_API_URL, {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json',
+          'x-api-key': aiKey.trim(),
+          'anthropic-version': ANTHROPIC_VERSION,
+          'anthropic-dangerous-direct-browser-access': 'true',
+        },
+        body: JSON.stringify({
+          model: aiModel,
+          max_tokens: 256,
+          messages: [
+            {
+              role: 'user',
+              content: [
+                { type: 'image', source: { type: 'base64', media_type: 'image/jpeg', data } },
+                { type: 'text', text: AI_PROMPT },
+              ],
+            },
+          ],
+          output_config: { format: { type: 'json_schema', schema: AI_SCHEMA } },
+        }),
+      })
+    } catch {
+      throw new Error("can't reach the Claude API — check your connection")
+    }
+    if (r.status === 401) throw new Error('invalid API key — check it in AI settings')
+    if (r.status === 429) throw new Error('rate limited — try again shortly')
+    if (!r.ok) {
+      const t = await r.text().catch(() => '')
+      throw new Error(`API ${r.status}${t ? ': ' + t.slice(0, 120) : ''}`)
+    }
+    const json = await r.json()
+    if (json.stop_reason === 'refusal') throw new Error('the model declined this image')
+    const text = (json.content || [])
+      .filter((b: { type: string }) => b.type === 'text')
+      .map((b: { text: string }) => b.text)
+      .join('')
+    let cat = 'unknown'
+    try {
+      cat = JSON.parse(text).category
+    } catch {
+      // fall through as unknown
+    }
+    return AI_CLASSIFY_KEYS.includes(cat) ? cat : 'unknown'
+  }
+
+  /**
+   * Classify unrecognized photos by content and rename them to the category
+   * convention (kitchen-02.jpg, master bath-01.jpg, headshot-01.jpg) so
+   * auto-assign routes them. If every photo already matches a category,
+   * offers to re-classify the whole library.
+   */
+  function aiClassifyRename(): void {
+    if (!aiKey.trim()) {
+      showToast('Add your Claude API key in AI settings (⚙) first.', true)
+      return
+    }
+    const ready = library.filter((it) => it.status === 'ready' && it.hash)
+    if (!ready.length) {
+      showToast('No photos to classify — upload some first.', true)
+      return
+    }
+    const unrecognized = ready.filter(
+      (it) => !matchCategory(it.name) && !looksLikeAgentPhoto(it.name)
+    )
+    if (unrecognized.length) {
+      void runAiClassify(unrecognized)
+    } else {
+      setConfirmDialog({
+        title: 'Re-classify all photos',
+        message:
+          `Every photo's name already matches a category. Re-classify all ${ready.length} photos by their image content and rename them? Current names will be replaced.`,
+        confirmLabel: 'Re-classify all',
+        onConfirm: () => void runAiClassify(ready),
+      })
+    }
+  }
+
+  async function runAiClassify(targets: PhotoItem[]): Promise<void> {
+    setAiState(`AI classifying 0/${targets.length}…`)
+    // One classification per unique image hash — duplicates share the result.
+    const byHash = new Map<string, PhotoItem[]>()
+    for (const it of targets) {
+      const list = byHash.get(it.hash!)
+      if (list) list.push(it)
+      else byHash.set(it.hash!, [it])
+    }
+    const hashes = [...byHash.keys()]
+    const catByHash = new Map<string, string>()
+    let done = 0
+    let failed = 0
+    let missing = 0
+    let lastErr: Error | null = null
+    let hi = 0
+    const CONC = 3
+    const worker = async () => {
+      while (hi < hashes.length) {
+        const hash = hashes[hi++]
+        try {
+          const bytes = await fetchImageBytes(hash)
+          if (!bytes.length) {
+            missing++
+          } else {
+            catByHash.set(hash, await aiClassify(bytes))
+          }
+        } catch (err) {
+          failed++
+          lastErr = err instanceof Error ? err : new Error(String(err))
+        }
+        done++
+        setAiState(`AI classifying ${done}/${hashes.length}…`)
+      }
+    }
+    await Promise.all(Array.from({ length: Math.min(CONC, hashes.length) }, worker))
+
+    // Rename: <base>-NN.<ext>, numbering continued from names already in the
+    // library, collision-guarded across old and new names. The plan is
+    // computed inside the state updater (only place the latest library is
+    // guaranteed); counts resolve out through a promise for the toast.
+    const targetIds = new Set(targets.map((t) => t.id))
+    const escRe = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+    const counts = await new Promise<{ renamed: number; unknown: number }>((resolve) => {
+      setLibrary((prev) => {
+        let renamed = 0
+        let unknown = 0
+        const used = new Set(prev.map((it) => it.name.toLowerCase()))
+        const counters = new Map<string, number>()
+        const maxFor = (base: string): number => {
+          const re = new RegExp(`^${escRe(base)}[ -](\\d+)\\.`, 'i')
+          let max = 0
+          for (const it of prev) {
+            const m = re.exec(it.name)
+            if (m) max = Math.max(max, parseInt(m[1], 10))
+          }
+          return max
+        }
+        const next = prev.map((it) => {
+          if (!targetIds.has(it.id) || !it.hash) return it
+          const cat = catByHash.get(it.hash)
+          const base = cat ? RENAME_BASE[cat] : undefined
+          if (!base) {
+            if (cat === 'unknown') unknown++
+            return it
+          }
+          const ext = /\.([a-z0-9]+)$/i.exec(it.name)?.[1]?.toLowerCase() ?? 'jpg'
+          let n = counters.get(base) ?? maxFor(base)
+          let name: string
+          do {
+            n++
+            name = `${base}-${String(n).padStart(2, '0')}.${ext}`
+          } while (used.has(name.toLowerCase()))
+          counters.set(base, n)
+          used.add(name.toLowerCase())
+          hashByName.current.set(name, it.hash!)
+          renamed++
+          return { ...it, name }
+        })
+        resolve({ renamed, unknown })
+        return next
+      })
+    })
+    setAiState(null)
+    const parts = [`AI renamed ${counts.renamed} photo${counts.renamed === 1 ? '' : 's'}`]
+    if (counts.unknown) parts.push(`${counts.unknown} unrecognizable`)
+    if (missing) parts.push(`${missing} missing from Figma's storage`)
+    if (failed) parts.push(`${failed} failed${lastErr ? ` (${(lastErr as Error).message})` : ''}`)
+    showToast(
+      parts.join(', ') + (counts.renamed ? ' — run Auto-assign to place them.' : '.'),
+      !counts.renamed && (failed > 0 || missing > 0)
+    )
+  }
+
   function autoAssign(overwrite: boolean): void {
     const photos = library.filter((it) => it.status === 'ready' && it.hash).sort(byFilename)
     const genericSlots = index
@@ -944,6 +1161,11 @@ function App() {
             library={library}
             assignments={assignments}
             index={index}
+            aiModel={aiModel}
+            aiKey={aiKey}
+            aiState={aiState}
+            onAiConfig={saveAiConfig}
+            onAiClassify={aiClassifyRename}
             onFiles={addFiles}
             onAssign={assignPhoto}
             onAutoAssign={autoAssign}
@@ -1395,6 +1617,12 @@ function CategoryHelp({ context }: { context: 'tagging' | 'assign' }) {
           </p>
         )}
         <p>
+          Photos with unrecognizable names (IMG_0921.jpg)? <b>✨ AI classify &amp; rename</b>{' '}
+          looks at each image's content and renames it to its room category, so auto-assign can
+          place it. Uses your own Claude API key (⚙); only a downscaled copy of each photo is
+          sent to Anthropic for analysis.
+        </p>
+        <p>
           <b>Preview</b> and <b>Mini preview</b> are special: they draw from the whole photo
           pool regardless of category. Auto-assign leads <b>Preview</b> slots with one image
           from exterior, kitchen, living room, then master bedroom, then continues through the
@@ -1555,6 +1783,11 @@ function PhotosTab(props: {
   library: PhotoItem[]
   assignments: PhotoAssignments
   index: IndexEntry[]
+  aiModel: string
+  aiKey: string
+  aiState: string | null
+  onAiConfig: (model: string, apiKey: string) => void
+  onAiClassify: () => void
   onFiles: (files: File[]) => void
   onAssign: (field: string, hash: string | null) => void
   onAutoAssign: (overwrite: boolean) => void
@@ -1565,6 +1798,11 @@ function PhotosTab(props: {
     library,
     assignments,
     index,
+    aiModel,
+    aiKey,
+    aiState,
+    onAiConfig,
+    onAiClassify,
     onFiles,
     onAssign,
     onAutoAssign,
@@ -1573,6 +1811,12 @@ function PhotosTab(props: {
   } = props
   const [dragging, setDragging] = useState(false)
   const [overwrite, setOverwrite] = useState(false)
+  const [aiSettingsOpen, setAiSettingsOpen] = useState(false)
+  // Local drafts so typing doesn't persist until Save.
+  const [keyDraft, setKeyDraft] = useState(aiKey)
+  const [modelDraft, setModelDraft] = useState(aiModel)
+  useEffect(() => setKeyDraft(aiKey), [aiKey])
+  useEffect(() => setModelDraft(aiModel), [aiModel])
   const fileInput = useRef<HTMLInputElement>(null)
 
   const ready = library.filter((it) => it.status === 'ready' && it.hash)
@@ -1694,6 +1938,101 @@ function PhotosTab(props: {
               Overwrite existing assignments
             </label>
           </div>
+          <div class="row">
+            <button
+              class="grow secondary"
+              disabled={!ready.length || !!aiState}
+              onClick={onAiClassify}
+              title="Analyze each photo's content with AI and rename it to its room category, so auto-assign can place it. Uses your own Claude API key."
+            >
+              ✨ AI classify &amp; rename
+            </button>
+            <button
+              class="secondary"
+              title="AI settings — your Claude API key and model"
+              onClick={() => setAiSettingsOpen((v) => !v)}
+            >
+              ⚙
+            </button>
+          </div>
+          {!aiKey.trim() && !aiSettingsOpen && (
+            <div class="muted" style={{ marginTop: '4px' }}>
+              Requires your own Claude API key — click ⚙ to add it.
+            </div>
+          )}
+          {aiSettingsOpen && (
+            <div class="card" style={{ marginTop: '6px' }}>
+              <label class="field-label" style={{ display: 'block', marginBottom: '2px' }}>
+                Claude API key
+              </label>
+              <input
+                type="password"
+                placeholder="sk-ant-…"
+                value={keyDraft}
+                onInput={(e) => setKeyDraft((e.target as HTMLInputElement).value)}
+                style={{ width: '100%' }}
+              />
+              <div class="muted" style={{ margin: '4px 0 6px' }}>
+                Create one at platform.claude.com → API keys. Usage is billed to your own
+                Anthropic account.
+              </div>
+              <div class="privacy">
+                <b>Your key stays on your machine.</b> It's saved in Figma's local plugin
+                storage for your account only — never written into the Figma file, never shared
+                with collaborators or anyone who opens a duplicate, and never sent anywhere
+                except Anthropic's API as the authorization header on your own requests.
+                <br />
+                <br />
+                <b>No personal information is collected.</b> This plugin has no analytics,
+                telemetry, or accounts, and no server of ours. When you run AI classify, a
+                downscaled copy of each photo goes directly from Figma to Anthropic for
+                classification — nothing else leaves Figma, and nothing is stored off-device.
+                Clear key removes it from this device at any time.
+              </div>
+              <label class="field-label" style={{ display: 'block', marginBottom: '2px' }}>
+                Model
+              </label>
+              <select
+                value={modelDraft}
+                onChange={(e) => setModelDraft((e.target as HTMLSelectElement).value)}
+                style={{ width: '100%' }}
+              >
+                {AI_MODELS.map((m) => (
+                  <option value={m.id} key={m.id}>
+                    {m.label}
+                  </option>
+                ))}
+              </select>
+              <div class="row">
+                <button
+                  class="grow"
+                  onClick={() => {
+                    onAiConfig(modelDraft, keyDraft.trim())
+                    setAiSettingsOpen(false)
+                  }}
+                >
+                  Save AI settings
+                </button>
+                {aiKey.trim() && (
+                  <button
+                    class="secondary"
+                    title="Forget the stored API key on this device"
+                    onClick={() => {
+                      setKeyDraft('')
+                      onAiConfig(modelDraft, '')
+                    }}
+                  >
+                    Clear key
+                  </button>
+                )}
+              </div>
+            </div>
+          )}
+          {aiState && (
+            <div class="muted" style={{ marginTop: '4px' }}>
+              {aiState}
+            </div>
+          )}
           <CategoryHelp context="assign" />
           {imageFields.length === 0 ? (
             <div class="muted" style={{ marginTop: '6px' }}>

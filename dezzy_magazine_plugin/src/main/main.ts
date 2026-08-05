@@ -297,10 +297,34 @@ figma.ui.onmessage = async (msg: UiToMain) => {
       send({ type: 'content', values: loadContent() })
       const photos = loadPhotos()
       send({ type: 'photos', assignments: photos.assignments, library: photos.library })
+      // AI settings (per-user, on-device via clientStorage — the API key is
+      // deliberately NOT stored in the document, so it never travels with the
+      // file or reaches collaborators).
+      try {
+        const model = await figma.clientStorage.getAsync('aiModel')
+        const apiKey = await figma.clientStorage.getAsync('aiApiKey')
+        if ((typeof model === 'string' && model) || (typeof apiKey === 'string' && apiKey)) {
+          send({
+            type: 'ai-config',
+            model: typeof model === 'string' ? model : '',
+            apiKey: typeof apiKey === 'string' ? apiKey : '',
+          })
+        }
+      } catch {
+        // storage unavailable — UI keeps its defaults
+      }
       // Pin existing library images against Figma's unused-image GC.
       void maintainImageVault()
       break
     }
+    case 'save-ai-config':
+      try {
+        await figma.clientStorage.setAsync('aiModel', msg.model)
+        await figma.clientStorage.setAsync('aiApiKey', msg.apiKey)
+      } catch {
+        // non-fatal — the settings just won't persist
+      }
+      break
     case 'upload-image':
       try {
         const ref = await createImageRef(msg.name, msg.bytes)

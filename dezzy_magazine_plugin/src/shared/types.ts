@@ -189,6 +189,7 @@ export type UiToMain =
   | { type: 'export-images' }
   | { type: 'restore-tags'; tags: { id: string; tag: Tag }[] }
   | { type: 'fetch-image'; hash: string }
+  | { type: 'save-ai-config'; model: string; apiKey: string }
 
 export type MainToUi =
   | { type: 'selection'; nodes: SelNode[]; total: number }
@@ -213,6 +214,7 @@ export type MainToUi =
   | { type: 'export-image'; name: string; bytes: Uint8Array; done: number; total: number }
   | { type: 'export-images-done'; count: number; cancelled?: boolean }
   | { type: 'image-bytes'; hash: string; bytes: Uint8Array }
+  | { type: 'ai-config'; model: string; apiKey: string }
   | { type: 'toast'; message: string; error?: boolean }
   | { type: 'busy'; busy: boolean; label?: string }
 

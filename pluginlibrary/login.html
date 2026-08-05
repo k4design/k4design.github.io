@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Plugin Library</title>
+<link rel="stylesheet" href="assets/library.css">
+<script src="assets/gate.js"></script>
+</head>
+<body>
+<div class="wrap gatebox">
+  <main class="gate">
+    <p class="eyebrow">Creative Team · Internal</p>
+    <h1 class="title">Plugin<br><em>Library</em></h1>
+    <p class="subtitle">Custom Figma tooling, documented.</p>
+
+    <form id="gateForm" autocomplete="off">
+      <input id="pw" type="password" name="password" placeholder="Password"
+             aria-label="Password" autocomplete="current-password" autofocus required>
+      <button type="submit">Enter</button>
+    </form>
+    <p class="err" id="err" role="status" aria-live="polite"></p>
+  </main>
+</div>
+
+<script>
+  /* Already unlocked this session? Skip straight through. */
+  if (isUnlocked()) location.replace(nextDestination());
+
+  const form = document.getElementById('gateForm');
+  const pw   = document.getElementById('pw');
+  const err  = document.getElementById('err');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    err.textContent = '';
+    if (await attemptUnlock(pw.value)) {
+      location.replace(nextDestination());
+    } else {
+      err.textContent = 'Not it. Try again.';
+      pw.value = '';
+      pw.focus();
+    }
+  });
+</script>
+</body>
+</html>

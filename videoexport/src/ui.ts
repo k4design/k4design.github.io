@@ -1,8 +1,7 @@
 // UI side: settings, video file intake, compositing, and MP4 encoding.
 //
-// IMPORTANT: Figma plugin iframes are not "secure contexts" (even when the
-// page is hosted on HTTPS inside a nested iframe, the sandbox propagates), so
-// the WebCodecs API is unavailable. Everything here avoids it:
+// IMPORTANT: Figma plugin iframes are not "secure contexts", so the WebCodecs
+// API is unavailable. Everything here avoids it:
 //   - H.264 encoding: h264-mp4-encoder (pure WebAssembly)
 //   - source video decoding: <video> element seek + drawImage
 //   - audio: passthrough of the source file's encoded packets (no re-encode),
@@ -59,7 +58,7 @@ const $ = (id: string) => document.getElementById(id)!;
 let frames: FrameState[] = [];
 let exporting = false;
 
-// ---------- messaging with the sandbox (relayed through the plugin shell) ----------
+// ---------- messaging with the sandbox ----------
 
 type Pending = { resolve: (v: any) => void; reject: (e: any) => void };
 const pending = new Map<string, Pending>();

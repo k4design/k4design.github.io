@@ -1,0 +1,5 @@
+# Crawlers only honour robots.txt at the domain root, so the
+# internal plugin library is excluded from here rather than from
+# /pluginlibrary/robots.txt.
+User-agent: *
+Disallow: /pluginlibrary/

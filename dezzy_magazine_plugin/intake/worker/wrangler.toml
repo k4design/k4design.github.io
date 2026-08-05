@@ -14,8 +14,9 @@ database_name = "apertureintake"
 database_id = "365d87c0-1483-4406-8985-8a0d30efc696"
 
 [vars]
-# Locked to your GitHub Pages site (the app that calls this Worker).
-ALLOWED_ORIGIN = "https://k4design.github.io"
+# Comma-separated allowlist: the GitHub Pages site, plus "null" for the Figma
+# plugin's sandboxed iframe (its Origin header is the literal string null).
+ALLOWED_ORIGIN = "https://k4design.github.io,null"
 # "true" rejects requests without a Cloudflare Access identity (see README).
 REQUIRE_AUTH = "false"
 

@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 746 600" width="746" height="600">
+  <g fill="none" stroke="#8E8688" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round">
+
+    <!-- Greater London boundary -->
+    <path d="M478.8,150 L560,165 L640.5,200 L684,270 L660,360 L600,450 L547.2,510 L500,530 L472.6,520 L400,510 L342,490 L280,430 L223.8,340 L250,270 L317.1,200 L400,160 Z"/>
+
+    <!-- River Thames -->
+    <path d="M211.4,390 L335.8,410 L335.8,360 L348.2,340 L366.9,330 L391.7,350 L416.6,340 L453.9,320 L481.9,315 L497.4,320 L522.3,340 L572.1,330 L634.2,340 L702.6,370 L746.2,380" stroke-width="1.6"/>
+
+  </g>
+
+  <g fill="none" stroke="#8E8688" stroke-width="0.8" stroke-linejoin="round" stroke-linecap="round" opacity="0.55" stroke-dasharray="5,4">
+    <!-- M25 orbital -->
+    <circle cx="449.1" cy="312.6" r="290"/>
+  </g>
+
+  <g fill="none" stroke="#8E8688" stroke-width="0.75" stroke-linejoin="round" stroke-linecap="round" opacity="0.4">
+    <!-- county divisions (indicative) -->
+    <path d="M232,40 L238,150 L262,232"/>
+    <path d="M262,232 L200,300"/>
+    <path d="M262,170 L360,140 L470,132 L560,150"/>
+    <path d="M196,486 L300,506 L420,520 L520,506 L590,470"/>
+    <path d="M590,470 L666,404"/>
+    <path d="M612,182 L680,150"/>
+  </g>
+</svg>

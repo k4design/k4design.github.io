@@ -4,7 +4,7 @@ import Observation
 /// Talks to the same `/api/snapshot` the web dashboard uses, so the monday token
 /// stays on the server and never ships inside the app binary.
 enum API {
-    static func snapshot(baseURL: String, force: Bool = false) async throws -> Snapshot {
+    static func snapshot(baseURL: String, accessKey: String?, force: Bool = false) async throws -> Snapshot {
         guard var comps = URLComponents(string: baseURL.trimmingCharacters(in: .whitespaces)) else {
             throw APIError.badURL
         }
@@ -15,8 +15,17 @@ enum API {
         var req = URLRequest(url: url)
         req.cachePolicy = .reloadIgnoringLocalCacheData
         req.timeoutInterval = 20
+        // A deployed server gates access with a shared key. Sent as a header so
+        // it never lands in a URL, a log, or a browser history.
+        if let accessKey, !accessKey.isEmpty {
+            req.setValue(accessKey, forHTTPHeaderField: "X-Dashboard-Key")
+        }
 
         let (data, response) = try await URLSession.shared.data(for: req)
+        if let http = response as? HTTPURLResponse, http.statusCode == 401 || http.statusCode == 503 {
+            let body = try? JSONDecoder().decode([String: String].self, from: data)
+            throw APIError.needsKey(body?["error"] ?? "This dashboard requires an access key.")
+        }
         if let http = response as? HTTPURLResponse, !(200..<300).contains(http.statusCode) {
             // The server sends a JSON body explaining itself (e.g. a missing
             // token on Netlify); surface that rather than a bare status code.
@@ -32,11 +41,12 @@ enum API {
     enum APIError: LocalizedError {
         case badURL
         case server(String)
+        case needsKey(String)
 
         var errorDescription: String? {
             switch self {
             case .badURL: return "That server address isn't a valid URL."
-            case .server(let m): return m
+            case .server(let m), .needsKey(let m): return m
             }
         }
     }
@@ -54,6 +64,22 @@ final class DashboardStore {
     var scope: String {
         didSet { UserDefaults.standard.set(scope, forKey: "scope") }
     }
+    /// "system" | "light" | "dark". Applied at the app root; changing it takes
+    /// effect immediately, no save step.
+    var appearance: String {
+        didSet { UserDefaults.standard.set(appearance, forKey: "appearance") }
+    }
+    /// Whether weekly recurring work counts in the capacity view.
+    var showRecurring: Bool {
+        didSet { UserDefaults.standard.set(showRecurring, forKey: "showRecurring") }
+    }
+    /// Kept in the Keychain, not UserDefaults — it is a credential.
+    var accessKey: String {
+        didSet { Keychain.set(accessKey, for: "accessKey") }
+    }
+    /// Set when the server rejected us for a missing or wrong key, so the UI can
+    /// ask for it rather than showing a generic failure.
+    var needsAccessKey = false
 
     // MARK: - Live state
 
@@ -74,6 +100,9 @@ final class DashboardStore {
         // set the Mac's current address in Settings.
         baseURL = saved?.isEmpty == false ? saved! : "http://localhost:5180"
         scope = UserDefaults.standard.string(forKey: "scope") ?? "design"
+        accessKey = Keychain.get("accessKey") ?? ""
+        appearance = UserDefaults.standard.string(forKey: "appearance") ?? "system"
+        showRecurring = UserDefaults.standard.bool(forKey: "showRecurring")
     }
 
     // MARK: - Derived
@@ -116,14 +145,23 @@ final class DashboardStore {
         isLoading = true
         defer { isLoading = false }
         do {
-            let fresh = try await API.snapshot(baseURL: baseURL, force: force)
+            let fresh = try await API.snapshot(baseURL: baseURL, accessKey: accessKey, force: force)
             snapshot = fresh
             lastLoaded = Date()
             // A payload can be valid and still carry a soft error (stale data
             // after an API hiccup) — keep showing the data, flag the problem.
             errorMessage = fresh.error
+            needsAccessKey = false
             if scopes.contains(where: { $0.key == scope }) == false, let first = scopes.first {
                 scope = first.key
+            }
+        } catch let error as API.APIError {
+            if case .needsKey(let message) = error {
+                needsAccessKey = true
+                errorMessage = message
+                stopTicker()   // polling would only be rejected again
+            } else {
+                errorMessage = error.localizedDescription
             }
         } catch {
             errorMessage = error.localizedDescription

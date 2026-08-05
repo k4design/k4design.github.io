@@ -1,48 +1,93 @@
 ========================================================================
-NotebookLM  ▸  VIDEO OVERVIEW  ▸  customization prompt
-Paste this into the "Customize" box when you generate the Video Overview
-for the source "Dezzy Magazine — Plugin Guide."
+NotebookLM  ▸  VIDEO OVERVIEW  ▸  presentation prompt
+Paste into the "Customize" box when generating the Video Overview from
+the source "Dezzy Magazine — a product presentation."
 ========================================================================
 
-Create a step-by-step screen-walkthrough tutorial for brand-new users of the
-Dezzy Magazine Figma plugin (real-estate magazine coordinators, non-technical).
-Tone: clear, friendly, practical — like a product onboarding video.
+Create a tech product-launch presentation video for Dezzy Magazine, the
+property-magazine engine for Figma — the energy of a keynote stage reveal, not
+a tutorial. The presenter is confident and precise, unveiling a product they
+built and are proud of. Audience: design teams and real-estate marketing
+leads seeing it for the first time.
 
-Use the numbered Figures in the source as the on-screen visuals. For EVERY step
-you narrate, display that step's screenshot (Figure 1–12) full-frame while you
-explain it, and keep the visual on screen until you move to the next step. Do not
-invent or generate other UI graphics — rely on the screenshots already in the
-document.
+CRITICAL FRAMING RULE
+Present the product itself. NEVER mention the source material — no "the
+guide", "the document", "this PDF", "the figure", "the screenshot", or "as
+shown in". The interface images from the source are your on-screen demo
+visuals; refer to them only in product terms ("here on the Photos tab…").
+Don't invent or generate any other UI.
 
-Follow the guide's exact order:
-1. Open with the big idea: Dezzy fills a whole property magazine automatically —
-   you TAG each placeholder once, then FILL from a form + a photo folder, then
-   APPLY. Name the five tabs: Tag, Content, Photos, Apply, Bulk.
-2. Part A — Tag the template (done once): walk Figures 1–7 in order
-   (Auto-number, Scan layer names, category slots, assign a field, couple
-   spreads & align, lock a layer, check the Tag index).
-3. Part B — Build a listing (repeated per property): walk Figures 8–12 in order
-   (enter content, upload photos, auto-assign, dry run, apply everything).
-4. Newer features — briefly show Figures 13–15: partial text tagging with
-   {{field}} templates, "Rename layers to tags", and applying straight from the
-   Content/Photos tabs.
-5. Close with the 30-second recap.
+VOICE
+Keynote cadence: short declarative sentences, the benefit first and then the
+engineering, and let the numbers land as punchlines — "a hundred pages…
+one undo step." Use the product's tagline as a refrain: "Tag once. Pour
+forever."
 
-For each figure, say the tab and button/field names exactly as shown, and point
-out what's highlighted in that screenshot (the outlined button, the cursor, the
-"untagged"/"empty" labels) so viewers know where to look. Use the figure's
-"In this screenshot" line as your guide for what to describe.
+STRUCTURE — follow the source's act structure:
+1. COLD OPEN — the problem: every listing means rebuilding a hundred-page
+   magazine by hand. Then the reveal: Dezzy Magazine. Tag once, then every
+   listing is fill a form, drop in the shoot, click Apply. Name the five
+   tabs: Tag, Content, Photos, Apply, Bulk.
+2. ACT I — Teach your template (once): auto-numbering with automatic spread
+   detection; layer names becoming tags; the room-category system; surgical
+   hand-tagging; {{field}} text templates; coupling spreads; locks; the Tag
+   index; renaming layers to match. Tags survive duplication and propagate
+   into component instances.
+3. ACT II — Feed it a listing: the Content form with live tag counts and
+   CSV round-trip; then the photo engine (see mandatory beats below).
+4. ACT III — The apply moment: dry run and magazine check (including spread
+   drift), then the one-click apply, then applying from any tab.
+5. ONE MORE THING — save state: the entire listing (values, photos,
+   assignments, tags) in one zip; plus retag-from-images.
+6. CLOSE — recap and tagline.
 
-Keep it concise — roughly one short beat per figure.
+MANDATORY FEATURE DEEP-DIVES — each of these must get its own explained
+moment, with the specific details, not a passing mention:
+• THE PHOTO TAG HIERARCHY: fifteen room categories recognized in BOTH layer
+  names and photo filenames; first match wins; bath outranks bedroom, so
+  "Master Bath 2" is never mistaken for a bedroom; interior and exterior are
+  POOLS that draw from every room and may repeat photos.
+• AUTO-ASSIGN'S FOUR PASSES: full-page slots consume the shoot in
+  room-progression order (porch → living → kitchen → dining → master →
+  master bath → … → exterior — the order a magazine walks a house); then
+  filename-to-category matches; then the interior/exterior pools, preferring
+  unused photos; then everything else into numbered slots in filename order.
+  Named slots — cover, hero, agent — always stay human.
+• THE IMAGE PIPELINE: photos process one at a time so peak memory is about
+  one image regardless of batch size; pixels stay untouched unless a photo
+  exceeds Figma's hard 4096-pixel ceiling — only then downscaled as JPEG at
+  quality 90 to protect print; WebP/AVIF converted automatically; every file
+  deduplicated by content hash; and the invisible image vault pins every
+  photo's bytes into the file so Figma's garbage collector can't destroy an
+  unplaced shoot.
+• THE SPREAD ENGINE: coupled spreads are cover-fit to the COMBINED bounding
+  box of both frames across both pages, each half getting its exact crop
+  window — zero duplicated pixels, zero missing pixels, gutter accounted for.
+• THE APPLY ENGINE: fonts deduplicated and preloaded once, yields every ten
+  layers so Figma stays responsive, dead tags self-heal, missing fonts are
+  reported never fatal, unassigned slots flood magenta, and the entire run is
+  ONE undo step, cancellable mid-flight.
+
+Don't turn the closing field-notes table into a segment — at most one line
+that the plugin flags its own problems.
 
 ------------------------------------------------------------------------
 SHORT VERSION (if the Customize box is length-limited)
 ------------------------------------------------------------------------
-Step-by-step onboarding walkthrough of the Dezzy Magazine Figma plugin for
-non-technical real-estate coordinators. Use the source's numbered screenshots as
-the on-screen visuals — show each step's Figure full-frame while narrating it,
-in order: intro + the five tabs (Tag, Content, Photos, Apply, Bulk); then Part A
-"tag the template" (Figures 1–7); then Part B "build a listing" (Figures 8–12);
-then the newer features (Figures 13–15: text templates, rename layers to tags,
-apply from any tab); then a 30-second recap. Use exact tab/button names and call out what's
-highlighted in each screenshot. Don't invent other visuals.
+Make a keynote-style product-launch presentation for Dezzy Magazine, the
+Figma plugin that builds hundred-page property magazines. Never mention the
+source document, figures, or screenshots — present the product live, using
+the source's interface images as the demo visuals. Structure: cold open on
+the problem, then "Tag once. Pour forever."; Act I teach the template
+(auto-number with spread detection, name scanning, room categories,
+{{field}} templates, locks, tag index); Act II feed it a listing (form with
+live tag counts; the photo pipeline — one-at-a-time processing so memory
+stays flat, untouched unless over Figma's 4096px ceiling then JPEG q90,
+WebP/AVIF conversion, content-hash dedupe, the image vault; auto-assign's
+four passes — room-progression full pages, filename→category with
+bath-outranks-bedroom logic, interior/exterior pools, then numbered slots);
+Act III the apply moment (dry run, spread-drift check, union-fit spreads
+with zero duplicated or missing pixels, magenta for unassigned, one undo
+step); one more thing — the whole listing in a save-state zip; close on the
+tagline. Confident presenter voice, benefit then engineering, numbers as
+punchlines.

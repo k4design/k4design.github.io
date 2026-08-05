@@ -86,7 +86,7 @@ struct QueueView: View {
                             .foregroundStyle(group.1 == nil ? .secondary : Theme.role(group.1))
                             .padding(.top, 4)
                         ForEach(group.2) { item in
-                            ItemRow(item: item, showStatus: true, extraChips: [dueChip(item)])
+                            ItemRow(item: item, showStatus: true, showDueAlert: true)
                         }
                     }
                 }
@@ -94,9 +94,4 @@ struct QueueView: View {
         }
     }
 
-    private func dueChip(_ item: Item) -> (String, String?) {
-        if item.overdue { return ("\(item.daysOverdue)d late", "critical") }
-        if item.daysToDue == 0 { return ("today", "serious") }
-        return ("in \(item.daysToDue ?? 0)d", nil)
-    }
 }

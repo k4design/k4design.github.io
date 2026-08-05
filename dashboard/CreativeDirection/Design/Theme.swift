@@ -39,12 +39,15 @@ enum Theme {
     static let laneFlight = Color(hex: 0x3987E5)
     static let laneYou = Color(hex: 0xC98500)
     static let laneStalled = Color(hex: 0xD03B3B)
+    /// Recurring weekly work — lavender step validated all-pairs vs the trio.
+    static let laneRecurring = Color(hex: 0xB39DDB)
 
     static func lane(_ key: String) -> Color {
         switch key {
         case "flight": return laneFlight
         case "you": return laneYou
         case "stalled": return laneStalled
+        case "recurring": return laneRecurring
         default: return laneIdle
         }
     }
@@ -115,6 +118,14 @@ enum Fmt {
         if s < 3600 { return "\(Int(s / 60))m" }
         if s < 86_400 { return "\(Int(s / 3600))h" }
         return "\(Int(s / 86_400))d"
+    }
+
+    /// Date and time a label was applied, in the reader's own timezone:
+    /// "Jul 28, 2:29 PM". Same day still shows the date — a proof sent this
+    /// morning and one sent last Tuesday should not read identically.
+    static func stamp(_ iso: String?) -> String? {
+        guard let date = parseISO(iso) else { return nil }
+        return date.formatted(.dateTime.month(.abbreviated).day().hour().minute())
     }
 
     static func clock(_ iso: String?) -> String {

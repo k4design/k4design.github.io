@@ -6,6 +6,6 @@
   "ui": "dist/ui.html",
   "editorType": ["figma"],
   "networkAccess": {
-    "allowedDomains": ["https://k4design.github.io"]
+    "allowedDomains": ["none"]
   }
 }

@@ -1,0 +1,163 @@
+{
+  "pollSeconds": 30,
+  "serverCacheSeconds": 15,
+  "port": 5180,
+
+  "thresholds": {
+    "staleWarnDays": 14,
+    "staleCriticalDays": 30,
+    "reviewWaitWarnDays": 2,
+    "reviewWaitCriticalDays": 5,
+    "dueSoonDays": 7,
+    "wipHealthyMax": 6,
+    "intakeTriageWarnDays": 2
+  },
+
+  "_comment_alertSuppress": "A listing marked Cold is not being actively pushed, so it should not raise alerts. Items whose 'temperature' column reads one of these values are excluded from every attention panel and its counts: what to touch next, deadlines, approval queue, stalled, going cold, and the tab badges. They stay in the capacity chart and hygiene, because the work is still assigned and pretending otherwise would understate someone's load.",
+  "alertSuppress": {
+    "column": "temperature",
+    "values": ["Cold"]
+  },
+
+  "_comment_statusStamp": "Labels whose moment-of-application is worth showing. For these, the server reads the status column's activity log and stamps each item with when the label was set, so a card can say 'Proofs Sent' AND when. lookbackDays bounds that history query; a label applied longer ago than this shows without a time rather than with a wrong one.",
+  "statusStamp": {
+    "labels": ["Proofs Sent"],
+    "lookbackDays": 180
+  },
+
+  "_comment_stepNaming": "Items whose name opens with a number and a bracket -- '1) captions drafts' -- are numbered steps within a piece of work, not projects of their own. They stay visible everywhere they already appear, but they are left out of the project counts: the header total, each person's capacity total, and the parent's subtask count.",
+  "stepNaming": {
+    "pattern": "^\\s*\\d+\\s*\\)"
+  },
+
+  "_comment_lanes": "Every status label on every board maps to exactly one lane. Lanes drive all the math. Unknown labels default to 'active'.",
+  "statusLanes": {
+    "Done": "done",
+    "Completed": "done",
+    "Shipped": "done",
+
+    "Ready for Review": "review",
+
+    "Stuck": "blocked",
+    "Missing Info": "blocked",
+
+    "Waiting for copy": "waiting",
+    "Waiting on Client Feedback": "waiting",
+
+    "In Progress": "active",
+    "Making edits": "active",
+    "In Design": "active",
+    "In Production": "active",
+
+    "To do": "queued",
+    "Ready to do": "queued",
+    "Submitted": "queued",
+
+    "Weekly occurence": "recurring",
+
+    "On Hold": "parked",
+
+    "_comment_aperture": "Aperture Listing Orders — the 'Design' column (status7)",
+    "Not Started": "queued",
+    "Edits in Process": "active",
+    "Showcase Token Granted": "active",
+    "Proofs Sent": "waiting",
+    "Edits Sent": "waiting",
+    "See Notes": "blocked",
+    "On Hold See Notes": "parked",
+    "Approved": "done",
+    "Sent to Print": "done"
+  },
+
+  "_comment_lanemeta": "Display order, label and severity role for each lane.",
+  "laneMeta": {
+    "review":    { "label": "Ready for review", "role": "warning",  "series": 4 },
+    "blocked":   { "label": "Blocked",          "role": "critical", "series": 8 },
+    "waiting":   { "label": "Waiting on others","role": "serious",  "series": 2 },
+    "active":    { "label": "In progress",      "role": "accent",   "series": 1 },
+    "queued":    { "label": "Queued",           "role": "neutral",  "series": 7 },
+    "recurring": { "label": "Recurring",        "role": "neutral",  "series": 3 },
+    "parked":    { "label": "On hold",          "role": "neutral",  "series": 5 },
+    "unset":     { "label": "No status",        "role": "neutral",  "series": 6 },
+    "done":      { "label": "Done",             "role": "good",     "series": 6 }
+  },
+
+  "_comment_scopes": "The header toggle. Each board declares a scope; 'both' is the union. Order here is the order of the buttons.",
+  "scopes": [
+    { "key": "design", "label": "Design Team Board" },
+    { "key": "aperture", "label": "Aperture Listing Orders" },
+    { "key": "both", "label": "Both" },
+    { "key": "rnd", "label": "R&D" }
+  ],
+
+  "_comment_rndTag": "Items whose request-type column carries this value belong to the R&D scope ONLY: they are excluded from design/aperture/both entirely, and the R&D view is a plain list grouped by assignee.",
+  "rndTag": { "column": "requestType", "value": "R&D" },
+
+  "boards": [
+    {
+      "id": "18400676183",
+      "role": "work",
+      "scope": "design",
+      "label": "Design Team",
+      "primary": true,
+      "columns": { "status": "status", "person": "person", "date": "date4", "requestType": "color_mm5ngmw3" },
+      "doneGroups": ["Completed"],
+      "_comment_backBurner": "Items in these groups are deliberately shelved: they appear ONLY in the Back Burner panel — no alerts, no capacity, no hygiene, no counts.",
+      "backBurnerGroups": ["Back Burner"],
+      "subitems": { "status": "status", "person": "person", "date": "date0" }
+    },
+    {
+      "id": "8442894318",
+      "role": "work",
+      "scope": "aperture",
+      "label": "Aperture Listing Orders",
+      "_comment": "177 listing orders. 'Design' (status7) is the column that matters creatively — the others track Billboard/Magazine/Mailer separately. There is NO due-date column on this board, so date is intentionally null: deadline panels stay empty rather than inventing a deadline out of 'Proofs Sent'. 'temperature' is the Cold/Warm/Hot column.",
+      "columns": {
+        "status": "status7",
+        "person": "people__1",
+        "date": null,
+        "temperature": "color_mm5nxatf"
+      },
+      "doneGroups": ["Completed", "Completed - 2026", "Completed - 2025", "Canceled"]
+    },
+    {
+      "id": "18422890784",
+      "role": "intake",
+      "scope": "design",
+      "label": "Design Requests",
+      "columns": {
+        "date": "dateux72tvle",
+        "priority": "single_selectv9ojiyg",
+        "requestType": "single_selectxyqq3zp",
+        "brand": "single_selecti0jblbw",
+        "requester": "short_textjltvaob9",
+        "approver": "short_textaol14n1q",
+        "campaign": "single_select9prysm2"
+      }
+    },
+    {
+      "_disabled": true,
+      "_why": "Orders (18404619594) is Brittany's board, not design team work. Its items were inflating the overdue count and putting non-designers in the capacity chart. Delete this block to drop it for good, or remove _disabled to bring it back.",
+      "id": "18404619594",
+      "role": "work",
+      "label": "Marketing Orders",
+      "columns": {
+        "status": "color_mm1k4st3",
+        "person": "text_mm1k9yc0",
+        "date": "date_mm1k7pac"
+      }
+    }
+  ],
+
+  "_comment_you": "Your monday user id. Items where you are the approver or assignee get an extra nudge in the focus ranking.",
+  "you": "45848253",
+
+  "_comment_personColors": "Assignee colour slots 1-5. Pinned by name on purpose: if slots were assigned by sort order, adding a designer whose name sorts early would repaint everyone else's rows. Colour must follow the person, not their position. Anyone not listed here takes the next free slot alphabetically; past slot 5 they render neutral grey. Identity is always carried by the initials and name on the card — the colour is a scanning aid, because no 5-hue set can be told apart reliably enough to carry identity alone.",
+  "personColors": {
+    "Brandon Williams": 1,
+    "Camelia Negoita": 2,
+    "Kyle Foreman": 3,
+    "Michelle Aguirre": 4,
+    "Natalie Cruz Serrat": 5
+  }
+}

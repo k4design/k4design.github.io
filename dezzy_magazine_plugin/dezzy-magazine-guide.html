@@ -420,6 +420,25 @@
       <div class="step">
         <span class="num">5</span>
         <div>
+          <h4>Tag part of a text layer</h4>
+          <p>When a layer mixes fixed words with data — “Offered at $4,750,000 · 5 bd / 4.5 ba” — you don't have to tag the whole thing. On the <b>Tag</b> tab, expand <span class="path">Tag part of this text (template)</span>, highlight just the part that changes, pick a Content field, and click <b>Wrap selection</b> to turn it into a <code>{{field}}</code> token. Everything else stays literal, and one layer can hold several tokens.</p>
+          <div class="crop">
+            <div class="crop-ctx"><span class="d"></span>Tag tab · Template</div>
+            <div class="box">
+              <div style="font-weight:600;color:#333;margin-bottom:6px">▾ Tag part of this text (template)</div>
+              <div class="pg-ta">Offered at {{price}} · {{bedrooms}} bd / {{bathrooms}} ba</div>
+              <div class="pg-row"><span class="pg-btn pgsec grow hl">Wrap selection as {{price}}</span></div>
+              <div class="pg-row"><span class="pg-btn grow">Save template</span></div>
+            </div>
+            <svg class="cur" width="20" height="20" viewBox="0 0 22 22" style="left:150px;top:96px"><path d="M4 2 L4 19 L8.6 14.6 L11.2 20.4 L13.4 19.4 L10.9 13.8 L17 13.8 Z" fill="#fff" stroke="#1a1a1a" stroke-width="1.3" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="crop-cap">Wrap a highlighted selection as a <b>{{field}}</b> token; everything else stays literal.</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <span class="num">6</span>
+        <div>
           <h4>Couple spreads &amp; set crops</h4>
           <p>One image bleeding across two facing frames? Select <b>both</b> and click <span class="path">Couple 2 as spread ⇔</span> — they share one photo and pin to opposite edges, reading as one continuous picture with no seam down the gutter.</p>
           <p>Any image tag can pin its crop with the <b>Align</b> toggle — <span class="mono">◄ Left · Center · Right ►</span>.</p>
@@ -436,7 +455,7 @@
       </div>
 
       <div class="step">
-        <span class="num">6</span>
+        <span class="num">7</span>
         <div>
           <h4>Lock what must never change</h4>
           <p>In the Tag picker, under <b>Locks</b>: mark permanent artwork with <code>photo.locked</code> and boilerplate or disclaimers with <code>text.locked</code>. Locked layers are skipped everywhere and reported as "N locked" rather than flagged empty.</p>
@@ -452,7 +471,7 @@
       </div>
 
       <div class="step">
-        <span class="num">7</span>
+        <span class="num">8</span>
         <div>
           <h4>Check your tags</h4>
           <p>The <b>Tag index</b> card lists every field and how many layers carry it. <b>Click any row</b> to select and zoom to those layers — the fastest way to confirm you tagged the right box. <span class="path">Rebuild index</span> renumbers category slots by layer order, confirming before it changes anything.</p>
@@ -466,6 +485,24 @@
             <svg class="cur" width="20" height="20" viewBox="0 0 22 22" style="left:120px;top:34px"><path d="M4 2 L4 19 L8.6 14.6 L11.2 20.4 L13.4 19.4 L10.9 13.8 L17 13.8 Z" fill="#fff" stroke="#1a1a1a" stroke-width="1.3" stroke-linejoin="round"/></svg>
           </div>
           <div class="crop-cap">Click a row to select every layer carrying that tag.</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <span class="num">9</span>
+        <div>
+          <h4>Rename layers to match your tags</h4>
+          <p>A last, optional polish: <span class="path">Bulk → Rename layers to tags</span> renames every tagged layer to its tag — <code>price</code>, <code>photo.kitchen.01</code>, … — so the Figma layers panel mirrors your tagging and is easy to scan later. Layers inside component instances inherit the main component's name, so they're left alone.</p>
+          <div class="crop">
+            <div class="crop-ctx"><span class="d"></span>Bulk tab · Tagging</div>
+            <div class="box" style="display:flex;align-items:flex-start;gap:10px;padding:10px">
+              <div class="pg-tool-ic">✏️</div>
+              <div class="pg-tool-info"><div class="pg-tool-t">Rename layers to tags</div><div class="pg-tool-d">Renames every tagged layer to its tag (price, photo.kitchen.01, …) so the layer list mirrors the tagging.</div></div>
+              <span class="pg-btn pgsec hl" style="min-width:64px">Rename</span>
+            </div>
+            <svg class="cur" width="20" height="20" viewBox="0 0 22 22" style="right:24px;top:42px"><path d="M4 2 L4 19 L8.6 14.6 L11.2 20.4 L13.4 19.4 L10.9 13.8 L17 13.8 Z" fill="#fff" stroke="#1a1a1a" stroke-width="1.3" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="crop-cap">Make the Figma layers panel read like your tags, in one click.</div>
           <div class="note"><b>Template done.</b> Save the file. From here on, every listing starts as a duplicate — all tags included.</div>
         </div>
       </div>
@@ -619,6 +656,15 @@
             <svg class="cur" width="20" height="20" viewBox="0 0 22 22" style="left:150px;top:34px"><path d="M4 2 L4 19 L8.6 14.6 L11.2 20.4 L13.4 19.4 L10.9 13.8 L17 13.8 Z" fill="#fff" stroke="#1a1a1a" stroke-width="1.3" stroke-linejoin="round"/></svg>
           </div>
           <div class="crop-cap">One click pours it all in — a single, undoable step.</div>
+          <p>You don't have to be on the Apply tab to commit, either: the <b>Content</b> tab has an <span class="path">Apply all content</span> button and the <b>Photos</b> tab an <span class="path">Apply photos</span> button, each pinned at the bottom with its own progress bar — handy for a quick text-only or photo-only re-run.</p>
+          <div class="crop">
+            <div class="crop-ctx"><span class="d"></span>Content tab · action bar</div>
+            <div style="border-top:1px solid #e6e6e6;padding-top:10px">
+              <div class="pg-row" style="margin-top:0"><span class="pg-btn grow hl">Apply all content</span></div>
+            </div>
+            <svg class="cur" width="20" height="20" viewBox="0 0 22 22" style="left:150px;top:34px"><path d="M4 2 L4 19 L8.6 14.6 L11.2 20.4 L13.4 19.4 L10.9 13.8 L17 13.8 Z" fill="#fff" stroke="#1a1a1a" stroke-width="1.3" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="crop-cap">Apply straight from the Content and Photos tabs — no trip to the Apply tab needed.</div>
           <p style="font-family:var(--serif);font-style:italic;color:var(--ink)">Then export your pages from Figma as usual. That's the whole loop.</p>
         </div>
       </div>
@@ -705,71 +751,6 @@
         </div>
         <figcaption><b>Apply tab</b> — steps 4–5. Dry run previews the write; then pour it in as one undoable step.</figcaption>
       </figure>
-    </div>
-  </section>
-
-  <!-- NEWER FEATURES -->
-  <section class="sec reveal">
-    <div class="sec-head">
-      <span class="part">Newer features</span>
-      <span class="cadence">Recently added</span>
-      <h2>New in this version</h2>
-    </div>
-    <p class="sec-intro">Capabilities added since the first release — all in the tabs you already know.</p>
-
-    <div class="steps">
-      <div class="step">
-        <span class="num" style="font-size:2rem;line-height:1">✦</span>
-        <div>
-          <h4>Tag part of a text layer (templates)</h4>
-          <p>Some layers mix fixed words with data — “Offered at $4,750,000 · 5 bd / 4.5 ba”. On the <b>Tag</b> tab, expand <span class="path">Tag part of this text (template)</span>, highlight just the part that changes, pick a Content field, and click <b>Wrap selection</b> — it becomes a <code>{{field}}</code> token while the rest stays literal. One text layer can hold several tokens, so mixed sentences fill correctly on Apply.</p>
-          <div class="crop">
-            <div class="crop-ctx"><span class="d"></span>Tag tab · Template</div>
-            <div class="box">
-              <div style="font-weight:600;color:#333;margin-bottom:6px">▾ Tag part of this text (template)</div>
-              <div class="pg-ta">Offered at {{price}} · {{bedrooms}} bd / {{bathrooms}} ba</div>
-              <div class="pg-row"><span class="pg-btn pgsec grow hl">Wrap selection as {{price}}</span></div>
-              <div class="pg-row"><span class="pg-btn grow">Save template</span></div>
-            </div>
-            <svg class="cur" width="20" height="20" viewBox="0 0 22 22" style="left:150px;top:96px"><path d="M4 2 L4 19 L8.6 14.6 L11.2 20.4 L13.4 19.4 L10.9 13.8 L17 13.8 Z" fill="#fff" stroke="#1a1a1a" stroke-width="1.3" stroke-linejoin="round"/></svg>
-          </div>
-          <div class="crop-cap">Wrap a highlighted selection as a <b>{{field}}</b> token; everything else stays literal.</div>
-        </div>
-      </div>
-
-      <div class="step">
-        <span class="num" style="font-size:2rem;line-height:1">✦</span>
-        <div>
-          <h4>Rename layers to match tags</h4>
-          <p><span class="path">Bulk → Rename layers to tags</span> renames every tagged layer to its tag — <code>price</code>, <code>photo.kitchen.01</code>, … — so the Figma layers panel mirrors your tagging and is easy to scan. Layers inside component instances inherit the main component's name, so they're left alone.</p>
-          <div class="crop">
-            <div class="crop-ctx"><span class="d"></span>Bulk tab · Tagging</div>
-            <div class="box" style="display:flex;align-items:flex-start;gap:10px;padding:10px">
-              <div class="pg-tool-ic">✏️</div>
-              <div class="pg-tool-info"><div class="pg-tool-t">Rename layers to tags</div><div class="pg-tool-d">Renames every tagged layer to its tag (price, photo.kitchen.01, …) so the layer list mirrors the tagging.</div></div>
-              <span class="pg-btn pgsec hl" style="min-width:64px">Rename</span>
-            </div>
-            <svg class="cur" width="20" height="20" viewBox="0 0 22 22" style="right:24px;top:42px"><path d="M4 2 L4 19 L8.6 14.6 L11.2 20.4 L13.4 19.4 L10.9 13.8 L17 13.8 Z" fill="#fff" stroke="#1a1a1a" stroke-width="1.3" stroke-linejoin="round"/></svg>
-          </div>
-          <div class="crop-cap">Make the Figma layers panel read like your tags, in one click.</div>
-        </div>
-      </div>
-
-      <div class="step">
-        <span class="num" style="font-size:2rem;line-height:1">✦</span>
-        <div>
-          <h4>Apply straight from the Content &amp; Photos tabs</h4>
-          <p>You no longer have to switch to the Apply tab to commit: the <b>Content</b> tab now has an <span class="path">Apply all content</span> button and the <b>Photos</b> tab an <span class="path">Apply photos</span> button, each pinned at the bottom with its own progress bar. The Apply tab still holds the dry run, magazine check, and per-group applies.</p>
-          <div class="crop">
-            <div class="crop-ctx"><span class="d"></span>Content tab · action bar</div>
-            <div style="border-top:1px solid #e6e6e6;padding-top:10px">
-              <div class="pg-row" style="margin-top:0"><span class="pg-btn grow hl">Apply all content</span></div>
-            </div>
-            <svg class="cur" width="20" height="20" viewBox="0 0 22 22" style="left:150px;top:34px"><path d="M4 2 L4 19 L8.6 14.6 L11.2 20.4 L13.4 19.4 L10.9 13.8 L17 13.8 Z" fill="#fff" stroke="#1a1a1a" stroke-width="1.3" stroke-linejoin="round"/></svg>
-          </div>
-          <div class="crop-cap">A pinned Apply button now lives on both the Content and Photos tabs.</div>
-        </div>
-      </div>
     </div>
   </section>
 

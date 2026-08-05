@@ -1,0 +1,217 @@
+/* ============================================================
+   LIBRARY SHELL — the index's two-pane browser and the login page.
+   Guides have their own stylesheet: assets/guide.css.
+   ============================================================ */
+
+  :root{
+    --paper:#F3F2EF; --paper-2:#EAE8E2; --ink:#181410; --ink-soft:#3B352C;
+    --taupe:#8B8578; --line:rgba(24,20,16,.14); --line-soft:rgba(24,20,16,.08);
+    --mag:#C81E67; --mag-tint:rgba(200,30,103,.10); --mag-line:rgba(200,30,103,.34);
+    --card:#FBFAF8;
+    --sans:"Helvetica Neue",-apple-system,system-ui,"Segoe UI",sans-serif;
+    --serif:"Iowan Old Style",Georgia,"Times New Roman",serif;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+    --maxw:940px;
+  }
+  @media (prefers-color-scheme:dark){
+    :root{
+      --paper:#16130F; --paper-2:#1F1B15; --ink:#EFEBE3; --ink-soft:#C7C0B3;
+      --taupe:#948D7F; --line:rgba(239,235,227,.16); --line-soft:rgba(239,235,227,.08);
+      --mag:#F0629A; --mag-tint:rgba(240,98,154,.13); --mag-line:rgba(240,98,154,.40);
+      --card:#1D1913;
+    }
+  }
+  :root[data-theme="light"]{
+    --paper:#F3F2EF; --paper-2:#EAE8E2; --ink:#181410; --ink-soft:#3B352C;
+    --taupe:#8B8578; --line:rgba(24,20,16,.14); --line-soft:rgba(24,20,16,.08);
+    --mag:#C81E67; --mag-tint:rgba(200,30,103,.10); --mag-line:rgba(200,30,103,.34);
+    --card:#FBFAF8;
+  }
+  :root[data-theme="dark"]{
+    --paper:#16130F; --paper-2:#1F1B15; --ink:#EFEBE3; --ink-soft:#C7C0B3;
+    --taupe:#948D7F; --line:rgba(239,235,227,.16); --line-soft:rgba(239,235,227,.08);
+    --mag:#F0629A; --mag-tint:rgba(240,98,154,.13); --mag-line:rgba(240,98,154,.40);
+    --card:#1D1913;
+  }
+
+  *{box-sizing:border-box}
+  [hidden]{display:none!important;}
+  html,body{margin:0;padding:0}
+  body{background:var(--paper);}
+  .wrap{background:var(--paper);color:var(--ink);font-family:var(--sans);
+    line-height:1.65;-webkit-font-smoothing:antialiased;
+    padding:clamp(1.4rem,4vw,4rem) clamp(1.1rem,4vw,2rem);}
+  .page{max-width:var(--maxw);margin:0 auto;}
+  .eyebrow{font-family:var(--mono);font-size:11.5px;letter-spacing:.24em;
+    text-transform:uppercase;color:var(--taupe);}
+  .accent{color:var(--mag);}
+  code,.mono{font-family:var(--mono);}
+  code{background:var(--mag-tint);color:var(--mag);padding:.08em .38em;
+    border-radius:3px;font-size:.86em;border:1px solid var(--mag-line);white-space:nowrap;}
+  a{color:var(--mag);text-underline-offset:3px;}
+
+  /* login's wordmark */
+  .title{font-family:var(--serif);font-weight:400;line-height:.92;letter-spacing:-.015em;
+    font-size:clamp(3.2rem,12vw,7.2rem);margin:2.2rem 0 .2rem;text-wrap:balance;}
+  .title em{font-style:italic;color:var(--mag);}
+  .subtitle{font-family:var(--serif);font-style:italic;font-size:clamp(1.1rem,3vw,1.5rem);
+    color:var(--ink-soft);max-width:34ch;margin:.3rem 0 2.6rem;}
+
+  /* ============================================================
+     LOGIN PAGE
+     ============================================================ */
+
+  .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);}
+
+  /* --- topbar: sits above every guide, links home --- */
+  .topbar{max-width:var(--maxw);margin:0 auto;display:flex;align-items:baseline;
+    justify-content:space-between;gap:1rem;flex-wrap:wrap;
+    font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--taupe);padding:0 0 1.4rem;}
+  .topbar a{color:var(--taupe);text-decoration:none;border-bottom:1px solid var(--line);}
+  .topbar a:hover{color:var(--mag);border-bottom-color:var(--mag-line);}
+  .topbar .home::before{content:"← ";color:var(--mag);}
+  /* the library pane already shows the name, version and a way back */
+  .framed .topbar{display:none;}
+
+  /* --- login --- */
+  .gatebox{min-height:100svh;display:grid;place-items:center;padding:1.5rem;}
+  .gate{width:100%;max-width:360px;}
+  .gate .title{font-size:clamp(2.6rem,9vw,4rem);margin:.6rem 0 .1rem;}
+  .gate form{display:flex;gap:.5rem;margin-top:2rem;}
+  .gate input{flex:1;min-width:0;height:44px;padding:0 .9rem;color:var(--ink);
+    background:var(--card);border:1px solid var(--line);border-radius:6px;
+    font-family:var(--mono);font-size:14px;letter-spacing:.14em;}
+  .gate input:focus{outline:none;border-color:var(--mag);
+    box-shadow:0 0 0 3px var(--mag-tint);}
+  .gate button{height:44px;padding:0 1.2rem;border:1px solid var(--mag);border-radius:6px;
+    background:var(--mag);color:#fff;cursor:pointer;
+    font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;}
+  .gate button:hover{filter:brightness(1.08);}
+  .gate .err{margin:.9rem 0 0;min-height:1.2em;color:var(--mag);
+    font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;}
+
+  /* ============================================================
+     INDEX — two-pane browser: categorised list left, guide right.
+     The right pane is an <iframe>, so each guide stays a standalone
+     page you can open, print, or send on its own.
+     ============================================================ */
+  .app{display:grid;grid-template-columns:clamp(300px,28vw,400px) 1fr;
+    height:100svh;background:var(--paper);color:var(--ink);
+    font-family:var(--sans);}
+
+  /* --- left: the library --- */
+  .side{display:flex;flex-direction:column;min-height:0;
+    border-right:1px solid var(--line);background:var(--paper);}
+  .side-head{padding:1.5rem 1.4rem 1.1rem;border-bottom:1px solid var(--line);}
+  .side-head .brand{font-family:var(--serif);font-weight:400;line-height:.95;
+    font-size:2rem;letter-spacing:-.015em;margin:.35rem 0 .1rem;}
+  .side-head .brand em{font-style:italic;color:var(--mag);}
+  .side-head .search{width:100%;margin-top:1.1rem;}
+  .search{height:36px;padding:0 .8rem;color:var(--ink);
+    background:var(--card);border:1px solid var(--line);border-radius:6px;
+    font-family:var(--sans);font-size:.9rem;}
+  .search:focus{outline:none;border-color:var(--mag);box-shadow:0 0 0 3px var(--mag-tint);}
+  .side-scroll{flex:1;min-height:0;overflow-y:auto;padding:.4rem 0 2rem;
+    overscroll-behavior:contain;}
+  .side-foot{padding:.8rem 1.4rem;border-top:1px solid var(--line);
+    display:flex;justify-content:space-between;gap:.6rem;
+    font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--taupe);}
+  .side-foot a{color:var(--taupe);text-decoration:none;}
+  .side-foot a:hover{color:var(--mag);}
+
+  /* --- left: categories --- */
+  .cat{margin-top:1.3rem;}
+  .cat-name{display:flex;align-items:center;justify-content:space-between;gap:.6rem;
+    padding:0 1.4rem .5rem;
+    font-family:var(--mono);font-size:9.5px;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--taupe);}
+  .cat-name .n{color:var(--line);}
+
+  /* --- left: one plugin --- */
+  .item{display:grid;grid-template-columns:80px 1fr;gap:.85rem;
+    width:100%;text-align:left;cursor:pointer;
+    padding:.7rem 1.4rem .75rem;border:0;border-left:2px solid transparent;
+    background:none;color:inherit;font:inherit;
+    transition:background .14s ease,border-color .14s ease;}
+  .item:hover{background:var(--paper-2);}
+
+  /* Icon slot: 1:1, 80px. `object-fit:contain` keeps a logo uncropped, so a wide
+     wordmark letterboxes inside the square rather than losing its ends.
+     Logos sit on white — they're drawn for light backgrounds, and a white
+     plate reads as an app icon on either theme. With no `icon` set
+     the slot holds the plugin's initials, so names line up whether or not
+     a logo exists yet. */
+  .item .ico{grid-row:span 2;width:80px;height:80px;border-radius:14px;
+    margin-top:.15rem;display:grid;place-items:center;overflow:hidden;
+    background:var(--card);border:1px solid var(--line);
+    font-family:var(--mono);font-size:17px;letter-spacing:.02em;
+    color:var(--taupe);font-style:normal;}
+  .item .ico.has-img{background:#fff;border-color:rgba(0,0,0,.12);padding:5px;}
+  .item .ico img{width:100%;height:100%;object-fit:contain;display:block;}
+  .item .ico.is-emoji{font-size:30px;background:var(--paper-2);}
+  .item[aria-current="true"] .ico{color:var(--mag);}
+  .item[aria-current="true"] .ico:not(.has-img){border-color:var(--mag-line);}
+
+  .item .row{display:flex;align-items:baseline;justify-content:space-between;gap:.5rem;}
+  .item .nm{font-family:var(--serif);font-size:1.08rem;line-height:1.25;}
+  .item .sub{margin:.15rem 0 0;font-size:.8rem;line-height:1.45;color:var(--taupe);
+    display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+  .item[aria-current="true"]{background:var(--mag-tint);border-left-color:var(--mag);}
+  .item[aria-current="true"] .nm{color:var(--mag);}
+  .item.is-retired{opacity:.6;}
+  .item.is-retired:hover{opacity:1;}
+
+  .pill{font-family:var(--mono);font-size:8.5px;letter-spacing:.16em;text-transform:uppercase;
+    border:1px solid var(--line);border-radius:99px;padding:.25em .55em;white-space:nowrap;
+    color:var(--taupe);flex-shrink:0;}
+  .pill.live{color:var(--mag);border-color:var(--mag-line);background:var(--mag-tint);}
+  .pill.beta{color:var(--ink-soft);}
+
+  .empty-state{font-family:var(--serif);font-style:italic;color:var(--taupe);
+    padding:1.6rem 1.4rem;font-size:.95rem;}
+
+  /* --- right: the guide --- */
+  .pane{display:flex;flex-direction:column;min-width:0;min-height:0;
+    background:var(--paper-2);}
+  .pane-bar{display:flex;align-items:center;justify-content:space-between;gap:1rem;
+    padding:.85rem 1.4rem;border-bottom:1px solid var(--line);background:var(--paper);
+    font-family:var(--mono);font-size:10px;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--taupe);}
+  .pane-bar .where{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .pane-bar a{color:var(--mag);text-decoration:none;white-space:nowrap;}
+  .pane-bar a:hover{text-decoration:underline;text-underline-offset:3px;}
+  .pane-frame{flex:1;min-height:0;width:100%;border:0;display:block;background:var(--paper);}
+
+  /* nothing selected yet */
+  .placeholder{flex:1;display:grid;place-items:center;padding:2rem;text-align:center;}
+  .placeholder .big{font-family:var(--serif);font-size:clamp(1.6rem,4vw,2.4rem);
+    line-height:1.15;margin:.6rem 0 .4rem;}
+  .placeholder p{font-family:var(--serif);font-style:italic;color:var(--taupe);
+    max-width:34ch;margin:0 auto;}
+
+  /* --- mobile: one pane at a time --- */
+  .back-to-list{display:none;background:none;border:0;padding:0;cursor:pointer;
+    color:var(--mag);font:inherit;font-family:var(--mono);font-size:10px;
+    letter-spacing:.14em;text-transform:uppercase;}
+  @media (max-width:820px){
+    .app{grid-template-columns:1fr;}
+    .side{border-right:0;}
+    .pane{display:none;}
+    .back-to-list{display:inline;}
+    .app.showing-guide .side{display:none;}
+    .app.showing-guide .pane{display:flex;}
+    /* the guide's own header carries the name here; keep the bar to one line */
+    .pane-bar .where{display:none;}
+  }
+
+  /* --- print: the shell is chrome, so it never prints. Guides carry
+         their own print rules in guide.css. --- */
+  @media print{
+    :root{--paper:#fff;--paper-2:#f4f4f2;--ink:#000;--ink-soft:#333;--card:#fff;
+      --taupe:#666;--line:rgba(0,0,0,.2);--line-soft:rgba(0,0,0,.1);}
+    .gatebox,.side,.pane-bar{display:none;}
+    .wrap{padding:0;}
+    a{color:#000;}
+  }

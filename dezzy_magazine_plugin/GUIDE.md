@@ -99,6 +99,12 @@ picker fits:
 
 Each picker has its own **Assign** button so the tag type is never ambiguous.
 
+**Tag just part of a text layer (templates).** When a layer mixes fixed words with
+data — "Offered at $4,750,000 · 5 bd / 4.5 ba" — expand **Tag part of this text
+(template)** on the Tag tab, highlight the part that changes, pick a Content field,
+and click **Wrap selection** to turn it into a `{{field}}` token. Everything else
+stays literal, and one layer can hold several tokens.
+
 **Special photo slots worth knowing:**
 
 - **Named slots** (cover, hero, agent headshot) — assigned manually, never
@@ -142,6 +148,10 @@ quickest way to confirm you tagged the right box.
 Use **Rebuild index** to renumber the category slots by layer stacking order (bottom
 layer = 01, going up), so slot numbers follow the page rather than tagging order. It
 confirms before changing anything and never removes tags.
+
+Optional last polish: **Bulk → Rename layers to tags** renames every tagged layer to
+its tag (`price`, `photo.kitchen.01`, …) so the Figma layers panel mirrors your
+tagging and is easy to scan later. Layers inside component instances are left alone.
 
 > ✅ **Template done.** Save it. From now on, each new listing is a duplicate of this
 > file — all tags come along for free.
@@ -213,6 +223,10 @@ Each apply is a **single Undo step**, shows a progress bar, and can be **cancell
 mid-run (one Undo reverts a partial run). Missing fonts are skipped and reported,
 never fatal.
 
+You don't have to be on the Apply tab to commit, either: the **Content** tab has an
+**Apply all content** button and the **Photos** tab an **Apply photos** button, each
+pinned at the bottom — handy for a quick text-only or photo-only re-run.
+
 That's the whole loop. Export your pages from Figma as usual.
 
 ---
@@ -239,26 +253,6 @@ Great for handing a listing between people or archiving finished issues.
   the right category. Shows a preview and only changes tags after you confirm.
 - **Clear all tags** — strips every tag from the page (keeps your content and photos).
   Use when you want to re-tag from scratch.
-
----
-
-## Newer features
-
-Added since the first release — all in the tabs you already know:
-
-- **Partial text tagging (templates)** — for a layer that mixes fixed words with data
-  ("Offered at $4,750,000 · 5 bd / 4.5 ba"), expand **Tag part of this text (template)**
-  on the **Tag** tab, highlight the part that changes, pick a Content field, and click
-  **Wrap selection** to turn it into a `{{field}}` token. Everything else stays literal,
-  and one layer can hold several tokens.
-- **Rename layers to tags** (Bulk tab) — renames every tagged layer to its tag
-  (`price`, `photo.kitchen.01`, …) so the Figma layers panel mirrors your tagging.
-  Layers inside component instances are left alone.
-- **Save state now carries tags** — the save-state `.zip` includes `tags.json`, so
-  uploading it into a fresh file restores the full tagging (tags re-apply immediately).
-- **Apply from any tab** — the **Content** tab has an **Apply all content** button and
-  the **Photos** tab an **Apply photos** button, each pinned at the bottom, so you can
-  commit without switching to the Apply tab.
 
 ---
 

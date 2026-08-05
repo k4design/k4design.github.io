@@ -301,6 +301,22 @@ textarea:focus {
   margin-top: 2px;
 }
 
+/* Privacy disclaimer for the AI settings panel: key handling + no telemetry. */
+.privacy {
+  margin: 0 0 8px;
+  padding: 8px 10px;
+  border-left: 2px solid var(--figma-color-border-brand, #7cc4f8);
+  border-radius: 0 4px 4px 0;
+  background: var(--figma-color-bg-secondary, #f5f5f5);
+  color: var(--figma-color-text-secondary, #666);
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.privacy b {
+  color: var(--figma-color-text, #333);
+}
+
 .progress {
   position: relative;
   height: 16px;

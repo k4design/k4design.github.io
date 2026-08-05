@@ -7,6 +7,7 @@
   "editorType": ["figma"],
   "documentAccess": "dynamic-page",
   "networkAccess": {
-    "allowedDomains": ["none"]
+    "allowedDomains": ["https://api.anthropic.com"],
+    "reasoning": "Optional AI photo classification: when the user clicks 'AI classify & rename', downscaled photo data is sent to Anthropic's Claude API using the user's own API key (entered in the plugin, stored only on their device). No other network use."
   }
 }

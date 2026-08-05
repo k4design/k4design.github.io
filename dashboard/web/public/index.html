@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Creative Direction — Live Board</title>
+<link rel="stylesheet" href="style.css">
+<script>
+  // Where the dashboard API lives. "" = same origin — correct when the page is
+  // served by node server.js or the Netlify build (function alongside).
+  // A GitHub Pages deployment has no API beside it: point this at the
+  // Cloudflare Worker instead (done automatically for dashboard/web by the
+  // sync tooling).
+  window.DASHBOARD_API = "https://creative-direction-api.kyleforeman-design.workers.dev";
+</script>
+</head>
+<body>
+
+<!-- ============================================================
+     App shell: fixed header, then a two-column body. The left
+     column is the only thing that scrolls; the right rail is
+     pinned at 25% and scrolls independently.
+     ============================================================ -->
+
+<header>
+  <div class="brand">
+    <h1>Creative Direction</h1>
+  </div>
+
+  <!-- Board scope. This changes what every number on the page means, so it
+       lives in the chrome rather than inside a panel. Built from config. -->
+  <div class="segmented" id="scopeToggle" role="group" aria-label="Board scope"></div>
+
+  <span class="sub" id="boardList">—</span>
+
+  <div class="pulse" id="pulse">
+    <span class="dot"></span>
+    <span id="pulseText">connecting…</span>
+  </div>
+
+  <button class="change-chip" id="changeChip" hidden></button>
+
+  <div class="spacer"></div>
+
+  <div class="search" id="searchWrap">
+    <input id="q" type="search" placeholder="Filter by name or person" autocomplete="off">
+    <button id="qClear" class="qclear" hidden aria-label="Clear filter">✕</button>
+    <kbd id="qKbd">/</kbd>
+  </div>
+
+  <div class="controls">
+    <button id="btnWall" aria-pressed="false" title="Wallboard mode (w)">Wallboard</button>
+    <button id="btnTheme" title="Switch to light theme (t)">Light</button>
+    <button id="btnRefresh" title="Refresh now (r)">Refresh</button>
+    <button id="btnKeys" class="icon" aria-expanded="false" aria-controls="keysPop"
+            aria-label="Keyboard shortcuts" title="Keyboard shortcuts (?)">?</button>
+  </div>
+
+  <div class="popover" id="keysPop" role="dialog" aria-label="Keyboard shortcuts" hidden>
+    <div class="pop-title">Shortcuts</div>
+    <dl>
+      <dt><kbd>1</kbd>–<kbd>3</kbd></dt><dd>Switch view</dd>
+      <dt><kbd>/</kbd></dt><dd>Filter everything</dd>
+      <dt><kbd>Esc</kbd></dt><dd>Clear the filter</dd>
+      <dt><kbd>R</kbd></dt><dd>Refresh now</dd>
+      <dt><kbd>W</kbd></dt><dd>Wallboard mode</dd>
+      <dt><kbd>T</kbd></dt><dd>Light / dark</dd>
+      <dt><kbd>?</kbd></dt><dd>This list</dd>
+    </dl>
+    <div class="pop-foot">Cards open in monday.com in a new tab.</div>
+  </div>
+</header>
+
+<div class="shell">
+
+  <!-- ---------------- scrolling work column ---------------- -->
+  <div class="workspace" id="workspace">
+
+    <div class="banner demo" id="demoBanner" hidden>
+      <strong>Sample data.</strong>
+      <span>No Monday token found, so this is a snapshot of your boards rather than a live feed. Add <code>MONDAY_API_TOKEN=…</code> to <code>monday-dashboard/.env</code> and restart to go live.</span>
+    </div>
+    <div class="banner error" id="errBanner" hidden></div>
+
+    <!-- Shown only by a deployed server that requires a key. The local server
+         never asks, because localhost isn't reachable from the internet. -->
+    <div class="banner error keyprompt" id="keyPrompt" hidden>
+      <div>
+        <strong>Access key required.</strong>
+        <span id="keyPromptMsg"></span>
+      </div>
+      <div class="keyrow">
+        <input id="keyInput" type="password" placeholder="Paste the access key"
+               autocomplete="off" spellcheck="false">
+        <button id="keySave">Unlock</button>
+      </div>
+    </div>
+
+    <div class="filter-note" id="filterNote" hidden>
+      <span>Showing only work matching <b id="filterTerm"></b> — every panel is filtered.</span>
+      <button id="filterClear">Show everything</button>
+    </div>
+
+    <section class="kpis">
+      <div class="tile hero" data-role="warning">
+        <div class="label">Waiting on your review</div>
+        <div class="value" id="kpiReview">–</div>
+        <div class="foot" id="kpiReviewFoot">—</div>
+      </div>
+      <div class="tile" data-role="critical">
+        <div class="label">Overdue</div>
+        <div class="value" id="kpiOverdue">–</div>
+        <div class="foot" id="kpiOverdueFoot">—</div>
+      </div>
+      <div class="tile" data-role="serious">
+        <div class="label">Stalled</div>
+        <div class="value" id="kpiStalled">–</div>
+        <div class="foot">blocked or waiting on someone</div>
+      </div>
+      <div class="tile" data-role="warning">
+        <div class="label">Going stale</div>
+        <div class="value" id="kpiRot">–</div>
+        <div class="foot" id="kpiRotFoot">—</div>
+      </div>
+      <div class="tile" data-role="neutral">
+        <div class="label">New requests</div>
+        <div class="value" id="kpiIntake">–</div>
+        <div class="foot" id="kpiIntakeFoot">—</div>
+      </div>
+    </section>
+
+    <!-- Tabs group the panels so each view fits the viewport exactly. Badges
+         carry each group's most urgent count, so hiding a panel never hides
+         the fact that something in it needs attention. -->
+    <div class="tabbar" role="tablist" aria-label="Dashboard views">
+      <button role="tab" id="tab-now" aria-controls="view-now" aria-selected="true" data-view="now">
+        Priorities <span class="tabbadge" id="badgeNow" hidden></span>
+      </button>
+      <button role="tab" id="tab-team" aria-controls="view-team" aria-selected="false" data-view="team" tabindex="-1">
+        Team <span class="tabbadge" id="badgeTeam" hidden></span>
+      </button>
+      <button role="tab" id="tab-risk" aria-controls="view-risk" aria-selected="false" data-view="risk" tabindex="-1">
+        Risk &amp; hygiene <span class="tabbadge" id="badgeRisk" hidden></span>
+      </button>
+      <span class="tabhint">1 · 2 · 3</span>
+    </div>
+
+    <main>
+      <section class="tabview" id="view-now" role="tabpanel" aria-labelledby="tab-now">
+        <section class="panel col-7">
+          <h2>
+            What to touch next
+            <span class="count" id="focusCount"></span>
+            <span class="hint">ranked by urgency · click to open in monday</span>
+          </h2>
+          <div class="body" id="focus"></div>
+        </section>
+
+        <section class="panel col-5">
+          <h2>Deadlines <span class="count" id="dueCount"></span></h2>
+          <div class="body" id="rail"></div>
+        </section>
+      </section>
+
+      <section class="tabview" id="view-team" role="tabpanel" aria-labelledby="tab-team" hidden>
+        <section class="panel col-7">
+          <h2>
+            Who is carrying what
+            <span class="hint" id="loadHint">open work</span>
+            <button id="btnRecurring" class="mini" aria-pressed="false"
+                    title="Include weekly recurring work in the counts">Recurring</button>
+            <button id="btnTable" class="mini" aria-pressed="false" aria-controls="loadTable">Numbers</button>
+          </h2>
+          <div class="body" id="load" style="padding:8px 0"></div>
+          <div class="legend" id="loadLegend"></div>
+          <div class="tableview" id="loadTable" hidden></div>
+        </section>
+
+        <section class="panel col-5">
+          <h2>Your approval queue <span class="count" id="reviewCount"></span></h2>
+          <div class="body" id="review"></div>
+        </section>
+      </section>
+
+      <!-- Balanced by content volume: the long list gets the full column
+           height, the two short panels share the other column. -->
+      <section class="tabview" id="view-risk" role="tabpanel" aria-labelledby="tab-risk" hidden>
+        <div class="stack col-7">
+          <section class="panel">
+            <h2>Going stale <span class="count" id="rotCount"></span></h2>
+            <div class="body" id="rot"></div>
+          </section>
+
+          <section class="panel">
+            <h2>Back burner <span class="count" id="backBurnerCount"></span>
+              <span class="hint">shelved on the board · no alerts, no stats</span></h2>
+            <div class="body" id="backBurner"></div>
+          </section>
+        </div>
+
+        <div class="stack col-5">
+          <section class="panel">
+            <h2>Stalled — who to chase <span class="count" id="stalledCount"></span></h2>
+            <div class="body" id="stalled"></div>
+          </section>
+
+          <section class="panel">
+            <h2>Board hygiene <span class="hint">fix these once, save hours</span></h2>
+            <div class="body pad" id="hygiene"></div>
+          </section>
+        </div>
+      </section>
+    </main>
+
+    <!-- R&D scope replaces the whole tabbed workspace with one plain list
+         grouped by assignee — exploration, not pipeline, so no KPIs or tabs. -->
+    <section class="rndview" id="rndView" hidden>
+      <section class="panel">
+        <h2>R&amp;D projects <span class="count" id="rndCount"></span>
+          <span class="hint">tagged R&amp;D on the board · grouped by assignee</span></h2>
+        <div class="body" id="rndList"></div>
+      </section>
+    </section>
+  </div>
+
+  <!-- ---------------- pinned right column, 25% ----------------
+       Intake on top (what's arriving), live activity beneath
+       (what's moving). Both scroll inside their own block; the
+       column itself never scrolls.
+       ---------------------------------------------------------- -->
+  <aside class="rail" id="feedRail">
+    <section class="rail-block requests" aria-label="Incoming requests">
+      <div class="rail-top">
+        <h2>Incoming requests</h2>
+        <span class="rail-hint" id="intakeCount"></span>
+      </div>
+      <div class="rail-body" id="intake"></div>
+    </section>
+
+    <!-- Drag to trade height between the two feeds. Keyboard: arrows resize,
+         double-click resets to automatic sizing. -->
+    <div class="rail-divider" id="railDivider" role="separator" aria-orientation="horizontal"
+         aria-label="Resize incoming requests" tabindex="0" title="Drag to resize · double-click to reset">
+      <span class="grip" aria-hidden="true"></span>
+    </div>
+
+    <section class="rail-block feed" aria-label="Live activity">
+      <div class="rail-top">
+        <h2>Live activity</h2>
+        <span class="rail-hint" id="activityHint"></span>
+      </div>
+      <div class="rail-body" id="activity"></div>
+    </section>
+  </aside>
+
+</div>
+
+<div id="tip"></div>
+<button class="wall-exit" id="wallExit">Exit wallboard <kbd>W</kbd></button>
+
+<script src="app.js"></script>
+</body>
+</html>

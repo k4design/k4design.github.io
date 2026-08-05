@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Frame to MP4 — Figma Plugin</title>
+<style>
+  :root {
+    --bg: #05060a;
+    --bg2: #0a0c12;
+    --panel: rgba(255,255,255,0.03);
+    --panel-solid: #0e1118;
+    --border: rgba(255,255,255,0.08);
+    --border-bright: rgba(255,255,255,0.16);
+    --text: #f2f4f8;
+    --muted: #8b93a5;
+    --dim: #5c6373;
+    --blue: #3d9bff;
+    --violet: #8b6cff;
+    --cyan: #38e1d4;
+    --green: #4ade80;
+    --amber: #fbbf24;
+    --grad: linear-gradient(93deg, #3d9bff 0%, #8b6cff 55%, #38e1d4 110%);
+    --mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, monospace;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font: 16px/1.7 -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  ::selection { background: rgba(61,155,255,0.35); }
+
+  /* ---------- nav ---------- */
+  nav {
+    position: sticky; top: 0; z-index: 50;
+    display: flex; align-items: center; gap: 28px;
+    padding: 14px 28px;
+    background: rgba(5,6,10,0.72);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-brand { display: flex; align-items: center; gap: 10px; font-weight: 700; letter-spacing: -0.2px; }
+  .nav-mark {
+    width: 26px; height: 26px; border-radius: 7px;
+    background: var(--grad);
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 14px;
+  }
+  nav a { color: var(--muted); text-decoration: none; font-size: 14px; transition: color .15s; }
+  nav a:hover { color: var(--text); }
+  .nav-links { display: flex; gap: 22px; margin-left: auto; }
+  @media (max-width: 640px) { .nav-links { display: none; } }
+
+  /* ---------- hero ---------- */
+  .hero {
+    position: relative;
+    text-align: center;
+    padding: 110px 24px 90px;
+    background:
+      radial-gradient(ellipse 60% 45% at 50% -5%, rgba(61,155,255,0.16), transparent 70%),
+      radial-gradient(ellipse 45% 35% at 78% 15%, rgba(139,108,255,0.12), transparent 70%),
+      radial-gradient(ellipse 40% 30% at 22% 20%, rgba(56,225,212,0.08), transparent 70%);
+  }
+  .hero::before {
+    content: "";
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+    background-size: 44px 44px;
+    mask-image: radial-gradient(ellipse 70% 60% at 50% 30%, #000 30%, transparent 75%);
+    pointer-events: none;
+  }
+  .hero > * { position: relative; }
+  .pill {
+    display: inline-flex; align-items: center; gap: 8px;
+    border: 1px solid var(--border-bright);
+    border-radius: 999px;
+    padding: 5px 14px;
+    font: 12px/1 var(--mono);
+    color: var(--muted);
+    letter-spacing: 0.4px;
+    margin-bottom: 28px;
+    background: var(--panel);
+  }
+  .pill .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); box-shadow: 0 0 8px var(--green); }
+  h1 {
+    font-size: clamp(40px, 7vw, 64px);
+    line-height: 1.08;
+    letter-spacing: -2px;
+    font-weight: 800;
+    max-width: 720px;
+    margin: 0 auto;
+  }
+  h1 .grad {
+    background: var(--grad);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .hero-sub {
+    color: var(--muted);
+    font-size: 19px;
+    max-width: 560px;
+    margin: 22px auto 0;
+  }
+  .hero-ctas { margin-top: 36px; display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 12px 24px; border-radius: 10px;
+    font-size: 15px; font-weight: 600; text-decoration: none;
+    transition: transform .15s, box-shadow .15s, border-color .15s;
+  }
+  .btn-primary {
+    background: var(--grad); color: #fff;
+    box-shadow: 0 8px 32px rgba(61,155,255,0.35);
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(61,155,255,0.45); }
+  .btn-ghost { border: 1px solid var(--border-bright); color: var(--text); background: var(--panel); }
+  .btn-ghost:hover { border-color: rgba(255,255,255,0.3); transform: translateY(-2px); }
+
+  /* ---------- terminal mock ---------- */
+  .term {
+    max-width: 620px; margin: 64px auto 0;
+    background: var(--panel-solid);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.02) inset;
+    text-align: left;
+    overflow: hidden;
+  }
+  .term-bar {
+    display: flex; align-items: center; gap: 7px;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .term-bar i { width: 11px; height: 11px; border-radius: 50%; display: block; }
+  .term-bar i:nth-child(1) { background: #ff5f57; }
+  .term-bar i:nth-child(2) { background: #febc2e; }
+  .term-bar i:nth-child(3) { background: #28c840; }
+  .term-title { margin-left: 8px; font: 12px var(--mono); color: var(--dim); }
+  .term-body { padding: 18px 20px 22px; font: 13.5px/1.9 var(--mono); }
+  .term-body .c { color: var(--dim); }
+  .term-body .b { color: var(--blue); }
+  .term-body .g { color: var(--green); }
+  .term-body .v { color: var(--violet); }
+  .term-body .y { color: var(--amber); }
+  .bar-track { display: inline-block; width: 180px; height: 6px; border-radius: 3px; background: rgba(255,255,255,0.08); vertical-align: middle; margin: 0 10px; overflow: hidden; }
+  .bar-fill { display: block; height: 100%; width: 100%; border-radius: 3px; background: var(--grad); animation: fill 3s ease-out infinite; }
+  @keyframes fill { 0% { width: 4%; } 70% { width: 96%; } 100% { width: 100%; } }
+
+  /* ---------- layout ---------- */
+  main { max-width: 980px; margin: 0 auto; padding: 0 24px 100px; }
+  section { margin-top: 110px; }
+  .kicker {
+    font: 12px var(--mono); letter-spacing: 2.5px; text-transform: uppercase;
+    color: var(--blue); margin-bottom: 12px;
+  }
+  h2 { font-size: 32px; letter-spacing: -1px; font-weight: 750; }
+  .section-sub { color: var(--muted); margin-top: 10px; max-width: 620px; }
+
+  /* ---------- feature grid ---------- */
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 36px; }
+  @media (max-width: 820px) { .grid { grid-template-columns: 1fr; } }
+  .feature {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 24px;
+    transition: border-color .2s, background .2s;
+  }
+  .feature:hover { border-color: var(--border-bright); background: rgba(255,255,255,0.05); }
+  .feature .ico {
+    width: 40px; height: 40px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 19px;
+    background: rgba(61,155,255,0.12);
+    border: 1px solid rgba(61,155,255,0.25);
+    margin-bottom: 16px;
+  }
+  .feature:nth-child(2) .ico { background: rgba(139,108,255,0.12); border-color: rgba(139,108,255,0.28); }
+  .feature:nth-child(3) .ico { background: rgba(56,225,212,0.10); border-color: rgba(56,225,212,0.25); }
+  .feature h3 { font-size: 16.5px; margin-bottom: 6px; }
+  .feature p { color: var(--muted); font-size: 14.5px; }
+
+  /* ---------- steps ---------- */
+  .steps { margin-top: 40px; display: flex; flex-direction: column; gap: 0; }
+  .step {
+    display: grid; grid-template-columns: 56px 1fr; gap: 20px;
+    position: relative; padding-bottom: 36px;
+  }
+  .step:last-child { padding-bottom: 0; }
+  .step::before {
+    content: ""; position: absolute; left: 17px; top: 40px; bottom: 4px;
+    width: 1px; background: linear-gradient(var(--border-bright), transparent);
+  }
+  .step:last-child::before { display: none; }
+  .step-num {
+    width: 36px; height: 36px; border-radius: 10px;
+    background: var(--panel-solid);
+    border: 1px solid var(--border-bright);
+    display: flex; align-items: center; justify-content: center;
+    font: 700 14px var(--mono); color: var(--blue);
+  }
+  .step h3 { font-size: 17px; margin: 6px 0 6px; }
+  .step p { color: var(--muted); font-size: 15px; }
+  .path {
+    font: 13px var(--mono); color: var(--cyan);
+    background: rgba(56,225,212,0.07);
+    border: 1px solid rgba(56,225,212,0.18);
+    border-radius: 6px; padding: 2px 8px;
+    white-space: nowrap;
+  }
+  code {
+    font: 13.5px var(--mono);
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 2px 7px;
+    color: var(--violet);
+  }
+
+  /* ---------- video panel ---------- */
+  .duo { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; margin-top: 40px; }
+  @media (max-width: 820px) { .duo { grid-template-columns: 1fr; } }
+  .mock {
+    background: var(--panel-solid);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 18px;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.45);
+  }
+  .mock-row {
+    display: flex; align-items: center; gap: 12px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 14px;
+    margin-bottom: 10px;
+  }
+  .mock-row:last-child { margin-bottom: 0; }
+  .mock-check {
+    width: 16px; height: 16px; border-radius: 4px; flex-shrink: 0;
+    background: var(--blue);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; color: #fff;
+  }
+  .mock-name { font-size: 13.5px; font-weight: 600; }
+  .mock-meta { font: 11px var(--mono); color: var(--dim); }
+  .tag {
+    margin-left: auto; flex-shrink: 0;
+    font: 11px var(--mono);
+    border-radius: 5px; padding: 3px 8px;
+  }
+  .tag.hold { background: rgba(255,255,255,0.06); color: var(--muted); border: 1px solid var(--border); }
+  .tag.vid { background: rgba(251,191,36,0.1); color: var(--amber); border: 1px solid rgba(251,191,36,0.25); }
+  .tag.ok { background: rgba(74,222,128,0.1); color: var(--green); border: 1px solid rgba(74,222,128,0.25); }
+  .duo-copy h3 { font-size: 20px; margin-bottom: 10px; letter-spacing: -0.3px; }
+  .duo-copy p { color: var(--muted); font-size: 15px; margin-bottom: 12px; }
+  .duo-copy ul { color: var(--muted); font-size: 15px; margin: 0 0 0 18px; }
+  .duo-copy li { margin: 8px 0; }
+  .duo-copy li::marker { color: var(--blue); }
+
+  /* ---------- settings table ---------- */
+  .settings-table {
+    width: 100%; border-collapse: separate; border-spacing: 0;
+    margin-top: 36px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+  }
+  .settings-table th {
+    text-align: left; padding: 14px 20px;
+    font: 11px var(--mono); letter-spacing: 1.5px; text-transform: uppercase;
+    color: var(--dim);
+    border-bottom: 1px solid var(--border);
+    background: rgba(255,255,255,0.02);
+  }
+  .settings-table td {
+    padding: 16px 20px; font-size: 14.5px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  .settings-table tr:last-child td { border-bottom: none; }
+  .settings-table td:first-child { font-weight: 650; white-space: nowrap; }
+  .settings-table td:nth-child(2) { font: 13px var(--mono); color: var(--cyan); white-space: nowrap; }
+  .settings-table td:last-child { color: var(--muted); }
+
+  .callout {
+    display: flex; gap: 14px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--blue);
+    border-radius: 10px;
+    padding: 16px 18px;
+    margin-top: 16px;
+    font-size: 14.5px; color: var(--muted);
+  }
+  .callout.warn { border-left-color: var(--amber); }
+  .callout strong { color: var(--text); }
+
+  /* ---------- faq ---------- */
+  .faq { margin-top: 36px; display: flex; flex-direction: column; gap: 10px; }
+  details {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 0 20px;
+    transition: border-color .2s;
+  }
+  details:hover, details[open] { border-color: var(--border-bright); }
+  summary {
+    cursor: pointer; font-weight: 600; font-size: 15px;
+    padding: 16px 0;
+    list-style: none;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  summary::-webkit-details-marker { display: none; }
+  summary::after {
+    content: "+"; font: 400 20px var(--mono); color: var(--dim);
+    transition: transform .2s;
+  }
+  details[open] summary::after { transform: rotate(45deg); color: var(--blue); }
+  details p { color: var(--muted); font-size: 14.5px; padding-bottom: 18px; margin-top: -4px; }
+
+  /* ---------- trust strip ---------- */
+  .trust { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 36px; }
+  @media (max-width: 820px) { .trust { grid-template-columns: repeat(2, 1fr); } }
+  .trust-item {
+    text-align: center;
+    padding: 22px 14px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+  }
+  .trust-item .big { font-size: 22px; display: block; margin-bottom: 8px; }
+  .trust-item .lbl { font: 12px var(--mono); color: var(--muted); letter-spacing: 0.4px; }
+
+  footer {
+    border-top: 1px solid var(--border);
+    margin-top: 110px;
+    padding: 36px 24px;
+    text-align: center;
+    color: var(--dim);
+    font: 13px var(--mono);
+  }
+  footer .grad {
+    background: var(--grad);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    font-weight: 700;
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="nav-brand"><span class="nav-mark">🎬</span> Frame to MP4</span>
+  <div class="nav-links">
+    <a href="#install">Install</a>
+    <a href="#workflow">Workflow</a>
+    <a href="#video">Video layers</a>
+    <a href="#settings">Settings</a>
+    <a href="#faq">FAQ</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="pill"><span class="dot"></span> FIGMA DEVELOPMENT PLUGIN · v1.0</div>
+  <h1>Your frames.<br>One <span class="grad">MP4</span>.</h1>
+  <p class="hero-sub">Export Figma frames as a single video — embedded videos play for real, audio included. Encoded locally in WebAssembly. Zero network access.</p>
+  <div class="hero-ctas">
+    <a class="btn btn-primary" href="#install">Install the plugin ↓</a>
+    <a class="btn btn-ghost" href="#workflow">See the workflow</a>
+  </div>
+
+  <div class="term">
+    <div class="term-bar"><i></i><i></i><i></i><span class="term-title">frame-to-mp4 — export</span></div>
+    <div class="term-body">
+      <span class="c">$</span> figma <span class="b">export</span> --frames 4 --fps 30 --scale 2x<br>
+      <span class="g">✓</span> Frame 1 <span class="c">“Intro”</span> ·········· hold <span class="y">3.0s</span><br>
+      <span class="g">✓</span> Frame 2 <span class="c">“Hero”</span> ··········· <span class="v">🎬 video + audio 12.4s</span><br>
+      <span class="g">✓</span> Frame 3 <span class="c">“Features”</span> ······· hold <span class="y">3.0s</span><br>
+      <span class="c">⠿</span> Encoding H.264<span class="bar-track"><span class="bar-fill"></span></span><span class="c">wasm · local</span><br>
+      <span class="g">✓</span> figma-export.mp4 <span class="c">— 21.4s · 18.2 MB · no data left this machine</span>
+    </div>
+  </div>
+</div>
+
+<main>
+
+<section>
+  <div class="kicker">Capabilities</div>
+  <h2>Built for design-to-video handoff</h2>
+  <div class="grid">
+    <div class="feature">
+      <div class="ico">🎞</div>
+      <h3>Frames → timeline</h3>
+      <p>Every selected frame becomes a segment. Set a hold time per frame, add crossfades, and export the whole sequence as one H.264 MP4.</p>
+    </div>
+    <div class="feature">
+      <div class="ico">🔊</div>
+      <h3>Real video, real audio</h3>
+      <p>Video fills inside your frames play back for their full duration — positioned, masked, and corner-rounded exactly as designed, with sound carried through.</p>
+    </div>
+    <div class="feature">
+      <div class="ico">🔒</div>
+      <h3>100% local</h3>
+      <p>Encoding runs in WebAssembly inside the plugin. The manifest declares zero network access — nothing ever leaves your machine.</p>
+    </div>
+  </div>
+</section>
+
+<section id="install">
+  <div class="kicker">Setup</div>
+  <h2>Install in under a minute</h2>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">01</div>
+      <div>
+        <h3>Unzip the plugin</h3>
+        <p>Extract <code>frame-to-mp4-plugin.zip</code> anywhere permanent — Figma loads the plugin from this folder every launch, so don't delete it.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <div>
+        <h3>Open the Figma desktop app</h3>
+        <p>Development plugins can only be imported in the desktop app, not the browser.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <div>
+        <h3>Import the manifest</h3>
+        <p>Go to <span class="path">Plugins → Development → Import plugin from manifest…</span> and select <code>manifest.json</code> from the unzipped folder.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">04</div>
+      <div>
+        <h3>Launch</h3>
+        <p>Run it any time from <span class="path">Plugins → Development → Frame to MP4</span>.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="workflow">
+  <div class="kicker">Workflow</div>
+  <h2>Select. Configure. Export.</h2>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">01</div>
+      <div>
+        <h3>Select frames on the canvas</h3>
+        <p>Pick the frames you want — or select nothing to include every frame on the page. Order follows the canvas: top to bottom, left to right.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <div>
+        <h3>Review the frame list</h3>
+        <p>Each frame appears as a row in the plugin. Untick to exclude, and set a hold duration for static frames (default 3s).</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <div>
+        <h3>Attach source files to video frames</h3>
+        <p>Frames with a video fill are flagged — attach the original video file and the badge turns green. Details below.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">04</div>
+      <div>
+        <h3>Export MP4</h3>
+        <p>Pick fps, resolution, and crossfade, then hit export. A progress bar tracks the encode and <code>figma-export.mp4</code> downloads when done.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="video">
+  <div class="kicker">Video layers</div>
+  <h2>Embedded video, handled properly</h2>
+  <div class="duo">
+    <div class="mock">
+      <div class="mock-row">
+        <span class="mock-check">✓</span>
+        <div><div class="mock-name">1. Intro</div><div class="mock-meta">1920×1080</div></div>
+        <span class="tag hold">HOLD 3.0s</span>
+      </div>
+      <div class="mock-row">
+        <span class="mock-check">✓</span>
+        <div><div class="mock-name">2. Hero</div><div class="mock-meta">1920×1080</div></div>
+        <span class="tag vid">🎬 ATTACH SOURCE</span>
+      </div>
+      <div class="mock-row">
+        <span class="mock-check">✓</span>
+        <div><div class="mock-name">3. Property tour</div><div class="mock-meta">1920×1080</div></div>
+        <span class="tag ok">🎬 tour-final.mp4</span>
+      </div>
+      <div class="mock-row">
+        <span class="mock-check">✓</span>
+        <div><div class="mock-name">4. Outro</div><div class="mock-meta">1920×1080</div></div>
+        <span class="tag hold">HOLD 3.0s</span>
+      </div>
+    </div>
+    <div class="duo-copy">
+      <h3>Why the plugin asks for the source file</h3>
+      <p>Figma's plugin API can't read video bytes back out of a design — so when a frame contains a video fill, attach the <strong>same file you originally placed in Figma</strong>. The badge flips from amber to green once it's loaded.</p>
+      <ul>
+        <li>The frame plays for the <strong>full video duration</strong> — hold time doesn't apply</li>
+        <li>Position, size, rounded corners, and Fill/Fit scale mode are respected</li>
+        <li>Layers above and below the video stay layered correctly</li>
+        <li>MP4, MOV, and WebM sources supported · audio carried into the export</li>
+        <li>One playing video per frame; extras render as stills</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="settings">
+  <div class="kicker">Configuration</div>
+  <h2>Three knobs. Sane defaults.</h2>
+  <table class="settings-table">
+    <tr><th>Setting</th><th>Options</th><th>Guidance</th></tr>
+    <tr>
+      <td>Frame rate</td>
+      <td>24 · 30 · 60 fps</td>
+      <td>30 fps suits most work. 24 for a filmic feel, 60 for extra-smooth motion.</td>
+    </tr>
+    <tr>
+      <td>Resolution</td>
+      <td>1× · 2× · 3×</td>
+      <td>Multiplies frame size. A 1920×1080 frame at 1× is already full HD; 2× is a good default for crisp type.</td>
+    </tr>
+    <tr>
+      <td>Crossfade</td>
+      <td>0 · 0.3 · 0.5 · 1.0 s</td>
+      <td>Dissolve between segments instead of hard cuts.</td>
+    </tr>
+  </table>
+  <div class="callout">
+    <span>📐</span>
+    <span><strong>Sizing:</strong> output dimensions come from the first frame in the list. Differently-sized frames are letterboxed — keep all frames the same size for best results.</span>
+  </div>
+  <div class="callout warn">
+    <span>⏱</span>
+    <span><strong>Encode time:</strong> everything renders locally, frame by frame. Long videos or 3× resolution can take a few minutes — 3× pushes 9× the pixels of 1×.</span>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="kicker">Troubleshooting</div>
+  <h2>When something looks off</h2>
+  <div class="faq">
+    <details>
+      <summary>The frame list is empty</summary>
+      <p>Make sure you're on the page that has your frames, then hit <strong>Refresh frames</strong>. Only top-level frames are listed — groups and components aren't included.</p>
+    </details>
+    <details>
+      <summary>"…has a video layer — choose its source file first"</summary>
+      <p>A frame with an amber 🎬 badge doesn't have its source video attached yet. Click <em>Choose video file</em> on that row and select the same file you placed into Figma — or untick the frame to skip it.</p>
+    </details>
+    <details>
+      <summary>The exported video has no sound</summary>
+      <p>Audio comes only from the source video files — static frames are silent by design. If your source has audio but the export doesn't, the audio codec may not be MP4-compatible (rare with MP4/MOV, more common with WebM). Converting the source to MP4/AAC fixes it.</p>
+    </details>
+    <details>
+      <summary>The video looks cropped, or has bars inside its box</summary>
+      <p>The plugin follows the fill's scale mode from Figma: <em>Fill</em> crops to cover the box, <em>Fit</em> letterboxes inside it. Change the scale mode in Figma and re-export.</p>
+    </details>
+    <details>
+      <summary>Export is slow</summary>
+      <p>Drop to 1× or 2× resolution and 30 fps. Resolution dominates encode time.</p>
+    </details>
+    <details>
+      <summary>Can it capture Smart Animate or prototype transitions?</summary>
+      <p>No — Figma doesn't expose prototype playback to plugins. Use crossfades for motion between frames.</p>
+    </details>
+  </div>
+</section>
+
+<section>
+  <div class="kicker">Guarantees</div>
+  <h2>What you can count on</h2>
+  <div class="trust">
+    <div class="trust-item"><span class="big">🔒</span><span class="lbl">zero network access</span></div>
+    <div class="trust-item"><span class="big">🧬</span><span class="lbl">design never modified</span></div>
+    <div class="trust-item"><span class="big">⚙️</span><span class="lbl">wasm h.264 encoder</span></div>
+    <div class="trust-item"><span class="big">💾</span><span class="lbl">works fully offline</span></div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <span class="grad">Frame to MP4</span> · a Figma development plugin · frames in, video out
+</footer>
+
+</body>
+</html>

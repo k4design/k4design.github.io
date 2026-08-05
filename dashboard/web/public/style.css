@@ -1,0 +1,1486 @@
+/* ============================================================
+   Creative Direction — live board
+
+   Colour: the data-viz reference instance. The three chart hues are
+   validator-passing in both modes; do not re-step them casually.
+
+   Motion: Emil Kowalski's design-engineering standards + Apple's
+   fluid-interface principles. Two rules dominate everything here:
+
+     1. This dashboard refreshes every 30s. Anything the refresh would
+        replay is seen dozens of times a day, so it does NOT animate.
+        Entrance motion runs once, on boot, gated by `body.booting`.
+     2. Only transform and opacity animate. No width/height/background
+        transitions — they cost layout and paint.
+
+   Personality: professional dashboard → crisp and fast. Nothing over
+   240ms, no bounce, no decoration for its own sake.
+   ============================================================ */
+
+:root {
+  color-scheme: dark;
+
+  /* ---- surfaces & ink ---- */
+  --plane: #0d0d0d;
+  --surface: #1a1a19;
+  --surface-2: #212120;
+  --surface-3: #292927;
+  --ink: #ffffff;
+  --ink-2: #c3c2b7;
+  --ink-muted: #898781;
+  --grid: #2c2c2a;
+  --axis: #383835;
+  --hair: rgba(255, 255, 255, 0.09);
+  --hair-strong: rgba(255, 255, 255, 0.16);
+  /* light catching the top edge of a raised material */
+  --sheen: inset 0 1px 0 rgba(255, 255, 255, 0.045);
+
+  /* ---- status roles: fixed, never themed, always with an icon + label ---- */
+  --good: #0ca30c;
+  --warning: #fab219;
+  --serious: #ec835a;
+  --critical: #d03b3b;
+
+  /* ---- chart lanes: validated for the dark surface ---- */
+  --lane-flight: #3987e5;
+  --lane-you: #c98500;
+  --lane-stalled: #d03b3b;
+  --lane-idle: #4a4a46;
+  /* recurring weekly work — validated all-pairs vs the trio above */
+  --lane-recurring: #b39ddb;
+
+  /* ---- assignee slots ----
+     Best-measured 5-subset of the categorical palette (blue, aqua, yellow,
+     green, red), chosen by validating all 56 five-hue combinations across
+     both modes. Worst all-pairs normal-vision ΔE is 11.9, under the 15 floor,
+     so hue CANNOT carry identity here — the initials sit inside the swatch and
+     the full name sits beside it. The colour is a scanning aid only.
+     Ink per swatch picked by measured contrast (all ≥ 3.98:1). */
+  --p1: #3987e5;  --p1-ink: #0b0b0b;   /* blue   */
+  --p2: #199e70;  --p2-ink: #0b0b0b;   /* aqua   */
+  --p3: #c98500;  --p3-ink: #0b0b0b;   /* yellow */
+  --p4: #008300;  --p4-ink: #ffffff;   /* green  */
+  --p5: #e66767;  --p5-ink: #0b0b0b;   /* red    */
+  --p0: #4a4a46;  --p0-ink: #ffffff;   /* unassigned / past slot 5 */
+
+  /* ---- motion: built-in easings are too weak ---- */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --press: 120ms;
+  --hover: 140ms;
+  --enter: 220ms;
+
+  --radius: 12px;
+  --radius-sm: 8px;
+  --sans: system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+  --plane: #f4f4f1;
+  --surface: #fcfcfb;
+  --surface-2: #f3f3f0;
+  --surface-3: #eceae5;
+  --ink: #0b0b0b;
+  --ink-2: #52514e;
+  --ink-muted: #7d7b75;
+  --grid: #e1e0d9;
+  --axis: #c3c2b7;
+  --hair: rgba(11, 11, 11, 0.09);
+  --hair-strong: rgba(11, 11, 11, 0.18);
+  --sheen: inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  --lane-flight: #2a78d6;
+  --lane-you: #eda100;
+  --lane-stalled: #d03b3b;
+  --lane-idle: #c3c2b7;
+  /* deep violet for the light surface (passes all-pairs) */
+  --lane-recurring: #4a3aa7;
+
+  /* same five hues, stepped for the light surface */
+  --p1: #2a78d6;  --p1-ink: #0b0b0b;
+  --p2: #1baf7a;  --p2-ink: #0b0b0b;
+  --p3: #eda100;  --p3-ink: #0b0b0b;
+  --p4: #008300;  --p4-ink: #ffffff;
+  --p5: #e34948;  --p5-ink: #0b0b0b;
+  --p0: #c3c2b7;  --p0-ink: #0b0b0b;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { height: 100%; }
+
+/* Desktop-first app shell: the page itself never scrolls. Header is a fixed
+   row; below it the workspace and the live-feed rail scroll independently. */
+body {
+  margin: 0;
+  height: 100dvh;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  overflow: hidden;
+  background: var(--plane);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 14px;
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+.shell {
+  display: grid;
+  /* the live feed is pinned at exactly a quarter of the width */
+  grid-template-columns: minmax(0, 1fr) 25%;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* The work column never scrolls. Banners, KPIs and the tab bar take exactly
+   what they need; the active tab absorbs whatever height is left over. */
+.workspace {
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.workspace > .banner,
+.workspace > .filter-note,
+.workspace > .kpis,
+.workspace > .tabbar { flex: none; }
+.workspace > main { flex: 1 1 auto; min-height: 0; }
+
+/* R&D scope: one panel absorbing the space the tabs normally take. */
+.rndview {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  padding: 12px 20px 16px;
+}
+.rndview[hidden] { display: none; }
+.rndview .panel { flex: 1; min-height: 0; }
+.rndview .panel .body { flex: 1 1 auto; min-height: 0; }
+
+.rnd-person {
+  display: flex; align-items: center; gap: 8px;
+  padding: 12px 12px 6px;
+  font-size: 12px; font-weight: 600;
+  color: var(--ink-2);
+}
+.rnd-person .av {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 18px; height: 18px; border-radius: 50%;
+  background: var(--slot, var(--surface-3));
+  color: var(--slot-ink, var(--ink-2));
+  font-size: 8px; font-weight: 700;
+}
+.rnd-person .n { color: var(--ink-muted); font-weight: 500; }
+
+/* ---- pinned live-feed rail ---- */
+
+.rail {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-left: 1px solid var(--hair);
+  /* sits a step back from the workspace: structural region, not a card */
+  background: color-mix(in srgb, var(--surface) 50%, var(--plane));
+}
+
+/* Two stacked blocks. Intake is sized to its content up to a ceiling — a
+   quiet inbox shouldn't hold open half the column — and the feed takes
+   whatever is left. Each scrolls itself; the column never does. */
+.rail-block {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+.rail-block.requests {
+  flex: 0 1 auto;
+  max-height: 42%;
+  border-bottom: 1px solid var(--hair);
+}
+.rail-block.feed { flex: 1 1 auto; }
+
+/* Once the user drags, the requests block takes an explicit height and the
+   divider owns the split; before that, content-based auto sizing applies. */
+.rail-block.requests.custom { flex: none; max-height: none; }
+
+.rail-divider {
+  flex: none;
+  height: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: row-resize;
+  touch-action: none;           /* the drag IS the gesture */
+  border-top: 1px solid var(--hair);
+}
+.rail-divider .grip {
+  width: 34px;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--axis);
+  transition: background var(--hover) ease, transform var(--press) var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .rail-divider:hover .grip { background: var(--ink-muted); }
+}
+.rail-divider:active .grip,
+.rail-divider.dragging .grip { background: var(--lane-flight); }
+.rail-divider:focus-visible { outline-offset: -2px; }
+
+.rail-top {
+  display: flex;
+  align-items: baseline;
+  gap: 9px;
+  padding: 14px 16px 12px;
+  border-bottom: 1px solid var(--hair);
+  flex: none;
+}
+.rail-top h2 {
+  margin: 0;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.055em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+}
+.rail-hint {
+  margin-left: auto;
+  font-size: 10.5px;
+  color: var(--ink-muted);
+  white-space: nowrap;
+}
+.rail-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 7px;
+  scrollbar-gutter: stable;
+}
+
+a { color: inherit; text-decoration: none; }
+
+/* Focus is never invisible — but only for keyboard users. */
+:focus-visible {
+  outline: 2px solid var(--lane-flight);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ============================================================
+   Boot entrance — runs ONCE. Refreshes never replay it.
+   ============================================================ */
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: none; }
+}
+
+body.booting .stagger { animation: rise var(--enter) var(--ease-out) backwards; }
+body.booting .tabview > .panel { animation: rise 320ms var(--ease-out) backwards; }
+body.booting .tabview > .panel:nth-child(1) { animation-delay: 40ms; }
+body.booting .tabview > .panel:nth-child(2) { animation-delay: 80ms; }
+body.booting .tabview > .panel:nth-child(3) { animation-delay: 120ms; }
+body.booting .tabview > .panel:nth-child(4) { animation-delay: 150ms; }
+body.booting .tabview > .panel:nth-child(5) { animation-delay: 180ms; }
+body.booting .tabview > .panel:nth-child(6) { animation-delay: 205ms; }
+body.booting .tabview > .panel:nth-child(7) { animation-delay: 230ms; }
+body.booting .tabview > .panel:nth-child(8) { animation-delay: 250ms; }
+body.booting .tabview > .panel:nth-child(9) { animation-delay: 270ms; }
+body.booting .kpis > .tile { animation: rise 300ms var(--ease-out) backwards; }
+body.booting .kpis > .tile:nth-child(1) { animation-delay: 0ms; }
+body.booting .kpis > .tile:nth-child(2) { animation-delay: 45ms; }
+body.booting .kpis > .tile:nth-child(3) { animation-delay: 75ms; }
+body.booting .kpis > .tile:nth-child(4) { animation-delay: 105ms; }
+body.booting .kpis > .tile:nth-child(5) { animation-delay: 130ms; }
+
+/* Cards carry their index from JS so the cascade needs no nth-child chain.
+   Capped so a 40-item list never waits on a long tail. */
+body.booting .card,
+body.booting .feed-item,
+body.booting .load-row {
+  animation: rise 260ms var(--ease-out) backwards;
+  animation-delay: calc(min(var(--i, 0), 14) * 22ms);
+}
+
+/* ============================================================
+   Header — translucent chrome, content scrolls under
+   ============================================================ */
+
+header {
+  position: relative; /* containing block for the shortcuts popover */
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 13px 24px;
+  background: var(--plane);
+  /* Scroll edge effect: the divider and lift only appear once the workspace
+     has content behind them, rather than a permanent hard rule. */
+  border-bottom: 1px solid transparent;
+  transition: border-color 200ms ease, box-shadow 200ms ease;
+}
+header[data-scrolled] {
+  border-bottom-color: var(--hair);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.26);
+}
+:root[data-theme="light"] header[data-scrolled] {
+  box-shadow: 0 6px 20px rgba(11, 11, 11, 0.07);
+}
+
+/* The header must never wrap — it is a fixed row in the shell, and a second
+   line steals height from the tab view below it. */
+header { flex-wrap: nowrap; }
+
+.brand { display: flex; align-items: baseline; gap: 11px; flex: none; }
+.brand h1 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 620;
+  letter-spacing: -0.012em; /* tracking tightens as size grows */
+  white-space: nowrap;
+}
+.sub {
+  flex: none;
+  font-size: 12px;
+  color: var(--ink-muted);
+  letter-spacing: 0.004em;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+/* the search is the one thing allowed to give up width when space is tight */
+.search { min-width: 0; }
+.search input { min-width: 0; }
+
+.pulse {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12px;
+  color: var(--ink-2);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.pulse .dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--good);
+  animation: beat 2.4s var(--ease-out) infinite;
+}
+.pulse.is-stale .dot { background: var(--warning); animation: none; }
+.pulse.is-error .dot { background: var(--critical); animation: none; }
+.pulse.is-demo  .dot { background: var(--ink-muted); animation: none; }
+
+/* Opacity + scale only, so the heartbeat stays off the paint path. */
+@keyframes beat {
+  0%   { box-shadow: 0 0 0 0 color-mix(in srgb, var(--good) 50%, transparent); }
+  70%  { box-shadow: 0 0 0 6px color-mix(in srgb, var(--good) 0%, transparent); }
+  100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--good) 0%, transparent); }
+}
+
+.spacer { flex: 1; }
+.controls { display: flex; align-items: center; gap: 7px; }
+
+/* ---- board scope: segmented control ---- */
+
+.segmented {
+  display: inline-flex;
+  gap: 2px;
+  padding: 2px;
+  border-radius: 9px;
+  background: var(--surface-2);
+  border: 1px solid var(--hair);
+  box-shadow: var(--sheen);
+  flex: none;
+}
+.segmented button {
+  border: 0;
+  background: none;
+  box-shadow: none;
+  border-radius: 7px;
+  padding: 5px 11px;
+  font-size: 12px;
+  font-weight: 520;
+  color: var(--ink-muted);
+  white-space: nowrap;
+  /* Scope switching is a frequent action — the swap is instant, only the
+     affordance colour eases. */
+  transition: color var(--hover) ease, background var(--hover) ease;
+}
+@media (hover: hover) and (pointer: fine) {
+  .segmented button:hover { color: var(--ink-2); }
+}
+.segmented button[aria-pressed="true"] {
+  color: var(--ink);
+  background: var(--surface);
+  border: 1px solid var(--hair);
+  padding: 4px 10px;
+  box-shadow: var(--sheen);
+}
+.segmented button:active { transform: scale(0.98); }
+
+/* ---- pressable things ---- */
+
+button, .btn {
+  font: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--ink-2);
+  background: var(--surface-2);
+  border: 1px solid var(--hair);
+  border-radius: 8px;
+  padding: 6px 12px;
+  cursor: pointer;
+  box-shadow: var(--sheen);
+  /* named properties only, never `all` */
+  transition:
+    transform var(--press) var(--ease-out),
+    color var(--hover) ease,
+    border-color var(--hover) ease,
+    background var(--hover) ease;
+}
+button:active { transform: scale(0.97); }
+button[aria-pressed="true"] {
+  color: var(--ink);
+  border-color: var(--hair-strong);
+  background: var(--surface-3);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  button:hover { color: var(--ink); border-color: var(--hair-strong); }
+}
+
+.search {
+  display: flex; align-items: center; gap: 7px;
+  background: var(--surface-2);
+  border: 1px solid var(--hair);
+  border-radius: 8px;
+  padding: 0 11px;
+  box-shadow: var(--sheen);
+  transition: border-color var(--hover) ease;
+}
+.search:focus-within { border-color: var(--hair-strong); }
+.search input {
+  font: inherit; font-size: 12px;
+  background: none; border: 0; outline: none; color: var(--ink);
+  padding: 7px 0; width: 158px;
+}
+.search input::placeholder { color: var(--ink-muted); }
+.search kbd {
+  font: inherit; font-size: 10px; color: var(--ink-muted);
+  border: 1px solid var(--hair); border-radius: 4px; padding: 1px 5px;
+}
+
+/* Square icon button — the `?` affordance. */
+button.icon {
+  width: 27px; padding: 0;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 600;
+}
+
+/* Small in-header toggle, e.g. the capacity panel's "Numbers". */
+button.mini {
+  margin-left: 8px;
+  font-size: 10px;
+  font-weight: 550;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: transparent;
+}
+
+/* Clearing a filter must be one click, not a guess. */
+.qclear {
+  border: 0; background: none; padding: 0;
+  width: 16px; height: 16px;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 11px; line-height: 1;
+  color: var(--ink-muted);
+  border-radius: 50%;
+  box-shadow: none;
+}
+.qclear[hidden] { display: none; }
+@media (hover: hover) and (pointer: fine) {
+  .qclear:hover { color: var(--ink); background: var(--surface-3); }
+}
+
+/* ---- popover: scales from its trigger, not from centre ---- */
+
+.popover {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 24px;
+  z-index: 60;
+  min-width: 216px;
+  /* This floats over the banners and KPI tiles, which are themselves tinted
+     surfaces. Two translucent layers stacked destroys legibility, so this one
+     stays near-solid and leans on the shadow for separation instead. */
+  background: var(--surface-2);
+  backdrop-filter: blur(18px) saturate(170%);
+  border: 1px solid var(--hair-strong);
+  border-radius: 12px;
+  padding: 13px 15px;
+  /* bigger surface reads as thicker: deeper shadow than a chip's */
+  box-shadow: 0 16px 44px rgba(0, 0, 0, 0.55), 0 2px 8px rgba(0, 0, 0, 0.3);
+  /* anchored to the trigger in the top-right, so it grows from there */
+  transform-origin: top right;
+  opacity: 0;
+  transform: scale(0.96);
+  /* exit is quicker than entry */
+  transition: opacity 110ms var(--ease-out), transform 110ms var(--ease-out);
+}
+.popover[hidden] { display: none; }
+.popover.on { opacity: 1; transform: none; transition-duration: 170ms; }
+
+.pop-title {
+  font-size: 10.5px; font-weight: 620;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--ink-muted);
+  margin-bottom: 9px;
+}
+.popover dl {
+  margin: 0;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 6px 11px;
+  align-items: center;
+}
+.popover dt { margin: 0; }
+.popover dd { margin: 0; font-size: 12px; color: var(--ink-2); }
+.popover kbd {
+  font: inherit; font-size: 10.5px;
+  color: var(--ink);
+  background: var(--surface-3);
+  border: 1px solid var(--hair);
+  border-radius: 5px;
+  padding: 2px 6px;
+  min-width: 20px;
+  display: inline-block;
+  text-align: center;
+}
+.pop-foot {
+  margin-top: 11px;
+  padding-top: 10px;
+  border-top: 1px solid var(--hair);
+  font-size: 11px;
+  color: var(--ink-muted);
+  line-height: 1.45;
+}
+
+/* ---- wallboard escape hatch ---- */
+
+.wall-exit {
+  position: fixed;
+  bottom: 18px; right: 18px;
+  z-index: 70;
+  display: none;
+  align-items: center; gap: 7px;
+  font-size: 12px;
+  opacity: 0.32;
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
+  backdrop-filter: blur(14px);
+  transition: opacity var(--hover) ease, transform var(--press) var(--ease-out);
+}
+body.wallboard .wall-exit { display: inline-flex; }
+.wall-exit kbd {
+  font: inherit; font-size: 10px;
+  border: 1px solid var(--hair-strong);
+  border-radius: 4px; padding: 1px 5px;
+}
+@media (hover: hover) and (pointer: fine) {
+  .wall-exit:hover { opacity: 1; }
+}
+.wall-exit:focus-visible { opacity: 1; }
+
+/* ---- access-key prompt (deployed servers only) ---- */
+
+.banner.keyprompt {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 10px;
+}
+.banner.keyprompt .keyrow { display: flex; gap: 7px; }
+.banner.keyprompt input {
+  flex: 1;
+  min-width: 0;
+  font: inherit;
+  font-size: 12.5px;
+  color: var(--ink);
+  background: var(--surface);
+  border: 1px solid var(--hair);
+  border-radius: 8px;
+  padding: 7px 11px;
+  outline: none;
+}
+.banner.keyprompt input:focus { border-color: var(--hair-strong); }
+
+/* ---- active-filter banner ---- */
+
+.filter-note {
+  display: flex; align-items: center; gap: 9px;
+  margin: 14px 20px 0;
+  padding: 9px 14px;
+  border-radius: var(--radius);
+  font-size: 12.5px;
+  color: var(--ink-2);
+  border: 1px solid color-mix(in srgb, var(--lane-flight) 34%, transparent);
+  background: color-mix(in srgb, var(--lane-flight) 9%, transparent);
+}
+.filter-note[hidden] { display: none; }
+.filter-note b { color: var(--ink); font-weight: 570; }
+.filter-note button { margin-left: auto; }
+
+.change-chip {
+  font-size: 12px;
+  font-weight: 500;
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1px solid color-mix(in srgb, var(--lane-flight) 42%, transparent);
+  background: color-mix(in srgb, var(--lane-flight) 15%, transparent);
+  color: var(--ink);
+  white-space: nowrap;
+}
+.change-chip[hidden] { display: none; }
+
+/* ============================================================
+   Banners
+   ============================================================ */
+
+.banner {
+  display: flex; align-items: baseline; gap: 9px;
+  margin: 14px 20px 0;
+  padding: 11px 15px;
+  border-radius: var(--radius);
+  font-size: 12.5px;
+  line-height: 1.5;
+  border: 1px solid;
+}
+.banner[hidden] { display: none; }
+.banner.demo {
+  border-color: color-mix(in srgb, var(--warning) 34%, transparent);
+  background: color-mix(in srgb, var(--warning) 9%, transparent);
+  color: var(--ink-2);
+}
+.banner.demo strong { color: var(--ink); }
+.banner.error {
+  border-color: color-mix(in srgb, var(--critical) 42%, transparent);
+  background: color-mix(in srgb, var(--critical) 11%, transparent);
+  color: var(--ink-2);
+}
+.banner code {
+  font-size: 11.5px;
+  background: color-mix(in srgb, var(--ink) 8%, transparent);
+  padding: 2px 6px; border-radius: 5px;
+  color: var(--ink);
+}
+
+/* ============================================================
+   KPI strip — exactly one hero figure
+   ============================================================ */
+
+.kpis {
+  display: grid;
+  grid-template-columns: 1.55fr repeat(4, 1fr);
+  gap: 12px;
+  padding: 14px 20px 0;
+}
+
+.tile {
+  position: relative;
+  background: var(--surface);
+  border: 1px solid var(--hair);
+  border-radius: var(--radius);
+  padding: 12px 15px;
+  min-width: 0;
+  box-shadow: var(--sheen);
+  overflow: hidden;
+}
+.tile .label {
+  font-size: 11px;
+  color: var(--ink-2);
+  letter-spacing: 0.014em; /* small text gets slightly positive tracking */
+  margin-bottom: 7px;
+}
+.tile .value {
+  font-size: 28px;
+  font-weight: 600;
+  letter-spacing: -0.024em;
+  line-height: 1;
+  /* proportional figures: tabular-nums looks loose at display sizes */
+}
+.tile .foot {
+  font-size: 11px;
+  color: var(--ink-muted);
+  margin-top: 6px;
+  line-height: 1.4;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tile.hero { padding: 14px 18px; }
+.tile.hero .value { font-size: 46px; letter-spacing: -0.032em; }
+.tile.hero .label { font-size: 12.5px; color: var(--ink); font-weight: 570; }
+/* A whisper of the severity hue pooling in the corner — depth, not decoration. */
+.tile.hero::after {
+  content: '';
+  position: absolute;
+  inset: auto -30% -60% auto;
+  width: 260px; height: 260px;
+  background: radial-gradient(circle, var(--role-color, transparent) 0%, transparent 68%);
+  opacity: 0.1;
+  pointer-events: none;
+}
+
+.tile[data-role] { border-left: 3px solid var(--role-color, var(--hair)); }
+.tile[data-role="good"]     { --role-color: var(--good); }
+.tile[data-role="warning"]  { --role-color: var(--warning); }
+.tile[data-role="serious"]  { --role-color: var(--serious); }
+.tile[data-role="critical"] { --role-color: var(--critical); }
+.tile[data-role="neutral"]  { --role-color: var(--axis); }
+
+.tile .value.is-zero { color: var(--ink-muted); }
+
+/* A KPI changing is rare and meaningful → state indication earns its motion.
+   Retriggered from JS only when the number actually moves. */
+@keyframes tick {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: none; }
+}
+.tile .value.changed { animation: tick 200ms var(--ease-out); }
+
+/* ============================================================
+   Grid & panels
+   ============================================================ */
+
+/* ---- tab bar ---- */
+
+.tabbar {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 14px 20px 0;
+}
+.tabbar [role="tab"] {
+  background: none;
+  border: 0;
+  box-shadow: none;
+  border-radius: 8px;
+  padding: 7px 12px;
+  font-size: 12.5px;
+  font-weight: 520;
+  color: var(--ink-muted);
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  /* Switching tabs is a dozens-of-times-a-day action, so the swap itself is
+     instant — only the affordance colour eases. */
+  transition: color var(--hover) ease, background var(--hover) ease;
+}
+@media (hover: hover) and (pointer: fine) {
+  .tabbar [role="tab"]:hover { color: var(--ink-2); background: var(--surface-2); }
+}
+.tabbar [role="tab"][aria-selected="true"] {
+  color: var(--ink);
+  background: var(--surface);
+  box-shadow: var(--sheen);
+  border: 1px solid var(--hair);
+  padding: 6px 11px;
+}
+.tabbar [role="tab"]:active { transform: scale(0.98); }
+
+.tabbadge {
+  font-size: 10.5px;
+  font-weight: 620;
+  font-variant-numeric: tabular-nums;
+  padding: 1px 6px;
+  border-radius: 20px;
+  background: var(--surface-3);
+  color: var(--ink-2);
+}
+.tabbadge[hidden] { display: none; }
+.tabbadge[data-role="critical"] { background: color-mix(in srgb, var(--critical) 20%, transparent); color: var(--critical); }
+.tabbadge[data-role="warning"]  { background: color-mix(in srgb, var(--warning) 20%, transparent); color: var(--warning); }
+:root[data-theme="light"] .tabbadge[data-role="warning"] { color: #7a5300; }
+
+.tabhint {
+  margin-left: auto;
+  font-size: 10.5px;
+  color: var(--ink-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---- tab views: each fills the leftover height exactly ---- */
+
+main {
+  min-height: 0;
+  /* the rail already takes a quarter, so the work column claws back gutter */
+  padding: 12px 20px 16px;
+}
+
+.tabview {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 12px;
+  height: 100%;
+  min-height: 0;
+  align-items: stretch;
+}
+.tabview[hidden] { display: none; }
+
+/* Panels stretch to the view; their bodies take the slack and scroll only if
+   the content genuinely exceeds it. */
+.tabview > .panel,
+.tabview > .stack { height: 100%; min-height: 0; }
+
+/* Two short panels sharing one column, so a tall list next to them isn't
+   forced down to the height of the shortest thing beside it. */
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-height: 0;
+}
+.stack > .panel { flex: 1 1 0; min-height: 0; }
+
+.tabview .panel > .body {
+  flex: 1 1 auto;
+  min-height: 0;
+  max-height: none;
+}
+.tabview .panel > .legend,
+.tabview .panel > .tableview { flex: none; }
+
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--hair);
+  border-radius: var(--radius);
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
+  box-shadow: var(--sheen);
+}
+.panel > h2 {
+  margin: 0;
+  padding: 14px 16px 12px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.055em; /* uppercase micro-type needs the air */
+  text-transform: uppercase;
+  color: var(--ink-2);
+  border-bottom: 1px solid var(--hair);
+  display: flex; align-items: center; gap: 8px;
+}
+.panel > h2 .count {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--ink-muted);
+  font-variant-numeric: tabular-nums;
+  text-transform: none;
+  letter-spacing: 0;
+}
+.panel > h2 .hint {
+  margin-left: auto;
+  font-size: 10.5px;
+  font-weight: 450;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--ink-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.panel .body {
+  padding: 7px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+}
+/* Viewport-relative so the shell reads as an app that fits the screen, with a
+   pixel floor so panels stay usable on a short laptop display. */
+.panel .body.scroll-md { max-height: max(232px, 30vh); }
+.panel .body.scroll-lg { max-height: max(300px, 42vh); }
+.panel .body.pad { padding: 17px; }
+
+.col-4 { grid-column: span 4; }
+.col-5 { grid-column: span 5; }
+.col-6 { grid-column: span 6; }
+.col-7 { grid-column: span 7; }
+.col-8 { grid-column: span 8; }
+.col-12 { grid-column: span 12; }
+
+/* ============================================================
+   Item cards
+   ============================================================ */
+
+.card {
+  position: relative;
+  display: block;
+  /* tuned so ten ranked cards fill the tab without scrolling */
+  padding: 9px 12px;
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  transition:
+    transform var(--press) var(--ease-out),
+    background var(--hover) ease,
+    border-color var(--hover) ease;
+}
+.card + .card { margin-top: 2px; }
+/* Subtle on a wide row — 0.97 would read as a lurch at this width. */
+.card:active { transform: scale(0.99); }
+
+@media (hover: hover) and (pointer: fine) {
+  .card:hover { background: var(--surface-2); border-color: var(--hair); }
+}
+
+.card .top { display: flex; align-items: baseline; gap: 9px; }
+.card .rank {
+  font-size: 11px; font-weight: 600; color: var(--ink-muted);
+  font-variant-numeric: tabular-nums; min-width: 15px;
+}
+.card .name {
+  font-size: 13px; font-weight: 500; color: var(--ink);
+  letter-spacing: -0.005em;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  flex: 1; min-width: 0;
+}
+.card .meta {
+  display: flex; align-items: center; gap: 5px; flex-wrap: wrap;
+  margin-top: 6px; padding-left: 24px;
+}
+.card.plain .meta { padding-left: 0; }
+
+.chip {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 10.5px; font-weight: 500;
+  letter-spacing: 0.008em;
+  padding: 2px 7px; border-radius: 20px;
+  border: 1px solid var(--hair);
+  color: var(--ink-2);
+  white-space: nowrap;
+}
+.chip .ic { font-size: 8.5px; line-height: 1; }
+.chip[data-role="critical"] { color: var(--critical); border-color: color-mix(in srgb, var(--critical) 42%, transparent); background: color-mix(in srgb, var(--critical) 10%, transparent); }
+.chip[data-role="serious"]  { color: var(--serious);  border-color: color-mix(in srgb, var(--serious) 42%, transparent);  background: color-mix(in srgb, var(--serious) 10%, transparent); }
+.chip[data-role="warning"]  { color: var(--warning);  border-color: color-mix(in srgb, var(--warning) 42%, transparent);  background: color-mix(in srgb, var(--warning) 10%, transparent); }
+.chip[data-role="good"]     { color: var(--good);     border-color: color-mix(in srgb, var(--good) 42%, transparent);     background: color-mix(in srgb, var(--good) 10%, transparent); }
+/* ---- assignee colour: slot → hue + its measured ink ---- */
+[data-slot="0"] { --slot: var(--p0); --slot-ink: var(--p0-ink); }
+[data-slot="1"] { --slot: var(--p1); --slot-ink: var(--p1-ink); }
+[data-slot="2"] { --slot: var(--p2); --slot-ink: var(--p2-ink); }
+[data-slot="3"] { --slot: var(--p3); --slot-ink: var(--p3-ink); }
+[data-slot="4"] { --slot: var(--p4); --slot-ink: var(--p4-ink); }
+[data-slot="5"] { --slot: var(--p5); --slot-ink: var(--p5-ink); }
+
+/* Row edge bar — the scanning channel. Inset from top and bottom so it reads
+   as a marker on the row, not a border around it. */
+.card[data-slot]::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 7px; bottom: 7px;
+  width: 3px;
+  border-radius: 0 3px 3px 0;
+  background: var(--slot);
+}
+/* Unassigned rows get no bar at all — absence reads faster than grey, and
+   the warning chip already says so. */
+.card[data-slot="0"]::before { background: none; }
+
+/* ---- owner chip: initials badge + name, on every card ---- */
+.chip.who {
+  color: var(--ink);
+  padding-left: 3px;
+  gap: 5px;
+}
+.chip.who .av {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  /* The initials live INSIDE the colour — that is what makes identity
+     unambiguous when two hues are hard to separate. */
+  background: var(--slot, var(--surface-3));
+  color: var(--slot-ink, var(--ink-2));
+  border: 1px solid color-mix(in srgb, var(--slot, var(--hair)) 60%, transparent);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  flex: none;
+}
+.chip.who .more { color: var(--ink-muted); font-weight: 500; }
+
+/* Who asked for it, as opposed to who owns it — deliberately quieter. */
+.chip.from { color: var(--ink-2); font-style: italic; }
+
+/* A Cold listing: deliberately excluded from alerts, so it reads as quiet
+   rather than as another warning. */
+.chip.cold {
+  color: var(--ink-muted);
+  border-style: dashed;
+}
+
+.chip.board { color: var(--ink-muted); }
+
+/* Warning/serious sit below 3:1 on a light surface — darken the text only,
+   keeping the swatch hue intact. */
+:root[data-theme="light"] .chip[data-role="warning"] { color: #7a5300; }
+:root[data-theme="light"] .chip[data-role="serious"] { color: #9e4218; }
+
+/* ---- change flash: opacity on an overlay, never background ---- */
+.card::after {
+  content: '';
+  position: absolute; inset: 0;
+  border-radius: inherit;
+  background: var(--lane-flight);
+  opacity: 0;
+  pointer-events: none;
+}
+/* Arrives fast (the user needs to catch it), leaves slowly (asymmetric:
+   fast where the system responds, slow where it's just informing). */
+@keyframes flashfade {
+  0%   { opacity: 0; }
+  5%   { opacity: 0.2; }
+  100% { opacity: 0; }
+}
+.card.flashed::after { animation: flashfade 3400ms var(--ease-out) forwards; }
+.card.is-new { border-left: 2px solid var(--lane-flight); }
+
+/* Cards leave the app. Say so on hover rather than surprising the user with
+   a new tab — but don't spend permanent ink on it. */
+.card .go {
+  position: absolute;
+  top: 10px; right: 11px;
+  font-size: 10px;
+  color: var(--ink-muted);
+  opacity: 0;
+  transition: opacity var(--hover) ease;
+}
+@media (hover: hover) and (pointer: fine) {
+  .card:hover .go { opacity: 1; }
+}
+
+/* ---- parent card + subtask drop-down ---- */
+
+.cardwrap + .cardwrap, .cardwrap + .card, .card + .cardwrap { margin-top: 2px; }
+.cardwrap > .card { margin-top: 0; }
+
+.subbar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  margin-top: 1px;
+  padding: 4px 12px 5px;
+  font-size: 10.5px;
+  font-weight: 500;
+  color: var(--ink-muted);
+  background: none;
+  border: 0;
+  border-radius: var(--radius-sm);
+  box-shadow: none;
+  text-align: left;
+}
+@media (hover: hover) and (pointer: fine) {
+  .subbar:hover { color: var(--ink-2); background: var(--surface-2); }
+}
+.subbar:active { transform: none; }
+.subbar .caret {
+  font-size: 8px;
+  transition: transform 160ms var(--ease-out);
+}
+.subbar[aria-expanded="true"] .caret { transform: rotate(90deg); }
+
+.subs {
+  margin: 2px 0 6px 14px;
+  padding-left: 10px;
+  border-left: 2px solid var(--hair);
+}
+.subs[hidden] { display: none; }
+.subs .card { animation: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .subbar .caret { transition: none; }
+}
+
+.empty {
+  padding: 26px 16px;
+  text-align: center;
+  font-size: 12.5px;
+  color: var(--ink-muted);
+}
+.empty .big {
+  display: block;
+  font-size: 18px;
+  margin-bottom: 7px;
+  color: var(--axis);
+}
+/* An empty panel caused by a filter must offer the way back out. */
+.empty .clear-filter { margin-top: 11px; }
+
+/* ============================================================
+   Deadline rail
+   ============================================================ */
+
+.rail-group + .rail-group { margin-top: 6px; }
+.rail-head {
+  display: flex; align-items: center; gap: 8px;
+  padding: 9px 12px 6px;
+  font-size: 10px; font-weight: 620;
+  letter-spacing: 0.07em; text-transform: uppercase;
+  color: var(--ink-muted);
+}
+.rail-head .n {
+  font-variant-numeric: tabular-nums;
+  padding: 0 6px; border-radius: 10px;
+  border: 1px solid var(--hair);
+  letter-spacing: 0;
+}
+.rail-head[data-role="critical"] { color: var(--critical); }
+.rail-head[data-role="serious"]  { color: var(--serious); }
+:root[data-theme="light"] .rail-head[data-role="serious"] { color: #9e4218; }
+
+/* ============================================================
+   Capacity chart
+   ============================================================ */
+
+/* ---- capacity rows: click a person to drop their work ---- */
+
+.load-group + .load-group { border-top: 1px solid color-mix(in srgb, var(--hair) 55%, transparent); }
+
+.load-row {
+  display: grid;
+  grid-template-columns: 130px 1fr 56px 12px;
+  align-items: center;
+  gap: 13px;
+  padding: 7px 17px;
+  /* it's a <button>, so strip the chrome and inherit the row's type */
+  width: 100%;
+  background: none;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: background var(--hover) ease;
+}
+@media (hover: hover) and (pointer: fine) {
+  .load-row:hover { background: var(--surface-2); }
+}
+.load-row:active { transform: none; } /* a full-width row scaling reads as a lurch */
+
+.load-row .caret {
+  font-size: 8px;
+  color: var(--ink-muted);
+  transition: transform 160ms var(--ease-out), color var(--hover) ease;
+}
+.load-row[aria-expanded="true"] { background: var(--surface-2); }
+.load-row[aria-expanded="true"] .caret {
+  transform: rotate(90deg);
+  color: var(--ink-2);
+}
+
+.load-drawer {
+  padding: 2px 12px 9px 26px;
+  background: color-mix(in srgb, var(--surface-2) 55%, transparent);
+}
+.load-drawer[hidden] { display: none; }
+/* Opening is user-initiated and occasional, so it earns a brief entrance —
+   opacity and transform only, never height. */
+.load-drawer .card {
+  animation: rise 190ms var(--ease-out) backwards;
+  animation-delay: calc(min(var(--i, 0), 10) * 18ms);
+}
+@media (prefers-reduced-motion: reduce) {
+  .load-row .caret { transition: none; }
+  .load-drawer .card { animation: none; }
+}
+.load-name {
+  font-size: 12.5px; color: var(--ink);
+  letter-spacing: -0.004em;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  display: flex; align-items: center; gap: 6px;
+}
+/* Ties each capacity row to that person's colour elsewhere. A dot beside the
+   name, never the name itself in the hue — text wears text tokens. */
+.load-name[data-slot]:not([data-slot="0"])::before {
+  content: '';
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--slot);
+  flex: none;
+}
+.load-name.unassigned { color: var(--ink-muted); font-style: italic; }
+.load-name .warn { color: var(--warning); font-size: 9.5px; }
+
+/* Stacked bar: ≤24px thick, 2px surface gaps, 4px rounded data-end,
+   square at the baseline. */
+.bar { display: flex; height: 18px; gap: 2px; align-items: stretch; }
+.bar .seg {
+  min-width: 3px;
+  background: var(--seg, var(--lane-idle));
+}
+.bar .seg:first-child { border-radius: 3px 0 0 3px; }
+.bar .seg:last-child  { border-radius: 0 4px 4px 0; }
+.bar .seg:only-child  { border-radius: 3px 4px 4px 3px; }
+.bar .seg[data-lane="flight"]  { --seg: var(--lane-flight); }
+.bar .seg[data-lane="you"]     { --seg: var(--lane-you); }
+.bar .seg[data-lane="stalled"] { --seg: var(--lane-stalled); }
+.bar .seg[data-lane="recurring"] { --seg: var(--lane-recurring); }
+.bar .seg[data-lane="idle"]    { --seg: var(--lane-idle); }
+
+/* Boot reveal wipes the bar out from the baseline — scaleX, not width,
+   so it never touches layout. */
+@keyframes wipe { from { transform: scaleX(0); } to { transform: none; } }
+body.booting .bar {
+  transform-origin: left center;
+  animation: wipe 420ms var(--ease-out) backwards;
+  animation-delay: calc(min(var(--i, 0), 14) * 22ms + 60ms);
+}
+
+.load-total {
+  font-size: 12.5px; color: var(--ink-2);
+  font-variant-numeric: tabular-nums; /* a column of numbers → tabular */
+  text-align: right;
+}
+.load-total .flag { color: var(--warning); }
+
+.legend {
+  display: flex; flex-wrap: wrap; gap: 15px;
+  padding: 12px 17px 14px;
+  border-top: 1px solid var(--hair);
+  font-size: 11.5px; color: var(--ink-2);
+}
+.legend .key { display: inline-flex; align-items: center; gap: 6px; }
+.legend .sw { width: 10px; height: 10px; border-radius: 3px; background: var(--sw); }
+
+/* ============================================================
+   Meters
+   ============================================================ */
+
+.meter-row + .meter-row { margin-top: 17px; }
+.meter-top {
+  display: flex; align-items: baseline; justify-content: space-between;
+  font-size: 12.5px; margin-bottom: 7px;
+}
+.meter-top .k { color: var(--ink-2); }
+.meter-top .v { font-weight: 600; font-variant-numeric: tabular-nums; letter-spacing: -0.01em; }
+
+/* Track is a lighter step of the fill's own hue, so state reads across the
+   whole bar rather than only the filled part. */
+.meter {
+  height: 8px; border-radius: 5px;
+  background: color-mix(in srgb, var(--fill, var(--lane-flight)) 20%, transparent);
+  overflow: hidden;
+}
+.meter .fill {
+  height: 100%; border-radius: 5px;
+  background: var(--fill, var(--lane-flight));
+  transform-origin: left center;
+}
+.meter[data-role="critical"] { --fill: var(--critical); }
+.meter[data-role="serious"]  { --fill: var(--serious); }
+.meter[data-role="warning"]  { --fill: var(--warning); }
+.meter[data-role="good"]     { --fill: var(--good); }
+
+body.booting .meter .fill { animation: wipe 520ms var(--ease-out) backwards; }
+body.booting .meter-row:nth-child(2) .fill { animation-delay: 60ms; }
+body.booting .meter-row:nth-child(3) .fill { animation-delay: 120ms; }
+
+.meter-note { font-size: 11px; color: var(--ink-muted); margin-top: 7px; line-height: 1.45; }
+.meter-note b { color: var(--ink-2); font-weight: 550; }
+
+/* ============================================================
+   Activity feed
+   ============================================================ */
+
+.feed-item {
+  display: grid;
+  grid-template-columns: 8px 1fr auto;
+  gap: 10px;
+  align-items: baseline;
+  padding: 8px 13px;
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  transition: background var(--hover) ease;
+}
+@media (hover: hover) and (pointer: fine) {
+  .feed-item:hover { background: var(--surface-2); }
+}
+.feed-item .tick {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--axis); margin-top: 5px;
+}
+.feed-item[data-tone="new"] .tick     { background: var(--good); }
+.feed-item[data-tone="done"] .tick    { background: var(--good); }
+.feed-item[data-tone="gone"] .tick    { background: var(--critical); }
+.feed-item[data-tone="comment"] .tick { background: var(--lane-flight); }
+.feed-item.unseen { background: color-mix(in srgb, var(--lane-flight) 8%, transparent); }
+.feed-item .txt { color: var(--ink-2); min-width: 0; line-height: 1.45; }
+.feed-item .txt b { color: var(--ink); font-weight: 570; }
+.feed-item .when {
+  font-size: 10.5px; color: var(--ink-muted);
+  font-variant-numeric: tabular-nums; white-space: nowrap;
+}
+
+/* ============================================================
+   Tooltip — scales from near-full, never from nothing
+   ============================================================ */
+
+#tip {
+  position: fixed;
+  z-index: 90;
+  pointer-events: none;
+  opacity: 0;
+  /* never from scale(0) — nothing in the real world appears from nothing */
+  transform: scale(0.97);
+  transform-origin: top left;
+  /* This base rule is the EXIT (the .on class is removed): deliberately
+     quicker than the entrance, so dismissal never feels like lag. */
+  transition:
+    opacity 100ms var(--ease-out),
+    transform 100ms var(--ease-out);
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
+  backdrop-filter: blur(14px) saturate(160%);
+  border: 1px solid var(--hair-strong);
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 11.5px;
+  color: var(--ink-2);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.36);
+  max-width: 264px;
+}
+/* …and this is the ENTER, a touch slower so the material reads as arriving. */
+#tip.on { opacity: 1; transform: none; transition-duration: 150ms; }
+#tip .tt-title { color: var(--ink); font-weight: 600; margin-bottom: 6px; font-size: 12px; letter-spacing: -0.006em; }
+#tip .tt-row { display: flex; align-items: center; gap: 8px; justify-content: space-between; }
+#tip .tt-row + .tt-row { margin-top: 3px; }
+#tip .tt-row .sw { width: 8px; height: 8px; border-radius: 2px; }
+#tip .tt-row .n { font-variant-numeric: tabular-nums; color: var(--ink); }
+
+/* ============================================================
+   Table view — the contrast-relief channel
+   ============================================================ */
+
+.tableview { padding: 0 17px 17px; }
+.tableview[hidden] { display: none; }
+.tableview table { width: 100%; border-collapse: collapse; font-size: 11.5px; }
+.tableview th, .tableview td {
+  text-align: left; padding: 5px 8px;
+  border-bottom: 1px solid var(--grid);
+  font-variant-numeric: tabular-nums;
+}
+.tableview th { color: var(--ink-muted); font-weight: 550; letter-spacing: 0.01em; }
+.tableview td.num { text-align: right; }
+
+/* ============================================================
+   Wallboard
+   ============================================================ */
+
+body.wallboard { font-size: 17px; }
+body.wallboard header .controls,
+body.wallboard header .search { display: none; }
+body.wallboard .tile .value { font-size: 46px; }
+body.wallboard .tile.hero .value { font-size: 96px; letter-spacing: -0.04em; }
+body.wallboard .panel > h2 { font-size: 13px; }
+body.wallboard .card .name { font-size: 16px; }
+body.wallboard .chip { font-size: 12.5px; }
+body.wallboard .panel .body.scroll-md { max-height: 46vh; }
+body.wallboard .panel .body.scroll-lg { max-height: 72vh; }
+body.wallboard .hide-on-wall { display: none; }
+
+/* ============================================================
+   Responsive
+   ============================================================ */
+
+/* Wide desktop is the design target: give the rail a sane cap so the feed
+   doesn't become a billboard on an ultrawide. */
+@media (min-width: 2000px) {
+  .shell { grid-template-columns: minmax(0, 1fr) minmax(0, 25%); }
+  .rail { max-width: 520px; justify-self: end; width: 100%; }
+}
+
+/* Below the desktop target the shell unwinds into a normal scrolling
+   document and the rail drops beneath the work, rather than squeezing
+   two columns into a width that fits neither. */
+@media (max-width: 1180px) {
+  body { height: auto; display: block; overflow: visible; }
+  .shell { display: block; overflow: visible; }
+  .workspace { overflow: visible; padding-bottom: 0; }
+  header { position: sticky; top: 0; }
+
+  .rail {
+    display: block;
+    overflow: visible;
+    border-left: 0;
+    border-top: 1px solid var(--hair);
+    margin-top: 12px;
+  }
+  /* percentage ceilings are meaningless once the column is in document flow */
+  .rail-block, .rail-block.requests, .rail-block.feed {
+    display: block;
+    max-height: none;
+  }
+  .rail-body { overflow: visible; max-height: none; }
+
+  .kpis { grid-template-columns: 1fr 1fr 1fr; }
+  .col-4, .col-5, .col-6, .col-7, .col-8 { grid-column: span 12; }
+}
+
+@media (max-width: 620px) {
+  .kpis { grid-template-columns: 1fr 1fr; }
+  header { flex-wrap: wrap; gap: 10px; padding: 12px 16px; }
+  .kpis, main { padding-left: 16px; padding-right: 16px; }
+  .banner, .filter-note { margin-left: 16px; margin-right: 16px; }
+  .tile.hero .value { font-size: 48px; }
+  .load-row { grid-template-columns: 96px 1fr 46px; gap: 9px; }
+}
+
+/* ============================================================
+   Accessibility preferences — three independent signals
+   ============================================================ */
+
+/* Reduced motion means gentler, not none: keep opacity cues that aid
+   comprehension, drop everything positional. */
+@media (prefers-reduced-motion: reduce) {
+  body.booting .stagger,
+  body.booting main > .panel,
+  body.booting .kpis > .tile,
+  body.booting .card,
+  body.booting .feed-item,
+  body.booting .load-row,
+  body.booting .bar,
+  body.booting .meter .fill {
+    animation: none;
+  }
+  .pulse .dot { animation: none; }
+  .tile .value.changed { animation: none; }
+  button:active, .card:active { transform: none; }
+  #tip { transition: opacity 120ms ease; transform: none; }
+  #tip.on { transform: none; }
+  .card.flashed::after { animation: flashfade 2000ms linear forwards; }
+}
+
+/* Frostier, not see-through. */
+@media (prefers-reduced-transparency: reduce) {
+  header { background: var(--plane); backdrop-filter: none; }
+  #tip { background: var(--surface); backdrop-filter: none; }
+}
+
+/* Near-solid surfaces with defined borders. */
+@media (prefers-contrast: more) {
+  :root { --hair: rgba(255, 255, 255, 0.3); --hair-strong: rgba(255, 255, 255, 0.5); }
+  :root[data-theme="light"] { --hair: rgba(11, 11, 11, 0.32); --hair-strong: rgba(11, 11, 11, 0.55); }
+  .panel, .tile { border-width: 1px; }
+  header { background: var(--plane); backdrop-filter: none; }
+}
+
+@media (forced-colors: active) {
+  .panel, .tile, .chip { border: 1px solid CanvasText; }
+  .bar .seg { forced-color-adjust: none; }
+}

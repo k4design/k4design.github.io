@@ -24,9 +24,18 @@
 
 export default {
   async fetch(request, env) {
-    const origin = env.ALLOWED_ORIGIN || "*";
+    // ALLOWED_ORIGIN is a comma-separated allowlist. The literal "null" entry
+    // admits the Figma plugin's sandboxed iframe (its Origin header is null).
+    // Echo the caller's origin when allowed; otherwise answer with the first
+    // entry so disallowed origins fail the browser's CORS check.
+    const allowed = (env.ALLOWED_ORIGIN || "*").split(",").map((s) => s.trim()).filter(Boolean);
+    const reqOrigin = request.headers.get("Origin");
+    const origin = allowed.includes("*")
+      ? "*"
+      : (reqOrigin && allowed.includes(reqOrigin) ? reqOrigin : allowed[0]);
     const cors = {
       "Access-Control-Allow-Origin": origin,
+      "Vary": "Origin",
       "Access-Control-Allow-Methods": "GET, POST, PATCH, DELETE, OPTIONS",
       "Access-Control-Allow-Headers": "content-type",
       "Access-Control-Max-Age": "86400",

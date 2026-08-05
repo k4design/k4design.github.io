@@ -1,0 +1,8 @@
+# The monday token. Never commit.
+.env
+.env.*
+!.env.example
+
+# Contains REAL board data — project names, assignees, dates. This repo is
+# public (GitHub Pages), so a captured snapshot must never be committed.
+raw.sample.json

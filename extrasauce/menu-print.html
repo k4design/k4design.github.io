@@ -11,70 +11,55 @@
 :root{
   --sauce:#FB4491;
   --ink:#111;
-  --paper:#F4EDE1;
+  --paper:#FFFFFF;
   --blue:#3BCBF8;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{background:#555;font-family:'Space Grotesk',sans-serif;color:var(--ink);-webkit-print-color-adjust:exact;print-color-adjust:exact}
 
-@page{size:4.25in 11in;margin:0}
+@page{size:5.5in 8.5in;margin:0}
 
 .sheet{
-  width:4.25in;height:11in;margin:24px auto;background:var(--paper);
-  padding:0.3in 0.32in 0.22in;position:relative;overflow:hidden;
+  width:5.5in;height:8.5in;margin:24px auto;background:var(--paper);
+  padding:0.3in 0.36in 0.24in;position:relative;overflow:hidden;
   box-shadow:0 10px 40px rgba(0,0,0,.4);
 }
 /* faint burger watermark */
 .watermark{position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.05;
-  background:url('burger.png') center 44%/3.4in no-repeat}
+  background:url('burger.png') center 46%/4in no-repeat}
 .head,.body,.foot{position:relative;z-index:1}
 
 /* header */
-.head{text-align:center;border-bottom:3px solid var(--ink);padding-bottom:.1in}
-.head .head-ill{width:.5in;height:auto;margin:0 auto .02in}
+.head{text-align:center;border-bottom:3px solid var(--ink);padding-bottom:.09in}
+.head .head-ill{width:.48in;height:auto;margin:0 auto .02in}
 .head .kicker{font-family:'Archivo Black';font-size:6.5pt;letter-spacing:.3em;color:var(--sauce);text-transform:uppercase}
-.head h1{font-family:'Anton';font-size:26pt;line-height:.82;letter-spacing:.01em;margin:.04in 0 0}
+.head h1{font-family:'Anton';font-size:26pt;line-height:.82;letter-spacing:.01em;margin:.03in 0 0}
 .head h1 .dot{color:var(--sauce)}
 
 /* menu body */
-.body{margin-top:.12in}
+.body{margin-top:.11in}
 .cat{margin-bottom:.09in}
-.cat-title{font-family:'Archivo Black';font-size:7.5pt;letter-spacing:.24em;text-transform:uppercase;color:var(--sauce);
-  display:flex;align-items:center;gap:.09in;margin-bottom:.08in}
+.cat-title{font-family:'Archivo Black';font-size:8pt;letter-spacing:.22em;text-transform:uppercase;color:var(--sauce);
+  display:flex;align-items:center;gap:.08in;margin-bottom:.07in}
 .cat-title::before{content:"";width:.2in;height:2.5px;background:var(--sauce)}
 .cat-title::after{content:"";flex:1;height:1px;background:rgba(0,0,0,.18)}
+.cat-title .note{font-family:'Space Grotesk';font-weight:700;font-size:6.5pt;letter-spacing:.08em;color:var(--ink);text-transform:uppercase;white-space:nowrap}
 
-.cols{display:grid;grid-template-columns:1fr}
-.item{margin-bottom:.07in;break-inside:avoid}
-.item .name{font-family:'Anton';font-size:11pt;line-height:1.05;letter-spacing:.01em}
-.item .desc{font-size:7pt;line-height:1.28;color:#444;margin-top:1px}
-
-/* dipping sauces pill row */
-.sauces{display:flex;flex-wrap:wrap;gap:.05in}
-.sauces span{font-family:'Archivo Black';font-size:6pt;letter-spacing:.05em;text-transform:uppercase;
-  border:1.5px solid var(--ink);border-radius:30px;padding:2px 7px}
-
-/* divider illustration (chicken + cow) */
-.divider{text-align:center;margin:0}
-.divider img{width:.8in;height:auto;filter:invert(1)}
+.item{display:grid;grid-template-columns:1fr auto;column-gap:.14in;margin-bottom:.068in;align-items:baseline;break-inside:avoid}
+.item .name{font-family:'Anton';font-size:10.5pt;line-height:1.05;letter-spacing:.01em}
+.item .price{font-family:'Archivo Black';font-size:8.5pt;white-space:nowrap}
+.item .desc{grid-column:1 / -1;font-size:6.8pt;line-height:1.28;color:#444;margin-top:1px;max-width:4in}
+.item .choice{grid-column:1 / -1;font-size:6.3pt;font-style:italic;font-weight:700;color:#333;margin-top:1px;letter-spacing:.03em}
 
 /* footer */
-.foot{margin-top:.05in;border-top:3px solid var(--ink);padding-top:.08in;
-  display:grid;grid-template-columns:1fr auto;gap:.14in;align-items:start}
-.foot-locs{display:grid;gap:.07in}
-.loc h3{font-family:'Anton';font-size:10.5pt;line-height:1;letter-spacing:.01em}
-.loc .badge{display:inline-block;font-family:'Archivo Black';font-size:5pt;letter-spacing:.12em;text-transform:uppercase;
-  background:var(--sauce);color:#fff;padding:2px 7px;border-radius:20px;margin-left:6px;vertical-align:middle}
-.loc .badge.soon{background:var(--ink)}
-.loc p{font-size:6.5pt;line-height:1.35;color:#333;margin-top:2px}
-.qr{text-align:center}
-.qr img{width:.7in;height:.7in;display:block;border:3px solid var(--ink)}
-.qr span{font-family:'Archivo Black';font-size:5pt;letter-spacing:.1em;text-transform:uppercase;display:block;margin-top:5px;line-height:1.4}
-.qr span b{color:var(--sauce)}
-.strip{grid-column:1 / -1;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;
-  margin-top:.04in;border-top:1px dashed rgba(0,0,0,.25);padding-top:.07in}
-.strip span{font-family:'Archivo Black';font-size:6pt;letter-spacing:.12em;text-transform:uppercase}
-.strip .sauce{color:var(--sauce)}
+.foot{margin-top:.06in;border-top:3px solid var(--ink);padding-top:.08in;
+  display:flex;justify-content:space-between;align-items:center;gap:.14in}
+.foot .made{font-family:'Archivo Black';font-size:6.5pt;letter-spacing:.14em;text-transform:uppercase;line-height:1.6}
+.foot .made b{color:var(--sauce)}
+.foot .qr{display:flex;align-items:center;gap:.08in}
+.foot .qr img{width:.55in;height:.55in;display:block;border:2.5px solid var(--ink)}
+.foot .qr span{font-family:'Archivo Black';font-size:5.5pt;letter-spacing:.1em;text-transform:uppercase;line-height:1.4;text-align:right}
+.foot .qr span b{color:var(--sauce)}
 
 @media print{
   html,body{background:#fff}
@@ -94,115 +79,79 @@ html,body{background:#555;font-family:'Space Grotesk',sans-serif;color:var(--ink
 
   <header class="head">
     <img class="head-ill" src="burger.png" alt="" />
-    <div class="kicker">Brooklyn · NYC</div>
     <h1>EXTRA<span class="dot">.</span>SAUCE</h1>
   </header>
 
   <main class="body">
     <section class="cat">
-      <div class="cat-title">Burgers</div>
-      <div class="cols">
-        <div class="item">
-          <div class="name">The Classic</div>
-          <div class="desc">American cheese, diced onions, pickles, and house sauce.</div>
-        </div>
-        <div class="item">
-          <div class="name">The Signature</div>
-          <div class="desc">American cheese, gochujang aioli, garlic Parmesan butter, and red miso caramelized onions.</div>
-        </div>
-        <div class="item">
-          <div class="name">Au Poivre Burger</div>
-          <div class="desc">Extra sharp cheddar, garlic Parmesan butter, caramelized onions, and crispy potato sticks.</div>
-        </div>
-        <div class="item">
-          <div class="name">The Rodeo</div>
-          <div class="desc">Coming soon.</div>
-        </div>
+      <div class="cat-title">Smash Burgers <span class="note">+4 to add fries</span></div>
+      <div class="item">
+        <span class="name">Classic Burger</span><span class="price">$13.00</span>
+        <span class="desc">American cheese, diced onions, pickles, Brooklyn sauce.</span>
+      </div>
+      <div class="item">
+        <span class="name">Signature Burger</span><span class="price">$15.00</span>
+        <span class="desc">Gochujang aioli, garlic Parmesan butter, red miso caramelized onions, American cheese.</span>
+      </div>
+      <div class="item">
+        <span class="name">Brooklyn BBQ Burger</span><span class="price">$14.00</span>
+        <span class="desc">BBQ sauce, onion rings, American cheese, pickles.</span>
+      </div>
+      <div class="item">
+        <span class="name">Au Poivre Burger</span><span class="price">$15.00</span>
+        <span class="desc">Extra sharp cheddar, garlic Parmesan butter, caramelized onion, potato sticks.</span>
       </div>
     </section>
 
     <section class="cat">
-      <div class="cat-title">Fried Chicken Sandwiches</div>
-      <div class="cols">
-        <div class="item">
-          <div class="name">Classic Fried Chicken</div>
-          <div class="desc">Chipotle aioli and pickles.</div>
-        </div>
-        <div class="item">
-          <div class="name">Brooklyn Hot</div>
-          <div class="desc">Spicy fried chicken with ranch and pickles.</div>
-        </div>
-        <div class="item">
-          <div class="name">Korean Fried Chicken</div>
-          <div class="desc">Gochujang glaze, kimchi pickles, and gochujang aioli.</div>
-        </div>
-        <div class="item">
-          <div class="name">Chicken Caesar</div>
-          <div class="desc">Tahini Caesar dressing, shaved Parmesan, served on a garlic crouton bun.</div>
-        </div>
+      <div class="cat-title">Fried Chicken Sandwiches <span class="note">+4 to add fries</span></div>
+      <div class="item">
+        <span class="name">Classic</span><span class="price">$14.00</span>
+        <span class="desc">Chipotle aioli, pickles.</span>
+      </div>
+      <div class="item">
+        <span class="name">Brooklyn Hot</span><span class="price">$15.00</span>
+        <span class="desc">Spicy fried chicken, ranch, pickles.</span>
+      </div>
+      <div class="item">
+        <span class="name">Korean Fried</span><span class="price">$15.00</span>
+        <span class="desc">Gochujang glaze, kimchi pickles, gochujang aioli.</span>
+      </div>
+      <div class="item">
+        <span class="name">Chicken Caesar</span><span class="price">$15.00</span>
+        <span class="desc">Tahini Caesar dressing, shaved Parmesan, garlic crouton bun.</span>
       </div>
     </section>
 
     <section class="cat">
       <div class="cat-title">Sides</div>
-      <div class="cols">
-        <div class="item">
-          <div class="name">Tahini Caesar Salad</div>
-          <div class="desc">Chopped romaine, garlic Parmesan croutons, and shaved Parmesan.</div>
-        </div>
-        <div class="item">
-          <div class="name">Waffle Fries</div>
-          <div class="desc">Served with your choice of two dipping sauces.</div>
-        </div>
-        <div class="item">
-          <div class="name">Chicken Tenders</div>
-          <div class="desc">Served with your choice of two dipping sauces.</div>
-        </div>
-        <div class="item">
-          <div class="name">Saucy Chicken Tenders</div>
-          <div class="desc">Tossed in your choice of sauce and served with two dipping sauces.</div>
-        </div>
-        <div class="item">
-          <div class="name">Loaded Fries</div>
-          <div class="desc">Cheese sauce, chopped cheeseburger, caramelized onions, and scallions.</div>
-        </div>
+      <div class="item">
+        <span class="name">Tahini Caesar Salad</span><span class="price">$14.00</span>
+        <span class="desc">Chopped romaine, garlic Parmesan croutons, tahini Caesar dressing.</span>
       </div>
-    </section>
-
-    <section class="cat">
-      <div class="cat-title">Dipping Sauces</div>
-      <div class="sauces">
-        <span>House Sauce</span>
-        <span>Chipotle Aioli</span>
-        <span>Gochujang Aioli</span>
-        <span>Ranch</span>
-        <span>Buffalo</span>
-        <span>BBQ</span>
-        <span>Honey Mustard</span>
+      <div class="item">
+        <span class="name">Fries</span><span class="price">$8.00</span>
+        <span class="desc">Seasoned, crispy &amp; golden.</span>
+        <span class="choice">Choice of two sauces</span>
+      </div>
+      <div class="item">
+        <span class="name">Chicken Tenders</span><span class="price">$10.00</span>
+        <span class="desc">Crispy fried chicken tenders.</span>
+        <span class="choice">Choice of two sauces</span>
+      </div>
+      <div class="item">
+        <span class="name">Loaded Fries</span><span class="price">$12.00</span>
+        <span class="desc">Garlic Parmesan, scallions, extra sauce.</span>
+        <span class="choice">Choice of two sauces</span>
       </div>
     </section>
   </main>
 
-  <div class="divider"><img src="cowchicken_w.png" alt="" /></div>
-
   <footer class="foot">
-    <div class="foot-locs">
-      <div class="loc">
-        <h3>Wall Street <span class="badge">Open Now</span></h3>
-        <p>100 Pearl St, New York, NY 10004</p>
-      </div>
-      <div class="loc">
-        <h3>Bushwick <span class="badge soon">Coming Soon</span></h3>
-        <p>1495 Dekalb Avenue, Brooklyn, NY 11237</p>
-      </div>
-    </div>
+    <div class="made">Food by <b>Extra Sauce</b><br>Bushwick, Brooklyn</div>
     <div class="qr">
-      <img src="qr.png" alt="QR code to extrasaucebk.com" />
       <span>Scan for<br><b>more</b></span>
-    </div>
-    <div class="strip">
-      <span class="sauce">@extrasaucebk</span>
-      <span>extrasaucebk.com</span>
+      <img src="qr.png" alt="QR code to extrasaucebk.com" />
     </div>
   </footer>
 </div>

@@ -18,7 +18,7 @@ Productivity / Workflow (secondary: Assets, Content)
 
 ## Tags
 
-`real estate`, `magazine`, `automation`, `template`, `data merge`, `photos`, `bulk`, `content`, `catalog`, `brochure`
+`real estate`, `magazine`, `automation`, `AI`, `template`, `data merge`, `photos`, `bulk`, `content`, `catalog`, `brochure`
 
 ---
 
@@ -42,6 +42,12 @@ Upload 50–100 photos at once. Each is processed one at a time to keep memory f
 **🎯 Smart auto-assign by category**
 Name photos after rooms and the plugin routes them: `kitchen-2.jpg` fills a kitchen slot, `master-bath.jpg` a master-bath slot, and so on. Full-page slots progress through the home in a natural order (entry → living → kitchen → … → exterior). Interior/exterior "pool" slots draw from any matching room. **Preview** and **Mini preview** slots build overview spreads from the whole shoot — Preview leads with exterior, kitchen, living, and master; Mini preview shows one representative image per room. The agent's headshot is detected by name and reserved for the agent slot automatically.
 
+**✨ AI classify & rename (new)**
+Shoot straight off the camera — IMG_0921.jpg and friends? One click and AI looks at each photo's actual content, then renames it to its room category (kitchen, master bath, exterior, agent headshot…) so auto-assign can place everything. Bring your own Claude API key (entered in the plugin's ⚙ AI settings, stored only on your device, billed to your own account) and pick the model that fits: most accurate, balanced, or cheapest for bulk shoots. Only a downscaled copy of each photo is sent for analysis — print files never leave Figma.
+
+**✏️ Layer names that match your tags (new)**
+A bulk action renames every tagged layer to its tag (`price`, `photo.kitchen.01`, …) so the Figma layer panel mirrors the tagging — easy audits and cleaner handoffs.
+
 **↔️ Spreads that line up across the gutter**
 Couple two containers on facing pages and a single photo tiles seamlessly across both — the crop windows are computed so the image reads as one continuous shot spanning two artboards.
 
@@ -50,7 +56,7 @@ A pre-flight check flags empty fields, unassigned slots, and mismatched spreads 
 
 ### Why teams like it
 
-- **Private by design.** No network access, no accounts, no uploads to a server — everything runs locally in your file. (The plugin declares zero allowed domains.)
+- **Private by design.** Everything runs locally in your file. The only network use is the opt-in **AI classify & rename** button, which sends a downscaled copy of a photo to Anthropic's Claude API using **your own API key** (stored only on your device, billed to your own account) — nothing else ever leaves Figma.
 - **Print-first.** Built around real photo resolution and cover-fit cropping, not screen mockups.
 - **Set up once, reuse forever.** Tags and entered data persist in the file and survive duplication.
 - **Scales to real jobs.** Tested against 100+ page layouts and full property shoots.
@@ -65,7 +71,12 @@ A pre-flight check flags empty fields, unassigned slots, and mismatched spreads 
 
 ---
 
-## What's new (for the first release / changelog)
+## What's new (changelog)
+
+**v1.1**
+- ✨ AI classify & rename — analyzes each photo's content and renames it to its room category so auto-assign places it. Bring your own Claude API key (⚙ AI settings, stored only on your device); choose the model (accuracy vs. cost for bulk shoots)
+- ✏️ Rename layers to tags — bulk action that renames every tagged layer to its tag, so the layer panel mirrors the tagging
+- Agent headshot matching now recognizes the agent's name from the Content tab, even in delimiter-less filenames (marthajohnson.png)
 
 **v1.0**
 - Layer tagging with one-click name scan and auto-numbering
@@ -77,7 +88,6 @@ A pre-flight check flags empty fields, unassigned slots, and mismatched spreads 
 - Coupled cross-gutter spreads with seamless cropping
 - Validation pre-flight, apply/cancel with progress
 - Save-state export/import (content + assignments + tags + images)
-- Fully local — no network access
 
 ---
 

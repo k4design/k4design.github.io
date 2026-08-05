@@ -1,0 +1,26 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "creative-direction-api",
+  "main": "src/index.js",
+  "compatibility_date": "2026-07-01",
+
+  // Which origins may read the API from a browser. The iOS app is native and
+  // isn't subject to CORS, so it doesn't need listing here.
+  //
+  // Set this to wherever the UI is actually served from. If you publish the UI
+  // to GitHub Pages at k4design.github.io, the origin is the bare host — a
+  // project path (/dashboard/web/public) is NOT part of the origin.
+  "vars": {
+    "ALLOWED_ORIGINS": "https://k4design.github.io,http://localhost:5180"
+  },
+
+  // Secrets are NOT set here — they'd end up in git. Set them once with:
+  //   wrangler secret put MONDAY_API_TOKEN
+  //   wrangler secret put DASHBOARD_ACCESS_KEY
+  // Both are prompted for interactively so the value never enters your shell
+  // history or this repo.
+
+  "observability": {
+    "enabled": true
+  }
+}

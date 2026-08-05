@@ -4,11 +4,10 @@ Exports Figma frames as a single MP4, including embedded **video fill layers** p
 
 ## Install in Figma
 
-1. `npm install && npm run build` (skip if `dist/` and `app/` are already built)
-2. **Push this folder to GitHub** — the encoder UI is hosted at `https://k4design.github.io/videoexport/app/`. Figma's plugin iframe is not a secure context, so WebCodecs only works inside a nested iframe served from a real HTTPS origin; the plugin's `dist/ui.html` is just a shell that embeds that page and relays messages.
-3. In the Figma desktop app: **Plugins → Development → Import plugin from manifest…** and pick `manifest.json`.
+1. `npm install && npm run build` (skip if `dist/` is already built)
+2. In the Figma desktop app: **Plugins → Development → Import plugin from manifest…** and pick `manifest.json`.
 
-After changing `src/ui.ts` or `src/ui-template.html`, rebuild **and push** so GitHub Pages serves the new `app/index.html`.
+Everything is self-contained in `dist/` — encoding uses a pure-WASM H.264 encoder (Figma plugin iframes are not secure contexts, so WebCodecs is unavailable), and the manifest declares zero network access.
 
 ## How it works
 

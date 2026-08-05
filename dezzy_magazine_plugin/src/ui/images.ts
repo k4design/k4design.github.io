@@ -93,6 +93,34 @@ export async function makeThumb(bytes: Uint8Array): Promise<string> {
   }
 }
 
+/** Long edge sent to the AI classifier — plenty for room recognition, cheap to send. */
+const CLASSIFY_DIM = 768
+
+/**
+ * Downscale image bytes to a ≤768px JPEG and return raw base64 (no data: prefix)
+ * for the vision API. Full-resolution bytes never leave the plugin.
+ */
+export async function classifyJpegBase64(bytes: Uint8Array): Promise<string> {
+  const bitmap = await createImageBitmap(new Blob([bytes as BlobPart]))
+  try {
+    const scale = Math.min(1, CLASSIFY_DIM / Math.max(bitmap.width, bitmap.height))
+    const blob = await encode(
+      bitmap,
+      Math.max(1, Math.round(bitmap.width * scale)),
+      Math.max(1, Math.round(bitmap.height * scale)),
+      0.8
+    )
+    return await new Promise<string>((resolve, reject) => {
+      const fr = new FileReader()
+      fr.onload = () => resolve(String(fr.result).split(',')[1] ?? '')
+      fr.onerror = () => reject(fr.error)
+      fr.readAsDataURL(blob)
+    })
+  } finally {
+    bitmap.close()
+  }
+}
+
 /** Natural sort for photographer filenames (IMG_2 before IMG_10). */
 export function byFilename<T extends { name: string }>(a: T, b: T): number {
   return a.name.localeCompare(b.name, undefined, { numeric: true, sensitivity: 'base' })

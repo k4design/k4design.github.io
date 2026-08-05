@@ -61,10 +61,12 @@ struct ActivityView: View {
     }
 }
 
+#if os(iOS)
 struct SettingsView: View {
     @Environment(DashboardStore.self) private var store
     @Environment(\.dismiss) private var dismiss
     @State private var draft = ""
+    @State private var keyDraft = ""
 
     var body: some View {
         NavigationStack {
@@ -78,6 +80,32 @@ struct SettingsView: View {
                     Text("Dashboard server")
                 } footer: {
                     Text("The address of the machine running `node server.js`, or your Netlify URL. The monday token stays on the server — this app never sees it.")
+                }
+
+                Section {
+                    Picker("Appearance", selection: Binding(
+                        get: { store.appearance },
+                        set: { store.appearance = $0 }
+                    )) {
+                        Text("System").tag("system")
+                        Text("Light").tag("light")
+                        Text("Dark").tag("dark")
+                    }
+                    .pickerStyle(.segmented)
+                } header: {
+                    Text("Appearance")
+                } footer: {
+                    Text("System follows the phone's light/dark schedule.")
+                }
+
+                Section {
+                    SecureField("Access key", text: $keyDraft)
+                        .textInputAutocapitalization(.never)
+                        .autocorrectionDisabled()
+                } header: {
+                    Text("Access key")
+                } footer: {
+                    Text("Required by a deployed server, which is reachable from the internet. Stored in the device Keychain and sent as a request header. A local server on your own machine doesn't need one.")
                 }
 
                 if let snapshot = store.snapshot {
@@ -104,13 +132,21 @@ struct SettingsView: View {
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Save") {
                         store.baseURL = draft
+                        store.accessKey = keyDraft.trimmingCharacters(in: .whitespacesAndNewlines)
                         dismiss()
-                        Task { await store.load(force: true) }
+                        Task {
+                            await store.load(force: true)
+                            store.startTicker()
+                        }
                     }
                     .disabled(draft.trimmingCharacters(in: .whitespaces).isEmpty)
                 }
             }
-            .onAppear { draft = store.baseURL }
+            .onAppear {
+                draft = store.baseURL
+                keyDraft = store.accessKey
+            }
         }
     }
 }
+#endif
