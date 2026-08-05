@@ -63,12 +63,27 @@ finishing it required exactly the machinery this product avoids: an upload
 endpoint, object storage for results, and a job queue with progress reporting.
 The client pipeline needs none of it, and gets realtime preview for free.
 
-## Future options
+## Audio
 
-- **Audio passthrough.** The export is currently silent. The reference
-  implementation is `muxAudio()` in `../videoexport/src/ui.ts`: `mediabunny`
-  in packet-passthrough mode re-muxes the WASM encoder's AVC packets with the
-  source file's encoded audio — no re-encode, no WebCodecs.
+The export carries the source clip's audio. `mux.ts` remuxes **encoded
+packets** — the WASM encoder's AVC packets plus the source file's audio
+packets — into one MP4 with mediabunny's packet API. No audio is ever decoded
+or re-encoded, which is what makes it possible without WebCodecs.
+
+- Audio is trimmed to the rendered video's duration, so a 60s source cut to
+  30s of frames does not leave 30s of audio over nothing.
+- MP4 can only legally carry some codecs, so `aac`/`mp3`/`alac`/`flac` pass
+  through and anything else (typically Opus or Vorbis from a WebM) is skipped
+  with a warning naming the codec, rather than written into a file that would
+  not play.
+- A source with no audio produces a silent export and **no** warning — silence
+  is the correct outcome there, not a problem.
+- Any mux failure falls back to the silent MP4. Audio is a bonus; it never
+  costs you the render.
+- The inline preview starts muted because autoplay requires it; the caption
+  says "with audio (unmute to hear)" when there is sound to find.
+
+## Future options
 - **Item-canvas output.** Export resolution follows the item canvas (capped by
   the Settings render-width override). A dedicated per-video resolution picker
   would help very large canvases.

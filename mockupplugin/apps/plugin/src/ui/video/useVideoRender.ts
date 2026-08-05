@@ -7,6 +7,7 @@ import {
 import { renderBatch } from '../api.js';
 import { openVideo, MAX_VIDEO_SECONDS, type VideoFps } from './decode.js';
 import { createMp4Session, type Mp4EncoderSession } from './encoder.js';
+import { explainSkip, muxAudioInto } from './mux.js';
 
 /**
  * The video pipeline, interleaved per batch so memory stays bounded:
@@ -53,6 +54,8 @@ export type VideoPhase =
       posterPng: string;
       posterWidth: number;
       posterHeight: number;
+      /** True when the source clip's audio was carried into the export. */
+      hasAudio: boolean;
       warnings: string[];
     }
   | { kind: 'failed'; message: string };
@@ -288,9 +291,28 @@ export function useVideoRender() {
 
       const mp4 = await finishedSession.finish();
       session.current = null;
+
+      // Carry the source clip's audio across by remuxing encoded packets —
+      // no decode, no re-encode. Silent on failure rather than losing the
+      // render; explainSkip() decides whether that deserves a warning.
+      notice = 'Adding audio…';
+      publish();
+      const seconds = encoded / input.fps;
+      const muxed = await muxAudioInto(mp4, input.file, { fps: input.fps, durationSeconds: seconds });
+      notice = undefined;
+      console.info(
+        `[MF] audio mux: ${muxed.mp4 ? 'carried over' : `skipped (${muxed.skipped})`}` +
+          `${muxed.detail ? ` — ${muxed.detail}` : ''}`,
+      );
+      if (muxed.skipped) {
+        const message = explainSkip(muxed.skipped, muxed.detail);
+        if (message && !warnings.includes(message)) warnings.push(message);
+      }
+      const hasAudio = muxed.mp4 !== null;
+
       // The Uint8Array's underlying buffer belongs to the (deleted) WASM heap
       // view; copy it into the blob.
-      const blob = new Blob([new Uint8Array(mp4)], { type: 'video/mp4' });
+      const blob = new Blob([new Uint8Array(muxed.mp4 ?? mp4)], { type: 'video/mp4' });
       const url = URL.createObjectURL(blob);
       if (objectUrl.current) URL.revokeObjectURL(objectUrl.current);
       objectUrl.current = url;
@@ -301,13 +323,14 @@ export function useVideoRender() {
         url,
         blob,
         bytes: blob.size,
-        seconds: encoded / input.fps,
+        seconds,
         fps: input.fps,
         width: posterSize.width,
         height: posterSize.height,
         posterPng,
         posterWidth: posterSize.width,
         posterHeight: posterSize.height,
+        hasAudio,
         warnings,
       });
     } catch (err) {

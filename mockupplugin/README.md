@@ -154,10 +154,10 @@ MF_UPDATE_GOLDEN=1 npm test --workspace @mf/api
 
 Select a mockup, open the Render tab, and **Choose clip…** on its card. The
 clip (MP4/MOV/WebM, up to 30s) is decoded in the plugin, warped frame by frame
-through the render service, and encoded to MP4 in-plugin — the preview plays
-inline and **Download MP4** saves the same file. **Apply poster to canvas**
-pins the first warped frame onto the mockup frame, since Figma cannot play
-video on canvas. The clip never leaves your machine except as design frames
+through the render service, and encoded to MP4 in-plugin, carrying the source
+clip's audio across — the preview plays inline and **Download MP4** saves the
+same file. **Apply poster to canvas** pins the first warped frame onto the
+mockup frame, since Figma cannot play video on canvas. The clip never leaves your machine except as design frames
 sent to your render service. Details: [docs/VIDEO.md](docs/VIDEO.md).
 
 ## Endpoints

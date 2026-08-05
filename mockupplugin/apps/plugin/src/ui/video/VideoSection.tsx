@@ -182,6 +182,9 @@ export function VideoSection({
       {phase.kind === 'ready' ? (
         <>
           {/* The preview IS the export: one MP4 blob, played here, saved as-is. */}
+          {/* Autoplay requires muted, so the preview starts silent even when
+              the export has audio — the caption below says so, and unmuting in
+              the controls plays it. */}
           <video
             src={phase.url}
             controls
@@ -206,6 +209,7 @@ export function VideoSection({
             <span className="muted">
               {phase.width}×{phase.height} · {phase.seconds.toFixed(1)}s ·{' '}
               {(phase.bytes / 1024 / 1024).toFixed(1)} MB
+              {phase.hasAudio ? ' · with audio (unmute to hear)' : ''}
             </span>
           </div>
           {phase.warnings.map((message) => (

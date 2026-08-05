@@ -49,8 +49,9 @@ Photoshop.
 **Video mockups**
 
 Pick a clip up to 30 seconds and watch it play back warped onto the product,
-right in the plugin. Export the result as MP4 — encoded locally on your
-machine. Rendered clips stay in the plugin until you delete them.
+right in the plugin. Export the result as MP4 — with the original clip's audio
+carried over, encoded locally on your machine. Rendered clips stay in the
+plugin until you delete them.
 
 **No accounts. No sign-up.** Install and render.
 
