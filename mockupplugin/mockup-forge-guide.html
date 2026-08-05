@@ -396,7 +396,7 @@
     <a href="#install">Install</a>
     <a href="#workflow">Workflow</a>
     <a href="#video">Video</a>
-    <a href="#library">Add mockups</a>
+    <a href="#library">Library</a>
     <a href="#settings">Settings</a>
     <a href="#faq">FAQ</a>
   </div>
@@ -408,7 +408,7 @@
   <h1>Your design,<br>on the <span class="grad">real thing</span>.</h1>
   <p class="hero-sub">Drop your artwork into a frame, click Render, and it comes back photographically warped onto phones, mugs, shirts, billboards — even video, audio and all. Every bit of it inside Figma.</p>
   <div class="hero-ctas">
-    <a class="btn btn-primary" href="#install">Get set up ↓</a>
+    <a class="btn btn-primary" href="#install">Get started ↓</a>
     <a class="btn btn-ghost" href="#workflow">See the workflow</a>
   </div>
 
@@ -450,46 +450,35 @@
 </section>
 
 <section id="install">
-  <div class="kicker">Setup</div>
-  <h2>Two pieces: a plugin and its render service</h2>
-  <p class="section-sub">The plugin does the canvas work; a small local service does the pixel work. Both live in this repo.</p>
+  <div class="kicker">Getting started</div>
+  <h2>Install it and render</h2>
+  <p class="section-sub">There is nothing to set up, sign into, or configure. The mockup library and the rendering both come with the plugin.</p>
   <div class="steps">
     <div class="step">
       <div class="step-num">01</div>
       <div>
-        <h3>Install and build</h3>
-        <p>Node 20+ required. From the <code>mockupplugin</code> folder:</p>
-        <pre><span class="b">npm</span> install
-<span class="b">npm</span> run build --workspace @mf/shared
-<span class="b">npm</span> run seed --workspace @mf/api      <span class="g"># generates the mockup library</span>
-<span class="b">npm</span> run build --workspace @mf/plugin</pre>
+        <h3>Install from the Figma Community</h3>
+        <p>Search the Community for <strong>Mockup Forge</strong> and hit Install — or open it straight from its Community page. Works in the Figma desktop app and in the browser.</p>
       </div>
     </div>
     <div class="step">
       <div class="step-num">02</div>
       <div>
-        <h3>Start the render service</h3>
-        <p>Run <code>npm run dev:api</code> and leave it running. Check it's alive: <code>curl http://localhost:8787/health</code>.</p>
+        <h3>Run it</h3>
+        <p>Open any Figma file and pick <strong>Mockup Forge</strong> from your plugins. The Library tab fills with mockups the moment it opens.</p>
       </div>
     </div>
     <div class="step">
       <div class="step-num">03</div>
       <div>
-        <h3>Import the manifest</h3>
-        <p>In the Figma <strong>desktop app</strong>, go to <span class="path">Plugins → Development → Import plugin from manifest…</span> and pick <code>apps/plugin/manifest.json</code>.</p>
-      </div>
-    </div>
-    <div class="step">
-      <div class="step-num">04</div>
-      <div>
-        <h3>Launch and connect</h3>
-        <p>Run it from <span class="path">Plugins → Development → Mockup Forge</span>. The badge should read <strong>Canvas connected</strong>, and the Settings tab's <em>Test connection</em> should find your service.</p>
+        <h3>Render something</h3>
+        <p>Click a mockup, drop your artwork into the frame it creates, and press Render. That's the whole loop — the next section walks through it properly.</p>
       </div>
     </div>
   </div>
-  <div class="callout warn">
-    <span>🌐</span>
-    <span><strong>Custom service URL?</strong> Any URL you set in Settings must also be listed in <code>manifest.json</code> under <code>networkAccess.allowedDomains</code> — and Figma rejects IP addresses there, so use a hostname like <code>localhost</code>, never <code>127.0.0.1</code>.</span>
+  <div class="callout">
+    <span>✅</span>
+    <span><strong>No account, no API key, no local install.</strong> Nothing to run alongside Figma and nothing to keep updated — new mockups appear in the library on their own.</span>
   </div>
 </section>
 
@@ -597,60 +586,41 @@
 </section>
 
 <section id="library">
-  <div class="kicker">Growing the library</div>
-  <h2>Add your own mockups from a photo</h2>
-  <div class="steps">
-    <div class="step">
-      <div class="step-num">01</div>
-      <div>
-        <h3>Shoot or source the photo</h3>
-        <p>2000–4000px, even lighting, and — most important — the print surface <strong>blank</strong>. A pure white surface is ideal: the authoring tools can then find it automatically.</p>
-      </div>
+  <div class="kicker">The library</div>
+  <h2>What you can put your work on</h2>
+  <p class="section-sub">Search by name or filter by category and viewpoint. Every mockup lists the surfaces it offers and the shape of artwork it expects.</p>
+  <div class="grid">
+    <div class="feature">
+      <div class="ico">📱</div>
+      <h3>Devices &amp; screens</h3>
+      <p>Phones straight-on and angled, laptops, and a wide curved LED wall for keynote-style panoramas. Ideal for app shots, websites, and title cards.</p>
     </div>
-    <div class="step">
-      <div class="step-num">02</div>
-      <div>
-        <h3>Click the corners</h3>
-        <p>Open <span class="path">tools/pick-points.html</span> in a browser, load the photo, and click the surface corners in design order. It hands you the coordinates, normalized and ready.</p>
-      </div>
+    <div class="feature">
+      <div class="ico">👕</div>
+      <h3>Apparel &amp; packaging</h3>
+      <p>T-shirts and tote bags that crease like real cloth, ceramic mugs and bottle labels that wrap around properly — with the product colour under your control.</p>
     </div>
-    <div class="step">
-      <div class="step-num">03</div>
-      <div>
-        <h3>Author the item</h3>
-        <pre><span class="b">npx</span> tsx tools/author-item.ts \
-  --id desk-poster-01 --name <span class="g">"Poster on Desk"</span> \
-  --category print --viewpoint scene \
-  --base ~/photos/desk.jpg \
-  --corners <span class="g">"0.21,0.18 0.78,0.25 0.74,0.82 0.19,0.75"</span> \
-  --aspect 0.7071</pre>
-        <p>Masks, shadow and highlight maps are derived from the geometry, so they can't disagree with the warp. Curved surfaces use <code>--rect</code> with <code>--cylinder</code>; fabric adds <code>--fabric --displacement</code>.</p>
-      </div>
+    <div class="feature">
+      <div class="ico">🖼</div>
+      <h3>Print &amp; branding</h3>
+      <p>Framed posters on a wall, business cards front and back in one shot, and a street billboard in full perspective for out-of-home work.</p>
     </div>
-    <div class="step">
-      <div class="step-num">04</div>
-      <div>
-        <h3>Restart the service</h3>
-        <p>The new item appears in the Library tab immediately. Render it against the test grid with <code>npx tsx tools/render-sample.ts your-item-id</code> to sanity-check the warp.</p>
-      </div>
-    </div>
+  </div>
+  <div class="callout">
+    <span>✨</span>
+    <span><strong>The library grows on its own.</strong> New mockups show up in the Library tab without you updating anything — open the plugin and they're there.</span>
   </div>
 </section>
 
 <section id="settings">
-  <div class="kicker">Configuration</div>
-  <h2>Two knobs. Sane defaults.</h2>
+  <div class="kicker">Settings</div>
+  <h2>One knob, and you can ignore it</h2>
   <table class="settings-table">
-    <tr><th>Setting</th><th>Default</th><th>Guidance</th></tr>
+    <tr><th>Setting</th><th>Default</th><th>What it's for</th></tr>
     <tr>
-      <td>Render service URL</td>
-      <td>http://localhost:8787</td>
-      <td>Where the catalog and renders come from. Remembered per user. Must be in the manifest's allowed domains.</td>
-    </tr>
-    <tr>
-      <td>Render width override</td>
+      <td>Render width</td>
       <td>full resolution</td>
-      <td>Lower it (e.g. 960) for fast previews while iterating; clear it for the final full-res render. Video exports use it too, and default to 1280px wide when it's empty.</td>
+      <td>Set a smaller width (say 960) for quick previews while you iterate, then clear it for the final full-resolution render. Video exports follow it too, and come out 1280px wide when it's left empty.</td>
     </tr>
   </table>
   <div class="callout">
@@ -668,16 +638,16 @@
   <h2>When something looks off</h2>
   <div class="faq">
     <details>
-      <summary>Stuck on “Connecting to the canvas…”</summary>
-      <p>Rebuild the plugin (<code>npm run build --workspace @mf/plugin</code>) and reopen it — Figma caches the old bundle until relaunch. If it persists, open <span class="path">Plugins → Development → Show/Hide console</span> and look for <code>[MF]</code> lines.</p>
+      <summary>The library is empty, or thumbnails won't load</summary>
+      <p>This is almost always the connection. Check you're online and press <strong>Try again</strong>. If it keeps failing, the rendering service may be briefly unavailable — close the plugin and come back in a few minutes; nothing on your canvas is affected.</p>
     </details>
     <details>
-      <summary>“Cannot reach the render service”</summary>
-      <p>Check the service is running (<code>curl http://localhost:8787/health</code>) and that the URL in Settings uses a hostname that's listed in the manifest — Figma silently blocks any other origin, and blocked looks identical to offline. Thumbnails failing while the list loads means the same thing.</p>
+      <summary>It says it can't reach the render service</summary>
+      <p>Same story: a network hiccup between you and the service. Retry, and if it persists give it a few minutes. Anything you already rendered stays on your canvas.</p>
     </details>
     <details>
-      <summary>The library grid is empty</summary>
-      <p>The catalog is generated, not committed. Run <code>npm run seed --workspace @mf/api</code>, restart the service, and refresh the Library tab.</p>
+      <summary>The plugin opens but nothing happens</summary>
+      <p>Close it and open it again — that clears up almost everything. Your imported mockups and design frames are ordinary Figma layers, so they're still exactly where you left them.</p>
     </details>
     <details>
       <summary>My artwork looks stretched on the product</summary>
