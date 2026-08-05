@@ -1,5 +1,5 @@
 # Crawlers only honour robots.txt at the domain root, so the
-# internal plugin library is excluded from here rather than from
-# /pluginlibrary/robots.txt.
+# The Factory is excluded from here rather than from
+# /the-factory/robots.txt.
 User-agent: *
-Disallow: /pluginlibrary/
+Disallow: /the-factory/

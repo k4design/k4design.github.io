@@ -1,0 +1,93 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  :root { color-scheme: light dark; }
+  /* The side panel is user-resizable, so fill it rather than pinning a
+     popup-sized width. */
+  body {
+    margin: 0; padding: 14px; min-width: 260px;
+    font: 13px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+  h1 { font-size: 13px; font-weight: 600; margin: 0 0 12px; }
+  label { display: block; font-size: 11px; opacity: .7; margin: 10px 0 3px; }
+  input, select {
+    width: 100%; box-sizing: border-box; padding: 6px 8px;
+    border: 1px solid rgba(128,128,128,.4); border-radius: 5px;
+    background: transparent; color: inherit; font: inherit;
+  }
+  #rate { font-size: 11px; opacity: .6; margin-top: 4px; }
+  .row { display: flex; gap: 8px; }
+  .row > div { flex: 1; }
+  .btns { display: flex; gap: 8px; margin-top: 14px; }
+  button {
+    flex: 1; padding: 7px; border: 0; border-radius: 5px;
+    font: inherit; font-weight: 500; cursor: pointer;
+  }
+  #go { background: #4f46e5; color: #fff; }
+  #stop { background: rgba(128,128,128,.22); color: inherit; }
+  button:disabled { opacity: .45; cursor: default; }
+  #stats {
+    margin-top: 12px; padding-top: 10px;
+    border-top: 1px solid rgba(128,128,128,.25);
+    font-variant-numeric: tabular-nums; font-size: 12px;
+  }
+  #stats b { font-weight: 600; }
+  #err { color: #dc2626; margin-top: 8px; font-size: 12px; }
+  #log {
+    /* vh rather than a fixed height: the panel is as tall as the browser
+       window, so the log can use the room a popup never had. */
+    margin-top: 10px; max-height: 45vh; overflow-y: auto;
+    font: 11px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace;
+    opacity: .75; white-space: pre-wrap; word-break: break-word;
+  }
+  details { margin-top: 10px; }
+  summary { font-size: 11px; opacity: .7; cursor: pointer; }
+</style>
+</head>
+<body>
+  <h1>MJ Explore Grabber</h1>
+
+  <label for="subject">Subject to match</label>
+  <input id="subject" placeholder="e.g. a lone figure in fog" autocomplete="off">
+
+  <label for="model">Model</label>
+  <select id="model"></select>
+  <div id="rate"></div>
+
+  <div class="row">
+    <div>
+      <label for="target">Want</label>
+      <input id="target" type="number" value="20" min="1">
+    </div>
+    <div>
+      <label for="maxCards">Max cards</label>
+      <input id="maxCards" type="number" value="200" min="1">
+    </div>
+    <div>
+      <label for="maxMinutes">Max min</label>
+      <input id="maxMinutes" type="number" value="5" min="1">
+    </div>
+  </div>
+
+  <details>
+    <summary>Anthropic API key</summary>
+    <label for="apiKey">Stored locally, never leaves this machine except to api.anthropic.com</label>
+    <input id="apiKey" type="password" placeholder="sk-ant-..." autocomplete="off">
+  </details>
+
+  <div class="btns">
+    <button id="go">Start</button>
+    <button id="stop" disabled>Stop</button>
+  </div>
+
+  <div id="err"></div>
+  <div id="stats"></div>
+  <div id="log"></div>
+
+  <!-- module so it can import the model table from lib/mj.js instead of
+       duplicating model ids and prices here -->
+  <script type="module" src="panel.js"></script>
+</body>
+</html>

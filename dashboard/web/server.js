@@ -6,6 +6,7 @@ const fs = require('fs');
 const path = require('path');
 const { fetchRaw } = require('./lib/monday');
 const { derive } = require('./lib/derive');
+const { fetchCampaigns, searchCampaigns, fetchCampaignsByIds } = require('./lib/stackadapt');
 
 const ROOT = __dirname;
 const PUBLIC = path.join(ROOT, 'public');
@@ -16,20 +17,24 @@ function loadConfig() {
   return JSON.parse(fs.readFileSync(path.join(ROOT, 'config.json'), 'utf8'));
 }
 
-// Token resolution order: env var, then a local .env file (gitignored).
-function loadToken() {
-  if (process.env.MONDAY_API_TOKEN) return process.env.MONDAY_API_TOKEN.trim();
+// Secret resolution order: env var, then a local .env file (gitignored).
+// Generalized from a monday-only reader once StackAdapt became a second source.
+function envValue(name) {
+  if (process.env[name]) return process.env[name].trim();
   const envPath = path.join(ROOT, '.env');
   if (!fs.existsSync(envPath)) return null;
+  const re = new RegExp(`^\\s*${name}\\s*=\\s*(.+?)\\s*$`);
   for (const line of fs.readFileSync(envPath, 'utf8').split('\n')) {
-    const m = /^\s*MONDAY_API_TOKEN\s*=\s*(.+?)\s*$/.exec(line);
+    const m = re.exec(line);
     if (m) return m[1].replace(/^["']|["']$/g, '');
   }
   return null;
 }
 
 const config = loadConfig();
-const TOKEN = loadToken();
+const TOKEN = envValue('MONDAY_API_TOKEN');
+// Optional. Absent means the campaigns section simply does not exist.
+const SA_TOKEN = envValue('STACKADAPT_API_TOKEN');
 const PORT = Number(process.env.PORT) || config.port || 4173;
 
 /* ---------- snapshot cache ---------- */
@@ -58,6 +63,15 @@ async function getSnapshot(force = false) {
       } else {
         raw = sampleRaw();
         if (!raw) throw new Error('No MONDAY_API_TOKEN set and no raw.sample.json to fall back on.');
+      }
+      // Campaigns ride alongside the monday fetch. A failure here costs the
+      // campaigns section and nothing else — same rule as the status stamps.
+      // The `undefined` check lets a doctored raw.sample.json supply its own.
+      if (raw.campaigns === undefined) {
+        raw.campaigns = await fetchCampaigns(SA_TOKEN, config).catch((err) => {
+          console.warn('StackAdapt fetch failed:', err.message);
+          return null;
+        });
       }
       const payload = derive(raw, config, new Date());
       payload.tokenPresent = !!TOKEN;
@@ -148,10 +162,46 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
+  /**
+   * Campaign search and pinned-campaign lookup. Deliberately OUTSIDE the
+   * snapshot: they take a per-request query, so folding them into a shared
+   * cached payload would either break the cache or leak one client's pins into
+   * another's snapshot. Both are read-only and hit StackAdapt directly.
+   */
+  if (url.pathname === '/api/campaigns/search') {
+    try {
+      const rows = await searchCampaigns(
+        SA_TOKEN,
+        config,
+        url.searchParams.get('q') || '',
+        Number(url.searchParams.get('limit')) || 25
+      );
+      json(res, 200, { rows });
+    } catch (err) {
+      json(res, 502, { error: err.message });
+    }
+    return;
+  }
+
+  if (url.pathname === '/api/campaigns') {
+    try {
+      const ids = (url.searchParams.get('ids') || '').split(',').map((s) => s.trim()).filter(Boolean);
+      const rows = await fetchCampaignsByIds(SA_TOKEN, config, ids);
+      json(res, 200, { rows });
+    } catch (err) {
+      json(res, 502, { error: err.message });
+    }
+    return;
+  }
+
   if (url.pathname === '/api/health') {
     json(res, 200, {
       ok: true,
       tokenPresent: !!TOKEN,
+      // The first two things to check when the campaigns section looks wrong.
+      stackAdaptTokenPresent: !!SA_TOKEN,
+      campaignCount: cache.payload?.campaigns?.rows?.length ?? null,
+      stackAdaptConnected: cache.payload?.campaigns?.connected ?? null,
       boards: config.boards.length,
       lastFetch: cache.at ? new Date(cache.at).toISOString() : null,
       lastError: cache.error,

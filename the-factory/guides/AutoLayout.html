@@ -1,0 +1,1147 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark light">
+<meta name="robots" content="noindex,nofollow">
+<title>dezzy AutoFill — Docs</title>
+<style>
+  /* ===================== tokens ===================== */
+  :root {
+    --sans: Inter, "SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --mono: "SF Mono", ui-monospace, "JetBrains Mono", Menlo, Consolas, monospace;
+
+    --bg: #0a0c10;
+    --bg-2: #0e1116;
+    --surface: #13171e;
+    --surface-2: #181d25;
+    --line: #232a34;
+    --line-soft: #1a2029;
+
+    --ink: #e8ecf2;
+    --ink-2: #9aa6b5;
+    --ink-3: #66717f;
+
+    --accent: #4d8dff;
+    --accent-2: #8b5cf6;
+    --accent-ink: #a8c7ff;
+    --accent-soft: rgba(77, 141, 255, .10);
+    --accent-line: rgba(77, 141, 255, .28);
+
+    --ok: #3ddc97;
+    --ok-soft: rgba(61, 220, 151, .10);
+    --ok-line: rgba(61, 220, 151, .26);
+    --warn: #ffb454;
+    --warn-soft: rgba(255, 180, 84, .10);
+    --warn-line: rgba(255, 180, 84, .26);
+
+    --chip-txt-bg: rgba(139, 92, 246, .16);
+    --chip-txt-ink: #c4b0ff;
+    --chip-img-bg: rgba(61, 220, 151, .14);
+    --chip-img-ink: #7fe6b6;
+
+    --radius: 10px;
+    --topbar-h: 52px;
+  }
+  @media (prefers-color-scheme: light) {
+    :root {
+      --bg: #ffffff;
+      --bg-2: #f7f9fc;
+      --surface: #ffffff;
+      --surface-2: #f4f7fa;
+      --line: #e2e8f0;
+      --line-soft: #eef2f7;
+
+      --ink: #0c1119;
+      --ink-2: #4d5a6d;
+      --ink-3: #7d8a9c;
+
+      --accent: #2563eb;
+      --accent-2: #7c3aed;
+      --accent-ink: #1d4ed8;
+      --accent-soft: rgba(37, 99, 235, .07);
+      --accent-line: rgba(37, 99, 235, .22);
+
+      --ok: #0f9d63;
+      --ok-soft: rgba(15, 157, 99, .08);
+      --ok-line: rgba(15, 157, 99, .24);
+      --warn: #b26a00;
+      --warn-soft: rgba(178, 106, 0, .08);
+      --warn-line: rgba(178, 106, 0, .24);
+
+      --chip-txt-bg: rgba(124, 58, 237, .10);
+      --chip-txt-ink: #6d28d9;
+      --chip-img-bg: rgba(15, 157, 99, .10);
+      --chip-img-ink: #0b7a4d;
+    }
+  }
+
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 15px;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    font-feature-settings: "cv05" 1, "ss01" 1;
+  }
+
+  /* ===================== top bar ===================== */
+  .topbar {
+    position: sticky; top: 0; z-index: 50;
+    height: var(--topbar-h);
+    display: flex; align-items: center; gap: 10px;
+    padding: 0 20px;
+    background: color-mix(in srgb, var(--bg) 82%, transparent);
+    backdrop-filter: saturate(150%) blur(12px);
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .mark {
+    width: 22px; height: 22px; border-radius: 6px;
+    background: #fff; border: 1px solid var(--line-soft);
+    overflow: hidden; padding: 1px;
+    display: grid; place-items: center;
+    flex-shrink: 0;
+  }
+  .mark img { width: 100%; height: 100%; object-fit: contain; display: block; }
+  /* the plugin's own icon, above the headline */
+  .hero-mark {
+    width: 64px; height: 64px; border-radius: 14px; margin: 0 0 22px;
+    background: #fff; border: 1px solid var(--line-soft);
+    display: grid; place-items: center; overflow: hidden; padding: 4px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  }
+  .hero-mark img { width: 100%; height: 100%; object-fit: contain; display: block; }
+  .topbar .name { font-weight: 650; letter-spacing: -.01em; font-size: 14px; }
+  .topbar .sep { color: var(--ink-3); font-size: 13px; }
+  .topbar .where { color: var(--ink-2); font-size: 13px; }
+  .pill {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    color: var(--ink-2);
+    background: var(--surface-2);
+    white-space: nowrap;
+  }
+  .topbar .pill { margin-left: auto; }
+  /* back to the plugin library; redundant inside the library's own pane,
+     which already provides a way back */
+  .topbar .back { color: var(--ink-2); text-decoration: none;
+    font-size: 13px; white-space: nowrap; }
+  .topbar .back:hover { color: var(--ink); }
+  .topbar .back + .pill { margin-left: 14px; }
+  html.framed .topbar .back { display: none; }
+
+  /* ===================== hero ===================== */
+  .hero {
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+    border-bottom: 1px solid var(--line-soft);
+    padding: 100px 24px 84px;
+    background: var(--bg-2);
+  }
+  .hero-mark { margin: 0 auto 26px; width: 72px; height: 72px; border-radius: 16px; }
+  .hero .lede { margin-left: auto; margin-right: auto; }
+  .metarow { justify-content: center; }
+  .hero .pill.badge {
+    display: inline-flex; align-items: center; gap: 8px; margin-bottom: 24px;
+  }
+  .hero .pill .dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--ok); box-shadow: 0 0 8px var(--ok);
+  }
+  .hero-ctas { margin-top: 34px; display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 12px 24px; border-radius: 10px;
+    font-size: 15px; font-weight: 600; text-decoration: none;
+    transition: transform .15s, box-shadow .15s, border-color .15s;
+  }
+  .btn-primary {
+    background: linear-gradient(96deg, var(--accent), var(--accent-2));
+    color: #fff; box-shadow: 0 8px 32px var(--accent-soft);
+  }
+  .btn-primary:hover { transform: translateY(-2px); }
+  .btn-ghost { border: 1px solid var(--line); color: var(--ink); background: var(--surface); }
+  .btn-ghost:hover { border-color: var(--accent-line); transform: translateY(-2px); }
+
+  /* ---------- fixed link to the plugin itself ---------- */
+  .plugin-cta {
+    position: fixed; z-index: 60;
+    right: max(20px, env(safe-area-inset-right));
+    bottom: max(20px, env(safe-area-inset-bottom));
+    display: inline-flex; align-items: center; gap: 9px;
+    padding: 12px 18px; border-radius: 999px; text-decoration: none;
+    color: #fff; font-size: 14.5px; font-weight: 600;
+    box-shadow: 0 10px 30px rgba(0,0,0,.28), 0 0 0 1px rgba(255,255,255,.10) inset;
+    transition: transform .15s, box-shadow .15s, background-position .25s linear;
+    /* blue at the top of the guide, purple at the bottom — --cta-p (0…1)
+       comes from assets/cta.js */
+    background-image: linear-gradient(96deg, var(--accent) 0%, var(--accent-2) 100%);
+    background-size: 500% 100%; background-repeat: no-repeat;
+    background-position: calc(var(--cta-p, 0) * 100%) 0;
+  }
+  .plugin-cta:hover { transform: translateY(-2px); box-shadow: 0 16px 40px rgba(0,0,0,.34); }
+  .plugin-cta .ext { font-size: 12px; opacity: .85; }
+  @media (max-width: 560px) {
+    .plugin-cta { padding: 11px 15px; font-size: 13.5px; }
+    .plugin-cta .label-long { display: none; }
+  }
+  @media print { .plugin-cta { display: none; } }
+
+  /* ---------- app screenshots ---------- */
+  .appshots {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 20px; margin-top: 28px; align-items: start;
+  }
+  @media (max-width: 820px) { .appshots { grid-template-columns: 1fr; max-width: 420px; } }
+  .appshots figure { margin: 0; }
+  .appshots img {
+    display: block; width: 100%; height: auto;
+    border: 1px solid var(--line); border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 14px 34px rgba(0, 0, 0, .16);
+  }
+  .appshots figcaption {
+    margin-top: 12px;
+    font: 12px/1.55 var(--mono); letter-spacing: .02em; color: var(--ink-3);
+  }
+  .appshots figcaption b { color: var(--accent); font-weight: 500; }
+  .shotnote {
+    margin-top: 18px; color: var(--ink-3); font-size: 13.5px; max-width: 68ch;
+  }
+
+  /* section links in the top nav, in place of the old rail */
+  .nav-links { display: flex; gap: 22px; margin-left: auto; }
+  .nav-links a { color: var(--ink-2); text-decoration: none; font-size: 14px; }
+  .nav-links a:hover { color: var(--ink); }
+  .nav-links a.active { color: var(--accent); }
+  @media (max-width: 940px) { .nav-links { display: none; } }
+  .hero::before {
+    /* grid, faded out toward the edges */
+    content: "";
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(to right, var(--line-soft) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--line-soft) 1px, transparent 1px);
+    background-size: 44px 44px;
+    -webkit-mask-image: radial-gradient(ellipse 70% 70% at 50% 0%, #000 20%, transparent 75%);
+    mask-image: radial-gradient(ellipse 70% 70% at 50% 0%, #000 20%, transparent 75%);
+    opacity: .8;
+  }
+  .hero::after {
+    /* accent glow */
+    content: "";
+    position: absolute;
+    left: 50%; top: -180px;
+    width: 680px; height: 360px;
+    transform: translateX(-50%);
+    background: radial-gradient(ellipse at center, var(--accent-soft), transparent 70%);
+    pointer-events: none;
+  }
+  .hero-inner { position: relative; max-width: 1140px; margin: 0 auto; }
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--accent-ink);
+    margin: 0 0 16px;
+  }
+  h1 {
+    margin: 0 0 14px;
+    font-size: clamp(32px, 5.4vw, 50px);
+    line-height: 1.06;
+    letter-spacing: -.035em;
+    font-weight: 700;
+  }
+  h1 .grad {
+    background: linear-gradient(100deg, var(--accent), var(--accent-2));
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .lede { color: var(--ink-2); font-size: 17px; max-width: 620px; margin: 0; }
+  .metarow { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 26px; }
+
+  /* ===================== shell / sidebar ===================== */
+  /* Structured like the Frame to MP4 guide: no TOC rail, one centred
+     column, section links live in the top nav instead. */
+  .shell {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 0 24px 100px;
+    display: block;
+  }
+  .sidebar { display: none; }
+  .sidebar {
+    position: sticky;
+    top: calc(var(--topbar-h) + 24px);
+    padding-top: 40px;
+  }
+  .sidebar .label {
+    font-family: var(--mono);
+    font-size: 10.5px; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--ink-3);
+    padding: 0 10px 8px;
+  }
+  .sidebar nav { display: flex; flex-direction: column; gap: 1px; }
+  .sidebar a {
+    display: flex; align-items: baseline; gap: 8px;
+    padding: 5px 10px;
+    border-radius: 7px;
+    color: var(--ink-2);
+    text-decoration: none;
+    font-size: 13.5px;
+    border-left: 2px solid transparent;
+  }
+  .sidebar a .idx { font-family: var(--mono); font-size: 10.5px; color: var(--ink-3); }
+  .sidebar a:hover { color: var(--ink); background: var(--surface-2); }
+  .sidebar a.active {
+    color: var(--accent-ink);
+    background: var(--accent-soft);
+    border-left-color: var(--accent);
+  }
+  .sidebar a.active .idx { color: var(--accent); }
+
+  main.doc { padding-top: 64px; min-width: 0; }
+
+  /* ===================== headings & prose ===================== */
+  section.block { scroll-margin-top: calc(var(--topbar-h) + 20px); padding-bottom: 8px; }
+  section.block + section.block { margin-top: 110px; }
+  main.doc > section.block:first-child { margin-top: 0; }
+  h2 {
+    margin: 0 0 6px;
+    font-size: clamp(26px, 4vw, 32px); line-height: 1.15;
+    letter-spacing: -1px; font-weight: 750;
+  }
+  h2 .h2num {
+    font-family: var(--mono);
+    font-size: 12px; font-weight: 500;
+    color: var(--accent);
+    letter-spacing: .06em;
+    display: block; margin-bottom: 8px;
+  }
+  h3 {
+    margin: 30px 0 6px;
+    font-size: 15.5px; font-weight: 650;
+    letter-spacing: -.01em;
+  }
+  h4 { margin: 18px 0 4px; font-size: 14px; font-weight: 650; }
+  p { margin: 10px 0; color: var(--ink); }
+  p.sub { color: var(--ink-2); }
+  .muted { color: var(--ink-2); }
+  a { color: var(--accent-ink); text-decoration-color: var(--accent-line); text-underline-offset: 2px; }
+  hr.rule { border: 0; border-top: 1px solid var(--line-soft); margin: 44px 0 0; }
+
+  ul.plain, ol.plain { margin: 10px 0; padding-left: 20px; color: var(--ink); }
+  ul.plain li, ol.plain li { margin: 6px 0; }
+  ul.plain li::marker { color: var(--ink-3); }
+
+  code {
+    font-family: var(--mono);
+    font-size: .855em;
+    background: var(--surface-2);
+    border: 1px solid var(--line-soft);
+    border-radius: 5px;
+    padding: 1px 5px;
+    white-space: nowrap;
+  }
+  kbd {
+    font-family: var(--mono);
+    font-size: .8em;
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    border-bottom-width: 2px;
+    border-radius: 5px;
+    padding: 1.5px 5px;
+    color: var(--ink);
+  }
+
+  /* code block with a window label bar */
+  .codeblock {
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    overflow: hidden;
+    margin: 16px 0;
+    background: var(--surface);
+  }
+  .codeblock .bar {
+    display: flex; align-items: center; gap: 8px;
+    padding: 7px 12px;
+    border-bottom: 1px solid var(--line-soft);
+    background: var(--surface-2);
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink-3);
+    letter-spacing: .03em;
+  }
+  .codeblock .dots { display: flex; gap: 4px; }
+  .codeblock .dots i { width: 8px; height: 8px; border-radius: 50%; background: var(--line); }
+  .codeblock pre {
+    margin: 0; padding: 14px 14px;
+    overflow-x: auto;
+    font-family: var(--mono);
+    font-size: 12.5px; line-height: 1.65;
+    color: var(--ink);
+  }
+  .codeblock pre code { background: none; border: 0; padding: 0; white-space: pre; }
+  .codeblock .tok { color: var(--accent-ink); }
+  .copy {
+    margin-left: auto;
+    font-family: var(--mono); font-size: 10.5px;
+    background: none; border: 1px solid var(--line);
+    color: var(--ink-2); border-radius: 5px;
+    padding: 2px 7px; cursor: pointer;
+  }
+  .copy:hover { color: var(--ink); border-color: var(--accent-line); }
+
+  /* ===================== cards & grids ===================== */
+  .grid { display: grid; gap: 12px; margin: 18px 0; }
+  .grid.g2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .grid.g3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 16px 18px;
+  }
+  .card .idx {
+    font-family: var(--mono); font-size: 11px;
+    color: var(--accent); letter-spacing: .08em;
+  }
+  .card h4 { margin: 6px 0 4px; font-size: 14.5px; }
+  .card p { margin: 0; font-size: 13.5px; color: var(--ink-2); line-height: 1.6; }
+  .card.plain { padding: 2px 20px 8px; }
+  .card.plain h3:first-of-type { margin-top: 18px; }
+
+  /* steps as a timeline */
+  ol.steps { counter-reset: s; list-style: none; margin: 20px 0; padding: 0; }
+  ol.steps > li {
+    counter-increment: s;
+    position: relative;
+    padding: 0 0 22px 44px;
+  }
+  ol.steps > li::before {
+    content: "0" counter(s);
+    position: absolute; left: 0; top: 0;
+    width: 28px; height: 28px;
+    display: grid; place-items: center;
+    border: 1px solid var(--accent-line);
+    background: var(--accent-soft);
+    color: var(--accent-ink);
+    border-radius: 8px;
+    font-family: var(--mono); font-size: 11px; font-weight: 600;
+  }
+  ol.steps > li::after {
+    content: "";
+    position: absolute; left: 13.5px; top: 32px; bottom: 2px;
+    width: 1px; background: var(--line);
+  }
+  ol.steps > li:last-child { padding-bottom: 0; }
+  ol.steps > li:last-child::after { display: none; }
+  ol.steps b { display: block; font-weight: 650; margin-bottom: 2px; letter-spacing: -.01em; }
+  ol.steps p { margin: 0; color: var(--ink-2); font-size: 14px; }
+
+  /* ===================== chips, notes, tables ===================== */
+  .chip {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 12px; font-weight: 600;
+    padding: 1px 7px; border-radius: 6px;
+    white-space: nowrap;
+  }
+  .chip.txt { background: var(--chip-txt-bg); color: var(--chip-txt-ink); }
+  .chip.img { background: var(--chip-img-bg); color: var(--chip-img-ink); }
+  .chip.on { background: var(--ok-soft); color: var(--ok); }
+  .chip.off { background: var(--surface-2); color: var(--ink-3); }
+
+  .note {
+    display: flex; gap: 11px;
+    border: 1px solid var(--accent-line);
+    background: var(--accent-soft);
+    border-radius: var(--radius);
+    padding: 13px 15px;
+    margin: 18px 0;
+    font-size: 14px;
+  }
+  .note .ico { flex-shrink: 0; font-family: var(--mono); font-size: 12px; color: var(--accent); padding-top: 2px; }
+  .note.ok { border-color: var(--ok-line); background: var(--ok-soft); }
+  .note.ok .ico { color: var(--ok); }
+  .note.warn { border-color: var(--warn-line); background: var(--warn-soft); }
+  .note.warn .ico { color: var(--warn); }
+  .note p { margin: 0; }
+  .note p + p { margin-top: 6px; }
+
+  .tablewrap {
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    overflow-x: auto;
+    margin: 16px 0;
+    background: var(--surface);
+  }
+  table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+  th, td { text-align: left; padding: 9px 14px; border-bottom: 1px solid var(--line-soft); vertical-align: top; }
+  th {
+    font-family: var(--mono);
+    font-size: 10.5px; font-weight: 600;
+    letter-spacing: .1em; text-transform: uppercase;
+    color: var(--ink-3);
+    background: var(--surface-2);
+    white-space: nowrap;
+  }
+  tbody tr:last-child td { border-bottom: 0; }
+  tbody tr:hover td { background: var(--surface-2); }
+  td .muted { font-size: 13px; }
+
+  /* ===================== slot diagram ===================== */
+  .slotgrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(66px, 1fr));
+    gap: 8px; margin: 16px 0 8px;
+  }
+  .slot {
+    position: relative; aspect-ratio: 1;
+    border-radius: 7px;
+    background: var(--surface-2);
+    border: 1px dashed var(--line);
+    display: grid; place-items: center;
+    color: var(--ink-3);
+    font-family: var(--mono); font-size: 12px;
+  }
+  .slot.filled { border: 0; }
+  .slot .num {
+    position: absolute; top: 5px; left: 5px;
+    font-family: var(--mono); font-size: 10px; font-weight: 700;
+    padding: 1px 5px; border-radius: 5px;
+    background: rgba(4, 8, 14, .72); color: #fff;
+    backdrop-filter: blur(2px);
+  }
+  .slot .num.tagged { background: var(--ok); color: #04120b; }
+  .legend { display: flex; flex-wrap: wrap; gap: 14px; margin: 10px 0 0; font-size: 13px; color: var(--ink-2); }
+  .legend span { display: inline-flex; align-items: center; gap: 6px; }
+  .legend i { width: 9px; height: 9px; border-radius: 3px; display: inline-block; }
+
+  /* ===================== FAQ ===================== */
+  details.faq {
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--surface);
+    margin-bottom: 8px;
+    overflow: hidden;
+  }
+  details.faq > summary {
+    cursor: pointer; list-style: none;
+    padding: 12px 15px;
+    font-weight: 600; font-size: 14px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  details.faq > summary::-webkit-details-marker { display: none; }
+  details.faq > summary::after {
+    content: "+"; margin-left: auto;
+    font-family: var(--mono); color: var(--ink-3); font-size: 15px;
+  }
+  details.faq[open] > summary::after { content: "–"; }
+  details.faq[open] > summary { border-bottom: 1px solid var(--line-soft); }
+  details.faq > summary:hover { background: var(--surface-2); }
+  .faq-body { padding: 12px 15px; color: var(--ink-2); font-size: 14px; }
+  .faq-body p { margin: 0; color: inherit; }
+  .faq-body p + p { margin-top: 8px; }
+
+  footer {
+    border-top: 1px solid var(--line-soft);
+    padding: 26px 20px 40px;
+    color: var(--ink-3);
+    font-size: 13px;
+  }
+  footer .inner { max-width: 1140px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center; }
+
+  /* ===================== responsive ===================== */
+  @media (max-width: 940px) {
+    .shell { padding-bottom: 72px; }
+    .sidebar {
+      position: static; padding-top: 28px;
+    }
+    .sidebar nav {
+      flex-direction: row; flex-wrap: wrap; gap: 6px;
+      padding-bottom: 4px;
+    }
+    .sidebar a {
+      border: 1px solid var(--line); border-left-width: 1px;
+      border-radius: 999px; padding: 4px 11px; font-size: 13px;
+    }
+    .sidebar a.active { border-color: var(--accent-line); }
+    .sidebar a .idx { display: none; }
+    main.doc { padding-top: 28px; }
+    .grid.g3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 620px) {
+    .hero { padding: 48px 20px 40px; }
+    .grid.g2, .grid.g3 { grid-template-columns: 1fr; }
+    .topbar .where, .topbar .sep { display: none; }
+  }
+</style>
+<script src="../assets/gate.js"></script>
+<script>requireUnlock();</script>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="mark"><img src="../assets/icons/dezzy-autofill.png" alt=""></div>
+  <span class="name">dezzy&nbsp;AutoFill</span>
+  <span class="sep">/</span>
+  <span class="where">Docs</span>
+  <a class="back" href="../index.html" target="_top">← The Factory</a>
+  <div class="nav-links">
+    <a href="#overview">Overview</a>
+    <a href="#quickstart">Quick start</a>
+    <a href="#tagging">Tagging</a>
+    <a href="#photos">Photos</a>
+    <a href="#apply">Apply</a>
+    <a href="#troubleshooting">Troubleshooting</a>
+  </div>
+</div>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div class="hero-mark"><img src="../assets/icons/dezzy-autofill.png" alt="dezzy AutoFill"></div>
+    <div class="pill badge"><span class="dot"></span> Figma Plugin · dezzy AutoFill</div>
+    <h1>Tag once.<br><span class="grad">Fill every listing in seconds.</span></h1>
+    <p class="lede">Turn any Figma layout into a data-driven template. Map your text layers and photo containers to fields one time — then every new property is a form fill and one click.</p>
+    <div class="metarow">
+      <span class="pill">5 tabs</span>
+      <span class="pill">21 fields</span>
+      <span class="pill">Unlimited photos</span>
+      <span class="pill">No network calls</span>
+    </div>
+    <div class="hero-ctas">
+      <a class="btn btn-primary" href="#quickstart">Quick start ↓</a>
+      <a class="btn btn-ghost" href="#tagging">How tagging works</a>
+    </div>
+  </div>
+</header>
+
+<div class="shell">
+
+  <main class="doc">
+
+    <!-- 01 -->
+    <section class="block" id="overview">
+      <h2><span class="h2num">01</span>Overview</h2>
+      <p>This plugin turns an existing Figma design — a flyer, a postcard, a listing sheet — into a reusable template. You tag each text layer and photo container <em>once</em>. After that, producing the next property means typing the details, dropping in the photo shoot, and clicking Apply.</p>
+      <p class="sub">Tagging changes nothing visually. Tags are invisible metadata stored on the layers, so a tagged template still looks and exports exactly as designed.</p>
+
+      <div class="grid g3">
+        <div class="card">
+          <div class="idx">01</div>
+          <h4>Stored in the file</h4>
+          <p>Tags, entered content and uploaded photos all live in the Figma document. Duplicate the file and the whole setup travels with it.</p>
+        </div>
+        <div class="card">
+          <div class="idx">02</div>
+          <h4>Fully offline</h4>
+          <p>No account, no server, no API key. The plugin makes zero network requests — nothing leaves your machine.</p>
+        </div>
+        <div class="card">
+          <div class="idx">03</div>
+          <h4>One undo per apply</h4>
+          <p>Every apply collapses into a single history step, so <kbd>⌘Z</kbd> always puts things back.</p>
+        </div>
+      </div>
+    </section>
+
+    <hr class="rule">
+
+    <!-- 02 -->
+    <section class="block" id="tabs">
+      <h2><span class="h2num">02</span>The five tabs</h2>
+      <p class="sub">Work left to right the first time. After the template is tagged, you'll mostly live in Content and Photos.</p>
+      <div class="grid g2">
+        <div class="card">
+          <div class="idx">TAB 01</div>
+          <h4>Tag</h4>
+          <p>Assign fields to the selected layers, edit partial-text templates, browse the tag index, and preview which layers are tagged on the layout.</p>
+        </div>
+        <div class="card">
+          <div class="idx">TAB 02</div>
+          <h4>Content</h4>
+          <p>The property fields, grouped. Shows how many layers will pick up each value. Import or download CSV.</p>
+        </div>
+        <div class="card">
+          <div class="idx">TAB 03</div>
+          <h4>Photos</h4>
+          <p>Bulk upload, the numbered slot gallery, logo, custom slots, and a readiness list of every tagged photo slot.</p>
+        </div>
+        <div class="card">
+          <div class="idx">TAB 04</div>
+          <h4>Apply</h4>
+          <p>Check the file, dry-run the changes, then apply everything — or just content, just photos, or one field group.</p>
+        </div>
+        <div class="card">
+          <div class="idx">TAB 05</div>
+          <h4>Bulk</h4>
+          <p>One-click passes over the whole template: tag from layer names, rename layers to tags, read values back, save state.</p>
+        </div>
+      </div>
+
+      <div class="appshots">
+        <figure>
+          <img src="../assets/img/autofill-data.png" alt="The plugin's Data tab: Upload CSV and Download CSV Template buttons, then the property fields — bedrooms, bathrooms, sq ft, price, street, city, tagline, description — above an Apply Data to ALL tagged text button.">
+          <figcaption><b>Data</b> — the property fields, with CSV import and a template download. Apply pushes every value to its tagged layers at once.</figcaption>
+        </figure>
+        <figure>
+          <img src="../assets/img/autofill-images.png" alt="The plugin's Images tab: Property Photos and Other sub-tabs, then numbered photo slots, each with a thumbnail, an Upload button and reorder arrows, above an Apply Images to ALL tagged shapes button.">
+          <figcaption><b>Images</b> — numbered slots, each with its own upload and reorder arrows. Drag files straight onto a slot.</figcaption>
+        </figure>
+        <figure>
+          <img src="../assets/img/autofill-tagging.png" alt="The plugin's Tagging tab: a Tag dropdown for the current selection with an Add button, an image-preview grid of numbered slots, a Rescan for data and photos link, a Custom Tags panel, and Apply All Data and Images.">
+          <figcaption><b>Tagging</b> — pick a tag for the current selection and it applies immediately, renaming the layer to match.</figcaption>
+        </figure>
+      </div>
+      <p class="shotnote">Captured from the shipped build, empty — no file open, no data entered.
+        A tagged template fills the slot thumbnails and the tag overview below them.</p>
+    </section>
+
+    <hr class="rule">
+
+    <!-- 03 -->
+    <section class="block" id="quickstart">
+      <h2><span class="h2num">03</span>Quick start</h2>
+      <ol class="steps">
+        <li>
+          <b>Tag the template</b>
+          <p>Select a text layer, pick a field under <strong>Content (text)</strong> on the Tag tab, hit <em>Assign</em>. Same for photo containers under <strong>Photos (image)</strong>. If your layers are already named sensibly, jump to <em>Scan layer names</em> on the Bulk tab and let it do the work.</p>
+        </li>
+        <li>
+          <b>Enter the listing</b>
+          <p>Fill in the grouped fields on <strong>Content</strong> — stats, address, copy, features, agent. Values save into the file as you type, or import a CSV.</p>
+        </li>
+        <li>
+          <b>Load the photos</b>
+          <p>Drop the whole shoot onto the upload area on <strong>Photos</strong>. Images fill the numbered slots in filename order; reorder with the hover arrows.</p>
+        </li>
+        <li>
+          <b>Apply</b>
+          <p>Use the button pinned to the bottom of Content and Photos, or open <strong>Apply</strong> to check the file first and push everything in one pass.</p>
+        </li>
+      </ol>
+      <div class="note ok">
+        <span class="ico">✓</span>
+        <p><strong>Every apply is a single undo.</strong> If something lands wrong, one <kbd>⌘Z</kbd> / <kbd>Ctrl+Z</kbd> reverts it. <em>Apply everything</em> counts as two — one for content, one for photos.</p>
+      </div>
+    </section>
+
+    <hr class="rule">
+
+    <!-- 04 -->
+    <section class="block" id="tagging">
+      <h2><span class="h2num">04</span>Tagging</h2>
+      <p>There are exactly two kinds of tag, kept separate so a headline can never be pointed at a photo.</p>
+
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>Kind</th><th>Applies to</th><th>Examples</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><strong>Content</strong><div class="muted">text</div></td>
+              <td>Text layers</td>
+              <td><span class="chip txt">price</span> <span class="chip txt">headline</span> <span class="chip txt">feature1</span></td>
+            </tr>
+            <tr>
+              <td><strong>Photo</strong><div class="muted">image</div></td>
+              <td>Any layer that can hold an image fill — rectangles, ellipses, frames, components</td>
+              <td><span class="chip img">img:1</span> <span class="chip img">img:logo</span> <span class="chip img">img:brochure</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Tagging by hand</h3>
+      <p>Select one or more layers. The Tag tab lists what's selected along with any tag each layer already carries. Choose a field from the matching dropdown and press <em>Assign</em> — it applies to the whole selection at once. <em>Remove tag</em> clears them.</p>
+      <p class="sub">The dropdowns annotate themselves: <code>×3</code> means three layers already carry that field, and <code>• photo</code> marks a slot that has an image loaded.</p>
+
+      <h3>Tagging from layer names</h3>
+      <p><strong>Scan layer names</strong> on the Bulk tab recognises three patterns:</p>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>Layer name</th><th>Becomes</th></tr></thead>
+          <tbody>
+            <tr><td><code>#anything</code></td><td>The <code>#</code> is stripped and the rest becomes the field. Text layers get a content tag, everything else a photo tag.</td></tr>
+            <tr><td><code>price</code>, <code>street</code>, <code>headline</code></td><td>A text layer named exactly like a field gets that content tag.</td></tr>
+            <tr><td><code>img:3</code>, <code>img:logo</code></td><td>A layer named exactly like a photo slot gets that photo tag.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>The scan never overwrites an existing tag, so it's safe to re-run after adding layers. Anything it doesn't recognise is left completely alone.</p>
+
+      <h3>Locking layers against changes</h3>
+      <p>Some layers must never change — a legal disclaimer, a logo baked into the design, decorative artwork. Tag those with a reserved field and every apply skips them.</p>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>Field</th><th>Shown as</th><th>Effect</th></tr></thead>
+          <tbody>
+            <tr><td><code>text.locked</code></td><td>“Never overwrite”</td><td>Text is never rewritten</td></tr>
+            <tr><td><code>photo.locked</code></td><td>“Never replace”</td><td>Image fill is never replaced</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Tagging part of a text layer</h3>
+      <p>When only a few words in a sentence are dynamic, select a <em>single</em> text layer — a <strong>Partial text (template)</strong> box appears, pre-filled with the layer's current words. Wrap the dynamic parts in double braces:</p>
+      <div class="codeblock">
+        <div class="bar">
+          <span class="dots"><i></i><i></i><i></i></span>
+          <span>template</span>
+          <button class="copy" type="button">Copy</button>
+        </div>
+        <pre><code>Offered at <span class="tok">{{price}}</span> · <span class="tok">{{bedrooms}}</span> bed / <span class="tok">{{bathrooms}}</span> bath</code></pre>
+      </div>
+      <p>Everything outside the braces is preserved exactly; each token is swapped for its value on apply. One layer can pull in as many fields as you like.</p>
+
+      <h3>The tag index</h3>
+      <p>Below the selection card is every tag in use, with how many layers carry it. <strong>Click a row to select those layers on the canvas</strong> — the fastest way to find out what a tag actually points at.</p>
+      <p class="sub"><em>Rebuild index</em> re-reads the page from scratch. You rarely need it, but it's the fix when counts look stale, and it's what teaches the plugin about tags inside component instances.</p>
+
+      <h3>Seeing your tags on the layout</h3>
+      <p><strong>Tag overview</strong> renders the selected frame — or the largest one on the page — and draws a box over every tagged layer: violet for content, green for photos. Click a chip below the preview to isolate a single tag. Quickest way to spot a container you forgot.</p>
+
+      <div class="note">
+        <span class="ico">↑</span>
+        <p><strong>Upgrading from an older version?</strong> Tags written by earlier releases are converted automatically the first time the plugin reads them — including partial-text ranges, which become templates. Nothing to re-tag.</p>
+      </div>
+    </section>
+
+    <hr class="rule">
+
+    <!-- 05 -->
+    <section class="block" id="content">
+      <h2><span class="h2num">05</span>Content</h2>
+      <p>A grouped form: <strong>Stats</strong>, <strong>Address</strong>, <strong>Copy</strong>, <strong>Features</strong>, <strong>Agent</strong>. It saves as you type, with <em>Apply all content</em> pinned to the bottom.</p>
+      <p>Each label carries a live count of how many layers use that tag — or a grey <em>not tagged</em> when nothing on the page will pick the value up. <code>1 tpl</code> means the field is referenced by a template rather than tagged directly.</p>
+
+      <h3>Two fields are composed for you</h3>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>Field</th><th>Output</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><code>statsCombo</code></td>
+              <td>Beds, baths and square footage on one line — <em>4 Bedrooms&nbsp;&nbsp;|&nbsp;&nbsp;3 Bathrooms&nbsp;&nbsp;|&nbsp;&nbsp;3200 sq/ft</em>. Ideal for a stat bar.</td>
+            </tr>
+            <tr>
+              <td><code>featuresBulleted</code></td>
+              <td>Features 1–6 stacked on separate lines in a single text layer, so a bullet list is one tagged layer instead of six.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="sub">You never type these — they're assembled from the fields you already filled in. Just tag a layer with them. <code>price</code> is formatted automatically too, so <code>1250000</code> places <strong>$1,250,000</strong>.</p>
+
+      <h3>CSV</h3>
+      <p><em>Download CSV</em> exports the current values as a single-row sheet; <em>Import CSV</em> reads one back. Column order doesn't matter and unknown columns are ignored, so it's fine to keep extra notes alongside. The easy path when listing data comes out of another system.</p>
+    </section>
+
+    <hr class="rule">
+
+    <!-- 06 -->
+    <section class="block" id="photos">
+      <h2><span class="h2num">06</span>Photos</h2>
+
+      <h3>Uploading</h3>
+      <p>Drop the whole shoot onto the upload area, or click to browse. Photos sort naturally by filename — <code>IMG_2</code> before <code>IMG_10</code> — and fill the empty slots in order. You can also drop a single file straight onto one slot to replace just that image.</p>
+
+      <h3>A slot's position is its tag</h3>
+      <p>The first slot is <code>img:1</code>, the second <code>img:2</code>, and so on. Hover a thumbnail for arrows to move it earlier or later, or <strong>×</strong> to clear it. The badge turns green once at least one layer on the page is tagged with that slot.</p>
+
+      <div class="slotgrid">
+        <div class="slot filled" style="background:linear-gradient(140deg,#3f7fa8,#2e5f80)"><span class="num tagged">1</span></div>
+        <div class="slot filled" style="background:linear-gradient(140deg,#a87a3f,#7d5a2c)"><span class="num tagged">2</span></div>
+        <div class="slot filled" style="background:linear-gradient(140deg,#519160,#3a6b46)"><span class="num tagged">3</span></div>
+        <div class="slot"><span class="num tagged">4</span>—</div>
+        <div class="slot filled" style="background:linear-gradient(140deg,#91527c,#6b3c5b)"><span class="num">5</span></div>
+        <div class="slot"><span class="num">6</span>—</div>
+      </div>
+      <div class="legend">
+        <span><i style="background:var(--ok)"></i> Green badge — a layer is tagged with this slot</span>
+        <span><i style="background:var(--line);border:1px dashed var(--ink-3)"></i> Dashed — no photo loaded</span>
+      </div>
+      <p class="sub" style="margin-top:12px">Slots 1–3 are healthy. Slot 4 is tagged but empty, so a container on the page will come out unfilled. Slot 5 is the reverse — a photo nothing points at yet. Slot 6 is unused.</p>
+
+      <h3>Logo and custom slots</h3>
+      <p>The logo has a dedicated slot using <code>img:logo</code>. For anything outside the numbered run — a brochure cover, a site plan — add a custom image tag such as <code>img:brochure</code> and it gets its own upload slot.</p>
+
+      <h3>Readiness list</h3>
+      <p>At the bottom, every photo tag that exists on the page is marked <span class="chip on">ready</span> or <span class="chip off">empty</span> with a layer count. Click a row to select those layers. Scan it before applying to catch a slot with no photo.</p>
+
+      <div class="note warn">
+        <span class="ico">!</span>
+        <p><strong>Don't delete the <code>🗄 Image vault</code> rectangle.</strong> Full-resolution images are handed to Figma once and stored in the document; the panel keeps only a thumbnail. That invisible locked rectangle is what stops Figma garbage-collecting photos you've uploaded but not yet applied.</p>
+      </div>
+      <p class="sub">Anything above Figma's 4096px limit is scaled down on the way in, and formats Figma can't read (WebP, AVIF) are converted to JPEG. A photo that already fits is passed through untouched, so print quality is preserved.</p>
+    </section>
+
+    <hr class="rule">
+
+    <!-- 07 -->
+    <section class="block" id="apply">
+      <h2><span class="h2num">07</span>Apply</h2>
+      <p>You can apply straight from the pinned buttons on Content and Photos. The Apply tab is for looking before you leap.</p>
+
+      <div class="grid g3">
+        <div class="card">
+          <div class="idx">CHECK</div>
+          <h4>File check</h4>
+          <p>Re-reads the document and reports anything that would make an apply incomplete: slots with no photo, tagged fields with no value, values no layer will pick up. Also heals tags left by deleted layers.</p>
+        </div>
+        <div class="card">
+          <div class="idx">PREVIEW</div>
+          <h4>Dry run</h4>
+          <p>Counts exactly how many layers would change and lists every field as <em>ready</em> or <em>empty</em>. Writes nothing.</p>
+        </div>
+        <div class="card">
+          <div class="idx">RUN</div>
+          <h4>Apply</h4>
+          <p>Everything at once, content only, photos only, or a single field group. Long runs show progress with a Cancel button.</p>
+        </div>
+      </div>
+      <p class="sub">Each problem in the file check lists its fields as chips — click one to jump straight to those layers. Cancelling an apply stops cleanly and reports how far it got.</p>
+    </section>
+
+    <hr class="rule">
+
+    <!-- 08 -->
+    <section class="block" id="bulk">
+      <h2><span class="h2num">08</span>Bulk</h2>
+      <p>One-click passes over the whole template, plus save state.</p>
+
+      <div class="card plain">
+        <h3>Scan layer names</h3>
+        <p>Tags layers from their names — see <a href="#tagging">Tagging</a>. Safe to re-run; existing tags are never touched.</p>
+
+        <h3>Rename layers to tags</h3>
+        <p>The reverse: renames every tagged layer to the tag it carries, so the layer list mirrors the tagging. Makes a template far easier to hand off. Layers inside component instances take their name from the main component, so those are skipped.</p>
+
+        <h3>Read back from canvas</h3>
+        <p>Pulls the current words out of tagged text layers into the form and adopts photos already sitting in tagged containers. Use it when someone hands you a filled-in file. Canvas values win over what's typed in the panel, so it's an overwrite — <kbd>⌘Z</kbd> if that wasn't the intent.</p>
+      </div>
+
+      <h3>Save state</h3>
+      <p><em>Download save state</em> produces a zip you can archive or hand to a colleague:</p>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>Entry</th><th>Contents</th></tr></thead>
+          <tbody>
+            <tr><td><code>data.csv</code></td><td>Every field value</td></tr>
+            <tr><td><code>assignments.csv</code></td><td>Which photo sits in which slot</td></tr>
+            <tr><td><code>tags.json</code></td><td>Every layer tag on the page</td></tr>
+            <tr><td><code>images/</code></td><td>Every uploaded photo, full resolution</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p><em>Upload save state</em> restores all four. Photos land back in their original slots and tags re-apply immediately; nothing else on the canvas changes until you Apply.</p>
+    </section>
+
+    <hr class="rule">
+
+    <!-- 09 -->
+    <section class="block" id="reference">
+      <h2><span class="h2num">09</span>Reference</h2>
+
+      <h3>Content fields</h3>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>Group</th><th>Fields</th></tr></thead>
+          <tbody>
+            <tr><td>Stats</td><td><code>bedrooms</code> <code>bathrooms</code> <code>sqft</code> <code>price</code></td></tr>
+            <tr><td>Address</td><td><code>street</code> <code>street2</code> <code>cityState</code></td></tr>
+            <tr><td>Copy</td><td><code>headline</code> <code>tagline</code> <code>description</code> <code>disclaimer</code></td></tr>
+            <tr><td>Features</td><td><code>feature1</code> … <code>feature6</code></td></tr>
+            <tr><td>Agent</td><td><code>name</code> <code>agentTitle</code> <code>phone</code> <code>email</code></td></tr>
+            <tr><td>Composed</td><td><code>statsCombo</code> <code>featuresBulleted</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="sub">Custom content fields are allowed too — choose <em>Custom field…</em> in the Content dropdown and type any name without spaces.</p>
+
+      <h3>Photo slots</h3>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>Field</th><th>Use</th></tr></thead>
+          <tbody>
+            <tr><td><code>img:1</code>, <code>img:2</code>, …</td><td>The numbered photo run. No upper limit.</td></tr>
+            <tr><td><code>img:logo</code></td><td>The logo slot.</td></tr>
+            <tr><td><code>img:anything</code></td><td>A custom slot added on the Photos tab.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Reserved</h3>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>Field</th><th>Use</th></tr></thead>
+          <tbody>
+            <tr><td><code>text.locked</code></td><td>Text that must never be overwritten.</td></tr>
+            <tr><td><code>photo.locked</code></td><td>Artwork that must never be replaced.</td></tr>
+            <tr><td><code>text.template</code></td><td>Set for you when a layer uses a partial-text template.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <hr class="rule">
+
+    <!-- 10 -->
+    <section class="block" id="troubleshooting">
+      <h2><span class="h2num">10</span>Troubleshooting</h2>
+
+      <details class="faq">
+        <summary>I clicked Apply and nothing happened</summary>
+        <div class="faq-body">
+          <p>Almost always nothing is tagged yet. Check the tag index on the Tag tab — if it's empty, tag some layers or run <em>Scan layer names</em>.</p>
+          <p>If the index looks right, run <em>Dry run</em> on the Apply tab to see which fields are actually considered ready.</p>
+        </div>
+      </details>
+
+      <details class="faq">
+        <summary>A photo slot came out empty or magenta</summary>
+        <div class="faq-body">
+          <p>A layer is tagged with a slot that has no photo in it. The readiness list on the Photos tab and <em>File check</em> on the Apply tab both point these out.</p>
+        </div>
+      </details>
+
+      <details class="faq">
+        <summary>“Its photo is missing from Figma's storage”</summary>
+        <div class="faq-body">
+          <p>The image was garbage-collected — usually because the <code>🗄 Image vault</code> rectangle was deleted. Re-upload the photo on the Photos tab and it re-links.</p>
+        </div>
+      </details>
+
+      <details class="faq">
+        <summary>A text layer didn't update</summary>
+        <div class="faq-body">
+          <p>Check whether it's tagged <code>text.locked</code>, or whether it lives inside a component instance. Instances inherit tags from the main component — run <em>Rebuild index</em> once so the plugin knows about them.</p>
+        </div>
+      </details>
+
+      <details class="faq">
+        <summary>The layer counts look wrong</summary>
+        <div class="faq-body">
+          <p><em>Rebuild index</em> on the Tag tab re-reads the page from scratch.</p>
+        </div>
+      </details>
+
+      <details class="faq">
+        <summary>I tagged the wrong thing</summary>
+        <div class="faq-body">
+          <p>Select the layers and hit <em>Remove tag</em>. To start over, <em>Clear all tags</em> strips every tag on the page — entered content and uploaded photos are kept. Both are undoable.</p>
+        </div>
+      </details>
+    </section>
+
+  </main>
+</div>
+
+<footer>
+  <div class="inner">
+    <span>dezzy AutoFill — Figma plugin</span>
+    <span class="pill">Local only</span>
+    <span style="margin-left:auto">Tags, content and photos are stored in your Figma document.</span>
+  </div>
+</footer>
+
+<script>
+(function () {
+  "use strict";
+
+  // Highlight the section currently in view in the sidebar.
+  /* section links now live in the top nav, not a TOC rail */
+  var links = [].slice.call(document.querySelectorAll('.nav-links a'));
+  var sections = links
+    .map(function (a) { return document.querySelector(a.getAttribute('href')); })
+    .filter(Boolean);
+
+  function setActive(id) {
+    links.forEach(function (a) {
+      a.classList.toggle('active', a.getAttribute('href') === '#' + id);
+    });
+  }
+
+  if ('IntersectionObserver' in window) {
+    var visible = new Map();
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) visible.set(e.target.id, e.intersectionRatio);
+        else visible.delete(e.target.id);
+      });
+      // Topmost visible section wins, so long sections don't steal focus.
+      var best = null;
+      sections.forEach(function (s) {
+        if (visible.has(s.id) && !best) best = s.id;
+      });
+      if (best) setActive(best);
+    }, { rootMargin: '-72px 0px -60% 0px', threshold: [0, 0.01] });
+    sections.forEach(function (s) { io.observe(s); });
+  }
+  setActive('overview');
+
+  // Copy buttons on code blocks.
+  [].slice.call(document.querySelectorAll('.copy')).forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var block = btn.closest('.codeblock');
+      var code = block && block.querySelector('code');
+      if (!code) return;
+      var text = code.innerText;
+      var flash = function (label) {
+        btn.textContent = label;
+        setTimeout(function () { btn.textContent = 'Copy'; }, 1400);
+      };
+      // execCommand path, used when the async clipboard API is missing or
+      // rejects (no user-activation, blocked permission, non-secure context).
+      var legacyCopy = function () {
+        var ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.top = '-1000px';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        var ok = false;
+        try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+        document.body.removeChild(ta);
+        flash(ok ? 'Copied' : 'Press ⌘C');
+        if (!ok) {
+          // Leave it selected so the keyboard shortcut works.
+          var range = document.createRange();
+          range.selectNodeContents(code);
+          var sel = window.getSelection();
+          sel.removeAllRanges();
+          sel.addRange(range);
+        }
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(function () { flash('Copied'); }, legacyCopy);
+      } else {
+        legacyCopy();
+      }
+    });
+  });
+})();
+</script>
+
+<!-- fixed, bottom-right: straight to the plugin in Figma Community -->
+<a class="plugin-cta" href="https://www.figma.com/community/plugin/1592689358484414106/dezzy-autofill" target="_blank" rel="noopener">
+  <span>Open in Figma<span class="label-long"> Community</span></span><span class="ext">↗</span>
+</a>
+<script src="../assets/cta.js"></script>
+
+</body>
+</html>

@@ -346,3 +346,219 @@ struct EmptyPanel: View {
         .padding(.vertical, 30)
     }
 }
+
+/// A campaign in the rail. Deliberately NOT ItemRow: that view is typed to
+/// `Item` and reads people, lane, board and children, none of which a campaign
+/// has. This copies its visual grammar — same paddings, same title weight, same
+/// chip row — so the rail still looks of a piece.
+struct CampaignRow: View {
+    let campaign: Campaign
+    var pinned = false
+    /// The rail and the search sheet both pass a toggle; nil renders read-only.
+    var onTogglePin: (() -> Void)? = nil
+    /// The search sheet spans every advertiser, so it needs the label the rail
+    /// can take for granted.
+    var showAdvertiser = false
+
+    @State private var hovering = false
+
+    var body: some View {
+        // The row opens the campaign in StackAdapt, matching how every monday
+        // card behaves. The pin button sits in an overlay rather than inside the
+        // link: nested inside, the link would swallow its clicks.
+        Group {
+            if let url = campaign.url.flatMap(URL.init(string:)) {
+                Link(destination: url) { card }
+                    .buttonStyle(.plain)
+                    .help("Open in StackAdapt")
+            } else {
+                // No URL template configured — still a row, just not clickable,
+                // which is better than a link to nowhere.
+                card
+            }
+        }
+        .overlay(alignment: .topTrailing) {
+            // Shows on hover, or always once pinned: an unpinned row should not
+            // carry a permanent piece of chrome.
+            if let onTogglePin, hovering || pinned {
+                Button(action: onTogglePin) {
+                    Image(systemName: pinned ? "pin.fill" : "pin")
+                        .font(.system(size: 10))
+                        .foregroundStyle(pinned ? Theme.laneFlight : .secondary)
+                        .padding(6)
+                        .contentShape(Rectangle())
+                }
+                .buttonStyle(.plain)
+                .help(pinned ? "Unpin — stop tracking this campaign"
+                             : "Pin — always show this campaign")
+                .padding(.trailing, 4)
+                .padding(.top, 2)
+            }
+        }
+        .onHover { hovering = $0 }
+    }
+
+    private var card: some View {
+        let alert = campaign.endAlert
+        return VStack(alignment: .leading, spacing: 6) {
+            HStack(alignment: .top, spacing: 6) {
+                Text(campaign.name)
+                    .font(.system(size: 13, weight: .medium))
+                    .lineLimit(2)
+                    .fixedSize(horizontal: false, vertical: true)
+                Spacer(minLength: 0)
+                // Leaves the app, so flag it — same ↗ the monday cards use. Kept
+                // clear of the pin overlay above it.
+                if campaign.url != nil {
+                    Image(systemName: "arrow.up.forward")
+                        .font(.system(size: 9))
+                        .foregroundStyle(.tertiary)
+                        .opacity(hovering ? 1 : 0.45)
+                        .padding(.trailing, (onTogglePin != nil && (hovering || pinned)) ? 18 : 0)
+                }
+            }
+
+            FlowLayout(spacing: 5) {
+                Chip(text: alert.text, role: alert.role, pulse: alert.pulse)
+                if let state = campaign.state, state.uppercased() != "ENDED" {
+                    Chip(text: state.capitalized, role: campaign.stateRole, muted: campaign.stateRole == nil)
+                }
+                if let channel = campaign.channel {
+                    Chip(text: channel, muted: true)
+                }
+                // Hit its budget before the end date — the flight stopped early,
+                // which changes what a wrap report says.
+                if campaign.endedEarly == true {
+                    Chip(text: "ended early", muted: true, icon: "bolt.slash")
+                }
+                // A pin is the only reason a campaign outside the window — or
+                // outside the configured advertiser — is on screen at all.
+                if pinned {
+                    Chip(text: "pinned", muted: true, icon: "pin.fill")
+                }
+            }
+
+            if let sub = subline {
+                Text(sub)
+                    .font(.system(size: 11))
+                    .foregroundStyle(.tertiary)
+                    .lineLimit(1)
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(.vertical, 8)
+        .padding(.horizontal, 10)
+        .background(
+            RoundedRectangle(cornerRadius: Theme.cardCorner)
+                .fill(Color.primary.opacity(hovering && campaign.url != nil ? 0.06 : 0.035))
+        )
+        // A finished campaign is reference, not a call to action.
+        .opacity(campaign.ended == true ? 0.72 : 1)
+    }
+
+    private var subline: String? {
+        var parts: [String?] = []
+        if showAdvertiser { parts.append(campaign.advertiserName) }
+        parts.append(campaign.groupName)
+        parts.append(Fmt.day(campaign.endsAt) ?? "no end date")
+        let kept = parts.compactMap { $0 }
+        return kept.isEmpty ? nil : kept.joined(separator: " · ")
+    }
+}
+
+#if os(macOS)
+/// Find a campaign anywhere in the StackAdapt account and pin it, whatever
+/// advertiser it sits under. The rail's own list is bounded by the configured
+/// advertisers and a three-day window; this is the escape hatch from both.
+struct CampaignSearchSheet: View {
+    @Environment(DashboardStore.self) private var store
+    @Environment(\.dismiss) private var dismiss
+    @State private var query = ""
+    @State private var searchTask: Task<Void, Never>?
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            HStack {
+                Text("Find a campaign").font(.system(size: 14, weight: .semibold))
+                Spacer()
+                Button("Done") { dismiss() }.keyboardShortcut(.defaultAction)
+            }
+            .padding(.horizontal, 16).padding(.top, 14).padding(.bottom, 10)
+
+            HStack(spacing: 6) {
+                Image(systemName: "magnifyingglass")
+                    .font(.system(size: 11)).foregroundStyle(.tertiary)
+                TextField("Campaign, group or advertiser name", text: $query)
+                    .textFieldStyle(.plain)
+                    .onChange(of: query) { _, q in
+                        // Debounced: a sweep spans many API pages, so firing on
+                        // every keystroke would hammer StackAdapt.
+                        searchTask?.cancel()
+                        searchTask = Task {
+                            try? await Task.sleep(for: .milliseconds(350))
+                            guard !Task.isCancelled else { return }
+                            await store.searchCampaigns(q)
+                        }
+                    }
+                if store.isSearching { ProgressView().controlSize(.small) }
+            }
+            .padding(.horizontal, 10).padding(.vertical, 7)
+            .background(Capsule().fill(Color.primary.opacity(0.06)))
+            .padding(.horizontal, 16)
+
+            Text(store.pinnedIDs.isEmpty
+                 ? "Pinned campaigns always show in the rail, whatever their advertiser or end date."
+                 : "\(store.pinnedIDs.count) pinned")
+                .font(.system(size: 10))
+                .foregroundStyle(.tertiary)
+                .padding(.horizontal, 18).padding(.top, 8)
+
+            Divider().padding(.top, 8)
+
+            ScrollView {
+                VStack(alignment: .leading, spacing: 5) {
+                    if let error = store.searchError {
+                        Label(error, systemImage: "exclamationmark.triangle")
+                            .font(.system(size: 11))
+                            .foregroundStyle(Theme.critical)
+                            .padding(.vertical, 8)
+                    } else if query.count < 2 {
+                        pinnedSection
+                    } else if store.searchResults.isEmpty && !store.isSearching {
+                        Text("Nothing matches “\(query)”.")
+                            .font(.system(size: 12)).foregroundStyle(.secondary)
+                            .padding(.vertical, 10)
+                    } else {
+                        ForEach(store.searchResults) { campaign in
+                            CampaignRow(campaign: campaign,
+                                        pinned: store.isPinned(campaign),
+                                        onTogglePin: { store.togglePin(campaign) },
+                                        showAdvertiser: true)
+                        }
+                    }
+                }
+                .padding(12)
+            }
+        }
+        .frame(width: 470, height: 520)
+        .task { await store.loadPinned() }
+    }
+
+    @ViewBuilder
+    private var pinnedSection: some View {
+        if store.pinnedCampaigns.isEmpty {
+            Text("Search for a campaign, then pin it to keep it in the rail.")
+                .font(.system(size: 12)).foregroundStyle(.secondary).padding(.vertical, 10)
+        } else {
+            Text("PINNED")
+                .font(.system(size: 9, weight: .bold)).tracking(0.6)
+                .foregroundStyle(.tertiary)
+            ForEach(store.pinnedCampaigns) { campaign in
+                CampaignRow(campaign: campaign, pinned: true,
+                            onTogglePin: { store.togglePin(campaign) },
+                            showAdvertiser: true)
+            }
+        }
+    }
+}
+#endif

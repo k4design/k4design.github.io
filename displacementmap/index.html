@@ -1,0 +1,292 @@
+<style>
+  body {
+    margin: 0;
+    padding: 10px 10px 18px 10px;
+    font-size: 12px;
+    overflow-y: auto;
+  }
+  .step {
+    margin-bottom: 10px;
+  }
+  .step-label {
+    font-size: 10px;
+    font-weight: bold;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    opacity: 0.55;
+    margin-bottom: 5px;
+  }
+  .hint {
+    opacity: 0.6;
+    font-size: 11px;
+    line-height: 1.35;
+    margin-top: 4px;
+  }
+
+  sp-picker { width: 100%; }
+
+  .folder-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  #folder-path {
+    flex: 1 1 auto;
+    min-width: 0;
+    opacity: 0.65;
+    font-size: 11px;
+    word-break: break-all;
+  }
+  #folder-path.unset { font-style: italic; }
+
+  #generate { width: 100%; }
+
+  #doc-name {
+    opacity: 0.6;
+    font-size: 11px;
+    margin-bottom: 8px;
+    word-break: break-all;
+  }
+
+  #status {
+    margin-bottom: 10px;
+    padding: 6px 8px;
+    border-radius: 4px;
+    background: rgba(128, 128, 128, 0.12);
+    min-height: 16px;
+    white-space: pre-wrap;
+    word-break: break-word;
+    font-size: 11px;
+    line-height: 1.4;
+  }
+  #status.error { color: #ec5b62; background: rgba(236, 91, 98, 0.14); }
+  #status.ok { color: #33ab84; background: rgba(51, 171, 132, 0.14); }
+  #status.busy { opacity: 0.75; }
+
+  /* Hand-rolled disclosure rather than <details>/<summary>: UXP implements only
+     a subset of HTML and those elements are not dependable in a panel. */
+  #advanced-wrap {
+    margin-top: 6px;
+    border-top: 1px solid rgba(128, 128, 128, 0.25);
+    padding-top: 10px;
+  }
+  #advanced-body { margin-top: 10px; }
+  #advanced-body.collapsed { display: none; }
+  .param {
+    margin-bottom: 10px;
+  }
+  .param-head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .param-head > label {
+    flex: 1 1 auto;
+  }
+  .param-head > sp-textfield {
+    flex: 0 0 76px;
+  }
+  .param .hint { margin-top: 2px; }
+  #reset-preset { margin-top: 4px; }
+</style>
+
+<!-- Loaded before the bundle: if that script fails to evaluate, nothing inside it
+     can report its own failure and the panel just sits there looking inert with
+     every control dead. This makes that case visible instead of silent. -->
+<script>
+  window.addEventListener("error", (e) => {
+    const s = document.getElementById("status");
+    if (s) {
+      s.className = "error";
+      s.textContent =
+        "Plugin script error: " + (e.message || e.error) +
+        (e.filename ? "\n" + e.filename + ":" + e.lineno : "");
+    }
+  });
+  window.addEventListener("unhandledrejection", (e) => {
+    const s = document.getElementById("status");
+    if (s) {
+      s.className = "error";
+      s.textContent =
+        "Unhandled error: " + (e.reason && e.reason.message ? e.reason.message : e.reason);
+    }
+  });
+</script>
+
+<sp-body>
+  <div id="status"></div>
+
+  <div id="doc-name">No document open</div>
+
+  <div class="step">
+    <div class="step-label">1 — Material</div>
+    <sp-picker id="preset" size="s">
+      <sp-menu slot="options">
+        <sp-menu-item value="fabric" selected>Fabric / apparel</sp-menu-item>
+        <sp-menu-item value="paper">Paper / print</sp-menu-item>
+        <sp-menu-item value="screen">Device screen</sp-menu-item>
+        <sp-menu-item value="signage">Signage / wall</sp-menu-item>
+      </sp-menu>
+    </sp-picker>
+    <div class="hint" id="surface-hint"></div>
+  </div>
+
+  <div class="step">
+    <div class="step-label">2 — Mockup Forge item</div>
+    <div class="folder-row">
+      <sp-action-button id="pick-folder" size="s">Choose…</sp-action-button>
+      <span id="folder-path" class="unset">not set</span>
+    </div>
+    <div class="hint" id="item-info"></div>
+    <div class="hint">
+      One item directory, e.g. mockupplugin/assets/items/tshirt-marina-01 — the
+      folder containing item.json and base.png.
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-label">3 — Surface</div>
+    <sp-picker id="surface" size="s">
+      <sp-menu slot="options" id="surface-options">
+        <sp-menu-item value="" selected>— choose an item folder first —</sp-menu-item>
+      </sp-menu>
+    </sp-picker>
+    <div class="hint">
+      An item can have several printable areas — a phone screen, a shirt chest,
+      each panel of a van. Pick which one these maps describe. The list fills in
+      from item.json after you choose a folder above, and the choice sets the
+      filenames (shadow-chest.png).
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-label">4 — Bake</div>
+    <sp-button id="generate" variant="cta">Generate Maps</sp-button>
+    <div class="hint">
+      Writes displace-, shadow- and highlight- PNGs into the item folder and
+      points its item.json at them. The original is kept as item.json.bak.
+    </div>
+  </div>
+
+  <div id="advanced-wrap">
+    <sp-action-button id="advanced-toggle" size="s" quiet>▸ Advanced parameters</sp-action-button>
+
+    <div id="advanced-body" class="collapsed">
+    <div class="hint" style="margin-bottom: 12px;">
+      These are set for you by the Material choice above — reach for them only if a
+      result looks wrong. Sizes are in pixels at a 2048px reference and are scaled
+      automatically to your image.
+    </div>
+
+    <div class="param">
+      <div class="param-head">
+        <label for="highPassRadius">High pass</label>
+        <sp-textfield id="highPassRadius" type="number" size="s"></sp-textfield>
+      </div>
+      <div class="hint">
+        Removes broad lighting falloff so shading isn't baked in as fake bulges.
+        Lower keeps only fine texture; below ~64 it erases fabric folds too.
+        0 = off, which is correct for screens where the shading IS the shape.
+      </div>
+    </div>
+
+    <div class="param">
+      <div class="param-head">
+        <label for="smoothRadius">Smooth</label>
+        <sp-textfield id="smoothRadius" type="number" size="s"></sp-textfield>
+      </div>
+      <div class="hint">Softens the result so displaced artwork doesn't get jagged edges.</div>
+    </div>
+
+    <div class="param">
+      <div class="param-head">
+        <label for="aoRadius">AO radius</label>
+        <sp-textfield id="aoRadius" type="number" size="s"></sp-textfield>
+      </div>
+      <div class="hint">Size of the crevices that get shaded. 0 skips the AO map entirely.</div>
+    </div>
+
+    <div class="param">
+      <div class="param-head">
+        <label for="aoStrength">AO strength</label>
+        <sp-textfield id="aoStrength" type="number" size="s"></sp-textfield>
+      </div>
+      <div class="hint">How dark those crevices go.</div>
+    </div>
+
+    <div class="param">
+      <div class="param-head">
+        <label for="displacementScalePx">Displacement scale</label>
+        <sp-textfield id="displacementScalePx" type="number" size="s"></sp-textfield>
+      </div>
+      <div class="hint">
+        Written into the JSON, not the PNG. How far your Figma plugin should push
+        artwork, in pixels. Raise it if the effect is too subtle there — no need to
+        re-bake the images for this alone.
+      </div>
+    </div>
+
+    <div class="param">
+      <div class="param-head">
+        <label for="shadowStrength">Shadow strength</label>
+        <sp-textfield id="shadowStrength" type="number" size="s"></sp-textfield>
+      </div>
+      <div class="hint">
+        How much the real lighting darkens your artwork. 0 leaves it untouched,
+        1 applies the photo's shading in full.
+      </div>
+    </div>
+
+    <div class="param">
+      <div class="param-head">
+        <label for="shadowGamma">Shadow gamma</label>
+        <sp-textfield id="shadowGamma" type="number" size="s"></sp-textfield>
+      </div>
+      <div class="hint">
+        Above 1 deepens the broad shading and makes the product read as more
+        three-dimensional; below 1 flattens it.
+      </div>
+    </div>
+
+    <div class="param">
+      <div class="param-head">
+        <label for="highlightStrength">Highlight strength</label>
+        <sp-textfield id="highlightStrength" type="number" size="s"></sp-textfield>
+      </div>
+      <div class="hint">
+        How bright the speculars blow out on top of your artwork. Glossy screens
+        want more than matte cloth.
+      </div>
+    </div>
+
+    <div class="param">
+      <div class="param-head">
+        <label for="highlightThreshold">Highlight threshold</label>
+        <sp-textfield id="highlightThreshold" type="number" size="s"></sp-textfield>
+      </div>
+      <div class="hint">
+        Brightness percentile counted as a specular, 0–1. Raise it if too much of
+        the surface is glowing.
+      </div>
+    </div>
+
+    <div class="param">
+      <div class="param-head">
+        <label for="normalYUp">Flip Y</label>
+        <sp-checkbox id="normalYUp" size="s"></sp-checkbox>
+      </div>
+      <div class="hint">
+        Flips the vertical displacement direction. If artwork climbs out of the
+        folds instead of sinking into them, toggle this and re-bake.
+      </div>
+    </div>
+
+      <sp-action-button id="reset-preset" size="s" quiet>Reset to preset defaults</sp-action-button>
+    </div>
+  </div>
+</sp-body>
+
+<!-- Classic script, built from src/ by tools/build.mjs. NOT type="module":
+     UXP's ES-module loading is unreliable for panels, and when it fails it does
+     so silently — HTML renders, no JavaScript runs, every control is dead. -->
+<script src="dist/panel.js"></script>

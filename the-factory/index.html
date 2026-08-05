@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>The Factory</title>
+<link rel="stylesheet" href="assets/library.css">
+<script src="assets/gate.js"></script>
+<script>requireUnlock();</script>
+</head>
+<body>
+
+<div class="app" id="app">
+
+  <!-- LEFT: the library, grouped by category -->
+  <aside class="side">
+    <div class="side-head">
+      <p class="eyebrow">Creative Team · Internal</p>
+      <h1 class="brand">The <em>Factory</em></h1>
+      <input class="search" id="search" type="search" placeholder="Search plugins, tags, owners…"
+             aria-label="Search plugins" autocomplete="off">
+    </div>
+
+    <nav class="side-scroll" id="list" aria-label="Plugins"></nav>
+    <p class="empty-state" id="emptyState" hidden>Nothing matches that.</p>
+
+    <div class="side-foot">
+      <span id="count"></span>
+      <a href="#" onclick="lock();return false;">Lock</a>
+    </div>
+  </aside>
+
+  <!-- RIGHT: the selected guide -->
+  <main class="pane" id="pane">
+    <div class="pane-bar" id="paneBar" hidden>
+      <button class="back-to-list" id="backToList" type="button">← All plugins</button>
+      <span class="where" id="where"></span>
+      <a id="openFull" href="#" target="_blank" rel="noopener">Open full page ↗</a>
+    </div>
+
+    <!-- Each guide stays a standalone page, so it loads in a frame here
+         and is still openable, printable, and sendable on its own. -->
+    <iframe class="pane-frame" id="frame" title="Plugin guide" hidden></iframe>
+
+    <div class="placeholder" id="placeholder">
+      <div>
+        <p class="eyebrow">Pick a plugin</p>
+        <p class="big">Every custom tool<br>the creative team runs.</p>
+        <p>Choose one on the left to read its operator's guide.</p>
+      </div>
+    </div>
+  </main>
+
+</div>
+
+<script src="plugins.js"></script>
+<script src="assets/index.js"></script>
+</body>
+</html>

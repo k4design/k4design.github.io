@@ -197,6 +197,70 @@ struct ActivityEntry: Codable, Identifiable, Hashable {
 
 // MARK: - Envelope
 
+/// A StackAdapt campaign at the edge of its flight. A second data source with
+/// no monday equivalent, so it gets its own type rather than being forced into
+/// `Item` — it has no assignee, no lane and no board.
+///
+/// Everything but `id` and `name` is optional: the local server and the Worker
+/// deploy independently, so a mixed-version read is real.
+struct Campaign: Codable, Identifiable, Hashable {
+    let id: String
+    let name: String
+    let advertiserName: String?
+    let groupName: String?
+    /// LIVE / PAUSED / ENDED / DRAFT
+    let state: String?
+    let channel: String?
+    /// ISO with the campaign's own UTC offset, e.g. "2026-08-02T23:59:59-04:00".
+    let endsAt: String?
+    /// Signed calendar days, computed server-side in the campaign's timezone.
+    let daysToEnd: Int?
+    let ended: Bool?
+    let endedEarly: Bool?
+    let flightCount: Int?
+    /// The campaign's page in StackAdapt, built server-side from a config
+    /// template. nil when no template is set, in which case the row is not a
+    /// link rather than being a link to nowhere.
+    let url: String?
+    /// Chosen by hand rather than matched by advertiser, so it is always listed
+    /// regardless of the ±3-day window.
+    let pinned: Bool?
+
+    /// The one place campaign timing turns into words and a colour. Mirrors
+    /// `Item.dueAlert`, including the two-day pulsing threshold, so the rail
+    /// reads with the same urgency vocabulary as the rest of the dashboard.
+    var endAlert: (text: String, role: String?, pulse: Bool) {
+        guard let days = daysToEnd else { return ("no end date", nil, false) }
+        if days < 0 {
+            return (days == -1 ? "ended yesterday" : "ended \(-days)d ago", nil, false)
+        }
+        if days == 0 { return ("ends today", "critical", true) }
+        if days <= 2 { return ("ends in \(days)d", "critical", true) }
+        return ("ends in \(days)d", "warning", false)
+    }
+
+    /// Colour for the campaign's own state chip. Paused is worth a warning: it
+    /// is still counting down to its end date while serving nothing.
+    var stateRole: String? {
+        switch (state ?? "").uppercased() {
+        case "LIVE": return "good"
+        case "PAUSED": return "warning"
+        default: return nil
+        }
+    }
+}
+
+/// The campaigns section's whole state in one value: whether the server could
+/// reach StackAdapt, why not if it couldn't, and the rows if it could.
+struct CampaignFeed: Codable, Hashable {
+    let connected: Bool?
+    let reason: String?
+    let rows: [Campaign]?
+
+    var isConnected: Bool { connected == true }
+    var campaigns: [Campaign] { rows ?? [] }
+}
+
 struct ScopeInfo: Codable, Hashable, Identifiable {
     let key: String
     let label: String
@@ -228,6 +292,11 @@ struct Snapshot: Codable {
     let scopeList: [ScopeInfo]
     let scopes: [String: ScopeSlice]
     let activity: [ActivityEntry]
+    /// StackAdapt campaigns near the end of their flight. nil ONLY when the
+    /// integration is switched off in config; a missing token or a failed fetch
+    /// arrives as `connected: false` with a reason, so the section can say what
+    /// is wrong instead of silently disappearing.
+    let campaigns: CampaignFeed?
     /// person name → colour slot 1...5, 0 = neutral. Assigned server-side so the
     /// phone and the browser give the same person the same colour.
     let roster: [String: Int]

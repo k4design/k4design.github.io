@@ -1,0 +1,76 @@
+{
+  "manifestVersion": 5,
+  "id": "com.kyleforeman.displacementmap",
+  "name": "Displacement Map Baker",
+  "version": "1.0.0",
+  "main": "index.html",
+  "host": [
+    {
+      "app": "PS",
+      "minVersion": "24.0.0"
+    }
+  ],
+  "entrypoints": [
+    {
+      "type": "panel",
+      "id": "dispmap",
+      "label": {
+        "default": "Displacement Maps"
+      },
+      "minimumSize": {
+        "width": 280,
+        "height": 520
+      },
+      "preferredDockedSize": {
+        "width": 340,
+        "height": 820
+      },
+      "preferredFloatingSize": {
+        "width": 380,
+        "height": 900
+      }
+    }
+  ],
+  "requiredPermissions": {
+    "localFileSystem": "fullAccess",
+    "launchProcess": {
+      "schemes": [],
+      "extensions": []
+    }
+  },
+  "icons": [
+    {
+      "width": 23,
+      "height": 23,
+      "path": "icons/dark.png",
+      "scale": [
+        1,
+        2
+      ],
+      "theme": [
+        "darkest",
+        "dark"
+      ],
+      "species": [
+        "generic"
+      ]
+    },
+    {
+      "width": 23,
+      "height": 23,
+      "path": "icons/light.png",
+      "scale": [
+        1,
+        2
+      ],
+      "theme": [
+        "medium",
+        "lightest",
+        "light"
+      ],
+      "species": [
+        "generic"
+      ]
+    }
+  ]
+}

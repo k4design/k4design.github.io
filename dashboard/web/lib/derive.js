@@ -571,6 +571,88 @@ function scopeBoardIds(config) {
   return map;
 }
 
+/* ============================================================
+   StackAdapt campaigns — the edge of a flight
+   ============================================================ */
+
+/**
+ * The UTC offset a timestamp was written in, in minutes. StackAdapt returns
+ * "2026-08-02T23:59:59-04:00"; monday returns "…Z". A "Z" or a naive string
+ * reads as 0, which makes the day math below fall back to UTC.
+ */
+function offsetMinutes(iso) {
+  const m = /([+-])(\d{2}):?(\d{2})$/.exec(String(iso));
+  if (!m) return 0;
+  return (m[1] === '-' ? -1 : 1) * (Number(m[2]) * 60 + Number(m[3]));
+}
+
+/**
+ * Signed whole days from now until `endsAt`, counted in CALENDAR days in the
+ * timestamp's own timezone.
+ *
+ * Neither existing helper works here: parseDate() reads the wire string as
+ * server-local and throws the offset away, and daysBetween() truncates the day
+ * in the server's timezone. The Worker runs in UTC, so a flight ending
+ * 23:59:59-04:00 today would land on tomorrow's UTC date and read as "ends in
+ * 1d" instead of "ends today". Shifting both sides by the same offset before
+ * truncating is what keeps "today" meaning the campaign's today.
+ */
+function dayDelta(endsAt, now) {
+  const end = new Date(endsAt);
+  if (Number.isNaN(end.getTime())) return null;
+  const off = offsetMinutes(endsAt) * 60000;
+  const localDay = (t) => Math.floor((t + off) / DAY);
+  return localDay(end.getTime()) - localDay(now.getTime());
+}
+
+/**
+ * Campaigns whose flight ends just ahead or just behind now. A campaign with no
+ * resolved end — a draft, an evergreen buy, or anything with an open-ended
+ * flight — is excluded: there is nothing timely to say about it.
+ *
+ * Returns null when the integration is off or the fetch produced nothing usable,
+ * which is what makes the rail block disappear rather than sit there empty
+ * forever. An empty ARRAY is the honest "on, and nothing is ending" answer.
+ */
+function deriveCampaigns(feed, config, now) {
+  const cfg = config.stackAdapt;
+  if (!cfg || cfg.enabled === false || !feed) return null;
+  // Not connected: pass the reason through untouched so the section can show it.
+  // This is the case that used to be indistinguishable from "feature off".
+  if (feed.connected !== true) {
+    return { connected: false, reason: feed.reason || 'StackAdapt is not connected.', rows: [] };
+  }
+
+  const ahead = cfg.endingWithinDays ?? 3;
+  const behind = cfg.endedWithinDays ?? 3;
+
+  const rows = [];
+  for (const c of feed.rows || []) {
+    // Drafts and archived campaigns are not running work. Paused ones stay:
+    // a paused campaign still reaches its end date, and that is exactly the
+    // moment someone has to decide whether to renew it.
+    if (!c || c.archived || c.draft) continue;
+    const daysToEnd = c.endsAt ? dayDelta(c.endsAt, now) : null;
+    // A pinned campaign was chosen by hand, so it is always listed — that is
+    // the whole point of pinning one from another advertiser. Everything else
+    // has to earn its place by falling inside the window.
+    if (!c.pinned) {
+      if (daysToEnd == null || daysToEnd > ahead || daysToEnd < -behind) continue;
+    }
+    rows.push({ ...c, daysToEnd, ended: daysToEnd != null && daysToEnd < 0 });
+  }
+
+  // Ascending: just-ended first, then ending soonest, undated last. Reads as a
+  // timeline, with pinned-but-far-off campaigns trailing rather than intruding.
+  rows.sort((a, b) => {
+    if (a.daysToEnd == null && b.daysToEnd == null) return String(a.name).localeCompare(String(b.name));
+    if (a.daysToEnd == null) return 1;
+    if (b.daysToEnd == null) return -1;
+    return a.daysToEnd - b.daysToEnd || String(a.name).localeCompare(String(b.name));
+  });
+  return { connected: true, reason: null, rows };
+}
+
 function derive(raw, config, now = new Date()) {
   const stamps = raw.statusStamps || {};
   const flat = raw.items.map((i) => enrich(i, config, now, stamps));
@@ -664,6 +746,9 @@ function derive(raw, config, now = new Date()) {
 
     // Shared across scopes — one copy, not three.
     activity: raw.activity.map((a) => humanizeActivity(a, raw.users || {})),
+    // Advertiser-scoped, not board-scoped, so it sits at the top level beside
+    // activity rather than inside a board scope. null = integration off.
+    campaigns: deriveCampaigns(raw.campaigns, config, now),
     // Roster spans every board so a person keeps their colour when you switch
     // scope, rather than being renumbered per view.
     roster: buildRoster(enriched.filter((i) => i.boardRole === 'work'), config),
@@ -678,4 +763,4 @@ function derive(raw, config, now = new Date()) {
   };
 }
 
-module.exports = { derive, enrich, parseDate, daysBetween, ageInDays, laneOf };
+module.exports = { derive, enrich, parseDate, daysBetween, ageInDays, laneOf, dayDelta, deriveCampaigns };

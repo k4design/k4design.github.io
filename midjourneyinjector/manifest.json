@@ -1,0 +1,21 @@
+{
+  "manifest_version": 3,
+  "name": "Midjourney Prompt Injector",
+  "version": "1.1.0",
+  "description": "Queue up $-separated prompts and submit them to Midjourney back to back, from a panel that stays on the page until you close it.",
+  "permissions": ["storage"],
+  "host_permissions": ["https://www.midjourney.com/*"],
+  "action": {
+    "default_title": "Midjourney Prompt Injector — show/hide panel"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://www.midjourney.com/*"],
+      "js": ["selectors.js", "content.js", "panel.js"],
+      "run_at": "document_idle"
+    }
+  ]
+}

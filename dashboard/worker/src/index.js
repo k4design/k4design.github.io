@@ -13,6 +13,7 @@
  */
 
 import { fetchRaw } from '../../web/lib/monday.js';
+import { fetchCampaigns, searchCampaigns, fetchCampaignsByIds } from '../../web/lib/stackadapt.js';
 import { derive } from '../../web/lib/derive.js';
 import config from '../../web/config.json';
 
@@ -113,14 +114,49 @@ export default {
     }
 
     const url = new URL(request.url);
-    if (url.pathname !== '/api/snapshot' && url.pathname !== '/') {
+    const ROUTES = ['/api/snapshot', '/api/campaigns', '/api/campaigns/search', '/'];
+    if (!ROUTES.includes(url.pathname)) {
       return json(404, { error: 'Not found. The dashboard API lives at /api/snapshot.' }, cors);
     }
 
-    // Gate first: never touch monday, never warm the cache, for an unauthorised caller.
+    // Gate first: never touch monday or StackAdapt, never warm the cache, for
+    // an unauthorised caller.
     const gate = await checkAccess(request, env);
     if (!gate.ok) {
       return json(gate.status, { error: gate.message, needsKey: gate.status === 401 }, cors);
+    }
+
+    /**
+     * Campaign search and pinned lookups sit outside the snapshot: they carry a
+     * per-request query, so folding them into the shared cached payload would
+     * either defeat the cache or leak one client's pins to another. Neither is
+     * cached here — they are user-initiated and infrequent.
+     */
+    if (url.pathname === '/api/campaigns/search') {
+      try {
+        const rows = await searchCampaigns(
+          env.STACKADAPT_API_TOKEN,
+          config,
+          url.searchParams.get('q') || '',
+          Number(url.searchParams.get('limit')) || 25
+        );
+        return json(200, { rows }, cors);
+      } catch (err) {
+        return json(502, { error: err.message }, cors);
+      }
+    }
+
+    if (url.pathname === '/api/campaigns') {
+      try {
+        const ids = (url.searchParams.get('ids') || '')
+          .split(',')
+          .map((s) => s.trim())
+          .filter(Boolean);
+        const rows = await fetchCampaignsByIds(env.STACKADAPT_API_TOKEN, config, ids);
+        return json(200, { rows }, cors);
+      } catch (err) {
+        return json(502, { error: err.message }, cors);
+      }
     }
 
     if (!env.MONDAY_API_TOKEN) {
@@ -144,6 +180,14 @@ export default {
 
     try {
       const raw = await fetchRaw(env.MONDAY_API_TOKEN, config);
+      // Optional second source. Deliberately NOT guarded like MONDAY_API_TOKEN
+      // above: a missing or broken StackAdapt token costs the campaigns section
+      // and nothing else. It must never fail the snapshot or set payload.error,
+      // which would light the red status dot over an optional side panel.
+      raw.campaigns = await fetchCampaigns(env.STACKADAPT_API_TOKEN, config).catch((err) => {
+        console.warn('StackAdapt fetch failed:', err.message);
+        return null;
+      });
       const payload = derive(raw, config, new Date());
       payload.tokenPresent = true;
       payload.pollSeconds = config.pollSeconds;

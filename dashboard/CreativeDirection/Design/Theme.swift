@@ -128,6 +128,13 @@ enum Fmt {
         return date.formatted(.dateTime.month(.abbreviated).day().hour().minute())
     }
 
+    /// Date without the time: "Aug 2". Flight ends land on 23:59:59, and
+    /// "Aug 2 at 11:59 PM" is noise when the day is the whole point.
+    static func day(_ iso: String?) -> String? {
+        guard let date = parseISO(iso) else { return nil }
+        return date.formatted(.dateTime.month(.abbreviated).day())
+    }
+
     static func clock(_ iso: String?) -> String {
         guard let date = parseISO(iso) else { return "—" }
         return date.formatted(date: .omitted, time: .shortened)

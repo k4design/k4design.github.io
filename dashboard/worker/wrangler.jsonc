@@ -17,7 +17,9 @@
   // Secrets are NOT set here — they'd end up in git. Set them once with:
   //   wrangler secret put MONDAY_API_TOKEN
   //   wrangler secret put DASHBOARD_ACCESS_KEY
-  // Both are prompted for interactively so the value never enters your shell
+  //   wrangler secret put STACKADAPT_API_TOKEN   (optional — campaigns section;
+  //     without it that section is simply absent and nothing else changes)
+  // All are prompted for interactively so the value never enters your shell
   // history or this repo.
 
   "observability": {

@@ -1,7 +1,12 @@
 "use strict";
 (() => {
   // src/code.ts
-  figma.showUI(__html__, { width: 420, height: 640 });
+  var UI_WIDTH = 420;
+  var DEFAULT_UI_HEIGHT = 760;
+  figma.showUI(__html__, { width: UI_WIDTH, height: DEFAULT_UI_HEIGHT });
+  figma.clientStorage.getAsync("uiHeight").then((h) => {
+    if (typeof h === "number" && h >= 400 && h <= 1400) figma.ui.resize(UI_WIDTH, h);
+  });
   function hasVideoFill(node) {
     if (!("fills" in node)) return false;
     const fills = node.fills;
@@ -139,6 +144,10 @@
       } else if (msg.type === "export-frame-layers") {
         const { below, above } = await exportFrameLayers(msg.frameId, msg.videoNodeId, msg.scale);
         figma.ui.postMessage({ type: "frame-layers", frameId: msg.frameId, below, above });
+      } else if (msg.type === "resize") {
+        const h = Math.max(400, Math.min(1400, Math.round(msg.height)));
+        figma.ui.resize(UI_WIDTH, h);
+        await figma.clientStorage.setAsync("uiHeight", h);
       } else if (msg.type === "notify") {
         figma.notify(msg.message, { error: !!msg.error });
       } else if (msg.type === "close") {

@@ -19,6 +19,10 @@ struct MacRootView: View {
     /// which caps requests at 42% the way the web layout does.
     @AppStorage("macRailSplit") private var railSplit = 0.0
     @State private var dragStart: Double?
+    /// The campaigns block can be folded to its header. Default open, so folding
+    /// is a choice rather than something to discover.
+    @AppStorage("macRailCampaignsOpen") private var campaignsOpen = true
+    @State private var showCampaignSearch = false
 
     enum WorkView: String, CaseIterable {
         case priorities, team, risk
@@ -43,6 +47,7 @@ struct MacRootView: View {
         }
         .frame(minWidth: 1080, minHeight: 680)
         .background(Color.primary.opacity(0.02))
+        .sheet(isPresented: $showCampaignSearch) { CampaignSearchSheet() }
         .task {
             if store.snapshot == nil { await store.load() }
             store.startTicker()
@@ -534,12 +539,74 @@ struct MacRootView: View {
     // scrolls; each block scrolls inside itself.
 
     private func rail(height: CGFloat) -> some View {
-        let auto = min(max(height * 0.42, 120), height - 160)
+        // Campaigns take their height from their contents, so an empty or short
+        // list costs nothing, and the cap keeps them from ever squeezing the two
+        // feeds below 240pt however many land at once. Past the cap the block's
+        // own ScrollView takes over — it degrades to scrolling, never clipping.
+        let feed = store.campaignFeed
+        let campaigns = store.filtered(store.railCampaigns)
+        let campaignsHeight: CGFloat = {
+            guard feed != nil else { return 0 }            // switched off in config
+            let headerOnly: CGFloat = 32
+            guard campaignsOpen else { return headerOnly }
+            let rows = max(campaigns.count, 1)             // 1 = the empty/unavailable state
+            let natural = headerOnly + CGFloat(rows) * 78 + 10
+            return min(natural, max(headerOnly, min(height * 0.28, height - 240)))
+        }()
+
+        // Everything below the campaigns block is what the draggable divider
+        // splits, so railSplit is a fraction of THIS, not of the whole rail.
+        // That is what lets an already-saved split keep its meaning.
+        let splitHeight = height - campaignsHeight - (campaignsHeight > 0 ? 11 : 0)
         let requestsHeight = railSplit > 0
-            ? min(max(height * railSplit, 90), height - 90)
-            : auto
+            ? min(max(splitHeight * railSplit, 90), splitHeight - 90)
+            : min(max(splitHeight * 0.42, 120), splitHeight - 160)
 
         return VStack(spacing: 0) {
+            if let feed {
+                railBlock(
+                    title: "Campaigns",
+                    hint: feed.isConnected ? campaignHint(campaigns) : "not connected",
+                    collapsed: !campaignsOpen,
+                    onToggle: { campaignsOpen.toggle() },
+                    action: feed.isConnected
+                        ? ("magnifyingglass", "Search campaigns to pin", { showCampaignSearch = true })
+                        : nil
+                ) {
+                    if !feed.isConnected {
+                        // Say what is wrong rather than showing an empty list: an
+                        // unconfigured section and a broken one look identical
+                        // otherwise, which wasted real time.
+                        VStack(alignment: .leading, spacing: 6) {
+                            Label(feed.reason ?? "StackAdapt is not connected.",
+                                  systemImage: "exclamationmark.triangle")
+                                .font(.system(size: 11))
+                                .foregroundStyle(Theme.warning)
+                            Text("Add STACKADAPT_API_TOKEN to the server to switch this on.")
+                                .font(.system(size: 10))
+                                .foregroundStyle(.tertiary)
+                        }
+                        .padding(.horizontal, 4)
+                    } else if campaigns.isEmpty {
+                        EmptyPanel(message: "No campaigns ending in the next 3 days.", icon: "megaphone")
+                    } else {
+                        ForEach(campaigns) { campaign in
+                            CampaignRow(
+                                campaign: campaign,
+                                pinned: store.isPinned(campaign),
+                                onTogglePin: { store.togglePin(campaign) }
+                            )
+                        }
+                    }
+                }
+                .frame(height: campaignsHeight)
+
+                // Static, not draggable: exactly one thing in the rail resizes.
+                Rectangle()
+                    .fill(Color.primary.opacity(0.06))
+                    .frame(height: 11)
+            }
+
             railBlock(
                 title: "Incoming requests",
                 hint: store.slice.map { s in
@@ -561,7 +628,7 @@ struct MacRootView: View {
             }
             .frame(height: requestsHeight)
 
-            railDivider(height: height)
+            railDivider(height: splitHeight)
 
             railBlock(title: "Live activity", hint: "\(store.scopedActivity.count) recent") {
                 ActivityView()
@@ -569,6 +636,17 @@ struct MacRootView: View {
             .frame(maxHeight: .infinity)
         }
         .background(Color.primary.opacity(0.02))
+    }
+
+    /// "2 ending · 1 ended", matching the rail's "N waiting" phrasing.
+    private func campaignHint(_ campaigns: [Campaign]) -> String {
+        guard !campaigns.isEmpty else { return "nothing ending" }
+        let ended = campaigns.filter { $0.ended == true }.count
+        let ending = campaigns.count - ended
+        var parts: [String] = []
+        if ending > 0 { parts.append("\(ending) ending") }
+        if ended > 0 { parts.append("\(ended) ended") }
+        return parts.joined(separator: " · ")
     }
 
     private func railDivider(height: CGFloat) -> some View {
@@ -603,11 +681,24 @@ struct MacRootView: View {
         railSplit > 0 ? height * railSplit : min(max(height * 0.42, 120), height - 160)
     }
 
+    /// The collapse parameters are defaulted, so the two feed blocks that have
+    /// always been here call this exactly as before.
     private func railBlock<Content: View>(
-        title: String, hint: String, @ViewBuilder content: () -> Content
+        title: String,
+        hint: String,
+        collapsed: Bool = false,
+        onToggle: (() -> Void)? = nil,
+        action: (icon: String, help: String, run: () -> Void)? = nil,
+        @ViewBuilder content: () -> Content
     ) -> some View {
         VStack(alignment: .leading, spacing: 0) {
-            HStack(alignment: .firstTextBaseline) {
+            let header = HStack(alignment: .firstTextBaseline, spacing: 5) {
+                if onToggle != nil {
+                    Image(systemName: "chevron.right")
+                        .font(.system(size: 8, weight: .semibold))
+                        .foregroundStyle(.tertiary)
+                        .rotationEffect(.degrees(collapsed ? 0 : 90))
+                }
                 Text(title.uppercased())
                     .font(.system(size: 10, weight: .semibold))
                     .tracking(0.6)
@@ -619,12 +710,34 @@ struct MacRootView: View {
             .padding(.top, 11)
             .padding(.bottom, 6)
 
-            ScrollView {
-                LazyVStack(alignment: .leading, spacing: 5) {
-                    content()
+            HStack(spacing: 0) {
+                if let onToggle {
+                    Button(action: onToggle) { header.contentShape(Rectangle()) }
+                        .buttonStyle(.plain)
+                        .help(collapsed ? "Show campaigns" : "Hide campaigns")
+                } else {
+                    header
                 }
-                .padding(.horizontal, 10)
-                .padding(.bottom, 10)
+                if let action {
+                    Button(action: action.run) {
+                        Image(systemName: action.icon).font(.system(size: 10, weight: .semibold))
+                    }
+                    .buttonStyle(.plain)
+                    .foregroundStyle(.secondary)
+                    .help(action.help)
+                    .padding(.trailing, 12)
+                    .padding(.top, 4)
+                }
+            }
+
+            if !collapsed {
+                ScrollView {
+                    LazyVStack(alignment: .leading, spacing: 5) {
+                        content()
+                    }
+                    .padding(.horizontal, 10)
+                    .padding(.bottom, 10)
+                }
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)

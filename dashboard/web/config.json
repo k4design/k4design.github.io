@@ -25,6 +25,19 @@
     "lookbackDays": 180
   },
 
+  "_comment_stackAdapt": "A second data source, and the only one that is not monday: StackAdapt paid-media campaigns, shown only in the Mac rail. What matters is the EDGE of a flight -- a campaign about to go dark needs a renewal decision, one that just went dark needs a wrap report -- so only campaigns whose end date falls inside a narrow window either side of today are listed. advertiserIds is a hard allowlist, not a preference: the account carries other advertisers and none of them are ours. Note 94831 (Aperture) is the advertiser asked for; the LPT Realty advertiser 73763 holds the '...Luxury Orders' listing campaigns, so add \"73763\" here to pick those up too. The API's own endedAfter filter was tested and does NOT hard-filter (it returns null and years-old end dates), so the window is computed in derive.js from each campaign's own UTC offset and never delegated. A campaign can have several flights: its effective end is the latest one, and a campaign with ANY open-ended flight counts as having no end at all rather than being reported finished. Set enabled false, or delete this block, and the section disappears with no extra API call. The token lives in web/.env as STACKADAPT_API_TOKEN or as a Worker secret; without it the section is simply absent and nothing else changes.",
+  "stackAdapt": {
+    "enabled": true,
+    "advertiserIds": ["94831"],
+    "endingWithinDays": 3,
+    "endedWithinDays": 3,
+    "pageSize": 100,
+    "maxPages": 10,
+    "timeoutMs": 8000,
+    "_comment_campaignUrlTemplate": "Clicking a campaign in the rail opens it in StackAdapt. There is NO per-campaign page: the platform's campaign view is a filtered list, so the link passes the campaign name in the search param and the board opens filtered to it. Pattern confirmed from a real address bar, not guessed -- an earlier guess at app.stackadapt.com had no DNS record at all and produced dead links. {name} is URL-encoded; {id} is also available but the UI's URLs never use it. Their site is a single-page app that answers 200 for any path, so a wrong path cannot be detected by probing -- only by clicking. Set to null to make rows unclickable.",
+  "campaignUrlTemplate": "https://www.stackadapt.com/overview/campaigns?page=1&search={name}&time_granularity=monthly"
+  },
+
   "_comment_stepNaming": "Items whose name opens with a number and a bracket -- '1) captions drafts' -- are numbered steps within a piece of work, not projects of their own. They stay visible everywhere they already appear, but they are left out of the project counts: the header total, each person's capacity total, and the parent's subtask count.",
   "stepNaming": {
     "pattern": "^\\s*\\d+\\s*\\)"

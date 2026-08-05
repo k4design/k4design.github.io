@@ -1,0 +1,29 @@
+{
+  "manifest_version": 3,
+  "name": "MJ Explore Grabber",
+  "version": "0.1.0",
+  "description": "Scroll the Midjourney explore feed, judge each image against a subject with Claude vision, and download the matches at full size.",
+  "permissions": ["downloads", "storage", "scripting", "tabs", "debugger", "sidePanel"],
+  "host_permissions": [
+    "https://www.midjourney.com/*",
+    "https://cdn.midjourney.com/*",
+    "https://api.anthropic.com/*"
+  ],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "action": {
+    "default_title": "MJ Explore Grabber"
+  },
+  "side_panel": {
+    "default_path": "panel.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://www.midjourney.com/*"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ]
+}

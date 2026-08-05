@@ -13,6 +13,7 @@
 const fs = require('fs');
 const path = require('path');
 const { fetchRaw } = require('../lib/monday');
+const { fetchCampaigns } = require('../lib/stackadapt');
 
 const ROOT = path.join(__dirname, '..');
 const config = JSON.parse(fs.readFileSync(path.join(ROOT, 'config.json'), 'utf8'));
@@ -37,6 +38,9 @@ function loadToken() {
 
   const out = path.join(ROOT, 'raw.sample.json');
   const raw = await fetchRaw(token, config);
+  // Optional second source; a missing StackAdapt token just leaves it out.
+  raw.campaigns = await fetchCampaigns(process.env.STACKADAPT_API_TOKEN, config)
+    .catch(() => null);
   raw.demo = true;
   fs.writeFileSync(out, JSON.stringify(raw, null, 1));
 

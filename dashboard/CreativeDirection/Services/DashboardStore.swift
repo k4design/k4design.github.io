@@ -38,6 +38,33 @@ enum API {
         return try JSONDecoder().decode(Snapshot.self, from: data)
     }
 
+    /// The campaign routes: same host and same access key as the snapshot, but
+    /// per-request queries, so they are deliberately not part of it.
+    static func campaigns(
+        baseURL: String, accessKey: String?, path: String, query: [URLQueryItem]
+    ) async throws -> [Campaign] {
+        guard var comps = URLComponents(string: baseURL.trimmingCharacters(in: .whitespaces)) else {
+            throw APIError.badURL
+        }
+        comps.path = path
+        comps.queryItems = query
+        guard let url = comps.url else { throw APIError.badURL }
+
+        var req = URLRequest(url: url)
+        req.cachePolicy = .reloadIgnoringLocalCacheData
+        req.timeoutInterval = 25
+        if let accessKey, !accessKey.isEmpty {
+            req.setValue(accessKey, forHTTPHeaderField: "X-Dashboard-Key")
+        }
+        let (data, response) = try await URLSession.shared.data(for: req)
+        if let http = response as? HTTPURLResponse, !(200..<300).contains(http.statusCode) {
+            let payload = try? JSONDecoder().decode([String: String].self, from: data)
+            throw APIError.server(payload?["error"] ?? "HTTP \(http.statusCode)")
+        }
+        struct Wrapper: Codable { let rows: [Campaign]? }
+        return (try JSONDecoder().decode(Wrapper.self, from: data)).rows ?? []
+    }
+
     enum APIError: LocalizedError {
         case badURL
         case server(String)
@@ -77,6 +104,10 @@ final class DashboardStore {
     var accessKey: String {
         didSet { Keychain.set(accessKey, for: "accessKey") }
     }
+    /// Pinned campaign ids, comma-joined.
+    var pinnedRaw: String {
+        didSet { UserDefaults.standard.set(pinnedRaw, forKey: "pinnedCampaigns") }
+    }
     /// Set when the server rejected us for a missing or wrong key, so the UI can
     /// ask for it rather than showing a generic failure.
     var needsAccessKey = false
@@ -84,6 +115,11 @@ final class DashboardStore {
     // MARK: - Live state
 
     var snapshot: Snapshot?
+    /// Campaign search + pin state. Transient except for the id list.
+    var searchResults: [Campaign] = []
+    var searchError: String?
+    var isSearching = false
+    var pinnedCampaigns: [Campaign] = []
     var errorMessage: String?
     var isLoading = false
     var lastLoaded: Date?
@@ -103,6 +139,7 @@ final class DashboardStore {
         accessKey = Keychain.get("accessKey") ?? ""
         appearance = UserDefaults.standard.string(forKey: "appearance") ?? "system"
         showRecurring = UserDefaults.standard.bool(forKey: "showRecurring")
+        pinnedRaw = UserDefaults.standard.string(forKey: "pinnedCampaigns") ?? ""
     }
 
     // MARK: - Derived
@@ -139,6 +176,101 @@ final class DashboardStore {
 
     func filtered(_ items: [Item]) -> [Item] { items.filter(matches) }
 
+    /// nil only when the integration is switched off server-side; otherwise the
+    /// feed carries its own connected/reason so the section can explain itself.
+    var campaignFeed: CampaignFeed? { snapshot?.campaigns }
+
+    /// The global filter field applies to campaigns too, so searching a listing
+    /// address narrows the rail alongside every board panel.
+    func matches(_ campaign: Campaign) -> Bool {
+        guard !filter.isEmpty else { return true }
+        let q = filter.lowercased()
+        return campaign.name.lowercased().contains(q)
+            || (campaign.groupName ?? "").lowercased().contains(q)
+            || (campaign.advertiserName ?? "").lowercased().contains(q)
+            || (campaign.channel ?? "").lowercased().contains(q)
+            || (campaign.state ?? "").lowercased().contains(q)
+    }
+
+    func filtered(_ campaigns: [Campaign]) -> [Campaign] { campaigns.filter(matches) }
+
+    // MARK: - Campaign search and pinning
+    //
+    // Pins live on the client, not in server config: pinning is a per-person
+    // "keep an eye on this" and must not need a deploy. The server resolves the
+    // ids on demand through /api/campaigns.
+
+    /// Comma-joined ids — @AppStorage can't hold an array, and this stays
+    /// readable in `defaults read` when something needs debugging.
+    var pinnedIDs: [String] {
+        get { pinnedRaw.split(separator: ",").map(String.init).filter { !$0.isEmpty } }
+        set {
+            pinnedRaw = newValue.joined(separator: ",")
+            Task { await loadPinned() }
+        }
+    }
+
+    func isPinned(_ campaign: Campaign) -> Bool { pinnedIDs.contains(campaign.id) }
+
+    func togglePin(_ campaign: Campaign) {
+        var ids = pinnedIDs
+        if let i = ids.firstIndex(of: campaign.id) { ids.remove(at: i) } else { ids.append(campaign.id) }
+        pinnedIDs = ids
+    }
+
+    /// Free-text search across every advertiser in the account — the allowlist
+    /// is bypassed on purpose, since finding a campaign is the prerequisite to
+    /// pinning one from elsewhere.
+    func searchCampaigns(_ query: String) async {
+        let q = query.trimmingCharacters(in: .whitespacesAndNewlines)
+        searchError = nil
+        guard q.count >= 2 else { searchResults = []; return }
+        isSearching = true
+        defer { isSearching = false }
+        do {
+            searchResults = try await API.campaigns(
+                baseURL: baseURL, accessKey: accessKey, path: "/api/campaigns/search",
+                query: [URLQueryItem(name: "q", value: q)]
+            )
+        } catch {
+            searchResults = []
+            searchError = error.localizedDescription
+        }
+    }
+
+    /// Pinned campaigns are fetched separately from the snapshot, because the
+    /// snapshot is one shared cached payload and these ids are per-client.
+    func loadPinned() async {
+        let ids = pinnedIDs
+        guard !ids.isEmpty else { pinnedCampaigns = []; return }
+        do {
+            pinnedCampaigns = try await API.campaigns(
+                baseURL: baseURL, accessKey: accessKey, path: "/api/campaigns",
+                query: [URLQueryItem(name: "ids", value: ids.joined(separator: ","))]
+            )
+        } catch {
+            // A failure here leaves the previous list in place rather than
+            // blanking a section the user deliberately curated.
+        }
+    }
+
+    /// What the rail shows: the window rows from the snapshot, plus pinned
+    /// campaigns the snapshot didn't already include (a pin under an
+    /// allowlisted advertiser arrives in the snapshot already).
+    var railCampaigns: [Campaign] {
+        var rows = campaignFeed?.campaigns ?? []
+        let have = Set(rows.map(\.id))
+        rows += pinnedCampaigns.filter { !have.contains($0.id) }
+        return rows.sorted {
+            switch ($0.daysToEnd, $1.daysToEnd) {
+            case let (a?, b?): return a == b ? $0.name < $1.name : a < b
+            case (nil, _?): return false
+            case (_?, nil): return true
+            default: return $0.name < $1.name
+            }
+        }
+    }
+
     // MARK: - Loading
 
     func load(force: Bool = false) async {
@@ -152,6 +284,7 @@ final class DashboardStore {
             // after an API hiccup) — keep showing the data, flag the problem.
             errorMessage = fresh.error
             needsAccessKey = false
+            await loadPinned()
             if scopes.contains(where: { $0.key == scope }) == false, let first = scopes.first {
                 scope = first.key
             }

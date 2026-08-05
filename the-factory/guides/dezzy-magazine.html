@@ -1,0 +1,587 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>dezzy Magazine — Operator's Guide</title>
+<link rel="stylesheet" href="../assets/guide.css">
+<script src="../assets/gate.js"></script>
+<script>requireUnlock();</script>
+</head>
+<body>
+
+<div class="wrap">
+
+<nav>
+  <span class="nav-brand"><span class="nav-mark"><img src="../assets/icons/dezzy-magazine.png" alt=""></span> dezzy Magazine</span>
+  <a class="nav-back" href="../index.html" target="_top">← The Factory</a>
+  <div class="nav-links">
+    <a href="#tag">Tag</a>
+    <a href="#build">Build</a>
+    <a href="#know">Worth knowing</a>
+    <a href="#trouble">Troubleshooting</a>
+    <a href="#recap">Recap</a>
+  </div>
+</nav>
+
+<h1 class="sr-only">dezzy Magazine plugin — operator's guide covering tagging a template once, then building each listing with content, photos, and apply.</h1>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div class="hero-mark"><img src="../assets/icons/dezzy-magazine.png" alt="dezzy Magazine"></div>
+    <div class="pill"><span class="dot"></span> Figma Plugin · v0.1 · Luxury Property Magazines</div>
+    <h1>Tag the template once.<br><span class="grad">Pour a hundred pages.</span></h1>
+    <p class="hero-sub">Turn a finished magazine layout into a template. Every listing after that is a form fill and one click.</p>
+    <div class="hero-ctas">
+      <a class="btn btn-primary" href="#tag">Tag the template ↓</a>
+      <a class="btn btn-ghost" href="#build">Build a listing</a>
+    </div>
+  </div>
+</header>
+
+<main class="page">
+
+  <!-- THE IDEA -->
+  <section>
+    <span class="kicker">How it works</span>
+    <p class="lede"><span class="drop">A</span> single-property magazine is dozens of text boxes and photo frames laid out beautifully — and re-typed by hand for every new listing. That re-typing ends with dezzy. You <span class="accent">tag</span> each placeholder once, then fill the whole issue from a form and a folder of photos.</p>
+
+    <div class="beats">
+      <div class="beat">
+        <span class="n">01 / Tag</span>
+        <h3>Label the placeholders</h3>
+        <p>Tell the plugin which box is the price, which frame is a kitchen photo. Tags live on the layers.</p>
+      </div>
+      <div class="beat">
+        <span class="n">02 / Fill</span>
+        <h3>Enter &amp; upload</h3>
+        <p>Type the listing details into a form; drag in the photo shoot. Everything autosaves into the file.</p>
+      </div>
+      <div class="beat">
+        <span class="n">03 / Apply</span>
+        <h3>Pour it in</h3>
+        <p>One click writes text and photos into every tagged spot — as a single, undoable step.</p>
+      </div>
+    </div>
+
+    <div class="tabs" aria-label="The five plugin tabs, in order of use">
+      <span class="tab"><span class="dot"></span>Tag</span>
+      <span class="tab"><span class="dot"></span>Content</span>
+      <span class="tab"><span class="dot"></span>Photos</span>
+      <span class="tab"><span class="dot"></span>Apply</span>
+      <span class="tab"><span class="dot"></span>Bulk</span>
+    </div>
+    <p style="font-size:.85rem;color:var(--taupe);margin:.8rem 0 0;font-style:italic;font-family:var(--serif)">Five tabs, left to right, roughly the order you use them.</p>
+  </section>
+
+  <!-- PART A -->
+  <section class="sec" id="tag">
+    <div class="sec-head">
+      <span class="part">Part A</span>
+      <span class="cadence">Do once per template</span>
+      <h2>Tag the template</h2>
+    </div>
+    <p class="sec-intro">Let the bulk tools do the heavy lifting, then fix up by hand. When you're done, save the template — every future listing is a duplicate, and the tags come along for free.</p>
+
+    <div class="steps">
+      <div class="step">
+        <span class="num">1</span>
+        <div>
+          <h4>Auto-number the photo boxes</h4>
+          <p><span class="path">Bulk → Auto-number photo slots</span></p>
+          <p>Walks your page frames in reading order — <code>Cover_Outside</code>, <code>Insert Page 1</code>, and so on — finds the placeholder rectangles, and tags them <code>photo.slot.001</code>, <code>photo.slot.002</code>… Two matching boxes across facing pages are detected as a spread and share one number.</p>
+          <div class="crop">
+            <div class="crop-ctx"><span class="d"></span>Bulk tab · Tagging</div>
+            <div class="box" style="display:flex;align-items:flex-start;gap:10px;padding:10px">
+              <div class="pg-tool-ic">🔢</div>
+              <div class="pg-tool-info"><div class="pg-tool-t">Auto-number photo slots</div><div class="pg-tool-d">Tags placeholder rectangles in “Insert Page N” frames as photo.slot.001… in reading order.</div></div>
+              <span class="pg-btn pgsec hl" style="min-width:64px">Number</span>
+            </div>
+            <svg class="cur" width="20" height="20" viewBox="0 0 22 22" style="right:24px;top:42px"><path d="M4 2 L4 19 L8.6 14.6 L11.2 20.4 L13.4 19.4 L10.9 13.8 L17 13.8 Z" fill="#fff" stroke="#1a1a1a" stroke-width="1.3" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="crop-cap">Click <b>Number</b> — every placeholder rectangle becomes a numbered slot.</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <span class="num">2</span>
+        <div>
+          <h4>Scan layer names into tags</h4>
+          <p><span class="path">Bulk → Scan layer names → tags</span></p>
+          <p>Any well-named layer tags itself. This is the reward for naming your template layers sensibly.</p>
+          <ul>
+            <li>A text layer named <code>price</code>, <code>description</code>, <code>feature1</code>, <code>caption.1.body</code> → the matching field.</li>
+            <li>Any layer named <code>#something</code> → a custom tag (text layer becomes text, image frame becomes image).</li>
+          </ul>
+          <div class="crop">
+            <div class="crop-ctx"><span class="d"></span>Bulk tab · Tagging</div>
+            <div class="box" style="display:flex;align-items:flex-start;gap:10px;padding:10px">
+              <div class="pg-tool-ic">🏷️</div>
+              <div class="pg-tool-info"><div class="pg-tool-t">Scan layer names</div><div class="pg-tool-d">Turns #field names and schema-named layers (street, price, description…) into tags. Idempotent — already-tagged layers are skipped.</div></div>
+              <span class="pg-btn pgsec hl" style="min-width:64px">Scan</span>
+            </div>
+            <svg class="cur" width="20" height="20" viewBox="0 0 22 22" style="right:24px;top:42px"><path d="M4 2 L4 19 L8.6 14.6 L11.2 20.4 L13.4 19.4 L10.9 13.8 L17 13.8 Z" fill="#fff" stroke="#1a1a1a" stroke-width="1.3" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="crop-cap">Click <b>Scan</b> — well-named layers tag themselves in one pass.</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <span class="num">3</span>
+        <div>
+          <h4>Categorize the photo frames</h4>
+          <p>Generic slots work, but <span class="accent">categories</span> are the magic — a "kitchen" photo lands in a kitchen frame automatically. A frame named <code>Master Bath 2</code> becomes <code>photo.masterbath.02</code>; or on the <b>Tag</b> tab pick "Kitchen slot (next #)" from the Photos picker.</p>
+          <p style="font-size:.88rem;color:var(--taupe)">Known categories: entry, kitchen, dining, living, master bed, master bath, secondary bed, secondary bath, office, amenities, garage, outdoor, exterior, floor plan, interior.</p>
+          <div class="crop">
+            <div class="crop-ctx"><span class="d"></span>Tag tab · Selection</div>
+            <div class="box">
+              <div class="pg-label" style="margin-top:0">Photos (image)</div>
+              <div class="pg-row" style="margin-top:4px"><span class="pg-select grow hl"><span class="txt">Kitchen slot (next #)</span></span><span class="pg-btn">Assign</span></div>
+            </div>
+            <svg class="cur" width="20" height="20" viewBox="0 0 22 22" style="left:150px;top:52px"><path d="M4 2 L4 19 L8.6 14.6 L11.2 20.4 L13.4 19.4 L10.9 13.8 L17 13.8 Z" fill="#fff" stroke="#1a1a1a" stroke-width="1.3" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="crop-cap">Pick a <b>category slot</b> so a kitchen photo lands in a kitchen frame.</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <span class="num">4</span>
+        <div>
+          <h4>Tag anything left over, by hand</h4>
+          <p><span class="path">Tag tab</span> — select layer(s) on the canvas, then use the picker that fits:</p>
+          <ul>
+            <li><b>Content (text)</b> — Property, Features, Agent, Captions, or a custom key.</li>
+            <li><b>Photos (image)</b> — named slots (cover, hero, agent headshot), category slots, full-page, or a custom key.</li>
+          </ul>
+          <p>Each picker has its own Assign button, so the tag type is never ambiguous.</p>
+          <div class="crop">
+            <div class="crop-ctx"><span class="d"></span>Tag tab · Selection</div>
+            <div class="box">
+              <div class="pg-sel"><span class="pg-name">Price · Display</span><span class="pg-type">text</span><span class="pg-chip">price</span></div>
+              <div class="pg-label">Content (text)</div>
+              <div class="pg-row" style="margin-top:4px"><span class="pg-select grow"><span class="txt">Price (price)</span></span><span class="pg-btn hl">Assign</span></div>
+            </div>
+            <svg class="cur" width="20" height="20" viewBox="0 0 22 22" style="right:22px;top:70px"><path d="M4 2 L4 19 L8.6 14.6 L11.2 20.4 L13.4 19.4 L10.9 13.8 L17 13.8 Z" fill="#fff" stroke="#1a1a1a" stroke-width="1.3" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="crop-cap">Select a layer, choose a field, then <b>Assign</b>.</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <span class="num">5</span>
+        <div>
+          <h4>Tag part of a text layer</h4>
+          <p>When a layer mixes fixed words with data — “Offered at $4,750,000 · 5 bd / 4.5 ba” — you don't have to tag the whole thing. On the <b>Tag</b> tab, expand <span class="path">Tag part of this text (template)</span>, highlight just the part that changes, pick a Content field, and click <b>Wrap selection</b> to turn it into a <code>{{field}}</code> token. Everything else stays literal, and one layer can hold several tokens.</p>
+          <div class="crop">
+            <div class="crop-ctx"><span class="d"></span>Tag tab · Template</div>
+            <div class="box">
+              <div style="font-weight:600;color:#333;margin-bottom:6px">▾ Tag part of this text (template)</div>
+              <div class="pg-ta">Offered at {{price}} · {{bedrooms}} bd / {{bathrooms}} ba</div>
+              <div class="pg-row"><span class="pg-btn pgsec grow hl">Wrap selection as {{price}}</span></div>
+              <div class="pg-row"><span class="pg-btn grow">Save template</span></div>
+            </div>
+            <svg class="cur" width="20" height="20" viewBox="0 0 22 22" style="left:150px;top:96px"><path d="M4 2 L4 19 L8.6 14.6 L11.2 20.4 L13.4 19.4 L10.9 13.8 L17 13.8 Z" fill="#fff" stroke="#1a1a1a" stroke-width="1.3" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="crop-cap">Wrap a highlighted selection as a <b>{{field}}</b> token; everything else stays literal.</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <span class="num">6</span>
+        <div>
+          <h4>Couple spreads &amp; set crops</h4>
+          <p>One image bleeding across two facing frames? Select <b>both</b> and click <span class="path">Couple 2 as spread ⇔</span> — they share one photo and pin to opposite edges, reading as one continuous picture with no seam down the gutter.</p>
+          <p>Any image tag can pin its crop with the <b>Align</b> toggle — <span class="mono">◄ Left · Center · Right ►</span>.</p>
+          <div class="crop">
+            <div class="crop-ctx"><span class="d"></span>Tag tab · Spread &amp; alignment</div>
+            <div class="box">
+              <div class="pg-row" style="margin-top:0"><span class="pg-btn pgsec grow hl">Couple 2 as spread ⇔</span></div>
+              <div class="pg-row"><span class="pg-muted" style="margin-right:2px">Align</span><span class="pg-btn pgsec grow">◄ Left</span><span class="pg-btn pgsec grow on">Center</span><span class="pg-btn pgsec grow">Right ►</span></div>
+            </div>
+            <svg class="cur" width="20" height="20" viewBox="0 0 22 22" style="left:150px;top:34px"><path d="M4 2 L4 19 L8.6 14.6 L11.2 20.4 L13.4 19.4 L10.9 13.8 L17 13.8 Z" fill="#fff" stroke="#1a1a1a" stroke-width="1.3" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="crop-cap">Select both halves → <b>Couple</b>; set each side's <b>Align</b> for a seamless spread.</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <span class="num">7</span>
+        <div>
+          <h4>Lock what must never change</h4>
+          <p>In the Tag picker, under <b>Locks</b>: mark permanent artwork with <code>photo.locked</code> and boilerplate or disclaimers with <code>text.locked</code>. Locked layers are skipped everywhere and reported as "N locked" rather than flagged empty.</p>
+          <div class="crop">
+            <div class="crop-ctx"><span class="d"></span>Tag tab · Photos (image)</div>
+            <div class="box">
+              <div class="pg-row" style="margin-top:0"><span class="pg-select grow hl"><span class="txt">🔒 Locked — keep current image</span></span><span class="pg-btn">Assign</span></div>
+              <div class="pg-muted" style="margin-top:9px">🔒 3 locked containers — kept as-is, not replaced.</div>
+            </div>
+          </div>
+          <div class="crop-cap">Mark artwork the plugin must <b>never</b> overwrite.</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <span class="num">8</span>
+        <div>
+          <h4>Check your tags</h4>
+          <p>The <b>Tag index</b> card lists every field and how many layers carry it. <b>Click any row</b> to select and zoom to those layers — the fastest way to confirm you tagged the right box. <span class="path">Rebuild index</span> renumbers category slots by layer order, confirming before it changes anything.</p>
+          <div class="crop">
+            <div class="crop-ctx"><span class="d"></span>Tag tab · Tag index</div>
+            <div class="box">
+              <div class="pg-idx hl"><span class="pg-chip">txt</span><span class="pg-field">price</span><span class="pg-count">×1</span></div>
+              <div class="pg-idx"><span class="pg-chip img">img</span><span class="pg-field">photo.kitchen.01</span><span class="pg-count">×2 ⇔</span></div>
+              <div class="pg-idx"><span class="pg-chip img">img</span><span class="pg-field">photo.agent</span><span class="pg-count">×1</span></div>
+            </div>
+            <svg class="cur" width="20" height="20" viewBox="0 0 22 22" style="left:120px;top:34px"><path d="M4 2 L4 19 L8.6 14.6 L11.2 20.4 L13.4 19.4 L10.9 13.8 L17 13.8 Z" fill="#fff" stroke="#1a1a1a" stroke-width="1.3" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="crop-cap">Click a row to select every layer carrying that tag.</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <span class="num">9</span>
+        <div>
+          <h4>Rename layers to match your tags</h4>
+          <p>A last, optional polish: <span class="path">Bulk → Rename layers to tags</span> renames every tagged layer to its tag — <code>price</code>, <code>photo.kitchen.01</code>, … — so the Figma layers panel mirrors your tagging and is easy to scan later. Layers inside component instances inherit the main component's name, so they're left alone.</p>
+          <div class="crop">
+            <div class="crop-ctx"><span class="d"></span>Bulk tab · Tagging</div>
+            <div class="box" style="display:flex;align-items:flex-start;gap:10px;padding:10px">
+              <div class="pg-tool-ic">✏️</div>
+              <div class="pg-tool-info"><div class="pg-tool-t">Rename layers to tags</div><div class="pg-tool-d">Renames every tagged layer to its tag (price, photo.kitchen.01, …) so the layer list mirrors the tagging.</div></div>
+              <span class="pg-btn pgsec hl" style="min-width:64px">Rename</span>
+            </div>
+            <svg class="cur" width="20" height="20" viewBox="0 0 22 22" style="right:24px;top:42px"><path d="M4 2 L4 19 L8.6 14.6 L11.2 20.4 L13.4 19.4 L10.9 13.8 L17 13.8 Z" fill="#fff" stroke="#1a1a1a" stroke-width="1.3" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="crop-cap">Make the Figma layers panel read like your tags, in one click.</div>
+          <div class="note"><b>Template done.</b> Save the file. From here on, every listing starts as a duplicate — all tags included.</div>
+        </div>
+      </div>
+    </div>
+
+    <p class="shots-note">The panels below are faithful reconstructions of the plugin's own interface, built from its source — not live screenshots.</p>
+    <div class="shots">
+      <figure class="figshot">
+        <div class="pg">
+          <div class="pg-bar"><span class="pg-mark"></span><span class="pg-title">dezzy Magazine</span><span class="pg-x">×</span></div>
+          <div class="pg-tabs"><span class="pg-tab">Tag</span><span class="pg-tab">Content</span><span class="pg-tab">Photos</span><span class="pg-tab">Apply</span><span class="pg-tab on">Bulk</span></div>
+          <div class="pg-body">
+            <div class="pg-muted" style="margin-bottom:9px">One-click passes over the whole template. Typical order: scan names → auto-number → upload photos → apply.</div>
+            <div class="pg-h">Tagging</div>
+            <div class="pg-card pg-tools">
+              <div class="pg-tool"><div class="pg-tool-ic">🏷️</div><div class="pg-tool-info"><div class="pg-tool-t">Scan layer names</div><div class="pg-tool-d">Turns #field names, schema-named text layers, and room-named photo layers into tags.</div></div><span class="pg-btn pgsec">Scan</span></div>
+              <div class="pg-tool"><div class="pg-tool-ic">🔢</div><div class="pg-tool-info"><div class="pg-tool-t">Auto-number photo slots</div><div class="pg-tool-d">Tags placeholder rectangles in “Insert Page N” frames as photo.slot.001… in reading order.</div></div><span class="pg-btn pgsec">Number</span></div>
+              <div class="pg-tool"><div class="pg-tool-ic">🖼️</div><div class="pg-tool-info"><div class="pg-tool-t">Retag containers from images</div><div class="pg-tool-d">Re-tags each filled container to the category of the photo inside it.</div></div><span class="pg-btn pgsec">Preview</span></div>
+            </div>
+            <div class="pg-h" style="margin-top:13px">Save state</div>
+            <div class="pg-card pg-tools">
+              <div class="pg-tool"><div class="pg-tool-ic">📦</div><div class="pg-tool-info"><div class="pg-tool-t">Download save state</div><div class="pg-tool-d">Zip with data.csv, assignments.csv, and images/.</div></div><span class="pg-btn pgsec">Download</span></div>
+              <div class="pg-tool"><div class="pg-tool-ic">📂</div><div class="pg-tool-info"><div class="pg-tool-t">Upload save state</div><div class="pg-tool-d">Restores fields, photos, and slot assignments from a zip.</div></div><span class="pg-btn pgsec">Upload</span></div>
+            </div>
+          </div>
+        </div>
+        <figcaption><b>Bulk tab</b> — steps 1–2. Scan and auto-number do most of the tagging in one pass.</figcaption>
+      </figure>
+
+      <figure class="figshot">
+        <div class="pg">
+          <div class="pg-bar"><span class="pg-mark"></span><span class="pg-title">dezzy Magazine</span><span class="pg-x">×</span></div>
+          <div class="pg-tabs"><span class="pg-tab on">Tag</span><span class="pg-tab">Content</span><span class="pg-tab">Photos</span><span class="pg-tab">Apply</span><span class="pg-tab">Bulk</span></div>
+          <div class="pg-body">
+            <div class="pg-h">Selection</div>
+            <div class="pg-card">
+              <div class="pg-sel"><span class="pg-name">Price · Display</span><span class="pg-type">text</span><span class="pg-chip">price</span></div>
+              <div class="pg-sel"><span class="pg-name">Kitchen — Hero</span><span class="pg-type">rectangle</span><span class="pg-chip img">photo.kitchen.01</span></div>
+              <div class="pg-label">Content (text)</div>
+              <div class="pg-row" style="margin-top:4px"><span class="pg-select grow"><span class="txt">Price (price)</span></span><span class="pg-btn">Assign</span></div>
+              <div class="pg-label">Photos (image)</div>
+              <div class="pg-row" style="margin-top:4px"><span class="pg-select grow"><span class="txt">Kitchen slot (next #)</span></span><span class="pg-btn">Assign</span></div>
+              <div class="pg-label">Spread &amp; alignment</div>
+              <div class="pg-row" style="margin-top:4px"><span class="pg-btn pgsec grow">Couple 2 as spread ⇔</span></div>
+              <div class="pg-row"><span class="pg-muted" style="margin-right:2px">Align</span><span class="pg-btn pgsec grow">◄ Left</span><span class="pg-btn pgsec grow on">Center</span><span class="pg-btn pgsec grow">Right ►</span></div>
+            </div>
+            <div class="pg-h" style="margin-top:14px">Tag index · 63 nodes</div>
+            <div class="pg-card">
+              <div class="pg-row" style="margin-top:0"><span class="pg-btn pgsec grow">Rebuild index</span><span class="pg-btn dan">Clear all tags</span></div>
+              <div style="margin-top:6px">
+                <div class="pg-idx"><span class="pg-chip img">img</span><span class="pg-field">photo.agent</span><span class="pg-count">×1</span></div>
+                <div class="pg-idx"><span class="pg-chip">txt</span><span class="pg-field">price</span><span class="pg-count">×1</span></div>
+                <div class="pg-idx"><span class="pg-chip img">img</span><span class="pg-field">photo.kitchen.01</span><span class="pg-count">×2 ⇔</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <figcaption><b>Tag tab</b> — steps 3–7. Assign a field to the selection; click any index row to select those layers.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- PART B -->
+  <section class="sec" id="build">
+    <div class="sec-head">
+      <span class="part">Part B</span>
+      <span class="cadence">Repeat per property</span>
+      <h2>Build a listing</h2>
+    </div>
+    <p class="sec-intro">Duplicate the template, open the plugin, and move through Content → Photos → Apply.</p>
+
+    <div class="steps">
+      <div class="step">
+        <span class="num">1</span>
+        <div>
+          <h4>Enter the content</h4>
+          <p><span class="path">Content tab</span> — fill the form: Property, Features, Agent, Captions. Values <b>autosave</b> into the file as you type. Each field shows how many layers carry it; <code>untagged</code> means a value there won't land anywhere — a hint you missed a tag in Part A.</p>
+          <p style="font-size:.9rem"><b>Shortcut:</b> Download a <code>field,value</code> CSV as a fill-in template for coordinators, then Import it back in bulk.</p>
+          <div class="crop">
+            <div class="crop-ctx"><span class="d"></span>Content tab · Property</div>
+            <div class="box">
+              <div class="pg-frow"><div class="pg-flabel"><span>Price</span><span class="pg-tc">×1</span></div><div class="pg-input">$4,750,000</div></div>
+              <div class="pg-frow" style="margin-bottom:0"><div class="pg-flabel"><span>Tagline</span><span class="pg-tc none">untagged</span></div><div class="pg-input place hl">Modern Mountain Living…</div></div>
+            </div>
+          </div>
+          <div class="crop-cap"><b>untagged</b> means the value has no layer to land in — add a tag first.</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <span class="num">2</span>
+        <div>
+          <h4>Upload the photos</h4>
+          <p><span class="path">Photos tab</span> — drag-and-drop the whole shoot at once. Full print resolution is preserved (images are only downscaled past Figma's 4096px hard limit). Peak memory stays at about one image no matter how large the batch.</p>
+          <div class="crop">
+            <div class="crop-ctx"><span class="d"></span>Photos tab · Upload</div>
+            <div class="pg-drop hl" style="border-color:var(--mag);background:var(--mag-tint);color:#1a1a1a">Drop photos here or click to choose.<div class="pg-muted">Processed one at a time — scaled to Figma's 4096px limit, print quality preserved.</div></div>
+            <svg class="cur" width="20" height="20" viewBox="0 0 22 22" style="left:180px;top:56px"><path d="M4 2 L4 19 L8.6 14.6 L11.2 20.4 L13.4 19.4 L10.9 13.8 L17 13.8 Z" fill="#fff" stroke="#1a1a1a" stroke-width="1.3" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="crop-cap">Drag the whole shoot in at once — full print resolution is kept.</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <span class="num">3</span>
+        <div>
+          <h4>Assign photos to slots</h4>
+          <p>Try <span class="path">Auto-assign</span> first — it reads filenames: <code>master-bath-2.jpg</code> goes to a master-bath slot, <code>Kitchen2.jpg</code> to a kitchen slot; anything unrecognized flows into generic slots in filename order. Then fix up any dropdown by hand.</p>
+          <div class="crop">
+            <div class="crop-ctx"><span class="d"></span>Photos tab · Slots · 8/12</div>
+            <div class="box">
+              <div class="pg-row" style="margin-top:0"><span class="pg-btn pgsec grow hl">Auto-assign by filename order</span></div>
+              <div class="pg-slot" style="margin-top:8px"><span class="pg-field">photo.kitchen.01</span><span class="pg-select mono"><span class="txt">kitchen-01.jpg</span></span></div>
+              <div class="pg-slot"><span class="pg-field">photo.master.01</span><span class="pg-select mono"><span class="txt">master-bed-2.jpg</span></span></div>
+            </div>
+            <svg class="cur" width="20" height="20" viewBox="0 0 22 22" style="left:150px;top:34px"><path d="M4 2 L4 19 L8.6 14.6 L11.2 20.4 L13.4 19.4 L10.9 13.8 L17 13.8 Z" fill="#fff" stroke="#1a1a1a" stroke-width="1.3" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="crop-cap">Hit <b>Auto-assign</b> — filenames route photos to matching slots.</div>
+          <div class="note">Name your files sensibly — <code>kitchen-1.jpg</code>, <code>exterior-drone.jpg</code> — and Auto-assign does almost everything.</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <span class="num">4</span>
+        <div>
+          <h4>Preview before you commit</h4>
+          <p><span class="path">Apply → Dry run</span> shows, instantly and with no canvas changes: how many text layers will update, which tagged fields are still empty, and which values have nowhere to go. Click any row to select those layers. <span class="path">Check magazine</span> goes deeper and flags spread drift.</p>
+          <div class="crop">
+            <div class="crop-ctx"><span class="d"></span>Apply tab · Dry run</div>
+            <div class="box">
+              <div class="pg-line"><b>42</b> text layers will update across <b>18</b> fields.</div>
+              <div class="pg-idx"><span class="pg-chip ready">ready</span><span class="pg-field">price</span><span class="pg-count">×1</span></div>
+              <div class="pg-idx hl"><span class="pg-chip empty">empty</span><span class="pg-field">caption.5.body</span><span class="pg-count">×1</span></div>
+            </div>
+          </div>
+          <div class="crop-cap"><b>empty</b> rows are tagged fields still waiting for a value.</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <span class="num">5</span>
+        <div>
+          <h4>Apply</h4>
+          <p><span class="path">Apply all text</span> pours text into every tagged layer. <span class="path">Apply photos</span> cover-fits each assigned photo, renders coupled spreads seamlessly, and fills any unassigned slot solid <span class="swatch"></span> <b class="accent">magenta</b> so empty placeholders are impossible to miss. Each apply is one Undo step and can be cancelled mid-run.</p>
+          <div class="crop">
+            <div class="crop-ctx"><span class="d"></span>Apply tab · Apply</div>
+            <div class="box">
+              <div class="pg-row" style="margin-top:0"><span class="pg-btn grow hl">Apply everything (18 fields + 12 photo slots)</span></div>
+              <div class="pg-row"><span class="pg-btn pgsec grow">Apply all text (18)</span><span class="pg-btn pgsec grow">Apply photos (12/12)</span></div>
+            </div>
+            <svg class="cur" width="20" height="20" viewBox="0 0 22 22" style="left:150px;top:34px"><path d="M4 2 L4 19 L8.6 14.6 L11.2 20.4 L13.4 19.4 L10.9 13.8 L17 13.8 Z" fill="#fff" stroke="#1a1a1a" stroke-width="1.3" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="crop-cap">One click pours it all in — a single, undoable step.</div>
+          <p>You don't have to be on the Apply tab to commit, either: the <b>Content</b> tab has an <span class="path">Apply all content</span> button and the <b>Photos</b> tab an <span class="path">Apply photos</span> button, each pinned at the bottom with its own progress bar — handy for a quick text-only or photo-only re-run.</p>
+          <div class="crop">
+            <div class="crop-ctx"><span class="d"></span>Content tab · action bar</div>
+            <div style="border-top:1px solid #e6e6e6;padding-top:10px">
+              <div class="pg-row" style="margin-top:0"><span class="pg-btn grow hl">Apply all content</span></div>
+            </div>
+            <svg class="cur" width="20" height="20" viewBox="0 0 22 22" style="left:150px;top:34px"><path d="M4 2 L4 19 L8.6 14.6 L11.2 20.4 L13.4 19.4 L10.9 13.8 L17 13.8 Z" fill="#fff" stroke="#1a1a1a" stroke-width="1.3" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="crop-cap">Apply straight from the Content and Photos tabs — no trip to the Apply tab needed.</div>
+          <p style="font-family:var(--serif);font-style:italic;color:var(--ink)">Then export your pages from Figma as usual. That's the whole loop.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="shots">
+      <figure class="figshot">
+        <div class="pg">
+          <div class="pg-bar"><span class="pg-mark"></span><span class="pg-title">dezzy Magazine</span><span class="pg-x">×</span></div>
+          <div class="pg-tabs"><span class="pg-tab">Tag</span><span class="pg-tab on">Content</span><span class="pg-tab">Photos</span><span class="pg-tab">Apply</span><span class="pg-tab">Bulk</span></div>
+          <div class="pg-body">
+            <div class="pg-row" style="margin-top:0"><span class="pg-btn pgsec grow">Download CSV</span><span class="pg-btn pgsec grow">Import CSV</span></div>
+            <div class="pg-muted" style="margin:9px 0">Values autosave into this Figma file and stay with it when duplicated.</div>
+            <div class="pg-h">Property</div>
+            <div class="pg-card">
+              <div class="pg-frow"><div class="pg-flabel"><span>Street</span><span class="pg-tc">×1</span></div><div class="pg-input">538 Outlook Trail</div></div>
+              <div class="pg-frow"><div class="pg-flabel"><span>Price</span><span class="pg-tc">×1</span></div><div class="pg-input">$4,750,000</div></div>
+              <div class="pg-frow"><div class="pg-flabel"><span>Tagline</span><span class="pg-tc none">untagged</span></div><div class="pg-input place">Modern Mountain Living…</div></div>
+              <div class="pg-frow" style="margin-bottom:0"><div class="pg-flabel"><span>Description</span><span class="pg-tc">×1</span></div><div class="pg-ta">Perched on a private ridge in Big Sky's coveted Cascade neighborhood, 538 Outlook Trail is a study in warm contemporary design…</div></div>
+            </div>
+          </div>
+        </div>
+        <figcaption><b>Content tab</b> — step 1. Each field shows its tag count; <b>untagged</b> means the value has nowhere to land.</figcaption>
+      </figure>
+
+      <figure class="figshot">
+        <div class="pg">
+          <div class="pg-bar"><span class="pg-mark"></span><span class="pg-title">dezzy Magazine</span><span class="pg-x">×</span></div>
+          <div class="pg-tabs"><span class="pg-tab">Tag</span><span class="pg-tab">Content</span><span class="pg-tab on">Photos</span><span class="pg-tab">Apply</span><span class="pg-tab">Bulk</span></div>
+          <div class="pg-body">
+            <div class="pg-h">Upload</div>
+            <div class="pg-drop">Drop photos here or click to choose.<div class="pg-muted">Processed one at a time — scaled to Figma's 4096px limit, print quality preserved.</div></div>
+            <div class="pg-h" style="margin-top:13px">Slots · 8/12 assigned</div>
+            <div class="pg-card">
+              <div class="pg-row" style="margin-top:0"><span class="pg-btn pgsec grow">Auto-assign by filename order</span></div>
+              <div class="pg-row"><span class="pg-check"><span class="pg-box"></span>Overwrite existing assignments</span></div>
+              <div style="margin-top:6px">
+                <div class="pg-slot"><span class="pg-field">photo.kitchen.01</span><span class="pg-select mono"><span class="txt">kitchen-01.jpg</span></span></div>
+                <div class="pg-slot"><span class="pg-field">photo.master.01</span><span class="pg-select mono"><span class="txt">master-bed-2.jpg</span></span></div>
+                <div class="pg-slot"><span class="pg-field">photo.slot.007</span><span class="pg-select mono"><span class="txt">—</span></span></div>
+              </div>
+              <div class="pg-row"><span class="pg-btn grow">Apply photos (8 slots)</span></div>
+            </div>
+            <div class="pg-h" style="margin-top:13px">Library · 24 photos</div>
+            <div class="pg-gal">
+              <div class="pg-ph"><span class="tile" style="background:linear-gradient(150deg,#d8c7a8,#a88a5f)"></span><span class="pg-ph-badge">kitchen.01</span><div class="pg-ph-name">kitchen-01.jpg</div></div>
+              <div class="pg-ph"><span class="tile" style="background:linear-gradient(150deg,#c9d6df,#8ba0ad)"></span><div class="pg-ph-name">exterior-03.jpg</div></div>
+              <div class="pg-ph"><span class="tile" style="background:linear-gradient(150deg,#e2d4cf,#b39a8f)"></span><div class="pg-ph-name">master-bed-2.jpg</div></div>
+              <div class="pg-ph"><span class="tile" style="background:linear-gradient(150deg,#cdd8c8,#8fa383)"></span><div class="pg-ph-name">outdoor-05.jpg</div></div>
+              <div class="pg-ph"><span class="tile" style="background:linear-gradient(150deg,#d5ccdc,#9b8fae)"></span><div class="pg-ph-name">dining-01.jpg</div></div>
+              <div class="pg-ph"><span class="tile" style="background:linear-gradient(150deg,#dccfc6,#ad9384)"></span><div class="pg-ph-name">entry-02.jpg</div></div>
+              <div class="pg-ph"><span class="tile" style="background:linear-gradient(150deg,#c6d2da,#879aa6)"></span><div class="pg-ph-name">amenities-04.jpg</div></div>
+              <div class="pg-ph"><span class="tile" style="background:linear-gradient(150deg,#dfd8c4,#b0a279)"></span><div class="pg-ph-name">floorplan-01.jpg</div></div>
+            </div>
+          </div>
+        </div>
+        <figcaption><b>Photos tab</b> — steps 2–3. Drop the shoot, hit Auto-assign, then adjust any slot by hand.</figcaption>
+      </figure>
+
+      <figure class="figshot">
+        <div class="pg">
+          <div class="pg-bar"><span class="pg-mark"></span><span class="pg-title">dezzy Magazine</span><span class="pg-x">×</span></div>
+          <div class="pg-tabs"><span class="pg-tab">Tag</span><span class="pg-tab">Content</span><span class="pg-tab">Photos</span><span class="pg-tab on">Apply</span><span class="pg-tab">Bulk</span></div>
+          <div class="pg-body">
+            <div class="pg-h">Magazine check</div>
+            <div class="pg-card">
+              <div class="pg-row" style="margin-top:0"><span class="pg-btn pgsec grow">Check magazine</span></div>
+              <div class="pg-line" style="margin-top:8px"><b>63</b> tagged layers · <b>18</b> text fields ready · <b>12/12</b> photo slots assigned</div>
+              <div class="pg-ok">Everything checks out — ready to apply.</div>
+            </div>
+            <div class="pg-h" style="margin-top:13px">Dry run</div>
+            <div class="pg-card">
+              <div class="pg-line"><b>42</b> text layers will update across <b>18</b> fields.</div>
+              <div class="pg-idx"><span class="pg-chip ready">ready</span><span class="pg-field">price</span><span class="pg-count">×1</span></div>
+              <div class="pg-idx"><span class="pg-chip ready">ready</span><span class="pg-field">description</span><span class="pg-count">×1</span></div>
+              <div class="pg-idx"><span class="pg-chip empty">empty</span><span class="pg-field">caption.5.body</span><span class="pg-count">×1</span></div>
+            </div>
+            <div class="pg-h" style="margin-top:13px">Apply</div>
+            <div class="pg-card">
+              <div class="pg-row" style="margin-top:0"><span class="pg-btn grow">Apply everything (18 fields + 12 photo slots)</span></div>
+              <div class="pg-row"><span class="pg-btn pgsec grow">Apply all text (18)</span><span class="pg-btn pgsec grow">Apply photos (12/12)</span></div>
+            </div>
+          </div>
+        </div>
+        <figcaption><b>Apply tab</b> — steps 4–5. Dry run previews the write; then pour it in as one undoable step.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- CONCEPTS WORTH KNOWING -->
+  <section class="sec" id="know">
+    <div class="sec-head">
+      <span class="part">Reference</span>
+      <h2>Worth knowing</h2>
+    </div>
+    <div class="concepts">
+      <div class="concept">
+        <span class="k">Portability</span>
+        <h5>Save state (.zip)</h5>
+        <p>Bundle every field value, photo, assignment, and now every <b>layer tag</b> (tags.json) into one archive on the Bulk tab — then restore it in another file. On upload the tags re-apply immediately; content and photos wait for Apply.</p>
+      </div>
+      <div class="concept">
+        <span class="k">Fix-up</span>
+        <h5>Retag from images</h5>
+        <p>Photos already placed but tags wrong? Bulk reads each frame's image, identifies it by filename, and re-tags to the right category — after a preview.</p>
+      </div>
+      <div class="concept">
+        <span class="k">Full bleed</span>
+        <h5>Full-page slots</h5>
+        <p>Big full-bleed images are fed room-by-room rather than by filename, so a shoot flows through the magazine in a natural order.</p>
+      </div>
+      <div class="concept">
+        <span class="k">Persistence</span>
+        <h5>The image vault</h5>
+        <p>An invisible off-canvas rectangle pins your uploaded photos' bytes in the file so Figma won't discard them. Don't delete <span class="mono">🗄 dezzy image vault</span>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- TROUBLESHOOTING -->
+  <section class="sec" id="trouble">
+    <div class="sec-head">
+      <span class="part">When something's off</span>
+      <h2>Troubleshooting</h2>
+    </div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Symptom</th><th>Cause &amp; fix</th></tr></thead>
+        <tbody>
+          <tr><td>A value didn't show up</td><td>The field is <b>untagged</b> — check the count on the Content tab, then tag the layer.</td></tr>
+          <tr><td>A frame came out magenta</td><td>Its slot was <b>unassigned</b> — pick a photo on the Photos tab and re-apply.</td></tr>
+          <tr><td>Some text didn't apply</td><td>The layer is <b>text-locked</b>, or its <b>font is missing</b> (check the apply report).</td></tr>
+          <tr><td>A spread has a seam</td><td><b>Spread drift</b> — the halves changed size. Run Check magazine, then <span class="mono">Align spread fills</span>.</td></tr>
+          <tr><td>A thumbnail is blank</td><td>Photo lost before the vault existed — re-upload the same file and it re-links automatically.</td></tr>
+          <tr><td>Gallery empty on reopen</td><td>Normal — thumbnails rebuild themselves as the plugin pulls bytes back from Figma.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- CHEAT SHEET -->
+  <section class="cheat" id="recap">
+    <span class="eyebrow">The 30-second version</span>
+    <h2>The whole thing, twice</h2>
+    <div class="cheat-row">
+      <span class="lbl">Once / template</span>
+      <span class="flow"><b>Auto-number</b><span class="arrow">→</span><b>Scan layer names</b><span class="arrow">→</span>hand-tag the rest<span class="arrow">→</span>check the <b>Tag index</b></span>
+    </div>
+    <div class="cheat-row">
+      <span class="lbl">Per / listing</span>
+      <span class="flow">Duplicate<span class="arrow">→</span><b>Content</b> form<span class="arrow">→</span><b>Photos</b> upload<span class="arrow">→</span><b>Auto-assign</b><span class="arrow">→</span><b>Dry run</b><span class="arrow">→</span><b>Apply text</b><span class="arrow">→</span><b>Apply photos</b><span class="arrow">→</span>export</span>
+    </div>
+  </section>
+
+  <footer>
+    <span>dezzy Magazine · Operator's Guide</span>
+    <span>Tag once · Pour forever</span>
+  </footer>
+</main>
+
+<!-- fixed, bottom-right: straight to the plugin in Figma Community -->
+<a class="plugin-cta" href="https://www.figma.com/community/plugin/1659889319748167255/dezzy-automagazine" target="_blank" rel="noopener">
+  <span>Open in Figma<span class="label-long"> Community</span></span><span class="ext">↗</span>
+</a>
+<script src="../assets/cta.js"></script>
+</div>
+
+</body>
+</html>
