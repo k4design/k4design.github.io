@@ -3,6 +3,7 @@ import { readConfig, writeConfig } from './storage.js';
 import { resolveSelection } from './selection.js';
 import { importItem } from './import.js';
 import { applyRender, exportDesigns } from './render.js';
+import { deleteClip, listClips, loadClip, saveClip } from './clips.js';
 
 const UI_WIDTH = 420;
 const UI_HEIGHT = 640;
@@ -46,6 +47,30 @@ onMessage(async (message) => {
     }
     case 'notify': {
       figma.notify(message.message, { error: message.error });
+      return;
+    }
+    case 'clip-list': {
+      send({ type: 'clip-list-result', ...(await listClips()) });
+      return;
+    }
+    case 'clip-save': {
+      const result = await saveClip(message.meta, message.mp4);
+      send({
+        type: 'clip-save-result',
+        id: message.meta.id,
+        ok: result.ok,
+        ...(result.message ? { message: result.message } : {}),
+      });
+      send({ type: 'clip-list-result', ...(await listClips()) });
+      return;
+    }
+    case 'clip-load': {
+      send({ type: 'clip-loaded', id: message.id, mp4: await loadClip(message.id) });
+      return;
+    }
+    case 'clip-delete': {
+      await deleteClip(message.id);
+      send({ type: 'clip-list-result', ...(await listClips()) });
       return;
     }
     case 'focus-node': {

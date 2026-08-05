@@ -1,8 +1,18 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { RenderTarget } from '@mf/shared';
 import { post } from '../bridge.js';
 import { VIDEO_FPS_CHOICES, MAX_VIDEO_SECONDS, type VideoFps } from './decode.js';
 import { useVideoRender } from './useVideoRender.js';
+import { clipGallery } from './gallery.js';
+
+function blobToBase64(blob: Blob): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve((reader.result as string).split(',')[1] ?? '');
+    reader.onerror = () => reject(new Error('Could not read the encoded clip.'));
+    reader.readAsDataURL(blob);
+  });
+}
 
 /**
  * The video slot for one selected mockup: pick a clip, watch the warped result
@@ -28,6 +38,29 @@ export function VideoSection({
   const fileInput = useRef<HTMLInputElement | null>(null);
 
   const surface = target.surfaces.find((s) => s.surfaceId === surfaceId) ?? target.surfaces[0];
+
+  // A finished clip goes straight into the gallery and is offered to
+  // clientStorage — that is what keeps it alive after this card unmounts.
+  const registered = useRef<string | null>(null);
+  useEffect(() => {
+    if (phase.kind !== 'ready' || registered.current === phase.id || !surface) return;
+    registered.current = phase.id;
+    const meta = {
+      id: phase.id,
+      name: `${target.itemName} · ${surface.surfaceId}`,
+      itemId: target.itemId,
+      surfaceId: surface.surfaceId,
+      seconds: phase.seconds,
+      fps: phase.fps,
+      width: phase.width,
+      height: phase.height,
+      bytes: phase.bytes,
+      createdAt: Date.now(),
+    };
+    clipGallery.addSession(meta, phase.blob);
+    void blobToBase64(phase.blob).then((mp4) => post({ type: 'clip-save', meta, mp4 }));
+  }, [phase, surface, target.itemId, target.itemName]);
+
   if (!surface) return null;
 
   const busy = phase.kind === 'working';

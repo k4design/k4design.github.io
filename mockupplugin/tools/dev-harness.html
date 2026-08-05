@@ -199,6 +199,52 @@
             toUi({ type: 'designs-exported', jobId: message.jobId, targets });
             break;
           }
+          // Clip persistence, backed by localStorage in place of clientStorage.
+          case 'clip-list': {
+            const index = JSON.parse(localStorage.getItem('mf:clips') ?? '[]');
+            toUi({
+              type: 'clip-list-result',
+              clips: index,
+              storedBytes: index.reduce((sum, clip) => sum + clip.bytes, 0),
+            });
+            break;
+          }
+          case 'clip-save': {
+            localStorage.setItem(`mf:clip:${message.meta.id}`, message.mp4);
+            const index = JSON.parse(localStorage.getItem('mf:clips') ?? '[]').filter(
+              (clip) => clip.id !== message.meta.id,
+            );
+            index.push(message.meta);
+            localStorage.setItem('mf:clips', JSON.stringify(index));
+            toUi({ type: 'clip-save-result', id: message.meta.id, ok: true });
+            toUi({
+              type: 'clip-list-result',
+              clips: index,
+              storedBytes: index.reduce((sum, clip) => sum + clip.bytes, 0),
+            });
+            break;
+          }
+          case 'clip-load': {
+            toUi({
+              type: 'clip-loaded',
+              id: message.id,
+              mp4: localStorage.getItem(`mf:clip:${message.id}`),
+            });
+            break;
+          }
+          case 'clip-delete': {
+            localStorage.removeItem(`mf:clip:${message.id}`);
+            const index = JSON.parse(localStorage.getItem('mf:clips') ?? '[]').filter(
+              (clip) => clip.id !== message.id,
+            );
+            localStorage.setItem('mf:clips', JSON.stringify(index));
+            toUi({
+              type: 'clip-list-result',
+              clips: index,
+              storedBytes: index.reduce((sum, clip) => sum + clip.bytes, 0),
+            });
+            break;
+          }
           case 'apply-render': {
             // Show the finished render so the harness proves the whole loop.
             const image = document.getElementById('result');

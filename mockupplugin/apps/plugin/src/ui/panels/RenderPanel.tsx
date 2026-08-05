@@ -11,6 +11,7 @@ import type { useSandbox } from '../useSandbox.js';
 import { post } from '../bridge.js';
 import { ApiClientError, renderItem } from '../api.js';
 import { VideoSection } from '../video/VideoSection.js';
+import { ClipGallery } from '../video/ClipGallery.js';
 
 type Bridge = ReturnType<typeof useSandbox>;
 
@@ -148,23 +149,29 @@ export function RenderPanel({ state, api }: { state: Bridge['state']; api: Bridg
   );
 
   if (targets.length === 0) {
+    // Rendered clips stay reachable even with nothing selected — that is the
+    // point of the gallery.
     return (
-      <div className="empty">
-        <strong>Nothing selected</strong>
-        <span>
-          Select a mockup on the canvas, or one of its design frames.
-          {state.foreignCount > 0
-            ? ` ${state.foreignCount} selected layer${state.foreignCount === 1 ? '' : 's'} ${
-                state.foreignCount === 1 ? 'is' : 'are'
-              } not part of a mockup.`
-            : ''}
-        </span>
+      <div className="stack">
+        <ClipGallery api={api} />
+        <div className="empty">
+          <strong>Nothing selected</strong>
+          <span>
+            Select a mockup on the canvas, or one of its design frames.
+            {state.foreignCount > 0
+              ? ` ${state.foreignCount} selected layer${state.foreignCount === 1 ? '' : 's'} ${
+                  state.foreignCount === 1 ? 'is' : 'are'
+                } not part of a mockup.`
+              : ''}
+          </span>
+        </div>
       </div>
     );
   }
 
   return (
     <div className="stack">
+      <ClipGallery api={api} />
       <div className="row">
         <button className="primary" disabled={busy} onClick={() => void run(targets.slice(0, 1))}>
           {busy ? 'Rendering…' : 'Render selected'}

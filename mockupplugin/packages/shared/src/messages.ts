@@ -61,6 +61,33 @@ export const PluginConfigSchema = z.object({
 export type PluginConfig = z.infer<typeof PluginConfigSchema>;
 
 /* ------------------------------------------------------------------ */
+/* Stored video clips                                                  */
+/* ------------------------------------------------------------------ */
+
+/**
+ * Rendered clips live in the UI as blobs for the session; clips small enough
+ * to fit are also persisted through the sandbox into clientStorage so they
+ * survive plugin restarts. clientStorage allows ~5MB per plugin in total, so
+ * both a per-clip and a total cap are enforced sandbox-side.
+ */
+export const MAX_STORED_CLIP_BYTES = 2 * 1024 * 1024;
+export const MAX_STORED_TOTAL_BYTES = 4 * 1024 * 1024;
+
+export const StoredClipMetaSchema = z.object({
+  id: z.string().min(1),
+  name: z.string().min(1),
+  itemId: z.string(),
+  surfaceId: z.string(),
+  seconds: z.number().nonnegative(),
+  fps: z.number().positive(),
+  width: z.number().int().positive(),
+  height: z.number().int().positive(),
+  bytes: z.number().int().nonnegative(),
+  createdAt: z.number(),
+});
+export type StoredClipMeta = z.infer<typeof StoredClipMetaSchema>;
+
+/* ------------------------------------------------------------------ */
 /* UI -> sandbox                                                       */
 /* ------------------------------------------------------------------ */
 
@@ -99,6 +126,17 @@ export const UiToSandboxSchema = z.discriminatedUnion('type', [
     error: z.boolean().default(false),
   }),
   z.object({ type: z.literal('focus-node'), nodeId: z.string() }),
+  /** Persist a rendered clip. The sandbox may refuse on size or quota. */
+  z.object({
+    type: z.literal('clip-save'),
+    meta: StoredClipMetaSchema,
+    /** Base64 MP4 bytes. */
+    mp4: z.string().min(1),
+  }),
+  z.object({ type: z.literal('clip-delete'), id: z.string() }),
+  z.object({ type: z.literal('clip-list') }),
+  /** Fetch one persisted clip's bytes (they are not sent with the list). */
+  z.object({ type: z.literal('clip-load'), id: z.string() }),
 ]);
 export type UiToSandbox = z.infer<typeof UiToSandboxSchema>;
 
@@ -140,6 +178,25 @@ export const SandboxToUiSchema = z.discriminatedUnion('type', [
   z.object({
     type: z.literal('warnings'),
     warnings: z.array(RenderWarningSchema),
+  }),
+  /** All persisted clips, metadata only. Sent on request and after mutations. */
+  z.object({
+    type: z.literal('clip-list-result'),
+    clips: z.array(StoredClipMetaSchema),
+    /** Bytes currently persisted, so the UI can show quota honestly. */
+    storedBytes: z.number().int().nonnegative(),
+  }),
+  z.object({
+    type: z.literal('clip-save-result'),
+    id: z.string(),
+    ok: z.boolean(),
+    message: z.string().optional(),
+  }),
+  z.object({
+    type: z.literal('clip-loaded'),
+    id: z.string(),
+    /** Base64 MP4, or null when the clip has vanished from storage. */
+    mp4: z.string().nullable(),
   }),
 ]);
 export type SandboxToUi = z.infer<typeof SandboxToUiSchema>;

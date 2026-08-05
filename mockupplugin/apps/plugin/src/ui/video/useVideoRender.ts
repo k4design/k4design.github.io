@@ -24,7 +24,10 @@ export type VideoPhase =
   | { kind: 'working'; step: 'decoding' | 'rendering' | 'encoding'; done: number; total: number }
   | {
       kind: 'ready';
+      /** Stable id shared with the clip gallery and clientStorage. */
+      id: string;
       url: string;
+      blob: Blob;
       bytes: number;
       seconds: number;
       fps: number;
@@ -162,7 +165,9 @@ export function useVideoRender() {
 
       setPhase({
         kind: 'ready',
+        id: `clip-${Date.now().toString(36)}-${Math.floor(Math.random() * 0xffff).toString(16)}`,
         url,
+        blob,
         bytes: blob.size,
         seconds: encoded / input.fps,
         fps: input.fps,
