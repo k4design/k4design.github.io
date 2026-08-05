@@ -50,6 +50,28 @@ export interface RenderOutcome {
 /** Decoded design pixels can be large; cap them well below the canvas budget. */
 const MAX_DESIGN_PIXELS = 40_000_000;
 
+/** Area of a simple polygon, by the shoelace formula. */
+function polygonArea(points: Point[]): number {
+  let sum = 0;
+  for (let i = 0, j = points.length - 1; i < points.length; j = i, i += 1) {
+    sum += points[j]!.x * points[i]!.y - points[i]!.x * points[j]!.y;
+  }
+  return Math.abs(sum) / 2;
+}
+
+/**
+ * Width to prefilter a design to before warping.
+ *
+ * Sized from the destination's actual area rather than the canvas, so a small
+ * print on a big photo is judged correctly. 1.4x headroom keeps a little detail
+ * for the bilinear tap to work with instead of softening the artwork.
+ */
+function prefilterWidth(destination: Point[], aspect: number): number {
+  const area = polygonArea(destination);
+  if (!(area > 0) || !(aspect > 0)) return 0;
+  return Math.max(64, Math.ceil(Math.sqrt(area * aspect) * 1.4));
+}
+
 export async function renderItem(request: RenderRequest): Promise<RenderOutcome> {
   const started = Date.now();
   const renderId = randomUUID();
@@ -123,12 +145,16 @@ export async function renderItem(request: RenderRequest): Promise<RenderOutcome>
           warnings.push(drift);
         }
 
+        const points = destinationPoints(layer.warp, width, height);
+        const bounds = surfaceBounds(points, { width, height });
+
         // A corrupt or non-image upload is the caller's problem, not a server
         // fault — say so, and say what to do about it.
         let decoded;
         try {
           decoded = await decodeDesign(Buffer.from(design.design, 'base64'), {
             maxPixels: MAX_DESIGN_PIXELS,
+            prefilterWidth: prefilterWidth(points, layer.placeholder.aspect),
           });
         } catch (err) {
           throw new ApiFailure(
@@ -156,8 +182,6 @@ export async function renderItem(request: RenderRequest): Promise<RenderOutcome>
           });
         }
 
-        const points = destinationPoints(layer.warp, width, height);
-        const bounds = surfaceBounds(points, { width, height });
         const sampler = buildSampler(layer.warp, decoded, bounds, width, height);
         if (!sampler) {
           throw new ApiFailure(
@@ -302,8 +326,14 @@ export async function renderSequence(request: SequenceRequest): Promise<Sequence
   const points = destinationPoints(surface.warp, width, height);
   const bounds = surfaceBounds(points, { width, height });
 
+  const framePrefilter = prefilterWidth(
+    destinationPoints(surface.warp, width, height),
+    surface.placeholder.aspect,
+  );
+
   const first = await decodeDesign(request.frames[0] ?? Buffer.alloc(0), {
     maxPixels: MAX_DESIGN_PIXELS,
+    prefilterWidth: framePrefilter,
   }).catch(() => {
     throw new ApiFailure('unsupported_media', 'The first frame could not be read as an image.');
   });
@@ -346,16 +376,19 @@ export async function renderSequence(request: SequenceRequest): Promise<Sequence
     const decoded =
       index === 0
         ? first
-        : await decodeDesign(frame, { maxPixels: MAX_DESIGN_PIXELS }).catch(() => {
+        : await decodeDesign(frame, {
+            maxPixels: MAX_DESIGN_PIXELS,
+            prefilterWidth: framePrefilter,
+          }).catch(() => {
             throw new ApiFailure('unsupported_media', `Frame ${index} could not be read as an image.`);
           });
 
-    // The sampler was solved for the first frame's dimensions; a stray
-    // different-sized frame would warp with the wrong scale silently.
-    if (decoded.width !== first.width || decoded.height !== first.height) {
+    // Compared as uploaded, not as decoded: the prefilter resizes every frame
+    // to the same width, which would hide a caller mixing frame sizes.
+    if (decoded.sourceWidth !== first.sourceWidth || decoded.sourceHeight !== first.sourceHeight) {
       throw new ApiFailure(
         'bad_request',
-        `Frame ${index} is ${decoded.width}x${decoded.height} but the batch started at ${first.width}x${first.height}. All frames in a batch must match.`,
+        `Frame ${index} is ${decoded.sourceWidth}x${decoded.sourceHeight} but the batch started at ${first.sourceWidth}x${first.sourceHeight}. All frames in a batch must match.`,
       );
     }
 

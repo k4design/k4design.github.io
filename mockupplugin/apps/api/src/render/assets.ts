@@ -144,12 +144,26 @@ export async function loadDisplacement(itemId: string, src: string): Promise<Raw
  */
 export async function decodeDesign(
   png: Buffer,
-  limits: { maxPixels: number },
-): Promise<RawImage & { premultiplied: true }> {
+  limits: {
+    maxPixels: number;
+    /**
+     * Prefilter width. A design is often far larger than the area it lands on —
+     * a 1200px artwork onto a 130px print is a 9x reduction — and the warp takes
+     * a single bilinear tap per output pixel, so thin strokes fall between taps
+     * and shred. Downscaling with a proper area filter first is the mip-level-0
+     * approximation of that missing prefilter.
+     */
+    prefilterWidth?: number;
+  },
+): Promise<RawImage & { premultiplied: true; sourceWidth: number; sourceHeight: number }> {
   const image = sharp(png, { limitInputPixels: limits.maxPixels, failOn: 'error' });
   const meta = await image.metadata();
   if (!meta.width || !meta.height) {
     throw new Error('The uploaded design is not a readable image.');
+  }
+
+  if (limits.prefilterWidth && limits.prefilterWidth < meta.width) {
+    image.resize({ width: limits.prefilterWidth, fit: 'inside', kernel: 'lanczos3' });
   }
 
   const { data, info } = await image.ensureAlpha().raw().toBuffer({ resolveWithObject: true });
@@ -179,5 +193,9 @@ export async function decodeDesign(
     height: info.height,
     channels: 4,
     premultiplied: true,
+    // Dimensions as uploaded, before any prefilter — the only way left to spot
+    // a caller sending mixed-size frames, since prefiltering normalizes them.
+    sourceWidth: meta.width,
+    sourceHeight: meta.height,
   };
 }

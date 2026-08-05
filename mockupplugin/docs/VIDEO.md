@@ -56,6 +56,9 @@ Key files:
 - `apps/plugin/src/ui/video/encoder.ts` — streaming H.264 session.
 - `apps/plugin/src/ui/video/useVideoRender.ts` — the interleaved state
   machine; only one batch of frames is alive at any moment.
+- Designs are prefiltered to roughly their destination size before warping
+  (mip level 0). Without it a 1200px frame onto a small print area aliases
+  badly, since the warp takes one bilinear tap per output pixel.
 - `apps/api/src/render/pipeline.ts` `renderSequence()` — hoists everything
   frame-invariant (baked base+colorize canvas, warp sampler, masks, lighting,
   displacement, overlays) out of the frame loop. Measured 44ms/frame batched

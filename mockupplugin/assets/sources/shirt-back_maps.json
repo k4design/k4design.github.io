@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "source": "shirt.psd",
+  "preset": "screen",
+  "sourceSize": {
+    "width": 452,
+    "height": 678
+  },
+  "mapSize": {
+    "width": 452,
+    "height": 678
+  },
+  "displacementScalePx": 3,
+  "neutral": 128,
+  "params": {
+    "highPassRadius": 0,
+    "smoothRadius": 6,
+    "normalStrength": 0.8,
+    "aoRadius": 0,
+    "aoStrength": 0,
+    "normalYUp": true,
+    "maxEdge": 2048,
+    "radiusScale": 0.3310546875,
+    "referenceEdge": 2048
+  },
+  "maps": {
+    "displacement": "shirt_disp.png",
+    "normal": "shirt_normal.png"
+  }
+}
