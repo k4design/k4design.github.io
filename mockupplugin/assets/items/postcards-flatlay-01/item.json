@@ -1,0 +1,273 @@
+{
+  "id": "postcards-flatlay-01",
+  "name": "Postcard Set, Flat Lay",
+  "category": "branding",
+  "viewpoint": "flat-lay",
+  "tags": [
+    "postcard",
+    "stationery",
+    "flat lay",
+    "branding",
+    "identity",
+    "set",
+    "collateral"
+  ],
+  "canvas": {
+    "width": 2048,
+    "height": 2048
+  },
+  "thumbnail": "thumbnail.png",
+  "preview": "preview.png",
+  "layers": [
+    {
+      "type": "base",
+      "src": "base.png"
+    },
+    {
+      "type": "surface",
+      "id": "card-1",
+      "label": "Card 1",
+      "placeholder": {
+        "aspect": 1.4896373056994818,
+        "recommendedWidth": 1500,
+        "recommendedHeight": 1007,
+        "hint": "Place your design here, then click Render"
+      },
+      "warp": {
+        "kind": "homography",
+        "corners": {
+          "tl": {
+            "x": 0.0859375,
+            "y": 0.18359375
+          },
+          "tr": {
+            "x": 0.36669921875,
+            "y": 0.18359375
+          },
+          "br": {
+            "x": 0.36669921875,
+            "y": 0.3720703125
+          },
+          "bl": {
+            "x": 0.0859375,
+            "y": 0.3720703125
+          }
+        }
+      },
+      "lighting": {
+        "multiply": "shadow-card-1.png",
+        "multiplyOpacity": 1,
+        "screen": "highlight-card-1.png",
+        "screenOpacity": 1
+      },
+      "mask": "mask-card-1.png",
+      "opacity": 1,
+      "blend": "normal"
+    },
+    {
+      "type": "surface",
+      "id": "card-2",
+      "label": "Card 2",
+      "placeholder": {
+        "aspect": 1.5879265091863517,
+        "recommendedWidth": 1500,
+        "recommendedHeight": 945,
+        "hint": "Place your design here, then click Render"
+      },
+      "warp": {
+        "kind": "homography",
+        "corners": {
+          "tl": {
+            "x": 0.408203125,
+            "y": 0.19384765625
+          },
+          "tr": {
+            "x": 0.70361328125,
+            "y": 0.19384765625
+          },
+          "br": {
+            "x": 0.70361328125,
+            "y": 0.3798828125
+          },
+          "bl": {
+            "x": 0.408203125,
+            "y": 0.3798828125
+          }
+        }
+      },
+      "lighting": {
+        "multiply": "shadow-card-2.png",
+        "multiplyOpacity": 1,
+        "screen": "highlight-card-2.png",
+        "screenOpacity": 1
+      },
+      "mask": "mask-card-2.png",
+      "opacity": 1,
+      "blend": "normal"
+    },
+    {
+      "type": "surface",
+      "id": "card-3",
+      "label": "Card 3",
+      "placeholder": {
+        "aspect": 1.4898467293071682,
+        "recommendedWidth": 1500,
+        "recommendedHeight": 1007,
+        "hint": "Place your design here, then click Render"
+      },
+      "warp": {
+        "kind": "homography",
+        "corners": {
+          "tl": {
+            "x": 0.1899241596874134,
+            "y": 0.39506243645605194
+          },
+          "tr": {
+            "x": 0.4951171875,
+            "y": 0.394977040745934
+          },
+          "br": {
+            "x": 0.4951171875,
+            "y": 0.6001971825249052
+          },
+          "bl": {
+            "x": 0.18995237904343035,
+            "y": 0.5995210772506298
+          }
+        }
+      },
+      "lighting": {
+        "multiply": "shadow-card-3.png",
+        "multiplyOpacity": 1,
+        "screen": "highlight-card-3.png",
+        "screenOpacity": 1
+      },
+      "mask": "mask-card-3.png",
+      "opacity": 1,
+      "blend": "normal"
+    },
+    {
+      "type": "surface",
+      "id": "card-4",
+      "label": "Card 4",
+      "placeholder": {
+        "aspect": 1.4572448789274304,
+        "recommendedWidth": 1500,
+        "recommendedHeight": 1029,
+        "hint": "Place your design here, then click Render"
+      },
+      "warp": {
+        "kind": "homography",
+        "corners": {
+          "tl": {
+            "x": 0.51611328125,
+            "y": 0.4010667018009346
+          },
+          "tr": {
+            "x": 0.81494140625,
+            "y": 0.3987605945932583
+          },
+          "br": {
+            "x": 0.81494140625,
+            "y": 0.60498046875
+          },
+          "bl": {
+            "x": 0.51611328125,
+            "y": 0.60498046875
+          }
+        }
+      },
+      "lighting": {
+        "multiply": "shadow-card-4.png",
+        "multiplyOpacity": 1,
+        "screen": "highlight-card-4.png",
+        "screenOpacity": 1
+      },
+      "mask": "mask-card-4.png",
+      "opacity": 1,
+      "blend": "normal"
+    },
+    {
+      "type": "surface",
+      "id": "card-5",
+      "label": "Card 5",
+      "placeholder": {
+        "aspect": 1.6096796136871605,
+        "recommendedWidth": 1500,
+        "recommendedHeight": 932,
+        "hint": "Place your design here, then click Render"
+      },
+      "warp": {
+        "kind": "homography",
+        "corners": {
+          "tl": {
+            "x": 0.08452508964299907,
+            "y": 0.6151504924055081
+          },
+          "tr": {
+            "x": 0.39014589419612766,
+            "y": 0.6154541668705714
+          },
+          "br": {
+            "x": 0.39011919914009546,
+            "y": 0.8051759300915714
+          },
+          "bl": {
+            "x": 0.08447238597113087,
+            "y": 0.80517370987187
+          }
+        }
+      },
+      "lighting": {
+        "multiply": "shadow-card-5.png",
+        "multiplyOpacity": 1,
+        "screen": "highlight-card-5.png",
+        "screenOpacity": 1
+      },
+      "mask": "mask-card-5.png",
+      "opacity": 1,
+      "blend": "normal"
+    },
+    {
+      "type": "surface",
+      "id": "card-6",
+      "label": "Card 6",
+      "placeholder": {
+        "aspect": 1.5617548865454896,
+        "recommendedWidth": 1500,
+        "recommendedHeight": 960,
+        "hint": "Place your design here, then click Render"
+      },
+      "warp": {
+        "kind": "homography",
+        "corners": {
+          "tl": {
+            "x": 0.39985978890708124,
+            "y": 0.6201171875
+          },
+          "tr": {
+            "x": 0.72021484375,
+            "y": 0.6201171875
+          },
+          "br": {
+            "x": 0.72021484375,
+            "y": 0.8251953125
+          },
+          "bl": {
+            "x": 0.4000062891859819,
+            "y": 0.8251953125
+          }
+        }
+      },
+      "lighting": {
+        "multiply": "shadow-card-6.png",
+        "multiplyOpacity": 1,
+        "screen": "highlight-card-6.png",
+        "screenOpacity": 1
+      },
+      "mask": "mask-card-6.png",
+      "opacity": 1,
+      "blend": "normal"
+    }
+  ]
+}

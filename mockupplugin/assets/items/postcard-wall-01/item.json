@@ -1,0 +1,67 @@
+{
+  "id": "postcard-wall-01",
+  "name": "Postcard on a Sunlit Wall",
+  "category": "print",
+  "viewpoint": "front",
+  "tags": [
+    "postcard",
+    "card",
+    "print",
+    "invitation",
+    "stationery",
+    "shadow",
+    "wall"
+  ],
+  "canvas": {
+    "width": 1968,
+    "height": 2464
+  },
+  "thumbnail": "thumbnail.png",
+  "preview": "preview.png",
+  "layers": [
+    {
+      "type": "base",
+      "src": "base.png"
+    },
+    {
+      "type": "surface",
+      "id": "design",
+      "placeholder": {
+        "aspect": 1.5824,
+        "recommendedWidth": 1800,
+        "recommendedHeight": 1138,
+        "hint": "Place your design here, then click Render"
+      },
+      "warp": {
+        "kind": "homography",
+        "corners": {
+          "tl": {
+            "x": 0.216,
+            "y": 0.3052
+          },
+          "tr": {
+            "x": 0.7571,
+            "y": 0.3052
+          },
+          "br": {
+            "x": 0.7571,
+            "y": 0.5783
+          },
+          "bl": {
+            "x": 0.216,
+            "y": 0.5783
+          }
+        }
+      },
+      "lighting": {
+        "multiply": "shadow-design.png",
+        "multiplyOpacity": 1,
+        "screen": "highlight-design.png",
+        "screenOpacity": 1
+      },
+      "mask": "mask-design.png",
+      "opacity": 1,
+      "blend": "normal"
+    }
+  ]
+}

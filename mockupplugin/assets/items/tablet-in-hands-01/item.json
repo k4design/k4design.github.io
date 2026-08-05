@@ -1,0 +1,68 @@
+{
+  "id": "tablet-in-hands-01",
+  "name": "Tablet Held in Both Hands",
+  "category": "devices",
+  "viewpoint": "in-hand",
+  "tags": [
+    "tablet",
+    "ipad",
+    "screen",
+    "app",
+    "held",
+    "presentation",
+    "landscape"
+  ],
+  "canvas": {
+    "width": 2544,
+    "height": 1904
+  },
+  "thumbnail": "thumbnail.png",
+  "preview": "preview.png",
+  "layers": [
+    {
+      "type": "base",
+      "src": "base.png"
+    },
+    {
+      "type": "surface",
+      "id": "screen",
+      "label": "Screen",
+      "placeholder": {
+        "aspect": 1.4704260862024128,
+        "recommendedWidth": 2360,
+        "recommendedHeight": 1605,
+        "hint": "Place your design here, then click Render"
+      },
+      "warp": {
+        "kind": "homography",
+        "corners": {
+          "tl": {
+            "x": 0.1797000473971747,
+            "y": 0.20868971933211228
+          },
+          "tr": {
+            "x": 0.833746962587277,
+            "y": 0.21058290717849182
+          },
+          "br": {
+            "x": 0.8460006663842093,
+            "y": 0.8153261307985173
+          },
+          "bl": {
+            "x": 0.16768424255722889,
+            "y": 0.8141947269176683
+          }
+        }
+      },
+      "lighting": {
+        "multiply": "shadow-screen.png",
+        "multiplyOpacity": 1,
+        "screen": "highlight-screen.png",
+        "screenOpacity": 1
+      },
+      "mask": "mask-screen.png",
+      "opacity": 1,
+      "blend": "normal"
+    }
+  ]
+}

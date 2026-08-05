@@ -1,0 +1,68 @@
+{
+  "id": "laptop-cafe-01",
+  "name": "Laptop on a Café Table",
+  "category": "devices",
+  "viewpoint": "scene",
+  "tags": [
+    "laptop",
+    "macbook",
+    "screen",
+    "website",
+    "cafe",
+    "workspace",
+    "lifestyle"
+  ],
+  "canvas": {
+    "width": 2048,
+    "height": 2048
+  },
+  "thumbnail": "thumbnail.png",
+  "preview": "preview.png",
+  "layers": [
+    {
+      "type": "base",
+      "src": "base.png"
+    },
+    {
+      "type": "surface",
+      "id": "screen",
+      "label": "Screen",
+      "placeholder": {
+        "aspect": 1.4113798402338533,
+        "recommendedWidth": 2560,
+        "recommendedHeight": 1814,
+        "hint": "Place your design here, then click Render"
+      },
+      "warp": {
+        "kind": "homography",
+        "corners": {
+          "tl": {
+            "x": 0.5133172289226574,
+            "y": 0.4066657487018812
+          },
+          "tr": {
+            "x": 0.8853783762048231,
+            "y": 0.41297315797235007
+          },
+          "br": {
+            "x": 0.8443972348212684,
+            "y": 0.6897239914875876
+          },
+          "bl": {
+            "x": 0.46471488515086995,
+            "y": 0.6559343513238387
+          }
+        }
+      },
+      "lighting": {
+        "multiply": "shadow-screen.png",
+        "multiplyOpacity": 1,
+        "screen": "highlight-screen.png",
+        "screenOpacity": 1
+      },
+      "mask": "mask-screen.png",
+      "opacity": 1,
+      "blend": "normal"
+    }
+  ]
+}
