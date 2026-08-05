@@ -150,6 +150,16 @@ review the image diff in the commit:
 MF_UPDATE_GOLDEN=1 npm test --workspace @mf/api
 ```
 
+## Video designs
+
+Select a mockup, open the Render tab, and **Choose clip…** on its card. The
+clip (MP4/MOV/WebM, up to 30s) is decoded in the plugin, warped frame by frame
+through the render service, and encoded to MP4 in-plugin — the preview plays
+inline and **Download MP4** saves the same file. **Apply poster to canvas**
+pins the first warped frame onto the mockup frame, since Figma cannot play
+video on canvas. The clip never leaves your machine except as design frames
+sent to your render service. Details: [docs/VIDEO.md](docs/VIDEO.md).
+
 ## Endpoints
 
 | Method | Path                     | Purpose                                       |
@@ -158,7 +168,7 @@ MF_UPDATE_GOLDEN=1 npm test --workspace @mf/api
 | GET    | `/catalog`               | Paged items — `category`, `viewpoint`, `q`, `cursor`, `limit` |
 | GET    | `/items/:id`             | Client-safe item detail (no warp geometry)    |
 | POST   | `/render`                | Composite designs onto an item, returns PNG   |
-| POST   | `/render/video`          | Phase 2, gated behind `MF_VIDEO=1`            |
+| POST   | `/render/batch`          | Up to 30 video frames on one surface, one rate-limit hit |
 | GET    | `/assets/*`              | Item thumbnails and previews (CDN in prod)    |
 
 Errors carry a machine-readable code — `aspect_mismatch`, `payload_too_large`,
@@ -176,9 +186,8 @@ value fails the process rather than being silently defaulted.
 | `ASSET_DIR`          | `./assets`           | Item packages; an S3-compatible mount in production |
 | `ASSET_BASE_URL`     | —                    | Set to serve thumbnails from a CDN     |
 | `PUBLIC_URL`         | —                    | Public origin, for building asset URLs |
-| `RATE_LIMIT_RENDERS` | `30`                 | Per IP, per `RATE_LIMIT_WINDOW`; `/render` only |
-| `RENDER_TIMEOUT_MS`  | `20000`              |                                        |
-| `MF_VIDEO`           | `0`                  | Phase-2 video rendering                |
+| `RATE_LIMIT_RENDERS` | `30`                 | Per IP, per `RATE_LIMIT_WINDOW`; render routes only |
+| `RENDER_TIMEOUT_MS`  | `20000`              | Batches get 3x this                    |
 | `LOG_LEVEL`          | `info`               |                                        |
 
 ## Deployment

@@ -1,70 +1,67 @@
-# Video mockups (phase 2)
+# Video mockups
 
-Status: **scaffolded, not shipped.** The pipeline code is real and the data model
-already supports it; uploads and result storage are not built.
+Status: **shipped**, client-side. Pick a clip in the Render tab, watch the
+warped result play in the plugin, download the MP4, and optionally pin the
+first frame to the canvas as a poster (Figma cannot play video on canvas).
 
-## Why this is mostly free
+## Architecture
 
-A warp is a pure function of `(design pixels, item geometry)`. Nothing in the
-still pipeline carries state between renders — no accumulation, no time
-dependence — so a video frame is just another design PNG. `renderVideo()` in
-[apps/api/src/render/video.ts](../apps/api/src/render/video.ts) is a loop over
-`renderItem()`, not a second renderer.
+The entire video pipeline runs in the **plugin UI iframe**, interleaved per
+batch so memory stays bounded:
 
-That is the reason the item model stores geometry normalized to 0..1: the same
-mesh drives a 300px preview frame and a 3000px hero frame.
+```
+<video> seek loop ──► design PNGs (one batch)
+      └► POST /render/batch ──► warped PNGs
+      └► h264-mp4-encoder (WASM) ──► one MP4 blob
+            ├► <video src=blobURL loop controls>   realtime preview
+            ├► a.download                          export
+            └► first frame → apply-render          canvas poster
+```
 
-## What exists today
+The preview **is** the export: one blob, played and saved as-is.
 
-- `renderVideo()` — probes the source with `ffprobe`, decodes frames to PNG at
-  the surface's authored resolution, warps each frame through `renderItem()`,
-  and encodes with `libx264` or `libvpx-vp9`. Frames are padded to even
-  dimensions, because encoders reject odd ones and the render size derives from
-  the item canvas.
-- `POST /render/video` — validates the request, checks the item exists and that
-  ffmpeg is present, then returns `501` with an explanation. It does not
-  pretend to enqueue work it cannot finish.
-- `GET /render/video/:jobId` — reads the in-memory job table.
-- Everything is gated behind `MF_VIDEO=1`.
+Key files:
 
-## What is missing
+- `apps/plugin/src/ui/video/decode.ts` — `<video>` + `currentTime` seek per
+  frame, drawn to a fixed design-sized canvas (`cover` crops, `contain`
+  letterboxes). 30s cap, fps ∈ {12, 24, 30}.
+- `apps/plugin/src/ui/video/encoder.ts` — streaming H.264 session.
+- `apps/plugin/src/ui/video/useVideoRender.ts` — the interleaved state
+  machine; only one batch of frames is alive at any moment.
+- `apps/api/src/render/pipeline.ts` `renderSequence()` — hoists everything
+  frame-invariant (baked base+colorize canvas, warp sampler, masks, lighting,
+  displacement, overlays) out of the frame loop. Measured 44ms/frame batched
+  vs ~100ms via single `/render` calls.
+- `POST /render/batch` — up to 30 same-sized frames for one item+surface,
+  one rate-limit hit per batch.
 
-1. **Upload endpoint.** `VideoRenderRequest.uploadId` is a handle for a file
-   that nothing produces yet. Needs a multipart or presigned-PUT route with a
-   size cap, a duration cap, and a content sniff — `.mp4` in a filename means
-   nothing.
-2. **Object storage for results.** A finished MP4 currently lives in a temp
-   directory that `renderVideo` deletes on the way out. Results and posters need
-   to go to S3-compatible storage with signed, expiring URLs.
-3. **A real queue.** Jobs are held in a `Map`, so they die with the process and
-   do not survive a deploy or spread across instances. A 20-second still render
-   can hold an HTTP connection; a 40-second clip at 30fps is 1,200 renders and
-   cannot.
-4. **Streaming instead of frame dumps.** Decoding every frame to PNG on disk is
-   the simplest correct thing and the wrong thing at scale: a 30-second 1080p
-   clip is thousands of files and gigabytes of I/O. The shape to move to is
-   `ffmpeg -f rawvideo` piped in, warped in flight, piped straight back out to
-   the encoder — the warp already works on raw RGBA buffers, so no warp code has
-   to change.
-5. **Progress reporting.** ffmpeg writes frame counts to stderr; parse them and
-   surface percentage to the plugin, since a designer staring at a spinner for
-   two minutes will assume it has hung.
+## Constraints discovered the hard way
 
-## Plugin side
+- **No WebCodecs.** Figma plugin iframes are not secure contexts, so the API
+  does not exist there. Encoding uses `h264-mp4-encoder` (pure WASM), the same
+  library the sibling frame-to-mp4 plugin ships. Its web build defines a
+  script-scoped `var HME`, invisible under Vite's ESM — it is imported `?raw`
+  and injected as a classic script tag.
+- **The sandbox never sees the video.** Only the ordinary `apply-render`
+  poster crosses the postMessage boundary.
+- The clip never leaves the user's machine except as individual design frames
+  posted to the render service; nothing is stored server-side.
 
-Figma cannot play video on canvas, so the plugin will not try. The intended UX,
-once the above is built:
+## Why not the server-side ffmpeg route
 
-- The design frame becomes a **video slot** — the user picks a local file in the
-  iframe rather than placing artwork on canvas.
-- The UI shows the poster frame (already produced by `renderVideo`) as a still
-  preview, plus a download link for the MP4/WEBM.
-- The item frame on canvas keeps showing the still render of the first frame, so
-  the mockup still reads correctly in the Figma file.
+An earlier scaffold looped ffmpeg-decoded frames through the still pipeline
+server-side. It was deleted (see git history, milestone 7 → `325a41e`) because
+finishing it required exactly the machinery this product avoids: an upload
+endpoint, object storage for results, and a job queue with progress reporting.
+The client pipeline needs none of it, and gets realtime preview for free.
 
-## Cost note
+## Future options
 
-Video renders are minutes of CPU, not milliseconds. Anonymous per-IP rate
-limiting is adequate for stills but not for this — video will need either a much
-tighter limit, a queue with per-IP concurrency of one, or the accounts this
-product deliberately does not have.
+- **Audio passthrough.** The export is currently silent. The reference
+  implementation is `muxAudio()` in `../videoexport/src/ui.ts`: `mediabunny`
+  in packet-passthrough mode re-muxes the WASM encoder's AVC packets with the
+  source file's encoded audio — no re-encode, no WebCodecs.
+- **Item-canvas output.** Export resolution follows the item canvas (capped by
+  the Settings render-width override). A dedicated per-video resolution picker
+  would help very large canvases.
+- **WebM.** `h264-mp4-encoder` is MP4-only; WebM would need a VP9 WASM build.

@@ -179,15 +179,34 @@ use that code path.
 reference so it can be reviewed, then fails, because a test that invents its own
 expected value on first run is not a test.
 
-## Video (phase 2)
+## Video
 
-**Video reuses the still pipeline frame by frame.** A warp is a pure function of
-(design pixels, item geometry) with no state between renders, so `renderVideo`
-is a loop over `renderItem` rather than a second renderer. This is the reason
-geometry is normalized.
+**Client-side pipeline, not server-side ffmpeg.** The milestone-7 scaffold went
+the server route and stalled exactly where predicted: uploads, object storage,
+job queue. The shipped design runs everything in the plugin UI iframe — decode
+via `<video>` seeks, warp via `POST /render/batch`, encode via WASM — because
+the iframe is a full browser context and the warp is per-frame stateless. The
+server stays account-less and storage-less, and the clip never leaves the
+user's machine except as design frames. The ffmpeg scaffold was deleted rather
+than kept "just in case" (git history has it).
 
-**The endpoint returns 501 instead of enqueuing.** The ffmpeg orchestration is
-real and gated behind `MF_VIDEO`, but there is no upload route and no object
-storage, so a finished MP4 has nowhere to live. Reporting that honestly beats
-accepting jobs that cannot complete. `docs/VIDEO.md` lists what remains,
-including the switch from frame dumps on disk to a piped rawvideo stream.
+**WASM H.264, because WebCodecs does not exist in plugin iframes.** They are
+not secure contexts. `h264-mp4-encoder` is the same library the sibling
+frame-to-mp4 plugin proved inside Figma; its web build defines a script-scoped
+`var HME`, so it is imported `?raw` and injected as a classic script tag —
+under Vite's ESM the var would otherwise be module-scoped and invisible.
+
+**The preview is the export.** Rather than a bespoke frame player, the pipeline
+encodes immediately and plays the finished MP4 blob in a `<video>` element —
+native scrubbing, looping and realtime playback for free, and "Download" saves
+the identical bytes it previewed.
+
+**Batching is a rate-limit and sampler decision, not a bandwidth one.**
+30 frames per request means a 240-frame clip is 8 requests instead of 240
+against a 30/min per-IP cap, and the mesh sampler (triangulation + index
+raster) is solved once per batch. `renderSequence` is held to pixel-exact
+agreement with `renderItem` by test, so the batch path cannot drift into being
+a second renderer.
+
+**Interleaved, not staged.** Decode → render → encode proceeds batch by batch,
+so one batch of frames is the peak memory, not the whole clip.

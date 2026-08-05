@@ -10,6 +10,7 @@ import {
 import type { useSandbox } from '../useSandbox.js';
 import { post } from '../bridge.js';
 import { ApiClientError, renderItem } from '../api.js';
+import { VideoSection } from '../video/VideoSection.js';
 
 type Bridge = ReturnType<typeof useSandbox>;
 
@@ -236,6 +237,10 @@ export function RenderPanel({ state, api }: { state: Bridge['state']; api: Bridg
                   <span key={id} className="swatch" style={{ background: hex }} title={`${id}: ${hex}`} />
                 ))}
               </div>
+            ) : null}
+
+            {apiBase ? (
+              <VideoSection target={target} apiBase={apiBase} outputWidth={outputWidth} />
             ) : null}
 
             {job && job.phase !== 'idle' ? (

@@ -1,9 +1,12 @@
 import {
   ApiErrorSchema,
+  BatchRenderResponseSchema,
   CatalogResponseSchema,
   HealthResponseSchema,
   ItemDetailSchema,
   RenderResponseSchema,
+  type BatchRenderRequest,
+  type BatchRenderResponse,
   type CatalogQuery,
   type CatalogResponse,
   type HealthResponse,
@@ -103,6 +106,20 @@ export function renderItem(
   timeoutMs = 90_000,
 ): Promise<RenderResponse> {
   return request(apiBase, '/render', RenderResponseSchema, {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify(body),
+    timeoutMs,
+  });
+}
+
+/** One batch of video frames. Wall time scales with the batch, so be patient. */
+export function renderBatch(
+  apiBase: string,
+  body: BatchRenderRequest,
+  timeoutMs = 180_000,
+): Promise<BatchRenderResponse> {
+  return request(apiBase, '/render/batch', BatchRenderResponseSchema, {
     method: 'POST',
     headers: { 'content-type': 'application/json' },
     body: JSON.stringify(body),
