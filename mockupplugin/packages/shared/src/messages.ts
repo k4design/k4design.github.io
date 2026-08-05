@@ -47,7 +47,15 @@ export const ExportedTargetSchema = RenderTargetSchema.extend({
 export type ExportedTarget = z.infer<typeof ExportedTargetSchema>;
 
 export const PluginConfigSchema = z.object({
-  apiBase: z.string().url(),
+  /**
+   * A regex, NOT z.string().url(): zod implements .url() with `new URL()`, and
+   * the Figma plugin sandbox has no URL global. The ReferenceError is swallowed
+   * by zod's try/catch, so every parse "fails validation" and the sandbox
+   * silently refuses to send its own messages — the plugin just hangs on
+   * "Connecting to the canvas…". This schema runs on both sides of the bridge,
+   * so it must only use what the most restricted realm provides.
+   */
+  apiBase: z.string().regex(/^https?:\/\/[^\s/$.?#]\S*$/, 'must be an http(s) URL'),
   outputWidth: z.number().int().min(256).max(8192).nullable().default(null),
 });
 export type PluginConfig = z.infer<typeof PluginConfigSchema>;
