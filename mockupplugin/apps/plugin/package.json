@@ -7,6 +7,7 @@
     "build": "npm run build:ui && npm run build:code",
     "build:ui": "vite build",
     "build:code": "node scripts/build-code.mjs",
+    "build:prod": "node scripts/build-prod.mjs",
     "dev": "concurrently -n ui,code -c cyan,magenta \"vite build --watch\" \"node scripts/build-code.mjs --watch\"",
     "typecheck": "tsc -p tsconfig.json --noEmit && tsc -p tsconfig.sandbox.json --noEmit"
   },

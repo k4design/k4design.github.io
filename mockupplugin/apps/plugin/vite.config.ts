@@ -21,6 +21,11 @@ function emitAsUiHtml(): Plugin {
  */
 export default defineConfig({
   root: 'src/ui',
+  define: {
+    // Empty in dev; the public origin in build:prod. Also the UI's signal for
+    // hiding dev-only settings.
+    __MF_API_BASE__: JSON.stringify(process.env.MF_API_BASE ?? ''),
+  },
   plugins: [react(), viteSingleFile(), emitAsUiHtml()],
   build: {
     outDir: '../../dist',

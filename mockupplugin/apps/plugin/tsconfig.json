@@ -1,12 +1,23 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "lib": [
+      "ES2022",
+      "DOM",
+      "DOM.Iterable"
+    ],
     "jsx": "react-jsx",
-    "types": ["vite/client"],
+    "types": [
+      "vite/client"
+    ],
     "noEmit": true,
     "declaration": false,
     "declarationMap": false
   },
-  "include": ["src/ui/**/*.ts", "src/ui/**/*.tsx", "vite.config.ts"]
+  "include": [
+    "src/defines.d.ts",
+    "src/ui/**/*.ts",
+    "src/ui/**/*.tsx",
+    "vite.config.ts"
+  ]
 }

@@ -5,6 +5,13 @@ import { health } from '../api.js';
 
 type Bridge = ReturnType<typeof useSandbox>;
 
+/**
+ * Production builds compile the service origin in and the manifest allows only
+ * that origin, so a URL field would just be a way to break the plugin. Dev
+ * builds keep it for pointing at local or staging services.
+ */
+const DEV_BUILD = __MF_API_BASE__ === '';
+
 export function SettingsPanel({ state, api }: { state: Bridge['state']; api: Bridge['api'] }) {
   const [draft, setDraft] = useState('');
   const [status, setStatus] = useState<
@@ -32,33 +39,42 @@ export function SettingsPanel({ state, api }: { state: Bridge['state']; api: Bri
 
   return (
     <div className="stack">
-      <label className="field">
-        Render service URL
-        <input
-          type="url"
-          value={draft}
-          spellCheck={false}
-          onChange={(e) => setDraft(e.target.value)}
-          placeholder="http://localhost:8787"
-        />
-      </label>
-      <p className="muted">
-        The URL must also be listed in the plugin’s <span className="mono">manifest.json</span> under{' '}
-        <span className="mono">networkAccess.allowedDomains</span> — Figma blocks any other origin.
-      </p>
+      {DEV_BUILD ? (
+        <>
+          <label className="field">
+            Render service URL
+            <input
+              type="url"
+              value={draft}
+              spellCheck={false}
+              onChange={(e) => setDraft(e.target.value)}
+              placeholder="http://localhost:8787"
+            />
+          </label>
+          <p className="muted">
+            The URL must also be listed in the plugin’s <span className="mono">manifest.json</span>{' '}
+            under <span className="mono">networkAccess.allowedDomains</span> — Figma blocks any
+            other origin.
+          </p>
 
-      <div className="row">
-        <button
-          className="primary"
-          disabled={!valid || draft.trim() === state.config?.apiBase}
-          onClick={() => api.setConfig({ apiBase: draft.trim() })}
-        >
-          Save
-        </button>
-        <button className="secondary" disabled={!valid} onClick={() => void check(draft.trim())}>
-          Test connection
-        </button>
-      </div>
+          <div className="row">
+            <button
+              className="primary"
+              disabled={!valid || draft.trim() === state.config?.apiBase}
+              onClick={() => api.setConfig({ apiBase: draft.trim() })}
+            >
+              Save
+            </button>
+            <button
+              className="secondary"
+              disabled={!valid}
+              onClick={() => void check(draft.trim())}
+            >
+              Test connection
+            </button>
+          </div>
+        </>
+      ) : null}
 
       {status.kind === 'checking' ? <div className="notice">Checking…</div> : null}
       {status.kind === 'error' ? <div className="notice error">{status.message}</div> : null}

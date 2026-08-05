@@ -1,0 +1,15 @@
+{
+  "name": "Mockup Forge",
+  "id": "mockup-forge-dev-000001",
+  "api": "1.0.0",
+  "main": "code.js",
+  "ui": "ui.html",
+  "editorType": ["figma"],
+  "capabilities": [],
+  "enableProposedApi": false,
+  "documentAccess": "dynamic-page",
+  "networkAccess": {
+    "allowedDomains": ["https://mockup-forge.fly.dev"],
+    "reasoning": "Fetches the mockup catalogue and thumbnails, and posts the user's exported design to the render service that composites it onto the product photo. Designs are processed in memory and never stored."
+  }
+}

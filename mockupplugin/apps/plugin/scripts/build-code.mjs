@@ -16,7 +16,11 @@ const options = {
   logLevel: 'info',
   sourcemap: process.env.NODE_ENV === 'production' ? false : 'inline',
   minify: process.env.NODE_ENV === 'production',
-  define: { 'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV ?? 'development') },
+  define: {
+    'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV ?? 'development'),
+    // Empty in dev; the public origin in build:prod.
+    __MF_API_BASE__: JSON.stringify(process.env.MF_API_BASE ?? ''),
+  },
 };
 
 if (process.argv.includes('--watch')) {

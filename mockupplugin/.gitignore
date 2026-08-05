@@ -1,5 +1,7 @@
 node_modules/
 dist/
+# Publishable zips, rebuilt by npm run build:prod.
+apps/plugin/release/
 *.tsbuildinfo
 .DS_Store
 .env
