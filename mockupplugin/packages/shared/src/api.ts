@@ -147,6 +147,51 @@ export const RenderResponseSchema = z.object({
 });
 export type RenderResponse = z.infer<typeof RenderResponseSchema>;
 
+/* ------------------------------------------------------------------ */
+/* Batch rendering — video frames                                      */
+/* ------------------------------------------------------------------ */
+
+/**
+ * Frames per POST /render/batch request. Sized so one request stays a couple
+ * of seconds of work: batching exists so a video does not fight the per-IP
+ * rate limit frame by frame, and so the warp sampler is built once per batch
+ * rather than once per frame.
+ */
+export const MAX_FRAMES_PER_BATCH = 30;
+/** Total frames the client pipeline will feed one video job (30s @ 30fps). */
+export const MAX_VIDEO_FRAMES = 900;
+
+export const BatchRenderRequestSchema = z.object({
+  itemId: z.string().min(1),
+  /** Batch renders exactly one surface — a video plays on one screen. */
+  surfaceId: z.string().min(1),
+  /**
+   * Base64 PNGs, all the same pixel size (the decoder draws every frame onto
+   * one fixed canvas, so this is free for the client to guarantee).
+   */
+  frames: z.array(Base64PngSchema).min(1).max(MAX_FRAMES_PER_BATCH),
+  /** Pixel size of every frame; checked against the placeholder once. */
+  width: z.number().int().positive().max(8192),
+  height: z.number().int().positive().max(8192),
+  colorize: z.record(HexSchema).default({}),
+  outputWidth: z.number().int().min(256).max(8192).optional(),
+});
+export type BatchRenderRequest = z.infer<typeof BatchRenderRequestSchema>;
+
+export const BatchRenderResponseSchema = z.object({
+  renderId: z.string(),
+  itemId: z.string(),
+  surfaceId: z.string(),
+  width: z.number().int().positive(),
+  height: z.number().int().positive(),
+  /** Base64 PNGs, same order as the request. */
+  frames: z.array(z.string()),
+  ms: z.number().nonnegative(),
+  /** Deduped — an aspect drift is reported once, not once per frame. */
+  warnings: z.array(RenderWarningSchema).default([]),
+});
+export type BatchRenderResponse = z.infer<typeof BatchRenderResponseSchema>;
+
 /** Phase 2 — see docs/VIDEO.md. Stubbed behind the MF_VIDEO feature flag. */
 export const VideoRenderRequestSchema = z.object({
   itemId: z.string().min(1),

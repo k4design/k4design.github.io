@@ -1,10 +1,16 @@
 import type { FastifyInstance } from 'fastify';
 import rateLimit from '@fastify/rate-limit';
-import { MAX_DESIGN_BYTES, RenderRequestSchema, type RenderResponse } from '@mf/shared';
+import {
+  BatchRenderRequestSchema,
+  MAX_DESIGN_BYTES,
+  RenderRequestSchema,
+  type BatchRenderResponse,
+  type RenderResponse,
+} from '@mf/shared';
 import { config } from '../config.js';
 import { ApiFailure } from '../errors.js';
 import { catalog } from '../catalog/store.js';
-import { renderItem } from '../render/pipeline.js';
+import { renderItem, renderSequence } from '../render/pipeline.js';
 
 export async function registerRenderRoutes(app: FastifyInstance): Promise<void> {
   // Anonymous, per-IP. There are no accounts in this system, so the only
@@ -59,6 +65,62 @@ export async function registerRenderRoutes(app: FastifyInstance): Promise<void> 
           width: outcome.width,
           height: outcome.height,
           png: outcome.png.toString('base64'),
+          ms: outcome.ms,
+          warnings: outcome.warnings,
+        };
+      });
+
+      // Video frames. One batch = one rate-limit hit, which is the point:
+      // a 240-frame clip is 8-10 requests, not 240.
+      scope.post('/render/batch', async (req): Promise<BatchRenderResponse> => {
+        const body = BatchRenderRequestSchema.parse(req.body);
+
+        if (!catalog.has(body.itemId)) {
+          throw new ApiFailure('not_found', `No mockup item with id "${body.itemId}".`);
+        }
+
+        let totalBytes = 0;
+        for (const frame of body.frames) totalBytes += Math.floor((frame.length * 3) / 4);
+        if (totalBytes > MAX_DESIGN_BYTES * 2) {
+          throw new ApiFailure(
+            'payload_too_large',
+            `This batch decodes to ${(totalBytes / 1024 / 1024).toFixed(1)} MB of frames. Send fewer frames per batch or a smaller frame size.`,
+          );
+        }
+
+        const outcome = await withTimeout(
+          renderSequence({
+            itemId: body.itemId,
+            surfaceId: body.surfaceId,
+            frames: body.frames.map((frame) => Buffer.from(frame, 'base64')),
+            frameWidth: body.width,
+            frameHeight: body.height,
+            colorize: body.colorize,
+            ...(body.outputWidth ? { outputWidth: body.outputWidth } : {}),
+          }),
+          // A batch is legitimately many renders' worth of work.
+          config.RENDER_TIMEOUT_MS * 3,
+        );
+
+        req.log.info(
+          {
+            renderId: outcome.renderId,
+            itemId: body.itemId,
+            surfaceId: body.surfaceId,
+            frames: outcome.frames.length,
+            width: outcome.width,
+            ms: outcome.ms,
+          },
+          'batch render complete',
+        );
+
+        return {
+          renderId: outcome.renderId,
+          itemId: body.itemId,
+          surfaceId: body.surfaceId,
+          width: outcome.width,
+          height: outcome.height,
+          frames: outcome.frames.map((frame) => frame.toString('base64')),
           ms: outcome.ms,
           warnings: outcome.warnings,
         };

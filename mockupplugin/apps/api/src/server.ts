@@ -8,7 +8,6 @@ import { ApiFailure } from './errors.js';
 import { catalog } from './catalog/store.js';
 import { registerCatalogRoutes } from './routes/catalog.js';
 import { registerRenderRoutes } from './routes/render.js';
-import { registerVideoRoutes } from './routes/video.js';
 
 export async function buildServer(): Promise<FastifyInstance> {
   const app = Fastify({
@@ -82,12 +81,12 @@ export async function buildServer(): Promise<FastifyInstance> {
     ok: true as const,
     version: MF_VERSION,
     items: catalog.size,
-    features: { video: config.MF_VIDEO },
+    // Video is the client-side pipeline over /render/batch — always on.
+    features: { video: true },
   }));
 
   await registerCatalogRoutes(app);
   await registerRenderRoutes(app);
-  await registerVideoRoutes(app);
 
   return app;
 }

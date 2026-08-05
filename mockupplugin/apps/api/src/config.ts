@@ -24,11 +24,6 @@ const EnvSchema = z.object({
   RATE_LIMIT_WINDOW: z.string().default('1 minute'),
   /** Hard ceiling on render wall time before we return render_timeout. */
   RENDER_TIMEOUT_MS: z.coerce.number().int().min(1000).default(20_000),
-  /** Phase-2 video rendering. Off by default — see docs/VIDEO.md. */
-  MF_VIDEO: z
-    .enum(['0', '1'])
-    .default('0')
-    .transform((v) => v === '1'),
   LOG_LEVEL: z.enum(['fatal', 'error', 'warn', 'info', 'debug', 'trace', 'silent']).default('info'),
 });
 
