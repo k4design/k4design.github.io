@@ -24,7 +24,7 @@
       }
       #log {
         flex: 1;
-        height: 640px;
+        min-height: 240px;
         overflow: auto;
         background: #1c1c1c;
         border-radius: 8px;
@@ -51,14 +51,31 @@
       Serve the repo root over HTTP, e.g.  npx serve .  then open
       /tools/dev-harness.html
     -->
-    <iframe id="ui" src="../apps/plugin/dist/ui.html"></iframe>
-    <div id="log"></div>
+    <!-- src is set in script with a cache-buster: static servers happily serve a
+         stale ui.html for hours, which looks exactly like a broken rebuild. -->
+    <iframe id="ui"></iframe>
+    <div style="flex: 1; display: flex; flex-direction: column; gap: 12px">
+      <img
+        id="result"
+        alt="latest render"
+        style="
+          display: none;
+          width: 100%;
+          max-height: 360px;
+          object-fit: contain;
+          border-radius: 8px;
+          background: #111;
+        "
+      />
+      <div id="log"></div>
+    </div>
 
     <script>
       const API_BASE = new URLSearchParams(location.search).get('api') ?? 'http://127.0.0.1:8787';
       const config = { apiBase: API_BASE, outputWidth: null };
       const logEl = document.getElementById('log');
       const ui = document.getElementById('ui');
+      ui.src = `../apps/plugin/dist/ui.html?t=${Date.now()}`;
 
       function log(dir, message) {
         const line = document.createElement('div');
@@ -70,6 +87,51 @@
       function toUi(message) {
         log('in', message);
         ui.contentWindow.postMessage({ pluginMessage: message }, '*');
+      }
+
+      /** Instances the harness pretends are on canvas, keyed by guid. */
+      const instances = new Map();
+
+      /** A canvas-drawn stand-in for an exported design frame. */
+      function fakeDesign(width, height, label) {
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        const gradient = ctx.createLinearGradient(0, 0, width, height);
+        gradient.addColorStop(0, '#1b1f3b');
+        gradient.addColorStop(1, '#0f2b46');
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, width, height);
+        ctx.strokeStyle = 'rgba(255,255,255,0.5)';
+        ctx.lineWidth = 2;
+        const step = Math.max(20, Math.round(Math.min(width, height) / 8));
+        for (let x = 0; x <= width; x += step) {
+          ctx.beginPath();
+          ctx.moveTo(x, 0);
+          ctx.lineTo(x, height);
+          ctx.stroke();
+        }
+        for (let y = 0; y <= height; y += step) {
+          ctx.beginPath();
+          ctx.moveTo(0, y);
+          ctx.lineTo(width, y);
+          ctx.stroke();
+        }
+        ctx.fillStyle = '#fff';
+        ctx.font = `bold ${Math.round(Math.min(width, height) * 0.08)}px sans-serif`;
+        ctx.textAlign = 'center';
+        ctx.fillText(label, width / 2, height * 0.55);
+        return canvas.toDataURL('image/png').split(',')[1];
+      }
+
+      function selectionFor(guid) {
+        const instance = instances.get(guid);
+        return {
+          type: 'selection-changed',
+          targets: instance ? [instance.target] : [],
+          foreignCount: 0,
+        };
       }
 
       window.addEventListener('message', (event) => {
@@ -89,14 +151,66 @@
             Object.assign(config, message.config);
             toUi({ type: 'config', config });
             break;
-          case 'import-item':
+          case 'import-item': {
+            const detail = message.detail;
+            const guid = `harness-${detail.id}`;
+            const colorize = {};
+            for (const colour of detail.colorize) colorize[colour.id] = colour.default;
+            instances.set(guid, {
+              detail,
+              target: {
+                instanceGuid: guid,
+                itemId: detail.id,
+                itemName: detail.name,
+                itemNodeId: '0:1',
+                colorize,
+                surfaces: detail.surfaces.map((surface) => {
+                  // Pretend the user made a frame at the recommended size.
+                  const width = Math.min(1200, surface.placeholder.recommendedWidth);
+                  const height = Math.round(width / surface.placeholder.aspect);
+                  return {
+                    surfaceId: surface.id,
+                    designNodeId: `0:${surface.id}`,
+                    width,
+                    height,
+                    aspect: width / height,
+                    expectedAspect: surface.placeholder.aspect,
+                    exportWidth: width,
+                    looksEmpty: false,
+                  };
+                }),
+              },
+            });
+            toUi({ type: 'import-done', instanceGuid: guid, itemId: detail.id, itemNodeId: '0:1' });
+            toUi(selectionFor(guid));
+            break;
+          }
+          case 'export-designs': {
+            const targets = message.instanceGuids
+              .map((guid) => instances.get(guid))
+              .filter(Boolean)
+              .map((instance) => ({
+                ...instance.target,
+                surfaces: instance.target.surfaces.map((surface) => ({
+                  ...surface,
+                  design: fakeDesign(surface.width, surface.height, surface.surfaceId),
+                })),
+              }));
+            toUi({ type: 'designs-exported', jobId: message.jobId, targets });
+            break;
+          }
+          case 'apply-render': {
+            // Show the finished render so the harness proves the whole loop.
+            const image = document.getElementById('result');
+            image.src = `data:image/png;base64,${message.png}`;
+            image.style.display = 'block';
             toUi({
-              type: 'import-done',
-              instanceGuid: `harness-${message.detail.id}`,
-              itemId: message.detail.id,
-              itemNodeId: '0:1',
+              type: 'render-applied',
+              instanceGuid: message.instanceGuid,
+              renderId: message.renderId,
             });
             break;
+          }
           default:
             break;
         }
