@@ -43,7 +43,14 @@ function load(): Config {
     throw new Error(`Invalid environment:\n${detail}`);
   }
   const env = parsed.data;
-  const publicUrl = env.PUBLIC_URL ?? `http://${env.HOST}:${env.PORT}`;
+  // The bind address is not a usable public hostname: Figma's manifest
+  // validator rejects IP-literal origins in allowedDomains, so asset URLs
+  // built from 127.0.0.1 (or a wildcard bind) produce images the plugin is
+  // forbidden from loading even though the catalog JSON itself arrives fine.
+  const publicHost = ['127.0.0.1', '0.0.0.0', '::', '::1'].includes(env.HOST)
+    ? 'localhost'
+    : env.HOST;
+  const publicUrl = env.PUBLIC_URL ?? `http://${publicHost}:${env.PORT}`;
   return {
     ...env,
     assetBaseUrl: (env.ASSET_BASE_URL ?? `${publicUrl}/assets`).replace(/\/$/, ''),
