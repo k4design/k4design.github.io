@@ -102,15 +102,29 @@ export function useVideoRender() {
       let posterSize = { width: 0, height: 0 };
       let encoded = 0;
 
-      for (let start = 0; start < total; start += MAX_FRAMES_PER_BATCH) {
-        const count = Math.min(MAX_FRAMES_PER_BATCH, total - start);
+      /**
+       * Batches are bounded by BYTES as well as frame count: photographic
+       * frames vary hugely in compressed size, and the server enforces a hard
+       * body limit. 12MB of base64 (~9MB decoded) leaves generous headroom
+       * under it regardless of content.
+       */
+      const BATCH_BYTE_BUDGET = 12 * 1024 * 1024;
 
+      let start = 0;
+      while (start < total) {
         // --- decode this batch ------------------------------------------
         const designs: string[] = [];
-        for (let i = 0; i < count; i += 1) {
+        let batchBytes = 0;
+        while (
+          start + designs.length < total &&
+          designs.length < MAX_FRAMES_PER_BATCH &&
+          (designs.length === 0 || batchBytes < BATCH_BYTE_BUDGET)
+        ) {
           if (cancelled.current) return;
-          designs.push(await source.frame(start + i));
-          setPhase({ kind: 'working', step: 'decoding', done: start + i + 1, total });
+          const frame = await source.frame(start + designs.length);
+          designs.push(frame);
+          batchBytes += frame.length;
+          setPhase({ kind: 'working', step: 'decoding', done: start + designs.length, total });
         }
 
         // --- warp this batch --------------------------------------------
@@ -148,6 +162,8 @@ export function useVideoRender() {
           encoded += 1;
           setPhase({ kind: 'working', step: 'encoding', done: start + i + 1, total });
         }
+
+        start += designs.length;
       }
 
       if (!session || !posterPng || encoded === 0) {

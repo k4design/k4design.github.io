@@ -135,7 +135,7 @@ export async function renderItem(request: RenderRequest): Promise<RenderOutcome>
             'unsupported_media',
             `The design sent for "${
               layer.label ?? layer.id
-            }" could not be read as a PNG. Re-export the frame and try again.`,
+            }" could not be read as an image. Re-export the frame and try again.`,
             undefined,
             { surfaceId: layer.id, reason: (err as Error).message },
           );
@@ -303,7 +303,7 @@ export async function renderSequence(request: SequenceRequest): Promise<Sequence
   const first = await decodeDesign(request.frames[0] ?? Buffer.alloc(0), {
     maxPixels: MAX_DESIGN_PIXELS,
   }).catch(() => {
-    throw new ApiFailure('unsupported_media', 'The first frame could not be read as a PNG.');
+    throw new ApiFailure('unsupported_media', 'The first frame could not be read as an image.');
   });
 
   const sampler = buildSampler(surface.warp, first, bounds, width, height);
@@ -345,7 +345,7 @@ export async function renderSequence(request: SequenceRequest): Promise<Sequence
       index === 0
         ? first
         : await decodeDesign(frame, { maxPixels: MAX_DESIGN_PIXELS }).catch(() => {
-            throw new ApiFailure('unsupported_media', `Frame ${index} could not be read as a PNG.`);
+            throw new ApiFailure('unsupported_media', `Frame ${index} could not be read as an image.`);
           });
 
     // The sampler was solved for the first frame's dimensions; a stray

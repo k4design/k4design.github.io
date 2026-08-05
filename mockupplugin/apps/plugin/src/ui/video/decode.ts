@@ -111,7 +111,11 @@ export async function openVideo(
       ctx.fillStyle = '#000000';
       ctx.fillRect(0, 0, options.width, options.height);
       ctx.drawImage(video, drawX, drawY, drawWidth, drawHeight);
-      return canvas.toDataURL('image/png').split(',')[1]!;
+      // JPEG, not PNG: video frames are opaque photographic content, and PNG
+      // makes each one 1-2MB — a 30-frame batch would blow the server's body
+      // limit even for a small source file. JPEG at 0.87 is visually
+      // indistinguishable after the warp and ~8x smaller.
+      return canvas.toDataURL('image/jpeg', 0.87).split(',')[1]!;
     },
     dispose(): void {
       video.removeAttribute('src');

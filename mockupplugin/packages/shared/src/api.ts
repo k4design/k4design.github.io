@@ -166,7 +166,7 @@ export const BatchRenderRequestSchema = z.object({
   /** Batch renders exactly one surface — a video plays on one screen. */
   surfaceId: z.string().min(1),
   /**
-   * Base64 PNGs, all the same pixel size (the decoder draws every frame onto
+   * Base64-encoded images (PNG or JPEG), all the same pixel size (the decoder draws every frame onto
    * one fixed canvas, so this is free for the client to guarantee).
    */
   frames: z.array(Base64PngSchema).min(1).max(MAX_FRAMES_PER_BATCH),
