@@ -13,8 +13,9 @@ export async function buildServer(): Promise<FastifyInstance> {
   const app = Fastify({
     logger: { level: config.LOG_LEVEL },
     // Renders arrive as base64 JSON; the per-field cap lives in the Zod
-    // schema, this is the outer envelope guard.
-    bodyLimit: 32 * 1024 * 1024,
+    // schema, this is the outer envelope guard. Sized for a max batch (2x the
+    // per-design byte cap as base64) with headroom, nothing more.
+    bodyLimit: 24 * 1024 * 1024,
   });
 
   // The plugin iframe has a null origin, so it cannot be allow-listed by

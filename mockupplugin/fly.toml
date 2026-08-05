@@ -1,0 +1,42 @@
+# Mockup Forge render service — Fly.io.
+#
+# One shared-CPU machine that stops when idle and wakes in under a second on
+# the next request, which is what makes an always-available public service
+# cost a few dollars a month. Renders are CPU-bound: if p95 creeps up under
+# real traffic, the first lever is a bigger machine, not more machines.
+#
+# First deploy: `fly launch --copy-config --no-deploy` then `fly deploy`.
+# The app name below must match the origin in manifest.production.json.
+
+app = "mockup-forge"
+primary_region = "ewr"
+
+[build]
+  dockerfile = "Dockerfile"
+
+[env]
+  HOST = "0.0.0.0"
+  PORT = "8787"
+  PUBLIC_URL = "https://mockup-forge.fly.dev"
+  LOG_LEVEL = "info"
+  RATE_LIMIT_RENDERS = "30"
+  RATE_LIMIT_BATCHES = "12"
+  MAX_OUTPUT_WIDTH = "3000"
+
+[http_service]
+  internal_port = 8787
+  force_https = true
+  auto_stop_machines = "stop"
+  auto_start_machines = true
+  min_machines_running = 0
+
+  [[http_service.checks]]
+    interval = "30s"
+    timeout = "4s"
+    grace_period = "10s"
+    method = "GET"
+    path = "/health"
+
+[[vm]]
+  size = "shared-cpu-2x"
+  memory = "1gb"

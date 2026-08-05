@@ -1,0 +1,11 @@
+node_modules
+**/node_modules
+**/dist
+apps/plugin/release
+assets
+.git
+*.md
+tools
+docs
+frametoMP4.html
+mockup-forge-guide.html

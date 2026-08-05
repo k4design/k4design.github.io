@@ -27,6 +27,7 @@ export async function registerRenderRoutes(app: FastifyInstance): Promise<void> 
 
       scope.post('/render', async (req): Promise<RenderResponse> => {
         const body = RenderRequestSchema.parse(req.body);
+        clampOutputWidth(body);
 
         if (!catalog.has(body.itemId)) {
           throw new ApiFailure('not_found', `No mockup item with id "${body.itemId}".`);
@@ -69,11 +70,24 @@ export async function registerRenderRoutes(app: FastifyInstance): Promise<void> 
           warnings: outcome.warnings,
         };
       });
+    },
+    { prefix: '' },
+  );
 
-      // Video frames. One batch = one rate-limit hit, which is the point:
-      // a 240-frame clip is 8-10 requests, not 240.
+  // Video frames get their own sibling limiter: a batch is legitimately many
+  // renders' worth of CPU, so it must not share the still budget (one clip
+  // would exhaust it) nor count against it (nesting would double-bill).
+  await app.register(
+    async (scope) => {
+      await scope.register(rateLimit, {
+        max: config.RATE_LIMIT_BATCHES,
+        timeWindow: config.RATE_LIMIT_WINDOW,
+        keyGenerator: (req) => req.ip,
+      });
+
       scope.post('/render/batch', async (req): Promise<BatchRenderResponse> => {
         const body = BatchRenderRequestSchema.parse(req.body);
+        clampOutputWidth(body);
 
         if (!catalog.has(body.itemId)) {
           throw new ApiFailure('not_found', `No mockup item with id "${body.itemId}".`);
@@ -128,6 +142,16 @@ export async function registerRenderRoutes(app: FastifyInstance): Promise<void> 
     },
     { prefix: '' },
   );
+}
+
+/**
+ * Requested widths above the server cap are clamped, not rejected: the client
+ * asked for "as sharp as possible", and the cap is what that means here.
+ */
+function clampOutputWidth(body: { outputWidth?: number }): void {
+  if (body.outputWidth && body.outputWidth > config.MAX_OUTPUT_WIDTH) {
+    body.outputWidth = config.MAX_OUTPUT_WIDTH;
+  }
 }
 
 /**

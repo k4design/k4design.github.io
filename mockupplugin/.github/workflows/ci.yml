@@ -1,0 +1,48 @@
+name: ci
+
+on:
+  push:
+    paths:
+      - "mockupplugin/**"
+  workflow_dispatch:
+
+defaults:
+  run:
+    working-directory: mockupplugin
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: mockupplugin/package-lock.json
+      - run: npm ci
+      - run: npm run build --workspace @mf/shared
+      - run: npm run seed --workspace @mf/api
+      - run: npm run typecheck
+      # Golden-image suite included — regenerated seed must match committed goldens.
+      - run: npm test
+      - run: npm run build --workspace @mf/plugin
+      - run: npm run build:prod --workspace @mf/plugin
+      - name: Upload release artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: mockup-forge-plugin
+          path: mockupplugin/apps/plugin/release/mockup-forge.zip
+
+  # Uncomment once a Fly token exists in repo secrets.
+  # deploy:
+  #   needs: test
+  #   if: github.ref == 'refs/heads/main'
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - uses: superfly/flyctl-actions/setup-flyctl@master
+  #     - run: flyctl deploy --remote-only
+  #       working-directory: mockupplugin
+  #       env:
+  #         FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}

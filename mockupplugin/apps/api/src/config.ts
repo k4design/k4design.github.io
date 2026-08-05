@@ -21,7 +21,14 @@ const EnvSchema = z.object({
   PUBLIC_URL: z.string().url().optional(),
   /** Renders per window, per IP. */
   RATE_LIMIT_RENDERS: z.coerce.number().int().min(1).default(30),
+  /** Batch requests per window, per IP. One 30s clip is 8-10 batches. */
+  RATE_LIMIT_BATCHES: z.coerce.number().int().min(1).default(12),
   RATE_LIMIT_WINDOW: z.string().default('1 minute'),
+  /**
+   * Hard ceiling on requested output width. The largest catalog canvas is
+   * 3000px; anything above that is pure CPU-burn surface on a public service.
+   */
+  MAX_OUTPUT_WIDTH: z.coerce.number().int().min(512).default(3000),
   /** Hard ceiling on render wall time before we return render_timeout. */
   RENDER_TIMEOUT_MS: z.coerce.number().int().min(1000).default(20_000),
   LOG_LEVEL: z.enum(['fatal', 'error', 'warn', 'info', 'debug', 'trace', 'silent']).default('info'),
