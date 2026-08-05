@@ -147,9 +147,10 @@ const CONFIGS: Config[] = [
       [0.135, 0.53, 0.35, 0.65],
       // 3. Hood, from the cowl vents down to the top of the grill surround.
       [0.145, 0.445, 0.418, 0.562],
-      // 4. Front cab face: pillars and the panel beside the windshield, up to
-      //    the roof. The glass masks itself out.
-      [0.264, 0.286, 0.485, 0.485],
+      // 4. Roof-front lip, painted pillar, and the fender wedge beside the
+      //    windshield — one surface, traced as a C so the glass is excluded.
+      [0.3050, 0.2770, 0.4880, 0.6250],
+
     ],
     quads: [
       null,
@@ -187,15 +188,21 @@ const CONFIGS: Config[] = [
         [0.1538, 0.5466],
       ],
       [
-        [0.2692, 0.3554],
-        [0.3228, 0.3088],
-        [0.3846, 0.2917],
-        [0.4808, 0.3027],
-        [0.4808, 0.3260],
-        [0.4396, 0.3676],
-        [0.4286, 0.4804],
-        [0.4093, 0.4804],
-        [0.2692, 0.4069],
+        [0.3104, 0.3088],
+        [0.3846, 0.2868],
+        [0.4808, 0.2990],
+        [0.4821, 0.3260],
+        [0.4478, 0.3554],
+        [0.4451, 0.4804],
+        [0.4286, 0.5760],
+        [0.4203, 0.6152],
+        [0.3681, 0.6127],
+        [0.3668, 0.5564],
+        [0.3846, 0.4559],
+        [0.4148, 0.4804],
+        [0.4217, 0.3676],
+        [0.3819, 0.3113],
+        [0.3125, 0.3407],
       ],
     ],
     // Only the grill takes its mask from the quad; the painted panels take
@@ -692,8 +699,36 @@ async function build(config: Config): Promise<void> {
         }
       }
 
-      const found = findBlobs(bright, width, height, Math.round(minArea * 0.3));
-      const best = found[0];
+      // With a clip polygon, the polygon IS the panel: keep every painted piece
+      // inside it, not just the largest. A van's front surface is two
+      // disconnected pieces — the roof lip above the windshield and the fender
+      // wedge beside it — and taking only the biggest silently dropped one.
+      // Without a polygon, connectivity is the only thing separating the subject
+      // from equally bright surroundings, so the largest blob still wins.
+      const found = findBlobs(bright, width, height, clipPts ? 200 : Math.round(minArea * 0.3));
+      let best = found[0];
+      if (best && clipPts && found.length > 1) {
+        const pixels = new Uint8Array(width * height);
+        let area = 0;
+        let minX = width;
+        let maxX = -1;
+        let minY = height;
+        let maxY = -1;
+        for (const blob of found) {
+          for (let i = 0; i < pixels.length; i += 1) {
+            if (!blob.pixels[i] || pixels[i]) continue;
+            pixels[i] = 255;
+            area += 1;
+            const x = i % width;
+            const y = (i - x) / width;
+            if (x < minX) minX = x;
+            if (x > maxX) maxX = x;
+            if (y < minY) minY = y;
+            if (y > maxY) maxY = y;
+          }
+        }
+        best = { pixels, area, minX, maxX, minY, maxY };
+      }
       if (!best) {
         throw new Error(`${config.itemId}: nothing found in ROI ${nx0},${ny0} ${nx1},${ny1}.`);
       }
