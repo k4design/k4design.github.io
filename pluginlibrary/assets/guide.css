@@ -65,7 +65,12 @@
 
   .wrap{background:var(--bg);color:var(--ink);font-family:var(--sans);
     font-size:16px;line-height:1.7;-webkit-font-smoothing:antialiased;
-    padding:0;overflow-x:hidden;}
+    padding:0;
+    /* clip, not hidden: `overflow-x:hidden` forces overflow-y to `auto`,
+       which makes this div the scroll container instead of the document —
+       that breaks anchor links, scroll progress, and Cmd+F scrolling.
+       `clip` contains the hero's full-bleed glow without any of that. */
+    overflow-x:clip;}
   a{color:var(--accent);text-underline-offset:3px;}
 
   /* ---------- nav ---------- */
@@ -308,6 +313,31 @@
   .eyebrow{font:12px var(--mono);letter-spacing:2.5px;text-transform:uppercase;
     color:var(--accent);}
 
+  /* ---------- fixed link to the plugin itself ---------- */
+  .plugin-cta{position:fixed;z-index:60;
+    right:max(20px,env(safe-area-inset-right));
+    bottom:max(20px,env(safe-area-inset-bottom));
+    display:inline-flex;align-items:center;gap:9px;
+    padding:12px 18px;border-radius:999px;text-decoration:none;
+    color:#fff;font-size:14.5px;font-weight:600;
+    box-shadow:0 10px 30px rgba(0,0,0,.28),0 0 0 1px rgba(255,255,255,.10) inset;
+    transition:transform .15s,box-shadow .15s,background-position .25s linear;
+    /* blue at the top of the guide, purple at the bottom. The gradient is
+       five times the button's width, so the button only ever shows a fifth
+       of the ramp — that keeps the ends reading as clearly blue and clearly
+       purple instead of both looking like the same two-tone blend.
+       --cta-p (0…1) is scroll progress, set by assets/cta.js. */
+    background-image:linear-gradient(96deg,var(--accent) 0%,var(--accent-2) 100%);
+    background-size:500% 100%;background-repeat:no-repeat;
+    background-position:calc(var(--cta-p,0) * 100%) 0;}
+  .plugin-cta:hover{transform:translateY(-2px);
+    box-shadow:0 16px 40px rgba(0,0,0,.34),0 0 0 1px rgba(255,255,255,.16) inset;}
+  .plugin-cta .ext{font-size:12px;opacity:.85;}
+  @media (max-width:560px){
+    .plugin-cta{padding:11px 15px;font-size:13.5px;}
+    .plugin-cta .label-long{display:none;}
+  }
+
   footer{border-top:1px solid var(--line);margin-top:clamp(64px,9vw,110px);
     padding:36px 24px;text-align:center;color:var(--ink-3);
     font:13px var(--mono);display:flex;justify-content:center;gap:10px 24px;
@@ -438,7 +468,7 @@
     :root{--bg:#fff;--bg-2:#f6f8fb;--surface:#fff;--surface-2:#f6f8fb;
       --ink:#000;--ink-2:#333;--ink-3:#666;
       --line:rgba(0,0,0,.18);--line-bright:rgba(0,0,0,.28);}
-    nav,.topbar{display:none;}
+    nav,.topbar,.plugin-cta{display:none;}
     .hero::before,.masthead::before,.cheat::before{display:none;}
     .grad,.title em{-webkit-text-fill-color:#2563eb;color:#2563eb;}
     section,.sec,.block,.step,.card,.feature,.crop,.figshot{break-inside:avoid;}

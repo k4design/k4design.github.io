@@ -81,6 +81,7 @@ assets/
   library.css   the shell only: login page + the index's two panes
   icons/        square plugin logos, referenced by `icon` in plugins.js
   gate.js       session check (requireUnlock / attemptUnlock / lock)
+  cta.js        scroll progress → the guide's Open-in-Figma button colour
   index.js      builds the sidebar, filters it, drives the right-hand pane
 guides/
   _template.html      copy this for the next plugin
@@ -127,3 +128,17 @@ is answering on the Figma side.
 To re-shoot after a UI change, serve the repo root and load `ui.html` in a
 wrapper that hides `#loadingOverlay` (it spins forever outside Figma) and clicks
 the tab you want, then screenshot at 420×600 with `--force-device-scale-factor=2`.
+
+## The Open-in-Figma button
+
+Each guide has a fixed button, bottom-right, linking to the plugin on Figma
+Community. Its colour tracks how far you've read: blue at the top of the guide,
+violet at the bottom, so it doubles as a progress indicator.
+
+`assets/cta.js` writes scroll progress to `--cta-p` (0…1) on `<html>`; the
+`.plugin-cta` rule slides a five-times-oversized blue→violet gradient by that
+amount. No colour maths in JS — one custom property, the rest is CSS.
+
+Add the URL for a new guide in the `.plugin-cta` anchor near the bottom of the
+file. **Frame to MP4 has the styles but no button yet** — its Community URL
+hasn't been supplied.
