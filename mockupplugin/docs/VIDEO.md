@@ -11,21 +11,7 @@ stages are **pipelined**: while batch N renders on the server, the client
 decodes batch N+1 and encodes batch N−1. Decode and encode share the main
 thread but are async-cooperative, so they interleave inside each other's
 waits. The encode chain is order-preserving by construction, so frames cannot
-reorder. Measured on a 3s/24fps clip: 59s serial → 18s pipelined → 10s once the
-encode stage was profiled and fixed Pipelining alone can only hide as much time as
-the *shorter* stages last, and profiling showed encode dominating: decode and
-render both finished by 7s while encode ran on alone to 18s. The wins, in
-order of size:
-
-- **native base64 decode** via `fetch('data:…')`. The obvious
-  `Uint8Array.from(atob(s), cb)` runs a JS callback per character and cost
-  ~230ms/frame.
-- **JPEG frames from `/render/batch`** instead of PNG. Frames feed a lossy
-  H.264 encode, so losslessness buys nothing while a ~700KB PNG costs transfer
-  and base64 time: that step fell from 4458ms to 671ms across 72 frames.
-- **encoder speed 10** (quality is set by the quantizer, which is unchanged, so
-  this only spends less motion-estimation effort): 8840ms → 5060ms.
-- **1280px default output**, since every output pixel is paid for three times. Memory stays bounded per batch:
+reorder. Memory stays bounded per batch:
 
 ```
 <video> seek loop ──► design PNGs (one batch)
@@ -37,6 +23,30 @@ order of size:
 ```
 
 The preview **is** the export: one blob, played and saved as-is.
+
+## Performance
+
+A 3s/24fps clip went 59s serial → 18s pipelined → **10s**. Pipelining alone can
+only hide as much time as the *shorter* stages last, and profiling showed encode
+dwarfing them: decode (2.1s) and render (5.8s) both finished by 7s, then encode
+ran on alone until 18s. Per-step timing inside the encoder found where it went,
+and the fixes in order of size:
+
+- **Native base64 decode** via `fetch('data:…')`. The obvious
+  `Uint8Array.from(atob(s), cb)` runs a JS callback per character and cost
+  ~230ms/frame on 1MB frames.
+- **JPEG frames from `/render/batch`** rather than PNG. Frames feed a lossy
+  H.264 encode, so losslessness buys nothing while a ~700KB PNG costs transfer
+  and decode time: 4458ms → 671ms across 72 frames. Still renders keep PNG —
+  `frameFormat` defaults to `png`.
+- **Encoder speed 10.** Speed only trades motion-estimation effort; visible
+  quality is the quantizer's job and it stays at 26. 8840ms → 5060ms.
+- **1280px default output**, since every output pixel is paid for three times
+  (server warp, decode, encode).
+
+Encode still dominates what remains, so the next lever is either a lower
+resolution or capturing frames via `requestVideoFrameCallback` during playback
+instead of per-frame seeks.
 
 Key files:
 
@@ -94,6 +104,7 @@ or re-encoded, which is what makes it possible without WebCodecs.
   says "with audio (unmute to hear)" when there is sound to find.
 
 ## Future options
+
 - **Item-canvas output.** Export resolution follows the item canvas (capped by
   the Settings render-width override). A dedicated per-video resolution picker
   would help very large canvases.
