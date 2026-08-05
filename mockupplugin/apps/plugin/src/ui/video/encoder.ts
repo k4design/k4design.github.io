@@ -77,9 +77,11 @@ export async function createMp4Session(options: {
   encoder.width = width;
   encoder.height = height;
   encoder.frameRate = options.fps;
-  // Same trade-off frame-to-mp4 ships: ~visually lossless, encodes faster than
-  // frames arrive from the render service.
-  encoder.speed = 5;
+  // Profiled: encode is the pipeline's dominant stage (~450ms/frame at
+  // speed 5, 1.2MP). speed 8 encodes ~3x faster; visible quality is governed
+  // by the quantizer, which stays at 26, so the trade is motion-estimation
+  // effort (slightly larger files), not fidelity.
+  encoder.speed = 8;
   encoder.quantizationParameter = 26;
   encoder.initialize();
 
@@ -92,17 +94,39 @@ export async function createMp4Session(options: {
 
   let frames = 0;
   let dead = false;
+  /** Per-step accumulators, reported once at finish — cheap and always on. */
+  const stepMs = { base64: 0, bitmap: 0, draw: 0, read: 0, encode: 0 };
 
   return {
     width,
     height,
     async addFrame(pngBase64: string): Promise<void> {
       if (dead) throw new Error('Encoder session already finished.');
-      const bytes = Uint8Array.from(atob(pngBase64), (c) => c.charCodeAt(0));
-      const bitmap = await createImageBitmap(new Blob([bytes], { type: 'image/png' }));
+      let t = performance.now();
+      // fetch() decodes the base64 natively. The obvious alternative —
+      // Uint8Array.from(atob(s), cb) — runs a JS callback per character and
+      // profiled at ~230ms/frame on 1MB frames, dominating the whole encode
+      // stage. This path is ~20x faster.
+      const blob = await (await fetch(`data:image/png;base64,${pngBase64}`)).blob();
+      stepMs.base64 += performance.now() - t;
+
+      t = performance.now();
+      const bitmap = await createImageBitmap(blob);
+      stepMs.bitmap += performance.now() - t;
+
+      t = performance.now();
       ctx.drawImage(bitmap, 0, 0, width, height);
       bitmap.close();
-      encoder.addFrameRgba(ctx.getImageData(0, 0, width, height).data);
+      stepMs.draw += performance.now() - t;
+
+      t = performance.now();
+      const pixels = ctx.getImageData(0, 0, width, height).data;
+      stepMs.read += performance.now() - t;
+
+      t = performance.now();
+      encoder.addFrameRgba(pixels);
+      stepMs.encode += performance.now() - t;
+
       frames += 1;
       // Yield to the event loop periodically or the iframe locks up on long
       // sequences — the progress bar freezes and Figma may flag the plugin.
@@ -111,6 +135,12 @@ export async function createMp4Session(options: {
     async finish(): Promise<Uint8Array> {
       if (dead) throw new Error('Encoder session already finished.');
       dead = true;
+      console.info(
+        `[MF] encode steps over ${frames} frames (ms): ` +
+          Object.entries(stepMs)
+            .map(([step, ms]) => `${step} ${Math.round(ms)}`)
+            .join(', '),
+      );
       encoder.finalize();
       const file = encoder.FS.readFile(encoder.outputFilename);
       encoder.delete();

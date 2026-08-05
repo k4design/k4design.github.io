@@ -6,8 +6,16 @@ first frame to the canvas as a poster (Figma cannot play video on canvas).
 
 ## Architecture
 
-The entire video pipeline runs in the **plugin UI iframe**, interleaved per
-batch so memory stays bounded:
+The entire video pipeline runs in the **plugin UI iframe**, and the three
+stages are **pipelined**: while batch N renders on the server, the client
+decodes batch N+1 and encodes batch N−1. Decode and encode share the main
+thread but are async-cooperative, so they interleave inside each other's
+waits. The encode chain is order-preserving by construction, so frames cannot
+reorder. Measured on a 3s/24fps clip: 59s serial → 18s pipelined (the two
+biggest wins beyond overlap: native base64 decode via `fetch(data:)` — the
+`Uint8Array.from(atob(...), cb)` per-character path cost ~230ms/frame — and
+defaulting video output to 1280px, since every output pixel is paid for three
+times). Memory stays bounded per batch:
 
 ```
 <video> seek loop ──► design PNGs (one batch)

@@ -109,8 +109,14 @@ export const clipGallery = {
     if (!entry) return;
     entry.loading = false;
     if (mp4Base64) {
-      const bytes = Uint8Array.from(atob(mp4Base64), (c) => c.charCodeAt(0));
-      entry.url = URL.createObjectURL(new Blob([bytes], { type: 'video/mp4' }));
+      // Native base64 decode — the atob + per-char callback alternative is
+      // ~20x slower and these blobs run to megabytes.
+      void fetch(`data:video/mp4;base64,${mp4Base64}`)
+        .then((response) => response.blob())
+        .then((blob) => {
+          entry.url = URL.createObjectURL(blob);
+          notify();
+        });
     } else {
       entry.note = 'The stored clip could not be read back; it may have been evicted.';
     }

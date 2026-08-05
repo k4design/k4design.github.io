@@ -157,14 +157,16 @@ export function VideoSection({
 
       {phase.kind === 'working' ? (
         <>
+          {/* The bar tracks encoded frames — the only counter that means
+              "done done". The caption shows the pipeline's three stages, which
+              run concurrently. */}
           <div className="progress">
-            <span style={{ width: `${Math.round((phase.done / phase.total) * 100)}%` }} />
+            <span style={{ width: `${Math.round((phase.encoded / phase.total) * 100)}%` }} />
           </div>
           <div className="row">
             <span className="muted">
-              {phase.step === 'decoding' ? 'Reading frames' : null}
-              {phase.step === 'rendering' ? 'Warping onto the mockup' : null}
-              {phase.step === 'encoding' ? 'Encoding MP4' : null} — {phase.done}/{phase.total}
+              reading {phase.decoded} · warping {phase.rendered} · encoding {phase.encoded} /{' '}
+              {phase.total}
             </span>
             <span className="spacer" />
             <button className="secondary" onClick={reset}>
