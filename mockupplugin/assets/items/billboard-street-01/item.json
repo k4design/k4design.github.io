@@ -1,0 +1,73 @@
+{
+  "id": "billboard-street-01",
+  "name": "Street Billboard",
+  "category": "print",
+  "viewpoint": "scene",
+  "tags": [
+    "billboard",
+    "ooh",
+    "outdoor",
+    "advertising",
+    "street",
+    "large format"
+  ],
+  "canvas": {
+    "width": 3000,
+    "height": 2000
+  },
+  "thumbnail": "thumbnail.png",
+  "preview": "preview.png",
+  "layers": [
+    {
+      "type": "base",
+      "src": "base.png"
+    },
+    {
+      "type": "surface",
+      "id": "face",
+      "label": "Billboard face",
+      "placeholder": {
+        "aspect": 3.4285714285714284,
+        "recommendedWidth": 2400,
+        "recommendedHeight": 700,
+        "hint": "Place your design here, then click Render"
+      },
+      "warp": {
+        "kind": "homography",
+        "corners": {
+          "tl": {
+            "x": 0.116,
+            "y": 0.196
+          },
+          "tr": {
+            "x": 0.83,
+            "y": 0.324
+          },
+          "br": {
+            "x": 0.83,
+            "y": 0.712
+          },
+          "bl": {
+            "x": 0.116,
+            "y": 0.742
+          }
+        }
+      },
+      "lighting": {
+        "multiply": "shadow-face.png",
+        "multiplyOpacity": 1,
+        "screen": "highlight-face.png",
+        "screenOpacity": 1
+      },
+      "mask": "mask-face.png",
+      "opacity": 1,
+      "blend": "normal"
+    },
+    {
+      "type": "overlay",
+      "src": "overlay-sun.png",
+      "blend": "screen",
+      "opacity": 0.34
+    }
+  ]
+}

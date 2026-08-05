@@ -1,4 +1,5 @@
 export * from './item.js';
+export * from './geometry.js';
 export * from './api.js';
 export * from './messages.js';
 export * from './naming.js';

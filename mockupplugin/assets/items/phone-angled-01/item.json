@@ -1,0 +1,72 @@
+{
+  "id": "phone-angled-01",
+  "name": "Smartphone, Angled",
+  "category": "devices",
+  "viewpoint": "floating",
+  "tags": [
+    "phone",
+    "mobile",
+    "screen",
+    "app",
+    "perspective"
+  ],
+  "canvas": {
+    "width": 3000,
+    "height": 2400
+  },
+  "thumbnail": "thumbnail.png",
+  "preview": "preview.png",
+  "layers": [
+    {
+      "type": "base",
+      "src": "base.png"
+    },
+    {
+      "type": "surface",
+      "id": "screen",
+      "label": "Screen",
+      "placeholder": {
+        "aspect": 0.4612676056338028,
+        "recommendedWidth": 1179,
+        "recommendedHeight": 2556,
+        "hint": "Place your design here, then click Render"
+      },
+      "warp": {
+        "kind": "homography",
+        "corners": {
+          "tl": {
+            "x": 0.352,
+            "y": 0.152
+          },
+          "tr": {
+            "x": 0.664,
+            "y": 0.088
+          },
+          "br": {
+            "x": 0.694,
+            "y": 0.836
+          },
+          "bl": {
+            "x": 0.386,
+            "y": 0.928
+          }
+        }
+      },
+      "lighting": {
+        "multiply": "shadow-screen.png",
+        "multiplyOpacity": 1,
+        "screen": "highlight-screen.png",
+        "screenOpacity": 1
+      },
+      "mask": "mask-screen.png",
+      "opacity": 1,
+      "blend": "normal"
+    },
+    {
+      "type": "overlay",
+      "src": "overlay-glass.png",
+      "blend": "screen",
+      "opacity": 0.55
+    }
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "id": "poster-wall-01",
+  "name": "Framed Poster on Wall",
+  "category": "print",
+  "viewpoint": "scene",
+  "tags": [
+    "poster",
+    "frame",
+    "print",
+    "wall",
+    "art",
+    "a2"
+  ],
+  "canvas": {
+    "width": 3000,
+    "height": 2250
+  },
+  "thumbnail": "thumbnail.png",
+  "preview": "preview.png",
+  "layers": [
+    {
+      "type": "base",
+      "src": "base.png"
+    },
+    {
+      "type": "surface",
+      "id": "art",
+      "label": "Artwork",
+      "placeholder": {
+        "aspect": 0.6666666666666666,
+        "recommendedWidth": 1600,
+        "recommendedHeight": 2400,
+        "hint": "Place your design here, then click Render"
+      },
+      "warp": {
+        "kind": "homography",
+        "corners": {
+          "tl": {
+            "x": 0.318,
+            "y": 0.148
+          },
+          "tr": {
+            "x": 0.672,
+            "y": 0.196
+          },
+          "br": {
+            "x": 0.672,
+            "y": 0.828
+          },
+          "bl": {
+            "x": 0.318,
+            "y": 0.876
+          }
+        }
+      },
+      "lighting": {
+        "multiply": "shadow-art.png",
+        "multiplyOpacity": 1,
+        "screen": "highlight-art.png",
+        "screenOpacity": 1
+      },
+      "mask": "mask-art.png",
+      "opacity": 1,
+      "blend": "normal"
+    },
+    {
+      "type": "overlay",
+      "src": "overlay-glass.png",
+      "blend": "screen",
+      "opacity": 0.28
+    }
+  ]
+}

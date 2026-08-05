@@ -1,0 +1,113 @@
+{
+  "id": "business-card-flatlay-01",
+  "name": "Business Cards, Flat Lay",
+  "category": "branding",
+  "viewpoint": "flat-lay",
+  "tags": [
+    "business card",
+    "stationery",
+    "branding",
+    "print",
+    "identity"
+  ],
+  "canvas": {
+    "width": 3000,
+    "height": 2250
+  },
+  "thumbnail": "thumbnail.png",
+  "preview": "preview.png",
+  "layers": [
+    {
+      "type": "base",
+      "src": "base.png"
+    },
+    {
+      "type": "surface",
+      "id": "front",
+      "label": "Front",
+      "placeholder": {
+        "aspect": 1.5454545454545454,
+        "recommendedWidth": 1063,
+        "recommendedHeight": 688,
+        "hint": "Place your design here, then click Render"
+      },
+      "warp": {
+        "kind": "homography",
+        "corners": {
+          "tl": {
+            "x": 0.208,
+            "y": 0.316
+          },
+          "tr": {
+            "x": 0.512,
+            "y": 0.246
+          },
+          "br": {
+            "x": 0.556,
+            "y": 0.6
+          },
+          "bl": {
+            "x": 0.252,
+            "y": 0.67
+          }
+        }
+      },
+      "lighting": {
+        "multiply": "shadow-front.png",
+        "multiplyOpacity": 1,
+        "screen": "highlight-front.png",
+        "screenOpacity": 1
+      },
+      "mask": "mask-front.png",
+      "opacity": 1,
+      "blend": "normal"
+    },
+    {
+      "type": "surface",
+      "id": "back",
+      "label": "Back",
+      "placeholder": {
+        "aspect": 1.5454545454545454,
+        "recommendedWidth": 1063,
+        "recommendedHeight": 688,
+        "hint": "Place your design here, then click Render"
+      },
+      "warp": {
+        "kind": "homography",
+        "corners": {
+          "tl": {
+            "x": 0.488,
+            "y": 0.404
+          },
+          "tr": {
+            "x": 0.792,
+            "y": 0.35
+          },
+          "br": {
+            "x": 0.826,
+            "y": 0.706
+          },
+          "bl": {
+            "x": 0.522,
+            "y": 0.76
+          }
+        }
+      },
+      "lighting": {
+        "multiply": "shadow-back.png",
+        "multiplyOpacity": 1,
+        "screen": "highlight-back.png",
+        "screenOpacity": 1
+      },
+      "mask": "mask-back.png",
+      "opacity": 1,
+      "blend": "normal"
+    },
+    {
+      "type": "overlay",
+      "src": "overlay-paper.png",
+      "blend": "multiply",
+      "opacity": 0.3
+    }
+  ]
+}

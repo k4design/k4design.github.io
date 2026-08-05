@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Mockup Forge — UI harness</title>
+    <style>
+      body {
+        margin: 0;
+        font: 12px/1.5 Inter, -apple-system, sans-serif;
+        background: #2c2c2c;
+        color: #eee;
+        display: flex;
+        gap: 16px;
+        padding: 16px;
+        align-items: flex-start;
+      }
+      iframe {
+        width: 420px;
+        height: 640px;
+        border: 0;
+        border-radius: 8px;
+        background: #fff;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+      }
+      #log {
+        flex: 1;
+        height: 640px;
+        overflow: auto;
+        background: #1c1c1c;
+        border-radius: 8px;
+        padding: 12px;
+        font-family: ui-monospace, Menlo, monospace;
+        font-size: 11px;
+        white-space: pre-wrap;
+      }
+      .out {
+        color: #8ecfff;
+      }
+      .in {
+        color: #b6e39b;
+      }
+    </style>
+  </head>
+  <body>
+    <!--
+      Runs the plugin UI outside Figma by standing in for the sandbox: it
+      answers `ui-ready` with a config and logs everything the UI posts. Canvas
+      operations obviously do nothing here — this exists to iterate on the
+      library browser and render controls without a Figma round trip.
+
+      Serve the repo root over HTTP, e.g.  npx serve .  then open
+      /tools/dev-harness.html
+    -->
+    <iframe id="ui" src="../apps/plugin/dist/ui.html"></iframe>
+    <div id="log"></div>
+
+    <script>
+      const API_BASE = new URLSearchParams(location.search).get('api') ?? 'http://127.0.0.1:8787';
+      const config = { apiBase: API_BASE, outputWidth: null };
+      const logEl = document.getElementById('log');
+      const ui = document.getElementById('ui');
+
+      function log(dir, message) {
+        const line = document.createElement('div');
+        line.className = dir;
+        line.textContent = `${dir === 'in' ? '→ UI' : '← UI'}  ${JSON.stringify(message).slice(0, 400)}`;
+        logEl.prepend(line);
+      }
+
+      function toUi(message) {
+        log('in', message);
+        ui.contentWindow.postMessage({ pluginMessage: message }, '*');
+      }
+
+      window.addEventListener('message', (event) => {
+        const message = event.data?.pluginMessage;
+        if (!message) return;
+        log('out', message);
+
+        switch (message.type) {
+          case 'ui-ready':
+            toUi({ type: 'sandbox-ready', config });
+            toUi({ type: 'selection-changed', targets: [], foreignCount: 0 });
+            break;
+          case 'get-config':
+            toUi({ type: 'config', config });
+            break;
+          case 'set-config':
+            Object.assign(config, message.config);
+            toUi({ type: 'config', config });
+            break;
+          case 'import-item':
+            toUi({
+              type: 'import-done',
+              instanceGuid: `harness-${message.detail.id}`,
+              itemId: message.detail.id,
+              itemNodeId: '0:1',
+            });
+            break;
+          default:
+            break;
+        }
+      });
+    </script>
+  </body>
+</html>

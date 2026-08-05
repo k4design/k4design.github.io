@@ -1,0 +1,72 @@
+{
+  "id": "laptop-open-01",
+  "name": "Laptop, Open",
+  "category": "devices",
+  "viewpoint": "angled",
+  "tags": [
+    "laptop",
+    "macbook",
+    "screen",
+    "website",
+    "desktop"
+  ],
+  "canvas": {
+    "width": 3000,
+    "height": 2000
+  },
+  "thumbnail": "thumbnail.png",
+  "preview": "preview.png",
+  "layers": [
+    {
+      "type": "base",
+      "src": "base.png"
+    },
+    {
+      "type": "surface",
+      "id": "screen",
+      "label": "Screen",
+      "placeholder": {
+        "aspect": 1.6,
+        "recommendedWidth": 2560,
+        "recommendedHeight": 1600,
+        "hint": "Place your design here, then click Render"
+      },
+      "warp": {
+        "kind": "homography",
+        "corners": {
+          "tl": {
+            "x": 0.276,
+            "y": 0.118
+          },
+          "tr": {
+            "x": 0.724,
+            "y": 0.118
+          },
+          "br": {
+            "x": 0.756,
+            "y": 0.652
+          },
+          "bl": {
+            "x": 0.244,
+            "y": 0.652
+          }
+        }
+      },
+      "lighting": {
+        "multiply": "shadow-screen.png",
+        "multiplyOpacity": 1,
+        "screen": "highlight-screen.png",
+        "screenOpacity": 1
+      },
+      "mask": "mask-screen.png",
+      "opacity": 1,
+      "blend": "normal"
+    },
+    {
+      "type": "overlay",
+      "src": "overlay-glass.png",
+      "blend": "screen",
+      "opacity": 0.42
+    }
+  ]
+}

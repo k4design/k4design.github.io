@@ -1,0 +1,78 @@
+{
+  "id": "phone-front-01",
+  "name": "Smartphone, Front",
+  "category": "devices",
+  "viewpoint": "front",
+  "tags": [
+    "phone",
+    "mobile",
+    "screen",
+    "app",
+    "ios"
+  ],
+  "canvas": {
+    "width": 2400,
+    "height": 3000
+  },
+  "thumbnail": "thumbnail.png",
+  "preview": "preview.png",
+  "layers": [
+    {
+      "type": "base",
+      "src": "base.png"
+    },
+    {
+      "type": "surface",
+      "id": "screen",
+      "label": "Screen",
+      "placeholder": {
+        "aspect": 0.4612676056338028,
+        "recommendedWidth": 1179,
+        "recommendedHeight": 2556,
+        "hint": "Place your design here, then click Render"
+      },
+      "warp": {
+        "kind": "homography",
+        "corners": {
+          "tl": {
+            "x": 0.288,
+            "y": 0.086
+          },
+          "tr": {
+            "x": 0.712,
+            "y": 0.086
+          },
+          "br": {
+            "x": 0.712,
+            "y": 0.9139999999999999
+          },
+          "bl": {
+            "x": 0.288,
+            "y": 0.9139999999999999
+          }
+        }
+      },
+      "lighting": {
+        "multiply": "shadow-screen.png",
+        "multiplyOpacity": 1,
+        "screen": "highlight-screen.png",
+        "screenOpacity": 1
+      },
+      "mask": "mask-screen.png",
+      "opacity": 1,
+      "blend": "normal"
+    },
+    {
+      "type": "overlay",
+      "src": "overlay-glass.png",
+      "blend": "screen",
+      "opacity": 0.5
+    },
+    {
+      "type": "overlay",
+      "src": "overlay-notch.png",
+      "blend": "normal",
+      "opacity": 1
+    }
+  ]
+}
