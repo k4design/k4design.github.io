@@ -35,6 +35,8 @@ export type VideoPhase =
       rendered: number;
       encoded: number;
       total: number;
+      /** Set while waiting out a server rate limit, so a pause has a reason. */
+      notice?: string;
     }
   | {
       kind: 'ready';
@@ -136,10 +138,13 @@ export function useVideoRender() {
        */
       const progress = { decoded: 0, rendered: 0, encoded: 0 };
       const stageMs = { decode: 0, render: 0, encode: 0 };
+      let notice: string | undefined;
       // Guarded: with three stages in flight, a straggler can publish after
       // Cancel has reset the phase, resurrecting the progress bar.
       const publish = () => {
-        if (!cancelled.current) setPhase({ kind: 'working', ...progress, total });
+        if (!cancelled.current) {
+          setPhase({ kind: 'working', ...progress, total, ...(notice ? { notice } : {}) });
+        }
       };
       publish();
 
@@ -172,14 +177,29 @@ export function useVideoRender() {
       };
 
       const submitBatch = (designs: string[]) =>
-        renderBatch(apiBase, {
-          itemId: input.itemId,
-          surfaceId: input.surface.surfaceId,
-          frames: designs,
-          width: designWidth,
-          height: designHeight,
-          colorize: input.colorize,
-          outputWidth,
+        renderBatch(
+          apiBase,
+          {
+            itemId: input.itemId,
+            surfaceId: input.surface.surfaceId,
+            frames: designs,
+            width: designWidth,
+            height: designHeight,
+            colorize: input.colorize,
+            outputWidth,
+          },
+          {
+            // A clip is many batches; losing one to a rate limit would discard
+            // everything rendered so far, so wait it out and say why.
+            onRateLimited: (seconds) => {
+              notice = `Render service is busy — retrying in ${Math.ceil(seconds)}s.`;
+              publish();
+            },
+            shouldAbort: () => cancelled.current,
+          },
+        ).then((batch) => {
+          notice = undefined;
+          return batch;
         });
 
       const encodeBatch = async (batch: Awaited<ReturnType<typeof submitBatch>>) => {

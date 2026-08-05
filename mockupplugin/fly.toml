@@ -20,7 +20,8 @@ primary_region = "ewr"
   PUBLIC_URL = "https://mockup-forge.fly.dev"
   LOG_LEVEL = "info"
   RATE_LIMIT_RENDERS = "30"
-  RATE_LIMIT_BATCHES = "12"
+  # One max-length clip is 30 batches; this clears that plus retries.
+  RATE_LIMIT_BATCHES = "60"
   MAX_OUTPUT_WIDTH = "3000"
 
 [http_service]

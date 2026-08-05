@@ -173,6 +173,7 @@ export function VideoSection({
               Cancel
             </button>
           </div>
+          {phase.notice ? <div className="notice warn">{phase.notice}</div> : null}
         </>
       ) : null}
 

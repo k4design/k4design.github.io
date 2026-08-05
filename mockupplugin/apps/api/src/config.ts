@@ -21,8 +21,16 @@ const EnvSchema = z.object({
   PUBLIC_URL: z.string().url().optional(),
   /** Renders per window, per IP. */
   RATE_LIMIT_RENDERS: z.coerce.number().int().min(1).default(30),
-  /** Batch requests per window, per IP. One 30s clip is 8-10 batches. */
-  RATE_LIMIT_BATCHES: z.coerce.number().int().min(1).default(12),
+  /**
+   * Batch requests per window, per IP.
+   *
+   * The real arithmetic, which an earlier estimate got badly wrong: a
+   * maximum-length clip is MAX_VIDEO_FRAMES (900) / MAX_FRAMES_PER_BATCH (30)
+   * = 30 requests, and the pipelined client issues them back to back. The
+   * limit must therefore clear 30 for a single clip; 60 leaves room for a
+   * second render, or for retries, inside the same window.
+   */
+  RATE_LIMIT_BATCHES: z.coerce.number().int().min(1).default(60),
   RATE_LIMIT_WINDOW: z.string().default('1 minute'),
   /**
    * Hard ceiling on requested output width. The largest catalog canvas is

@@ -18,6 +18,9 @@ import type { z, ZodTypeAny } from 'zod';
 
 /** An API error carrying the server's machine-readable code. */
 export class ApiClientError extends Error {
+  /** Seconds the server asked us to wait, when it said so (429s). */
+  retryAfterSeconds?: number;
+
   constructor(
     readonly code: string,
     message: string,
@@ -26,6 +29,18 @@ export class ApiClientError extends Error {
     super(message);
     this.name = 'ApiClientError';
   }
+}
+
+/**
+ * `retry-after` is specified in seconds, but some rate-limit middleware emits
+ * milliseconds. Anything implausibly large for a seconds value is treated as
+ * ms rather than parked on for twenty minutes.
+ */
+function parseRetryAfter(header: string | null): number | undefined {
+  if (!header) return undefined;
+  const value = Number(header);
+  if (!Number.isFinite(value) || value <= 0) return undefined;
+  return value > 300 ? value / 1000 : value;
 }
 
 const OFFLINE_MESSAGE =
@@ -65,10 +80,11 @@ async function request<S extends ZodTypeAny>(
 
   if (!response.ok) {
     const parsed = ApiErrorSchema.safeParse(payload);
-    if (parsed.success) {
-      throw new ApiClientError(parsed.data.error.code, parsed.data.error.message, response.status);
-    }
-    throw new ApiClientError('internal', `Request failed (${response.status}).`, response.status);
+    const failure = parsed.success
+      ? new ApiClientError(parsed.data.error.code, parsed.data.error.message, response.status)
+      : new ApiClientError('internal', `Request failed (${response.status}).`, response.status);
+    failure.retryAfterSeconds = parseRetryAfter(response.headers.get('retry-after'));
+    throw failure;
   }
 
   const parsed = schema.safeParse(payload);
@@ -113,18 +129,50 @@ export function renderItem(
   });
 }
 
-/** One batch of video frames. Wall time scales with the batch, so be patient. */
-export function renderBatch(
+/**
+ * One batch of video frames.
+ *
+ * Retries through rate limiting rather than failing: a clip is many batches,
+ * and losing the last one throws away a minute of finished work. Waits out the
+ * server's `retry-after` when given, otherwise backs off exponentially.
+ */
+export async function renderBatch(
   apiBase: string,
   body: BatchRenderRequest,
-  timeoutMs = 180_000,
+  options: {
+    timeoutMs?: number;
+    /** Called before each wait, so the UI can explain the pause. */
+    onRateLimited?: (seconds: number, attempt: number) => void;
+    /** Return true to give up mid-wait (user cancelled). */
+    shouldAbort?: () => boolean;
+  } = {},
 ): Promise<BatchRenderResponse> {
-  return request(apiBase, '/render/batch', BatchRenderResponseSchema, {
-    method: 'POST',
-    headers: { 'content-type': 'application/json' },
-    body: JSON.stringify(body),
-    timeoutMs,
-  });
+  const maxAttempts = 5;
+
+  for (let attempt = 1; ; attempt += 1) {
+    try {
+      return await request(apiBase, '/render/batch', BatchRenderResponseSchema, {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify(body),
+        timeoutMs: options.timeoutMs ?? 180_000,
+      });
+    } catch (err) {
+      const limited = err instanceof ApiClientError && err.code === 'rate_limited';
+      if (!limited || attempt >= maxAttempts) throw err;
+
+      const seconds = Math.min(
+        60,
+        (err as ApiClientError).retryAfterSeconds ?? Math.min(30, 2 ** attempt),
+      );
+      options.onRateLimited?.(seconds, attempt);
+      const until = Date.now() + seconds * 1000;
+      while (Date.now() < until) {
+        if (options.shouldAbort?.()) throw err;
+        await new Promise((resolve) => setTimeout(resolve, 250));
+      }
+    }
+  }
 }
 
 /** Fetch an asset (thumbnail/preview) as base64 so the sandbox can use it. */
