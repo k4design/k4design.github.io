@@ -118,17 +118,24 @@ export async function loadGray(
  * Displacement maps are loaded at their authored resolution: they are sampled
  * in normalized space, and resizing them would only blur detail the renderer is
  * about to sample anyway.
+ *
+ * `vector` maps keep their colour channels, because that is where the direction
+ * lives — red drives X and green drives Y. Collapsing them to grayscale, which
+ * is right for a height map, averages the two axes into one number and silently
+ * turns a vector field back into a scalar one.
  */
-export async function loadDisplacement(itemId: string, src: string): Promise<RawImage> {
-  const key = `disp:${itemId}:${src}`;
+export async function loadDisplacement(
+  itemId: string,
+  src: string,
+  vector = false,
+): Promise<RawImage> {
+  const key = `disp:${itemId}:${src}:${vector ? 'rgb' : 'gray'}`;
   const hit = cache.get(key);
   if (hit) return hit;
 
-  const { data, info } = await sharp(catalog.assetPath(itemId, src))
-    .removeAlpha()
-    .toColourspace('b-w')
-    .raw()
-    .toBuffer({ resolveWithObject: true });
+  const pipeline = sharp(catalog.assetPath(itemId, src)).removeAlpha();
+  if (!vector) pipeline.toColourspace('b-w');
+  const { data, info } = await pipeline.raw().toBuffer({ resolveWithObject: true });
 
   const image: RawImage = { data, width: info.width, height: info.height, channels: info.channels };
   cache.set(key, image);

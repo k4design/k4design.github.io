@@ -496,7 +496,7 @@ async function loadDisplacementField(
   warp: Extract<Warp, { kind: 'displacement' }>,
   scale: number,
 ): Promise<DisplacementField> {
-  const map: RawImage = await loadDisplacement(itemId, warp.map);
+  const map: RawImage = await loadDisplacement(itemId, warp.map, warp.vector);
   return {
     data: map.data,
     width: map.width,

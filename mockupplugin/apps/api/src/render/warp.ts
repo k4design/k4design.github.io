@@ -494,19 +494,41 @@ function sampleDisplacement(
   u: number,
   v: number,
 ): { dx: number; dy: number } {
-  const x = Math.min(field.width - 1, Math.max(0, Math.round(u * field.width)));
-  const y = Math.min(field.height - 1, Math.max(0, Math.round(v * field.height)));
-  const index = (y * field.width + x) * field.channels;
+  // Bilinear, not nearest. A map authored at half the canvas size — the common
+  // case, since these are exported downscaled — otherwise displaces in visible
+  // 2px stair-steps, and any map with fine detail turns a smooth fold into a
+  // row of jumps that tear straight lines in the artwork.
+  const fx = Math.min(field.width - 1, Math.max(0, u * field.width - 0.5));
+  const fy = Math.min(field.height - 1, Math.max(0, v * field.height - 0.5));
+  const x0 = Math.floor(fx);
+  const y0 = Math.floor(fy);
+  const x1 = Math.min(field.width - 1, x0 + 1);
+  const y1 = Math.min(field.height - 1, y0 + 1);
+  const tx = fx - x0;
+  const ty = fy - y0;
+  const w00 = (1 - tx) * (1 - ty);
+  const w10 = tx * (1 - ty);
+  const w01 = (1 - tx) * ty;
+  const w11 = tx * ty;
+  const i00 = (y0 * field.width + x0) * field.channels;
+  const i10 = (y0 * field.width + x1) * field.channels;
+  const i01 = (y1 * field.width + x0) * field.channels;
+  const i11 = (y1 * field.width + x1) * field.channels;
+  const channel = (offset: number): number =>
+    field.data[i00 + offset]! * w00 +
+    field.data[i10 + offset]! * w10 +
+    field.data[i01 + offset]! * w01 +
+    field.data[i11 + offset]! * w11;
 
   if (field.vector && field.channels >= 2) {
-    displacementResult.dx = ((field.data[index]! - 128) / 127) * field.scale;
-    displacementResult.dy = ((field.data[index + 1]! - 128) / 127) * field.scale;
+    displacementResult.dx = ((channel(0) - 128) / 127) * field.scale;
+    displacementResult.dy = ((channel(1) - 128) / 127) * field.scale;
     return displacementResult;
   }
 
   // Luminance maps push along both axes, which reads as cloth bunching rather
   // than sliding in one direction.
-  const value = (field.data[index]! - 128) / 127;
+  const value = (channel(0) - 128) / 127;
   displacementResult.dx = value * field.scale;
   displacementResult.dy = value * field.scale * 0.72;
   return displacementResult;

@@ -89,8 +89,22 @@ const HEM: Array<[number, number]> = [
 
 const COLS = 16;
 const ROWS = 10;
-/** Fraction of the torso's circumference facing the camera. */
-const WRAP = 0.74;
+/**
+ * Fraction of the torso's circumference facing the camera. Higher values squeeze
+ * the design harder toward the sleeves; past about 0.65 the squeeze at the very
+ * edge columns is severe enough that fine artwork aliases into stipple there,
+ * which no prefilter sized from the whole surface can catch.
+ */
+const WRAP = 0.7;
+/** How much of the column spacing is plain linear rather than cylindrical. */
+const LINEAR_BLEND = 0.55;
+/**
+ * Displacement strength in canvas px. 6, not the 12 the maps were exported
+ * against: 12 was picked while `vector` was being silently ignored, so the map
+ * was driving both axes off one averaged channel. Driven properly it moves about
+ * twice as far, and at 12 the cloth reads liquid rather than creased.
+ */
+const DISPLACEMENT_SCALE = 6;
 /** How far horizontal seams bow, in canvas px, from the torso being round. */
 const SEAM_BOW = 9;
 /** Grow the mesh past the measured silhouette so the mask, not the mesh, cuts. */
@@ -152,6 +166,53 @@ function morph(
  * two shoulders, so row filling starts here.
  */
 const COLLAR_BOTTOM = 340;
+
+/** Relaxed cloth test used only when walking outward from an accepted edge. */
+const EDGE_LUM_MIN = 100;
+const EDGE_SAT_MAX = 48;
+const EDGE_REACH = 50;
+
+function extendRowEdges(
+  mask: Uint8Array,
+  pixels: Buffer,
+  channels: number,
+  width: number,
+): number {
+  let added = 0;
+  const relaxed = (x: number, y: number): boolean => {
+    const index = (y * width + x) * channels;
+    const r = pixels[index]!;
+    const g = pixels[index + 1]!;
+    const b = pixels[index + 2]!;
+    const luminance = 0.299 * r + 0.587 * g + 0.114 * b;
+    return luminance >= EDGE_LUM_MIN && Math.max(r, g, b) - Math.min(r, g, b) <= EDGE_SAT_MAX;
+  };
+
+  for (let y = COLLAR_BOTTOM; y < BOX.y1; y += 1) {
+    let first = -1;
+    let last = -1;
+    for (let x = BOX.x0; x < BOX.x1; x += 1) {
+      if (mask[y * width + x]) {
+        if (first < 0) first = x;
+        last = x;
+      }
+    }
+    if (first < 0) continue;
+    for (let step = 1; step <= EDGE_REACH; step += 1) {
+      const x = first - step;
+      if (x < BOX.x0 || y > hemAt(x) || !relaxed(x, y)) break;
+      mask[y * width + x] = 1;
+      added += 1;
+    }
+    for (let step = 1; step <= EDGE_REACH; step += 1) {
+      const x = last + step;
+      if (x >= BOX.x1 || y > hemAt(x) || !relaxed(x, y)) break;
+      mask[y * width + x] = 1;
+      added += 1;
+    }
+  }
+  return added;
+}
 
 function fillRowSpans(
   mask: Uint8Array,
@@ -252,6 +313,28 @@ async function buildMask(base: string, width: number, height: number): Promise<M
   //    would be filled in, so rows start at the measured collar bottom.
   const spans = fillRowSpans(mask, width, COLLAR_BOTTOM, BOX.y1);
   console.log(`row fill: ${spans.filled} px, widest single gap ${spans.widest} px`);
+
+  // 4b. Push each row's left and right edge back out to the true garment
+  //     boundary. The flanks in deep shade are inset from it, and they are not
+  //     between cloth so row filling cannot reach them — the same problem the
+  //     phone's rounded corners had. Walking outward under a relaxed test stops
+  //     at the arm (saturated) or the water (dark) but crosses tinted cloth.
+  const edges = extendRowEdges(mask, data, channels, width);
+  console.log(`edge extension: ${edges} px`);
+  fillRowSpans(mask, width, COLLAR_BOTTOM, BOX.y1);
+
+  // 4c. Extending row by row leaves a sawtooth edge, and can push a few pixels
+  //     past the sleeve into a sunlit hull. A close-then-open pass smooths the
+  //     first and drops the second, being narrower than the smoothing radius.
+  morph(mask, width, height, 3, 'max');
+  morph(mask, width, height, 3, 'min');
+  morph(mask, width, height, 3, 'min');
+  morph(mask, width, height, 3, 'max');
+  for (let y = BOX.y0; y < BOX.y1; y += 1) {
+    for (let x = BOX.x0; x < BOX.x1; x += 1) {
+      if (y > hemAt(x)) mask[y * width + x] = 0;
+    }
+  }
   for (let y = BOX.y0; y < BOX.y1; y += 1) {
     for (let x = BOX.x0; x < BOX.x1; x += 1) {
       if (y > hemAt(x)) mask[y * width + x] = 0;
@@ -364,7 +447,12 @@ function garmentMesh(
     for (let col = 0; col <= COLS; col += 1) {
       const u = col / COLS;
       const angle = (u * 2 - 1) * halfAngle;
-      const projected = (Math.sin(angle) / Math.sin(halfAngle) + 1) / 2;
+      const cylindrical = (Math.sin(angle) / Math.sin(halfAngle) + 1) / 2;
+      // Blended with linear spacing. Pure cylindrical spacing squeezes the outer
+      // columns roughly 3x harder than the middle, and the renderer prefilters a
+      // design once for the whole surface, so those columns alias into stipple.
+      // The blend caps the squeeze while keeping the wrap read.
+      const projected = LINEAR_BLEND * u + (1 - LINEAR_BLEND) * cylindrical;
       const x = x0 + (x1 - x0) * projected;
       const top = sampleAt(edges.xs, edges.top, x) - PAD;
       const bottom = sampleAt(edges.xs, edges.bottom, x) + PAD;
@@ -393,6 +481,7 @@ async function main(): Promise<void> {
   const outlinePx = denormalize(meshOutline(mesh), width, height);
 
   const files = new Map<string, Buffer>();
+  const debug = new Map<string, Buffer>();
   // Soft edge: the garment boundary is a photographed edge, not a vector one.
   files.set(
     'mask-chest.png',
@@ -432,9 +521,10 @@ async function main(): Promise<void> {
   files.set('preview.png', composed);
   files.set('thumbnail.png', await thumbnail(composed, 480));
 
-  // Debug overlay: mesh outline over the photo, so the fit is checkable.
-  files.set(
-    'debug-mesh.png',
+  // Debug overlay: mesh outline over the photo, so the fit is checkable. Goes to
+  // the samples directory, not the item, so it never ships in the catalog.
+  debug.set(
+    'tshirt-marina-01-mesh.png',
     await sharp(basePath)
       .composite([
         {
@@ -479,7 +569,7 @@ async function main(): Promise<void> {
         kind: 'displacement',
         geometry: mesh,
         map: 'displace-chest.png',
-        scale: 12,
+        scale: DISPLACEMENT_SCALE,
         vector: true,
       },
       lighting: {
@@ -507,12 +597,15 @@ async function main(): Promise<void> {
   });
 
   for (const [name, buffer] of files) await fs.writeFile(path.join(DIR, name), buffer);
+  const samples = path.join(ROOT, 'assets', 'samples');
+  await fs.mkdir(samples, { recursive: true });
+  for (const [name, buffer] of debug) await fs.writeFile(path.join(samples, name), buffer);
   await fs.writeFile(path.join(DIR, 'item.json'), `${JSON.stringify(item, null, 2)}\n`);
 
   console.log(
     `✓ ${item.id}: mesh ${COLS}x${ROWS} over ${Math.round(bbox.maxX - bbox.minX)}x${Math.round(
       bbox.maxY - bbox.minY,
-    )}px, aspect ${aspect.toFixed(3)}, vector displacement 12px`,
+    )}px, aspect ${aspect.toFixed(3)}, vector displacement ${DISPLACEMENT_SCALE}px`,
   );
 }
 

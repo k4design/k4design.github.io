@@ -182,6 +182,22 @@ between rasterizers, and fabric detail needs directional creases rather than
 plain noise. A small value-noise function with a deterministic hash gives
 reproducible maps and creases that read as cloth.
 
+**Displacement maps are sampled bilinearly, and vector maps keep their colour.**
+Both started as bugs found while wiring up a supplied vector map. Nearest-neighbour
+sampling is invisible on a full-resolution smooth map and obvious on a
+half-resolution one — the usual export size — where a fold turns into a row of 2px
+jumps that tear straight lines in the artwork. And loading every map as grayscale,
+which is right for a height field, averages a vector map's red and green channels
+into one number: `vector: true` parsed, validated and then did nothing.
+
+**Column spacing on a garment blends cylindrical with linear.** Pure cylindrical
+spacing is physically right — a print really does compress as the torso turns away
+— but it squeezes the outermost columns about 3x harder than the middle, and the
+design is prefiltered once for the whole surface, so those columns alias. Blending
+toward linear spacing caps the squeeze. The remaining case the renderer cannot fix
+is a silhouette-hugging mesh over a short sleeve: fine artwork packed into a
+seventh of its height needs per-pixel mip selection, not one prefilter.
+
 ## Testing
 
 **Goldens are rendered at 600px, not full resolution.** Every code path — each
