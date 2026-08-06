@@ -237,6 +237,34 @@ const require_ = (name) => {
   throw new Error(`unexpected require("${name}")`);
 };
 
+// ---------- layout invariants ----------
+// CSS regressions here are silent and only show up as controls scrolled off the
+// bottom of a docked panel, which is hard to attribute to a stylesheet edit.
+{
+  const manifest = JSON.parse(readFileSync(join(ROOT, "manifest.json"), "utf8"));
+  const entry = manifest.entrypoints[0];
+  ok("panel can be shrunk by the user",
+     entry.minimumSize.height <= 320 && entry.minimumSize.width <= 280,
+     `minimumSize ${entry.minimumSize.width}x${entry.minimumSize.height}`);
+
+  const css = html.slice(0, html.indexOf("</style>"));
+  const statusRule = css.slice(css.indexOf("#status {"), css.indexOf("}", css.indexOf("#status {")));
+  ok("status box is height-bounded so it cannot push controls off-screen",
+     /max-height:/.test(statusRule) && /overflow-y:\s*auto/.test(statusRule),
+     statusRule.replace(/\s+/g, " ").slice(0, 80));
+
+  // Anchored to a line start so it selects the standalone `body` rule and not
+  // the `html, body` one, which only sets height.
+  const bodyRule = (css.match(/\n\s*body\s*\{([^}]*)\}/) || [, ""])[1];
+  ok("body scrolls rather than clipping", /overflow-y:\s*auto/.test(bodyRule),
+     bodyRule.replace(/\s+/g, " ").trim().slice(0, 70));
+
+  // Status must stay above the controls; below them it scrolls out of view,
+  // which is how every error message went unseen for three rounds.
+  ok("status renders before the first step",
+     html.indexOf('id="status"') < html.indexOf('class="step"'));
+}
+
 // ---------- run the real bundle ----------
 
 const code = readFileSync(join(ROOT, "dist", "panel.js"), "utf8");
@@ -281,9 +309,43 @@ ok("advanced section closes again", els.get("advanced-body").className === "coll
 els.get("preset").selectOption("screen");
 await els.get("preset").dispatch("change");
 ok("switching preset updates the fields", els.get("highPassRadius").value === "0");
+
+els.get("preset").selectOption("vehicle");
+await els.get("preset").dispatch("change");
+ok("vehicle preset loads its own values",
+   els.get("highPassRadius").value === "192" &&
+   els.get("displacementScalePx").value === "5" &&
+   els.get("highlightStrength").value === "0.6",
+   `highPass=${els.get("highPassRadius").value} disp=${els.get("displacementScalePx").value} hl=${els.get("highlightStrength").value}`);
+ok("vehicle hint is shown", /[Vv]ans/.test(els.get("surface-hint").textContent),
+   JSON.stringify(els.get("surface-hint").textContent.slice(0, 40)));
+
 els.get("preset").selectOption("fabric");
 await els.get("preset").dispatch("change");
 ok("switching back restores them", els.get("highPassRadius").value === "128");
+
+// Every material in the menu must have a matching preset, and vice versa —
+// adding one to only one place leaves a dropdown entry that silently does
+// nothing (loadPreset returns early on an unknown name).
+{
+  const menu = [...html.matchAll(/<sp-menu-item value="([a-z]+)"[^>]*>([^<]*)</g)]
+    .map((m) => [m[1], m[2].trim()]);
+  const bundleNames = [...readFileSync(join(ROOT, "src", "presets.js"), "utf8")
+    .matchAll(/^  ([a-z]+): \{$/gm)].map((m) => m[1]);
+  const missingPreset = menu.filter(([v]) => !bundleNames.includes(v)).map(([v]) => v);
+  const missingMenu = bundleNames.filter((n) => !menu.some(([v]) => v === n));
+  ok("every menu material has a preset and vice versa",
+     missingPreset.length === 0 && missingMenu.length === 0,
+     `menu=[${menu.map((m) => m[0]).join(",")}] presets=[${bundleNames.join(",")}]`);
+
+  // A label mismatch means the dropdown and the hint below it describe
+  // different materials.
+  const labels = [...readFileSync(join(ROOT, "src", "presets.js"), "utf8")
+    .matchAll(/label: "([^"]+)"/g)].map((m) => m[1]);
+  ok("menu labels match the preset labels",
+     menu.every(([, text]) => labels.includes(text)),
+     menu.map((m) => m[1]).join(" | "));
+}
 
 // ---------- picking the item folder reads item.json ----------
 

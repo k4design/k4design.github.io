@@ -174,6 +174,24 @@
     gap: clamp(2rem, 5vw, 4.5rem);
     align-items: end;
   }
+  /* product lockup above the headline: app icon + name */
+  .hero-lockup {
+    display: flex; align-items: center; gap: 0.8rem;
+    margin: 0 0 1.5rem;
+  }
+  .hero-lockup img {
+    width: 56px; height: 56px; border-radius: 14px; display: block;
+    border: 1px solid var(--hair);
+  }
+  .hero-lockup .app-name {
+    font-size: 1.4rem; font-weight: 650; letter-spacing: -0.02em;
+    color: var(--ink);
+  }
+  @media (max-width: 640px) {
+    .hero-lockup img { width: 46px; height: 46px; border-radius: 12px; }
+    .hero-lockup .app-name { font-size: 1.2rem; }
+  }
+
   .eyebrow {
     font-family: var(--mono);
     font-size: 0.7rem;
@@ -222,6 +240,26 @@
     padding-top: 1rem;
   }
   .facts div { display: flex; flex-direction: column; gap: 0.15rem; }
+  /* The platforms are a claim in their own right, not a footnote to the
+     facts — so they sit apart from them and outrank them in weight. */
+  .platforms {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 0.7rem;
+    margin-top: 1.9rem;
+  }
+  .platforms span {
+    display: inline-flex; align-items: center; gap: 0.6rem;
+    padding: 0.55rem 0.95rem 0.55rem 0.8rem;
+    border: 1px solid var(--hair); border-radius: 999px;
+    background: var(--panel);
+    font-size: var(--step-0); font-weight: 600; letter-spacing: -0.01em;
+    color: var(--ink);
+  }
+  .platforms svg { width: 26px; height: 26px; flex: none; color: var(--ink); }
+  @media (max-width: 640px) {
+    .platforms span { font-size: var(--step--1); padding: 0.45rem 0.8rem 0.45rem 0.65rem; }
+    .platforms svg { width: 22px; height: 22px; }
+  }
+
   .facts b {
     color: var(--ink);
     font-weight: 600;
@@ -437,7 +475,11 @@
 <div class="hero">
   <div class="wrap hero-grid">
     <div class="rise">
-      <p class="eyebrow"><span class="led"></span>live · polls every 30s</p>
+      <div class="hero-lockup">
+          <img src="../assets/icons/creative-direction.png" alt="">
+          <span class="app-name">Creative Direction</span>
+        </div>
+        <p class="eyebrow"><span class="led"></span>live · polls every 30s</p>
       <h1>The board is the record.<br><em>This is the instrument.</em></h1>
       <p class="lede">
         A creative director's dashboard over monday.com — built to answer four questions
@@ -448,6 +490,25 @@
         <div><b>4</b><span>board scopes</span></div>
         <div><b>2</b><span>platforms, one payload</span></div>
         <div><b>0</b><span>tokens in the app</span></div>
+      </div>
+
+      <div class="platforms">
+        <span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
+               stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="3" y="4" width="18" height="12" rx="1.6"/>
+            <path d="M2 19h20"/>
+          </svg>
+          macOS 14+
+        </span>
+        <span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
+               stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="7" y="2" width="10" height="20" rx="2.4"/>
+            <path d="M10.6 5.2h2.8"/>
+          </svg>
+          iOS 17+
+        </span>
       </div>
     </div>
     <div class="phone rise">

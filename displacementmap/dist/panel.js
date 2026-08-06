@@ -5,7 +5,7 @@
 // Content hash of src/. Shown in the panel so a stale bundle is obvious: if the
 // id in the panel doesn't match `node tools/build.mjs` output, Photoshop is
 // running old code and needs a reload.
-const BUILD_ID = "efe09461";
+const BUILD_ID = "1be3978d";
 
 // Positive proof of life, set before anything else can fail. Without it a panel
 // whose script died is indistinguishable from one that loaded fine, since a
@@ -697,6 +697,29 @@ const PRESETS = {
     aoRadius: 12,
     aoStrength: 1.5,
     displacementScalePx: 8,
+    normalYUp: true,
+  },
+  vehicle: {
+    // Glossy painted metal, so the brightest speculars are both strong and
+    // narrow: a high threshold keeps the map black except on the actual
+    // reflections, and a high strength makes those reflections sit convincingly
+    // on top of the artwork.
+    shadowStrength: 0.75,
+    shadowGamma: 1.05,
+    highlightStrength: 0.6,
+    highlightThreshold: 0.9,
+    label: "Vehicle wrap",
+    hint: "Vans, cars, trucks. Keeps panel curvature and door seams; strong speculars for glossy paint.",
+    // 192 keeps the broad curve of a body panel (which artwork genuinely has to
+    // follow) plus seams and wheel arches, while still dropping overall lighting.
+    // Lower values would flatten the panel into a decal.
+    highPassRadius: 192,
+    smoothRadius: 2,
+    aoRadius: 20,
+    aoStrength: 1,
+    // Deliberately small. Panel gaps are near-vertical steps, and a large scale
+    // tears graphics apart at every door seam rather than bending them over it.
+    displacementScalePx: 5,
     normalYUp: true,
   },
 };

@@ -140,6 +140,11 @@ violet at the bottom, so it doubles as a progress indicator.
 `.plugin-cta` rule slides a five-times-oversized blue→violet gradient by that
 amount. No colour maths in JS — one custom property, the rest is CSS.
 
+**The button is hidden right now.** The plugin links aren't being handed out
+yet, so each stylesheet carries a single `.plugin-cta { display: none }` rule
+marked `HIDDEN FOR NOW` — in `assets/guide.css` and in the seven guides with
+their own stylesheets. Delete those rules to bring it back; the markup, the
+URLs and the scroll-colour behaviour are all still in place.
+
 Add the URL for a new guide in the `.plugin-cta` anchor near the bottom of the
-file. **Frame to MP4 has the styles but no button yet** — its Community URL
-hasn't been supplied.
+file. Frame to MP4 and Mockup Forge have the styles but no URL yet.

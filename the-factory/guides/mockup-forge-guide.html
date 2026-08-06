@@ -70,9 +70,8 @@
       radial-gradient(ellipse 45% 35% at 78% 15%, rgba(244,114,182,0.10), transparent 70%),
       radial-gradient(ellipse 40% 30% at 22% 20%, rgba(251,191,36,0.07), transparent 70%);
   }
-  /* A single ghosted hammer-and-anvil, not a repeating pattern. It lives in
-     the markup as an <svg> so it can sit in its own column of the split hero
-     rather than tiling behind the text. */
+  /* The art column holds a looping clip of the plugin's output rather than a
+     drawn mark — it shows the thing the tool actually does. */
   .hero-grid {
     max-width: 1140px; margin: 0 auto;
     display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
@@ -80,10 +79,16 @@
   }
   .hero-copy { text-align: left; }
   .hero-art { position: relative; }
-  .hero-art svg { display: block; width: 100%; max-width: 540px; height: auto; margin-left: auto; }
+  .hero-art video {
+    display: block; width: 100%; max-width: 540px; height: auto;
+    margin-left: auto; border-radius: 16px;
+    border: 1px solid var(--border);
+    box-shadow: 0 30px 80px rgba(0,0,0,0.55);
+    background: var(--panel-solid);
+  }
   @media (max-width: 900px) {
     .hero-grid { grid-template-columns: 1fr; gap: 28px; }
-    .hero-art svg { max-width: 380px; margin: 0 auto; }
+    .hero-art video { max-width: 420px; margin: 0 auto; }
   }
 
   .hero > * { position: relative; }
@@ -423,6 +428,15 @@
   }
   @media print { .plugin-cta { display: none; } }
 
+  /* ---- HIDDEN FOR NOW ----------------------------------------
+     The plugin links aren't being handed out yet. Delete this one
+     rule (in each guide, and in assets/guide.css) to bring the
+     floating "Open in Figma Community" button back — the markup
+     and the rest of its styling are untouched.
+     ------------------------------------------------------------ */
+  .plugin-cta { display: none !important; }
+
+
   footer {
     border-top: 1px solid var(--border);
     margin-top: 110px;
@@ -468,27 +482,13 @@
       </div>
     </div>
 
-    <!-- ghosted hammer and anvil -->
+    <!-- a render the plugin produced, looping -->
     <div class="hero-art">
-    <svg viewBox="0 0 250 190" aria-hidden="true">
-      <defs>
-        <linearGradient id="ghost" x1="0" y1="0" x2="0.4" y2="1">
-          <stop offset="0" stop-color="#fff" stop-opacity="0.10"/>
-          <stop offset="1" stop-color="#fff" stop-opacity="0.028"/>
-        </linearGradient>
-      </defs>
-      <g fill="url(#ghost)">
-        <g transform="translate(0,26)">
-          <path d="M26 74 C40 66 50 63 62 63 H186 a10 10 0 0 1 10 10 v7 a5 5 0 0 1 -5 5 H62 c-12 0 -22-3 -36-11 z"/>
-          <path d="M92 85 h64 l9 26 H83 z"/>
-          <path d="M66 111 h108 a6 6 0 0 1 6 6 v8 a4 4 0 0 1 -4 4 H64 a4 4 0 0 1 -4 -4 v-8 a6 6 0 0 1 6 -6 z"/>
-        </g>
-        <g transform="rotate(-34 168 40) translate(4 -6)">
-          <path d="M126 8 h52 a8 8 0 0 1 8 8 v12 a8 8 0 0 1 -8 8 h-52 l11-14 -11-14 z"/>
-          <path d="M154 36 h12 v46 a6 6 0 0 1 -12 0 z"/>
-        </g>
-      </g>
-    </svg>
+      <video width="3000" height="2538" autoplay muted loop playsinline
+             preload="metadata"
+             aria-label="A design warping onto a product mockup and coming back photographically composited.">
+        <source src="../assets/vid/mockup-forge-hero.mp4" type="video/mp4">
+      </video>
     </div>
   </div>
 </div>
@@ -765,6 +765,16 @@
   <span class="grad">Mockup Forge</span> · a Figma development plugin · flat art in, product shots out
 </footer>
 
+<script>
+  /* Autoplay needs muted+playsinline; this holds frame one for anyone who
+     asks for reduced motion rather than looping at them. */
+  (function () {
+    var v = document.querySelector('.hero-art video');
+    if (!v || !matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    v.removeAttribute('loop');
+    v.addEventListener('loadeddata', function () { v.pause(); }, { once: true });
+  })();
+</script>
 <script src="../assets/cta.js"></script>
 
 </body>

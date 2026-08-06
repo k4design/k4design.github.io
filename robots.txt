@@ -1,5 +1,4 @@
-# Crawlers only honour robots.txt at the domain root, so the
-# The Factory is excluded from here rather than from
-# /the-factory/robots.txt.
+# Crawlers only honour robots.txt at the domain root, so The Factory is
+# excluded from here rather than from /the-factory/robots.txt.
 User-agent: *
 Disallow: /the-factory/

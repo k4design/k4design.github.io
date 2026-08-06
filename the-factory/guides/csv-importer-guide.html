@@ -26,6 +26,7 @@
     --ink-2: #9aa6b5;
     --ink-3: #66717f;
 
+    --grad-1: #11D6FE;
     --accent: #4d8dff;
     --accent-2: #8b5cf6;
     --accent-ink: #a8c7ff;
@@ -60,6 +61,7 @@
       --ink-2: #4d5a6d;
       --ink-3: #7d8a9c;
 
+      --grad-1: #11D6FE;
       --accent: #2563eb;
       --accent-2: #7c3aed;
       --accent-ink: #1d4ed8;
@@ -170,7 +172,7 @@
     transition: transform .15s, box-shadow .15s, border-color .15s;
   }
   .btn-primary {
-    background: linear-gradient(96deg, var(--accent), var(--accent-2));
+    background: linear-gradient(96deg, var(--grad-1), var(--accent-2));
     color: #fff; box-shadow: 0 8px 32px var(--accent-soft);
   }
   .btn-primary:hover { transform: translateY(-2px); }
@@ -187,9 +189,9 @@
     color: #fff; font-size: 14.5px; font-weight: 600;
     box-shadow: 0 10px 30px rgba(0,0,0,.28), 0 0 0 1px rgba(255,255,255,.10) inset;
     transition: transform .15s, box-shadow .15s, background-position .25s linear;
-    /* blue at the top of the guide, purple at the bottom — --cta-p (0…1)
+    /* teal at the top of the guide, violet at the bottom — --cta-p (0…1)
        comes from assets/cta.js */
-    background-image: linear-gradient(96deg, var(--accent) 0%, var(--accent-2) 100%);
+    background-image: linear-gradient(96deg, var(--grad-1) 0%, var(--accent-2) 100%);
     background-size: 500% 100%; background-repeat: no-repeat;
     background-position: calc(var(--cta-p, 0) * 100%) 0;
   }
@@ -200,6 +202,23 @@
     .plugin-cta .label-long { display: none; }
   }
   @media print { .plugin-cta { display: none; } }
+
+  /* ---- HIDDEN FOR NOW ----------------------------------------
+     The plugin links aren't being handed out yet. Delete this one
+     rule (in each guide, and in assets/guide.css) to bring the
+     floating "Open in Figma Community" button back — the markup
+     and the rest of its styling are untouched.
+     ------------------------------------------------------------ */
+  .plugin-cta { display: none !important; }
+
+  /* ---- HIDDEN FOR NOW ----------------------------------------
+     Install-from-the-Community copy, hidden while the plugin links
+     are withheld. Delete this rule to bring it back; the copy itself
+     is untouched.
+     ------------------------------------------------------------ */
+  .community-install { display: none !important; }
+
+
 
   /* ---------- app screenshots ---------- */
   .appshots {
@@ -251,6 +270,55 @@
     background: radial-gradient(ellipse at center, var(--accent-soft), transparent 70%);
     pointer-events: none;
   }
+  /* Dark hero pinned in both themes, on the exact colour of the clip's
+     edges (sampled #001416) so the video dissolves into the background
+     instead of sitting on it as a rectangle. */
+  .hero {
+    --bg: #0a0c10; --bg-2: #02171C;
+    --surface: #13171e; --surface-2: #181d25;
+    --line: #232a34; --line-soft: #10262a;
+    --ink: #e8ecf2; --ink-2: #9aa6b5; --ink-3: #66717f;
+    --accent: #4d8dff; --accent-2: #8b5cf6;
+    --accent-soft: rgba(77, 141, 255, .10);
+    --accent-line: rgba(77, 141, 255, .28);
+    background: #02171C;
+    color: var(--ink);
+    text-align: left;
+    padding: clamp(48px, 6vw, 72px) 24px clamp(40px, 5vw, 64px);
+    border-bottom-color: #02171C;
+  }
+  .hero h1 { color: var(--ink); }
+  .hero .lede { color: var(--ink-2); margin-left: 0; margin-right: 0; }
+  .hero .metarow, .hero .hero-ctas { justify-content: flex-start; }
+  .hero .hero-mark { margin: 0 0 22px; box-shadow: 0 14px 40px rgba(0,0,0,.5);
+    background: none; border: 0; padding: 0; overflow: hidden; }
+  .hero .hero-mark img { width: 100%; height: 100%; object-fit: contain; }
+  /* the drawn grid and glow fought the clip; the clip is the texture now */
+  .hero::before, .hero::after { display: none; }
+
+  /* copy left, clip right */
+  .hero-split {
+    max-width: 1140px; margin: 0 auto;
+    display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 440px);
+    gap: clamp(24px, 4vw, 56px); align-items: center;
+  }
+  .hero-clip { display: block; width: 100%; height: auto; }
+  /* Vignette the clip into the hero: fully clear out to 40% of the radius so
+     the animating icon in the middle is untouched, then ramping to solid hero
+     colour by the edge, which hides the video's rectangle entirely. */
+  .hero-clip-wrap { position: relative; }
+  .hero-clip-wrap::after {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background: radial-gradient(circle at 50% 50%,
+      rgba(2, 23, 28, 0) 0%,
+      rgba(2, 23, 28, 0) 40%,
+      rgba(2, 23, 28, 1) 100%);
+  }
+  @media (max-width: 900px) {
+    .hero-split { grid-template-columns: 1fr; }
+    .hero-clip-wrap { max-width: 380px; margin: 0 auto; }
+  }
+
   .hero-inner { position: relative; max-width: 1140px; margin: 0 auto; }
   .eyebrow {
     font-family: var(--mono);
@@ -268,7 +336,7 @@
     font-weight: 700;
   }
   h1 .grad {
-    background: linear-gradient(100deg, var(--accent), var(--accent-2));
+    background: linear-gradient(100deg, var(--grad-1), var(--accent-2));
     -webkit-background-clip: text; background-clip: text;
     -webkit-text-fill-color: transparent;
   }
@@ -765,13 +833,14 @@
 </div>
 
 <header class="hero">
+  <div class="hero-split">
   <div class="hero-inner">
-    <div class="hero-mark"><svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M9 10v10"/></svg></div>
+    <div class="hero-mark"><img src="../assets/icons/csv-importer.png" alt="CSV Importer"></div>
     <div class="pill badge"><span class="dot"></span> Figma Plugin · CSV Importer</div>
     <h1>A spreadsheet in.<br><span class="grad">Every card filled.</span></h1>
     <p class="lede">Map each CSV column onto a named text layer once, press Populate, and the plugin walks every component instance — duplicating the page as many times as it takes to place every row.</p>
     <div class="metarow">
-      <span class="pill">Published on Figma Community</span>
+      <span class="pill community-install">Published on Figma Community</span>
       <span class="pill">CSV in</span>
       <span class="pill">Auto page overflow</span>
       <span class="pill">No network calls</span>
@@ -779,6 +848,14 @@
     <div class="hero-ctas">
       <a class="btn btn-primary" href="#install">Install ↓</a>
       <a class="btn btn-ghost" href="#prepare-design">Prepare your design</a>
+    </div>
+  </div>
+
+    <div class="hero-clip-wrap">
+      <video class="hero-clip" width="624" height="624" autoplay muted loop playsinline
+             preload="metadata" aria-hidden="true">
+        <source src="../assets/vid/csvimporter.mp4" type="video/mp4">
+      </video>
     </div>
   </div>
 </header>
@@ -952,10 +1029,10 @@ Pine Rd,389000,2,1</code></pre>
 
     <section class="block" id="install">
       <h2><span class="h2num">04</span>Install</h2>
-<p>CSV Importer is <strong>published on the Figma Community</strong>, so no files from this
+<p class="community-install">CSV Importer is <strong>published on the Figma Community</strong>, so no files from this
   computer are needed.</p>
 
-  <div class="install">
+  <div class="install community-install">
     <h4>Recommended — install from the Community</h4>
     <ol class="steps">
       <li><b>Open Figma</b> — desktop app or browser.</li>
@@ -1262,5 +1339,15 @@ Pine Rd,389000,2,1</code></pre>
   });
 })();
 </script>
+<script>
+  /* Hold frame one for anyone who asks for reduced motion. */
+  (function () {
+    var v = document.querySelector('.hero-clip');
+    if (!v || !matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    v.removeAttribute('loop');
+    v.addEventListener('loadeddata', function () { v.pause(); }, { once: true });
+  })();
+</script>
+<script src="../assets/cta.js"></script>
 </body>
 </html>

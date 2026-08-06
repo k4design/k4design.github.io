@@ -153,6 +153,10 @@
     background: var(--bg-2);
   }
   .hero-mark { margin: 0 auto 26px; width: 72px; height: 72px; border-radius: 16px; }
+  /* the app icon is a dark tile in its own right — no white plate or padding */
+  .hero-mark { background: none; border: 0; padding: 0; overflow: hidden; }
+  .hero-mark img { width: 100%; height: 100%; object-fit: cover; display: block;
+    border-radius: inherit; }
   .hero .lede { margin-left: auto; margin-right: auto; }
   .metarow { justify-content: center; }
   .hero .pill.badge {
@@ -200,6 +204,23 @@
     .plugin-cta .label-long { display: none; }
   }
   @media print { .plugin-cta { display: none; } }
+
+  /* ---- HIDDEN FOR NOW ----------------------------------------
+     The plugin links aren't being handed out yet. Delete this one
+     rule (in each guide, and in assets/guide.css) to bring the
+     floating "Open in Figma Community" button back — the markup
+     and the rest of its styling are untouched.
+     ------------------------------------------------------------ */
+  .plugin-cta { display: none !important; }
+
+  /* ---- HIDDEN FOR NOW ----------------------------------------
+     Install-from-the-Community copy, hidden while the plugin links
+     are withheld. Delete this rule to bring it back; the copy itself
+     is untouched.
+     ------------------------------------------------------------ */
+  .community-install { display: none !important; }
+
+
 
   /* ---------- app screenshots ---------- */
   .appshots {
@@ -251,7 +272,45 @@
     background: radial-gradient(ellipse at center, var(--accent-soft), transparent 70%);
     pointer-events: none;
   }
-  .hero-inner { position: relative; max-width: 1140px; margin: 0 auto; }
+  /* The hero is a dark band in both themes: the clip needs a dark stage, and
+     pinning the tokens here means every child (pills, buttons, veil) picks up
+     dark values without a second set of rules. */
+  .hero {
+    --bg: #0a0c10; --bg-2: #0e1116;
+    --surface: #13171e; --surface-2: #181d25;
+    --line: #232a34; --line-soft: #1a2029;
+    --ink: #e8ecf2; --ink-2: #9aa6b5; --ink-3: #66717f;
+    --accent: #4d8dff; --accent-2: #8b5cf6; --accent-ink: #a8c7ff;
+    --accent-soft: rgba(77, 141, 255, .10);
+    --accent-line: rgba(77, 141, 255, .28);
+    --ok: #3ddc97;
+    background: var(--bg-2);
+    color: var(--ink);
+    border-bottom-color: var(--line);
+  }
+  .hero h1 { color: var(--ink); }
+  .hero .lede { color: var(--ink-2); }
+  /* the mark keeps its white tile, but loses the light-page shadow */
+  .hero .hero-mark { box-shadow: 0 14px 40px rgba(0,0,0,0.45); }
+
+  /* looping clip behind the hero, with a veil so the type stays readable */
+  .hero-bg {
+    position: absolute; inset: 0; z-index: 0;
+    width: 100%; height: 100%; object-fit: cover;
+    pointer-events: none;
+  }
+  .hero-veil {
+    position: absolute; inset: 0; z-index: 1; pointer-events: none;
+    background:
+      linear-gradient(to bottom,
+        color-mix(in srgb, var(--bg-2) 84%, transparent),
+        color-mix(in srgb, var(--bg-2) 66%, transparent) 42%,
+        var(--bg-2));
+  }
+  .hero::before, .hero::after { z-index: 2; }
+
+  .hero-inner {
+    z-index: 3; position: relative; max-width: 1140px; margin: 0 auto; }
   .eyebrow {
     font-family: var(--mono);
     font-size: 11px;
@@ -766,14 +825,20 @@
 </div>
 
 <header class="hero">
+  <video class="hero-bg" width="832" height="464" autoplay muted loop playsinline
+         preload="metadata" aria-hidden="true">
+    <source src="../assets/vid/imposepro_bg.mp4" type="video/mp4">
+  </video>
+  <div class="hero-veil"></div>
+
   <div class="hero-inner">
-    <div class="hero-mark"><svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg></div>
+    <div class="hero-mark"><img src="../assets/icons/impose-pro.png" alt="Impose Pro"></div>
     <div class="pill badge"><span class="dot"></span> Figma plugin + Illustrator panel · Impose Pro</div>
     <h1>One card in.<br><span class="grad">A full press sheet out.</span></h1>
     <p class="lede">Lay artwork out N-up on a real print sheet — business cards, postcards, door hangers — with duplex backs that line up and booklet imposition that gets the page order right for you. Runs as a Figma plugin and as an Illustrator panel; both are documented here.</p>
     <div class="metarow">
       <span class="pill">Figma + Illustrator</span>
-      <span class="pill">Published on Figma Community</span>
+      <span class="pill community-install">Published on Figma Community</span>
       <span class="pill">13×19 / 12×18 / 11×17 / custom</span>
       <span class="pill">Duplex</span>
       <span class="pill">Saddle stitch + perfect bind</span>
@@ -811,10 +876,10 @@
 
     <section class="block" id="install">
       <h2><span class="h2num">02</span>Install</h2>
-<p>Impose Pro is <strong>published on the Figma Community</strong>, so you do not need any
+<p class="community-install">Impose Pro is <strong>published on the Figma Community</strong>, so you do not need any
   files from this computer. Install it from inside Figma.</p>
 
-  <div class="install">
+  <div class="install community-install">
     <h4>Recommended — install from the Community</h4>
     <ol class="steps">
       <li>
@@ -2200,5 +2265,23 @@ ZXPSignCmd -sign dist\_staging\ImposePro ImposePro.zxp cert.p12 &lt;password&gt;
   });
 })();
 </script>
+<script>
+  (function () {
+    var v = document.querySelector('.hero-bg');
+    if (!v) return;
+
+    /* Quarter slower than shot. playbackRate has no HTML attribute, and some
+       browsers reset it when the media loads, so set it again on loadeddata. */
+    var RATE = 0.75;
+    v.playbackRate = RATE;
+    v.addEventListener('loadeddata', function () { v.playbackRate = RATE; });
+
+    /* Hold frame one for anyone who asks for reduced motion. */
+    if (!matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    v.removeAttribute('loop');
+    v.addEventListener('loadeddata', function () { v.pause(); }, { once: true });
+  })();
+</script>
+<script src="../assets/cta.js"></script>
 </body>
 </html>

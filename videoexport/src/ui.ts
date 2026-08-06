@@ -560,9 +560,30 @@ async function runPreview() {
   }
 }
 
-// ---------- audio mux (passthrough, no re-encode) ----------
+// ---------- final remux ----------
+//
+// The WASM encoder writes an MP4 whose sync-sample table marks EVERY frame as
+// a keyframe (and only frame 0 actually is one). Strict players — QuickTime
+// in particular — then try to start decoding at arbitrary P-frames, which
+// shows up as heavy artifacts and frozen/skipping motion. So the output is
+// ALWAYS remuxed: each packet's real type is read from its H.264 NAL units,
+// and the source videos' audio is muxed in along the way.
 
-async function muxAudio(
+// True if the packet's first video NAL unit is an IDR frame (AVCC layout:
+// 4-byte length prefix before each NAL).
+function h264IsIdr(data: Uint8Array): boolean {
+  let i = 0;
+  while (i + 4 < data.length) {
+    const len = ((data[i] << 24) | (data[i + 1] << 16) | (data[i + 2] << 8) | data[i + 3]) >>> 0;
+    const nal = data[i + 4] & 0x1f;
+    if (nal === 5) return true; // IDR slice
+    if (nal === 1) return false; // non-IDR slice
+    i += 4 + len;
+  }
+  return false;
+}
+
+async function remux(
   videoMp4: Uint8Array,
   audioSegs: { file: File; offset: number; duration: number }[],
   fps: number
@@ -584,36 +605,38 @@ async function muxAudio(
     if (aTrack.codec !== codec) continue; // mixed codecs: keep first codec only
     inputs.push({ input, offset: seg.offset, duration: seg.duration });
   }
-  if (codec === null || inputs.length === 0) return null;
-
   const output = new Output({ format: new Mp4OutputFormat(), target: new BufferTarget() });
   const vSource = new EncodedVideoPacketSource('avc');
   output.addVideoTrack(vSource, { frameRate: fps });
-  const aSource = new EncodedAudioPacketSource(codec);
-  output.addAudioTrack(aSource);
+  const aSource = codec !== null ? new EncodedAudioPacketSource(codec) : null;
+  if (aSource) output.addAudioTrack(aSource);
   await output.start();
 
   const vConfig = await vTrack.getDecoderConfig();
   let firstV = true;
   for await (const packet of new EncodedPacketSink(vTrack).packets()) {
-    await vSource.add(packet, firstV && vConfig ? { decoderConfig: vConfig } : undefined);
+    // correct the bogus all-keyframe flags from the WASM encoder's muxer
+    const fixed = packet.clone({ type: h264IsIdr(packet.data) ? 'key' : 'delta' });
+    await vSource.add(fixed, firstV && vConfig ? { decoderConfig: vConfig } : undefined);
     firstV = false;
   }
 
-  let firstA = true;
-  for (const { input, offset, duration } of inputs) {
-    const aTrack = (await input.getPrimaryAudioTrack())!;
-    const aConfig = await aTrack.getDecoderConfig();
-    for await (const packet of new EncodedPacketSink(aTrack).packets()) {
-      if (packet.timestamp >= duration) break;
-      const shifted = packet.clone({ timestamp: packet.timestamp + offset });
-      await aSource.add(shifted, firstA && aConfig ? { decoderConfig: aConfig } : undefined);
-      firstA = false;
+  if (aSource) {
+    let firstA = true;
+    for (const { input, offset, duration } of inputs) {
+      const aTrack = (await input.getPrimaryAudioTrack())!;
+      const aConfig = await aTrack.getDecoderConfig();
+      for await (const packet of new EncodedPacketSink(aTrack).packets()) {
+        if (packet.timestamp >= duration) break;
+        const shifted = packet.clone({ timestamp: packet.timestamp + offset });
+        await aSource.add(shifted, firstA && aConfig ? { decoderConfig: aConfig } : undefined);
+        firstA = false;
+      }
     }
   }
 
   vSource.close();
-  aSource.close();
+  aSource?.close();
   await output.finalize();
   return new Uint8Array((output.target as BufferTarget).buffer!);
 }
@@ -658,8 +681,9 @@ async function runExport() {
     encoder.width = W;
     encoder.height = H;
     encoder.frameRate = fps;
-    encoder.speed = 5;
-    encoder.quantizationParameter = 26; // lower = better quality; 26 ≈ visually clean
+    encoder.speed = 0; // best quality
+    encoder.quantizationParameter = 23; // lower = better quality
+    encoder.groupOfPictures = fps * 2; // a real keyframe every 2s, for seeking
     encoder.initialize();
 
     // 3) Render every output frame
@@ -715,16 +739,15 @@ async function runExport() {
     encoder.delete();
     encoder = null;
 
-    // 4) Mux in audio from the source video(s), if any
-    if (audioSegs.length > 0) {
-      setProgress(0.96, 'Adding audio…');
-      try {
-        const withAudio = await muxAudio(mp4, audioSegs, fps);
-        if (withAudio) mp4 = withAudio;
-      } catch (e) {
-        console.warn('Audio mux failed, exporting silent video:', e);
-        notify('Audio could not be carried over — exported silent video.', true);
-      }
+    // 4) Always remux: fixes the encoder's broken keyframe flags and muxes in
+    //    audio from the source video(s), if any
+    setProgress(0.96, audioSegs.length > 0 ? 'Fixing up container + adding audio…' : 'Fixing up container…');
+    try {
+      const remuxed = await remux(mp4, audioSegs, fps);
+      if (remuxed) mp4 = remuxed;
+    } catch (e) {
+      console.warn('Remux failed, downloading the raw encode:', e);
+      notify('Container fix-up failed — the file may misbehave in some players.', true);
     }
 
     // 5) Download + load into the preview player

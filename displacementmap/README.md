@@ -183,9 +183,19 @@ feature scales at 2048px — weave 4–12px, creases 30–120px, garment folds
 | `paper`   | 192 | 2 | 16 / 0.8 | 6  | 0.70 / 1.00 | 0.30 / 0.94 |
 | `screen`  | 0 (keeps curvature) | 6 | 0 (no AO) | 3 | 0.55 / 0.90 | 0.55 / 0.88 |
 | `signage` | 64  | 1 | 12 / 1.5 | 8  | 0.90 / 1.25 | 0.25 / 0.95 |
+| `vehicle` | 192 | 2 | 20 / 1.0 | 5  | 0.75 / 1.05 | 0.60 / 0.90 |
 
 Radii at or below 64 erase garment folds, which are most of the signal you want
 on cloth — that's why `fabric` is 128 rather than something tighter.
+`vehicle` is tuned for `van-sprinter-01` and its kind. High pass 192 keeps the
+broad curve of a body panel — artwork genuinely has to follow that — along with
+seams and wheel arches, while still dropping overall lighting; anything lower
+flattens the panel into a decal. Displacement scale is deliberately the smallest
+of any preset, because panel gaps are near-vertical steps and a large scale tears
+graphics apart at every door seam instead of bending them over it. Glossy paint
+gets the strongest highlights at the tightest threshold, so the map stays black
+except on genuine reflections.
+
 `displacementScalePx` becomes `warp.scale` in `item.json`. As an anchor,
 `tshirt-marina-01` ships `scale: 11` at canvas width 1456, so the `fabric`
 default of 12 is in the right territory — but these and the lighting values are
@@ -241,9 +251,17 @@ Each of these produced a panel that looked fine and did nothing.
 - **`require()` does not exist in ES modules** — see *Why there's a build step*.
 - **`<details>`, `<summary>` and `<code>` are not dependable**; the disclosure is
   hand-rolled.
-- **The status line must be at the top.** It used to sit below four steps of
-  content, off the bottom of a docked panel, so every error message — including
-  the ones added to diagnose these bugs — was invisible.
+- **The status line must be at the top, and height-bounded.** It used to sit
+  below four steps of content, off the bottom of a docked panel, so every error
+  message — including the ones added to diagnose these bugs — was invisible.
+  Moving it up then created the opposite problem: an unbounded box at the top
+  pushes every control below it out of frame when a message runs long. It now has
+  `max-height: 25vh` and scrolls internally.
+- **Keep `minimumSize` small.** A large one stops the user shrinking the panel,
+  and when the dock is shorter than the minimum the content clips rather than
+  scrolling. The floor is 240×240 and `body` owns the scrolling, so the layout
+  survives any height. `test/panel.smoke.mjs` asserts all of this — CSS
+  regressions are otherwise silent.
 
 The panel prints a **build id** (a hash of `src/`, `index.html` and
 `manifest.json`). If the id shown doesn't match what `node tools/build.mjs`

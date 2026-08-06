@@ -338,6 +338,15 @@
     .plugin-cta .label-long{display:none;}
   }
 
+  /* ---- HIDDEN FOR NOW ----------------------------------------
+     The plugin links aren't being handed out yet. Delete this one
+     rule (in each guide, and in assets/guide.css) to bring the
+     floating "Open in Figma Community" button back — the markup
+     and the rest of its styling are untouched.
+     ------------------------------------------------------------ */
+  .plugin-cta { display: none !important; }
+
+
   footer{border-top:1px solid var(--line);margin-top:clamp(64px,9vw,110px);
     padding:36px 24px;text-align:center;color:var(--ink-3);
     font:13px var(--mono);display:flex;justify-content:center;gap:10px 24px;
@@ -469,6 +478,7 @@
       --ink:#000;--ink-2:#333;--ink-3:#666;
       --line:rgba(0,0,0,.18);--line-bright:rgba(0,0,0,.28);}
     nav,.topbar,.plugin-cta{display:none;}
+
     .hero::before,.masthead::before,.cheat::before{display:none;}
     .grad,.title em{-webkit-text-fill-color:#2563eb;color:#2563eb;}
     section,.sec,.block,.step,.card,.feature,.crop,.figshot{break-inside:avoid;}

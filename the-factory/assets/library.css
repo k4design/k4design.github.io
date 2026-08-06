@@ -134,7 +134,9 @@
   .cat-name .n{color:var(--line);}
 
   /* --- left: one plugin --- */
-  .item{display:grid;grid-template-columns:80px 1fr;gap:.85rem;
+  /* column gap only — a row gap here would push the subhead and description
+     away from the name, and their own margins set that rhythm instead */
+  .item{display:grid;grid-template-columns:80px 1fr;column-gap:.85rem;row-gap:0;
     width:100%;text-align:left;cursor:pointer;
     padding:.7rem 1.4rem .75rem;border:0;border-left:2px solid transparent;
     background:none;color:inherit;font:inherit;
@@ -152,15 +154,32 @@
     background:var(--card);border:1px solid var(--line);
     font-family:var(--mono);font-size:17px;letter-spacing:.02em;
     color:var(--taupe);font-style:normal;}
-  .item .ico.has-img{background:#fff;border-color:rgba(0,0,0,.12);padding:5px;}
+  /* Logos fill the tile rather than sitting inset: some are drawn edge-to-edge
+     on their own dark background, others carry their own white margin, and
+     padding here would put a white ring around the first kind. */
+  .item .ico.has-img{background:#fff;border-color:rgba(0,0,0,.12);padding:0;}
+  .item .ico img{border-radius:inherit;}
   .item .ico img{width:100%;height:100%;object-fit:contain;display:block;}
   .item .ico.is-emoji{font-size:30px;background:var(--paper-2);}
+  /* what the thing actually is — not everything here is a Figma plugin */
+  /* the icon spans two rows, so this third line has to be told to stay in
+     the text column rather than flowing under the icon */
+  /* reads as a subhead to the name, not a tag: same voice, one step down,
+     tucked under the title rather than floating as its own row */
+  .item .type{grid-column:2;display:block;margin:-.3rem 0 .65rem;
+    font-family:var(--sans);font-size:.82rem;line-height:1.2;
+    letter-spacing:0;text-transform:none;color:var(--ink-soft);}
+  .item[aria-current="true"] .type{color:var(--mag);}
+
   .item[aria-current="true"] .ico{color:var(--mag);}
   .item[aria-current="true"] .ico:not(.has-img){border-color:var(--mag-line);}
 
-  .item .row{display:flex;align-items:baseline;justify-content:space-between;gap:.5rem;}
-  .item .nm{font-family:var(--serif);font-size:1.08rem;line-height:1.25;}
-  .item .sub{margin:.15rem 0 0;font-size:.8rem;line-height:1.45;color:var(--taupe);
+  .item .row{display:flex;align-items:baseline;justify-content:space-between;
+    gap:.5rem;line-height:1.15;}
+  .item .nm{font-family:var(--serif);font-size:1.08rem;line-height:1.15;}
+  /* like .type, this has to be pinned to the text column — the icon spans
+     two rows, so anything after them auto-flows back under the icon */
+  .item .sub{grid-column:2;margin:0;font-size:.78rem;line-height:1.5;color:var(--taupe);
     display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
   .item[aria-current="true"]{background:var(--mag-tint);border-left-color:var(--mag);}
   .item[aria-current="true"] .nm{color:var(--mag);}

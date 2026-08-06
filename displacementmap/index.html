@@ -1,9 +1,16 @@
 <style>
+  /* The panel must survive any height the user drags it to. body owns the
+     scrolling, so the controls stay reachable when the panel is short instead of
+     being clipped off the bottom. */
+  html, body {
+    height: 100%;
+  }
   body {
     margin: 0;
     padding: 10px 10px 18px 10px;
     font-size: 12px;
     overflow-y: auto;
+    box-sizing: border-box;
   }
   .step {
     margin-bottom: 10px;
@@ -48,12 +55,19 @@
     word-break: break-all;
   }
 
+  /* Bounded on purpose. A multi-line error or the four-file success list would
+     otherwise grow without limit and shove every control below it out of frame —
+     which is exactly what an unbounded box at the top of the panel does. Long
+     messages scroll inside here instead. */
   #status {
     margin-bottom: 10px;
     padding: 6px 8px;
     border-radius: 4px;
     background: rgba(128, 128, 128, 0.12);
     min-height: 16px;
+    max-height: 25vh;
+    overflow-y: auto;
+    flex: 0 0 auto;
     white-space: pre-wrap;
     word-break: break-word;
     font-size: 11px;
@@ -126,6 +140,7 @@
         <sp-menu-item value="paper">Paper / print</sp-menu-item>
         <sp-menu-item value="screen">Device screen</sp-menu-item>
         <sp-menu-item value="signage">Signage / wall</sp-menu-item>
+        <sp-menu-item value="vehicle">Vehicle wrap</sp-menu-item>
       </sp-menu>
     </sp-picker>
     <div class="hint" id="surface-hint"></div>

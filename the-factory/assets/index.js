@@ -61,7 +61,7 @@ function groupsFor(plugins) {
 
 function matches(p, q) {
   if (!q) return true;
-  const haystack = [p.name, p.tagline, p.owner, p.category, ...(p.tags || [])]
+  const haystack = [p.name, p.tagline, p.owner, p.category, p.type, ...(p.tags || [])]
     .join(' ').toLowerCase();
   return q.split(/\s+/).every(term => haystack.includes(term));
 }
@@ -100,6 +100,7 @@ function itemHtml(p) {
         <span class="nm">${esc(p.name)}</span>
         <span class="pill ${esc(p.status || '')}">${esc(STATUS_LABELS[p.status] || p.status || '')}</span>
       </span>
+      ${p.type ? `<span class="type">${esc(p.type)}</span>` : ''}
       <span class="sub">${esc(p.tagline || '')}</span>
     </button>`;
 }

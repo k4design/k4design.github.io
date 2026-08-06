@@ -18,16 +18,16 @@
         "default": "Displacement Maps"
       },
       "minimumSize": {
-        "width": 280,
-        "height": 520
+        "width": 240,
+        "height": 240
       },
       "preferredDockedSize": {
         "width": 340,
-        "height": 820
+        "height": 720
       },
       "preferredFloatingSize": {
         "width": 380,
-        "height": 900
+        "height": 780
       }
     }
   ],

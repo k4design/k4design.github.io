@@ -5,6 +5,8 @@
    the page is opened straight off disk, so double-clicking
    index.html renders the library with no server involved.
 
+   type:     what it actually is — 'Figma plugin', 'Chrome extension',
+             'Mac + iPhone app'… shown under each row in the sidebar
    category: must match one of CATEGORIES below, which also sets
              the order the groups appear in the sidebar
    icon:     optional — 'assets/icons/name.png', or a single emoji.
@@ -28,6 +30,7 @@ const CATEGORIES = [
 const PLUGINS = [
   {
     slug: 'dezzy-magazine',
+    type: 'Figma plugin',
     name: 'dezzy Magazine',
     tagline: 'Tag a luxury property template once, then pour a hundred pages of listing content in one pass.',
     category: 'Listings & Print',
@@ -41,6 +44,7 @@ const PLUGINS = [
   },
   {
     slug: 'dezzy-autofill',
+    type: 'Figma plugin',
     name: 'dezzy AutoFill',
     tagline: 'Tag any flyer or listing sheet once, then fill every property from a form and a photo shoot.',
     category: 'Listings & Print',
@@ -53,6 +57,7 @@ const PLUGINS = [
   },
   {
     slug: 'mockup-forge',
+    type: 'Figma plugin + render service',
     name: 'Mockup Forge',
     tagline: 'Drop artwork into a frame and get it back photographically warped onto phones, mugs, shirts, billboards — video included.',
     category: 'Asset Prep',
@@ -65,12 +70,13 @@ const PLUGINS = [
     guide: 'guides/mockup-forge-guide.html',
   },
   {
-    /* Figma plugin plus an Illustrator panel. No icon yet, so the sidebar
-       falls back to initials. */
+    /* Figma plugin plus an Illustrator panel. */
     slug: 'impose-pro',
+    type: 'Figma plugin + Illustrator panel',
     name: 'Impose Pro',
     tagline: 'Lay one card out N-up on a real press sheet — duplex backs that line up, and booklet imposition that gets the page order right.',
     category: 'Print Production',
+    icon: 'assets/icons/impose-pro.png',
     status: 'live',
     owner: 'Kyle',
     updated: '2026-08-05',
@@ -78,11 +84,12 @@ const PLUGINS = [
     guide: 'guides/impose-pro-guide.html',
   },
   {
-    /* No icon yet — sidebar falls back to initials. */
     slug: 'csv-importer',
+    type: 'Figma plugin',
     name: 'CSV Importer',
     tagline: 'Map each CSV column onto a named layer once, then populate every card — pages duplicate themselves as the rows run over.',
     category: 'Print Production',
+    icon: 'assets/icons/csv-importer.png',
     status: 'live',
     owner: 'Kyle',
     updated: '2026-08-05',
@@ -93,6 +100,7 @@ const PLUGINS = [
     /* Figma plugin plus an InDesign/Illustrator panel. Development install
        only for now. No icon yet — sidebar falls back to initials. */
     slug: 'text-replacer-tags',
+    type: 'Figma plugin + Adobe panel',
     name: 'Text Replacer + Tags',
     tagline: 'Name a layer *Headline and it becomes an editable field; tags swap one phrase inside paragraphs across dozens of layers.',
     category: 'Asset Prep',
@@ -104,12 +112,13 @@ const PLUGINS = [
   },
   {
     /* Not a Figma plugin: a Mac + iPhone app reading three monday.com boards.
-       Its guide carries no Figma Community link, so it has no floating CTA.
-       No icon in assets/icons yet — the sidebar falls back to initials. */
+       Its guide carries no Figma Community link, so it has no floating CTA. */
     slug: 'creative-direction',
+    type: 'Mac + iPhone app',
     name: 'Creative Direction',
     tagline: "A creative director's dashboard over monday.com — what's waiting, what's late, who's carrying what, on a Mac window or a phone screen.",
     category: 'Reporting',
+    icon: 'assets/icons/creative-direction.png',
     status: 'beta',
     owner: 'Kyle',
     updated: '2026-08-05',
@@ -120,6 +129,7 @@ const PLUGINS = [
     /* Chrome extension rather than a Figma plugin. No icon yet, so the
        sidebar falls back to initials. */
     slug: 'midjourney-prompt-injector',
+    type: 'Chrome extension',
     name: 'MidJourney Prompt Injector',
     tagline: 'Separate a batch of prompts with a $ and it types every one into the MidJourney prompt bar for you.',
     category: 'Asset Prep',
@@ -134,6 +144,7 @@ const PLUGINS = [
     /* Chrome extension rather than a Figma plugin.
        No icon yet, so the sidebar falls back to initials. */
     slug: 'mj-explore-grabber',
+    type: 'Chrome extension',
     name: 'MidJourney Explore Grabber',
     tagline: 'Describe a subject once, then collect matching MidJourney explore images at full resolution while you do something else.',
     category: 'Asset Prep',
@@ -146,6 +157,7 @@ const PLUGINS = [
   },
   {
     slug: 'frame-to-mp4',
+    type: 'Figma plugin',
     name: 'Frame to MP4',
     tagline: 'Export a run of frames as one video — embedded videos play for real, audio included, encoded locally.',
     category: 'Video & Motion',

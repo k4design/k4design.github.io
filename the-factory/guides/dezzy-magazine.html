@@ -271,7 +271,9 @@
             <div class="pg-card pg-tools">
               <div class="pg-tool"><div class="pg-tool-ic">🏷️</div><div class="pg-tool-info"><div class="pg-tool-t">Scan layer names</div><div class="pg-tool-d">Turns #field names, schema-named text layers, and room-named photo layers into tags.</div></div><span class="pg-btn pgsec">Scan</span></div>
               <div class="pg-tool"><div class="pg-tool-ic">🔢</div><div class="pg-tool-info"><div class="pg-tool-t">Auto-number photo slots</div><div class="pg-tool-d">Tags placeholder rectangles in “Insert Page N” frames as photo.slot.001… in reading order.</div></div><span class="pg-btn pgsec">Number</span></div>
+              <div class="pg-tool"><div class="pg-tool-ic">🔁</div><div class="pg-tool-info"><div class="pg-tool-t">Renumber existing slots from 001</div><div class="pg-tool-d">Renumbers the slots you already tagged, in reading order, without retagging anything.</div></div><span class="pg-btn pgsec">Renumber</span></div>
               <div class="pg-tool"><div class="pg-tool-ic">🖼️</div><div class="pg-tool-info"><div class="pg-tool-t">Retag containers from images</div><div class="pg-tool-d">Re-tags each filled container to the category of the photo inside it.</div></div><span class="pg-btn pgsec">Preview</span></div>
+              <div class="pg-tool"><div class="pg-tool-ic">✏️</div><div class="pg-tool-info"><div class="pg-tool-t">Rename layers to tags</div><div class="pg-tool-d">Renames every tagged layer to its tag, so the Figma layer list mirrors the tagging.</div></div><span class="pg-btn pgsec">Rename</span></div>
             </div>
             <div class="pg-h" style="margin-top:13px">Save state</div>
             <div class="pg-card pg-tools">
@@ -373,6 +375,20 @@
           </div>
           <div class="crop-cap">Hit <b>Auto-assign</b> — filenames route photos to matching slots.</div>
           <div class="note">Name your files sensibly — <code>kitchen-1.jpg</code>, <code>exterior-drone.jpg</code> — and Auto-assign does almost everything.</div>
+
+          <p style="margin-top:1.1rem">Straight off a camera, though, nothing is named sensibly. <span class="path">✨ AI classify &amp; rename</span> looks at each photo and renames it to the room it shows — <code>IMG_0921.jpg</code> becomes <code>kitchen.jpg</code> — so Auto-assign can then place it. It only touches photos whose names aren't already recognized; if every name already matches, it offers to re-classify the whole library instead.</p>
+          <div class="crop">
+            <div class="crop-ctx"><span class="d"></span>Photos tab · Auto-assign</div>
+            <div class="box">
+              <div class="pg-row" style="margin-top:0"><span class="pg-btn pgsec grow">Auto-assign by filename order</span></div>
+              <div class="pg-row"><span class="pg-check"><span class="pg-box"></span>Overwrite existing assignments</span></div>
+              <div class="pg-row"><span class="pg-btn pgsec grow hl">✨ AI classify &amp; rename</span><span class="pg-btn pgsec" style="min-width:30px">⚙</span></div>
+              <div class="pg-muted" style="margin-top:6px">AI classifying 7/24…</div>
+            </div>
+            <svg class="cur" width="20" height="20" viewBox="0 0 22 22" style="left:150px;top:62px"><path d="M4 2 L4 19 L8.6 14.6 L11.2 20.4 L13.4 19.4 L10.9 13.8 L17 13.8 Z" fill="#fff" stroke="#1a1a1a" stroke-width="1.3" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="crop-cap">Click <b>✨ AI classify &amp; rename</b> — unrecognized photos are named by what's in them, then Auto-assign places them.</div>
+          <div class="note"><b>Bring your own key.</b> Click <b>⚙</b> and paste a Claude API key from platform.claude.com. It's stored on your device through Figma, never written into the file, and usage bills to your own Anthropic account. Pick a model there too: <b>Opus 4.8</b> most accurate, <b>Sonnet 5</b> balanced, <b>Haiku 4.5</b> cheapest for a big shoot.</div>
         </div>
       </div>
 
@@ -452,6 +468,7 @@
             <div class="pg-card">
               <div class="pg-row" style="margin-top:0"><span class="pg-btn pgsec grow">Auto-assign by filename order</span></div>
               <div class="pg-row"><span class="pg-check"><span class="pg-box"></span>Overwrite existing assignments</span></div>
+              <div class="pg-row"><span class="pg-btn pgsec grow">✨ AI classify &amp; rename</span><span class="pg-btn pgsec" style="min-width:30px">⚙</span></div>
               <div style="margin-top:6px">
                 <div class="pg-slot"><span class="pg-field">photo.kitchen.01</span><span class="pg-select mono"><span class="txt">kitchen-01.jpg</span></span></div>
                 <div class="pg-slot"><span class="pg-field">photo.master.01</span><span class="pg-select mono"><span class="txt">master-bed-2.jpg</span></span></div>
@@ -472,7 +489,7 @@
             </div>
           </div>
         </div>
-        <figcaption><b>Photos tab</b> — steps 2–3. Drop the shoot, hit Auto-assign, then adjust any slot by hand.</figcaption>
+        <figcaption><b>Photos tab</b> — steps 2–3. Drop the shoot, let <b>AI classify &amp; rename</b> sort any junk filenames, hit Auto-assign, then adjust any slot by hand.</figcaption>
       </figure>
 
       <figure class="figshot">
@@ -513,6 +530,11 @@
     </div>
     <div class="concepts">
       <div class="concept">
+        <span class="k">AI rename</span>
+        <h5>Only what it can't read</h5>
+        <p>AI classify skips photos whose names already match a category and works on the rest, so running it twice costs nothing extra. A downscaled copy of each photo goes straight from Figma to Anthropic; the key lives on your device, never in the file.</p>
+      </div>
+      <div class="concept">
         <span class="k">Portability</span>
         <h5>Save state (.zip)</h5>
         <p>Bundle every field value, photo, assignment, and now every <b>layer tag</b> (tags.json) into one archive on the Bulk tab — then restore it in another file. On upload the tags re-apply immediately; content and photos wait for Apply.</p>
@@ -550,6 +572,8 @@
           <tr><td>Some text didn't apply</td><td>The layer is <b>text-locked</b>, or its <b>font is missing</b> (check the apply report).</td></tr>
           <tr><td>A spread has a seam</td><td><b>Spread drift</b> — the halves changed size. Run Check magazine, then <span class="mono">Align spread fills</span>.</td></tr>
           <tr><td>A thumbnail is blank</td><td>Photo lost before the vault existed — re-upload the same file and it re-links automatically.</td></tr>
+          <tr><td>AI classify won't start</td><td>No key yet — click <b>⚙</b> on the Photos tab and paste a Claude API key. "Invalid API key" means the key was rejected: check it in the same place.</td></tr>
+          <tr><td>A photo came back <code>unknown</code></td><td>The model couldn't tell what room it was, so the name is left alone — rename it yourself or pick its slot by hand.</td></tr>
           <tr><td>Gallery empty on reopen</td><td>Normal — thumbnails rebuild themselves as the plugin pulls bytes back from Figma.</td></tr>
         </tbody>
       </table>
@@ -566,7 +590,7 @@
     </div>
     <div class="cheat-row">
       <span class="lbl">Per / listing</span>
-      <span class="flow">Duplicate<span class="arrow">→</span><b>Content</b> form<span class="arrow">→</span><b>Photos</b> upload<span class="arrow">→</span><b>Auto-assign</b><span class="arrow">→</span><b>Dry run</b><span class="arrow">→</span><b>Apply text</b><span class="arrow">→</span><b>Apply photos</b><span class="arrow">→</span>export</span>
+      <span class="flow">Duplicate<span class="arrow">→</span><b>Content</b> form<span class="arrow">→</span><b>Photos</b> upload<span class="arrow">→</span><b>AI classify</b><span class="arrow">→</span><b>Auto-assign</b><span class="arrow">→</span><b>Dry run</b><span class="arrow">→</span><b>Apply text</b><span class="arrow">→</span><b>Apply photos</b><span class="arrow">→</span>export</span>
     </div>
   </section>
 

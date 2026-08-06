@@ -14,8 +14,10 @@ icon: 'assets/icons/dezzy-magazine.png',
   and below. A square lockup is what fills the slot.
   Compare `dezzy-magazine.png` (square, reads clearly) with
   `dezzy-autofill.png` (wordmark, doesn't).
-- PNG or SVG. Logos sit on a white plate, since these are drawn for light
-  backgrounds; transparency is fine.
+- PNG or SVG. The image fills the tile edge to edge, so an icon drawn on its
+  own dark background (like `creative-direction.png`) reads as a real app icon,
+  and one with its own white margin (like `mockup-forge.png`) still sits on the
+  white plate behind it. Transparency is fine.
 - A single emoji works if there's no logo yet: `icon: '🎬'`.
 - Leave `icon` off entirely and the slot shows the plugin's initials, so
   names stay aligned either way.
