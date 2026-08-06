@@ -169,4 +169,17 @@ const PLUGINS = [
     tags: ['video', 'export', 'motion'],
     guide: 'guides/frametoMP4.html',
   },
+  {
+    slug: 'mockup-map-baker',
+    type: 'Photoshop panel',
+    name: 'Mockup Map Baker',
+    tagline: 'Bake displacement, shadow and highlight maps from a real product photo, straight into a Mockup Forge item.',
+    category: 'Asset Prep',
+    status: 'beta',
+    version: '1.0',
+    owner: 'Kyle',
+    updated: '2026-08-06',
+    tags: ['mockups', 'photoshop', 'maps', 'uxp'],
+    guide: 'guides/mockup-map-baker-guide.html',
+  },
 ];

@@ -1,0 +1,994 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark light">
+<meta name="robots" content="noindex,nofollow">
+<title>Mockup Map Baker — Docs</title>
+<script src="../assets/gate.js"></script>
+<script>requireUnlock();</script>
+<style>
+
+  /* ===================== tokens ===================== */
+  :root {
+    --sans: Inter, "SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --mono: "SF Mono", ui-monospace, "JetBrains Mono", Menlo, Consolas, monospace;
+
+    --bg: #0a0c10;
+    --bg-2: #0e1116;
+    --surface: #13171e;
+    --surface-2: #181d25;
+    --line: #232a34;
+    --line-soft: #1a2029;
+
+    --ink: #e8ecf2;
+    --ink-2: #9aa6b5;
+    --ink-3: #66717f;
+
+    --accent: #4d8dff;
+    --accent-2: #8b5cf6;
+    --accent-ink: #a8c7ff;
+    --accent-soft: rgba(77, 141, 255, .10);
+    --accent-line: rgba(77, 141, 255, .28);
+
+    --ok: #3ddc97;
+    --ok-soft: rgba(61, 220, 151, .10);
+    --ok-line: rgba(61, 220, 151, .26);
+    --warn: #ffb454;
+    --warn-soft: rgba(255, 180, 84, .10);
+    --warn-line: rgba(255, 180, 84, .26);
+    --bad: #ec5b62;
+    --bad-soft: rgba(236, 91, 98, .10);
+    --bad-line: rgba(236, 91, 98, .26);
+
+    --radius: 10px;
+    --topbar-h: 52px;
+  }
+  @media (prefers-color-scheme: light) {
+    :root {
+      --bg: #ffffff;
+      --bg-2: #f7f9fc;
+      --surface: #ffffff;
+      --surface-2: #f4f7fa;
+      --line: #e2e8f0;
+      --line-soft: #eef2f7;
+
+      --ink: #0c1119;
+      --ink-2: #4d5a6d;
+      --ink-3: #7d8a9c;
+
+      --accent: #2563eb;
+      --accent-2: #7c3aed;
+      --accent-ink: #1d4ed8;
+      --accent-soft: rgba(37, 99, 235, .07);
+      --accent-line: rgba(37, 99, 235, .22);
+
+      --ok: #0f9d63;
+      --ok-soft: rgba(15, 157, 99, .08);
+      --ok-line: rgba(15, 157, 99, .24);
+      --warn: #b26a00;
+      --warn-soft: rgba(178, 106, 0, .08);
+      --warn-line: rgba(178, 106, 0, .24);
+      --bad: #c9333a;
+      --bad-soft: rgba(201, 51, 58, .07);
+      --bad-line: rgba(201, 51, 58, .22);
+    }
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: calc(var(--topbar-h) + 18px); }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 15px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--accent-ink); }
+  code {
+    font-family: var(--mono);
+    font-size: .88em;
+    background: var(--surface-2);
+    border: 1px solid var(--line-soft);
+    border-radius: 5px;
+    padding: 1px 5px;
+  }
+  strong { color: var(--ink); font-weight: 650; }
+  em { color: var(--ink); font-style: normal; font-weight: 600; }
+
+  /* ===================== topbar ===================== */
+  .topbar {
+    position: sticky; top: 0; z-index: 50;
+    height: var(--topbar-h);
+    display: flex; align-items: center; gap: 10px;
+    padding: 0 18px;
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: saturate(150%) blur(12px);
+    border-bottom: 1px solid var(--line);
+  }
+  .mark {
+    width: 26px; height: 26px; flex: 0 0 26px;
+    display: grid; place-items: center;
+    border: 1px solid var(--accent-line);
+    border-radius: 7px;
+    background: var(--accent-soft);
+  }
+  .mark svg { width: 15px; height: 15px; display: block; }
+  .topbar .name { font-weight: 650; letter-spacing: -.01em; }
+  .topbar .sep { color: var(--ink-3); }
+  .topbar .where { color: var(--ink-2); }
+  .topbar .back {
+    margin-left: auto;
+    color: var(--ink-2); text-decoration: none;
+    font-size: 13px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 5px 12px;
+    white-space: nowrap;
+  }
+  .topbar .back:hover { color: var(--ink); border-color: var(--accent-line); }
+  .nav-links { display: flex; gap: 4px; overflow-x: auto; margin-left: 14px; }
+  .nav-links a {
+    color: var(--ink-2); text-decoration: none;
+    font-size: 13px; white-space: nowrap;
+    padding: 5px 9px; border-radius: 7px;
+  }
+  .nav-links a:hover { color: var(--ink); background: var(--surface-2); }
+  .nav-links a.active { color: var(--accent-ink); background: var(--accent-soft); }
+  @media (max-width: 900px) { .nav-links { display: none; } }
+
+  /* ===================== hero ===================== */
+  .hero {
+    position: relative; overflow: hidden;
+    border-bottom: 1px solid var(--line);
+    background: var(--bg-2);
+  }
+  .hero::before, .hero::after {
+    content: ""; position: absolute; pointer-events: none;
+    width: 620px; height: 620px; border-radius: 50%;
+    filter: blur(90px); opacity: .30;
+  }
+  .hero::before { background: var(--accent); top: -300px; left: -160px; }
+  .hero::after  { background: var(--accent-2); bottom: -340px; right: -180px; }
+  .hero-inner {
+    position: relative; z-index: 1;
+    max-width: 900px; margin: 0 auto;
+    padding: 66px 24px 56px;
+    text-align: center;
+  }
+  .hero-mark {
+    width: 60px; height: 60px; margin: 0 auto 20px;
+    display: grid; place-items: center;
+    border: 1px solid var(--accent-line);
+    border-radius: 15px;
+    background: var(--accent-soft);
+  }
+  .hero-mark svg { width: 32px; height: 32px; display: block; }
+  .hero h1 {
+    font-size: clamp(30px, 5.2vw, 50px);
+    line-height: 1.08;
+    letter-spacing: -.03em;
+    margin: 0 0 18px;
+    font-weight: 700;
+  }
+  .grad {
+    background: linear-gradient(100deg, var(--accent), var(--accent-2));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .hero .lede {
+    color: var(--ink-2);
+    font-size: 17px;
+    max-width: 660px;
+    margin: 0 auto;
+  }
+  .pill {
+    display: inline-flex; align-items: center; gap: 7px;
+    font-size: 12px; color: var(--ink-2);
+    border: 1px solid var(--line);
+    background: var(--surface);
+    border-radius: 999px;
+    padding: 4px 11px;
+  }
+  .hero .pill.badge { margin-bottom: 18px; color: var(--accent-ink); border-color: var(--accent-line); background: var(--accent-soft); }
+  .hero .pill .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+  .metarow { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 26px; }
+  .hero-ctas { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 26px; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 7px;
+    text-decoration: none; font-size: 14px; font-weight: 600;
+    border-radius: 9px; padding: 10px 18px;
+    border: 1px solid transparent;
+  }
+  .btn-primary { background: var(--accent); color: #fff; }
+  .btn-primary:hover { filter: brightness(1.08); }
+  .btn-ghost { border-color: var(--line); color: var(--ink); }
+  .btn-ghost:hover { border-color: var(--accent-line); background: var(--accent-soft); }
+
+  /* ===================== shell ===================== */
+  /* Structured like the Impose Pro guide: no TOC rail, one centred column,
+     section links live in the top nav instead. */
+  .shell { max-width: 860px; margin: 0 auto; padding: 0 24px 80px; }
+  .block { padding: 40px 0 4px; }
+  .block h2 {
+    display: flex; align-items: baseline; gap: 12px;
+    font-size: 25px; letter-spacing: -.02em; font-weight: 680;
+    margin: 0 0 18px;
+  }
+  .h2num {
+    font-family: var(--mono);
+    font-size: 12px; font-weight: 600;
+    color: var(--accent-ink);
+    border: 1px solid var(--accent-line);
+    background: var(--accent-soft);
+    border-radius: 6px;
+    padding: 2px 7px;
+    flex: 0 0 auto;
+  }
+  .block h3 { font-size: 17px; margin: 28px 0 8px; letter-spacing: -.01em; }
+  .block h4 { font-size: 14px; margin: 0 0 12px; color: var(--ink-2); text-transform: uppercase; letter-spacing: .07em; }
+  .block p { margin: 0 0 14px; color: var(--ink-2); }
+  .block p strong, .block li strong { color: var(--ink); }
+  .block ul, .block ol { color: var(--ink-2); padding-left: 22px; margin: 0 0 14px; }
+  .block li { margin-bottom: 6px; }
+  hr.rule { border: 0; border-top: 1px solid var(--line-soft); margin: 34px 0 0; }
+  .lede { font-size: 16.5px; color: var(--ink-2); }
+
+  /* ===================== components ===================== */
+  .path, .menupath {
+    display: inline-block;
+    font-family: var(--mono); font-size: 12.5px;
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    border-radius: 7px;
+    padding: 6px 10px;
+    color: var(--ink);
+    margin: 4px 0 12px;
+    word-break: break-all;
+  }
+  .menupath { border-style: dashed; }
+  .menupath b { color: var(--accent-ink); }
+
+  .install {
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--surface);
+    padding: 20px 22px 6px;
+    margin: 0 0 18px;
+  }
+  ol.steps { counter-reset: s; list-style: none; padding: 0; margin: 0; }
+  ol.steps > li {
+    counter-increment: s;
+    position: relative;
+    padding: 0 0 18px 40px;
+    margin: 0;
+  }
+  ol.steps > li::before {
+    content: counter(s);
+    position: absolute; left: 0; top: 0;
+    width: 26px; height: 26px;
+    display: grid; place-items: center;
+    font-family: var(--mono); font-size: 12px; font-weight: 600;
+    color: var(--accent-ink);
+    border: 1px solid var(--accent-line);
+    background: var(--accent-soft);
+    border-radius: 50%;
+  }
+  ol.steps > li b { display: block; color: var(--ink); margin-bottom: 3px; }
+  ol.steps > li p { margin: 0 0 6px; }
+
+  .note {
+    display: flex; gap: 12px;
+    border: 1px solid var(--accent-line);
+    background: var(--accent-soft);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    margin: 0 0 18px;
+  }
+  .note .ico {
+    flex: 0 0 20px; width: 20px; height: 20px;
+    display: grid; place-items: center;
+    border-radius: 50%;
+    background: var(--accent); color: #fff;
+    font-size: 12px; font-weight: 700; font-family: var(--mono);
+    margin-top: 2px;
+  }
+  .note p { margin: 0 0 8px; }
+  .note p:last-child { margin-bottom: 0; }
+  .note.ok { border-color: var(--ok-line); background: var(--ok-soft); }
+  .note.ok .ico { background: var(--ok); }
+  .note.warn { border-color: var(--warn-line); background: var(--warn-soft); }
+  .note.warn .ico { background: var(--warn); color: #1a1205; }
+  .note.bad { border-color: var(--bad-line); background: var(--bad-soft); }
+  .note.bad .ico { background: var(--bad); }
+
+  .grid { display: grid; gap: 14px; margin: 0 0 18px; }
+  .grid.g2 { grid-template-columns: repeat(2, 1fr); }
+  .grid.g3 { grid-template-columns: repeat(3, 1fr); }
+  @media (max-width: 720px) { .grid.g2, .grid.g3 { grid-template-columns: 1fr; } }
+  .card {
+    border: 1px solid var(--line);
+    background: var(--surface);
+    border-radius: var(--radius);
+    padding: 16px 18px;
+  }
+  .card .idx {
+    font-family: var(--mono); font-size: 11px;
+    color: var(--accent-ink); display: block; margin-bottom: 8px;
+  }
+  .card h4 { font-size: 15px; margin: 0 0 6px; color: var(--ink); text-transform: none; letter-spacing: 0; }
+  .card p { margin: 0; font-size: 14px; }
+
+  .tablewrap { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius); margin: 0 0 18px; }
+  .tablewrap table { border-collapse: collapse; width: 100%; font-size: 14px; min-width: 480px; }
+  .tablewrap th, .tablewrap td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--line-soft); vertical-align: top; }
+  .tablewrap th { background: var(--surface-2); color: var(--ink); font-weight: 620; font-size: 12.5px; text-transform: uppercase; letter-spacing: .05em; }
+  .tablewrap tr:last-child td { border-bottom: 0; }
+  .tablewrap td { color: var(--ink-2); }
+  .tablewrap td code { white-space: nowrap; }
+
+  .codeblock {
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--surface);
+    overflow: hidden;
+    margin: 0 0 18px;
+  }
+  .codeblock .bar {
+    display: flex; align-items: center; gap: 8px;
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--line-soft);
+    background: var(--surface-2);
+  }
+  .codeblock .dots { display: flex; gap: 5px; }
+  .codeblock .dots i { width: 9px; height: 9px; border-radius: 50%; background: var(--line); display: block; }
+  .codeblock .lbl { font-family: var(--mono); font-size: 11.5px; color: var(--ink-3); }
+  .copy {
+    margin-left: auto;
+    font-size: 11.5px; font-family: var(--sans);
+    color: var(--ink-2); background: transparent;
+    border: 1px solid var(--line); border-radius: 6px;
+    padding: 3px 9px; cursor: pointer;
+  }
+  .copy:hover { color: var(--ink); border-color: var(--accent-line); }
+  .codeblock pre { margin: 0; padding: 14px 16px; overflow-x: auto; }
+  .codeblock pre code {
+    background: none; border: 0; padding: 0;
+    font-size: 12.8px; line-height: 1.7; color: var(--ink);
+  }
+
+  .chip {
+    display: inline-block;
+    font-family: var(--mono); font-size: 11.5px;
+    border-radius: 5px; padding: 1px 7px;
+    border: 1px solid var(--line);
+    background: var(--surface-2);
+    color: var(--ink-2);
+  }
+
+  details {
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--surface);
+    padding: 0 16px;
+    margin: 0 0 10px;
+  }
+  details summary {
+    cursor: pointer; padding: 13px 0; font-weight: 600; color: var(--ink);
+    list-style: none;
+  }
+  details summary::-webkit-details-marker { display: none; }
+  details summary::before { content: "▸ "; color: var(--accent-ink); }
+  details[open] summary::before { content: "▾ "; }
+  details p { margin: 0 0 13px; }
+
+  footer {
+    border-top: 1px solid var(--line);
+    background: var(--bg-2);
+    margin-top: 40px;
+  }
+  footer .inner {
+    max-width: 860px; margin: 0 auto;
+    padding: 22px 24px;
+    display: flex; flex-wrap: wrap; align-items: center; gap: 12px;
+    font-size: 13px; color: var(--ink-3);
+  }
+  .sr-only {
+    position: absolute; width: 1px; height: 1px;
+    padding: 0; margin: -1px; overflow: hidden;
+    clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="mark"><svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 15c3-4 6-4 9 0s6 4 9 0"/><path d="M3 9c3-4 6-4 9 0s6 4 9 0"/></svg></div>
+  <span class="name">Mockup&nbsp;Map&nbsp;Baker</span>
+  <span class="sep">/</span>
+  <span class="where">Docs</span>
+  <a class="back" href="../index.html" target="_top">&larr; The Factory</a>
+  <div class="nav-links">
+    <a href="#what">What it does</a>
+    <a href="#install">Install</a>
+    <a href="#before">Before you bake</a>
+    <a href="#tour">The panel</a>
+    <a href="#run">Bake</a>
+    <a href="#output">What you get</a>
+    <a href="#materials">Materials</a>
+    <a href="#verify">Check it</a>
+    <a href="#trouble">Troubleshooting</a>
+  </div>
+</div>
+
+<h1 class="sr-only">Mockup Map Baker — operator's guide covering installing the Photoshop panel, baking displacement, shadow and highlight maps from a product photo, and wiring them into a Mockup Forge item.</h1>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div class="hero-mark"><svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 15c3-4 6-4 9 0s6 4 9 0"/><path d="M3 9c3-4 6-4 9 0s6 4 9 0"/></svg></div>
+    <div class="pill badge"><span class="dot"></span> Photoshop panel · feeds Mockup Forge</div>
+    <h1>Real folds. Real light.<br><span class="grad">Straight off the photo.</span></h1>
+    <p class="lede">Mockup Forge ships shadow and highlight maps drawn as flat gradients — they know nothing about where the creases in your garment actually are. This panel reads the real product photograph and bakes the three maps the renderer wants, then wires them into that item's <code>item.json</code> for you.</p>
+    <div class="metarow">
+      <span class="pill">Photoshop 24+</span>
+      <span class="pill">Displacement · Shadow · Highlight</span>
+      <span class="pill">5 materials</span>
+      <span class="pill">Patches item.json</span>
+    </div>
+    <div class="hero-ctas">
+      <a class="btn btn-primary" href="#install">Install ↓</a>
+      <a class="btn btn-ghost" href="#tour">Tour the panel</a>
+    </div>
+  </div>
+</header>
+
+<div class="shell">
+  <main class="doc">
+
+    <!-- 01 -->
+    <section class="block" id="what">
+      <h2><span class="h2num">01</span>What this fixes</h2>
+
+      <p class="lede">Mockup Forge takes your artwork and warps it onto a product photo. How
+      convincing that looks depends almost entirely on three greyscale images sitting next to
+      the photo in the catalog.</p>
+
+      <p>Two of those three are currently <strong>fake</strong>. The catalog generates its
+      shadow and highlight maps as SVG gradients — a four-stop linear ramp across the surface,
+      and one blurred diagonal streak. They contain no information from the photograph at all.
+      So your artwork gets the same generic shading whether the shirt underneath is smooth or
+      deeply creased, and the highlight lands wherever a constant said it should rather than
+      where the light actually hits.</p>
+
+      <p>Photoshop already has the real photo open. This panel reads it and derives the maps
+      from what is genuinely there.</p>
+
+      <div class="grid g3">
+        <div class="card">
+          <span class="idx">DISPLACE</span>
+          <h4>Where the surface bends</h4>
+          <p>Pushes each pixel of your artwork along the slope of the fold it sits on, so a
+          logo sinks into a crease instead of floating over it.</p>
+        </div>
+        <div class="card">
+          <span class="idx">SHADOW</span>
+          <h4>Where the light falls off</h4>
+          <p>The real lighting across the product, multiplied onto your artwork — plus the
+          darkening in every fold valley.</p>
+        </div>
+        <div class="card">
+          <span class="idx">HIGHLIGHT</span>
+          <h4>Where it catches the light</h4>
+          <p>Screened on top, black everywhere except the genuine speculars. Matters most on
+          gloss: screens, bottles, vehicle paint.</p>
+        </div>
+      </div>
+
+      <div class="note"><span class="ico">i</span>
+        <p><strong>Not a normal map.</strong> Mockup Forge has no normal-map or ambient-occlusion
+        code path — nothing in its renderer reads either one. The three maps above are the
+        complete set it understands per surface, alongside the alpha mask that the authoring
+        tool already generates from the warp geometry.</p>
+      </div>
+    </section>
+
+    <hr class="rule">
+
+    <!-- 02 -->
+    <section class="block" id="install">
+      <h2><span class="h2num">02</span>Install</h2>
+
+      <p>This is a Photoshop UXP panel, not a Figma plugin, so it does not come from the Figma
+      Community. It loads from the repo through Adobe's developer tool.</p>
+
+      <div class="install">
+        <h4>Once per machine</h4>
+        <ol class="steps">
+          <li>
+            <b>Install the UXP Developer Tool.</b>
+            <p>Open the <em>Creative Cloud desktop app</em>, search the app list for
+            <em>UXP Developer Tool</em>, and install it. It is free.</p>
+          </li>
+          <li>
+            <b>Turn on developer mode in Photoshop.</b>
+            <p>Photoshop → <span class="menupath"><b>Settings</b> → <b>Plugins</b> → <b>Enable Developer Mode</b></span>
+            then restart Photoshop. Without this the tool connects but the panel never loads.</p>
+          </li>
+          <li>
+            <b>Build the panel.</b>
+            <p>The panel runs a generated bundle, so this has to happen before the first load
+            and after every code change.</p>
+            <div class="codeblock">
+              <div class="bar"><span class="dots"><i></i><i></i><i></i></span><span class="lbl">terminal</span><button class="copy" type="button">Copy</button></div>
+              <pre><code>cd ~/Documents/GitHub/k4design.github.io/displacementmap
+node tools/build.mjs</code></pre>
+            </div>
+            <p>It prints a <strong>build id</strong> such as <code>build 1be3978d</code>. Keep
+            that — the panel shows the id it is actually running, which is how you tell whether
+            Photoshop picked up your changes.</p>
+          </li>
+          <li>
+            <b>Add the plugin in the UXP Developer Tool.</b>
+            <p><em>Add Plugin</em>, then pick <code>manifest.json</code> in that same folder.
+            Click <em>Load</em>.</p>
+          </li>
+          <li>
+            <b>Open the panel.</b>
+            <p><span class="menupath"><b>Plugins</b> → <b>Displacement Maps</b></span> in
+            Photoshop. The top of the panel should read
+            <code>Ready — choose a Mockup Forge item folder (build …)</code>.</p>
+          </li>
+        </ol>
+      </div>
+
+      <div class="note warn"><span class="ico">!</span>
+        <p><strong>After any change, unload and load again — not Reload.</strong> Reload picks up
+        JavaScript, but changes to <code>index.html</code> or <code>manifest.json</code> (panel
+        size, for instance) are only re-read on a full load.</p>
+      </div>
+    </section>
+
+    <hr class="rule">
+
+    <!-- 03 -->
+    <section class="block" id="before">
+      <h2><span class="h2num">03</span>Before you bake</h2>
+
+      <p>Two things have to be true, and both are easy to get wrong in a way that produces
+      plausible-looking but wrong maps.</p>
+
+      <h3>Open the item's own <code>base.png</code></h3>
+      <p>Not the source photo, not a retouched copy — the <code>base.png</code> inside the item
+      folder. It is already at exactly the item's canvas size, and it carries no artwork, which
+      satisfies the second rule for free.</p>
+      <div class="path">mockupplugin/assets/items/tshirt-marina-01/base.png</div>
+
+      <h3>The mockup must be blank</h3>
+      <p>The panel separates geometry from lighting by subtracting a heavily blurred copy of the
+      image. That removes broad lighting falloff — measured at a 22× reduction on a full-width
+      gradient — but it is a <em>low</em>-frequency subtraction. A printed logo already in the
+      photo is sharper than the cutoff, so it survives and gets baked in as geometry that does
+      not exist.</p>
+
+      <div class="note bad"><span class="ico">×</span>
+        <p><strong>No radius setting fixes this.</strong> Logos and fabric folds occupy
+        overlapping spatial scales, so any radius aggressive enough to erase a print also erases
+        the folds you are trying to capture. If you only have a printed photo, mask the print out
+        and content-aware fill it before baking.</p>
+      </div>
+    </section>
+
+    <hr class="rule">
+
+    <!-- 04 -->
+    <section class="block" id="tour">
+      <h2><span class="h2num">04</span>Tour of the panel</h2>
+
+      <p>Four numbered steps top to bottom, a status line above them, and everything else folded
+      away. The status line is the one to watch — it is where every error, every progress
+      message and the build id appear.</p>
+
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>Control</th><th>What it is</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Status line</strong></td><td>Top of the panel, tinted green on success and red on failure. Height-capped, so a long message scrolls inside itself rather than pushing the controls off-screen.</td></tr>
+            <tr><td><strong>Document line</strong></td><td>Which Photoshop document will be baked, and its pixel size. Cross-check this against the canvas size reported in step&nbsp;2.</td></tr>
+            <tr><td><strong>1 — Material</strong></td><td>What the surface is made of. Sets every parameter at once. See <a href="#materials">Materials</a>.</td></tr>
+            <tr><td><strong>2 — Mockup Forge item</strong></td><td>The item directory. Reads its <code>item.json</code> and reports the item name, canvas size and surface count.</td></tr>
+            <tr><td><strong>3 — Surface</strong></td><td>Which printable area on that item these maps describe. Populated from the file itself.</td></tr>
+            <tr><td><strong>4 — Bake</strong></td><td><em>Generate Maps</em>. Writes three PNGs and patches <code>item.json</code>.</td></tr>
+            <tr><td><strong>Advanced parameters</strong></td><td>Collapsed. Only needed when a result looks wrong; <em>Reset to preset defaults</em> undoes any fiddling.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="note"><span class="ico">i</span>
+        <p><strong>Why "Surface" appears twice in spirit.</strong> Step&nbsp;1 is the
+        <em>material</em> — cloth, paper, paint. Step&nbsp;3 is the <em>surface</em> — which
+        region of this particular product. A van has one material and four surfaces.</p>
+      </div>
+    </section>
+
+    <hr class="rule">
+
+    <!-- 05 -->
+    <section class="block" id="run">
+      <h2><span class="h2num">05</span>Bake a surface</h2>
+
+      <div class="install">
+        <h4>Every time</h4>
+        <ol class="steps">
+          <li>
+            <b>Open the item's <code>base.png</code>.</b>
+            <p>The document line at the top of the panel should show its name and size.</p>
+          </li>
+          <li>
+            <b>Pick the material.</b>
+            <p>Fabric, paper, device screen, signage or vehicle wrap. The line underneath
+            describes what that choice keeps and discards.</p>
+          </li>
+          <li>
+            <b>Choose the item directory.</b>
+            <p><em>Choose…</em> then select one item folder — the one containing
+            <code>item.json</code> and <code>base.png</code>. Not the <code>items</code> folder
+            above it, and not a general output folder. Photoshop asks for file access the first
+            time; the choice is remembered afterwards.</p>
+            <div class="path">mockupplugin/assets/items/van-sprinter-01</div>
+            <p>The status line should turn green: <code>Loaded Sprinter Van. Pick a surface,
+            then Generate.</code></p>
+          </li>
+          <li>
+            <b>Pick the surface.</b>
+            <p>The dropdown now lists the surfaces this item actually defines. The van has four
+            — <code>side</code>, <code>grill</code>, <code>hood</code>, <code>front</code>.
+            Your choice sets the output filenames.</p>
+          </li>
+          <li>
+            <b>Generate Maps.</b>
+            <p>A few seconds. The status line reports each stage, then lists what it wrote.</p>
+          </li>
+        </ol>
+      </div>
+
+      <div class="note warn"><span class="ico">!</span>
+        <p><strong>One bake per surface.</strong> Multi-surface items need the whole loop
+        repeated for each one — four passes for the van. Each pass writes its own three PNGs and
+        patches only that surface's entry in <code>item.json</code>.</p>
+      </div>
+    </section>
+
+    <hr class="rule">
+
+    <!-- 06 -->
+    <section class="block" id="output">
+      <h2><span class="h2num">06</span>What you get</h2>
+
+      <p>Everything lands in the item folder you chose. For surface <code>chest</code> on a
+      1456&times;816 item:</p>
+
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>File</th><th>Size</th><th>Content</th></tr></thead>
+          <tbody>
+            <tr><td><code>displace-chest.png</code></td><td><span class="chip">728×408</span></td><td>RG vector field. 128 is neutral on both axes; red drives X, green drives Y.</td></tr>
+            <tr><td><code>shadow-chest.png</code></td><td><span class="chip">1456×816</span></td><td>Multiply map. <strong>White is neutral</strong>, dark is shaded.</td></tr>
+            <tr><td><code>highlight-chest.png</code></td><td><span class="chip">1456×816</span></td><td>Screen map. <strong>Black is neutral</strong>, white is blown out.</td></tr>
+            <tr><td><code>item.json</code></td><td>—</td><td>Patched in place to point at the three files above.</td></tr>
+            <tr><td><code>item.json.bak</code></td><td>—</td><td>Your original, byte for byte.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>The two polarities are opposites and easy to confuse when you open them: a correct
+      shadow map is mostly white, a correct highlight map is mostly black.</p>
+
+      <div class="note"><span class="ico">i</span>
+        <p><strong>The sizes are load-bearing.</strong> The renderer indexes shadow and highlight
+        by canvas coordinate, so they must match the item's canvas exactly — a map one pixel out
+        reads past the row stride and skews. Displacement is sampled in normalized space, so it
+        is written at half canvas to match the rest of the catalog. The panel enforces both.</p>
+      </div>
+
+      <h3>How <code>item.json</code> changes</h3>
+      <p>The surface's existing warp is promoted to a displacement warp that <em>wraps</em> it.
+      Nothing is re-derived — your authored corners or mesh points are nested verbatim as the new
+      <code>geometry</code>, and every other key in the file is untouched.</p>
+
+      <div class="codeblock">
+        <div class="bar"><span class="dots"><i></i><i></i><i></i></span><span class="lbl">item.json — the patched surface</span><button class="copy" type="button">Copy</button></div>
+        <pre><code>"warp": {
+  "kind": "displacement",
+  "geometry": { "kind": "homography", "corners": { … } },   ← your original warp, verbatim
+  "map": "displace-chest.png",
+  "scale": 12,
+  "vector": true
+},
+"lighting": {
+  "multiply": "shadow-chest.png",   "multiplyOpacity": 1,
+  "screen":   "highlight-chest.png", "screenOpacity": 1
+}</code></pre>
+      </div>
+
+      <p>Strength is baked into the pixels rather than the opacities, so the opacities stay at 1
+      and what you see rendered matches what the panel produced. Re-baking the same surface is
+      idempotent — the geometry does not nest inside itself a second time.</p>
+
+      <div class="note warn"><span class="ico">!</span>
+        <p><strong>Masks are deliberately not generated.</strong> The Mockup Forge authoring tool
+        derives the alpha mask from the warp geometry specifically so the two cannot disagree. A
+        mask guessed from luminance would reintroduce exactly that disagreement and let artwork
+        bleed off the surface.</p>
+      </div>
+    </section>
+
+    <hr class="rule">
+
+    <!-- 07 -->
+    <section class="block" id="materials">
+      <h2><span class="h2num">07</span>Materials</h2>
+
+      <p>The material sets nine parameters at once. The one that matters most is
+      <strong>high pass</strong>, which decides what counts as shape and what counts as lighting.
+      Its 50% cutoff sits at a wavelength of roughly <strong>six times the radius</strong>,
+      measured at the 2048px reference edge.</p>
+
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>Material</th><th>High pass</th><th>Disp. scale</th><th>AO</th><th>Highlight</th><th>Best for</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Fabric / apparel</strong></td><td><code>128</code></td><td><code>12</code></td><td>24 / 1.2</td><td>0.35 @ 0.93</td><td>Tees, hoodies, totes. Keeps weave, creases and folds.</td></tr>
+            <tr><td><strong>Paper / print</strong></td><td><code>192</code></td><td><code>6</code></td><td>16 / 0.8</td><td>0.30 @ 0.94</td><td>Cards, posters, packaging. Keeps gentle bends in the sheet.</td></tr>
+            <tr><td><strong>Device screen</strong></td><td><code>0</code></td><td><code>3</code></td><td>off</td><td>0.55 @ 0.88</td><td>Phones, laptops. The shading <em>is</em> the curvature, so nothing is subtracted.</td></tr>
+            <tr><td><strong>Signage / wall</strong></td><td><code>64</code></td><td><code>8</code></td><td>12 / 1.5</td><td>0.25 @ 0.95</td><td>Brick, concrete, billboards. All texture, no broad shape.</td></tr>
+            <tr><td><strong>Vehicle wrap</strong></td><td><code>192</code></td><td><code>5</code></td><td>20 / 1.0</td><td>0.60 @ 0.90</td><td>Vans, cars, trucks. Panel curvature and door seams.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Two that look wrong but aren't</h3>
+      <p><strong>Vehicle has the smallest displacement scale</strong> despite being the largest
+      object. Panel gaps are near-vertical steps, and a large scale tears graphics apart at every
+      door seam instead of bending them over it.</p>
+      <p><strong>Vehicle has the largest high pass, tied with paper.</strong> The broad curve of a
+      body panel is real shape that artwork has to follow, so it must survive; only the overall
+      lighting gets dropped. Anything lower flattens the panel and the wrap reads as a flat
+      decal.</p>
+
+      <div class="note"><span class="ico">i</span>
+        <p><strong>These are reasoned, not measured.</strong> They come from how each surface
+        behaves, not from fitting against renders. Expect to tune them against a real render and
+        fold the result back into <code>src/presets.js</code>.</p>
+      </div>
+
+      <h3>Advanced parameters</h3>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>Field</th><th>What it does</th></tr></thead>
+          <tbody>
+            <tr><td>High pass</td><td>Removes broad lighting so shading isn't baked in as fake bulges. Below ~64 it erases fabric folds too. 0 turns it off.</td></tr>
+            <tr><td>Smooth</td><td>Softens the height field so displaced artwork doesn't get jagged edges.</td></tr>
+            <tr><td>AO radius / strength</td><td>Size and depth of the crevices that get shaded. Radius 0 skips occlusion entirely.</td></tr>
+            <tr><td>Displacement scale</td><td>Becomes <code>warp.scale</code> in <code>item.json</code>, in canvas pixels. Raise it if the effect is too subtle — no need to re-bake the PNGs for this alone.</td></tr>
+            <tr><td>Shadow strength / gamma</td><td>How much the real lighting darkens artwork, and how contrasty that shading is. Gamma above 1 reads as more three-dimensional.</td></tr>
+            <tr><td>Highlight strength / threshold</td><td>How bright the speculars blow out, and the brightness percentile that counts as one. Raise the threshold if too much of the surface glows.</td></tr>
+            <tr><td>Flip Y</td><td>Reverses the vertical displacement direction. See the sign check below.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>Radii are written at a 2048px reference and scaled to whatever the actual image is, so a
+      material behaves the same on any item size.</p>
+    </section>
+
+    <hr class="rule">
+
+    <!-- 08 -->
+    <section class="block" id="verify">
+      <h2><span class="h2num">08</span>Check the result</h2>
+
+      <p>The panel cannot tell you whether the maps look <em>good</em> — only whether they were
+      written. Render the item to find out.</p>
+
+      <div class="codeblock">
+        <div class="bar"><span class="dots"><i></i><i></i><i></i></span><span class="lbl">terminal</span><button class="copy" type="button">Copy</button></div>
+        <pre><code>cd ~/Documents/GitHub/k4design.github.io/mockupplugin
+npx tsx tools/render-sample.ts
+npm test --workspace @mf/api</code></pre>
+      </div>
+
+      <p><code>render-sample.ts</code> composites a procedural grid test card onto every catalog
+      item and drops the results in <code>assets/samples/</code>. A grid is the right test image
+      because any warping shows up immediately as bent lines.</p>
+
+      <div class="note warn"><span class="ico">!</span>
+        <p><strong>Check the displacement direction before anything else.</strong> Which sign is
+        correct cannot be worked out on paper — it is whichever makes artwork <em>sink into</em>
+        folds rather than climb out of them. Look at the sample. If it is inverted, toggle
+        <em>Flip Y</em> in the panel and bake again.</p>
+      </div>
+
+      <p>The golden-image tests will now fail for any item you baked, because the rendered pixels
+      genuinely changed — that is the entire point of the change, not a regression. Inspect the
+      <code>.diff.png</code>, confirm the shading follows the real folds, then re-baseline:</p>
+
+      <div class="codeblock">
+        <div class="bar"><span class="dots"><i></i><i></i><i></i></span><span class="lbl">terminal</span><button class="copy" type="button">Copy</button></div>
+        <pre><code>MF_UPDATE_GOLDEN=1 npm test --workspace @mf/api</code></pre>
+      </div>
+
+      <div class="note bad"><span class="ico">×</span>
+        <p><strong>Do not re-baseline before you have looked at the diff.</strong> The goldens are
+        the only regression contract the render service has. Re-baselining an accidental
+        regression bakes it in permanently and silently.</p>
+      </div>
+    </section>
+
+    <hr class="rule">
+
+    <!-- 09 -->
+    <section class="block" id="trouble">
+      <h2><span class="h2num">09</span>When something goes wrong</h2>
+
+      <p>Start at the top of the panel. Almost everything reports itself there.</p>
+
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>Symptom</th><th>Cause and fix</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>Status line is completely blank</td>
+              <td>The script never ran — the panel is rendered HTML and nothing else. Run
+              <code>node tools/build.mjs</code>, then unload and load in the developer tool. If
+              it is still blank, the <em>APP LOGS</em> tab there has the reason.</td>
+            </tr>
+            <tr>
+              <td>Build id doesn't match the one the build printed</td>
+              <td>Photoshop is running stale code. Unload and load rather than Reload. If it
+              persists, quit Photoshop entirely — it can hold an old manifest.</td>
+            </tr>
+            <tr>
+              <td>“No item.json in that folder”</td>
+              <td>You picked the wrong folder — most often the <code>items</code> directory
+              itself, or an output folder left over from an earlier version. Pick one item
+              directory.</td>
+            </tr>
+            <tr>
+              <td>Surface dropdown says “— no item loaded —”</td>
+              <td>Same cause: no valid item is loaded, so there are no surfaces to list. Fix
+              step&nbsp;2 and this fills in by itself.</td>
+            </tr>
+            <tr>
+              <td>“a different shape, not just a different size”</td>
+              <td>The open document's aspect ratio doesn't match the item's canvas, so it is
+              refused rather than squashed. You almost certainly have the wrong file open — use
+              the item's own <code>base.png</code>.</td>
+            </tr>
+            <tr>
+              <td>Artwork climbs out of the folds instead of sinking in</td>
+              <td>Displacement sign is inverted. Toggle <em>Flip Y</em> and re-bake.</td>
+            </tr>
+            <tr>
+              <td>A logo from the photo is embossed into the result</td>
+              <td>The source wasn't blank. No setting fixes this — mask and fill the print first.
+              See <a href="#before">Before you bake</a>.</td>
+            </tr>
+            <tr>
+              <td>Shading looks flat and generic after rendering</td>
+              <td><code>item.json</code> is probably still pointing at the old synthetic maps.
+              Confirm the surface's <code>lighting</code> block names your
+              <code>shadow-</code> and <code>highlight-</code> files.</td>
+            </tr>
+            <tr>
+              <td>Result is too subtle in the render</td>
+              <td>Raise <em>Displacement scale</em> and re-bake. It only writes a number into
+              <code>item.json</code>, so this is cheap to iterate on.</td>
+            </tr>
+            <tr>
+              <td>Want the original back</td>
+              <td>Rename <code>item.json.bak</code> over <code>item.json</code>. The PNGs are
+              additive and harmless to leave behind.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <hr class="rule">
+
+    <!-- 10 -->
+    <section class="block" id="limits">
+      <h2><span class="h2num">10</span>Known limits</h2>
+
+      <div class="grid g2">
+        <div class="card">
+          <span class="idx">01</span>
+          <h4>Blank mockups only</h4>
+          <p>Printed artwork in the source photo becomes fake geometry, and no parameter can
+          separate a logo from a fold — they live at the same spatial scale.</p>
+        </div>
+        <div class="card">
+          <span class="idx">02</span>
+          <h4>The maps are not durable</h4>
+          <p>Mockup Forge gitignores <code>assets/items/*/*.png</code> and its Docker build
+          re-runs the seed, so baked maps are untracked and a clean image build will not contain
+          them.</p>
+        </div>
+        <div class="card">
+          <span class="idx">03</span>
+          <h4>One surface at a time</h4>
+          <p>No batch mode. A four-panel van is four passes.</p>
+        </div>
+        <div class="card">
+          <span class="idx">04</span>
+          <h4>Presets are unvalidated</h4>
+          <p>Reasoned from how each material behaves, not fitted against renders. Treat them as
+          starting points.</p>
+        </div>
+      </div>
+
+      <div class="note warn"><span class="ico">!</span>
+        <p><strong>On durability.</strong> This predates the baker — the photographic items are
+        already in the same position, since the authoring scripts are never run by the Docker
+        build either. But it does mean re-running the seed, or building a fresh image, discards
+        this work. Commit the PNGs or extend the build before relying on them.</p>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<footer>
+  <div class="inner">
+    <span>Mockup Map Baker — Photoshop panel</span>
+    <span class="pill">Internal</span>
+    <span style="margin-left:auto">Your photo is never modified. The panel writes new PNGs and keeps item.json.bak.</span>
+  </div>
+</footer>
+
+<script>
+(function () {
+  "use strict";
+  var links = [].slice.call(document.querySelectorAll('.nav-links a'));
+  var sections = links
+    .map(function (a) { return document.querySelector(a.getAttribute('href')); })
+    .filter(Boolean);
+  if (sections.length) {
+    var onScroll = function () {
+      var y = window.scrollY + 120, current = 0;
+      for (var i = 0; i < sections.length; i++) {
+        if (sections[i].offsetTop <= y) current = i;
+      }
+      links.forEach(function (a, i) { a.classList.toggle('active', i === current); });
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }
+
+  // Copy buttons on code blocks.
+  [].slice.call(document.querySelectorAll('.codeblock .copy')).forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var code = btn.closest('.codeblock').querySelector('code');
+      if (!code) return;
+      var done = function () {
+        btn.textContent = 'Copied';
+        setTimeout(function () { btn.textContent = 'Copy'; }, 1400);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(code.innerText).then(done, function () {});
+      } else {
+        var r = document.createRange();
+        r.selectNodeContents(code);
+        var s = window.getSelection();
+        s.removeAllRanges(); s.addRange(r);
+        try { document.execCommand('copy'); done(); } catch (e) {}
+        s.removeAllRanges();
+      }
+    });
+  });
+})();
+</script>
+</body>
+</html>
