@@ -86,6 +86,28 @@ interface Config {
    */
   polygons?: (null | [number, number][])[];
   /**
+   * Close and fill the paint mask inside its clip polygon.
+   *
+   * The threshold-only mask leaves holes wherever paint falls into shade — on
+   * the van, the A-pillar, the hood cowl and the fender around the door hinge
+   * all dip below the paint threshold and rendered as bare patches in the
+   * middle of the wrap. While lighting was procedural that was the lesser evil,
+   * since covering them meant painting artwork over unlit geometry. With real
+   * shadow maps measured from the photo, the lighting layer darkens those
+   * regions honestly, so shaded paint belongs inside the mask: close the
+   * notches, fill anything the mask encloses, and re-clip to the polygon.
+   * Glass and trim stay excluded because the polygons are traced around them.
+   */
+  fillShadedPaint?: boolean;
+  /**
+   * Per-surface: rasterize the clip polygon itself as the mask, ignoring the
+   * threshold entirely. Right for panels whose trace already walks around every
+   * non-paint feature — the hood and the front wedge exclude the windshield by
+   * shape — where threshold holes are all shaded paint. Wrong for the side,
+   * whose polygon crosses the cab window and relies on the threshold to cut it.
+   */
+  maskFromPolygon?: boolean[];
+  /**
    * Explicit corner quads, normalized, one slot per ROI. A slot that is null
    * is measured automatically; a slot with corners skips detection entirely.
    *
@@ -130,7 +152,7 @@ const CONFIGS: Config[] = [
     itemId: 'van-sprinter-01',
     name: 'Delivery Van, Front Three-Quarter',
     source: 'sprinter-van.png',
-    category: 'branding',
+    category: 'vehicles',
     viewpoint: 'angled',
     tags: ['van', 'vehicle wrap', 'livery', 'fleet', 'delivery', 'sprinter', 'signage', 'branding'],
     // The van is white, so the paint is the bright region — which means windows,
@@ -208,6 +230,8 @@ const CONFIGS: Config[] = [
     // Only the grill takes its mask from the quad; the painted panels take
     // theirs from the detected paint so glass and trim stay uncovered.
     maskFromQuad: [false, true, false, false],
+    fillShadedPaint: true,
+    maskFromPolygon: [false, false, true, true],
     surfaceNames: [
       { id: 'side', label: 'Left side' },
       { id: 'grill', label: 'Grill' },
@@ -466,6 +490,112 @@ function otsuThreshold(histogram: number[], total: number): number {
 }
 
 /** Bright regions, largest first. 4-connectivity, iterative to avoid recursion. */
+/**
+ * Recover shaded paint inside a clip polygon: close the mask (bridging notches
+ * open to the polygon edge), fill anything it fully encloses, and re-clip.
+ * See Config.fillShadedPaint for why this is only sound with measured lighting.
+ */
+function rasterizePolygonBlob(
+  insideClip: (x: number, y: number) => boolean,
+  width: number,
+  height: number,
+): Blob {
+  const pixels = new Uint8Array(width * height);
+  let area = 0;
+  let minX = width;
+  let maxX = -1;
+  let minY = height;
+  let maxY = -1;
+  for (let y = 0; y < height; y += 1) {
+    for (let x = 0; x < width; x += 1) {
+      if (!insideClip(x + 0.5, y + 0.5)) continue;
+      pixels[y * width + x] = 255;
+      area += 1;
+      if (x < minX) minX = x;
+      if (x > maxX) maxX = x;
+      if (y < minY) minY = y;
+      if (y > maxY) maxY = y;
+    }
+  }
+  return { pixels, area, minX, maxX, minY, maxY };
+}
+
+function fillShadedPaint(
+  blob: Blob,
+  insideClip: (x: number, y: number) => boolean,
+  width: number,
+  height: number,
+): Blob {
+  const CLOSE = 6;
+  const mask = new Uint8Array(width * height);
+  for (let i = 0; i < mask.length; i += 1) mask[i] = blob.pixels[i] ? 1 : 0;
+
+  // Closing: dilate then erode, separable square element.
+  for (const op of ['max', 'min'] as const) {
+    for (const horizontal of [true, false]) {
+      const source = mask.slice();
+      for (let y = 0; y < height; y += 1) {
+        for (let x = 0; x < width; x += 1) {
+          let value = op === 'max' ? 0 : 1;
+          for (let k = -CLOSE; k <= CLOSE; k += 1) {
+            const sx = horizontal ? x + k : x;
+            const sy = horizontal ? y : y + k;
+            const sample =
+              sx >= 0 && sx < width && sy >= 0 && sy < height ? source[sy * width + sx]! : 0;
+            value = op === 'max' ? Math.max(value, sample) : Math.min(value, sample);
+          }
+          mask[y * width + x] = value;
+        }
+      }
+    }
+  }
+
+  // Fill enclosed holes: whatever an outside flood cannot reach is paint.
+  const outside = new Uint8Array(width * height);
+  const stack: number[] = [];
+  for (let x = 0; x < width; x += 1) stack.push(x, (height - 1) * width + x);
+  for (let y = 0; y < height; y += 1) stack.push(y * width, y * width + width - 1);
+  for (const p of stack) if (!mask[p]) outside[p] = 1;
+  while (stack.length) {
+    const p = stack.pop()!;
+    if (!outside[p]) continue;
+    const x = p % width;
+    const y = (p - x) / width;
+    for (const q of [
+      x > 0 ? p - 1 : -1,
+      x < width - 1 ? p + 1 : -1,
+      y > 0 ? p - width : -1,
+      y < height - 1 ? p + width : -1,
+    ]) {
+      if (q >= 0 && !mask[q] && !outside[q]) {
+        outside[q] = 1;
+        stack.push(q);
+      }
+    }
+  }
+
+  const pixels = new Uint8Array(width * height);
+  let area = 0;
+  let minX = width;
+  let maxX = -1;
+  let minY = height;
+  let maxY = -1;
+  for (let y = 0; y < height; y += 1) {
+    for (let x = 0; x < width; x += 1) {
+      const p = y * width + x;
+      if ((mask[p] || !outside[p]) && insideClip(x + 0.5, y + 0.5)) {
+        pixels[p] = 255;
+        area += 1;
+        if (x < minX) minX = x;
+        if (x > maxX) maxX = x;
+        if (y < minY) minY = y;
+        if (y > maxY) maxY = y;
+      }
+    }
+  }
+  return { pixels, area, minX, maxX, minY, maxY };
+}
+
 function findBlobs(
   bright: Uint8Array,
   width: number,
@@ -731,6 +861,14 @@ async function build(config: Config): Promise<void> {
       }
       if (!best) {
         throw new Error(`${config.itemId}: nothing found in ROI ${nx0},${ny0} ${nx1},${ny1}.`);
+      }
+      if (config.maskFromPolygon?.[roiIndex] && clipPts) {
+        best = rasterizePolygonBlob(insideClip, width, height);
+        console.log(`  mask from polygon: ${Math.round(best.area / 1000)}k px`);
+      } else if (config.fillShadedPaint && clipPts) {
+        const before = best.area;
+        best = fillShadedPaint(best, insideClip, width, height);
+        console.log(`  filled shaded paint: +${Math.round((best.area - before) / 100) / 10}k px`);
       }
       console.log(
         `  roi ${config.roiThresholdMode === 'fixed' ? 'fixed' : 'otsu'}=${threshold} -> blob ${Math.round(best.area / 1000)}k`,

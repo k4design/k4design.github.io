@@ -9,7 +9,7 @@ import { z } from 'zod';
  * `canvas` and in `placeholder.recommendedWidth/Height`.
  */
 
-export const CATEGORIES = ['devices', 'apparel', 'packaging', 'print', 'branding'] as const;
+export const CATEGORIES = ['devices', 'apparel', 'packaging', 'print', 'branding', 'vehicles'] as const;
 export const VIEWPOINTS = ['front', 'angled', 'flat-lay', 'in-hand', 'floating', 'scene'] as const;
 
 export const CategorySchema = z.enum(CATEGORIES);

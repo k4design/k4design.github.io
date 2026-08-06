@@ -1,7 +1,7 @@
 {
   "id": "van-sprinter-01",
   "name": "Delivery Van, Front Three-Quarter",
-  "category": "branding",
+  "category": "vehicles",
   "viewpoint": "angled",
   "tags": [
     "van",
@@ -29,31 +29,37 @@
       "id": "side",
       "label": "Left side",
       "placeholder": {
-        "aspect": 2.144284922135502,
+        "aspect": 2.1440194567796613,
         "recommendedWidth": 2400,
         "recommendedHeight": 1119,
         "hint": "Place your design here, then click Render"
       },
       "warp": {
-        "kind": "homography",
-        "corners": {
-          "tl": {
-            "x": 0.45710731981191305,
-            "y": 0.3015920417789321
-          },
-          "tr": {
-            "x": 0.8328769624616803,
-            "y": 0.24185075279163207
-          },
-          "br": {
-            "x": 0.867874909613594,
-            "y": 0.6028367510623436
-          },
-          "bl": {
-            "x": 0.3316836227990275,
-            "y": 0.6257227872286791
+        "kind": "displacement",
+        "geometry": {
+          "kind": "homography",
+          "corners": {
+            "tl": {
+              "x": 0.45710687534954625,
+              "y": 0.30159319039695015
+            },
+            "tr": {
+              "x": 0.8325927441230212,
+              "y": 0.2418884075726079
+            },
+            "br": {
+              "x": 0.8681869030846463,
+              "y": 0.6028053790442189
+            },
+            "bl": {
+              "x": 0.3316819334861732,
+              "y": 0.6257271528967929
+            }
           }
-        }
+        },
+        "map": "displace-side.png",
+        "scale": 5,
+        "vector": true
       },
       "lighting": {
         "multiply": "shadow-side.png",
@@ -76,25 +82,31 @@
         "hint": "Place your design here, then click Render"
       },
       "warp": {
-        "kind": "homography",
-        "corners": {
-          "tl": {
-            "x": 0.14729508786620088,
-            "y": 0.5643979031067576
-          },
-          "tr": {
-            "x": 0.3396393243749083,
-            "y": 0.544655353066968
-          },
-          "br": {
-            "x": 0.3410891069890572,
-            "y": 0.6169660988889996
-          },
-          "bl": {
-            "x": 0.14868977488360682,
-            "y": 0.6379235154771322
+        "kind": "displacement",
+        "geometry": {
+          "kind": "homography",
+          "corners": {
+            "tl": {
+              "x": 0.14729508786620088,
+              "y": 0.5643979031067576
+            },
+            "tr": {
+              "x": 0.3396393243749083,
+              "y": 0.544655353066968
+            },
+            "br": {
+              "x": 0.3410891069890572,
+              "y": 0.6169660988889996
+            },
+            "bl": {
+              "x": 0.14868977488360682,
+              "y": 0.6379235154771322
+            }
           }
-        }
+        },
+        "map": "displace-grill.png",
+        "scale": 5,
+        "vector": true
       },
       "lighting": {
         "multiply": "shadow-grill.png",
@@ -111,31 +123,37 @@
       "id": "hood",
       "label": "Hood",
       "placeholder": {
-        "aspect": 2.0257616297006975,
+        "aspect": 2.2276441438845436,
         "recommendedWidth": 2400,
-        "recommendedHeight": 1185,
+        "recommendedHeight": 1077,
         "hint": "Place your design here, then click Render"
       },
       "warp": {
-        "kind": "homography",
-        "corners": {
-          "tl": {
-            "x": 0.2304045117574037,
-            "y": 0.4898102423367319
-          },
-          "tr": {
-            "x": 0.4443078177420967,
-            "y": 0.4350158780796014
-          },
-          "br": {
-            "x": 0.3690786852893979,
-            "y": 0.5524241502129741
-          },
-          "bl": {
-            "x": 0.101821861129705,
-            "y": 0.5837434523518888
+        "kind": "displacement",
+        "geometry": {
+          "kind": "homography",
+          "corners": {
+            "tl": {
+              "x": 0.23067319492112348,
+              "y": 0.4898163921103901
+            },
+            "tr": {
+              "x": 0.4474855491273176,
+              "y": 0.4338314320669351
+            },
+            "br": {
+              "x": 0.3667587764961676,
+              "y": 0.5535847728724189
+            },
+            "bl": {
+              "x": 0.14429268018181157,
+              "y": 0.5523853701724705
+            }
           }
-        }
+        },
+        "map": "displace-hood.png",
+        "scale": 3,
+        "vector": true
       },
       "lighting": {
         "multiply": "shadow-hood.png",
@@ -152,31 +170,37 @@
       "id": "front",
       "label": "Front",
       "placeholder": {
-        "aspect": 0.8961840469822725,
+        "aspect": 1.0228733643322652,
         "recommendedWidth": 2400,
-        "recommendedHeight": 2678,
+        "recommendedHeight": 2346,
         "hint": "Place your design here, then click Render"
       },
       "warp": {
-        "kind": "homography",
-        "corners": {
-          "tl": {
-            "x": 0.31289668528819875,
-            "y": 0.30460735562021063
-          },
-          "tr": {
-            "x": 0.538196097144879,
-            "y": 0.2468979252473441
-          },
-          "br": {
-            "x": 0.4210164835164835,
-            "y": 0.607843137254902
-          },
-          "bl": {
-            "x": 0.2500862535241581,
-            "y": 0.6715978420644877
+        "kind": "displacement",
+        "geometry": {
+          "kind": "homography",
+          "corners": {
+            "tl": {
+              "x": 0.3155986030914316,
+              "y": 0.2786914684725001
+            },
+            "tr": {
+              "x": 0.4822692736348845,
+              "y": 0.29708926627862586
+            },
+            "br": {
+              "x": 0.47286869331340176,
+              "y": 0.6168919458190505
+            },
+            "bl": {
+              "x": 0.2593223193929199,
+              "y": 0.6073804373888281
+            }
           }
-        }
+        },
+        "map": "displace-front.png",
+        "scale": 3,
+        "vector": true
       },
       "lighting": {
         "multiply": "shadow-front.png",
