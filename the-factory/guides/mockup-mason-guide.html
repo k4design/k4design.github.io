@@ -299,33 +299,25 @@
             mask-image: linear-gradient(to right, #000 0%, transparent 20vw,
                         transparent calc(100% - 20vw), #000 100%); }
   /* taller than the window so the fan never runs out from under the parallax */
+  /* The fan drifts and turns against the scroll. The oversize matters: the
+     layer turns a full quarter over the run to §02, and at 90 degrees a
+     window-shaped box no longer covers a window — its width and height have
+     swapped. Scaling up rather than widening the svg keeps viewBox 0 and 1000
+     near the window edges, so the lines still arrive spread rather than
+     already converged. */
   .ports-drift { position: absolute; inset: 0; will-change: transform;
-    transform: translateY(calc(var(--sy, 0) * 0.06px)); }
+    transform: translateY(calc(var(--sy, 0) * 0.06px))
+               rotate(calc(var(--rot, 0) * 1deg))
+               scale(1.45); }
   .ports svg { position: absolute; left: 0; width: 100%; top: -34vh; height: 168vh;
     display: block; will-change: transform; }
-  .ports path { fill: none; stroke: rgba(252,156,12,.30); stroke-width: 1;
+  .ports path { fill: none; stroke: rgba(252,156,12,.72); stroke-width: 1;
     vector-effect: non-scaling-stroke; }
+  /* the bloom goes on the svg rather than each path: one filter for the whole
+     layer instead of 44, and it composites once rather than per line */
+  .ports svg { filter: drop-shadow(0 0 4px rgba(252,156,12,.75))
+                       drop-shadow(0 0 12px rgba(252,156,12,.40)); }
 
-  /* The fan breathes on its own clock, nothing to do with the scroll. Every
-     line shares one animation, so the whole surface moves as one piece rather
-     than shimmering line by line. The waypoints sit at irregular intervals and
-     the two periods are deliberately not multiples of each other, so the loop
-     never lands on an obvious beat. */
-  @keyframes portsLive {
-    0%   { transform: scaleY(1)     translateY(0)      skewY(0deg); }
-    23%  { transform: scaleY(1.055) translateY(-0.9vh) skewY(0.35deg); }
-    41%  { transform: scaleY(1.02)  translateY(0.6vh)  skewY(-0.2deg); }
-    64%  { transform: scaleY(1.09)  translateY(-0.4vh) skewY(0.5deg); }
-    82%  { transform: scaleY(1.03)  translateY(1vh)    skewY(-0.3deg); }
-    100% { transform: scaleY(1)     translateY(0)      skewY(0deg); }
-  }
-  @keyframes portsGlow {
-    0%, 100% { stroke-opacity: .62; }
-    37%      { stroke-opacity: 1; }
-    71%      { stroke-opacity: .78; }
-  }
-  .ports svg  { animation: portsLive 26s cubic-bezier(.45,.05,.55,.95) infinite; }
-  .ports path { animation: portsGlow 11s ease-in-out infinite; }
 
   @media (max-width: 720px) {
     .ports { -webkit-mask-image: linear-gradient(to right, #000 0%, transparent 27vw,
@@ -335,7 +327,7 @@
 
   /* ============================================================
      THE COMPOSITING STACK
-     One shared 12s timeline so every layer resets together: three layers
+     One shared 16s timeline so every layer resets together: three layers
      fly in from three directions, a wireframe lattice reads the surface,
      then a beam lays an orange colourising pass over the photograph and
      lifts it again to hand back the finished render, which then holds.
@@ -392,81 +384,106 @@
 
   /* Each layer flies in from a different quarter and from well outside the
      frame — the photograph from the left, the shadow map down from above, the
-     highlight map in from the right — so the stack assembles from three
-     directions rather than three drops down the same line. Distances are
+     highlight map in from the right. Movement and opacity are two separate
+     animations on purpose: a card reaches full opacity in the first fifth of
+     its travel and then slides the rest of the way solid, so you watch it
+     being placed rather than watching it materialise. Distances are
      percentages of the rig, so they scale with it. */
-  @keyframes stackFromLeft {
-    0%, 2%    { opacity: 0; transform: translate(-82%, -14%) rotate(-7deg) scale(.9); }
-    11%, 94%  { opacity: 1; transform: translate(0, 0) rotate(0) scale(1); }
-    98%, 100% { opacity: 0; transform: translate(0, 0) rotate(0) scale(1); }
+  @keyframes travelLeft {
+    0%, 2%    { transform: translate(-82%, -14%) rotate(-7deg) scale(.9); }
+    15%, 100% { transform: translate(0, 0) rotate(0) scale(1); }
   }
-  @keyframes stackFromTop {
-    0%, 12%   { opacity: 0; transform: translate(9%, -104%) rotate(5deg) scale(.9); }
-    21%, 94%  { opacity: 1; transform: translate(0, 0) rotate(0) scale(1); }
-    98%, 100% { opacity: 0; transform: translate(0, 0) rotate(0) scale(1); }
+  @keyframes travelTop {
+    0%, 16%   { transform: translate(9%, -104%) rotate(5deg) scale(.9); }
+    29%, 100% { transform: translate(0, 0) rotate(0) scale(1); }
   }
-  @keyframes stackFromRight {
-    0%, 22%   { opacity: 0; transform: translate(88%, 16%) rotate(7deg) scale(.9); }
-    31%, 94%  { opacity: 1; transform: translate(0, 0) rotate(0) scale(1); }
-    98%, 100% { opacity: 0; transform: translate(0, 0) rotate(0) scale(1); }
+  @keyframes travelRight {
+    0%, 30%   { transform: translate(88%, 16%) rotate(7deg) scale(.9); }
+    43%, 100% { transform: translate(0, 0) rotate(0) scale(1); }
   }
+  @keyframes showL { 0%, 2%  { opacity: 0; } 5%,  95% { opacity: 1; } 99%, 100% { opacity: 0; } }
+  @keyframes showT { 0%, 16% { opacity: 0; } 19%, 95% { opacity: 1; } 99%, 100% { opacity: 0; } }
+  @keyframes showR { 0%, 30% { opacity: 0; } 33%, 95% { opacity: 1; } 99%, 100% { opacity: 0; } }
 
   @keyframes scanShow {          /* the lattice, held until the plate covers it */
-    0%, 32%   { opacity: 0; }
-    36%, 55%  { opacity: 1; }
-    60%, 100% { opacity: 0; }
+    0%, 44%   { opacity: 0; }
+    47%, 58%  { opacity: 1; }
+    63%, 100% { opacity: 0; }
   }
-  @keyframes scanGrid {          /* drawn in behind the first pass */
-    0%, 33%   { clip-path: inset(0 0 100% 0); }
-    45%, 100% { clip-path: inset(0 0 0 0); }
+  @keyframes scanGrid {          /* drawn in without a beam leading it */
+    0%, 45%   { clip-path: inset(0 0 100% 0); }
+    57%, 100% { clip-path: inset(0 0 0 0); }
   }
   /* two passes, both belonging to the orange: it lays the plate down in the
-     beam's wake, then lifts it again. The wireframe read has no beam — the
-     lattice simply draws itself in. */
+     beam's wake, then lifts it again */
   @keyframes beamSweep {
-    0%, 46%   { top: -18%; opacity: 0; }
-    47%       { top: -18%; opacity: 1; }
-    56%       { top: 100%;  opacity: 1; }
-    57%       { top: 100%;  opacity: 0; }
-    60%       { top: -18%; opacity: 0; }
-    61%       { top: -18%; opacity: 1; }
-    70%       { top: 100%;  opacity: 1; }
-    71%, 100% { top: 100%;  opacity: 0; }
+    0%, 58%   { top: -18%; opacity: 0; }
+    59%       { top: -18%; opacity: 1; }
+    68%       { top: 100%;  opacity: 1; }
+    69%       { top: 100%;  opacity: 0; }
+    72%       { top: -18%; opacity: 0; }
+    73%       { top: -18%; opacity: 1; }
+    82%       { top: 100%;  opacity: 1; }
+    83%, 100% { top: 100%;  opacity: 0; }
   }
 
-  /* the render fades up behind the solid plate, so the swap is never seen, and
-     then holds — it is the payoff, so it gets the longest beat in the cycle */
+  /* the render fades up behind the plate, then holds — it is the payoff, so it
+     gets the longest single beat in the cycle */
   @keyframes stackReveal {
-    0%, 55%   { opacity: 0; }
-    58%, 94%  { opacity: 1; }
-    98%, 100% { opacity: 0; }
+    0%, 66%   { opacity: 0; }
+    70%, 95%  { opacity: 1; }
+    99%, 100% { opacity: 0; }
   }
   @keyframes stackBurn {
-    0%, 47%   { opacity: 1; clip-path: inset(0 0 100% 0);
+    0%, 59%   { opacity: 1; clip-path: inset(0 0 100% 0);
                 box-shadow: 0 0 0 0 rgba(252,156,12,0); }
-    56%       { opacity: 1; clip-path: inset(0 0 0 0);
+    68%       { opacity: 1; clip-path: inset(0 0 0 0);
                 box-shadow: 0 0 70px 12px rgba(252,156,12,.55),
                             0 0 0 1px rgba(252,156,12,.7) inset; }
-    61%       { opacity: 1; clip-path: inset(0 0 0 0);
+    73%       { opacity: 1; clip-path: inset(0 0 0 0);
                 box-shadow: 0 0 70px 12px rgba(252,156,12,.55),
                             0 0 0 1px rgba(252,156,12,.7) inset; }
-    70%       { opacity: 1; clip-path: inset(100% 0 0 0);
+    82%       { opacity: 1; clip-path: inset(100% 0 0 0);
                 box-shadow: 0 0 18px 2px rgba(252,156,12,.14),
                             0 0 0 1px rgba(252,156,12,0) inset; }
-    71%, 100% { opacity: 0; clip-path: inset(100% 0 0 0); }
+    83%, 100% { opacity: 0; clip-path: inset(100% 0 0 0); }
   }
 
-  .what-note.play .l0 { animation: stackFromLeft  12s var(--ease) infinite; }
-  .what-note.play .l1 { animation: stackFromTop   12s var(--ease) infinite; }
-  .what-note.play .l2 { animation: stackFromRight 12s var(--ease) infinite; }
-  .what-note.play .stack-scan { animation: scanShow 12s linear infinite,
-                                           scanGrid 12s linear infinite; }
-  .what-note.play .stack-beam { animation: beamSweep 12s linear infinite; }
-  .what-note.play .l3 { animation: stackReveal 12s var(--ease) infinite; }
-  .what-note.play .stack-burn { animation: stackBurn 12s var(--ease) infinite; }
+  .what-note.play .l0 { animation: travelLeft  16s var(--ease) infinite,
+                                   showL       16s linear      infinite; }
+  .what-note.play .l1 { animation: travelTop   16s var(--ease) infinite,
+                                   showT       16s linear      infinite; }
+  .what-note.play .l2 { animation: travelRight 16s var(--ease) infinite,
+                                   showR       16s linear      infinite; }
+  .what-note.play .stack-scan { animation: scanShow 16s linear infinite,
+                                           scanGrid 16s linear infinite; }
+  .what-note.play .stack-beam { animation: beamSweep 16s linear infinite; }
+  .what-note.play .l3 { animation: stackReveal 16s var(--ease) infinite; }
+  .what-note.play .stack-burn { animation: stackBurn 16s var(--ease) infinite; }
 
   @media (max-height: 820px) { .stack-rig { width: min(420px, 64vw); }
     .stack { margin-bottom: 20px; } }
+  /* Desktop: the stack goes wide and the note rides up over it, its own
+     midline sitting on the bottom edge of the images. translateY(-50%) is what
+     makes that self-measuring — the note knows its own height, CSS cannot be
+     told it. The 118vh cap keeps 75vw from overflowing a short window, since
+     the rig's 9/5 ratio turns width straight into height. Declared after the
+     short-viewport rule above so it wins on a wide-but-short laptop. */
+  @media (min-width: 900px) {
+    /* the layer is normally as wide as the note; at 55vw the rig is wider than
+       that and would hang off one side, so the layer opens up and the note
+       keeps its own measure */
+    .what-note { width: 100%; }
+    .stack-rig { width: min(55vw, 118vh); }
+    .stack { margin-bottom: 0; }
+    .what-note .note { width: min(760px, 92vw); margin-left: auto; margin-right: auto;
+      transform: translateY(-50%);
+      /* it now sits on top of a photograph rather than the page, so the
+         translucent tint it had is no longer enough to read against */
+      background: color-mix(in srgb, var(--bg) 88%, transparent);
+      backdrop-filter: saturate(140%) blur(14px);
+      box-shadow: 0 24px 60px rgba(0,0,0,.55); }
+  }
 
 
   /* --- beat: the three maps ride a cylinder around the app icon ---
@@ -1170,7 +1187,7 @@
 <!-- Decorative viewport furniture: curved scan arcs down each edge of the
      display port, parallaxing against the scroll. Retires before §02 Install,
      where the guide turns into reference and the chrome would be noise. -->
-<div class="ports" aria-hidden="true"><div class="ports-drift"><svg viewBox="0 0 1000 1000" preserveAspectRatio="none"><path d="M0 547.2C166.7 512.6 333.3 500 500 500C666.7 500 833.3 512.6 1000 547.2"/><path d="M0 452.8C166.7 487.4 333.3 500 500 500C666.7 500 833.3 487.4 1000 452.8"/><path d="M0 582.2C166.7 521.9 333.3 500 500 500C666.7 500 833.3 521.9 1000 582.2"/><path d="M0 417.8C166.7 478.1 333.3 500 500 500C666.7 500 833.3 478.1 1000 417.8"/><path d="M0 613.7C166.7 530.3 333.3 500 500 500C666.7 500 833.3 530.3 1000 613.7"/><path d="M0 386.3C166.7 469.7 333.3 500 500 500C666.7 500 833.3 469.7 1000 386.3"/><path d="M0 643.2C166.7 538.2 333.3 500 500 500C666.7 500 833.3 538.2 1000 643.2"/><path d="M0 356.8C166.7 461.8 333.3 500 500 500C666.7 500 833.3 461.8 1000 356.8"/><path d="M0 671.2C166.7 545.7 333.3 500 500 500C666.7 500 833.3 545.7 1000 671.2"/><path d="M0 328.8C166.7 454.3 333.3 500 500 500C666.7 500 833.3 454.3 1000 328.8"/><path d="M0 698.0C166.7 552.8 333.3 500 500 500C666.7 500 833.3 552.8 1000 698.0"/><path d="M0 302.0C166.7 447.2 333.3 500 500 500C666.7 500 833.3 447.2 1000 302.0"/><path d="M0 724.0C166.7 559.8 333.3 500 500 500C666.7 500 833.3 559.8 1000 724.0"/><path d="M0 276.0C166.7 440.2 333.3 500 500 500C666.7 500 833.3 440.2 1000 276.0"/><path d="M0 749.3C166.7 566.5 333.3 500 500 500C666.7 500 833.3 566.5 1000 749.3"/><path d="M0 250.7C166.7 433.5 333.3 500 500 500C666.7 500 833.3 433.5 1000 250.7"/><path d="M0 773.9C166.7 573.1 333.3 500 500 500C666.7 500 833.3 573.1 1000 773.9"/><path d="M0 226.1C166.7 426.9 333.3 500 500 500C666.7 500 833.3 426.9 1000 226.1"/><path d="M0 798.0C166.7 579.5 333.3 500 500 500C666.7 500 833.3 579.5 1000 798.0"/><path d="M0 202.0C166.7 420.5 333.3 500 500 500C666.7 500 833.3 420.5 1000 202.0"/><path d="M0 821.6C166.7 585.8 333.3 500 500 500C666.7 500 833.3 585.8 1000 821.6"/><path d="M0 178.4C166.7 414.2 333.3 500 500 500C666.7 500 833.3 414.2 1000 178.4"/><path d="M0 844.8C166.7 592.0 333.3 500 500 500C666.7 500 833.3 592.0 1000 844.8"/><path d="M0 155.2C166.7 408.0 333.3 500 500 500C666.7 500 833.3 408.0 1000 155.2"/><path d="M0 867.6C166.7 598.0 333.3 500 500 500C666.7 500 833.3 598.0 1000 867.6"/><path d="M0 132.4C166.7 402.0 333.3 500 500 500C666.7 500 833.3 402.0 1000 132.4"/><path d="M0 890.1C166.7 604.0 333.3 500 500 500C666.7 500 833.3 604.0 1000 890.1"/><path d="M0 109.9C166.7 396.0 333.3 500 500 500C666.7 500 833.3 396.0 1000 109.9"/><path d="M0 912.2C166.7 609.9 333.3 500 500 500C666.7 500 833.3 609.9 1000 912.2"/><path d="M0 87.8C166.7 390.1 333.3 500 500 500C666.7 500 833.3 390.1 1000 87.8"/><path d="M0 934.1C166.7 615.8 333.3 500 500 500C666.7 500 833.3 615.8 1000 934.1"/><path d="M0 65.9C166.7 384.2 333.3 500 500 500C666.7 500 833.3 384.2 1000 65.9"/><path d="M0 955.6C166.7 621.5 333.3 500 500 500C666.7 500 833.3 621.5 1000 955.6"/><path d="M0 44.4C166.7 378.5 333.3 500 500 500C666.7 500 833.3 378.5 1000 44.4"/><path d="M0 976.9C166.7 627.2 333.3 500 500 500C666.7 500 833.3 627.2 1000 976.9"/><path d="M0 23.1C166.7 372.8 333.3 500 500 500C666.7 500 833.3 372.8 1000 23.1"/><path d="M0 998.0C166.7 632.8 333.3 500 500 500C666.7 500 833.3 632.8 1000 998.0"/><path d="M0 2.0C166.7 367.2 333.3 500 500 500C666.7 500 833.3 367.2 1000 2.0"/><path d="M0 1018.9C166.7 638.4 333.3 500 500 500C666.7 500 833.3 638.4 1000 1018.9"/><path d="M0 -18.9C166.7 361.6 333.3 500 500 500C666.7 500 833.3 361.6 1000 -18.9"/><path d="M0 1039.5C166.7 643.9 333.3 500 500 500C666.7 500 833.3 643.9 1000 1039.5"/><path d="M0 -39.5C166.7 356.1 333.3 500 500 500C666.7 500 833.3 356.1 1000 -39.5"/><path d="M0 1060.0C166.7 649.4 333.3 500 500 500C666.7 500 833.3 649.4 1000 1060.0"/><path d="M0 -60.0C166.7 350.6 333.3 500 500 500C666.7 500 833.3 350.6 1000 -60.0"/></svg></div></div>
+<div class="ports" aria-hidden="true"><div class="ports-drift"><svg viewBox="0 0 1000 1000" preserveAspectRatio="none"><path d="M0 575.7C166.7 520.2 333.3 500 500 500C666.7 500 833.3 520.2 1000 575.7"/><path d="M0 424.3C166.7 479.8 333.3 500 500 500C666.7 500 833.3 479.8 1000 424.3"/><path d="M0 631.8C166.7 535.1 333.3 500 500 500C666.7 500 833.3 535.1 1000 631.8"/><path d="M0 368.2C166.7 464.9 333.3 500 500 500C666.7 500 833.3 464.9 1000 368.2"/><path d="M0 682.3C166.7 548.6 333.3 500 500 500C666.7 500 833.3 548.6 1000 682.3"/><path d="M0 317.7C166.7 451.4 333.3 500 500 500C666.7 500 833.3 451.4 1000 317.7"/><path d="M0 729.4C166.7 561.2 333.3 500 500 500C666.7 500 833.3 561.2 1000 729.4"/><path d="M0 270.6C166.7 438.8 333.3 500 500 500C666.7 500 833.3 438.8 1000 270.6"/><path d="M0 774.3C166.7 573.1 333.3 500 500 500C666.7 500 833.3 573.1 1000 774.3"/><path d="M0 225.7C166.7 426.9 333.3 500 500 500C666.7 500 833.3 426.9 1000 225.7"/><path d="M0 817.3C166.7 584.6 333.3 500 500 500C666.7 500 833.3 584.6 1000 817.3"/><path d="M0 182.7C166.7 415.4 333.3 500 500 500C666.7 500 833.3 415.4 1000 182.7"/><path d="M0 859.0C166.7 595.7 333.3 500 500 500C666.7 500 833.3 595.7 1000 859.0"/><path d="M0 141.0C166.7 404.3 333.3 500 500 500C666.7 500 833.3 404.3 1000 141.0"/><path d="M0 899.5C166.7 606.5 333.3 500 500 500C666.7 500 833.3 606.5 1000 899.5"/><path d="M0 100.5C166.7 393.5 333.3 500 500 500C666.7 500 833.3 393.5 1000 100.5"/><path d="M0 938.9C166.7 617.1 333.3 500 500 500C666.7 500 833.3 617.1 1000 938.9"/><path d="M0 61.1C166.7 382.9 333.3 500 500 500C666.7 500 833.3 382.9 1000 61.1"/><path d="M0 977.5C166.7 627.4 333.3 500 500 500C666.7 500 833.3 627.4 1000 977.5"/><path d="M0 22.5C166.7 372.6 333.3 500 500 500C666.7 500 833.3 372.6 1000 22.5"/><path d="M0 1015.4C166.7 637.4 333.3 500 500 500C666.7 500 833.3 637.4 1000 1015.4"/><path d="M0 -15.4C166.7 362.6 333.3 500 500 500C666.7 500 833.3 362.6 1000 -15.4"/><path d="M0 1052.5C166.7 647.4 333.3 500 500 500C666.7 500 833.3 647.4 1000 1052.5"/><path d="M0 -52.5C166.7 352.6 333.3 500 500 500C666.7 500 833.3 352.6 1000 -52.5"/><path d="M0 1089.1C166.7 657.1 333.3 500 500 500C666.7 500 833.3 657.1 1000 1089.1"/><path d="M0 -89.1C166.7 342.9 333.3 500 500 500C666.7 500 833.3 342.9 1000 -89.1"/><path d="M0 1125.0C166.7 666.7 333.3 500 500 500C666.7 500 833.3 666.7 1000 1125.0"/><path d="M0 -125.0C166.7 333.3 333.3 500 500 500C666.7 500 833.3 333.3 1000 -125.0"/><path d="M0 1160.5C166.7 676.2 333.3 500 500 500C666.7 500 833.3 676.2 1000 1160.5"/><path d="M0 -160.5C166.7 323.8 333.3 500 500 500C666.7 500 833.3 323.8 1000 -160.5"/><path d="M0 1195.5C166.7 685.5 333.3 500 500 500C666.7 500 833.3 685.5 1000 1195.5"/><path d="M0 -195.5C166.7 314.5 333.3 500 500 500C666.7 500 833.3 314.5 1000 -195.5"/><path d="M0 1230.1C166.7 694.7 333.3 500 500 500C666.7 500 833.3 694.7 1000 1230.1"/><path d="M0 -230.1C166.7 305.3 333.3 500 500 500C666.7 500 833.3 305.3 1000 -230.1"/><path d="M0 1264.2C166.7 703.8 333.3 500 500 500C666.7 500 833.3 703.8 1000 1264.2"/><path d="M0 -264.2C166.7 296.2 333.3 500 500 500C666.7 500 833.3 296.2 1000 -264.2"/><path d="M0 1298.0C166.7 712.8 333.3 500 500 500C666.7 500 833.3 712.8 1000 1298.0"/><path d="M0 -298.0C166.7 287.2 333.3 500 500 500C666.7 500 833.3 287.2 1000 -298.0"/><path d="M0 1331.4C166.7 721.7 333.3 500 500 500C666.7 500 833.3 721.7 1000 1331.4"/><path d="M0 -331.4C166.7 278.3 333.3 500 500 500C666.7 500 833.3 278.3 1000 -331.4"/><path d="M0 1364.5C166.7 730.6 333.3 500 500 500C666.7 500 833.3 730.6 1000 1364.5"/><path d="M0 -364.5C166.7 269.4 333.3 500 500 500C666.7 500 833.3 269.4 1000 -364.5"/><path d="M0 1397.3C166.7 739.3 333.3 500 500 500C666.7 500 833.3 739.3 1000 1397.3"/><path d="M0 -397.3C166.7 260.7 333.3 500 500 500C666.7 500 833.3 260.7 1000 -397.3"/><path d="M0 1429.8C166.7 748.0 333.3 500 500 500C666.7 500 833.3 748.0 1000 1429.8"/><path d="M0 -429.8C166.7 252.0 333.3 500 500 500C666.7 500 833.3 252.0 1000 -429.8"/><path d="M0 1462.0C166.7 756.6 333.3 500 500 500C666.7 500 833.3 756.6 1000 1462.0"/><path d="M0 -462.0C166.7 243.4 333.3 500 500 500C666.7 500 833.3 243.4 1000 -462.0"/><path d="M0 1493.9C166.7 765.1 333.3 500 500 500C666.7 500 833.3 765.1 1000 1493.9"/><path d="M0 -493.9C166.7 234.9 333.3 500 500 500C666.7 500 833.3 234.9 1000 -493.9"/><path d="M0 1525.6C166.7 773.5 333.3 500 500 500C666.7 500 833.3 773.5 1000 1525.6"/><path d="M0 -525.6C166.7 226.5 333.3 500 500 500C666.7 500 833.3 226.5 1000 -525.6"/><path d="M0 1557.0C166.7 781.9 333.3 500 500 500C666.7 500 833.3 781.9 1000 1557.0"/><path d="M0 -557.0C166.7 218.1 333.3 500 500 500C666.7 500 833.3 218.1 1000 -557.0"/><path d="M0 1588.2C166.7 790.2 333.3 500 500 500C666.7 500 833.3 790.2 1000 1588.2"/><path d="M0 -588.2C166.7 209.8 333.3 500 500 500C666.7 500 833.3 209.8 1000 -588.2"/><path d="M0 1619.2C166.7 798.5 333.3 500 500 500C666.7 500 833.3 798.5 1000 1619.2"/><path d="M0 -619.2C166.7 201.5 333.3 500 500 500C666.7 500 833.3 201.5 1000 -619.2"/><path d="M0 1650.0C166.7 806.7 333.3 500 500 500C666.7 500 833.3 806.7 1000 1650.0"/><path d="M0 -650.0C166.7 193.3 333.3 500 500 500C666.7 500 833.3 193.3 1000 -650.0"/></svg></div></div>
 
 <nav class="topbar">
   <div class="mark"><svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 15c3-4 6-4 9 0s6 4 9 0"/><path d="M3 9c3-4 6-4 9 0s6 4 9 0"/></svg></div>
@@ -1932,6 +1949,12 @@ npm test --workspace @mf/api</code></pre>
       if (ports) {
         document.documentElement.style.setProperty('--sy', top.toFixed(1));
         var stop = install ? install.offsetTop : 0;
+        /* a quarter turn, spent exactly over the run up to §02: the span ends
+           where the fade does — when Install's top reaches the bottom of the
+           window — so the fan lands on 90 degrees at the moment it disappears */
+        var span = stop - window.innerHeight;
+        var turn = span > 0 ? Math.min(1, Math.max(0, top / span)) : 1;
+        ports.style.setProperty('--rot', (turn * 90).toFixed(2));
         var fade = stop ? (stop - (top + window.innerHeight)) / (window.innerHeight * .6) : 1;
         ports.style.setProperty('--ports-o', Math.min(1, Math.max(0, fade)).toFixed(3));
       }
