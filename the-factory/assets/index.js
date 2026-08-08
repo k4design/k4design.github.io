@@ -33,10 +33,14 @@ function formatUpdated(iso) {
   return `${months[+m[2] - 1]} ${m[1]}`;
 }
 
-/* Retired last, then newest first. */
+/* Retired last, then any explicit `order`, then newest first. `order` exists
+   so a plugin can be pinned above a newer sibling without backdating the real
+   `updated` value the sidebar prints. Lower sorts first; unset means 0. */
 function byStatusThenDate(a, b) {
   const retired = p => (p.status === 'retired' ? 1 : 0);
+  const order = p => (typeof p.order === 'number' ? p.order : 0);
   return retired(a) - retired(b) ||
+         order(a) - order(b) ||
          String(b.updated).localeCompare(String(a.updated));
 }
 

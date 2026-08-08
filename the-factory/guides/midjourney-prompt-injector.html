@@ -7,21 +7,64 @@
 
      Chrome extension, not a Figma plugin, so: "Install" is load-unpacked, and
      there is no Figma Community CTA to link — .plugin-cta and cta.js are
-     omitted, same as guides/mj-explore-grabber.html.
+     omitted, same as guides/midjourney-abducter.html.
 
-     No icon exists at ../assets/icons/midjourney-prompt-injector.png yet, so
-     the nav and hero marks use a text glyph. Drop a square PNG in there and
-     swap the spans for <img> tags to match the other guides. -->
+     This guide is dark-only: the token block below re-declares :root after
+     guide.css loads, so it beats guide.css's prefers-color-scheme:light block
+     in source order and the page stays dark whatever the reader's OS says. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
 <meta name="robots" content="noindex,nofollow">
 <title>MidJourney Prompt Injector — Operator's Guide</title>
 <link rel="stylesheet" href="../assets/guide.css">
 <style>
-  /* Scoped: a mockup of the extension's on-page panel. Everything here uses guide.css
-     variables, so it follows the reader's light/dark theme like the rest. */
+  /* ============================================================
+     PALETTE — sampled from the extension icon: the ring runs from
+     violet at the top round to cyan at the bottom, over near-black
+     glass with a blue cast. Declared here rather than in guide.css
+     so only this guide changes.
+     ============================================================ */
+  :root {
+    --bg:        #05060C;
+    --bg-2:      #090C16;
+    --surface:   #0E1122;
+    --surface-2: #14182E;
+    --line:      #23264C;
+    --line-soft: #171A33;
+    --line-bright: #2F3468;
+
+    --ink:   #EAECF7;
+    --ink-2: #9DA3C2;
+    --ink-3: #6C7196;
+
+    --accent:     #00D8F0;   /* the cyan arc */
+    --accent-2:   #6024D8;   /* the violet arc */
+    --accent-ink: #7FE7FF;
+    --accent-soft: rgba(0, 216, 240, .10);
+    --accent-line: rgba(0, 216, 240, .30);
+    --grad: linear-gradient(96deg, #00D8F0 0%, #4818F0 58%, #8B2BF0 110%);
+
+    --ok:   #3DE0B0; --ok-soft: rgba(61, 224, 176, .10); --ok-line: rgba(61, 224, 176, .26);
+    --warn: #FFB454; --warn-soft: rgba(255, 180, 84, .10); --warn-line: rgba(255, 180, 84, .26);
+
+    /* the aliases guide.css keeps for older guide markup */
+    --paper: var(--bg); --paper-2: var(--bg-2); --card: var(--surface);
+    --ink-soft: var(--ink-2); --taupe: var(--ink-3);
+    --mag: var(--accent); --mag-tint: var(--accent-soft); --mag-line: var(--accent-line);
+  }
+  /* the marks are dark glass, so the white plate guide.css gives them would
+     ring the icon in a bright square */
+  .nav-mark, .hero-mark { background: none; border: 0; padding: 0; }
+  .hero-mark { box-shadow: 0 18px 46px rgba(72, 24, 240, .30); margin-bottom: 14px; }
+  /* the product name sits with the mark as one lockup, above the version pill */
+  .hero-name { margin: 0 0 18px; font-size: 15px; font-weight: 600;
+    letter-spacing: .01em; color: var(--ink); }
+
+  /* Scoped: a mockup of the extension's on-page panel, built from the tokens
+     above so it sits in the same palette as the rest of the page. */
   .pop{max-width:340px;margin:0;background:var(--surface);border:1px solid var(--line);
        border-radius:14px;padding:16px;box-shadow:0 24px 60px rgba(0,0,0,.28);}
   .pop-head{display:flex;align-items:center;gap:8px;margin:-16px -16px 14px;padding:10px 12px;
@@ -60,7 +103,7 @@
 <div class="wrap">
 
 <nav>
-  <span class="nav-brand"><span class="nav-mark">$</span> Prompt Injector</span>
+  <span class="nav-brand"><span class="nav-mark"><img src="../assets/icons/midjourney-prompt-injector.png" alt=""></span> Prompt Injector</span>
   <a class="nav-back" href="../index.html" target="_top">← The Factory</a>
   <div class="nav-links">
     <a href="#install">Install</a>
@@ -75,7 +118,8 @@
 
 <header class="hero">
   <div class="hero-inner">
-    <div class="hero-mark">$</div>
+    <div class="hero-mark"><img src="../assets/icons/midjourney-prompt-injector.png" alt=""></div>
+    <p class="hero-name">MidJourney Prompt Injector</p>
     <div class="pill"><span class="dot"></span> Chrome Extension · v1.1 · Batch prompt submission</div>
     <h1>Paste fifteen prompts.<br><span class="grad">Walk away.</span></h1>
     <p class="hero-sub">Feeding MidJourney a batch of prompts by hand is fifteen rounds of paste, Enter, wait, paste. Separate them with a <code>$</code> and this types every one into the prompt bar for you.</p>

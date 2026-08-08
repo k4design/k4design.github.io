@@ -1,0 +1,2147 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<meta name="robots" content="noindex,nofollow">
+<title>Mockup Mason — Docs</title>
+<script src="../assets/gate.js"></script>
+<script>requireUnlock();</script>
+<style>
+
+  /* ===================== tokens ===================== */
+  :root {
+    --sans: Inter, "SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --mono: "SF Mono", ui-monospace, "JetBrains Mono", Menlo, Consolas, monospace;
+
+    /* Black, with warm neutrals and the amber/orange sampled from the app
+       icon — #FC9C0C is the ribbon's dominant tone, #E46C0C its shadow side. */
+    --bg: #000000;
+    --bg-2: #0A0705;
+    --surface: #120D08;
+    --surface-2: #1A130B;
+    --line: #2A2015;
+    --line-soft: #1C150E;
+
+    --ink: #F6EFE6;
+    --ink-2: #B3A492;
+    --ink-3: #7C6E5E;
+
+    --accent: #FC9C0C;
+    --accent-2: #E46C0C;
+    --accent-ink: #FFCE7A;
+    --accent-soft: rgba(252, 156, 12, .12);
+    --accent-line: rgba(252, 156, 12, .32);
+
+    --ok: #3ddc97;
+    --ok-soft: rgba(61, 220, 151, .10);
+    --ok-line: rgba(61, 220, 151, .26);
+    --warn: #ffb454;
+    --warn-soft: rgba(255, 180, 84, .10);
+    --warn-line: rgba(255, 180, 84, .26);
+    --bad: #ec5b62;
+    --bad-soft: rgba(236, 91, 98, .10);
+    --bad-line: rgba(236, 91, 98, .26);
+
+    --radius: 10px;
+    --topbar-h: 52px;
+
+    /* one motion language for every entrance on the page */
+    --rise: 24px;
+    --ease: cubic-bezier(.22, .61, .36, 1);
+    --dur: .6s;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: calc(var(--topbar-h) + 18px); }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.75;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--accent-ink); }
+  code {
+    font-family: var(--mono);
+    font-size: .88em;
+    background: var(--surface-2);
+    border: 1px solid var(--line-soft);
+    border-radius: 5px;
+    padding: 1px 5px;
+  }
+  strong { color: var(--ink); font-weight: 650; }
+  em { color: var(--ink); font-style: normal; font-weight: 600; }
+
+  /* ===================== topbar ===================== */
+  .topbar {
+    position: sticky; top: 0; z-index: 50;
+    height: var(--topbar-h);
+    display: flex; align-items: center; gap: 10px;
+    padding: 0 18px;
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: saturate(150%) blur(12px);
+    border-bottom: 1px solid var(--line);
+  }
+  /* reading progress: the amber filament fills as the journey is read.
+     --read (0…1) is written by the scroll engine at the bottom of the page. */
+  .readline { position: absolute; left: 0; bottom: -1px; height: 2px; width: 100%;
+    background: var(--accent); transform: scaleX(var(--read, 0));
+    transform-origin: left; pointer-events: none; }
+  .mark {
+    width: 26px; height: 26px; flex: 0 0 26px;
+    display: grid; place-items: center;
+    border: 1px solid var(--accent-line);
+    border-radius: 7px;
+    background: var(--accent-soft);
+  }
+  .mark svg { width: 15px; height: 15px; display: block; }
+  .topbar .name { font-weight: 650; letter-spacing: -.01em; }
+  .topbar .sep { color: var(--ink-3); }
+  .topbar .where { color: var(--ink-2); }
+  .topbar .back {
+    margin-left: auto;
+    color: var(--ink-2); text-decoration: none;
+    font-size: 13px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 5px 12px;
+    white-space: nowrap;
+  }
+  .topbar .back:hover { color: var(--ink); border-color: var(--accent-line); }
+  .nav-links { display: flex; gap: 4px; overflow-x: auto; margin-left: 14px; }
+  .nav-links a {
+    color: var(--ink-2); text-decoration: none;
+    font-size: 13px; white-space: nowrap;
+    padding: 5px 9px; border-radius: 7px;
+  }
+  .nav-links a:hover { color: var(--ink); background: var(--surface-2); }
+  .nav-links a.active { color: var(--accent-ink); background: var(--accent-soft); }
+  @media (max-width: 900px) { .nav-links { display: none; } }
+
+  /* ===================== hero ===================== */
+  /* Hero sits on the icon's own black in both themes, so the tile has no
+     edge and the amber reads at full strength. */
+  .hero {
+    position: relative; overflow: hidden;
+    border-bottom: 1px solid var(--line);
+    background: #000000;
+    --bg-2: #0A0705; --surface: #120D08; --surface-2: #1A130B;
+    --line: #2A2015; --line-soft: #1C150E;
+    --ink: #F6EFE6; --ink-2: #B3A492; --ink-3: #7C6E5E;
+    --accent: #FC9C0C; --accent-2: #E46C0C;
+    --accent-soft: rgba(252, 156, 12, .12);
+    --accent-line: rgba(252, 156, 12, .32);
+    color: var(--ink);
+  }
+  .hero h1 { color: var(--ink); }
+  .hero .lede { color: var(--ink-2); }
+  /* The clip's own frame is black (sampled #000000 at every edge), which is
+     the hero's background — so it needs no border, radius or vignette to sit
+     in the page; it simply appears. */
+  .hero-clip {
+    display: block; width: 100%; max-width: 960px; height: auto;
+    margin: clamp(28px, 4vw, 48px) auto 0;
+  }
+
+  /* ============================================================
+     CINEMATIC INTRO STAGE
+     --p is scroll progress through .cine (set by the script at the
+     bottom of the page). Each phase variable maps a slice of --p to
+     0…1, and every layer animates only from those, so the beats can
+     be retimed by editing four numbers.
+       A 0→.35    copy exits upward
+       B .15→.65  clip rises + scales
+       C .55→.90  clip fades into the black
+       D .80→1    statement line enters
+     ============================================================ */
+  .cine {
+    position: relative; height: 320vh; background: #000;
+    /* the stage is black in both themes, so its type and accents are
+       pinned to the dark palette — same trick as .hero */
+    --ink: #F6EFE6; --ink-2: #B3A492; --ink-3: #7C6E5E;
+    --line: #2A2015; --surface: #120D08;
+    --accent: #FC9C0C; --accent-2: #E46C0C;
+    --a: clamp(0, calc(var(--p, 0) / .35), 1);
+    --b: clamp(0, calc((var(--p, 0) - .15) / .5), 1);
+    --c: clamp(0, calc((var(--p, 0) - .55) / .35), 1);
+    --d: clamp(0, calc((var(--p, 0) - .80) / .20), 1);
+  }
+  .cine-stick {
+    position: sticky; top: 0; height: 100svh; overflow: hidden;
+    display: grid; place-items: center; background: #000;
+  }
+  /* all three layers share the one grid cell and stack */
+  .cine-stick > * { grid-area: 1 / 1; }
+
+  .cine-copy {
+    /* the header is a layer now, not a page band */
+    border-bottom: 0; background: none; width: 100%;
+    opacity: calc(1 - var(--a));
+    transform: translateY(calc(var(--a) * -14vh));
+    will-change: transform, opacity;
+  }
+  .cine-copy .hero-inner { padding-top: 0; padding-bottom: 0; }
+
+  .cine-clip {
+    margin: 0; max-width: min(960px, 92vw); justify-self: center;
+    transform: translateY(calc((1 - var(--b)) * 28vh))
+               scale(calc(.82 + var(--b) * .38));
+    opacity: calc(1 - var(--c));
+    will-change: transform, opacity;
+  }
+
+  .cine-next {
+    text-align: center; padding: 0 24px;
+    font-size: clamp(30px, 5.2vw, 50px); line-height: 1.1;
+    letter-spacing: -.03em; font-weight: 700; color: var(--ink);
+    opacity: var(--d);
+    transform: translateY(calc((1 - var(--d)) * 24px));
+    will-change: transform, opacity;
+    pointer-events: none;
+  }
+  .cine-next p { margin: 0; }
+
+  /* ---------- beat variants ----------
+     Every .cine stage gets --p and the same --a…--d phases; a variant
+     class decides what the layers are. Beats are shorter than the hero. */
+  .cine--beat { height: 240vh;
+    /* the maps beat's title hands the frame over to the cylinder rather than
+       sitting there for the whole stage: it lifts away once the first map has
+       landed, leaving the tiles and their copy alone for the rest of the sweep */
+    --title-out: clamp(0, calc((var(--p, 0) - .26) / .18), 1);
+    /* and the cylinder follows it out: once the last map has had its say the
+       whole rig — tiles and their copy together — lifts and fades, so the beat
+       hands an empty frame to the next stage instead of cutting */
+    --cyl-out: clamp(0, calc((var(--p, 0) - .90) / .10), 1); }
+  .cine-title {
+    text-align: center; padding: 0 24px;
+    font-size: clamp(28px, 4.6vw, 46px); line-height: 1.12;
+    letter-spacing: -.03em; font-weight: 700; color: var(--ink);
+    opacity: calc(var(--a) - var(--d));      /* in on A, out on D */
+    transform: translateY(calc((1 - var(--a)) * 24px));
+    will-change: transform, opacity; pointer-events: none;
+    position: relative; z-index: 2;
+  }
+  .cine-title p { margin: 0; }
+  /* in the maps beat the title takes the top of the frame, clear of the tiles */
+  .cine-title--top { align-self: start; padding-top: 13vh;
+    opacity: calc(var(--a) - var(--title-out, 0));
+    transform: translateY(calc((1 - var(--a)) * 24px
+                               - var(--title-out, 0) * 7vh)); }
+  .cine-title .sub {
+    display: block; margin-top: 14px;
+    font-size: 15px; font-weight: 400; letter-spacing: 0;
+    color: var(--ink-2);
+  }
+
+  /* ============================================================
+     STAGE: What this fixes
+     Three beats:
+       w1  on --pre   title + copy rise in as the stage enters, para by para
+       w2 .42 → .56   the copy lifts away
+       w4 .62 → .78   the note arrives on its own
+     (w3 is gone with the cards — that copy rides the cylinder above now.)
+     ============================================================ */
+  .cine--what { height: 300vh;
+    /* w1 rides --pre, so the copy is already landing while the section is
+       still sliding up — the beat above has faded out by then and this fills
+       the frame instead of leaving a viewport of black between the two */
+    --w1: var(--pre, 1);
+    --w2: clamp(0, calc((var(--p, 0) - .42) / .14), 1);
+    --w4: clamp(0, calc((var(--p, 0) - .62) / .16), 1); }
+
+  /* --- the copy --- */
+  .what-copy { width: min(720px, 92vw); justify-self: center; text-align: left;
+    opacity: calc(var(--w1) - var(--w2));
+    transform: translateY(calc((1 - var(--w1)) * 26px + var(--w2) * -9vh));
+    pointer-events: none; will-change: transform, opacity; }
+  .what-copy h2 { margin: 0 0 24px; }
+  .what-copy p { color: var(--ink-2); margin: 0 0 20px; }
+  .what-copy .lede { font-size: clamp(19px, 2vw, 23px); line-height: 1.6; color: var(--ink); }
+  /* each paragraph rides its own slice of w1 so they land in sequence */
+  .what-copy > * { --t: clamp(0, calc((var(--w1) - var(--i, 0) * .16) / .52), 1);
+    opacity: var(--t); transform: translateY(calc((1 - var(--t)) * 18px)); }
+
+  /* --- the note, alone --- */
+  .what-note { width: min(760px, 92vw); justify-self: center;
+    opacity: var(--w4);
+    transform: translateY(calc((1 - var(--w4)) * 30px)) scale(calc(.96 + var(--w4) * .04));
+    will-change: transform, opacity; }
+  .what-note .note { margin: 0; }
+  /* the note's icon and text normally wait on .block.in, which this stage
+     is not — drive them from w4 instead so they arrive with the card */
+  .what-note .note .ico { opacity: var(--w4); animation: none;
+    transform: scale(calc(.6 + var(--w4) * .4)); }
+  .what-note .note p { transform: none; }
+
+  /* ============================================================
+     DISPLAY-PORT EDGES
+     Concentric arcs struck from a centre just outside each side of the
+     window, so inside the 20vw panel they read as the curvature of a
+     screen. Masked to nothing well before the middle, and faded out
+     entirely as §02 Install arrives — --ports-o and --sy are both
+     written by the scroll painter.
+     ============================================================ */
+  /* The lines leave each side edge at their own height and bend toward one
+     point at the centre of the window. The bend is a power curve, so it is
+     shallow where a line meets the bezel and tightens as it runs inward —
+     hardest at the top and bottom, flattening toward the middle. Real paths
+     rather than a gradient: no CSS gradient can bow a line. The convergence
+     is never seen — the mask has taken everything to zero 20vw in. */
+  .ports { position: fixed; inset: 0; z-index: 1; pointer-events: none;
+    overflow: hidden; opacity: var(--ports-o, 1);
+    -webkit-mask-image: linear-gradient(to right, #000 0%, transparent 20vw,
+                        transparent calc(100% - 20vw), #000 100%);
+            mask-image: linear-gradient(to right, #000 0%, transparent 20vw,
+                        transparent calc(100% - 20vw), #000 100%); }
+  /* taller than the window so the fan never runs out from under the parallax */
+  .ports-drift { position: absolute; inset: 0; will-change: transform;
+    transform: translateY(calc(var(--sy, 0) * 0.06px)); }
+  .ports svg { position: absolute; left: 0; width: 100%; top: -34vh; height: 168vh;
+    display: block; will-change: transform; }
+  .ports path { fill: none; stroke: rgba(252,156,12,.30); stroke-width: 1;
+    vector-effect: non-scaling-stroke; }
+
+  /* The fan breathes on its own clock, nothing to do with the scroll. Every
+     line shares one animation, so the whole surface moves as one piece rather
+     than shimmering line by line. The waypoints sit at irregular intervals and
+     the two periods are deliberately not multiples of each other, so the loop
+     never lands on an obvious beat. */
+  @keyframes portsLive {
+    0%   { transform: scaleY(1)     translateY(0)      skewY(0deg); }
+    23%  { transform: scaleY(1.055) translateY(-0.9vh) skewY(0.35deg); }
+    41%  { transform: scaleY(1.02)  translateY(0.6vh)  skewY(-0.2deg); }
+    64%  { transform: scaleY(1.09)  translateY(-0.4vh) skewY(0.5deg); }
+    82%  { transform: scaleY(1.03)  translateY(1vh)    skewY(-0.3deg); }
+    100% { transform: scaleY(1)     translateY(0)      skewY(0deg); }
+  }
+  @keyframes portsGlow {
+    0%, 100% { stroke-opacity: .62; }
+    37%      { stroke-opacity: 1; }
+    71%      { stroke-opacity: .78; }
+  }
+  .ports svg  { animation: portsLive 26s cubic-bezier(.45,.05,.55,.95) infinite; }
+  .ports path { animation: portsGlow 11s ease-in-out infinite; }
+
+  @media (max-width: 720px) {
+    .ports { -webkit-mask-image: linear-gradient(to right, #000 0%, transparent 27vw,
+                                 transparent calc(100% - 27vw), #000 100%);
+                     mask-image: linear-gradient(to right, #000 0%, transparent 27vw,
+                                 transparent calc(100% - 27vw), #000 100%); } }
+
+  /* ============================================================
+     THE COMPOSITING STACK
+     One shared 12s timeline so every layer resets together: three layers
+     fly in from three directions, a wireframe lattice reads the surface,
+     then a beam lays an orange colourising pass over the photograph and
+     lifts it again to hand back the finished render, which then holds.
+     Only runs while on screen (.play).
+     ============================================================ */
+  .stack { display: grid; place-items: center; margin: 0 auto 30px;
+    position: relative; z-index: 1; }
+  /* incoming layers pass behind the note rather than across its text — the
+     card owns the higher stacking context */
+  .what-note .note { position: relative; z-index: 3; }
+  .stack-rig { position: relative; width: min(520px, 76vw); aspect-ratio: 9 / 5;
+    isolation: isolate; }   /* keeps the blends off the page behind */
+  .stack-l { position: absolute; inset: 0; width: 100%; height: 100%;
+    object-fit: cover; border-radius: 12px; border: 1px solid var(--line);
+    box-shadow: 0 26px 60px rgba(0,0,0,.6); }
+  /* the maps composite the way the renderer uses them rather than covering the
+     photograph: the shadow map darkens, the highlight map lightens */
+  .stack-l.l1 { mix-blend-mode: multiply; }
+  .stack-l.l2 { mix-blend-mode: screen; }
+  .stack-l.l3 { overflow: hidden; }
+  .stack-l.l3 img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  /* The plate: it washes down over the surface behind the beam, holds, then
+     keeps washing the same direction to hand the frame back. It blends rather
+     than covers, so the photograph itself turns orange and keeps its detail. */
+  .stack-burn { position: absolute; inset: 0; display: block; border-radius: 12px;
+    z-index: 3; pointer-events: none; mix-blend-mode: color;
+    clip-path: inset(0 0 100% 0);
+    background: linear-gradient(150deg, #FFC44D 0%, var(--accent) 42%, var(--accent-2) 100%);
+    box-shadow: 0 0 70px 12px rgba(252,156,12,.55), 0 0 0 1px rgba(252,156,12,.7) inset; }
+
+  /* before the loop starts the rig is empty — each layer travels in */
+  .l0, .l1, .l2, .l3 { opacity: 0; }
+
+  /* ---- the scan pass ----
+     The read and the fill are one continuous action rather than two separate
+     effects: the beam makes three passes down the surface. The first draws a
+     wireframe lattice in behind it, the second lays the orange plate down in
+     its wake, the third takes the plate away to uncover the render. The beam
+     is its own layer above the plate so it can lead every pass. */
+  .stack-scan { position: absolute; inset: 0; border-radius: 12px; z-index: 2;
+    opacity: 0; overflow: hidden; pointer-events: none;
+    clip-path: inset(0 0 100% 0); mix-blend-mode: screen;
+    box-shadow: 0 0 0 1px rgba(252,156,12,.5) inset;
+    background-image:
+      repeating-linear-gradient(90deg, rgba(252,156,12,.55) 0 1px, transparent 1px 24px),
+      repeating-linear-gradient(0deg,  rgba(252,156,12,.30) 0 1px, transparent 1px 24px),
+      repeating-linear-gradient(0deg,  rgba(255,236,196,.10) 0 2px, transparent 2px 5px); }
+  .stack-beam { position: absolute; left: 0; right: 0; height: 15%; top: -18%;
+    z-index: 4; opacity: 0; pointer-events: none;
+    background: linear-gradient(180deg, transparent 0%,
+                rgba(255,214,138,.35) 45%, rgba(255,242,214,.95) 62%,
+                rgba(255,214,138,.30) 74%, transparent 100%);
+    box-shadow: 0 0 34px 10px rgba(252,156,12,.45); }
+
+  /* Each layer flies in from a different quarter and from well outside the
+     frame — the photograph from the left, the shadow map down from above, the
+     highlight map in from the right — so the stack assembles from three
+     directions rather than three drops down the same line. Distances are
+     percentages of the rig, so they scale with it. */
+  @keyframes stackFromLeft {
+    0%, 2%    { opacity: 0; transform: translate(-82%, -14%) rotate(-7deg) scale(.9); }
+    11%, 94%  { opacity: 1; transform: translate(0, 0) rotate(0) scale(1); }
+    98%, 100% { opacity: 0; transform: translate(0, 0) rotate(0) scale(1); }
+  }
+  @keyframes stackFromTop {
+    0%, 12%   { opacity: 0; transform: translate(9%, -104%) rotate(5deg) scale(.9); }
+    21%, 94%  { opacity: 1; transform: translate(0, 0) rotate(0) scale(1); }
+    98%, 100% { opacity: 0; transform: translate(0, 0) rotate(0) scale(1); }
+  }
+  @keyframes stackFromRight {
+    0%, 22%   { opacity: 0; transform: translate(88%, 16%) rotate(7deg) scale(.9); }
+    31%, 94%  { opacity: 1; transform: translate(0, 0) rotate(0) scale(1); }
+    98%, 100% { opacity: 0; transform: translate(0, 0) rotate(0) scale(1); }
+  }
+
+  @keyframes scanShow {          /* the lattice, held until the plate covers it */
+    0%, 32%   { opacity: 0; }
+    36%, 55%  { opacity: 1; }
+    60%, 100% { opacity: 0; }
+  }
+  @keyframes scanGrid {          /* drawn in behind the first pass */
+    0%, 33%   { clip-path: inset(0 0 100% 0); }
+    45%, 100% { clip-path: inset(0 0 0 0); }
+  }
+  /* two passes, both belonging to the orange: it lays the plate down in the
+     beam's wake, then lifts it again. The wireframe read has no beam — the
+     lattice simply draws itself in. */
+  @keyframes beamSweep {
+    0%, 46%   { top: -18%; opacity: 0; }
+    47%       { top: -18%; opacity: 1; }
+    56%       { top: 100%;  opacity: 1; }
+    57%       { top: 100%;  opacity: 0; }
+    60%       { top: -18%; opacity: 0; }
+    61%       { top: -18%; opacity: 1; }
+    70%       { top: 100%;  opacity: 1; }
+    71%, 100% { top: 100%;  opacity: 0; }
+  }
+
+  /* the render fades up behind the solid plate, so the swap is never seen, and
+     then holds — it is the payoff, so it gets the longest beat in the cycle */
+  @keyframes stackReveal {
+    0%, 55%   { opacity: 0; }
+    58%, 94%  { opacity: 1; }
+    98%, 100% { opacity: 0; }
+  }
+  @keyframes stackBurn {
+    0%, 47%   { opacity: 1; clip-path: inset(0 0 100% 0);
+                box-shadow: 0 0 0 0 rgba(252,156,12,0); }
+    56%       { opacity: 1; clip-path: inset(0 0 0 0);
+                box-shadow: 0 0 70px 12px rgba(252,156,12,.55),
+                            0 0 0 1px rgba(252,156,12,.7) inset; }
+    61%       { opacity: 1; clip-path: inset(0 0 0 0);
+                box-shadow: 0 0 70px 12px rgba(252,156,12,.55),
+                            0 0 0 1px rgba(252,156,12,.7) inset; }
+    70%       { opacity: 1; clip-path: inset(100% 0 0 0);
+                box-shadow: 0 0 18px 2px rgba(252,156,12,.14),
+                            0 0 0 1px rgba(252,156,12,0) inset; }
+    71%, 100% { opacity: 0; clip-path: inset(100% 0 0 0); }
+  }
+
+  .what-note.play .l0 { animation: stackFromLeft  12s var(--ease) infinite; }
+  .what-note.play .l1 { animation: stackFromTop   12s var(--ease) infinite; }
+  .what-note.play .l2 { animation: stackFromRight 12s var(--ease) infinite; }
+  .what-note.play .stack-scan { animation: scanShow 12s linear infinite,
+                                           scanGrid 12s linear infinite; }
+  .what-note.play .stack-beam { animation: beamSweep 12s linear infinite; }
+  .what-note.play .l3 { animation: stackReveal 12s var(--ease) infinite; }
+  .what-note.play .stack-burn { animation: stackBurn 12s var(--ease) infinite; }
+
+  @media (max-height: 820px) { .stack-rig { width: min(420px, 64vw); }
+    .stack { margin-bottom: 20px; } }
+
+
+  /* --- beat: the three maps ride a cylinder around the app icon ---
+     The stage spins on Y as --p advances; the script writes each tile's
+     frontality into --f (1 = facing you) so the label can fade with it. */
+  .cyl { position: relative; width: min(1100px, 94vw); height: min(28vh, 250px);
+    perspective: 1600px; transform-style: preserve-3d; align-self: center;
+    opacity: calc(1 - var(--cyl-out, 0));
+    transform: translateY(calc(var(--cyl-out, 0) * -10vh));
+    margin-top: 2vh;               /* clear of the beat title above */
+    --cyl-r: 380px; }
+  .cyl-stage { position: absolute; inset: 0; transform-style: preserve-3d;
+    transform: rotateX(-9deg) rotateY(calc(var(--spin, 0) * 1turn)); }
+  .cyl-stage figure { position: absolute; left: 50%; top: 58%; margin: 0;
+    width: min(360px, 44vw);
+    transform: translate(-50%, -50%)
+               rotateY(calc(var(--a) * 120deg))
+               translateZ(var(--cyl-r, 320px));
+    transition: none; }
+  .cyl-stage img { display: block; width: 100%; height: auto; border-radius: 12px;
+    border: 1px solid var(--line);
+    /* the tile facing you is bright and sharp; the ones behind recede */
+    opacity: calc(.28 + var(--f, 0) * .72);
+    filter: brightness(calc(.55 + var(--f, 0) * .45));
+    box-shadow: 0 30px 70px rgba(0,0,0,.55); }
+
+  /* The source photograph sits on the cylinder's axis at z=0 — the one image
+     all three maps are baked from. A tile swinging to the front passes in
+     front of it and the back tiles behind; no z-index, the 3D sort does it. */
+  /* the base photo arrives with the section: it rises and fades in across the
+     scroll that brings the beat up into frame (--pre), so the stage is already
+     assembling itself before it pins rather than snapping on */
+  .cyl-source { position: absolute; left: 50%; top: 0;
+    width: 40vw; height: auto;
+    margin: 0 0 0 -20vw;
+    border-radius: 10px; border: 1px solid var(--line-bright, #2A2015);
+    pointer-events: none;
+    opacity: var(--pre, 1);
+    transform: translateY(calc((1 - var(--pre, 1)) * 9vh)) translateZ(0);
+    box-shadow: 0 22px 60px rgba(0,0,0,.7); }
+
+  /* the label carries what used to be a card: kicker, headline, description */
+  .cyl-labels { position: absolute; left: 0; right: 0; top: 100%; margin-top: 125px;
+    height: 150px; z-index: 3; }
+  .cyl-label { position: absolute; inset: 0; margin: 0; text-align: center;
+    opacity: var(--f, 0);
+    transform: translateY(calc((1 - var(--f, 0)) * 14px)); }
+  .cyl-label b { display: block; font-family: var(--mono); font-size: 12.5px;
+    letter-spacing: .18em; text-transform: uppercase; color: var(--accent); }
+  .cyl-label strong { display: block; margin-top: 10px; font-weight: 650;
+    font-size: clamp(19px, 2vw, 24px); letter-spacing: -.02em; color: var(--ink); }
+  .cyl-label span { display: block; margin: 12px auto 0; max-width: 52ch;
+    font-size: 15.5px; line-height: 1.65; color: var(--ink-2); }
+
+  @media (max-width: 720px) { .cyl { --cyl-r: 210px; perspective: 1100px; } }
+  /* the tiles are sized in px, so short viewports need the whole rig scaled
+     down or the hub collides with the subtitle and the label clips off */
+  @media (max-height: 820px) {
+    .cyl { margin-top: 0; height: min(26vh, 200px); --cyl-r: 280px; }
+    .cyl-stage figure { width: min(300px, 38vw); }
+    .cyl-source { width: 34vw; margin-left: -17vw; }
+    .cyl-labels { margin-top: 104px; height: 130px; }
+    .cyl-label span { font-size: 14px; }
+    /* pull the beat title up too, or the hub photo lands on the subtitle */
+    .cine-title--top { padding-top: 6vh; }
+  }
+
+
+  /* --- beat: the renders --- */
+  .renders-field {
+    position: absolute; inset: 0; overflow: hidden;
+    opacity: calc(1 - var(--d));
+  }
+  .renders-field img {
+    position: absolute; display: block; border-radius: 12px;
+    border: 1px solid var(--line);
+    width: clamp(140px, 22vw, 300px); height: auto;
+    /* parallax: each image drifts at its own speed --s */
+    transform: translateY(calc((1 - var(--b)) * var(--s) * 60vh));
+    opacity: calc(var(--b) * 1.6);
+    will-change: transform, opacity;
+    box-shadow: 0 24px 60px rgba(0,0,0,.55);
+  }
+
+  /* ---------- doc sections rise in, children cascading ----------
+     The section itself rises, then its direct children stagger in under
+     it. Children own their transitions (a delay on the parent's would do
+     nothing per-child), scoped to opacity/transform only so the delays
+     can never leak into hover styling. */
+  .block { opacity: 0; transform: translateY(var(--rise));
+    transition: opacity var(--dur) var(--ease), transform var(--dur) var(--ease); }
+  .block.in { opacity: 1; transform: none; }
+
+  .block > * { opacity: 0; transform: translateY(var(--rise)); transition: none; }
+  .block.in > * { opacity: 1; transform: none;
+    transition: opacity var(--dur) var(--ease), transform var(--dur) var(--ease); }
+  .block.in > :nth-child(1) { transition-delay: .05s; }
+  .block.in > :nth-child(2) { transition-delay: .12s; }
+  .block.in > :nth-child(3) { transition-delay: .19s; }
+  .block.in > :nth-child(4) { transition-delay: .26s; }
+  .block.in > :nth-child(5) { transition-delay: .33s; }
+  .block.in > :nth-child(6) { transition-delay: .40s; }
+  .block.in > :nth-child(7) { transition-delay: .47s; }
+  .block.in > :nth-child(8) { transition-delay: .54s; }
+  .block.in > :nth-child(9) { transition-delay: .61s; }
+  /* everything past nine shares the last slot — keep this rule last */
+  .block.in > :nth-child(n+10) { transition-delay: .68s; }
+
+  /* statement bands: the interludes between chapters, and the closing beat */
+  .outro, .interlude { padding: 20vh 24px; text-align: center; }
+  .outro { padding-bottom: 22vh; }
+  .statement { margin: 0 auto; max-width: 20ch;
+    font-size: clamp(30px, 5.2vw, 50px); line-height: 1.1;
+    letter-spacing: -.03em; font-weight: 700; color: var(--ink); }
+  .statement-sub { margin: 18px auto 0; max-width: 46ch;
+    font-size: 15px; line-height: 1.6; color: var(--ink-2); }
+  /* statements scale in rather than rise — a different entrance from the bands */
+  .interlude, .outro { --rise: 18px; }
+  .interlude > *, .outro > * { transform: translateY(var(--rise)) scale(.96); }
+  .interlude.in > *, .outro.in > * { transform: none; }
+  /* wide bands travel a little further */
+  #tour, #trouble, #output, #materials { --rise: 34px; }
+
+  /* cards inside a grid get their own second-level stagger */
+  .block .grid > * { opacity: 0; transform: translateY(var(--rise)); transition: none; }
+  .block.in .grid > * { opacity: 1; transform: none;
+    transition: opacity var(--dur) var(--ease), transform var(--dur) var(--ease); }
+  .block.in .grid > :nth-child(1) { transition-delay: .30s; }
+  .block.in .grid > :nth-child(2) { transition-delay: .38s; }
+  .block.in .grid > :nth-child(3) { transition-delay: .46s; }
+  .block.in .grid > :nth-child(4) { transition-delay: .54s; }
+  .block.in .grid > :nth-child(5) { transition-delay: .62s; }
+  .block.in .grid > :nth-child(n+6) { transition-delay: .70s; }
+  /* print never runs the observer — sections must not print invisible */
+  @media print {
+    .block, .block > *, .block .grid > *,
+    .block tbody tr, .block .chip, .note .ico, .note p, .codeblock .jl,
+    #tour td strong, .duo-cols > *,
+    .what-copy, .what-note, .what-copy > *,
+    .cyl-label, .cyl-label > *
+      { opacity: 1 !important; transform: none !important; }
+    .cine--what { height: auto; }
+    *, *::before, *::after { animation: none !important; }
+    .readline { display: none; }
+    .cine { height: auto; }
+    .cine-stick { position: static; height: auto; display: block; }
+    .cine-copy, .cine-clip, .cine-next, .cine-title,
+    .cyl, .cyl-stage figure, .renders-field img { opacity: 1 !important; transform: none !important; }
+    /* the stack never animates here: show the finished render, drop the plate */
+    .stack-l { opacity: 1 !important; transform: none !important; }
+    .stack-burn, .stack-scan, .stack-beam { display: none; }
+    .ports { display: none; }
+    /* unstack the cylinder: three maps in a row, each with its own caption */
+    .cyl { height: auto; perspective: none; display: grid; gap: 12px;
+      grid-template-columns: repeat(3, 1fr); }
+    .cyl-stage { position: static; transform: none; display: contents; }
+    .cyl-stage figure { position: static; width: auto; margin: 0; }
+    .cyl-stage img { opacity: 1; filter: none; }
+    .cyl-source { display: none; }
+    .cyl-labels { position: static; grid-column: 1 / -1; height: auto;
+      margin-top: 4px; display: grid; gap: 12px;
+      grid-template-columns: repeat(3, 1fr); }
+    .cyl-label { position: static; inset: auto; }
+  }
+
+  /* ============================================================
+     SET-PIECE ANIMATIONS
+     Everything below rides the same triggers as the rest of the
+     journey: .block.in from the reveal observer, .play from the
+     fine-grained observer at the bottom of the page, and --p on
+     the stages. Transform/opacity/color only.
+     ============================================================ */
+  @keyframes blink    { 50% { opacity: 0; } }
+  @keyframes dotpulse { 0%,100% { background: var(--line); } 50% { background: var(--accent); } }
+  @keyframes spinin   { from { transform: rotate(-120deg) scale(.6); opacity: 0; }
+                        to   { transform: rotate(0) scale(1); opacity: 1; } }
+  @keyframes ripple   { from { box-shadow: 0 0 0 0 rgba(252,156,12,.45); }
+                        to   { box-shadow: 0 0 0 14px rgba(252,156,12,0); } }
+  @keyframes knock    { 0%,100% { transform: rotate(0); } 30% { transform: rotate(-6deg); } 60% { transform: rotate(5deg); } }
+  @keyframes shake    { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-2px); } 50% { transform: translateX(2px); } 75% { transform: translateX(-1px); } }
+  @keyframes shimmer  { from { background-position: 0% 50%; } to { background-position: 100% 50%; } }
+  @keyframes ringspin { to { transform: rotate(360deg); } }
+  @keyframes breathe  { 0%,100% { box-shadow: 0 0 0 0 rgba(252,156,12,.5); }
+                        60% { box-shadow: 0 0 0 7px rgba(252,156,12,0); } }
+  @keyframes flashline{ from { background: rgba(252,156,12,.18); } to { background: transparent; } }
+
+  /* ---------- terminals type themselves ---------- */
+  .codeblock .tl { display: block; }
+  .codeblock .tl .pr { color: var(--ink-3); }
+  .codeblock .tl.done { color: var(--ink-2); }
+  .codeblock .caret { display: inline-block; width: 7px; height: 1.05em;
+    vertical-align: -0.18em; background: var(--accent);
+    animation: blink .9s step-end infinite; }
+  .codeblock.typing .dots i:nth-child(2) { animation: dotpulse 1s ease infinite; }
+  .codeblock.done .dots i:nth-child(3) { background: var(--ok); }
+
+  /* ---------- the JSON patch materializes ---------- */
+  .codeblock .jl { display: block; opacity: 0; transform: translateX(-12px); }
+  .codeblock.play .jl { opacity: 1; transform: none;
+    transition: opacity .4s var(--ease), transform .4s var(--ease);
+    animation: flashline .9s ease both; }
+  .codeblock .jl .anno { color: var(--accent); }
+
+  /* ---------- tables: rows arrive, chips flip ---------- */
+  .block tbody tr { opacity: 0; transform: translateY(14px); }
+  .block.in tbody tr { opacity: 1; transform: none;
+    transition: opacity .5s var(--ease), transform .5s var(--ease); }
+  .block.in tbody tr:nth-child(1) { transition-delay: .35s; }
+  .block.in tbody tr:nth-child(2) { transition-delay: .43s; }
+  .block.in tbody tr:nth-child(3) { transition-delay: .51s; }
+  .block.in tbody tr:nth-child(4) { transition-delay: .59s; }
+  .block.in tbody tr:nth-child(5) { transition-delay: .67s; }
+  .block.in tbody tr:nth-child(6) { transition-delay: .75s; }
+  .block.in tbody tr:nth-child(7) { transition-delay: .83s; }
+  .block.in tbody tr:nth-child(n+8) { transition-delay: .91s; }
+
+  /* the panel tour slides its rows in from alternating sides */
+  #tour tbody tr:nth-child(odd)  { transform: translateX(-18px); }
+  #tour tbody tr:nth-child(even) { transform: translateX(18px); }
+  #tour.in tbody tr { transform: none; }
+
+  /* the tour's control names spin in as their row lands */
+  #tour td strong { display: inline-block; opacity: 0; }
+  #tour.in td strong { animation: spinin .5s var(--ease) both; }
+  #tour.in tr:nth-child(1) td strong { animation-delay: .45s; }
+  #tour.in tr:nth-child(2) td strong { animation-delay: .53s; }
+  #tour.in tr:nth-child(3) td strong { animation-delay: .61s; }
+  #tour.in tr:nth-child(4) td strong { animation-delay: .69s; }
+  #tour.in tr:nth-child(5) td strong { animation-delay: .77s; }
+  #tour.in tr:nth-child(6) td strong { animation-delay: .85s; }
+  #tour.in tr:nth-child(7) td strong { animation-delay: .93s; }
+
+  /* troubleshooting symptoms warm from faint to full as they land */
+  #trouble tbody td:first-child { color: var(--ink-3);
+    transition: color .8s var(--ease); transition-delay: inherit; }
+  #trouble.in tbody td:first-child { color: var(--ink); }
+
+  .chip { display: inline-block; }
+  .block .chip { transform: rotateX(90deg); opacity: 0; }
+  .block.in .chip { transform: none; opacity: 1;
+    transition: transform .5s var(--ease) .7s, opacity .4s var(--ease) .7s; }
+
+  /* ---------- steps trace themselves ---------- */
+  ol.steps { position: relative; }
+  ol.steps::before { content: ""; position: absolute; left: 13px; top: 10px; bottom: 26px;
+    width: 1px; background: var(--accent-line);
+    transform: scaleY(0); transform-origin: top; }
+  .block.in ol.steps::before { transform: scaleY(1);
+    transition: transform 1.1s var(--ease) .5s; }
+  ol.steps > li::before { opacity: 0; }
+  .block.in ol.steps > li::before { animation: spinin .55s var(--ease) both; }
+  .block.in ol.steps > li:nth-child(1)::before { animation-delay: .45s; }
+  .block.in ol.steps > li:nth-child(2)::before { animation-delay: .62s; }
+  .block.in ol.steps > li:nth-child(3)::before { animation-delay: .79s; }
+  .block.in ol.steps > li:nth-child(4)::before { animation-delay: .96s; }
+  .block.in ol.steps > li:nth-child(5)::before { animation-delay: 1.13s; }
+
+  /* ---------- notes pop; warns knock; bads shake ---------- */
+  .note .ico { opacity: 0; transform: scale(.3); }
+  .block.in .note .ico { opacity: 1; transform: scale(1);
+    transition: opacity .35s var(--ease) .5s, transform .45s cubic-bezier(.34,1.56,.64,1) .5s;
+    animation: ripple .8s ease .85s 1; }
+  .block.in .note.warn .ico { animation: ripple .8s ease .85s 1, knock .5s ease 1.05s 1; }
+  .block.in .note.bad .ico  { animation: ripple .8s ease .85s 1, shake .45s ease 1.05s 1; }
+  .note p { transform: translateX(8px); transition: transform .5s var(--ease); }
+  .block.in .note p { transform: none; transition-delay: .55s; }
+
+  /* ---------- breadcrumbs walk ---------- */
+  .menupath b { color: var(--ink-3); transition: color .35s var(--ease); }
+  .block.in .menupath b:nth-of-type(1) { color: var(--accent-ink); transition-delay: .55s; }
+  .block.in .menupath b:nth-of-type(2) { color: var(--accent-ink); transition-delay: .85s; }
+  .block.in .menupath b:nth-of-type(3) { color: var(--accent-ink); transition-delay: 1.15s; }
+
+  /* ---------- h3s draw their underline ---------- */
+  .block h3 { position: relative; display: table; }
+  .block h3::after { content: ""; position: absolute; left: 0; bottom: -5px;
+    width: 100%; height: 1px; background: var(--accent-line);
+    transform: scaleX(0); transform-origin: left; }
+  .block.in h3::after { transform: scaleX(1); transition: transform .7s var(--ease) .6s; }
+
+  /* ---------- ambient life ---------- */
+  .hero .pill .dot { animation: breathe 2.4s ease infinite; }
+  .grad { background-size: 200% 100%; animation: shimmer 7s ease-in-out infinite alternate; }
+
+  /* ---------- material deck ---------- */
+  .mat-deck { list-style: none; margin: 14px 0 0; padding: 0;
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px; }
+  .mat-card { position: relative; background: var(--surface); border: 1px solid var(--line);
+    border-radius: var(--radius); padding: 16px 16px 14px; overflow: hidden; }
+  .mat-card .ring { position: absolute; top: 14px; right: 14px; width: 18px; height: 18px;
+    border-radius: 50%; pointer-events: none;
+    background: conic-gradient(from 0deg, var(--accent) 0 25%, var(--line) 25% 100%);
+    -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 2px));
+    mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 2px));
+    animation: ringspin 6s linear infinite; }
+  .mat-card h4 { margin: 0 0 4px; font-size: 15px; color: var(--ink); }
+  .mat-card .use { margin: 0 0 12px; font-size: 13px; color: var(--ink-2); line-height: 1.5; }
+  .mat-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .mat-chips span { font-family: var(--mono); font-size: 10.5px; letter-spacing: .06em;
+    color: var(--ink-2); background: var(--surface-2); border: 1px solid var(--line);
+    border-radius: 6px; padding: 4px 7px; white-space: nowrap; }
+  .mat-chips b { color: var(--accent-ink); font-weight: 600; }
+
+  /* Reduced motion: no pinning, no scroll choreography — the hero,
+     the clip and the statement line simply stack as normal flow. */
+  @media (prefers-reduced-motion: reduce) {
+    .cine { height: auto; }
+    .cine-stick { position: static; height: auto; overflow: visible;
+      display: block; }
+    .cine-copy, .cine-clip, .cine-next, .cine-title,
+    .cyl, .cyl-stage figure, .renders-field img,
+    .block > *, .block .grid > *,
+    .block tbody tr, .block .chip, .note .ico, .note p,
+    ol.steps > li::before, .codeblock .jl, #tour td strong, .duo-cols > * {
+      opacity: 1; transform: none; will-change: auto; transition: none; }
+    .readline { display: none; }
+    /* no continuous motion of any kind */
+    *, *::before, *::after { animation: none !important; }
+    .cyl { height: auto; perspective: none; display: grid; gap: 16px;
+      grid-template-columns: repeat(3, 1fr); padding: 40px 24px; }
+    .cyl-stage { position: static; transform: none; display: contents; }
+    .cyl-stage figure { position: static; width: auto; transform: none; }
+    .cyl-stage img { opacity: 1; filter: none; }
+    .cyl-source { display: none; }
+    /* the labels carry the concept copy now, so they stay — laid out as three
+       static captions under their own map */
+    .cyl-labels { position: static; grid-column: 1 / -1; height: auto;
+      margin-top: 4px; display: grid; gap: 16px;
+      grid-template-columns: repeat(3, 1fr); }
+    .cyl-label { position: static; inset: auto; opacity: 1 !important;
+      transform: none !important; }
+    /* the What-this-fixes stage lays out as a plain section */
+    .cine--what { height: auto; }
+    .what-copy, .what-note, .what-copy > * {
+      opacity: 1 !important; transform: none !important; }
+    .what-copy { pointer-events: auto; padding-bottom: 24px; }
+    /* no looping composite — the finished render on top says the same thing */
+    .stack-l { opacity: 1 !important; transform: none !important; }
+    .stack-burn, .stack-scan, .stack-beam { display: none; }
+    .ports { display: none; }
+    .what-note { padding-bottom: 0; }
+    .renders-field { position: static; }
+    .renders-field img { position: static; width: 46%; margin: 8px; display: inline-block; }
+    .block { opacity: 1; transform: none; transition: none; }
+    .cine-copy .hero-inner { padding: 66px 24px 40px; }
+    .cine-clip { margin: 0 auto; }
+    .cine-next { padding: 48px 24px 64px; }
+  }
+  /* the corner glows are gone — the hero is flat black, so the icon and the
+     clip supply all the colour */
+  .hero::before, .hero::after { content: none; }
+  .hero-inner {
+    position: relative; z-index: 1;
+    max-width: 900px; margin: 0 auto;
+    padding: 66px 24px 56px;
+    text-align: center;
+  }
+  /* the app icon is its own tile — no plate, no padding */
+  .hero-mark {
+    width: 72px; height: 72px; margin: 0 auto 22px;
+    display: block; border: 0; border-radius: 16px;
+    background: none; overflow: hidden;
+  }
+  .hero-mark img { width: 100%; height: 100%; object-fit: cover;
+    display: block; border-radius: inherit; }
+  .hero h1 {
+    font-size: clamp(30px, 5.2vw, 50px);
+    line-height: 1.08;
+    letter-spacing: -.03em;
+    margin: 0 0 18px;
+    font-weight: 700;
+  }
+  .grad {
+    background: linear-gradient(100deg, var(--accent), var(--accent-2));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .hero .lede {
+    color: var(--ink-2);
+    font-size: 17px;
+    max-width: 660px;
+    margin: 0 auto;
+  }
+  .pill {
+    display: inline-flex; align-items: center; gap: 7px;
+    font-size: 12px; color: var(--ink-2);
+    border: 1px solid var(--line);
+    background: var(--surface);
+    border-radius: 999px;
+    padding: 4px 11px;
+  }
+  .hero .pill.badge { margin-bottom: 18px; color: var(--accent-ink); border-color: var(--accent-line); background: var(--accent-soft); }
+  .hero .pill .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+  .metarow { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 26px; }
+  .hero-ctas { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 26px; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 7px;
+    text-decoration: none; font-size: 14px; font-weight: 600;
+    border-radius: 9px; padding: 10px 18px;
+    border: 1px solid transparent;
+  }
+  .btn-primary { background: var(--accent); color: #fff; }
+  .btn-primary:hover { filter: brightness(1.08); }
+  .btn-ghost { border-color: var(--line); color: var(--ink); }
+  .btn-ghost:hover { border-color: var(--accent-line); background: var(--accent-soft); }
+
+  /* ===================== shell ===================== */
+  /* Structured like the Impose Pro guide: no TOC rail, one centred column,
+     section links live in the top nav instead. */
+  /* the doc column is gone — every section is a full-bleed band, with the
+     readable measure applied per child instead */
+  .shell { max-width: none; margin: 0; padding: 0; }
+  /* Centre with flex, not auto margins: several children (.lede, .grid,
+     .tablewrap…) declare their own margins later in this sheet at equal
+     specificity and would win, pinning the band's content to the left. */
+  .block { padding: clamp(64px, 12vh, 130px) 24px;
+    display: flex; flex-direction: column; align-items: center; }
+  .block > * { width: 100%; max-width: 720px; }
+  /* set pieces spread wide while prose keeps its measure */
+  .block > .tablewrap, .block > .mat-deck, .block > .grid,
+  .block > .install, .block > .codeblock, .block > .duo-cols {
+    max-width: 1080px; }
+  #materials > .mat-deck { max-width: 1280px; }
+  .mat-deck { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+  #limits .grid.g2 { grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
+
+  /* alternating tone bands */
+  #install, #tour, #materials, #trouble {
+    background: var(--bg-2);
+    border-top: 1px solid var(--line-soft);
+    border-bottom: 1px solid var(--line-soft); }
+
+  /* statement-shaped bands */
+  #what > .lede { font-size: clamp(20px, 2.6vw, 26px); line-height: 1.55; text-align: center; }
+  #before, #verify { text-align: center; }
+  #before .path, #verify .codeblock { text-align: left; }
+  #before .path { font-size: 14px; padding: 10px 16px; }
+
+  /* the output band pairs the file table with the JSON patch */
+  .duo-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; align-items: start; }
+  /* grid items default to min-width:auto, so the code block's min-content
+     width blows past its track — this lets the column actually shrink */
+  .duo-cols > * { max-width: none; min-width: 0; }
+  .block .duo-cols > * { opacity: 0; transform: translateY(var(--rise)); transition: none; }
+  .block.in .duo-cols > * { opacity: 1; transform: none;
+    transition: opacity var(--dur) var(--ease), transform var(--dur) var(--ease); }
+  .block.in .duo-cols > :nth-child(1) { transition-delay: .30s; }
+  .block.in .duo-cols > :nth-child(2) { transition-delay: .42s; }
+  @media (max-width: 980px) { .duo-cols { grid-template-columns: 1fr; } }
+  .block h2 {
+    display: flex; align-items: baseline; gap: 12px;
+    font-size: 25px; letter-spacing: -.02em; font-weight: 680;
+    margin: 0 0 18px;
+  }
+  .h2num {
+    font-family: var(--mono);
+    font-size: 12px; font-weight: 600;
+    color: var(--accent-ink);
+    border: 1px solid var(--accent-line);
+    background: var(--accent-soft);
+    border-radius: 6px;
+    padding: 2px 7px;
+    flex: 0 0 auto;
+  }
+  .block h3 { font-size: 17px; margin: 28px 0 8px; letter-spacing: -.01em; }
+  .block h4 { font-size: 14px; margin: 0 0 12px; color: var(--ink-2); text-transform: uppercase; letter-spacing: .07em; }
+  .block p { margin: 0 0 22px; color: var(--ink-2); line-height: 1.8; }
+  .block p strong, .block li strong { color: var(--ink); }
+  .block ul, .block ol { color: var(--ink-2); padding-left: 22px; margin: 0 0 14px; }
+  .block li { margin-bottom: 6px; }
+  hr
+  .lede { font-size: 16.5px; color: var(--ink-2); }
+
+  /* ===================== components ===================== */
+  .path, .menupath {
+    display: inline-block;
+    font-family: var(--mono); font-size: 12.5px;
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    border-radius: 7px;
+    padding: 6px 10px;
+    color: var(--ink);
+    margin: 4px 0 12px;
+    word-break: break-all;
+  }
+  .menupath { border-style: dashed; }
+  .menupath b { color: var(--accent-ink); }
+
+  .install {
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--surface);
+    padding: 20px 22px 6px;
+    margin: 0 0 18px;
+  }
+  ol.steps { counter-reset: s; list-style: none; padding: 0; margin: 0; }
+  ol.steps > li {
+    counter-increment: s;
+    position: relative;
+    padding: 0 0 18px 40px;
+    margin: 0;
+  }
+  ol.steps > li::before {
+    content: counter(s);
+    position: absolute; left: 0; top: 0;
+    width: 26px; height: 26px;
+    display: grid; place-items: center;
+    font-family: var(--mono); font-size: 12px; font-weight: 600;
+    color: var(--accent-ink);
+    border: 1px solid var(--accent-line);
+    background: var(--accent-soft);
+    border-radius: 50%;
+  }
+  ol.steps > li b { display: block; color: var(--ink); margin-bottom: 3px; }
+  ol.steps > li p { margin: 0 0 6px; }
+
+  .note {
+    display: flex; gap: 12px;
+    border: 1px solid var(--accent-line);
+    background: var(--accent-soft);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    margin: 0 0 18px;
+  }
+  .note .ico {
+    flex: 0 0 20px; width: 20px; height: 20px;
+    display: grid; place-items: center;
+    border-radius: 50%;
+    background: var(--accent); color: #fff;
+    font-size: 12px; font-weight: 700; font-family: var(--mono);
+    margin-top: 2px;
+  }
+  .note p { margin: 0 0 8px; }
+  .note p:last-child { margin-bottom: 0; }
+  .note.ok { border-color: var(--ok-line); background: var(--ok-soft); }
+  .note.ok .ico { background: var(--ok); }
+  .note.warn { border-color: var(--warn-line); background: var(--warn-soft); }
+  .note.warn .ico { background: var(--warn); color: #1a1205; }
+  .note.bad { border-color: var(--bad-line); background: var(--bad-soft); }
+  .note.bad .ico { background: var(--bad); }
+
+  .grid { display: grid; gap: 14px; margin: 0 0 18px; }
+  .grid.g2 { grid-template-columns: repeat(2, 1fr); }
+  .grid.g3 { grid-template-columns: repeat(3, 1fr); }
+  @media (max-width: 720px) { .grid.g2, .grid.g3 { grid-template-columns: 1fr; } }
+  .card {
+    border: 1px solid var(--line);
+    background: var(--surface);
+    border-radius: var(--radius);
+    padding: 16px 18px;
+  }
+  .card .idx {
+    font-family: var(--mono); font-size: 11px;
+    color: var(--accent-ink); display: block; margin-bottom: 8px;
+  }
+  .card h4 { font-size: 15px; margin: 0 0 6px; color: var(--ink); text-transform: none; letter-spacing: 0; }
+  .card p { margin: 0; font-size: 14px; }
+
+  .tablewrap { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius); margin: 0 0 18px; }
+  .tablewrap table { border-collapse: collapse; width: 100%; font-size: 14px; min-width: 480px; }
+  .tablewrap th, .tablewrap td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--line-soft); vertical-align: top; }
+  .tablewrap th { background: var(--surface-2); color: var(--ink); font-weight: 620; font-size: 12.5px; text-transform: uppercase; letter-spacing: .05em; }
+  .tablewrap tr:last-child td { border-bottom: 0; }
+  .tablewrap td { color: var(--ink-2); }
+  .tablewrap td code { white-space: nowrap; }
+
+  .codeblock {
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--surface);
+    overflow: hidden;
+    margin: 0 0 18px;
+  }
+  .codeblock .bar {
+    display: flex; align-items: center; gap: 8px;
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--line-soft);
+    background: var(--surface-2);
+  }
+  .codeblock .dots { display: flex; gap: 5px; }
+  .codeblock .dots i { width: 9px; height: 9px; border-radius: 50%; background: var(--line); display: block; }
+  .codeblock .lbl { font-family: var(--mono); font-size: 11.5px; color: var(--ink-3); }
+  .copy {
+    margin-left: auto;
+    font-size: 11.5px; font-family: var(--sans);
+    color: var(--ink-2); background: transparent;
+    border: 1px solid var(--line); border-radius: 6px;
+    padding: 3px 9px; cursor: pointer;
+  }
+  .copy:hover { color: var(--ink); border-color: var(--accent-line); }
+  .codeblock pre { margin: 0; padding: 14px 16px; overflow-x: auto; }
+  .codeblock pre code {
+    background: none; border: 0; padding: 0;
+    font-size: 12.8px; line-height: 1.7; color: var(--ink);
+  }
+
+  .chip {
+    display: inline-block;
+    font-family: var(--mono); font-size: 11.5px;
+    border-radius: 5px; padding: 1px 7px;
+    border: 1px solid var(--line);
+    background: var(--surface-2);
+    color: var(--ink-2);
+  }
+
+  details {
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--surface);
+    padding: 0 16px;
+    margin: 0 0 10px;
+  }
+  details summary {
+    cursor: pointer; padding: 13px 0; font-weight: 600; color: var(--ink);
+    list-style: none;
+  }
+  details summary::-webkit-details-marker { display: none; }
+  details summary::before { content: "▸ "; color: var(--accent-ink); }
+  details[open] summary::before { content: "▾ "; }
+  details p { margin: 0 0 13px; }
+
+  footer {
+    border-top: 1px solid var(--line);
+    background: var(--bg-2);
+    }
+  footer .inner {
+    max-width: 860px; margin: 0 auto;
+    padding: 22px 24px;
+    display: flex; flex-wrap: wrap; align-items: center; gap: 12px;
+    font-size: 13px; color: var(--ink-3);
+  }
+  .sr-only {
+    position: absolute; width: 1px; height: 1px;
+    padding: 0; margin: -1px; overflow: hidden;
+    clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+  }
+  /* ---------- breathing room ----------
+     Long-form reading: looser leading, more space between blocks, and
+     roomier padding inside every card, table cell and callout. */
+  .block h2 { margin-bottom: 20px; line-height: 1.25; }
+  .block h3 { margin: 40px 0 12px; line-height: 1.35; }
+  .block > .lede { margin-bottom: 26px; }
+  .block > * + * { margin-top: 4px; }
+  .block > .grid, .block > .tablewrap, .block > .mat-deck,
+  .block > .install, .block > .codeblock, .block > .duo-cols { margin-top: 14px; }
+  .block > .note { margin-top: 18px; }
+
+  .card { padding: 22px 22px 20px; }
+  .card h4 { margin-bottom: 10px; line-height: 1.35; }
+  .card p { font-size: 14.5px; line-height: 1.7; }
+  .grid { gap: 16px; }
+
+  .tablewrap th, .tablewrap td { padding: 16px 18px; line-height: 1.7; }
+  .tablewrap table { font-size: 14.5px; }
+
+  .note { padding: 18px 20px; gap: 14px; }
+  .note p { line-height: 1.75; }
+  .note p + p { margin-top: 10px; }
+
+  .install { padding: 26px 26px 10px; }
+  ol.steps > li { padding: 0 0 26px 44px; }
+  ol.steps > li b { margin-bottom: 6px; line-height: 1.45; }
+  ol.steps > li p { line-height: 1.75; }
+
+  .mat-card { padding: 20px 20px 18px; }
+  .mat-card h4 { margin-bottom: 8px; }
+  .mat-card .use { font-size: 13.5px; line-height: 1.65; margin-bottom: 16px; }
+  .mat-chips { gap: 7px; }
+  .mat-chips span { padding: 5px 8px; }
+
+  .codeblock { margin-bottom: 22px; }
+  .codeblock pre { padding: 18px 20px; }
+  .codeblock pre code { line-height: 1.85; }
+
+  .menupath, .path { padding: 9px 13px; margin: 6px 0 16px; line-height: 1.6; }
+
+  .statement-sub { line-height: 1.7; }
+
+  /* ---------- cinematic headline scale ----------
+     Big type is the whole voice of this page; these sit at the end of the
+     sheet deliberately so they win over the earlier defaults. */
+  .hero h1 { font-size: clamp(38px, 7.4vw, 86px); line-height: 1.02;
+    letter-spacing: -.04em; margin-bottom: 24px; }
+  /* .block p sets line-height at (0,2,0); the statement must match it */
+  .statement, .block .statement { font-size: clamp(36px, 7vw, 82px); line-height: 1.04;
+    letter-spacing: -.04em; max-width: 18ch; margin-bottom: 0; }
+  .block .statement-sub { line-height: 1.7; }
+  .cine-next { font-size: clamp(36px, 7vw, 82px); line-height: 1.04; letter-spacing: -.04em; }
+  .cine-title { font-size: clamp(32px, 6vw, 68px); line-height: 1.06; letter-spacing: -.038em; }
+  .cine-title .sub { font-size: 16px; margin-top: 20px; }
+  .block h2 { font-size: clamp(30px, 4.4vw, 52px); line-height: 1.1;
+    letter-spacing: -.035em; margin-bottom: 24px; }
+  .block h3 { font-size: clamp(19px, 1.9vw, 24px); }
+  .h2num { vertical-align: .34em; }
+  .hero .lede, .hero-sub { font-size: clamp(16px, 1.5vw, 19px); line-height: 1.7; }
+  .statement-sub { font-size: 16px; margin-top: 22px; }
+
+</style>
+</head>
+<body>
+
+<!-- Decorative viewport furniture: curved scan arcs down each edge of the
+     display port, parallaxing against the scroll. Retires before §02 Install,
+     where the guide turns into reference and the chrome would be noise. -->
+<div class="ports" aria-hidden="true"><div class="ports-drift"><svg viewBox="0 0 1000 1000" preserveAspectRatio="none"><path d="M0 547.2C166.7 512.6 333.3 500 500 500C666.7 500 833.3 512.6 1000 547.2"/><path d="M0 452.8C166.7 487.4 333.3 500 500 500C666.7 500 833.3 487.4 1000 452.8"/><path d="M0 582.2C166.7 521.9 333.3 500 500 500C666.7 500 833.3 521.9 1000 582.2"/><path d="M0 417.8C166.7 478.1 333.3 500 500 500C666.7 500 833.3 478.1 1000 417.8"/><path d="M0 613.7C166.7 530.3 333.3 500 500 500C666.7 500 833.3 530.3 1000 613.7"/><path d="M0 386.3C166.7 469.7 333.3 500 500 500C666.7 500 833.3 469.7 1000 386.3"/><path d="M0 643.2C166.7 538.2 333.3 500 500 500C666.7 500 833.3 538.2 1000 643.2"/><path d="M0 356.8C166.7 461.8 333.3 500 500 500C666.7 500 833.3 461.8 1000 356.8"/><path d="M0 671.2C166.7 545.7 333.3 500 500 500C666.7 500 833.3 545.7 1000 671.2"/><path d="M0 328.8C166.7 454.3 333.3 500 500 500C666.7 500 833.3 454.3 1000 328.8"/><path d="M0 698.0C166.7 552.8 333.3 500 500 500C666.7 500 833.3 552.8 1000 698.0"/><path d="M0 302.0C166.7 447.2 333.3 500 500 500C666.7 500 833.3 447.2 1000 302.0"/><path d="M0 724.0C166.7 559.8 333.3 500 500 500C666.7 500 833.3 559.8 1000 724.0"/><path d="M0 276.0C166.7 440.2 333.3 500 500 500C666.7 500 833.3 440.2 1000 276.0"/><path d="M0 749.3C166.7 566.5 333.3 500 500 500C666.7 500 833.3 566.5 1000 749.3"/><path d="M0 250.7C166.7 433.5 333.3 500 500 500C666.7 500 833.3 433.5 1000 250.7"/><path d="M0 773.9C166.7 573.1 333.3 500 500 500C666.7 500 833.3 573.1 1000 773.9"/><path d="M0 226.1C166.7 426.9 333.3 500 500 500C666.7 500 833.3 426.9 1000 226.1"/><path d="M0 798.0C166.7 579.5 333.3 500 500 500C666.7 500 833.3 579.5 1000 798.0"/><path d="M0 202.0C166.7 420.5 333.3 500 500 500C666.7 500 833.3 420.5 1000 202.0"/><path d="M0 821.6C166.7 585.8 333.3 500 500 500C666.7 500 833.3 585.8 1000 821.6"/><path d="M0 178.4C166.7 414.2 333.3 500 500 500C666.7 500 833.3 414.2 1000 178.4"/><path d="M0 844.8C166.7 592.0 333.3 500 500 500C666.7 500 833.3 592.0 1000 844.8"/><path d="M0 155.2C166.7 408.0 333.3 500 500 500C666.7 500 833.3 408.0 1000 155.2"/><path d="M0 867.6C166.7 598.0 333.3 500 500 500C666.7 500 833.3 598.0 1000 867.6"/><path d="M0 132.4C166.7 402.0 333.3 500 500 500C666.7 500 833.3 402.0 1000 132.4"/><path d="M0 890.1C166.7 604.0 333.3 500 500 500C666.7 500 833.3 604.0 1000 890.1"/><path d="M0 109.9C166.7 396.0 333.3 500 500 500C666.7 500 833.3 396.0 1000 109.9"/><path d="M0 912.2C166.7 609.9 333.3 500 500 500C666.7 500 833.3 609.9 1000 912.2"/><path d="M0 87.8C166.7 390.1 333.3 500 500 500C666.7 500 833.3 390.1 1000 87.8"/><path d="M0 934.1C166.7 615.8 333.3 500 500 500C666.7 500 833.3 615.8 1000 934.1"/><path d="M0 65.9C166.7 384.2 333.3 500 500 500C666.7 500 833.3 384.2 1000 65.9"/><path d="M0 955.6C166.7 621.5 333.3 500 500 500C666.7 500 833.3 621.5 1000 955.6"/><path d="M0 44.4C166.7 378.5 333.3 500 500 500C666.7 500 833.3 378.5 1000 44.4"/><path d="M0 976.9C166.7 627.2 333.3 500 500 500C666.7 500 833.3 627.2 1000 976.9"/><path d="M0 23.1C166.7 372.8 333.3 500 500 500C666.7 500 833.3 372.8 1000 23.1"/><path d="M0 998.0C166.7 632.8 333.3 500 500 500C666.7 500 833.3 632.8 1000 998.0"/><path d="M0 2.0C166.7 367.2 333.3 500 500 500C666.7 500 833.3 367.2 1000 2.0"/><path d="M0 1018.9C166.7 638.4 333.3 500 500 500C666.7 500 833.3 638.4 1000 1018.9"/><path d="M0 -18.9C166.7 361.6 333.3 500 500 500C666.7 500 833.3 361.6 1000 -18.9"/><path d="M0 1039.5C166.7 643.9 333.3 500 500 500C666.7 500 833.3 643.9 1000 1039.5"/><path d="M0 -39.5C166.7 356.1 333.3 500 500 500C666.7 500 833.3 356.1 1000 -39.5"/><path d="M0 1060.0C166.7 649.4 333.3 500 500 500C666.7 500 833.3 649.4 1000 1060.0"/><path d="M0 -60.0C166.7 350.6 333.3 500 500 500C666.7 500 833.3 350.6 1000 -60.0"/></svg></div></div>
+
+<nav class="topbar">
+  <div class="mark"><svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 15c3-4 6-4 9 0s6 4 9 0"/><path d="M3 9c3-4 6-4 9 0s6 4 9 0"/></svg></div>
+  <span class="name">Mockup&nbsp;Mason</span>
+  <span class="sep">/</span>
+  <span class="where">Docs</span>
+  <a class="back" href="../index.html" target="_top">&larr; The Factory</a>
+  <div class="nav-links">
+    <a href="#what">What it does</a>
+    <a href="#install">Install</a>
+    <a href="#before">Before you bake</a>
+    <a href="#tour">The panel</a>
+    <a href="#run">Bake</a>
+    <a href="#output">What you get</a>
+    <a href="#materials">Materials</a>
+    <a href="#verify">Check it</a>
+    <a href="#trouble">Troubleshooting</a>
+    <a href="#limits">Limits</a>
+  </div>
+  <span class="readline" aria-hidden="true"></span></nav>
+
+<h1 class="sr-only">Mockup Mason — operator's guide covering installing the Photoshop panel, baking displacement, shadow and highlight maps from a product photo, and wiring them into a Mockup Forge item.</h1>
+
+<!-- ============================================================
+     CINEMATIC INTRO — a pinned stage the reader scrolls through.
+     The tall .cine wrapper provides the scroll distance; .cine-stick
+     pins a full viewport; a script writes progress into --p (0…1)
+     and the CSS phase variables (--a…--d) do all the interpolation.
+     Beats: copy exits up → clip rises and scales → clip fades to
+     black → the statement line enters. Reusable: add another
+     .cine section with its own layers for more beats later.
+     ============================================================ -->
+<section class="cine" aria-label="Intro">
+  <div class="cine-stick">
+
+    <header class="hero cine-copy">
+      <div class="hero-inner">
+        <div class="hero-mark"><img src="../assets/icons/mockup-mason.png" alt="Mockup Mason"></div>
+        <div class="pill badge"><span class="dot"></span> Photoshop panel · feeds Mockup Forge</div>
+        <h1>Real folds. Real light.<br><span class="grad">Straight off the photo.</span></h1>
+        <p class="lede">Mockup Forge ships shadow and highlight maps drawn as flat gradients — they know nothing about where the creases in your garment actually are. This panel reads the real product photograph and bakes the three maps the renderer wants, then wires them into that item's <code>item.json</code> for you.</p>
+        <div class="metarow">
+          <span class="pill">Photoshop 24+</span>
+          <span class="pill">Displacement · Shadow · Highlight</span>
+          <span class="pill">5 materials</span>
+          <span class="pill">Patches item.json</span>
+        </div>
+        <div class="hero-ctas">
+          <a class="btn btn-primary" href="#install">Install ↓</a>
+          <a class="btn btn-ghost" href="#tour">Tour the panel</a>
+        </div>
+      </div>
+    </header>
+
+    <video class="hero-clip cine-clip" width="832" height="464" autoplay muted loop playsinline
+           preload="metadata"
+           aria-label="The panel baking displacement, shadow and highlight maps from a product photo.">
+      <source src="../assets/vid/mockupmason.mp4" type="video/mp4">
+    </video>
+
+    <!-- the beat after the fade; copy is editable -->
+    <div class="cine-next" aria-hidden="true">
+      <p>Flat gradients lie.<br><span class="grad">The photograph doesn't.</span></p>
+    </div>
+
+  </div>
+</section>
+
+<div class="shell">
+  <main class="doc">
+
+    <!-- ============ CINE BEAT: the three maps ============ -->
+    <section class="cine cine--beat" aria-label="The three maps">
+      <div class="cine-stick">
+        <div class="cine-title cine-title--top">
+          <p>One photograph.<br><span class="grad">Three maps.</span></p>
+          <span class="sub">Baked from the shirt itself — not drawn by hand.</span>
+        </div>
+        <div class="cyl" aria-hidden="true">
+          <div class="cyl-stage">
+            <figure style="--a:0">
+              <img src="../assets/img/mason/map-displace.png" alt="" loading="lazy" decoding="async">
+            </figure>
+            <figure style="--a:1">
+              <img src="../assets/img/mason/map-shadow.png" alt="" loading="lazy" decoding="async">
+            </figure>
+            <figure style="--a:2">
+              <img src="../assets/img/mason/map-highlight.png" alt="" loading="lazy" decoding="async">
+            </figure>
+          </div>
+          <img class="cyl-source" src="../assets/img/mason/hub-base.png" alt="" loading="lazy" decoding="async">
+          <div class="cyl-labels">
+            <div class="cyl-label" data-a="0">
+              <b>displace</b>
+              <strong>Where the surface bends</strong>
+              <span>Pushes each pixel of your artwork along the slope of the fold it sits on,
+              so a logo sinks into a crease instead of floating over it.</span>
+            </div>
+            <div class="cyl-label" data-a="1">
+              <b>shadow</b>
+              <strong>Where the light falls off</strong>
+              <span>The real lighting across the product, multiplied onto your artwork —
+              plus the darkening in every fold valley.</span>
+            </div>
+            <div class="cyl-label" data-a="2">
+              <b>highlight</b>
+              <strong>Where it catches the light</strong>
+              <span>Screened on top, black everywhere except the genuine speculars.
+              Matters most on gloss: screens, bottles, vehicle paint.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 01 -->
+    <!-- ============ CINE STAGE: What this fixes ============
+         Three beats on --p: copy in → copy out → the note arrives alone.
+         The concept copy that used to sit in cards now rides the map
+         cylinder in the beat above. -->
+    <section class="cine cine--what" id="what">
+      <div class="cine-stick">
+
+        <div class="what-copy">
+          <h2><span class="h2num">01</span>What this fixes</h2>
+          <p class="lede" style="--i:0">Mockup Forge takes your artwork and warps it onto a product photo. How
+          convincing that looks depends almost entirely on three greyscale images sitting next to
+          the photo in the catalog.</p>
+          <p style="--i:1">Two of those three are currently <strong>fake</strong>. The catalog generates its
+          shadow and highlight maps as SVG gradients — a four-stop linear ramp across the surface,
+          and one blurred diagonal streak. They contain no information from the photograph at all.
+          So your artwork gets the same generic shading whether the shirt underneath is smooth or
+          deeply creased, and the highlight lands wherever a constant said it should rather than
+          where the light actually hits.</p>
+          <p style="--i:2">Photoshop already has the real photo open. This panel reads it and derives the maps
+          from what is genuinely there.</p>
+        </div>
+
+
+        <div class="what-note">
+          <!-- The compositing stack: the photograph, then the maps laid over it
+               one at a time, then the finished render arriving as a glowing
+               plate that burns off to reveal the shirt. Decorative — the note
+               below it carries the actual claim. -->
+          <div class="stack" aria-hidden="true">
+            <div class="stack-rig">
+              <img class="stack-l l0" src="../assets/img/mason/hub-base.png" alt="" loading="lazy" decoding="async">
+              <img class="stack-l l1" src="../assets/img/mason/map-shadow.png" alt="" loading="lazy" decoding="async">
+              <img class="stack-l l2" src="../assets/img/mason/map-highlight.png" alt="" loading="lazy" decoding="async">
+              <div class="stack-l l3">
+                <img src="../assets/img/tshirtmarina.png" alt="" loading="lazy" decoding="async">
+              </div>
+              <i class="stack-scan"></i>
+              <i class="stack-burn"></i>
+              <i class="stack-beam"></i>
+            </div>
+          </div>
+          <div class="note"><span class="ico">i</span>
+            <p><strong>Not a normal map.</strong> Mockup Forge has no normal-map or ambient-occlusion
+            code path — nothing in its renderer reads either one. The three maps above are the
+            complete set it understands per surface, alongside the alpha mask that the authoring
+            tool already generates from the warp geometry.</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+
+<section class="block interlude" aria-hidden="true">
+  <p class="statement">Two minutes to install.<br><span class="grad">Then it's one button.</span></p>
+</section>
+
+    <!-- 02 -->
+    <section class="block" id="install">
+      <h2><span class="h2num">02</span>Install</h2>
+
+      <p>This is a Photoshop UXP panel, not a Figma plugin, so it does not come from the Figma
+      Community. It loads from the repo through Adobe's developer tool.</p>
+
+      <div class="install">
+        <h4>Once per machine</h4>
+        <ol class="steps">
+          <li>
+            <b>Install the UXP Developer Tool.</b>
+            <p>Open the <em>Creative Cloud desktop app</em>, search the app list for
+            <em>UXP Developer Tool</em>, and install it. It is free.</p>
+          </li>
+          <li>
+            <b>Turn on developer mode in Photoshop.</b>
+            <p>Photoshop → <span class="menupath"><b>Settings</b> → <b>Plugins</b> → <b>Enable Developer Mode</b></span>
+            then restart Photoshop. Without this the tool connects but the panel never loads.</p>
+          </li>
+          <li>
+            <b>Build the panel.</b>
+            <p>The panel runs a generated bundle, so this has to happen before the first load
+            and after every code change.</p>
+            <div class="codeblock">
+              <div class="bar"><span class="dots"><i></i><i></i><i></i></span><span class="lbl">terminal</span><button class="copy" type="button">Copy</button></div>
+              <pre><code>cd ~/Documents/GitHub/k4design.github.io/displacementmap
+node tools/build.mjs</code></pre>
+            </div>
+            <p>It prints a <strong>build id</strong> such as <code>build 1be3978d</code>. Keep
+            that — the panel shows the id it is actually running, which is how you tell whether
+            Photoshop picked up your changes.</p>
+          </li>
+          <li>
+            <b>Add the plugin in the UXP Developer Tool.</b>
+            <p><em>Add Plugin</em>, then pick <code>manifest.json</code> in that same folder.
+            Click <em>Load</em>.</p>
+          </li>
+          <li>
+            <b>Open the panel.</b>
+            <p><span class="menupath"><b>Plugins</b> → <b>Displacement Maps</b></span> in
+            Photoshop. The top of the panel should read
+            <code>Ready — choose a Mockup Forge item folder (build …)</code>.</p>
+          </li>
+        </ol>
+      </div>
+
+      <div class="note warn"><span class="ico">!</span>
+        <p><strong>After any change, unload and load again — not Reload.</strong> Reload picks up
+        JavaScript, but changes to <code>index.html</code> or <code>manifest.json</code> (panel
+        size, for instance) are only re-read on a full load.</p>
+      </div>
+    </section>
+
+    <!-- 03 -->
+    <section class="block" id="before">
+      <h2><span class="h2num">03</span>Before you bake</h2>
+
+      <p>Two things have to be true, and both are easy to get wrong in a way that produces
+      plausible-looking but wrong maps.</p>
+
+      <h3>Open the item's own <code>base.png</code></h3>
+      <p>Not the source photo, not a retouched copy — the <code>base.png</code> inside the item
+      folder. It is already at exactly the item's canvas size, and it carries no artwork, which
+      satisfies the second rule for free.</p>
+      <div class="path">mockupplugin/assets/items/tshirt-marina-01/base.png</div>
+
+      <h3>The mockup must be blank</h3>
+      <p>The panel separates geometry from lighting by subtracting a heavily blurred copy of the
+      image. That removes broad lighting falloff — measured at a 22× reduction on a full-width
+      gradient — but it is a <em>low</em>-frequency subtraction. A printed logo already in the
+      photo is sharper than the cutoff, so it survives and gets baked in as geometry that does
+      not exist.</p>
+
+      <div class="note bad"><span class="ico">×</span>
+        <p><strong>No radius setting fixes this.</strong> Logos and fabric folds occupy
+        overlapping spatial scales, so any radius aggressive enough to erase a print also erases
+        the folds you are trying to capture. If you only have a printed photo, mask the print out
+        and content-aware fill it before baking.</p>
+      </div>
+    </section>
+
+    <!-- 04 -->
+    <section class="block" id="tour">
+      <h2><span class="h2num">04</span>Tour of the panel</h2>
+
+      <p>Four numbered steps top to bottom, a status line above them, and everything else folded
+      away. The status line is the one to watch — it is where every error, every progress
+      message and the build id appear.</p>
+
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>Control</th><th>What it is</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Status line</strong></td><td>Top of the panel, tinted green on success and red on failure. Height-capped, so a long message scrolls inside itself rather than pushing the controls off-screen.</td></tr>
+            <tr><td><strong>Document line</strong></td><td>Which Photoshop document will be baked, and its pixel size. Cross-check this against the canvas size reported in step&nbsp;2.</td></tr>
+            <tr><td><strong>1 — Material</strong></td><td>What the surface is made of. Sets every parameter at once. See <a href="#materials">Materials</a>.</td></tr>
+            <tr><td><strong>2 — Mockup Forge item</strong></td><td>The item directory. Reads its <code>item.json</code> and reports the item name, canvas size and surface count.</td></tr>
+            <tr><td><strong>3 — Surface</strong></td><td>Which printable area on that item these maps describe. Populated from the file itself.</td></tr>
+            <tr><td><strong>4 — Bake</strong></td><td><em>Generate Maps</em>. Writes three PNGs and patches <code>item.json</code>.</td></tr>
+            <tr><td><strong>Advanced parameters</strong></td><td>Collapsed. Only needed when a result looks wrong; <em>Reset to preset defaults</em> undoes any fiddling.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="note"><span class="ico">i</span>
+        <p><strong>Why "Surface" appears twice in spirit.</strong> Step&nbsp;1 is the
+        <em>material</em> — cloth, paper, paint. Step&nbsp;3 is the <em>surface</em> — which
+        region of this particular product. A van has one material and four surfaces.</p>
+      </div>
+    </section>
+
+    <!-- 05 -->
+    <section class="block" id="run">
+      <h2><span class="h2num">05</span>Bake a surface</h2>
+
+      <div class="install">
+        <h4>Every time</h4>
+        <ol class="steps">
+          <li>
+            <b>Open the item's <code>base.png</code>.</b>
+            <p>The document line at the top of the panel should show its name and size.</p>
+          </li>
+          <li>
+            <b>Pick the material.</b>
+            <p>Fabric, paper, device screen, signage or vehicle wrap. The line underneath
+            describes what that choice keeps and discards.</p>
+          </li>
+          <li>
+            <b>Choose the item directory.</b>
+            <p><em>Choose…</em> then select one item folder — the one containing
+            <code>item.json</code> and <code>base.png</code>. Not the <code>items</code> folder
+            above it, and not a general output folder. Photoshop asks for file access the first
+            time; the choice is remembered afterwards.</p>
+            <div class="path">mockupplugin/assets/items/van-sprinter-01</div>
+            <p>The status line should turn green: <code>Loaded Sprinter Van. Pick a surface,
+            then Generate.</code></p>
+          </li>
+          <li>
+            <b>Pick the surface.</b>
+            <p>The dropdown now lists the surfaces this item actually defines. The van has four
+            — <code>side</code>, <code>grill</code>, <code>hood</code>, <code>front</code>.
+            Your choice sets the output filenames.</p>
+          </li>
+          <li>
+            <b>Generate Maps.</b>
+            <p>A few seconds. The status line reports each stage, then lists what it wrote.</p>
+          </li>
+        </ol>
+      </div>
+
+      <div class="note warn"><span class="ico">!</span>
+        <p><strong>One bake per surface.</strong> Multi-surface items need the whole loop
+        repeated for each one — four passes for the van. Each pass writes its own three PNGs and
+        patches only that surface's entry in <code>item.json</code>.</p>
+      </div>
+    </section>
+
+    <!-- ============ CINE BEAT: the finished renders ============ -->
+    <section class="cine cine--beat" aria-label="Finished renders">
+      <div class="cine-stick">
+        <div class="renders-field" aria-hidden="true">
+          <img src="../assets/img/mason/render-mug-ceramic-front-01.png"      alt="" loading="lazy" decoding="async" style="--s:.5;  left:4%;  top:8%">
+          <img src="../assets/img/mason/render-billboard-street-01.png"       alt="" loading="lazy" decoding="async" style="--s:.9;  right:3%; top:5%">
+          <img src="../assets/img/mason/render-laptop-open-01.png"            alt="" loading="lazy" decoding="async" style="--s:.7;  left:12%; bottom:6%">
+          <img src="../assets/img/mason/render-poster-wall-01.png"            alt="" loading="lazy" decoding="async" style="--s:1.1; right:14%; bottom:4%">
+          <img src="../assets/img/mason/render-phone-angled-01.png"           alt="" loading="lazy" decoding="async" style="--s:.35; left:33%; top:4%">
+          <img src="../assets/img/mason/render-business-card-flatlay-01.png"  alt="" loading="lazy" decoding="async" style="--s:.8;  right:34%; bottom:12%">
+        </div>
+        <div class="cine-title">
+          <p>Mug, tee, billboard, screen.<br><span class="grad">Same maps. Same minute.</span></p>
+          <span class="sub">Every render below came off these bakes untouched.</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 06 -->
+    <section class="block" id="output">
+      <h2><span class="h2num">06</span>What you get</h2>
+
+      <p>Everything lands in the item folder you chose. For surface <code>chest</code> on a
+      1456&times;816 item:</p>
+
+      <div class="duo-cols">
+        <div><div class="tablewrap">
+        <table>
+          <thead><tr><th>File</th><th>Size</th><th>Content</th></tr></thead>
+          <tbody>
+            <tr><td><code>displace-chest.png</code></td><td><span class="chip">728×408</span></td><td>RG vector field. 128 is neutral on both axes; red drives X, green drives Y.</td></tr>
+            <tr><td><code>shadow-chest.png</code></td><td><span class="chip">1456×816</span></td><td>Multiply map. <strong>White is neutral</strong>, dark is shaded.</td></tr>
+            <tr><td><code>highlight-chest.png</code></td><td><span class="chip">1456×816</span></td><td>Screen map. <strong>Black is neutral</strong>, white is blown out.</td></tr>
+            <tr><td><code>item.json</code></td><td>—</td><td>Patched in place to point at the three files above.</td></tr>
+            <tr><td><code>item.json.bak</code></td><td>—</td><td>Your original, byte for byte.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>The two polarities are opposites and easy to confuse when you open them: a correct
+      shadow map is mostly white, a correct highlight map is mostly black.</p>
+
+      <div class="note"><span class="ico">i</span>
+        <p><strong>The sizes are load-bearing.</strong> The renderer indexes shadow and highlight
+        by canvas coordinate, so they must match the item's canvas exactly — a map one pixel out
+        reads past the row stride and skews. Displacement is sampled in normalized space, so it
+        is written at half canvas to match the rest of the catalog. The panel enforces both.</p>
+      </div></div>
+        <div><h3>How <code>item.json</code> changes</h3>
+      <p>The surface's existing warp is promoted to a displacement warp that <em>wraps</em> it.
+      Nothing is re-derived — your authored corners or mesh points are nested verbatim as the new
+      <code>geometry</code>, and every other key in the file is untouched.</p>
+
+      <div class="codeblock">
+        <div class="bar"><span class="dots"><i></i><i></i><i></i></span><span class="lbl">item.json — the patched surface</span><button class="copy" type="button">Copy</button></div>
+        <pre><code>"warp": {
+  "kind": "displacement",
+  "geometry": { "kind": "homography", "corners": { … } },   ← your original warp, verbatim
+  "map": "displace-chest.png",
+  "scale": 12,
+  "vector": true
+},
+"lighting": {
+  "multiply": "shadow-chest.png",   "multiplyOpacity": 1,
+  "screen":   "highlight-chest.png", "screenOpacity": 1
+}</code></pre>
+      </div></div>
+      </div>
+
+      <p>Strength is baked into the pixels rather than the opacities, so the opacities stay at 1
+      and what you see rendered matches what the panel produced. Re-baking the same surface is
+      idempotent — the geometry does not nest inside itself a second time.</p>
+
+      <div class="note warn"><span class="ico">!</span>
+        <p><strong>Masks are deliberately not generated.</strong> The Mockup Forge authoring tool
+        derives the alpha mask from the warp geometry specifically so the two cannot disagree. A
+        mask guessed from luminance would reintroduce exactly that disagreement and let artwork
+        bleed off the surface.</p>
+      </div>
+    </section>
+
+
+<section class="block interlude" aria-hidden="true">
+  <p class="statement">Five materials.<br><span class="grad">One dropdown.</span></p>
+  <p class="statement-sub">Every parameter is set at once — fabric behaves like fabric, glass like glass.</p>
+</section>
+
+    <!-- 07 -->
+    <section class="block" id="materials">
+      <h2><span class="h2num">07</span>Materials</h2>
+
+      <p>The material sets nine parameters at once. The one that matters most is
+      <strong>high pass</strong>, which decides what counts as shape and what counts as lighting.
+      Its 50% cutoff sits at a wavelength of roughly <strong>six times the radius</strong>,
+      measured at the 2048px reference edge.</p>
+
+      <ul class="mat-deck" aria-label="Material presets: high pass, displacement scale, ambient occlusion, highlight">
+        <li class="mat-card"><span class="ring" aria-hidden="true"></span>
+          <h4>Fabric / apparel</h4>
+          <p class="use">Tees, hoodies, totes. Keeps weave, creases and folds.</p>
+          <div class="mat-chips">
+            <span title="High pass">HIGH&nbsp;PASS <b class="n" data-n="128">128</b></span>
+            <span title="Displacement scale">DISP <b class="n" data-n="12">12</b></span>
+            <span title="AO radius / strength">AO <b class="n" data-n="24">24</b>/1.2</span>
+            <span title="Highlight strength @ threshold">HL <b>.35</b>@.93</span>
+          </div>
+        </li>
+        <li class="mat-card"><span class="ring" aria-hidden="true"></span>
+          <h4>Paper / print</h4>
+          <p class="use">Cards, posters, packaging. Keeps gentle bends in the sheet.</p>
+          <div class="mat-chips">
+            <span title="High pass">HIGH&nbsp;PASS <b class="n" data-n="192">192</b></span>
+            <span title="Displacement scale">DISP <b class="n" data-n="6">6</b></span>
+            <span title="AO radius / strength">AO <b class="n" data-n="16">16</b>/0.8</span>
+            <span title="Highlight strength @ threshold">HL <b>.30</b>@.94</span>
+          </div>
+        </li>
+        <li class="mat-card"><span class="ring" aria-hidden="true"></span>
+          <h4>Device screen</h4>
+          <p class="use">Phones, laptops. The shading <em>is</em> the curvature, so nothing is subtracted.</p>
+          <div class="mat-chips">
+            <span title="High pass">HIGH&nbsp;PASS <b class="n" data-n="0">0</b></span>
+            <span title="Displacement scale">DISP <b class="n" data-n="3">3</b></span>
+            <span title="Ambient occlusion off">AO <b>OFF</b></span>
+            <span title="Highlight strength @ threshold">HL <b>.55</b>@.88</span>
+          </div>
+        </li>
+        <li class="mat-card"><span class="ring" aria-hidden="true"></span>
+          <h4>Signage / wall</h4>
+          <p class="use">Brick, concrete, billboards. All texture, no broad shape.</p>
+          <div class="mat-chips">
+            <span title="High pass">HIGH&nbsp;PASS <b class="n" data-n="64">64</b></span>
+            <span title="Displacement scale">DISP <b class="n" data-n="8">8</b></span>
+            <span title="AO radius / strength">AO <b class="n" data-n="12">12</b>/1.5</span>
+            <span title="Highlight strength @ threshold">HL <b>.25</b>@.95</span>
+          </div>
+        </li>
+        <li class="mat-card"><span class="ring" aria-hidden="true"></span>
+          <h4>Vehicle wrap</h4>
+          <p class="use">Vans, cars, trucks. Panel curvature and door seams.</p>
+          <div class="mat-chips">
+            <span title="High pass">HIGH&nbsp;PASS <b class="n" data-n="192">192</b></span>
+            <span title="Displacement scale">DISP <b class="n" data-n="5">5</b></span>
+            <span title="AO radius / strength">AO <b class="n" data-n="20">20</b>/1.0</span>
+            <span title="Highlight strength @ threshold">HL <b>.60</b>@.90</span>
+          </div>
+        </li>
+      </ul>
+
+      <h3>Two that look wrong but aren't</h3>
+      <p><strong>Vehicle has the smallest displacement scale</strong> despite being the largest
+      object. Panel gaps are near-vertical steps, and a large scale tears graphics apart at every
+      door seam instead of bending them over it.</p>
+      <p><strong>Vehicle has the largest high pass, tied with paper.</strong> The broad curve of a
+      body panel is real shape that artwork has to follow, so it must survive; only the overall
+      lighting gets dropped. Anything lower flattens the panel and the wrap reads as a flat
+      decal.</p>
+
+      <div class="note"><span class="ico">i</span>
+        <p><strong>These are reasoned, not measured.</strong> They come from how each surface
+        behaves, not from fitting against renders. Expect to tune them against a real render and
+        fold the result back into <code>src/presets.js</code>.</p>
+      </div>
+
+      <h3>Advanced parameters</h3>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>Field</th><th>What it does</th></tr></thead>
+          <tbody>
+            <tr><td>High pass</td><td>Removes broad lighting so shading isn't baked in as fake bulges. Below ~64 it erases fabric folds too. 0 turns it off.</td></tr>
+            <tr><td>Smooth</td><td>Softens the height field so displaced artwork doesn't get jagged edges.</td></tr>
+            <tr><td>AO radius / strength</td><td>Size and depth of the crevices that get shaded. Radius 0 skips occlusion entirely.</td></tr>
+            <tr><td>Displacement scale</td><td>Becomes <code>warp.scale</code> in <code>item.json</code>, in canvas pixels. Raise it if the effect is too subtle — no need to re-bake the PNGs for this alone.</td></tr>
+            <tr><td>Shadow strength / gamma</td><td>How much the real lighting darkens artwork, and how contrasty that shading is. Gamma above 1 reads as more three-dimensional.</td></tr>
+            <tr><td>Highlight strength / threshold</td><td>How bright the speculars blow out, and the brightness percentile that counts as one. Raise the threshold if too much of the surface glows.</td></tr>
+            <tr><td>Flip Y</td><td>Reverses the vertical displacement direction. See the sign check below.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>Radii are written at a 2048px reference and scaled to whatever the actual image is, so a
+      material behaves the same on any item size.</p>
+    </section>
+
+    <!-- 08 -->
+    <section class="block" id="verify">
+      <h2><span class="h2num">08</span>Check the result</h2>
+
+      <p>The panel cannot tell you whether the maps look <em>good</em> — only whether they were
+      written. Render the item to find out.</p>
+
+      <div class="codeblock">
+        <div class="bar"><span class="dots"><i></i><i></i><i></i></span><span class="lbl">terminal</span><button class="copy" type="button">Copy</button></div>
+        <pre><code>cd ~/Documents/GitHub/k4design.github.io/mockupplugin
+npx tsx tools/render-sample.ts
+npm test --workspace @mf/api</code></pre>
+      </div>
+
+      <p><code>render-sample.ts</code> composites a procedural grid test card onto every catalog
+      item and drops the results in <code>assets/samples/</code>. A grid is the right test image
+      because any warping shows up immediately as bent lines.</p>
+
+      <div class="note warn"><span class="ico">!</span>
+        <p><strong>Check the displacement direction before anything else.</strong> Which sign is
+        correct cannot be worked out on paper — it is whichever makes artwork <em>sink into</em>
+        folds rather than climb out of them. Look at the sample. If it is inverted, toggle
+        <em>Flip Y</em> in the panel and bake again.</p>
+      </div>
+
+      <p>The golden-image tests will now fail for any item you baked, because the rendered pixels
+      genuinely changed — that is the entire point of the change, not a regression. Inspect the
+      <code>.diff.png</code>, confirm the shading follows the real folds, then re-baseline:</p>
+
+      <div class="codeblock">
+        <div class="bar"><span class="dots"><i></i><i></i><i></i></span><span class="lbl">terminal</span><button class="copy" type="button">Copy</button></div>
+        <pre><code>MF_UPDATE_GOLDEN=1 npm test --workspace @mf/api</code></pre>
+      </div>
+
+      <div class="note bad"><span class="ico">×</span>
+        <p><strong>Do not re-baseline before you have looked at the diff.</strong> The goldens are
+        the only regression contract the render service has. Re-baselining an accidental
+        regression bakes it in permanently and silently.</p>
+      </div>
+    </section>
+
+
+<section class="block interlude" aria-hidden="true">
+  <p class="statement">When it looks wrong,<br><span class="grad">it's one of ten things.</span></p>
+  <p class="statement-sub">Every one of them is in the table below.</p>
+</section>
+
+    <!-- 09 -->
+    <section class="block" id="trouble">
+      <h2><span class="h2num">09</span>When something goes wrong</h2>
+
+      <p>Start at the top of the panel. Almost everything reports itself there.</p>
+
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>Symptom</th><th>Cause and fix</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>Status line is completely blank</td>
+              <td>The script never ran — the panel is rendered HTML and nothing else. Run
+              <code>node tools/build.mjs</code>, then unload and load in the developer tool. If
+              it is still blank, the <em>APP LOGS</em> tab there has the reason.</td>
+            </tr>
+            <tr>
+              <td>Build id doesn't match the one the build printed</td>
+              <td>Photoshop is running stale code. Unload and load rather than Reload. If it
+              persists, quit Photoshop entirely — it can hold an old manifest.</td>
+            </tr>
+            <tr>
+              <td>“No item.json in that folder”</td>
+              <td>You picked the wrong folder — most often the <code>items</code> directory
+              itself, or an output folder left over from an earlier version. Pick one item
+              directory.</td>
+            </tr>
+            <tr>
+              <td>Surface dropdown says “— no item loaded —”</td>
+              <td>Same cause: no valid item is loaded, so there are no surfaces to list. Fix
+              step&nbsp;2 and this fills in by itself.</td>
+            </tr>
+            <tr>
+              <td>“a different shape, not just a different size”</td>
+              <td>The open document's aspect ratio doesn't match the item's canvas, so it is
+              refused rather than squashed. You almost certainly have the wrong file open — use
+              the item's own <code>base.png</code>.</td>
+            </tr>
+            <tr>
+              <td>Artwork climbs out of the folds instead of sinking in</td>
+              <td>Displacement sign is inverted. Toggle <em>Flip Y</em> and re-bake.</td>
+            </tr>
+            <tr>
+              <td>A logo from the photo is embossed into the result</td>
+              <td>The source wasn't blank. No setting fixes this — mask and fill the print first.
+              See <a href="#before">Before you bake</a>.</td>
+            </tr>
+            <tr>
+              <td>Shading looks flat and generic after rendering</td>
+              <td><code>item.json</code> is probably still pointing at the old synthetic maps.
+              Confirm the surface's <code>lighting</code> block names your
+              <code>shadow-</code> and <code>highlight-</code> files.</td>
+            </tr>
+            <tr>
+              <td>Result is too subtle in the render</td>
+              <td>Raise <em>Displacement scale</em> and re-bake. It only writes a number into
+              <code>item.json</code>, so this is cheap to iterate on.</td>
+            </tr>
+            <tr>
+              <td>Want the original back</td>
+              <td>Rename <code>item.json.bak</code> over <code>item.json</code>. The PNGs are
+              additive and harmless to leave behind.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 10 -->
+    <section class="block" id="limits">
+      <h2><span class="h2num">10</span>Known limits</h2>
+
+      <div class="grid g2">
+        <div class="card">
+          <span class="idx">01</span>
+          <h4>Blank mockups only</h4>
+          <p>Printed artwork in the source photo becomes fake geometry, and no parameter can
+          separate a logo from a fold — they live at the same spatial scale.</p>
+        </div>
+        <div class="card">
+          <span class="idx">02</span>
+          <h4>The maps are not durable</h4>
+          <p>Mockup Forge gitignores <code>assets/items/*/*.png</code> and its Docker build
+          re-runs the seed, so baked maps are untracked and a clean image build will not contain
+          them.</p>
+        </div>
+        <div class="card">
+          <span class="idx">03</span>
+          <h4>One surface at a time</h4>
+          <p>No batch mode. A four-panel van is four passes.</p>
+        </div>
+        <div class="card">
+          <span class="idx">04</span>
+          <h4>Presets are unvalidated</h4>
+          <p>Reasoned from how each material behaves, not fitted against renders. Treat them as
+          starting points.</p>
+        </div>
+      </div>
+
+      <div class="note warn"><span class="ico">!</span>
+        <p><strong>On durability.</strong> This predates the baker — the photographic items are
+        already in the same position, since the authoring scripts are never run by the Docker
+        build either. But it does mean re-running the seed, or building a fresh image, discards
+        this work. Commit the PNGs or extend the build before relying on them.</p>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- the closing beat — the journey's last line before the footer -->
+<section class="block outro" aria-hidden="true">
+  <p class="statement">Bake once.<br><span class="grad">Render forever.</span></p>
+</section>
+
+<footer>
+  <div class="inner">
+    <span>Mockup Mason — Photoshop panel</span>
+    <span class="pill">Internal</span>
+    <span style="margin-left:auto">Your photo is never modified. The panel writes new PNGs and keeps item.json.bak.</span>
+  </div>
+</footer>
+
+<script>
+(function () {
+  "use strict";
+  var links = [].slice.call(document.querySelectorAll('.nav-links a'));
+  var sections = links
+    .map(function (a) { return document.querySelector(a.getAttribute('href')); })
+    .filter(Boolean);
+  if (sections.length) {
+    var onScroll = function () {
+      var y = window.scrollY + 120, current = 0;
+      for (var i = 0; i < sections.length; i++) {
+        if (sections[i].offsetTop <= y) current = i;
+      }
+      links.forEach(function (a, i) { a.classList.toggle('active', i === current); });
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }
+
+  // Copy buttons on code blocks.
+  [].slice.call(document.querySelectorAll('.codeblock .copy')).forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var code = btn.closest('.codeblock').querySelector('code');
+      if (!code) return;
+      var done = function () {
+        btn.textContent = 'Copied';
+        setTimeout(function () { btn.textContent = 'Copy'; }, 1400);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(code.dataset.src || code.innerText).then(done, function () {});
+      } else {
+        var r = document.createRange();
+        r.selectNodeContents(code);
+        var s = window.getSelection();
+        s.removeAllRanges(); s.addRange(r);
+        try { document.execCommand('copy'); done(); } catch (e) {}
+        s.removeAllRanges();
+      }
+    });
+  });
+})();
+</script>
+<script>
+  /* Hold frame one for anyone who asks for reduced motion. */
+  (function () {
+    var v = document.querySelector('.hero-clip');
+    if (!v || !matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    v.removeAttribute('loop');
+    v.addEventListener('loadeddata', function () { v.pause(); }, { once: true });
+  })();
+</script>
+<script>
+  /* Scroll progress through the intro stage → --p on .cine.
+     Same shape as assets/cta.js: passive listener, one rAF-coalesced
+     paint per frame, painted synchronously in hidden tabs so the
+     stage isn't stale when the tab comes forward. */
+  (function () {
+    var stages = [].slice.call(document.querySelectorAll('.cine'));
+    if (!stages.length || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var queued = false;
+
+    var ports = document.querySelector('.ports');
+    var install = document.getElementById('install');
+
+    function paint() {
+      queued = false;
+      var el = document.scrollingElement || document.documentElement;
+      var top = el.scrollTop;
+      var span0 = el.scrollHeight - window.innerHeight;
+      document.documentElement.style.setProperty('--read',
+        span0 > 0 ? Math.min(1, Math.max(0, top / span0)).toFixed(4) : '0');
+      /* the edge arcs drift against the scroll, and retire before §02 so the
+         reference half of the guide is plain */
+      if (ports) {
+        document.documentElement.style.setProperty('--sy', top.toFixed(1));
+        var stop = install ? install.offsetTop : 0;
+        var fade = stop ? (stop - (top + window.innerHeight)) / (window.innerHeight * .6) : 1;
+        ports.style.setProperty('--ports-o', Math.min(1, Math.max(0, fade)).toFixed(3));
+      }
+      stages.forEach(function (stage) {
+        var span = stage.offsetHeight - window.innerHeight;
+        var p = span > 0 ? (top - stage.offsetTop) / span : 1;
+        p = Math.min(1, Math.max(0, p));
+        stage.style.setProperty('--p', p.toFixed(4));
+        /* --pre runs 0 → 1 as the stage rises from the bottom of the viewport
+           to the top, i.e. over the scroll *before* --p starts. Content that
+           should already be on screen when the stage pins rides this instead,
+           which is what keeps the handover between stages from going blank. */
+        var vh = window.innerHeight;
+        var pre = (top + vh - stage.offsetTop) / vh;
+        pre = Math.min(1, Math.max(0, pre));
+        stage.style.setProperty('--pre', pre.toFixed(4));
+        spinCylinder(stage, p);
+      });
+    }
+    function onScroll() {
+      if (queued) return;
+      if (document.hidden) { paint(); return; }
+      queued = true;
+      requestAnimationFrame(paint);
+    }
+    addEventListener('scroll', onScroll, { passive: true });
+    addEventListener('resize', onScroll);
+    paint();
+
+    /* Debug/tuning hook: #p=<stage>:<progress> jumps straight to that
+       point in a stage, e.g. #p=1:0.55 for beat one at 55%. */
+    /* Tuning hook: #p=<stage>:<progress> pins that stage over the viewport
+       with --p forced, so any point in any beat can be screenshotted or
+       eyeballed without scrolling (headless refuses programmatic scroll). */
+    var dbg = location.hash.match(/^#p=(\d+):([\d.]+)$/);
+    if (dbg && stages[+dbg[1]]) {
+      var st = stages[+dbg[1]];
+      var stick = st.querySelector('.cine-stick');
+      if (stick) { stick.style.position = 'fixed'; stick.style.inset = '0';
+                   stick.style.height = '100vh'; stick.style.zIndex = '999'; }
+      st.style.setProperty('--p', dbg[2]);
+      st.style.setProperty('--pre', '1');
+      spinCylinder(st, +dbg[2]);          /* the cylinder rides --p too */
+      /* stop the scroll painter from overwriting the forced value */
+      stages = stages.filter(function (x) { return x !== st; });
+    }
+
+    /* ---- the maps cylinder ----
+       Each tile sits 120° apart on a virtual cylinder. The stage turns two
+       thirds of a revolution across the beat, so all three come to the front
+       in turn; --f is cos(angle) clamped to 0, i.e. how square-on a tile is,
+       and both the tile's brightness and its label ride that value. */
+    var cyl, cylTiles, cylLabels;
+    function cylInit() {
+      if (cyl !== undefined) return;
+      cyl = document.querySelector('.cyl') || null;
+      cylTiles = cyl ? [].slice.call(cyl.querySelectorAll('.cyl-stage figure')) : [];
+      cylLabels = cyl ? [].slice.call(cyl.querySelectorAll('.cyl-label')) : [];
+    }
+
+    function spinCylinder(stage, p) {
+      cylInit();
+      if (!cyl || !stage.contains(cyl)) return;
+      /* hold on the first tile briefly, then sweep through the other two */
+      var eased = Math.min(1, Math.max(0, (p - 0.12) / 0.76));
+      var turns = eased * (2 / 3);                 /* 240° total */
+      cyl.style.setProperty('--spin', turns.toFixed(4));
+      cylTiles.forEach(function (fig, i) {
+        var deg = turns * 360 + i * 120;
+        var f = Math.cos(deg * Math.PI / 180);
+        f = f > 0 ? Math.pow(f, 1.6) : 0;          /* sharpen the falloff */
+        fig.style.setProperty('--f', f.toFixed(3));
+        /* The label carries the concept copy, so it needs dwell time: it
+           reaches full opacity well before the tile is dead-centre and holds
+           through the front of the sweep. The .45 floor is what keeps two
+           labels from ever being up at once — neighbouring tiles sit 120°
+           apart, and f clears .45 only inside ±52°. */
+        if (cylLabels[i]) {
+          var lf = f <= 0.45 ? 0 : Math.min(1, (f - 0.45) / 0.25);
+          cylLabels[i].style.setProperty('--f', lf.toFixed(3));
+        }
+      });
+    }
+
+    /* ---- set pieces: typed terminals, JSON materialize, count-ups ---- */
+
+    function typeTerminal(block, code) {
+      var src = code.innerText.replace(/\s+$/, '');
+      code.dataset.src = src;                    /* Copy reads this, not the DOM */
+      var lines = src.split('\n');
+      code.textContent = '';
+      block.classList.add('typing');
+      var caret = document.createElement('span'); caret.className = 'caret';
+
+      function typeLine(li) {
+        if (li >= lines.length) {
+          caret.remove();
+          block.classList.remove('typing');
+          block.classList.add('done');
+          return;
+        }
+        var row = document.createElement('span'); row.className = 'tl';
+        var pr = document.createElement('span'); pr.className = 'pr'; pr.textContent = '$ ';
+        var txt = document.createTextNode('');
+        row.appendChild(pr); row.appendChild(txt); row.appendChild(caret);
+        code.appendChild(row);
+        var chars = lines[li], ci = 0;
+        (function tick() {
+          if (ci < chars.length) {
+            txt.data += chars[ci++];
+            setTimeout(tick, 12 + Math.random() * 22);
+          } else {
+            row.classList.add('done');
+            setTimeout(function () { typeLine(li + 1); }, 340);
+          }
+        })();
+      }
+      typeLine(0);
+    }
+
+    function materializeJson(block, code) {
+      var src = code.innerText.replace(/\s+$/, '');
+      code.dataset.src = src;
+      var lines = src.split('\n');
+      code.textContent = '';
+      lines.forEach(function (l, i) {
+        var row = document.createElement('span'); row.className = 'jl';
+        var cut = l.indexOf('←');
+        if (cut > -1) {
+          row.appendChild(document.createTextNode(l.slice(0, cut)));
+          var an = document.createElement('span'); an.className = 'anno';
+          an.textContent = l.slice(cut); row.appendChild(an);
+        } else {
+          row.textContent = l;
+        }
+        /* per-line stagger for both the transition and the scanline flash */
+        row.style.transitionDelay = (i * 70) + 'ms';
+        row.style.animationDelay = (i * 70) + 'ms';
+        code.appendChild(row);
+      });
+      /* .play lands on the block after this returns; transitions fire then */
+    }
+
+    function countUp(el) {
+      var target = parseFloat(el.dataset.n); if (isNaN(target)) return;
+      var t0 = null, DUR = 550;
+      function step(ts) {
+        if (!t0) t0 = ts;
+        var k = Math.min(1, (ts - t0) / DUR);
+        el.textContent = Math.round(target * (1 - Math.pow(1 - k, 3)));
+        if (k < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    }
+
+    if ('IntersectionObserver' in window) {
+      var pio = new IntersectionObserver(function (rows) {
+        rows.forEach(function (r) {
+          if (!r.isIntersecting) return;
+          pio.unobserve(r.target);
+          var el = r.target;
+          if (el.classList.contains('codeblock')) {
+            var code = el.querySelector('code');
+            var isJson = /item\.json/.test((el.querySelector('.lbl') || {}).textContent || '');
+            if (isJson) { materializeJson(el, code); }
+            else { typeTerminal(el, code); }
+            /* .play after building lines so the JSON transition has a start state */
+            requestAnimationFrame(function () { el.classList.add('play'); });
+          } else {
+            el.classList.add('play');
+            [].slice.call(el.querySelectorAll('.n[data-n]')).forEach(countUp);
+          }
+        });
+      }, { rootMargin: '0px 0px -18% 0px', threshold: 0.35 });
+      [].slice.call(document.querySelectorAll('.codeblock, .mat-deck')).forEach(function (el) {
+        pio.observe(el);
+      });
+
+      /* The compositing stack loops only while it is on screen — the class
+         comes off on the way out, so the cycle restarts from the photograph
+         rather than resuming mid-stack when the reader comes back. */
+      var stackNote = document.querySelector('.what-note');
+      if (stackNote && stackNote.querySelector('.stack')) {
+        new IntersectionObserver(function (entries) {
+          entries.forEach(function (e) {
+            stackNote.classList.toggle('play', e.isIntersecting);
+          });
+        }, { threshold: 0.12 }).observe(stackNote);
+      }
+    }
+
+    /* printing must always show the real commands, mid-type or not */
+    addEventListener('beforeprint', function () {
+      [].slice.call(document.querySelectorAll('.codeblock code[data-src]')).forEach(function (code) {
+        code.textContent = code.dataset.src;
+      });
+    });
+
+    /* Doc sections rise in as they enter the viewport. */
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (rows) {
+        rows.forEach(function (r) {
+          if (r.isIntersecting) { r.target.classList.add('in'); io.unobserve(r.target); }
+        });
+      }, { rootMargin: '0px 0px -12% 0px', threshold: 0.05 });
+      [].slice.call(document.querySelectorAll('.block')).forEach(function (b) { io.observe(b); });
+    } else {
+      [].slice.call(document.querySelectorAll('.block')).forEach(function (b) { b.classList.add('in'); });
+    }
+  })();
+</script>
+</body>
+</html>

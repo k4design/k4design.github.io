@@ -15,6 +15,8 @@
              'review' shows as "in review". 'retired' sinks to the bottom
              of its category rather than vanishing.
    updated:  YYYY-MM-DD              (sorts newest-first within a group)
+   order:    optional — lower sorts first inside a category, ahead of the
+             date. Use it to pin one plugin above a newer sibling.
    ============================================================ */
 
 /* Sidebar group order. Add a category here before using it. */
@@ -57,6 +59,8 @@ const PLUGINS = [
   },
   {
     slug: 'mockup-forge',
+    /* pinned above Mockup Mason, which is newer and would otherwise sort first */
+    order: -1,
     type: 'Figma plugin + render service',
     name: 'Mockup Forge',
     tagline: 'Drop artwork into a frame and get it back photographically warped onto phones, mugs, shirts, billboards — video included.',
@@ -126,11 +130,11 @@ const PLUGINS = [
     guide: 'guides/creative-direction.html',
   },
   {
-    /* Chrome extension rather than a Figma plugin. No icon yet, so the
-       sidebar falls back to initials. */
+    /* Chrome extension rather than a Figma plugin. */
     slug: 'midjourney-prompt-injector',
     type: 'Chrome extension',
     name: 'MidJourney Prompt Injector',
+    icon: 'assets/icons/midjourney-prompt-injector.png',
     tagline: 'Separate a batch of prompts with a $ and it types every one into the MidJourney prompt bar for you.',
     category: 'Asset Prep',
     status: 'beta',
@@ -141,11 +145,11 @@ const PLUGINS = [
     guide: 'guides/midjourney-prompt-injector.html',
   },
   {
-    /* Chrome extension rather than a Figma plugin.
-       No icon yet, so the sidebar falls back to initials. */
-    slug: 'mj-explore-grabber',
+    /* Chrome extension rather than a Figma plugin. */
+    slug: 'midjourney-abducter',
     type: 'Chrome extension',
-    name: 'MidJourney Explore Grabber',
+    name: 'MidJourney Abducter',
+    icon: 'assets/icons/midjourney-abducter.png',
     tagline: 'Describe a subject once, then collect matching MidJourney explore images at full resolution while you do something else.',
     category: 'Asset Prep',
     status: 'beta',
@@ -153,7 +157,7 @@ const PLUGINS = [
     owner: 'Kyle',
     updated: '2026-08-05',
     tags: ['reference', 'chrome-extension', 'claude'],
-    guide: 'guides/mj-explore-grabber.html',
+    guide: 'guides/midjourney-abducter.html',
   },
   {
     slug: 'frame-to-mp4',
@@ -170,16 +174,17 @@ const PLUGINS = [
     guide: 'guides/frametoMP4.html',
   },
   {
-    slug: 'mockup-map-baker',
+    slug: 'mockup-mason',
     type: 'Photoshop panel',
-    name: 'Mockup Map Baker',
+    name: 'Mockup Mason',
     tagline: 'Bake displacement, shadow and highlight maps from a real product photo, straight into a Mockup Forge item.',
     category: 'Asset Prep',
+    icon: 'assets/icons/mockup-mason.png',
     status: 'beta',
     version: '1.0',
     owner: 'Kyle',
     updated: '2026-08-06',
     tags: ['mockups', 'photoshop', 'maps', 'uxp'],
-    guide: 'guides/mockup-map-baker-guide.html',
+    guide: 'guides/mockup-mason-guide.html',
   },
 ];

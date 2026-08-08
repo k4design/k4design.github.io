@@ -5,8 +5,20 @@
   "description": "Queue up $-separated prompts and submit them to Midjourney back to back, from a panel that stays on the page until you close it.",
   "permissions": ["storage"],
   "host_permissions": ["https://www.midjourney.com/*"],
+  "icons": {
+    "16": "icons/icon-16.png",
+    "32": "icons/icon-32.png",
+    "48": "icons/icon-48.png",
+    "128": "icons/icon-128.png"
+  },
   "action": {
-    "default_title": "Midjourney Prompt Injector — show/hide panel"
+    "default_title": "Midjourney Prompt Injector — show/hide panel",
+    "default_icon": {
+      "16": "icons/icon-16.png",
+      "32": "icons/icon-32.png",
+      "48": "icons/icon-48.png",
+      "128": "icons/icon-128.png"
+    }
   },
   "background": {
     "service_worker": "background.js"
