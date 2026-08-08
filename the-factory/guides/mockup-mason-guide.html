@@ -347,6 +347,10 @@
      photograph: the shadow map darkens, the highlight map lightens */
   .stack-l.l1 { mix-blend-mode: multiply; }
   .stack-l.l2 { mix-blend-mode: screen; }
+  /* the solid twins ride directly over their blended counterparts and cross-
+     fade into them; mix-blend-mode can only ever snap between values, so the
+     smooth version has to be two elements dissolving, not one switching */
+  .stack-l.l1s, .stack-l.l2s { mix-blend-mode: normal; }
   .stack-l.l3 { overflow: hidden; }
   .stack-l.l3 img { width: 100%; height: 100%; object-fit: cover; display: block; }
   /* The plate: it washes down over the surface behind the beam, holds, then
@@ -359,7 +363,7 @@
     box-shadow: 0 0 70px 12px rgba(252,156,12,.55), 0 0 0 1px rgba(252,156,12,.7) inset; }
 
   /* before the loop starts the rig is empty — each layer travels in */
-  .l0, .l1, .l2, .l3 { opacity: 0; }
+  .l0, .l1, .l1s, .l2, .l2s, .l3 { opacity: 0; }
 
   /* ---- the scan pass ----
      The read and the fill are one continuous action rather than two separate
@@ -384,77 +388,90 @@
 
   /* Each layer flies in from a different quarter and from well outside the
      frame — the photograph from the left, the shadow map down from above, the
-     highlight map in from the right. Movement and opacity are two separate
-     animations on purpose: a card reaches full opacity in the first fifth of
-     its travel and then slides the rest of the way solid, so you watch it
-     being placed rather than watching it materialise. Distances are
-     percentages of the rig, so they scale with it. */
+     highlight map in from the right. Movement and opacity are separate
+     animations: a card is solid within the first fifth of its travel and
+     slides the rest of the way at full strength, so you watch it placed.
+     Distances are percentages of the rig, so they scale with it. */
   @keyframes travelLeft {
     0%, 2%    { transform: translate(-82%, -14%) rotate(-7deg) scale(.9); }
-    15%, 100% { transform: translate(0, 0) rotate(0) scale(1); }
+    12%, 100% { transform: translate(0, 0) rotate(0) scale(1); }
   }
   @keyframes travelTop {
-    0%, 16%   { transform: translate(9%, -104%) rotate(5deg) scale(.9); }
-    29%, 100% { transform: translate(0, 0) rotate(0) scale(1); }
+    0%, 13%   { transform: translate(9%, -104%) rotate(5deg) scale(.9); }
+    23%, 100% { transform: translate(0, 0) rotate(0) scale(1); }
   }
   @keyframes travelRight {
-    0%, 30%   { transform: translate(88%, 16%) rotate(7deg) scale(.9); }
-    43%, 100% { transform: translate(0, 0) rotate(0) scale(1); }
+    0%, 24%   { transform: translate(88%, 16%) rotate(7deg) scale(.9); }
+    34%, 100% { transform: translate(0, 0) rotate(0) scale(1); }
   }
-  @keyframes showL { 0%, 2%  { opacity: 0; } 5%,  95% { opacity: 1; } 99%, 100% { opacity: 0; } }
-  @keyframes showT { 0%, 16% { opacity: 0; } 19%, 95% { opacity: 1; } 99%, 100% { opacity: 0; } }
-  @keyframes showR { 0%, 30% { opacity: 0; } 33%, 95% { opacity: 1; } 99%, 100% { opacity: 0; } }
+  /* A map travels as an ordinary opaque card — blended, it would be washed out
+     against the page it is crossing. Each one is therefore two elements: the
+     blended copy, and a solid twin above it that dissolves away just before
+     the card lands, handing over to the composite. All of them clear at
+     63–67%, while the orange is solid over them, so nothing is left underneath
+     to surface when the render fades at the end. */
+  @keyframes showL {
+    0%, 2%    { opacity: 0; }
+    4%, 63%   { opacity: 1; }
+    67%, 100% { opacity: 0; }
+  }
+  @keyframes showT  { 0%, 13% { opacity: 0; } 15%, 63% { opacity: 1; } 67%, 100% { opacity: 0; } }
+  @keyframes showTs { 0%, 13% { opacity: 0; } 15%, 20% { opacity: 1; } 26%, 100% { opacity: 0; } }
+  @keyframes showR  { 0%, 24% { opacity: 0; } 26%, 63% { opacity: 1; } 67%, 100% { opacity: 0; } }
+  @keyframes showRs { 0%, 24% { opacity: 0; } 26%, 31% { opacity: 1; } 37%, 100% { opacity: 0; } }
 
-  @keyframes scanShow {          /* the lattice, held until the plate covers it */
-    0%, 44%   { opacity: 0; }
-    47%, 58%  { opacity: 1; }
-    63%, 100% { opacity: 0; }
+  @keyframes scanShow {
+    0%, 35%   { opacity: 0; }
+    38%, 50%  { opacity: 1; }
+    55%, 100% { opacity: 0; }
   }
   @keyframes scanGrid {          /* drawn in without a beam leading it */
-    0%, 45%   { clip-path: inset(0 0 100% 0); }
-    57%, 100% { clip-path: inset(0 0 0 0); }
+    0%, 36%   { clip-path: inset(0 0 100% 0); }
+    45%, 100% { clip-path: inset(0 0 0 0); }
   }
-  /* two passes, both belonging to the orange: it lays the plate down in the
-     beam's wake, then lifts it again */
+  /* One pass. The beam lays the orange down in its wake on the way past; when
+     it reaches the bottom the plate is complete, and the orange then dissolves
+     in place rather than being swept off by a second sweep. */
   @keyframes beamSweep {
-    0%, 58%   { top: -18%; opacity: 0; }
-    59%       { top: -18%; opacity: 1; }
-    68%       { top: 100%;  opacity: 1; }
-    69%       { top: 100%;  opacity: 0; }
-    72%       { top: -18%; opacity: 0; }
-    73%       { top: -18%; opacity: 1; }
-    82%       { top: 100%;  opacity: 1; }
-    83%, 100% { top: 100%;  opacity: 0; }
+    0%, 51%   { top: -18%; opacity: 0; }
+    52%       { top: -18%; opacity: 1; }
+    62%       { top: 100%;  opacity: 1; }
+    63%, 100% { top: 100%;  opacity: 0; }
   }
 
   /* the render fades up behind the plate, then holds — it is the payoff, so it
      gets the longest single beat in the cycle */
   @keyframes stackReveal {
-    0%, 66%   { opacity: 0; }
-    70%, 95%  { opacity: 1; }
+    0%, 62%   { opacity: 0; }
+    66%, 95%  { opacity: 1; }
     99%, 100% { opacity: 0; }
   }
   @keyframes stackBurn {
-    0%, 59%   { opacity: 1; clip-path: inset(0 0 100% 0);
+    0%, 52%   { opacity: 1; clip-path: inset(0 0 100% 0);
                 box-shadow: 0 0 0 0 rgba(252,156,12,0); }
-    68%       { opacity: 1; clip-path: inset(0 0 0 0);
+    62%       { opacity: 1; clip-path: inset(0 0 0 0);
                 box-shadow: 0 0 70px 12px rgba(252,156,12,.55),
                             0 0 0 1px rgba(252,156,12,.7) inset; }
-    73%       { opacity: 1; clip-path: inset(0 0 0 0);
+    70%       { opacity: 1; clip-path: inset(0 0 0 0);
                 box-shadow: 0 0 70px 12px rgba(252,156,12,.55),
                             0 0 0 1px rgba(252,156,12,.7) inset; }
-    82%       { opacity: 1; clip-path: inset(100% 0 0 0);
-                box-shadow: 0 0 18px 2px rgba(252,156,12,.14),
+    80%       { opacity: 0; clip-path: inset(0 0 0 0);
+                box-shadow: 0 0 16px 2px rgba(252,156,12,0),
                             0 0 0 1px rgba(252,156,12,0) inset; }
-    83%, 100% { opacity: 0; clip-path: inset(100% 0 0 0); }
+    /* the clip resets while the plate is already invisible */
+    100%      { opacity: 0; clip-path: inset(0 0 100% 0); }
   }
 
   .what-note.play .l0 { animation: travelLeft  16s var(--ease) infinite,
                                    showL       16s linear      infinite; }
-  .what-note.play .l1 { animation: travelTop   16s var(--ease) infinite,
-                                   showT       16s linear      infinite; }
-  .what-note.play .l2 { animation: travelRight 16s var(--ease) infinite,
-                                   showR       16s linear      infinite; }
+  .what-note.play .l1  { animation: travelTop   16s var(--ease) infinite,
+                                    showT       16s linear      infinite; }
+  .what-note.play .l1s { animation: travelTop   16s var(--ease) infinite,
+                                    showTs      16s linear      infinite; }
+  .what-note.play .l2  { animation: travelRight 16s var(--ease) infinite,
+                                    showR       16s linear      infinite; }
+  .what-note.play .l2s { animation: travelRight 16s var(--ease) infinite,
+                                    showRs      16s linear      infinite; }
   .what-note.play .stack-scan { animation: scanShow 16s linear infinite,
                                            scanGrid 16s linear infinite; }
   .what-note.play .stack-beam { animation: beamSweep 16s linear infinite; }
@@ -1335,8 +1352,10 @@
           <div class="stack" aria-hidden="true">
             <div class="stack-rig">
               <img class="stack-l l0" src="../assets/img/mason/hub-base.png" alt="" loading="lazy" decoding="async">
-              <img class="stack-l l1" src="../assets/img/mason/map-shadow.png" alt="" loading="lazy" decoding="async">
-              <img class="stack-l l2" src="../assets/img/mason/map-highlight.png" alt="" loading="lazy" decoding="async">
+              <img class="stack-l l1"  src="../assets/img/mason/map-shadow.png" alt="" loading="lazy" decoding="async">
+              <img class="stack-l l1s" src="../assets/img/mason/map-shadow.png" alt="" loading="lazy" decoding="async">
+              <img class="stack-l l2"  src="../assets/img/mason/map-highlight.png" alt="" loading="lazy" decoding="async">
+              <img class="stack-l l2s" src="../assets/img/mason/map-highlight.png" alt="" loading="lazy" decoding="async">
               <div class="stack-l l3">
                 <img src="../assets/img/tshirtmarina.png" alt="" loading="lazy" decoding="async">
               </div>

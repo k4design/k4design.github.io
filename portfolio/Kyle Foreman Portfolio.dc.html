@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23101318'/%3E%3Cpath d='M16 5v22M5 16h22' stroke='%23F5F3EE' stroke-width='1.5'/%3E%3Ccircle cx='16' cy='16' r='6' fill='none' stroke='%23F5F3EE' stroke-width='1.5'/%3E%3C/svg%3E" />
+<style>
+  html { background: #101318; }
+  body { margin: 0; background: #101318; color: #F5F3EE; font-family: Archivo, Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+  * { box-sizing: border-box; }
+  a { color: #F5F3EE; text-decoration: none; }
+  a:hover { color: #F5F3EE; }
+  @keyframes kfRise { from { transform: translateY(105%); } to { transform: translateY(0); } }
+  @keyframes kfRelax { from { font-stretch: 122%; letter-spacing: -0.005em; } to { font-stretch: 104%; letter-spacing: -0.03em; } }
+  @keyframes kfFade { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes kfBlink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
+  @keyframes kfSwatch { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+  @keyframes kfCue { 0% { transform: translateY(-6px); opacity: 0; } 40% { opacity: 1; } 100% { transform: translateY(8px); opacity: 0; } }
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.001s !important; animation-delay: 0s !important; transition-duration: 0.001s !important; } }
+</style>
+</helmet>
+
+<div data-preloader="" style="position: fixed; inset: 0; z-index: 100; background: #101318; display: flex; flex-direction: column; justify-content: flex-end; padding: clamp(20px, 4vw, 48px); gap: 18px">
+  <div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(245, 243, 238, 0.62); display: flex; gap: 6px; align-items: center">
+    <span data-ticket="">FILE / KF-2026-PORTFOLIO</span><span style="display: inline-block; width: 8px; height: 12px; background: #F5F3EE; animation: kfBlink 0.9s step-end infinite"></span>
+  </div>
+  <div style="display: flex; gap: 4px; height: 10px">
+    <span style="flex: 1; background: #E1462F; transform-origin: left; animation: kfSwatch 0.5s 0.35s cubic-bezier(0.22, 1, 0.36, 1) both"></span>
+    <span style="flex: 1; background: #E7C24B; transform-origin: left; animation: kfSwatch 0.5s 0.45s cubic-bezier(0.22, 1, 0.36, 1) both"></span>
+    <span style="flex: 1; background: #0E9CD4; transform-origin: left; animation: kfSwatch 0.5s 0.55s cubic-bezier(0.22, 1, 0.36, 1) both"></span>
+    <span style="flex: 1; background: #45B97C; transform-origin: left; animation: kfSwatch 0.5s 0.65s cubic-bezier(0.22, 1, 0.36, 1) both"></span>
+    <span style="flex: 1; background: #8A6BF2; transform-origin: left; animation: kfSwatch 0.5s 0.75s cubic-bezier(0.22, 1, 0.36, 1) both"></span>
+  </div>
+  <div style="display: flex; justify-content: space-between; font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(245, 243, 238, 0.38)">
+    <span>Press proof. Five plates.</span><button data-skip="" style="background: none; border: 0; padding: 0; color: rgba(245, 243, 238, 0.55); font: inherit; letter-spacing: 0.16em; text-transform: uppercase; cursor: pointer">Skip</button>
+  </div>
+</div>
+
+<div data-cursor="" style="position: fixed; top: 0; left: 0; z-index: 90; pointer-events: none; opacity: 0; mix-blend-mode: normal">
+  <div data-cursor-cross="" style="position: relative; width: 26px; height: 26px; transform: translate(-50%, -50%)">
+    <span style="position: absolute; left: 50%; top: 0; width: 1px; height: 100%; background: currentColor; transform: translateX(-50%)"></span>
+    <span style="position: absolute; top: 50%; left: 0; height: 1px; width: 100%; background: currentColor; transform: translateY(-50%)"></span>
+    <span style="position: absolute; left: 50%; top: 50%; width: 11px; height: 11px; border: 1px solid currentColor; border-radius: 50%; transform: translate(-50%, -50%)"></span>
+  </div>
+  <div data-cursor-label="" style="position: absolute; left: 0; top: 0; transform: translate(-50%, -50%) scale(0.6); opacity: 0; font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: #101318; background: currentColor; padding: 7px 10px; border-radius: 999px">View</div>
+</div>
+
+
+<nav data-scroll-nav="" style="position: fixed; top: 0; left: 0; right: 0; z-index: 70; display: flex; align-items: center; justify-content: space-between; padding: 16px clamp(16px, 4vw, 48px); border-bottom: 1px solid rgba(245, 243, 238, 0.09); background: rgba(16, 19, 24, 0.72); backdrop-filter: blur(8px); font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase">
+  <a href="#top" style="display: flex; align-items: center; gap: 10px" style-hover="opacity: 0.6">
+    <span style="position: relative; display: inline-block; width: 13px; height: 13px">
+      <span style="position: absolute; left: 50%; top: 0; width: 1px; height: 100%; background: #F5F3EE; transform: translateX(-50%)"></span>
+      <span style="position: absolute; top: 50%; left: 0; height: 1px; width: 100%; background: #F5F3EE; transform: translateY(-50%)"></span>
+    </span>
+    <span>Kyle Foreman</span>
+  </a>
+  <div style="display: flex; gap: clamp(14px, 2.4vw, 30px); color: rgba(245, 243, 238, 0.72)">
+    <a href="#work" style-hover="color: #F5F3EE" style-focus="outline: 2px solid #E1462F; outline-offset: 4px">Work</a>
+    <a href="#info" style-hover="color: #F5F3EE" style-focus="outline: 2px solid #E1462F; outline-offset: 4px">Info</a>
+    <a href="https://www.linkedin.com" target="_blank" rel="noopener" style-hover="color: #F5F3EE" style-focus="outline: 2px solid #E1462F; outline-offset: 4px">LinkedIn</a>
+    <a href="#info" style-hover="color: #F5F3EE" style-focus="outline: 2px solid #E1462F; outline-offset: 4px">Resume</a>
+  </div>
+</nav>
+
+<header id="top" data-chip="#E1462F" style="position: relative; min-height: 100svh; display: flex; flex-direction: column; justify-content: flex-end; padding: clamp(84px, 12vh, 140px) clamp(16px, 4vw, 48px) clamp(24px, 4vh, 44px); border-bottom: 1px solid rgba(245, 243, 238, 0.12); overflow: hidden">
+  <span data-crosshair="tl" style="position: absolute; left: clamp(16px, 4vw, 48px); top: clamp(52px, 8vh, 84px); width: 14px; height: 14px; opacity: 0.4"><span style="position: absolute; left: 50%; top: 0; width: 1px; height: 100%; background: #F5F3EE"></span><span style="position: absolute; top: 50%; left: 0; height: 1px; width: 100%; background: #F5F3EE"></span></span>
+  <span data-crosshair="tr" style="position: absolute; right: clamp(16px, 4vw, 48px); top: clamp(52px, 8vh, 84px); width: 14px; height: 14px; opacity: 0.4"><span style="position: absolute; left: 50%; top: 0; width: 1px; height: 100%; background: #F5F3EE"></span><span style="position: absolute; top: 50%; left: 0; height: 1px; width: 100%; background: #F5F3EE"></span></span>
+
+  <canvas data-lines="" data-tone="paper" data-anchor="bottom" style="position: absolute; left: 0; bottom: 0; width: 100%; height: 62%; pointer-events: none; z-index: 0"></canvas>
+  <div style="position: relative; z-index: 1; display: flex; flex-wrap: wrap; gap: 10px 26px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(245, 243, 238, 0.5); margin-bottom: clamp(28px, 6vh, 64px); animation: kfFade 0.9s 0.2s both">
+    <span>File / KF-2026-Portfolio</span>
+    <span>Section 01 / The Proof</span>
+    <span>Plates / Five</span>
+  </div>
+
+  <h1 style="position: relative; z-index: 1; margin: 0; font-size: clamp(40px, 8.4vw, 148px); font-weight: 800; line-height: 0.95; letter-spacing: -0.03em; text-wrap: balance; max-width: 22ch">
+    <span style="display: block; overflow: hidden; padding-bottom: 0.16em; line-height: 0.95"><span style="display: block; font-stretch: 104%; animation: kfRise 1s 0.15s cubic-bezier(0.22, 1, 0.36, 1) both, kfRelax 1.6s 0.15s cubic-bezier(0.22, 1, 0.36, 1) both">Design is the easy part.</span></span>
+    <span style="display: block; overflow: hidden; padding-bottom: 0.16em; line-height: 0.95"><span style="display: block; color: rgba(245, 243, 238, 0.55); font-stretch: 104%; animation: kfRise 1s 0.3s cubic-bezier(0.22, 1, 0.36, 1) both, kfRelax 1.6s 0.3s cubic-bezier(0.22, 1, 0.36, 1) both">I build the system that ships it.</span></span>
+  </h1>
+
+  <div style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 24px; position: relative; z-index: 1; margin-top: clamp(32px, 7vh, 76px); border-top: 1px solid rgba(245, 243, 238, 0.12); padding-top: 18px; animation: kfFade 1s 0.7s both">
+    <p style="margin: 0; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(245, 243, 238, 0.72); max-width: 46ch; line-height: 1.9">Kyle Foreman. Designer and creative operations lead. Orlando, FL.</p>
+    <a href="#work" style="display: flex; align-items: center; gap: 12px; font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(245, 243, 238, 0.5)" style-hover="color: #F5F3EE" style-focus="outline: 2px solid #E1462F; outline-offset: 6px">
+      <span>Scroll</span>
+      <span style="position: relative; display: block; width: 1px; height: 34px; background: rgba(245, 243, 238, 0.2); overflow: hidden"><span style="position: absolute; inset: 0; background: #F5F3EE; animation: kfCue 1.8s ease-in-out infinite"></span></span>
+    </a>
+  </div>
+</header>
+
+<section id="work" data-chip="#E1462F" style="padding: clamp(56px, 10vh, 120px) clamp(16px, 4vw, 48px) clamp(40px, 8vh, 90px)">
+  <div data-reveal="" style="display: flex; align-items: baseline; justify-content: space-between; gap: 20px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(245, 243, 238, 0.5); border-bottom: 1px solid rgba(245, 243, 238, 0.12); padding-bottom: 16px">
+    <span>Section 02 / Selected work</span>
+    <span>Six plates</span>
+  </div>
+
+  <div data-rows="">
+
+    <a data-row="" data-chip="#E1462F" href="Case Study.dc.html" style="display: grid; grid-template-columns: 46px minmax(0, 1fr) clamp(220px, 27vw, 400px); align-items: center; gap: clamp(16px, 3vw, 46px); padding: clamp(24px, 3.4vw, 44px) 0; border-bottom: 1px solid rgba(245, 243, 238, 0.12); transition: opacity .45s ease, padding-left .45s cubic-bezier(.22,1,.36,1)" style-focus="outline: 2px solid #E1462F; outline-offset: 6px">
+      <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.16em; color: rgba(245, 243, 238, 0.35); align-self: start; padding-top: 6px">01</span>
+      <span style="display: block; min-width: 0">
+        <span data-row-title="" style="display: block; font-size: clamp(24px, 3.4vw, 52px); font-weight: 700; font-stretch: 96%; letter-spacing: -0.022em; line-height: 1.02; transition: color .35s ease">Aperture Global Brand System</span>
+        <span style="display: block; margin-top: 12px; font-size: clamp(13px, 1.05vw, 15px); color: rgba(245, 243, 238, 0.55); line-height: 1.5; max-width: 50ch">A luxury brand system spanning guides, presentations, and campaign reporting.</span>
+        <span style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; margin-top: 18px; font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(245, 243, 238, 0.45)">
+          <span data-swatch="" style="display: block; width: 13px; height: 13px; background: #E1462F"></span>
+          <span>Aperture Global Real Estate</span>
+          <span style="color: rgba(245, 243, 238, 0.22)">/</span>
+          <span>2025</span>
+        </span>
+      </span>
+      <span data-plate="" style="display: block; position: relative; border: 1px solid rgba(245, 243, 238, 0.14); padding: 5px; transition: border-color .4s ease, transform .5s cubic-bezier(.22,1,.36,1)">
+        <span data-plate-fill="" style="display: flex; align-items: flex-end; justify-content: space-between; gap: 10px; aspect-ratio: 16 / 10; padding: 11px; background-color: rgba(225, 70, 47, 0.13); background-image: repeating-linear-gradient(135deg, rgba(245, 243, 238, 0.1) 0 1px, transparent 1px 9px); transition: background-color .4s ease">
+          <span style="font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(245, 243, 238, 0.7)">Brand system spreads</span>
+          <span style="font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(245, 243, 238, 0.4)">Plate 01 / 4C</span>
+        </span>
+      </span>
+    </a>
+
+    <a data-row="" data-chip="#E7C24B" href="Case Study.dc.html" style="display: grid; grid-template-columns: 46px minmax(0, 1fr) clamp(220px, 27vw, 400px); align-items: center; gap: clamp(16px, 3vw, 46px); padding: clamp(24px, 3.4vw, 44px) 0; border-bottom: 1px solid rgba(245, 243, 238, 0.12); transition: opacity .45s ease, padding-left .45s cubic-bezier(.22,1,.36,1)" style-focus="outline: 2px solid #E7C24B; outline-offset: 6px">
+      <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.16em; color: rgba(245, 243, 238, 0.35); align-self: start; padding-top: 6px">02</span>
+      <span style="display: block; min-width: 0">
+        <span data-row-title="" style="display: block; font-size: clamp(24px, 3.4vw, 52px); font-weight: 700; font-stretch: 96%; letter-spacing: -0.022em; line-height: 1.02; transition: color .35s ease">The Collective, Season One</span>
+        <span style="display: block; margin-top: 12px; font-size: clamp(13px, 1.05vw, 15px); color: rgba(245, 243, 238, 0.55); line-height: 1.5; max-width: 50ch">A serialized social campaign uniting a global network of luxury agents.</span>
+        <span style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; margin-top: 18px; font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(245, 243, 238, 0.45)">
+          <span data-swatch="" style="display: block; width: 13px; height: 13px; background: #E7C24B"></span>
+          <span>Aperture Global</span>
+          <span style="color: rgba(245, 243, 238, 0.22)">/</span>
+          <span>2026</span>
+        </span>
+      </span>
+      <span data-plate="" style="display: block; position: relative; border: 1px solid rgba(245, 243, 238, 0.14); padding: 5px; transition: border-color .4s ease, transform .5s cubic-bezier(.22,1,.36,1)">
+        <span data-plate-fill="" style="display: flex; align-items: flex-end; justify-content: space-between; gap: 10px; aspect-ratio: 16 / 10; padding: 11px; background-color: rgba(231, 194, 75, 0.13); background-image: repeating-linear-gradient(135deg, rgba(245, 243, 238, 0.1) 0 1px, transparent 1px 9px); transition: background-color .4s ease">
+          <span style="font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(245, 243, 238, 0.7)">Campaign frames</span>
+          <span style="font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(245, 243, 238, 0.4)">Plate 02 / 4C</span>
+        </span>
+      </span>
+    </a>
+
+    <a data-row="" data-chip="#0E9CD4" href="Case Study.dc.html" style="display: grid; grid-template-columns: 46px minmax(0, 1fr) clamp(220px, 27vw, 400px); align-items: center; gap: clamp(16px, 3vw, 46px); padding: clamp(24px, 3.4vw, 44px) 0; border-bottom: 1px solid rgba(245, 243, 238, 0.12); transition: opacity .45s ease, padding-left .45s cubic-bezier(.22,1,.36,1)" style-focus="outline: 2px solid #0E9CD4; outline-offset: 6px">
+      <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.16em; color: rgba(245, 243, 238, 0.35); align-self: start; padding-top: 6px">03</span>
+      <span style="display: block; min-width: 0">
+        <span data-row-title="" style="display: block; font-size: clamp(24px, 3.4vw, 52px); font-weight: 700; font-stretch: 96%; letter-spacing: -0.022em; line-height: 1.02; transition: color .35s ease">TitleCheck Product Design</span>
+        <span style="display: block; margin-top: 12px; font-size: clamp(13px, 1.05vw, 15px); color: rgba(245, 243, 238, 0.55); line-height: 1.5; max-width: 50ch">UI and UX flows for title search, lien checks, and pre foreclosure discovery.</span>
+        <span style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; margin-top: 18px; font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(245, 243, 238, 0.45)">
+          <span data-swatch="" style="display: block; width: 13px; height: 13px; background: #0E9CD4"></span>
+          <span>TitleCheck</span>
+          <span style="color: rgba(245, 243, 238, 0.22)">/</span>
+          <span>2025</span>
+        </span>
+      </span>
+      <span data-plate="" style="display: block; position: relative; border: 1px solid rgba(245, 243, 238, 0.14); padding: 5px; transition: border-color .4s ease, transform .5s cubic-bezier(.22,1,.36,1)">
+        <span data-plate-fill="" style="display: flex; align-items: flex-end; justify-content: space-between; gap: 10px; aspect-ratio: 16 / 10; padding: 11px; background-color: rgba(14, 156, 212, 0.13); background-image: repeating-linear-gradient(135deg, rgba(245, 243, 238, 0.1) 0 1px, transparent 1px 9px); transition: background-color .4s ease">
+          <span style="font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(245, 243, 238, 0.7)">Product screens</span>
+          <span style="font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(245, 243, 238, 0.4)">Plate 03 / RGB</span>
+        </span>
+      </span>
+    </a>
+
+    <a data-row="" data-chip="#45B97C" href="Case Study.dc.html" style="display: grid; grid-template-columns: 46px minmax(0, 1fr) clamp(220px, 27vw, 400px); align-items: center; gap: clamp(16px, 3vw, 46px); padding: clamp(24px, 3.4vw, 44px) 0; border-bottom: 1px solid rgba(245, 243, 238, 0.12); transition: opacity .45s ease, padding-left .45s cubic-bezier(.22,1,.36,1)" style-focus="outline: 2px solid #45B97C; outline-offset: 6px">
+      <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.16em; color: rgba(245, 243, 238, 0.35); align-self: start; padding-top: 6px">04</span>
+      <span style="display: block; min-width: 0">
+        <span data-row-title="" style="display: block; font-size: clamp(24px, 3.4vw, 52px); font-weight: 700; font-stretch: 96%; letter-spacing: -0.022em; line-height: 1.02; transition: color .35s ease">FallCon 2026</span>
+        <span style="display: block; margin-top: 12px; font-size: clamp(13px, 1.05vw, 15px); color: rgba(245, 243, 238, 0.55); line-height: 1.5; max-width: 50ch">Event brand and interactive site with a 1980s creamsicle era direction.</span>
+        <span style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; margin-top: 18px; font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(245, 243, 238, 0.45)">
+          <span data-swatch="" style="display: block; width: 13px; height: 13px; background: #45B97C"></span>
+          <span>LPT Realty</span>
+          <span style="color: rgba(245, 243, 238, 0.22)">/</span>
+          <span>2026</span>
+        </span>
+      </span>
+      <span data-plate="" style="display: block; position: relative; border: 1px solid rgba(245, 243, 238, 0.14); padding: 5px; transition: border-color .4s ease, transform .5s cubic-bezier(.22,1,.36,1)">
+        <span data-plate-fill="" style="display: flex; align-items: flex-end; justify-content: space-between; gap: 10px; aspect-ratio: 16 / 10; padding: 11px; background-color: rgba(69, 185, 124, 0.13); background-image: repeating-linear-gradient(135deg, rgba(245, 243, 238, 0.1) 0 1px, transparent 1px 9px); transition: background-color .4s ease">
+          <span style="font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(245, 243, 238, 0.7)">Event brand set</span>
+          <span style="font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(245, 243, 238, 0.4)">Plate 04 / 4C</span>
+        </span>
+      </span>
+    </a>
+
+    <a data-row="" data-chip="#8A6BF2" href="#factory" style="display: grid; grid-template-columns: 46px minmax(0, 1fr) clamp(220px, 27vw, 400px); align-items: center; gap: clamp(16px, 3vw, 46px); padding: clamp(24px, 3.4vw, 44px) 0; border-bottom: 1px solid rgba(245, 243, 238, 0.12); transition: opacity .45s ease, padding-left .45s cubic-bezier(.22,1,.36,1)" style-focus="outline: 2px solid #8A6BF2; outline-offset: 6px">
+      <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.16em; color: rgba(245, 243, 238, 0.35); align-self: start; padding-top: 6px">05</span>
+      <span style="display: block; min-width: 0">
+        <span data-row-title="" style="display: block; font-size: clamp(24px, 3.4vw, 52px); font-weight: 700; font-stretch: 96%; letter-spacing: -0.022em; line-height: 1.02; transition: color .35s ease">The Factory</span>
+        <span style="display: block; margin-top: 12px; font-size: clamp(13px, 1.05vw, 15px); color: rgba(245, 243, 238, 0.55); line-height: 1.5; max-width: 50ch">A product suite of design tools and plugins, presented as one factory floor.</span>
+        <span style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; margin-top: 18px; font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(245, 243, 238, 0.45)">
+          <span data-swatch="" style="display: block; width: 13px; height: 13px; background: #8A6BF2"></span>
+          <span>Independent</span>
+          <span style="color: rgba(245, 243, 238, 0.22)">/</span>
+          <span>2026</span>
+        </span>
+      </span>
+      <span data-plate="" style="display: block; position: relative; border: 1px solid rgba(245, 243, 238, 0.14); padding: 5px; transition: border-color .4s ease, transform .5s cubic-bezier(.22,1,.36,1)">
+        <span data-plate-fill="" style="display: flex; align-items: flex-end; justify-content: space-between; gap: 10px; aspect-ratio: 16 / 10; padding: 11px; background-color: rgba(138, 107, 242, 0.13); background-image: repeating-linear-gradient(135deg, rgba(245, 243, 238, 0.1) 0 1px, transparent 1px 9px); transition: background-color .4s ease">
+          <span style="font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(245, 243, 238, 0.7)">Tool interfaces</span>
+          <span style="font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(245, 243, 238, 0.4)">Plate 05 / RGB</span>
+        </span>
+      </span>
+    </a>
+
+    <a data-row="" data-chip="#E1462F" href="Case Study.dc.html" style="display: grid; grid-template-columns: 46px minmax(0, 1fr) clamp(220px, 27vw, 400px); align-items: center; gap: clamp(16px, 3vw, 46px); padding: clamp(24px, 3.4vw, 44px) 0; border-bottom: 1px solid rgba(245, 243, 238, 0.12); transition: opacity .45s ease, padding-left .45s cubic-bezier(.22,1,.36,1)" style-focus="outline: 2px solid #E1462F; outline-offset: 6px">
+      <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.16em; color: rgba(245, 243, 238, 0.35); align-self: start; padding-top: 6px">06</span>
+      <span style="display: block; min-width: 0">
+        <span data-row-title="" style="display: block; font-size: clamp(24px, 3.4vw, 52px); font-weight: 700; font-stretch: 96%; letter-spacing: -0.022em; line-height: 1.02; transition: color .35s ease">Big Sky Luxury Campaigns</span>
+        <span style="display: block; margin-top: 12px; font-size: clamp(13px, 1.05vw, 15px); color: rgba(245, 243, 238, 0.55); line-height: 1.5; max-width: 50ch">Direct mail, digital, and DOOH strategy for Montana luxury listings.</span>
+        <span style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; margin-top: 18px; font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(245, 243, 238, 0.45)">
+          <span data-swatch="" style="display: block; width: 13px; height: 13px; background: #E1462F"></span>
+          <span>Aperture Global</span>
+          <span style="color: rgba(245, 243, 238, 0.22)">/</span>
+          <span>2025</span>
+        </span>
+      </span>
+      <span data-plate="" style="display: block; position: relative; border: 1px solid rgba(245, 243, 238, 0.14); padding: 5px; transition: border-color .4s ease, transform .5s cubic-bezier(.22,1,.36,1)">
+        <span data-plate-fill="" style="display: flex; align-items: flex-end; justify-content: space-between; gap: 10px; aspect-ratio: 16 / 10; padding: 11px; background-color: rgba(225, 70, 47, 0.13); background-image: repeating-linear-gradient(135deg, rgba(245, 243, 238, 0.1) 0 1px, transparent 1px 9px); transition: background-color .4s ease">
+          <span style="font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(245, 243, 238, 0.7)">Direct mail, DOOH</span>
+          <span style="font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(245, 243, 238, 0.4)">Plate 06 / 4C</span>
+        </span>
+      </span>
+    </a>
+  </div>
+</section>
+
+<section data-chip="#101318" style="position: relative; overflow: hidden; background: #F5F3EE; color: #101318; padding: clamp(56px, 10vh, 120px) clamp(16px, 4vw, 48px)">
+  <canvas data-lines="" data-tone="ink" data-anchor="top" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0"></canvas>
+  <div data-reveal="" style="display: flex; align-items: baseline; justify-content: space-between; gap: 20px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(16, 19, 24, 0.5); border-bottom: 1px solid rgba(16, 19, 24, 0.15); padding-bottom: 16px; position: relative; z-index: 1">
+    <span>Section 03 / Systems</span>
+    <span>What I actually build</span>
+  </div>
+  <h2 data-reveal="" style="position: relative; z-index: 1; margin: clamp(28px, 5vh, 52px) 0 clamp(32px, 6vh, 64px); font-size: clamp(26px, 4vw, 56px); font-weight: 700; font-stretch: 98%; letter-spacing: -0.025em; line-height: 1.05; max-width: 28ch">The work ships because the machine behind it is designed too.</h2>
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); position: relative; z-index: 1; gap: 0">
+    <div data-reveal="" data-sys="" style="background: #F5F3EE; padding: 26px 22px 30px; display: flex; flex-direction: column; gap: 14px; border-top: 1px solid rgba(16, 19, 24, 0.15); border-right: 1px solid rgba(16, 19, 24, 0.15)">
+      <span style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: #E1462F">Brand systems</span>
+      <p style="margin: 0; font-size: 15px; line-height: 1.55; color: rgba(16, 19, 24, 0.78)">Guides, kits, and templates that hold up after the launch deck is closed.</p>
+    </div>
+    <div data-reveal="" data-sys="" style="background: #F5F3EE; padding: 26px 22px 30px; display: flex; flex-direction: column; gap: 14px; border-top: 1px solid rgba(16, 19, 24, 0.15); border-right: 1px solid rgba(16, 19, 24, 0.15)">
+      <span style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: #E7C24B">Campaign operations</span>
+      <p style="margin: 0; font-size: 15px; line-height: 1.55; color: rgba(16, 19, 24, 0.78)">Intake, production, and reporting pipelines that let a small team run national volume.</p>
+    </div>
+    <div data-reveal="" data-sys="" style="background: #F5F3EE; padding: 26px 22px 30px; display: flex; flex-direction: column; gap: 14px; border-top: 1px solid rgba(16, 19, 24, 0.15); border-right: 1px solid rgba(16, 19, 24, 0.15)">
+      <span style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: #0E9CD4">Design tooling</span>
+      <p style="margin: 0; font-size: 15px; line-height: 1.55; color: rgba(16, 19, 24, 0.78)">Plugins and automations that delete the repetitive half of production work.</p>
+    </div>
+    <div data-reveal="" data-sys="" style="background: #F5F3EE; padding: 26px 22px 30px; display: flex; flex-direction: column; gap: 14px; border-top: 1px solid rgba(16, 19, 24, 0.15); border-right: 1px solid rgba(16, 19, 24, 0.15)">
+      <span style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: #45B97C">Motion and web</span>
+      <p style="margin: 0; font-size: 15px; line-height: 1.55; color: rgba(16, 19, 24, 0.78)">Sites, interfaces, and motion built by the same person who designed them.</p>
+    </div>
+  </div>
+</section>
+
+<section data-chip="#0E9CD4" style="padding: clamp(56px, 10vh, 110px) clamp(16px, 4vw, 48px)">
+  <div data-reveal="" style="display: flex; align-items: baseline; justify-content: space-between; gap: 20px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(245, 243, 238, 0.5); border-bottom: 1px solid rgba(245, 243, 238, 0.12); padding-bottom: 16px">
+    <span>Section 04 / Archive / Print + digital</span>
+    <span>Seven entries</span>
+  </div>
+  <div data-reveal="" style="display: flex; flex-direction: column">
+    <a href="https://www.behance.net/gallery/76584883/RP-Funding-Website-Design" target="_blank" rel="noopener" data-arch="" data-chip="#E1462F" style="display: grid; grid-template-columns: 8px 34px minmax(0, 1fr) 170px 16px; align-items: center; gap: 16px; padding: 15px 0; border-bottom: 1px solid rgba(245, 243, 238, 0.1); font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; transition: opacity 0.3s ease" style-hover="opacity: 1" style-focus="outline: 2px solid #E1462F; outline-offset: 4px">
+      <span style="display: block; width: 8px; height: 8px; background: #E1462F"></span>
+      <span style="color: rgba(245, 243, 238, 0.35)">A01</span>
+      <span style="color: rgba(245, 243, 238, 0.88)">RP Funding Website Design</span>
+      <span style="color: rgba(245, 243, 238, 0.45)">RP Funding</span>
+      <span style="color: rgba(245, 243, 238, 0.45)">&#8599;</span>
+    </a>
+    <a href="https://www.behance.net/gallery/126509829/enfluence-marketing-logo" target="_blank" rel="noopener" data-arch="" data-chip="#E7C24B" style="display: grid; grid-template-columns: 8px 34px minmax(0, 1fr) 170px 16px; align-items: center; gap: 16px; padding: 15px 0; border-bottom: 1px solid rgba(245, 243, 238, 0.1); font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; transition: opacity 0.3s ease" style-focus="outline: 2px solid #E7C24B; outline-offset: 4px">
+      <span style="display: block; width: 8px; height: 8px; background: #E7C24B"></span>
+      <span style="color: rgba(245, 243, 238, 0.35)">A02</span>
+      <span style="color: rgba(245, 243, 238, 0.88)">Enfluence Marketing Logo</span>
+      <span style="color: rgba(245, 243, 238, 0.45)">Enfluence</span>
+      <span style="color: rgba(245, 243, 238, 0.45)">&#8599;</span>
+    </a>
+    <a href="https://www.behance.net/gallery/80612991/Meet-in-the-Middle-Branding" target="_blank" rel="noopener" data-arch="" data-chip="#0E9CD4" style="display: grid; grid-template-columns: 8px 34px minmax(0, 1fr) 170px 16px; align-items: center; gap: 16px; padding: 15px 0; border-bottom: 1px solid rgba(245, 243, 238, 0.1); font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; transition: opacity 0.3s ease" style-focus="outline: 2px solid #0E9CD4; outline-offset: 4px">
+      <span style="display: block; width: 8px; height: 8px; background: #0E9CD4"></span>
+      <span style="color: rgba(245, 243, 238, 0.35)">A03</span>
+      <span style="color: rgba(245, 243, 238, 0.88)">Meet in the Middle Branding</span>
+      <span style="color: rgba(245, 243, 238, 0.45)">Meet in the Middle</span>
+      <span style="color: rgba(245, 243, 238, 0.45)">&#8599;</span>
+    </a>
+    <a href="https://www.behance.net/gallery/71020781/Bitcoin-Cash-Fund-Brand-Guide" target="_blank" rel="noopener" data-arch="" data-chip="#45B97C" style="display: grid; grid-template-columns: 8px 34px minmax(0, 1fr) 170px 16px; align-items: center; gap: 16px; padding: 15px 0; border-bottom: 1px solid rgba(245, 243, 238, 0.1); font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; transition: opacity 0.3s ease" style-focus="outline: 2px solid #45B97C; outline-offset: 4px">
+      <span style="display: block; width: 8px; height: 8px; background: #45B97C"></span>
+      <span style="color: rgba(245, 243, 238, 0.35)">A04</span>
+      <span style="color: rgba(245, 243, 238, 0.88)">Bitcoin Cash Fund Brand Guide</span>
+      <span style="color: rgba(245, 243, 238, 0.45)">Bitcoin Cash Fund</span>
+      <span style="color: rgba(245, 243, 238, 0.45)">&#8599;</span>
+    </a>
+    <a href="https://www.behance.net/gallery/80811271/HomeVALUEcom-Marketing" target="_blank" rel="noopener" data-arch="" data-chip="#8A6BF2" style="display: grid; grid-template-columns: 8px 34px minmax(0, 1fr) 170px 16px; align-items: center; gap: 16px; padding: 15px 0; border-bottom: 1px solid rgba(245, 243, 238, 0.1); font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; transition: opacity 0.3s ease" style-focus="outline: 2px solid #8A6BF2; outline-offset: 4px">
+      <span style="display: block; width: 8px; height: 8px; background: #8A6BF2"></span>
+      <span style="color: rgba(245, 243, 238, 0.35)">A05</span>
+      <span style="color: rgba(245, 243, 238, 0.88)">HomeVALUE.com Marketing</span>
+      <span style="color: rgba(245, 243, 238, 0.45)">HomeVALUE.com</span>
+      <span style="color: rgba(245, 243, 238, 0.45)">&#8599;</span>
+    </a>
+    <a href="https://www.behance.net/gallery/126508473/RFP" target="_blank" rel="noopener" data-arch="" data-chip="#E1462F" style="display: grid; grid-template-columns: 8px 34px minmax(0, 1fr) 170px 16px; align-items: center; gap: 16px; padding: 15px 0; border-bottom: 1px solid rgba(245, 243, 238, 0.1); font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; transition: opacity 0.3s ease" style-focus="outline: 2px solid #E1462F; outline-offset: 4px">
+      <span style="display: block; width: 8px; height: 8px; background: #E1462F"></span>
+      <span style="color: rgba(245, 243, 238, 0.35)">A06</span>
+      <span style="color: rgba(245, 243, 238, 0.88)">RFP Design</span>
+      <span style="color: rgba(245, 243, 238, 0.45)">Confidential</span>
+      <span style="color: rgba(245, 243, 238, 0.45)">&#8599;</span>
+    </a>
+    <a href="https://vimeo.com/595434129" target="_blank" rel="noopener" data-arch="" data-chip="#E7C24B" style="display: grid; grid-template-columns: 8px 34px minmax(0, 1fr) 170px 16px; align-items: center; gap: 16px; padding: 15px 0; border-bottom: 1px solid rgba(245, 243, 238, 0.1); font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; transition: opacity 0.3s ease" style-focus="outline: 2px solid #E7C24B; outline-offset: 4px">
+      <span style="display: block; width: 8px; height: 8px; background: #E7C24B"></span>
+      <span style="color: rgba(245, 243, 238, 0.35)">A07</span>
+      <span style="color: rgba(245, 243, 238, 0.88)">Motion Piece</span>
+      <span style="color: rgba(245, 243, 238, 0.45)">Rename before launch</span>
+      <span style="color: rgba(245, 243, 238, 0.45)">&#8599;</span>
+    </a>
+  </div>
+</section>
+
+<section id="factory" data-chip="#8A6BF2" style="position: relative; padding: clamp(56px, 10vh, 120px) clamp(16px, 4vw, 48px); border-top: 1px solid rgba(245, 243, 238, 0.12); border-bottom: 1px solid rgba(245, 243, 238, 0.12)">
+  <span data-crosshair="" style="position: absolute; left: clamp(16px, 4vw, 48px); top: 22px; width: 14px; height: 14px; opacity: 0.45"><span style="position: absolute; left: 50%; top: 0; width: 1px; height: 100%; background: #8A6BF2"></span><span style="position: absolute; top: 50%; left: 0; height: 1px; width: 100%; background: #8A6BF2"></span></span>
+  <span data-crosshair="" style="position: absolute; right: clamp(16px, 4vw, 48px); bottom: 22px; width: 14px; height: 14px; opacity: 0.45"><span style="position: absolute; left: 50%; top: 0; width: 1px; height: 100%; background: #8A6BF2"></span><span style="position: absolute; top: 50%; left: 0; height: 1px; width: 100%; background: #8A6BF2"></span></span>
+
+  <div data-reveal="" style="display: flex; align-items: baseline; justify-content: space-between; gap: 20px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(138, 107, 242, 0.85); border-bottom: 1px solid rgba(245, 243, 238, 0.12); padding-bottom: 16px">
+    <span>Section 05 / The Factory</span>
+    <span>Manifest / Seven products</span>
+  </div>
+  <div data-reveal="" style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 28px; margin: clamp(28px, 5vh, 54px) 0 clamp(28px, 5vh, 48px)">
+    <h2 style="margin: 0; font-size: clamp(30px, 5.4vw, 84px); font-weight: 800; font-stretch: 100%; letter-spacing: -0.03em; line-height: 0.94; max-width: 16ch">The Factory. Tools that ship the work.</h2>
+    <p style="margin: 0; font-size: 15px; line-height: 1.6; color: rgba(245, 243, 238, 0.62); max-width: 42ch">Products built to remove friction from real production pipelines. Every one of these started as a bottleneck in my own week.</p>
+  </div>
+  <div data-reveal="" style="display: flex; flex-direction: column; border-top: 1px solid rgba(138, 107, 242, 0.35)">
+    <div style="display: grid; grid-template-columns: 26px minmax(0, 240px) minmax(0, 1fr) 128px; align-items: center; gap: 18px; padding: 16px 0; border-bottom: 1px solid rgba(245, 243, 238, 0.1)">
+      <span style="display: block; width: 9px; height: 9px; border: 1px solid #8A6BF2"></span>
+      <span style="font-size: 17px; font-weight: 600; font-stretch: 96%; letter-spacing: -0.01em">Mockup Map Baker</span>
+      <span style="font-size: 14px; color: rgba(245, 243, 238, 0.58); line-height: 1.45">Bakes Photoshop displacement, shadow, and highlight maps for mockup pipelines.</span>
+      <span style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: #8A6BF2; text-align: right">Shipped</span>
+    </div>
+    <div style="display: grid; grid-template-columns: 26px minmax(0, 240px) minmax(0, 1fr) 128px; align-items: center; gap: 18px; padding: 16px 0; border-bottom: 1px solid rgba(245, 243, 238, 0.1)">
+      <span style="display: block; width: 9px; height: 9px; border: 1px solid #8A6BF2"></span>
+      <span style="font-size: 17px; font-weight: 600; font-stretch: 96%; letter-spacing: -0.01em">Impose Pro</span>
+      <span style="font-size: 14px; color: rgba(245, 243, 238, 0.58); line-height: 1.45">Print imposition tooling for production ready layouts.</span>
+      <span style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: #8A6BF2; text-align: right">Shipped</span>
+    </div>
+    <div style="display: grid; grid-template-columns: 26px minmax(0, 240px) minmax(0, 1fr) 128px; align-items: center; gap: 18px; padding: 16px 0; border-bottom: 1px solid rgba(245, 243, 238, 0.1)">
+      <span style="display: block; width: 9px; height: 9px; border: 1px solid #8A6BF2"></span>
+      <span style="font-size: 17px; font-weight: 600; font-stretch: 96%; letter-spacing: -0.01em">CSV Importer</span>
+      <span style="font-size: 14px; color: rgba(245, 243, 238, 0.58); line-height: 1.45">Structured data import for design workflows.</span>
+      <span style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(245, 243, 238, 0.45); text-align: right">In production</span>
+    </div>
+    <div style="display: grid; grid-template-columns: 26px minmax(0, 240px) minmax(0, 1fr) 128px; align-items: center; gap: 18px; padding: 16px 0; border-bottom: 1px solid rgba(245, 243, 238, 0.1)">
+      <span style="display: block; width: 9px; height: 9px; border: 1px solid #8A6BF2"></span>
+      <span style="font-size: 17px; font-weight: 600; font-stretch: 96%; letter-spacing: -0.01em">Text Replacer + Tags</span>
+      <span style="font-size: 14px; color: rgba(245, 243, 238, 0.58); line-height: 1.45">Batch text replacement with tag based targeting.</span>
+      <span style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: #8A6BF2; text-align: right">Shipped</span>
+    </div>
+    <div style="display: grid; grid-template-columns: 26px minmax(0, 240px) minmax(0, 1fr) 128px; align-items: center; gap: 18px; padding: 16px 0; border-bottom: 1px solid rgba(245, 243, 238, 0.1)">
+      <span style="display: block; width: 9px; height: 9px; border: 1px solid #8A6BF2"></span>
+      <span style="font-size: 17px; font-weight: 600; font-stretch: 96%; letter-spacing: -0.01em">Creative Direction</span>
+      <span style="font-size: 14px; color: rgba(245, 243, 238, 0.58); line-height: 1.45">A creative operations dashboard for design teams.</span>
+      <span style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(245, 243, 238, 0.45); text-align: right">In production</span>
+    </div>
+    <div style="display: grid; grid-template-columns: 26px minmax(0, 240px) minmax(0, 1fr) 128px; align-items: center; gap: 18px; padding: 16px 0; border-bottom: 1px solid rgba(245, 243, 238, 0.1)">
+      <span style="display: block; width: 9px; height: 9px; border: 1px solid #8A6BF2"></span>
+      <span style="font-size: 17px; font-weight: 600; font-stretch: 96%; letter-spacing: -0.01em">MidJourney Prompt Injector</span>
+      <span style="font-size: 14px; color: rgba(245, 243, 238, 0.58); line-height: 1.45">Batch prompt injection for Midjourney workflows.</span>
+      <span style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(245, 243, 238, 0.45); text-align: right">Beta</span>
+    </div>
+    <div style="display: grid; grid-template-columns: 26px minmax(0, 240px) minmax(0, 1fr) 128px; align-items: center; gap: 18px; padding: 16px 0; border-bottom: 1px solid rgba(245, 243, 238, 0.1)">
+      <span style="display: block; width: 9px; height: 9px; border: 1px solid #8A6BF2"></span>
+      <span style="font-size: 17px; font-weight: 600; font-stretch: 96%; letter-spacing: -0.01em">MidJourney Explore Grabber</span>
+      <span style="font-size: 14px; color: rgba(245, 243, 238, 0.58); line-height: 1.45">Capture and organize references from Midjourney explore.</span>
+      <span style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(245, 243, 238, 0.45); text-align: right">Beta</span>
+    </div>
+  </div>
+</section>
+
+<section id="info" data-chip="#45B97C" style="padding: clamp(56px, 10vh, 120px) clamp(16px, 4vw, 48px)">
+  <div data-reveal="" style="display: flex; align-items: baseline; justify-content: space-between; gap: 20px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(245, 243, 238, 0.5); border-bottom: 1px solid rgba(245, 243, 238, 0.12); padding-bottom: 16px">
+    <span>Section 06 / Info</span>
+    <span>Orlando, FL</span>
+  </div>
+  <div data-reveal="" data-stack="" style="display: grid; grid-template-columns: minmax(260px, 0.8fr) minmax(0, 1.2fr); gap: clamp(28px, 5vw, 72px); margin-top: clamp(30px, 5vh, 56px); align-items: start">
+    <div style="position: relative; padding: 14px">
+      <span style="position: absolute; left: 0; top: 0; width: 16px; height: 16px; border-left: 1px solid rgba(69, 185, 124, 0.9); border-top: 1px solid rgba(69, 185, 124, 0.9)"></span>
+      <span style="position: absolute; right: 0; top: 0; width: 16px; height: 16px; border-right: 1px solid rgba(69, 185, 124, 0.9); border-top: 1px solid rgba(69, 185, 124, 0.9)"></span>
+      <span style="position: absolute; left: 0; bottom: 0; width: 16px; height: 16px; border-left: 1px solid rgba(69, 185, 124, 0.9); border-bottom: 1px solid rgba(69, 185, 124, 0.9)"></span>
+      <span style="position: absolute; right: 0; bottom: 0; width: 16px; height: 16px; border-right: 1px solid rgba(69, 185, 124, 0.9); border-bottom: 1px solid rgba(69, 185, 124, 0.9)"></span>
+      <div style="aspect-ratio: 4 / 5; background-color: rgba(69, 185, 124, 0.1); background-image: repeating-linear-gradient(135deg, rgba(245, 243, 238, 0.1) 0 1px, transparent 1px 10px); display: flex; align-items: flex-end; padding: 16px">
+        <span style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(245, 243, 238, 0.65)">Portrait or workspace shot</span>
+      </div>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: clamp(24px, 4vh, 40px)">
+      <p style="margin: 0; font-size: clamp(18px, 1.9vw, 27px); font-weight: 500; font-stretch: 98%; line-height: 1.35; letter-spacing: -0.015em; text-wrap: pretty; max-width: 48ch">I am a designer and creative operations lead in Orlando. I have spent about fifteen years moving between print floors, brand systems, and product teams, and the through line is always the same. I design the thing, then I design the way it gets made. Lately that means brand systems for luxury real estate, campaign pipelines that a two person team can actually run, and a small suite of tools I build for myself and then hand to everyone else.</p>
+      <div style="display: flex; flex-direction: column; gap: 18px">
+        <span style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(245, 243, 238, 0.42)">Select clients and collaborations</span>
+        <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 14px 34px; font-size: 19px; font-weight: 600; font-stretch: 92%; letter-spacing: 0.01em; color: rgba(245, 243, 238, 0.42)">
+          <span>Capital One</span><span>Visa</span><span>RP Funding</span><span>Fannie Mae</span><span>Enfluence</span><span>Luxottica</span>
+        </div>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 12px; border-top: 1px solid rgba(245, 243, 238, 0.12); padding-top: 18px">
+        <span style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(245, 243, 238, 0.42)">Services</span>
+        <p style="margin: 0; font-family: 'IBM Plex Mono', monospace; font-size: 11px; line-height: 2; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(245, 243, 238, 0.72)">Print marketing. Web design. UI and UX. Branding. Motion graphics. Front end development. Design operations.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer data-chip="#E7C24B" style="position: relative; overflow: hidden; padding: clamp(48px, 9vh, 100px) clamp(16px, 4vw, 48px) clamp(24px, 4vh, 40px); border-top: 1px solid rgba(245, 243, 238, 0.12)">
+  <canvas data-lines="" data-tone="paper" data-anchor="top" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0"></canvas>
+  <span data-reveal="" style="position: relative; z-index: 1; display: block; font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(245, 243, 238, 0.42); margin-bottom: 22px">Section 07 / Contact</span>
+  <a href="mailto:hello@kyleforeman.com" data-reveal="" style="position: relative; z-index: 1; display: inline-block; font-size: clamp(28px, 7vw, 108px); font-weight: 800; font-stretch: 104%; letter-spacing: -0.035em; line-height: 1; word-break: break-word; transition: color 0.3s ease" style-hover="color: #E7C24B" style-focus="outline: 2px solid #E7C24B; outline-offset: 8px">hello@kyleforeman.com</a>
+  <div style="display: flex; flex-wrap: wrap; gap: 18px 30px; position: relative; z-index: 1; margin-top: clamp(30px, 6vh, 60px); padding-top: 18px; border-top: 1px solid rgba(245, 243, 238, 0.12); font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(245, 243, 238, 0.5)">
+    <a href="https://www.linkedin.com" target="_blank" rel="noopener" style-hover="color: #F5F3EE" style-focus="outline: 2px solid #E7C24B; outline-offset: 4px">LinkedIn</a>
+    <a href="https://www.behance.net" target="_blank" rel="noopener" style-hover="color: #F5F3EE" style-focus="outline: 2px solid #E7C24B; outline-offset: 4px">Behance</a>
+    <a href="https://vimeo.com" target="_blank" rel="noopener" style-hover="color: #F5F3EE" style-focus="outline: 2px solid #E7C24B; outline-offset: 4px">Vimeo</a>
+    <span style="margin-left: auto">&#169; 2026 Kyle Foreman</span>
+  </div>
+  <p style="margin: 26px 0 0; font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(245, 243, 238, 0.26)">Printed in Orlando. Registration verified. No dashes were harmed.</p>
+</footer>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:900},&quot;showPreloader&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Motion&quot;},&quot;customCursor&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Motion&quot;},&quot;inertialScroll&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Motion&quot;}}">
+class Component extends DCLogic {
+  componentDidMount() {
+    this.root = document.body;
+    this.reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    this.touch = window.matchMedia("(hover: none)").matches || window.innerWidth < 820;
+    this.q = (s) => Array.from(this.root.querySelectorAll(s));
+    if (this.props.showPreloader === false) {
+      const p = this.root.querySelector("[data-preloader]");
+      if (p) p.style.display = "none";
+    } else this.preloader();
+    if (this.props.customCursor !== false) this.cursor();
+    else {
+      const c = this.root.querySelector("[data-cursor]");
+      if (c) c.style.display = "none";
+    }
+    if (this.props.inertialScroll !== false) this.smoothScroll();
+    this._onResize = () => this.responsive();
+    window.addEventListener("resize", this._onResize);
+    this.wire();
+    [200, 700, 1600, 3000].forEach((t) => setTimeout(() => this.wire(), t));
+  }
+
+  wire() {
+    this.reveals();
+    this.rows();
+    this.responsive();
+    this.lines();
+  }
+
+  lines() {
+    this.q("[data-lines]").forEach((cv) => {
+      const w = cv.clientWidth, h = cv.clientHeight;
+      if (!w || !h) return;
+      const key = w + "x" + h + "/v3";
+      if (cv.dataset.key === key) return;
+      cv.dataset.key = key;
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      cv.width = w * dpr; cv.height = h * dpr;
+      const c = cv.getContext("2d");
+      c.setTransform(dpr, 0, 0, dpr, 0, 0);
+      c.clearRect(0, 0, w, h);
+      const ink = cv.dataset.tone === "ink";
+      const neutral = ink ? "rgba(16,19,24,.5)" : "rgba(245,243,238,.5)";
+      const chips = ["#E1462F", "#E7C24B", "#0E9CD4", "#45B97C", "#8A6BF2"];
+      c.strokeStyle = neutral;
+      c.lineWidth = 1;
+      c.lineCap = "round";
+      // deterministic pseudo-random so the field is stable across redraws
+      let s = 20260808;
+      const rnd = () => ((s = (s * 1103515245 + 12345) & 0x7fffffff) / 0x7fffffff);
+      // Construction drawing: the geometry a design system is built on.
+      const cols = Math.max(6, Math.round(w / 130));
+      const unit = w / cols;
+      const rowsN = Math.max(3, Math.round(h / unit));
+      const line = (x1, y1, x2, y2) => { c.beginPath(); c.moveTo(x1, y1); c.lineTo(x2, y2); c.stroke(); };
+
+      // 1. the modular grid
+      c.globalAlpha = 0.1;
+      for (let i = 0; i <= cols; i++) line(i * unit, 0, i * unit, h);
+      for (let j = 0; j <= rowsN; j++) line(0, j * unit, w, j * unit);
+
+      // 2. baseline ruler ticks along one grid line
+      c.globalAlpha = 0.2;
+      const ruleY = Math.round(rowsN * (cv.dataset.anchor === "bottom" ? 0.62 : 0.34)) * unit;
+      let tick = 0;
+      for (let x = 0; x <= w; x += unit / 4) {
+        const major = Math.abs(x % unit) < 0.01;
+        const chipTick = major && tick % 8 === 0;
+        c.strokeStyle = chipTick ? chips[(tick / 8) % chips.length] : neutral;
+        c.globalAlpha = chipTick ? (ink ? 0.9 : 0.75) : 0.2;
+        line(x, ruleY, x, ruleY + (chipTick ? 17 : major ? 11 : 5));
+        tick++;
+      }
+      c.strokeStyle = neutral;
+
+      // 3. circles inscribed in grid modules, plus proportional squares and 45s
+      for (let k = 0; k < Math.max(5, Math.round(cols / 1.6)); k++) {
+        const gx = Math.floor(rnd() * cols), gy = Math.floor(rnd() * rowsN);
+        const span = 1 + Math.floor(rnd() * 3);
+        const x0 = gx * unit, y0 = gy * unit, size = span * unit;
+        const cxp = x0 + size / 2, cyp = y0 + size / 2;
+        const kind = rnd();
+        const accent = rnd() < 0.42;
+        c.strokeStyle = accent ? chips[k % chips.length] : neutral;
+        const boost = accent ? (ink ? 1.9 : 1.5) : 1;
+        if (kind < 0.42) {
+          c.globalAlpha = 0.26 * boost;
+          c.beginPath(); c.arc(cxp, cyp, size / 2, 0, Math.PI * 2); c.stroke();
+          c.globalAlpha = 0.14 * boost;
+          c.beginPath(); c.arc(cxp, cyp, size / 2 * 0.618, 0, Math.PI * 2); c.stroke();
+          line(cxp, y0, cxp, y0 + size);
+          line(x0, cyp, x0 + size, cyp);
+        } else if (kind < 0.72) {
+          c.globalAlpha = 0.24 * boost;
+          c.strokeRect(x0, y0, size, size);
+          c.globalAlpha = 0.13 * boost;
+          line(x0, y0, x0 + size, y0 + size);
+          line(x0 + size, y0, x0, y0 + size);
+          c.strokeRect(x0 + size * 0.191, y0 + size * 0.191, size * 0.618, size * 0.618);
+        } else {
+          c.globalAlpha = 0.2 * boost;
+          const r = size / 2;
+          for (let a = 0; a < 8; a++) {
+            const ang = (Math.PI * 2 / 8) * a;
+            line(cxp, cyp, cxp + Math.cos(ang) * r, cyp + Math.sin(ang) * r);
+          }
+          c.globalAlpha = 0.1 * boost;
+          c.beginPath(); c.arc(cxp, cyp, r, 0, Math.PI * 2); c.stroke();
+        }
+      }
+
+      // 4. registration crosses on a few intersections
+      for (let k = 0; k < Math.max(3, Math.round(cols / 3)); k++) {
+        const chip = chips[(k + 2) % chips.length];
+        c.strokeStyle = chip;
+        c.globalAlpha = ink ? 0.85 : 0.7;
+        const px = Math.round(rnd() * cols) * unit, py = Math.round(rnd() * rowsN) * unit;
+        line(px - 7, py, px + 7, py);
+        line(px, py - 7, px, py + 7);
+      }
+      c.globalAlpha = 1;
+    });
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("resize", this._onResize);
+    if (this._wheel) window.removeEventListener("wheel", this._wheel, { passive: false });
+    if (this._io) this._io.disconnect();
+  }
+
+  preloader() {
+    const pre = this.root.querySelector("[data-preloader]");
+    if (!pre) return;
+    const done = () => {
+      pre.style.transition = "opacity .5s ease";
+      pre.style.opacity = "0";
+      setTimeout(() => { pre.style.display = "none"; }, 520);
+      try { sessionStorage.setItem("kf-proof-seen", "1"); } catch (e) {}
+    };
+    let seen = false;
+    try { seen = sessionStorage.getItem("kf-proof-seen") === "1"; } catch (e) {}
+    if (seen || this.reduced) { pre.style.display = "none"; return; }
+    const ticket = pre.querySelector("[data-ticket]");
+    if (ticket) {
+      const full = ticket.textContent;
+      ticket.textContent = "";
+      let i = 0;
+      const t = setInterval(() => {
+        ticket.textContent = full.slice(0, ++i);
+        if (i >= full.length) clearInterval(t);
+      }, 26);
+      this._t = t;
+    }
+    const skip = pre.querySelector("[data-skip]");
+    if (skip) skip.addEventListener("click", done);
+    setTimeout(done, 1900);
+  }
+
+  reveals() {
+    const els = this.q("[data-reveal]").filter((el) => {
+      if (el.dataset.wired) return false;
+      el.dataset.wired = "1";
+      return true;
+    });
+    if (!els.length) return;
+    const show = (el) => {
+      el.style.transition = "opacity .8s cubic-bezier(.22,1,.36,1), transform .8s cubic-bezier(.22,1,.36,1)";
+      el.style.opacity = "1";
+      el.style.transform = "none";
+    };
+    if (this.reduced) { els.forEach(show); return; }
+    els.forEach((el) => { el.style.opacity = "0"; el.style.transform = "translateY(22px)"; });
+    const io = new IntersectionObserver((ents) => {
+      ents.forEach((e) => { if (e.isIntersecting) { show(e.target); io.unobserve(e.target); } });
+    }, { rootMargin: "0px 0px -8% 0px", threshold: 0.05 });
+    this._io = io;
+    els.forEach((el) => io.observe(el));
+    setTimeout(() => els.forEach(show), 3200);
+  }
+
+  rows() {
+    const rows = this.q("[data-row]");
+    const fresh = rows.filter((r) => !r.dataset.wired);
+    const rgba = (hex, a) => {
+      const n = parseInt(hex.slice(1), 16);
+      return "rgba(" + [(n >> 16) & 255, (n >> 8) & 255, n & 255].join(",") + "," + a + ")";
+    };
+    fresh.forEach((row) => {
+      row.dataset.wired = "1";
+      const chip = row.getAttribute("data-chip");
+      const title = row.querySelector("[data-row-title]");
+      const plate = row.querySelector("[data-plate]");
+      const fill = row.querySelector("[data-plate-fill]");
+      const view = row.querySelector("[data-plate-view]");
+      row.addEventListener("mouseenter", () => {
+        this.chip = chip;
+        rows.forEach((o) => { o.style.opacity = o === row ? "1" : "0.34"; });
+        row.style.paddingLeft = "14px";
+        if (title) title.style.color = chip;
+        if (plate) { plate.style.borderColor = chip; plate.style.transform = "scale(1.03)"; }
+        if (fill) fill.style.backgroundColor = rgba(chip, 0.24);
+        if (view && !this.touch) { view.style.opacity = "1"; view.style.transform = "translate(-50%,-50%) scale(1)"; }
+      });
+      row.addEventListener("mouseleave", () => {
+        this.chip = null;
+        rows.forEach((o) => { o.style.opacity = "1"; });
+        row.style.paddingLeft = "0px";
+        if (title) title.style.color = "";
+        if (plate) { plate.style.borderColor = "rgba(245,243,238,.14)"; plate.style.transform = "none"; }
+        if (fill) fill.style.backgroundColor = rgba(chip, 0.13);
+        if (view) { view.style.opacity = "0"; view.style.transform = "translate(-50%,-50%) scale(.8)"; }
+      });
+    });
+
+    this.q("[data-arch]").filter((a) => !a.dataset.wired).forEach((a) => {
+      a.dataset.wired = "1";
+      const chip = a.getAttribute("data-chip");
+      a.addEventListener("mouseenter", () => { this.chip = chip; a.style.borderBottomColor = chip; });
+      a.addEventListener("mouseleave", () => { this.chip = null; a.style.borderBottomColor = "rgba(245,243,238,.1)"; });
+    });
+
+  }
+
+  cursor() {
+    const cur = this.root.querySelector("[data-cursor]");
+    if (!cur) return;
+    if (this.reduced || this.touch) { cur.style.display = "none"; return; }
+    const cross = cur.querySelector("[data-cursor-cross]");
+    const label = cur.querySelector("[data-cursor-label]");
+    const media = this.root.querySelector("[data-media]");
+    document.documentElement.style.cursor = "none";
+    let x = window.innerWidth / 2, y = window.innerHeight / 2, cx = x, cy = y, mx = x, my = y;
+    const sectionChip = () => {
+      let found = "#F5F3EE";
+      this.q("[data-chip]").forEach((s) => {
+        if (s.hasAttribute("data-row") || s.hasAttribute("data-arch")) return;
+        const r = s.getBoundingClientRect();
+        if (r.top <= y && r.bottom >= y) found = s.getAttribute("data-chip");
+      });
+      return found === "#101318" ? "#101318" : found;
+    };
+    window.addEventListener("mousemove", (e) => {
+      x = e.clientX; y = e.clientY;
+      cur.style.opacity = "1";
+      const overRow = !!(e.target.closest && e.target.closest("[data-row]"));
+      const chip = this.chip || sectionChip();
+      cur.style.color = chip;
+      label.style.background = chip;
+      label.style.color = chip === "#101318" ? "#F5F3EE" : "#101318";
+      if (overRow) {
+        cross.style.opacity = "0";
+        label.style.transition = "opacity .25s ease, transform .25s cubic-bezier(.22,1,.36,1)";
+        label.style.opacity = "1";
+        label.style.transform = "translate(-50%,-50%) scale(1)";
+      } else {
+        cross.style.opacity = "1";
+        label.style.opacity = "0";
+        label.style.transform = "translate(-50%,-50%) scale(.6)";
+      }
+    });
+    const tick = () => {
+      cx += (x - cx) * 0.22; cy += (y - cy) * 0.22;
+      mx += (x - mx) * 0.1; my += (y - my) * 0.1;
+      cur.style.transform = "translate(" + cx + "px," + cy + "px)";
+      if (media) { media.style.left = mx + "px"; media.style.top = my + "px"; }
+      this._raf = requestAnimationFrame(tick);
+    };
+    tick();
+  }
+
+  smoothScroll() {
+    if (this.reduced || this.touch) return;
+    let target = window.scrollY, current = window.scrollY, running = false;
+    const max = () => document.documentElement.scrollHeight - window.innerHeight;
+    const run = () => {
+      current += (target - current) * 0.12;
+      if (Math.abs(target - current) < 0.4) { current = target; running = false; }
+      window.scrollTo(0, current);
+      if (running) requestAnimationFrame(run);
+    };
+    this._wheel = (e) => {
+      if (e.ctrlKey) return;
+      e.preventDefault();
+      target = Math.max(0, Math.min(max(), target + e.deltaY));
+      if (!running) { running = true; current = window.scrollY; requestAnimationFrame(run); }
+    };
+    window.addEventListener("wheel", this._wheel, { passive: false });
+    window.addEventListener("keydown", () => { target = window.scrollY; });
+  }
+
+  responsive() {
+    const narrow = window.innerWidth < 900;
+    const tight = window.innerWidth < 620;
+    this.touch = window.matchMedia("(hover: none)").matches || narrow;
+    this.q("[data-row]").forEach((r) => {
+      r.style.gridTemplateColumns = narrow ? "34px minmax(0,1fr)" : "46px minmax(0, 1fr) clamp(220px, 27vw, 400px)";
+      const plate = r.querySelector("[data-plate]");
+      if (plate) { plate.style.gridColumn = narrow ? "1 / 3" : ""; plate.style.marginTop = narrow ? "20px" : "0"; }
+    });
+    this.q("[data-arch]").forEach((a) => {
+      a.style.gridTemplateColumns = tight ? "8px minmax(0,1fr) 16px" : "8px 34px minmax(0, 1fr) 170px 16px";
+      const kids = Array.from(a.children);
+      kids[1].style.display = tight ? "none" : "block";
+      kids[3].style.display = tight ? "none" : "block";
+    });
+    const facRows = this.q("#factory > div:last-child > div");
+    facRows.forEach((d) => {
+      d.style.gridTemplateColumns = narrow ? "14px minmax(0,1fr) 96px" : "26px minmax(0, 240px) minmax(0, 1fr) 128px";
+      if (narrow) { d.style.alignItems = "start"; d.children[2].style.gridColumn = "2 / 4"; d.children[2].style.marginTop = "6px"; }
+      else { d.style.alignItems = "center"; d.children[2].style.gridColumn = ""; d.children[2].style.marginTop = ""; }
+    });
+    const sysItems = this.q("[data-sys]");
+    sysItems.forEach((el, i) => { el.style.borderRight = i === sysItems.length - 1 ? "0" : "1px solid rgba(16,19,24,.15)"; });
+    const stack = this.root.querySelector("[data-stack]");
+    if (stack) stack.style.gridTemplateColumns = narrow ? "minmax(0,1fr)" : "minmax(260px, 0.8fr) minmax(0, 1.2fr)";
+  }
+}
+</script>
+</body>
+</html>

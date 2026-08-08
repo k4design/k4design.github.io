@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23101318'/%3E%3Cpath d='M16 5v22M5 16h22' stroke='%23F5F3EE' stroke-width='1.5'/%3E%3Ccircle cx='16' cy='16' r='6' fill='none' stroke='%23F5F3EE' stroke-width='1.5'/%3E%3C/svg%3E" />
+<style>
+  html { background: #101318; }
+  body { margin: 0; background: #101318; color: #F5F3EE; font-family: Archivo, Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+  * { box-sizing: border-box; }
+  a { color: #F5F3EE; text-decoration: none; }
+  a:hover { color: #F5F3EE; }
+  @keyframes csRise { from { transform: translateY(105%); } to { transform: translateY(0); } }
+  @keyframes csFade { from { opacity: 0; } to { opacity: 1; } }
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.001s !important; transition-duration: 0.001s !important; } }
+</style>
+</helmet>
+
+<nav style="position: sticky; top: 0; z-index: 20; display: flex; align-items: center; justify-content: space-between; padding: 16px clamp(16px, 4vw, 48px); border-bottom: 1px solid rgba(245, 243, 238, 0.12); background: rgba(16, 19, 24, 0.78); backdrop-filter: blur(8px); font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase">
+  <a href="Kyle Foreman Portfolio.dc.html" style="display: flex; align-items: center; gap: 10px" style-hover="opacity: 0.6">
+    <span style="position: relative; display: inline-block; width: 13px; height: 13px"><span style="position: absolute; left: 50%; top: 0; width: 1px; height: 100%; background: #F5F3EE"></span><span style="position: absolute; top: 50%; left: 0; height: 1px; width: 100%; background: #F5F3EE"></span></span>
+    <span>Kyle Foreman</span>
+  </a>
+  <a href="Kyle Foreman Portfolio.dc.html#work" style="color: rgba(245, 243, 238, 0.7)" style-hover="color: #F5F3EE" style-focus="outline: 2px solid #E1462F; outline-offset: 4px">Back to index</a>
+</nav>
+
+<header data-band="" style="background: #E1462F; color: #101318; padding: clamp(48px, 9vh, 110px) clamp(16px, 4vw, 48px) clamp(32px, 6vh, 64px)">
+  <span style="display: block; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; opacity: 0.68; margin-bottom: clamp(22px, 5vh, 48px)">Proof 01 / Case study</span>
+  <h1 style="margin: 0; font-size: clamp(34px, 7.4vw, 116px); font-weight: 800; letter-spacing: -0.035em; line-height: 0.92; max-width: 18ch">
+    <span style="display: block; overflow: hidden; padding-bottom: 0.03em"><span data-title="" style="display: block; font-stretch: 106%; animation: csRise 0.9s 0.1s cubic-bezier(0.22, 1, 0.36, 1) both">Aperture Global Brand System</span></span>
+  </h1>
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 24px; margin-top: clamp(30px, 6vh, 64px); border-top: 1px solid rgba(16, 19, 24, 0.28); padding-top: 20px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; animation: csFade 0.9s 0.4s both">
+    <span style="display: flex; flex-direction: column; gap: 8px"><span style="opacity: 0.6">Client</span><span data-client="">Aperture Global Real Estate</span></span>
+    <span style="display: flex; flex-direction: column; gap: 8px"><span style="opacity: 0.6">Year</span><span data-year="">2025</span></span>
+    <span style="display: flex; flex-direction: column; gap: 8px"><span style="opacity: 0.6">Role</span><span data-role="">Design lead, brand systems</span></span>
+    <span style="display: flex; flex-direction: column; gap: 8px"><span style="opacity: 0.6">Outcome</span><span data-outcome="">One system, forty markets, zero rebuilds</span></span>
+  </div>
+</header>
+
+<section style="padding: clamp(44px, 8vh, 100px) clamp(16px, 4vw, 48px); display: grid; grid-template-columns: minmax(0, 1fr); gap: clamp(44px, 8vh, 100px)">
+  <div data-block="" style="display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: clamp(20px, 4vw, 56px); align-items: start">
+    <span style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(245, 243, 238, 0.45); padding-top: 8px">Challenge</span>
+    <p style="margin: 0; font-size: clamp(18px, 1.9vw, 27px); font-weight: 500; line-height: 1.4; letter-spacing: -0.015em; text-wrap: pretty; max-width: 52ch">A fast growing luxury brokerage had strong listings and no shared language. Every market office was rebuilding decks, mailers, and reports from scratch, so the brand looked different in every city it entered.</p>
+  </div>
+
+  <figure data-media="" style="margin: 0">
+    <div style="aspect-ratio: 16 / 9; background-color: rgba(225, 70, 47, 0.12); background-image: repeating-linear-gradient(135deg, rgba(245, 243, 238, 0.1) 0 1px, transparent 1px 10px); border: 1px solid rgba(225, 70, 47, 0.7); display: flex; align-items: flex-end; padding: 18px"></div>
+    <figcaption style="margin-top: 12px; font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(245, 243, 238, 0.45)">Full bleed media / brand system spreads</figcaption>
+  </figure>
+
+  <div data-block="" style="display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: clamp(20px, 4vw, 56px); align-items: start">
+    <span style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(245, 243, 238, 0.45); padding-top: 8px">System</span>
+    <p style="margin: 0; font-size: clamp(18px, 1.9vw, 27px); font-weight: 500; line-height: 1.4; letter-spacing: -0.015em; text-wrap: pretty; max-width: 52ch">I built the guide, the template kit, and the production rules together. Type, grid, and photography standards on one side, and on the other a set of files an agent can open on a Monday and ship by noon. The system carries its own instructions.</p>
+  </div>
+
+  <div data-pair="" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(14px, 2vw, 28px)">
+    <div style="aspect-ratio: 4 / 5; background-color: rgba(225, 70, 47, 0.1); background-image: repeating-linear-gradient(135deg, rgba(245, 243, 238, 0.1) 0 1px, transparent 1px 10px); border: 1px solid rgba(245, 243, 238, 0.14)"></div>
+    <div style="aspect-ratio: 4 / 5; background-color: rgba(225, 70, 47, 0.06); background-image: repeating-linear-gradient(135deg, rgba(245, 243, 238, 0.1) 0 1px, transparent 1px 10px); border: 1px solid rgba(245, 243, 238, 0.14)"></div>
+  </div>
+
+  <div data-block="" style="display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: clamp(20px, 4vw, 56px); align-items: start">
+    <span style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(245, 243, 238, 0.45); padding-top: 8px">Result</span>
+    <p style="margin: 0; font-size: clamp(18px, 1.9vw, 27px); font-weight: 500; line-height: 1.4; letter-spacing: -0.015em; text-wrap: pretty; max-width: 52ch">Launch materials now go out in hours instead of weeks, campaign reporting reads the same in every market, and the brand holds together as the network grows. The proof is that nobody asks me how to use it.</p>
+  </div>
+</section>
+
+<a data-next="" href="Kyle Foreman Portfolio.dc.html#work" style="display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 18px; padding: clamp(40px, 8vh, 96px) clamp(16px, 4vw, 48px); border-top: 1px solid rgba(245, 243, 238, 0.12); transition: background 0.4s ease, color 0.4s ease" style-hover="background: #E7C24B; color: #101318">
+  <span style="display: flex; flex-direction: column; gap: 14px">
+    <span style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; opacity: 0.55">Next / Proof 02</span>
+    <span style="font-size: clamp(26px, 5vw, 72px); font-weight: 800; font-stretch: 102%; letter-spacing: -0.03em; line-height: 0.98">The Collective, Season One</span>
+  </span>
+  <span style="display: flex; align-items: center; gap: 14px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase">
+    <span data-next-chip="" style="display: block; width: 20px; height: 20px; background: #E7C24B"></span>
+    <span>View</span>
+  </span>
+</a>
+
+<footer style="padding: 26px clamp(16px, 4vw, 48px) 34px; border-top: 1px solid rgba(245, 243, 238, 0.12); display: flex; flex-wrap: wrap; gap: 14px 28px; font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(245, 243, 238, 0.3)">
+  <span>File / KF-2026-Portfolio</span>
+  <span>Registration verified</span>
+  <span style="margin-left: auto">&#169; 2026 Kyle Foreman</span>
+</footer>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:900},&quot;chip&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#E1462F&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;options&quot;:[&quot;#E1462F&quot;,&quot;#E7C24B&quot;,&quot;#0E9CD4&quot;,&quot;#45B97C&quot;,&quot;#8A6BF2&quot;],&quot;section&quot;:&quot;Proof&quot;},&quot;nextChip&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#E7C24B&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;options&quot;:[&quot;#E1462F&quot;,&quot;#E7C24B&quot;,&quot;#0E9CD4&quot;,&quot;#45B97C&quot;,&quot;#8A6BF2&quot;],&quot;section&quot;:&quot;Proof&quot;}}">
+class Component extends DCLogic {
+  componentDidMount() {
+    this.apply();
+    [200, 800].forEach((t) => setTimeout(() => this.apply(), t));
+    this._r = () => this.apply();
+    window.addEventListener("resize", this._r);
+  }
+  componentWillUnmount() { window.removeEventListener("resize", this._r); }
+  componentDidUpdate() { this.apply(); }
+
+  apply() {
+    const p = this.props || {};
+    const chip = p.chip || "#E1462F";
+    const next = p.nextChip || "#E7C24B";
+    const set = (sel, val) => { const el = document.querySelector(sel); if (el && val) el.textContent = val; };
+    const band = document.querySelector("[data-band]");
+    if (band) band.style.background = chip;
+    const nc = document.querySelector("[data-next-chip]");
+    if (nc) nc.style.background = next;
+    const nx = document.querySelector("[data-next]");
+    if (nx && !nx.dataset.wired) {
+      nx.dataset.wired = "1";
+      nx.addEventListener("mouseenter", () => { nx.style.background = next; nx.style.color = "#101318"; });
+      nx.addEventListener("mouseleave", () => { nx.style.background = "transparent"; nx.style.color = "#F5F3EE"; });
+    }
+    set("[data-title]", p.title);
+    set("[data-client]", p.client);
+    set("[data-year]", p.year);
+    set("[data-role]", p.role);
+    set("[data-outcome]", p.outcome);
+    const narrow = window.innerWidth < 780;
+    document.querySelectorAll("[data-block]").forEach((b) => { b.style.gridTemplateColumns = narrow ? "minmax(0,1fr)" : "150px minmax(0, 1fr)"; });
+    const pair = document.querySelector("[data-pair]");
+    if (pair) pair.style.gridTemplateColumns = narrow ? "minmax(0,1fr)" : "repeat(2, minmax(0, 1fr))";
+  }
+}
+</script>
+</body>
+</html>
