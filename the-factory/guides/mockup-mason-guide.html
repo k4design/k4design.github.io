@@ -159,7 +159,7 @@
        D .80→1    statement line enters
      ============================================================ */
   .cine {
-    position: relative; height: 320vh; background: #000;
+    position: relative; height: 260vh; background: #000;
     /* the stage is black in both themes, so its type and accents are
        pinned to the dark palette — same trick as .hero */
     --ink: #F6EFE6; --ink-2: #B3A492; --ink-3: #7C6E5E;
@@ -188,7 +188,7 @@
 
   .cine-clip {
     margin: 0; max-width: min(960px, 92vw); justify-self: center;
-    transform: translateY(calc((1 - var(--b)) * 28vh))
+    transform: translateY(calc((1 - var(--b)) * 64vh))
                scale(calc(.82 + var(--b) * .38));
     opacity: calc(1 - var(--c));
     will-change: transform, opacity;
@@ -204,11 +204,15 @@
     pointer-events: none;
   }
   .cine-next p { margin: 0; }
+  /* two sub-beats carved out of --d, used on phones where the pair is split
+     into separate slides. Harmless on desktop: nothing reads them there. */
+  .cine { --n1: clamp(0, calc((var(--p, 0) - .78) / .08), 1);
+          --n2: clamp(0, calc((var(--p, 0) - .89) / .06), 1); }
 
   /* ---------- beat variants ----------
      Every .cine stage gets --p and the same --a…--d phases; a variant
      class decides what the layers are. Beats are shorter than the hero. */
-  .cine--beat { height: 240vh;
+  .cine--beat { height: 210vh;
     /* the maps beat's title hands the frame over to the cylinder rather than
        sitting there for the whole stage: it lifts away once the first map has
        landed, leaving the tiles and their copy alone for the rest of the sweep */
@@ -216,7 +220,14 @@
     /* and the cylinder follows it out: once the last map has had its say the
        whole rig — tiles and their copy together — lifts and fades, so the beat
        hands an empty frame to the next stage instead of cutting */
-    --cyl-out: clamp(0, calc((var(--p, 0) - .90) / .10), 1); }
+    --cyl-out: clamp(0, calc((var(--p, 0) - .90) / .10), 1);
+    /* The rig climbs as the beat runs, and it is done climbing by three
+       quarters of the way through — front-loaded, so the movement reads at
+       normal scrolling speed instead of creeping. It only ever travels upward
+       from where it starts, never below, so the clearance the caption relies
+       on can only improve as the sweep runs. */
+    --cyl-lift: clamp(0, calc(var(--p, 0) / .75), 1);
+    --cyl-rise: calc(var(--cyl-lift) * -13vh); }
   .cine-title {
     text-align: center; padding: 0 24px;
     font-size: clamp(28px, 4.6vw, 46px); line-height: 1.12;
@@ -228,9 +239,12 @@
   }
   .cine-title p { margin: 0; }
   /* in the maps beat the title takes the top of the frame, clear of the tiles */
+  /* This one arrives on --pre rather than --p: --p does not start until the
+     stage pins, which left the whole hand-over from the beat before it empty.
+     On --pre the title is already landing as the section rises into frame. */
   .cine-title--top { align-self: start; padding-top: 13vh;
-    opacity: calc(var(--a) - var(--title-out, 0));
-    transform: translateY(calc((1 - var(--a)) * 24px
+    opacity: calc(var(--pre, 1) - var(--title-out, 0));
+    transform: translateY(calc((1 - var(--pre, 1)) * 24px
                                - var(--title-out, 0) * 7vh)); }
   .cine-title .sub {
     display: block; margin-top: 14px;
@@ -259,7 +273,14 @@
     opacity: calc(var(--w1) - var(--w2));
     transform: translateY(calc((1 - var(--w1)) * 26px + var(--w2) * -9vh));
     pointer-events: none; will-change: transform, opacity; }
-  .what-copy h2 { margin: 0 0 24px; }
+  /* this stage is a full-screen beat, not a document section — the heading is
+     sized to own the frame rather than to sit in a column of body copy */
+  .what-copy h2 { margin: 0 0 24px; font-size: clamp(66px, 12vw, 156px);
+    line-height: .96; letter-spacing: -.045em; }
+  /* the section number is a 12px chip elsewhere on the page; at this size it
+     reads as a speck stuck to the W, so it becomes a line of its own above */
+  .what-copy h2 .h2num { display: block; font-size: 13px; padding: 3px 9px;
+    margin: 0 0 18px; width: max-content; vertical-align: baseline; }
   .what-copy p { color: var(--ink-2); margin: 0 0 20px; }
   .what-copy .lede { font-size: clamp(19px, 2vw, 23px); line-height: 1.6; color: var(--ink); }
   /* each paragraph rides its own slice of w1 so they land in sequence */
@@ -319,11 +340,7 @@
                        drop-shadow(0 0 12px rgba(252,156,12,.40)); }
 
 
-  @media (max-width: 720px) {
-    .ports { -webkit-mask-image: linear-gradient(to right, #000 0%, transparent 27vw,
-                                 transparent calc(100% - 27vw), #000 100%);
-                     mask-image: linear-gradient(to right, #000 0%, transparent 27vw,
-                                 transparent calc(100% - 27vw), #000 100%); } }
+
 
   /* ============================================================
      THE COMPOSITING STACK
@@ -379,12 +396,17 @@
       repeating-linear-gradient(90deg, rgba(252,156,12,.55) 0 1px, transparent 1px 24px),
       repeating-linear-gradient(0deg,  rgba(252,156,12,.30) 0 1px, transparent 1px 24px),
       repeating-linear-gradient(0deg,  rgba(255,236,196,.10) 0 2px, transparent 2px 5px); }
-  .stack-beam { position: absolute; left: 0; right: 0; height: 15%; top: -18%;
+  .stack-beam { position: absolute; left: 0; right: 0; height: 7%; top: -12%;
     z-index: 4; opacity: 0; pointer-events: none;
     background: linear-gradient(180deg, transparent 0%,
-                rgba(255,214,138,.35) 45%, rgba(255,242,214,.95) 62%,
-                rgba(255,214,138,.30) 74%, transparent 100%);
-    box-shadow: 0 0 34px 10px rgba(252,156,12,.45); }
+                rgba(255,214,138,.40) 32%, rgba(255,247,226,1) 52%,
+                rgba(255,214,138,.34) 70%, transparent 100%);
+    /* drawn to a point at both ends. The glow is a drop-shadow rather than a
+       box-shadow because box-shadow follows the element's box and would keep
+       a rectangle around the tapered shape; drop-shadow traces the clip. */
+    clip-path: polygon(0 50%, 7% 0, 93% 0, 100% 50%, 93% 100%, 7% 100%);
+    filter: drop-shadow(0 0 11px rgba(252,156,12,.60))
+            drop-shadow(0 0 24px rgba(252,156,12,.32)); }
 
   /* Each layer flies in from a different quarter and from well outside the
      frame — the photograph from the left, the shadow map down from above, the
@@ -412,12 +434,12 @@
      to surface when the render fades at the end. */
   @keyframes showL {
     0%, 2%    { opacity: 0; }
-    4%, 63%   { opacity: 1; }
-    67%, 100% { opacity: 0; }
+    4%, 61%   { opacity: 1; }
+    65%, 100% { opacity: 0; }
   }
-  @keyframes showT  { 0%, 13% { opacity: 0; } 15%, 63% { opacity: 1; } 67%, 100% { opacity: 0; } }
+  @keyframes showT  { 0%, 13% { opacity: 0; } 15%, 61% { opacity: 1; } 65%, 100% { opacity: 0; } }
   @keyframes showTs { 0%, 13% { opacity: 0; } 15%, 20% { opacity: 1; } 26%, 100% { opacity: 0; } }
-  @keyframes showR  { 0%, 24% { opacity: 0; } 26%, 63% { opacity: 1; } 67%, 100% { opacity: 0; } }
+  @keyframes showR  { 0%, 24% { opacity: 0; } 26%, 61% { opacity: 1; } 65%, 100% { opacity: 0; } }
   @keyframes showRs { 0%, 24% { opacity: 0; } 26%, 31% { opacity: 1; } 37%, 100% { opacity: 0; } }
 
   @keyframes scanShow {
@@ -427,35 +449,48 @@
   }
   @keyframes scanGrid {          /* drawn in without a beam leading it */
     0%, 36%   { clip-path: inset(0 0 100% 0); }
-    45%, 100% { clip-path: inset(0 0 0 0); }
+    42%, 100% { clip-path: inset(0 0 0 0); }
   }
   /* One pass. The beam lays the orange down in its wake on the way past; when
      it reaches the bottom the plate is complete, and the orange then dissolves
      in place rather than being swept off by a second sweep. */
+  /* The beam's travel is the clock everything else reads: its bright centre
+     (top + half its 7% height) crosses the frame top at 50.6% and the bottom
+     at 57.75%, and the plate's and render's clip edges are keyed to those
+     numbers. All three run linear — one eased track among them and the edges
+     drift apart mid-pass. */
   @keyframes beamSweep {
-    0%, 51%   { top: -18%; opacity: 0; }
-    52%       { top: -18%; opacity: 1; }
-    62%       { top: 100%;  opacity: 1; }
-    63%, 100% { top: 100%;  opacity: 0; }
+    0%, 50%   { top: -12%; opacity: 0; }
+    50.5%     { top: -5%;  opacity: 1; }
+    58%       { top: 100%; opacity: 1; }
+    58.5%, 100% { top: 100%; opacity: 0; }
   }
 
-  /* the render fades up behind the plate, then holds — it is the payoff, so it
-     gets the longest single beat in the cycle */
+  /* The render is not cross-faded in behind the plate — it is wiped in by the
+     beam itself, on exactly the plate's clock, so the finished shirt appears
+     in the beam's wake line by line while the un-printed composite is still
+     showing below it. The cut edge sits directly under the beam's glow, so
+     the seam is never visible. It then holds: it is the payoff, and it gets
+     the longest single beat in the cycle. */
   @keyframes stackReveal {
-    0%, 62%   { opacity: 0; }
-    66%, 95%  { opacity: 1; }
-    99%, 100% { opacity: 0; }
+    0%, 50.5%   { opacity: 0; clip-path: inset(0 0 100% 0); }
+    50.57%      { opacity: 1; clip-path: inset(0 0 100% 0); }
+    57.6%, 95%  { opacity: 1; clip-path: inset(0 0 0 0); }
+    99%, 100%   { opacity: 0; clip-path: inset(0 0 0 0); }
   }
   @keyframes stackBurn {
-    0%, 52%   { opacity: 1; clip-path: inset(0 0 100% 0);
+    /* the clip edge is keyed to the beam's bright centre: it crosses the top
+       of the frame at 50.57% and the bottom at 57.6%, so the orange advances
+       exactly at the beam line, never past it */
+    0%, 50.57% { opacity: 1; clip-path: inset(0 0 100% 0);
                 box-shadow: 0 0 0 0 rgba(252,156,12,0); }
-    62%       { opacity: 1; clip-path: inset(0 0 0 0);
+    57.6%     { opacity: 1; clip-path: inset(0 0 0 0);
                 box-shadow: 0 0 70px 12px rgba(252,156,12,.55),
                             0 0 0 1px rgba(252,156,12,.7) inset; }
-    70%       { opacity: 1; clip-path: inset(0 0 0 0);
+    68%       { opacity: 1; clip-path: inset(0 0 0 0);
                 box-shadow: 0 0 70px 12px rgba(252,156,12,.55),
                             0 0 0 1px rgba(252,156,12,.7) inset; }
-    80%       { opacity: 0; clip-path: inset(0 0 0 0);
+    78%       { opacity: 0; clip-path: inset(0 0 0 0);
                 box-shadow: 0 0 16px 2px rgba(252,156,12,0),
                             0 0 0 1px rgba(252,156,12,0) inset; }
     /* the clip resets while the plate is already invisible */
@@ -475,8 +510,9 @@
   .what-note.play .stack-scan { animation: scanShow 16s linear infinite,
                                            scanGrid 16s linear infinite; }
   .what-note.play .stack-beam { animation: beamSweep 16s linear infinite; }
-  .what-note.play .l3 { animation: stackReveal 16s var(--ease) infinite; }
-  .what-note.play .stack-burn { animation: stackBurn 16s var(--ease) infinite; }
+  /* linear like the beam — eased, the clip edge sprints ahead of it */
+  .what-note.play .l3 { animation: stackReveal 16s linear infinite; }
+  .what-note.play .stack-burn { animation: stackBurn 16s linear infinite; }
 
   @media (max-height: 820px) { .stack-rig { width: min(420px, 64vw); }
     .stack { margin-bottom: 20px; } }
@@ -507,13 +543,17 @@
      The stage spins on Y as --p advances; the script writes each tile's
      frontality into --f (1 = facing you) so the label can fade with it. */
   .cyl { position: relative; width: min(1100px, 94vw); height: min(28vh, 250px);
-    perspective: 1600px; transform-style: preserve-3d; align-self: center;
-    opacity: calc(1 - var(--cyl-out, 0));
+    align-self: center;
+    /* gated on --pre as well as the exit: without it the rig is already
+       painted while the section is still sliding up, so the maps are on
+       screen before the beat that introduces them */
+    opacity: calc(var(--pre, 1) * (1 - var(--cyl-out, 0)));
     transform: translateY(calc(var(--cyl-out, 0) * -10vh));
     margin-top: 2vh;               /* clear of the beat title above */
     --cyl-r: 380px; }
   .cyl-stage { position: absolute; inset: 0; transform-style: preserve-3d;
-    transform: rotateX(-9deg) rotateY(calc(var(--spin, 0) * 1turn)); }
+    transform: translateY(var(--cyl-rise, 0))
+               rotateX(-9deg) rotateY(calc(var(--spin, 0) * 1turn)); }
   .cyl-stage figure { position: absolute; left: 50%; top: 58%; margin: 0;
     width: min(360px, 44vw);
     transform: translate(-50%, -50%)
@@ -527,6 +567,14 @@
     filter: brightness(calc(.55 + var(--f, 0) * .45));
     box-shadow: 0 30px 70px rgba(0,0,0,.55); }
 
+  /* The tiles and the source share this box, and only this box, as their 3D
+     rendering context. The captions are deliberately outside it: inside a
+     preserve-3d context paint order follows 3D position, not z-index, so a
+     tile translated toward the viewer would paint over a card no matter what
+     z-index the card carried. */
+  .cyl-3d { position: absolute; inset: 0;
+    perspective: 1600px; transform-style: preserve-3d; }
+
   /* The source photograph sits on the cylinder's axis at z=0 — the one image
      all three maps are baked from. A tile swinging to the front passes in
      front of it and the back tiles behind; no z-index, the 3D sort does it. */
@@ -538,16 +586,33 @@
     margin: 0 0 0 -20vw;
     border-radius: 10px; border: 1px solid var(--line-bright, #2A2015);
     pointer-events: none;
-    opacity: var(--pre, 1);
-    transform: translateY(calc((1 - var(--pre, 1)) * 9vh)) translateZ(0);
+    transform: translateY(calc((1 - var(--pre, 1)) * 9vh + var(--cyl-rise, 0)))
+               translateZ(0);
     box-shadow: 0 22px 60px rgba(0,0,0,.7); }
 
   /* the label carries what used to be a card: kicker, headline, description */
   .cyl-labels { position: absolute; left: 0; right: 0; top: 100%; margin-top: 125px;
     height: 150px; z-index: 3; }
-  .cyl-label { position: absolute; inset: 0; margin: 0; text-align: center;
+  /* Each caption is a glass card: transparent black over whatever the tiles
+     are doing behind it, with a gradient rule around the edge. The border is a
+     masked pseudo-element rather than a border-box gradient, because a
+     translucent padding-box fill lets a border-box gradient bleed through it. */
+  .cyl-label { position: absolute; left: 50%; top: 0; margin: 0; text-align: center;
+    width: min(560px, 92vw); padding: 18px 22px 20px;
+    border-radius: 16px; background: rgba(0, 0, 0, .42);
+    -webkit-backdrop-filter: blur(12px) saturate(130%);
+            backdrop-filter: blur(12px) saturate(130%);
+    box-shadow: 0 18px 44px rgba(0, 0, 0, .5);
     opacity: var(--f, 0);
-    transform: translateY(calc((1 - var(--f, 0)) * 14px)); }
+    transform: translateX(-50%) translateY(calc((1 - var(--f, 0)) * 14px)); }
+  .cyl-label::before {
+    content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1px;
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 48%,
+                rgba(252, 156, 12, .12) 100%);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+            mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor; mask-composite: exclude;
+    pointer-events: none; }
   .cyl-label b { display: block; font-family: var(--mono); font-size: 12.5px;
     letter-spacing: .18em; text-transform: uppercase; color: var(--accent); }
   .cyl-label strong { display: block; margin-top: 10px; font-weight: 650;
@@ -555,7 +620,7 @@
   .cyl-label span { display: block; margin: 12px auto 0; max-width: 52ch;
     font-size: 15.5px; line-height: 1.65; color: var(--ink-2); }
 
-  @media (max-width: 720px) { .cyl { --cyl-r: 210px; perspective: 1100px; } }
+  @media (max-width: 720px) { .cyl { --cyl-r: 210px; } .cyl-3d { perspective: 1100px; } }
   /* the tiles are sized in px, so short viewports need the whole rig scaled
      down or the hub collides with the subtitle and the label clips off */
   @media (max-height: 820px) {
@@ -567,12 +632,72 @@
     /* pull the beat title up too, or the hub photo lands on the subtitle */
     .cine-title--top { padding-top: 6vh; }
   }
+  /* PHONES. A handset matches the short-viewport rule above as well, and that
+     one raises --cyl-r back to 280px — half the width of the screen — which
+     throws the side tiles off frame and pushes the label below the fold. This
+     block is last so the narrow geometry wins, and it is sized to fit the
+     whole rig plus its caption inside one 812px screen. */
+  @media (max-width: 720px) {
+    /* The compositing stack is 9/5 on desktop, which on a phone leaves a 180px
+       letterbox stranded in an 812px screen. Portrait suits the space, and the
+       layers are already object-fit: cover, so they simply crop to it — the
+       shirt is centred in every one of these frames, so nothing important is
+       lost. Travel distances are percentages of the rig, so the animation
+       rescales with it. */
+    .stack-rig { width: 92vw; aspect-ratio: 3 / 4; }
+    /* The closing line is two thoughts, and on a phone they do not fit side by
+       side at any size worth reading. Split into two slides that hand over to
+       each other, stacked in the same cell so the second lands where the first
+       left, and set large enough to own the screen. */
+    /* .cine .cine-next, not .cine-next: the cinematic type block at the very
+       end of the sheet also sets .cine-next's size, and being later it would
+       otherwise win and drop this back to 36px */
+    .cine .cine-next { display: grid; place-items: center; padding: 0 20px;
+      font-size: clamp(42px, 14vw, 72px); line-height: 1.03;
+      letter-spacing: -.045em;
+      opacity: 1; transform: none; }
+    .cine-next p { grid-area: 1 / 1; max-width: 92vw; }
+    .cn-a { opacity: calc(var(--n1) - var(--n2));
+      transform: translateY(calc((1 - var(--n1)) * 26px + var(--n2) * -7vh)); }
+    .cn-b { opacity: var(--n2);
+      transform: translateY(calc((1 - var(--n2)) * 34px)); }
+
+    /* the beat title needs air above it on a handset */
+    .cine-title--top { padding-top: 10vh; }
+    /* The caption is anchored to the bottom of the screen rather than hung off
+       the rig, so the rotating tiles can never ride over it: the rig is taken
+       out of the grid and pinned so that caption bottom lands 10vh up. The
+       stick is position:sticky, so it is the containing block. */
+    .cyl { position: absolute; left: 0; right: 0;
+      margin: 0 auto; width: 94vw;
+      top: auto; bottom: calc(10vh + 286px);
+      --cyl-r: 150px; height: min(22vh, 170px); }
+    /* The rig sits 40px higher than the caption's own offset would imply, and
+       the caption's margin makes that back up — so the tiles rise but the
+       caption stays pinned 10vh off the bottom. The extra room is for the
+       rotation: the stage is tilted on X, so whichever tile is at the front is
+       also at its lowest, and that sweep is what was grazing the text. */
+    .cyl-labels { margin-top: 96px; height: 190px; }
+    .cyl-source { width: 52vw; margin-left: -26vw; }
+    .cyl-stage figure { width: min(240px, 62vw); }
+    .cyl-label strong { font-size: 20px; }
+    .cyl-3d { perspective: 900px; }
+    .cyl-label span { font-size: 14px; max-width: 34ch; }
+    /* the lines start giving way almost at the bezel on a handset — a phone has
+       no width to spare for chrome */
+    .ports { -webkit-mask-image: linear-gradient(to right, #000 0%, transparent 10vw,
+                                 transparent calc(100% - 10vw), #000 100%);
+                     mask-image: linear-gradient(to right, #000 0%, transparent 10vw,
+                                 transparent calc(100% - 10vw), #000 100%); }
+    .ports path { stroke: rgba(252,156,12,.46); }
+  }
 
 
   /* --- beat: the renders --- */
   .renders-field {
     position: absolute; inset: 0; overflow: hidden;
-    opacity: calc(1 - var(--d));
+    /* --pre keeps the field off until the stage is actually arriving */
+    opacity: calc(var(--pre, 1) * (1 - var(--d)));
   }
   .renders-field img {
     position: absolute; display: block; border-radius: 12px;
@@ -647,13 +772,14 @@
     .readline { display: none; }
     .cine { height: auto; }
     .cine-stick { position: static; height: auto; display: block; }
-    .cine-copy, .cine-clip, .cine-next, .cine-title,
+    .cine-copy, .cine-clip, .cine-next, .cine-next p, .cine-title,
     .cyl, .cyl-stage figure, .renders-field img { opacity: 1 !important; transform: none !important; }
     /* the stack never animates here: show the finished render, drop the plate */
     .stack-l { opacity: 1 !important; transform: none !important; }
     .stack-burn, .stack-scan, .stack-beam { display: none; }
     .ports { display: none; }
     /* unstack the cylinder: three maps in a row, each with its own caption */
+    .cyl-3d { position: static; perspective: none; display: contents; }
     .cyl { height: auto; perspective: none; display: grid; gap: 12px;
       grid-template-columns: repeat(3, 1fr); }
     .cyl-stage { position: static; transform: none; display: contents; }
@@ -810,7 +936,7 @@
     .cine { height: auto; }
     .cine-stick { position: static; height: auto; overflow: visible;
       display: block; }
-    .cine-copy, .cine-clip, .cine-next, .cine-title,
+    .cine-copy, .cine-clip, .cine-next, .cine-next p, .cine-title,
     .cyl, .cyl-stage figure, .renders-field img,
     .block > *, .block .grid > *,
     .block tbody tr, .block .chip, .note .ico, .note p,
@@ -819,6 +945,7 @@
     .readline { display: none; }
     /* no continuous motion of any kind */
     *, *::before, *::after { animation: none !important; }
+    .cyl-3d { position: static; perspective: none; display: contents; }
     .cyl { height: auto; perspective: none; display: grid; gap: 16px;
       grid-template-columns: repeat(3, 1fr); padding: 40px 24px; }
     .cyl-stage { position: static; transform: none; display: contents; }
@@ -895,6 +1022,33 @@
   .hero .pill .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
   .metarow { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 26px; }
   .hero-ctas { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 26px; }
+  /* The hero ends on a scroll cue rather than two buttons: at this point the
+     only thing to do is keep going, and the page is a scroll piece. Still a
+     real link to #install, so it works by keyboard and without JS. */
+  .scrollcue { display: inline-flex; flex-direction: column; align-items: center;
+    gap: 10px; text-decoration: none; padding: 6px 10px 2px; border-radius: 12px;
+    color: var(--ink-2); transition: color .2s; }
+  .scrollcue:hover, .scrollcue:focus-visible { color: var(--accent); }
+  .scrollcue:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+  .scrollcue-mouse { display: block; width: 26px; height: 42px; border-radius: 13px;
+    border: 2px solid currentColor; position: relative; opacity: .85; }
+  .scrollcue-mouse i { position: absolute; left: 50%; top: 8px; width: 3px; height: 7px;
+    margin-left: -1.5px; border-radius: 2px; background: currentColor;
+    animation: cueWheel 1.9s cubic-bezier(.45,.05,.55,.95) infinite; }
+  @keyframes cueWheel {
+    0%       { transform: translateY(0);    opacity: 0; }
+    18%      { opacity: 1; }
+    60%      { transform: translateY(14px); opacity: 1; }
+    80%, 100%{ transform: translateY(18px); opacity: 0; }
+  }
+  .scrollcue-chevrons { display: block; height: 14px; position: relative; width: 18px; }
+  .scrollcue-chevrons b { position: absolute; left: 50%; top: 0; width: 9px; height: 9px;
+    margin-left: -4.5px; border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor; transform: rotate(45deg);
+    animation: cueChev 1.9s ease-in-out infinite; }
+  .scrollcue-chevrons b:nth-child(2) { top: 6px; animation-delay: .16s; }
+  @keyframes cueChev { 0%, 100% { opacity: .15; } 45% { opacity: .9; } }
+
   .btn {
     display: inline-flex; align-items: center; gap: 7px;
     text-decoration: none; font-size: 14px; font-weight: 600;
@@ -1253,8 +1407,10 @@
           <span class="pill">Patches item.json</span>
         </div>
         <div class="hero-ctas">
-          <a class="btn btn-primary" href="#install">Install ↓</a>
-          <a class="btn btn-ghost" href="#tour">Tour the panel</a>
+          <a class="scrollcue" href="#install" aria-label="Scroll to the install steps">
+            <span class="scrollcue-mouse"><i></i></span>
+            <span class="scrollcue-chevrons"><b></b><b></b></span>
+          </a>
         </div>
       </div>
     </header>
@@ -1267,7 +1423,8 @@
 
     <!-- the beat after the fade; copy is editable -->
     <div class="cine-next" aria-hidden="true">
-      <p>Flat gradients lie.<br><span class="grad">The photograph doesn't.</span></p>
+      <p class="cn-a">Flat gradients lie.</p>
+      <p class="cn-b"><span class="grad">The photograph doesn't.</span></p>
     </div>
 
   </div>
@@ -1284,6 +1441,7 @@
           <span class="sub">Baked from the shirt itself — not drawn by hand.</span>
         </div>
         <div class="cyl" aria-hidden="true">
+          <div class="cyl-3d">
           <div class="cyl-stage">
             <figure style="--a:0">
               <img src="../assets/img/mason/map-displace.png" alt="" loading="lazy" decoding="async">
@@ -1296,6 +1454,7 @@
             </figure>
           </div>
           <img class="cyl-source" src="../assets/img/mason/hub-base.png" alt="" loading="lazy" decoding="async">
+          </div>
           <div class="cyl-labels">
             <div class="cyl-label" data-a="0">
               <b>displace</b>

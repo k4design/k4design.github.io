@@ -19,6 +19,19 @@
    2. Paste it into PASSWORD_SHA256 below. That's it.
    ============================================================ */
 
+/* ------------------------------------------------------------
+   GATE TEMPORARILY OFF.
+   Set back to false to re-arm it. Nothing else was removed: the
+   password, login.html and every requireUnlock() call are still
+   in place, so flipping this one line restores the gate.
+
+   While this is true every guide is readable by anyone with the
+   URL. The noindex meta and robots.txt still keep the pages out
+   of search results, but they are no longer private — do not add
+   anything here that would matter if it were public.
+   ------------------------------------------------------------ */
+const GATE_DISABLED = true;
+
 const PASSWORD_SHA256 =
   'b42ea9b2d0cf52e4620d7d8c06c4478aa32cb0cbbee21fdf69a7cdce1c33aba4'; // "skunkworks"
 
@@ -50,7 +63,7 @@ function stored() {
   try { return sessionStorage.getItem(SESSION_KEY); } catch (e) { return null; }
 }
 
-const isUnlocked = () => IS_LOCAL_FILE || stored() === PASSWORD_SHA256;
+const isUnlocked = () => GATE_DISABLED || IS_LOCAL_FILE || stored() === PASSWORD_SHA256;
 
 /* Called from every page except login: bounce out if locked.
    Runs in <head> before paint, so gated content never flashes. */
