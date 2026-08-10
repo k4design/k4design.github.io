@@ -263,23 +263,11 @@
     .fc-ring-holder { width: 11.5%; height: 11.5%; }
   }
 
-  /* ---- partner wall: real TV static, rendered on canvas ----
-     Per-pixel random-alpha noise (technique from Scottie79's "TV Static" pen),
-     drawn white so it reads on the dark card. Rendered at reduced resolution and
-     scaled up with image-rendering:pixelated, which both chunks the grain up like
-     a real signal and keeps the per-frame cost low.                            */
-  .fc-static { position: absolute; inset: 0; z-index: 0; width: 100%; height: 100%;
-               display: block; pointer-events: none; opacity: .28; mix-blend-mode: screen;
-               image-rendering: pixelated; }
-  /* faint scanlines rolling over the noise */
+  /* ---- partner wall: static scanline overlay (no animation) ---- */
   .fc-static-lines { position: absolute; inset: 0; z-index: 0; pointer-events: none;
-    background: repeating-linear-gradient(to bottom, rgba(255,255,255,.07) 0 1px, transparent 1px 3px);
-    animation: fc-static-roll 5s linear infinite; }
-  @keyframes fc-static-roll { from { transform: translateY(0); } to { transform: translateY(6%); } }
-  @media (prefers-reduced-motion: reduce) {
-    .fc-static { opacity: .14; }
-    .fc-static-lines { animation: none !important; }
-  }
+    background: repeating-linear-gradient(to bottom,
+      rgba(247,241,230,.10) 0 1px, transparent 1px 4px); }
+
   /* ================= MOBILE TEXT SCALE =================
      Text roles here run ~1.5x the original mobile sizes (doubled, then cut 25%). Scope excludes the
      footer and the closer section directly above it, which stay as they were.
@@ -458,20 +446,13 @@
   }
   /* mobile: the nav slides away until the user scrolls; the hero shows the logo instead */
   @media (max-width: 768px) {
-    /* nav shows from the start; logo centred with the nav CTA pinned right */
-    .fc-nav { justify-content: center !important; }
-    .fc-nav-left { justify-content: center; }
-    /* the nav CTA is dropped on mobile: it overlapped the centred lockup, and the
-       hero button (which floats bottom-right once scrolled) already covers it. */
-    .fc-nav > nav { display: none !important; }
-
-    /* hero CTA detaches and floats bottom-right once the user scrolls */
-    html.fc-scrolled .fc-hero-cta { transform: none !important; }
-    html.fc-scrolled .fc-hero-cta > a {
-      position: fixed !important; right: 14px; bottom: 14px; left: auto;
-      width: auto !important; z-index: 90; margin: 0;
-      font-size: 20px !important; padding: 16px 24px !important;
-      box-shadow: 0 16px 34px -12px rgba(18,16,16,.75); }
+    /* logo left, Purchase Tickets right - a plain two-item bar. The hero CTA
+       stays put in the hero (the old scroll-to-fixed behaviour is gone). */
+    .fc-nav { justify-content: space-between !important; }
+    .fc-nav-left { justify-content: flex-start; }
+    .fc-nav > nav { display: flex !important; }
+    .fc-nav-reserve { font-size: 15px !important; padding: 12px 16px !important;
+                      letter-spacing: .5px !important; white-space: nowrap; }
     .fc-hero-cd { margin-bottom: clamp(20px,5vw,28px) !important; }
     #top p { margin-top: clamp(18px,4.5vw,26px) !important; }
     .fc-hero-cta { margin-top: clamp(22px,5.5vw,32px) !important; }
@@ -483,7 +464,11 @@
     .fc-nav-logo { height: 52px !important; }
     .fc-nav { padding-left: 10px !important; padding-right: 10px !important; gap: 6px !important; }
     .fc-nav > nav { gap: 6px !important; }
-    .fc-nav-reserve { padding: 8px 12px !important; font-size: 11px !important; letter-spacing: .5px !important; }
+    /* 44px tap target via min-height rather than vertical padding, so the
+       button keeps its height without eating the logo's width. */
+    .fc-nav-reserve { font-size: 13px !important; padding: 0 14px !important;
+                      letter-spacing: .5px !important; min-height: 44px; gap: 6px !important; }
+    .fc-nav-logo { height: 46px !important; }
     .fc-nav-sponsor { display: none !important; }
     .fc-hero-logo { display: none !important; }
     .fc-hero-grid { grid-template-columns: 1fr !important; }
@@ -536,10 +521,11 @@
 
   <!-- ================= 1 · HERO ================= -->
   <section id="top" style="position:relative; min-height:100svh; display:flex; flex-direction:column; justify-content:center; padding:120px clamp(16px,4vw,48px) 64px; background:radial-gradient(120% 90% at 80% -10%, #1c0d06 0%, #121010 55%);">
-    <video id="fc-hero-bg" autoplay muted loop playsinline preload="auto" poster="img/stage.png" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:0; filter:contrast(1.04) brightness(.9);">
+    <video id="fc-hero-bg" autoplay muted loop playsinline preload="auto" poster="img/stage.png" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:0; filter:grayscale(1) contrast(1.06) brightness(.9);">
       <source src="img/stage.mp4" type="video/mp4" />
     </video>
-    <div aria-hidden="true" style="position:absolute; inset:0; z-index:1; background:#F4501E; mix-blend-mode:color; opacity:.25; pointer-events:none;"></div>
+    <div aria-hidden="true" style="position:absolute; inset:0; z-index:1; background:#F4501E; mix-blend-mode:color; opacity:.9; pointer-events:none;"></div>
+    <div aria-hidden="true" style="position:absolute; inset:0; z-index:1; background-image:url('img/bg.png'); background-size:cover; background-position:center; mix-blend-mode:normal; -webkit-mask-image:radial-gradient(farthest-corner at center, transparent 0%, rgba(0,0,0,.45) 45%, #000 75%); mask-image:radial-gradient(farthest-corner at center, transparent 0%, rgba(0,0,0,.45) 45%, #000 75%); pointer-events:none;"></div>
     <div aria-hidden="true" style="position:absolute; inset:0; z-index:1; background:linear-gradient(95deg, rgba(18,16,16,.8) 0%, rgba(18,16,16,.5) 42%, rgba(18,16,16,.15) 100%), linear-gradient(0deg, rgba(18,16,16,.85), rgba(18,16,16,0) 55%); pointer-events:none;"></div>
     <div aria-hidden="true" style="position:absolute; top:0; right:-6vw; z-index:2; font-family:'Anton',sans-serif; font-size:min(52vh,560px); line-height:.8; color:#F4501E; opacity:.08; font-style:italic; user-select:none; pointer-events:none;">26</div>
 
@@ -585,9 +571,9 @@
   <section id="story" style="position:relative; background:#F7F1E6; color:#121010; padding:clamp(36px,5vw,76px) 0 clamp(64px,9vw,140px);">
     <div style="max-width:1400px; margin:0 auto; padding:0 clamp(16px,4vw,48px); display:flex; flex-wrap:wrap; align-items:flex-end; justify-content:space-between; gap:24px; margin-bottom:clamp(32px,5vw,64px);">
       <div style="max-width:760px;">
-        <div data-reveal data-anim="left" style="font-size:12px; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:#C63A11; margin-bottom:14px;">The origin</div>
-        <h2 data-reveal data-anim="left" style="margin:0; font-family:'Anton',sans-serif; font-weight:400; text-transform:uppercase; line-height:.92; letter-spacing:-.01em; font-size:clamp(34px,5.5vw,80px); max-width:16ch;">Every definition of success starts <span style="color:#F4501E;">somewhere.</span></h2>
-        <p data-reveal data-anim="left" style="margin:20px 0 0; font-family:'Fraunces',serif; font-size:clamp(17px,1.7vw,23px); line-height:1.42; color:#3a352c; max-width:54ch; text-wrap:pretty;">Robert Palmer shaped his IDOS right here in Lakeland — one honest answer to what success actually meant to him. <span style="font-style:italic;">FallCon brings agents back to that same starting line to define their own.</span></p>
+        <div style="font-size:12px; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:#C63A11; margin-bottom:14px;">The origin</div>
+        <h2 style="margin:0; font-family:'Anton',sans-serif; font-weight:400; text-transform:uppercase; line-height:.92; letter-spacing:-.01em; font-size:clamp(34px,5.5vw,80px); max-width:16ch;">Every definition of success starts <span style="color:#F4501E;">somewhere.</span></h2>
+        <p style="margin:20px 0 0; font-family:'Fraunces',serif; font-size:clamp(17px,1.7vw,23px); line-height:1.42; color:#3a352c; max-width:54ch; text-wrap:pretty;">Robert Palmer shaped his IDOS right here in Lakeland — one honest answer to what success actually meant to him. <span style="font-style:italic; color:#C63A11; font-size:1.35em; line-height:1.3; display:inline-block; margin-top:.3em;">FallCon brings agents back to that same starting line to define their own.</span></p>
       </div>
       <div style="display:flex; gap:12px;">
         <button type="button" aria-label="Previous slide" onClick="{{ prevSlide }}" style="width:56px; height:56px; border-radius:50%; border:1.5px solid #121010; background:transparent; color:#121010; font-size:22px; cursor:pointer; transition:background .2s, color .2s;" style-hover="background:#121010; color:#F7F1E6;">←</button>
@@ -595,9 +581,9 @@
       </div>
     </div>
 
-    <div ref="{{ carouselRef }}" data-reveal data-anim="lift" role="group" aria-label="Origin story" style="display:flex; gap:clamp(16px,4vw,48px); overflow-x:auto; scroll-snap-type:x mandatory; scroll-padding-left:clamp(30px,4vw,48px); scroll-behavior:smooth; padding:6px clamp(30px,4vw,48px) 26px; -ms-overflow-style:none; scrollbar-width:none;">
+    <div ref="{{ carouselRef }}" role="group" aria-label="Origin story" style="display:flex; gap:clamp(16px,4vw,48px); overflow-x:auto; scroll-snap-type:x mandatory; scroll-padding-left:clamp(30px,4vw,48px); scroll-behavior:smooth; padding:6px clamp(30px,4vw,48px) 26px; -ms-overflow-style:none; scrollbar-width:none;">
 
-      <article style="scroll-snap-align:start; flex:0 0 min(88vw,560px); background:#121010; background-image:linear-gradient(to top, rgba(18,16,16,1) 0%, rgba(18,16,16,.9) 50%, rgba(18,16,16,0) 100%), url('img/crowd.png'); background-size:cover; background-position:center bottom; color:#F7F1E6; border-radius:22px; padding:clamp(30px,4vw,52px); display:flex; flex-direction:column; justify-content:space-between; min-height:70vh; position:relative; overflow:hidden;">
+      <article data-reveal data-anim="scale" style="scroll-snap-align:start; flex:0 0 min(88vw,560px); background:#121010; background-image:linear-gradient(to top, rgba(18,16,16,1) 0%, rgba(18,16,16,.9) 50%, rgba(18,16,16,0) 100%), url('img/crowd.png'); background-size:cover; background-position:center bottom; color:#F7F1E6; border-radius:22px; padding:clamp(30px,4vw,52px); display:flex; flex-direction:column; justify-content:space-between; min-height:70vh; position:relative; overflow:hidden;">
         <div aria-hidden="true" style="position:absolute; inset:0; background:linear-gradient(to bottom, rgba(18,16,16,.5) 0%, rgba(18,16,16,0) 32%); pointer-events:none;"></div>
         <div aria-hidden="true" style="position:absolute; top:-30px; right:-10px; font-family:'Anton',sans-serif; font-size:200px; line-height:.7; color:#F4501E; opacity:.14; font-style:italic;">01</div>
         <div class="fc-story-label" style="position:relative;">
@@ -607,7 +593,7 @@
         <p style="position:relative; margin:0; font-family:'Fraunces',serif; font-weight:400; font-size:clamp(19px,2vw,26px); line-height:1.4; text-wrap:pretty;">Every agent carries a version of themselves they haven't met yet. FallCon exists to introduce you. <span style="color:#F4501E; font-style:italic; font-size:2em; line-height:1.15; display:inline-block; margin-top:.28em;">This is where that starts.</span></p>
       </article>
 
-      <article style="scroll-snap-align:start; flex:0 0 min(88vw,560px); background:#121010; background-image:linear-gradient(to top, rgba(18,16,16,1) 0%, rgba(18,16,16,.9) 50%, rgba(18,16,16,0) 100%), url('img/lakeland.png'); background-size:cover; background-position:center bottom; color:#F7F1E6; border-radius:22px; padding:clamp(30px,4vw,52px); display:flex; flex-direction:column; justify-content:space-between; min-height:70vh; position:relative; overflow:hidden;">
+      <article data-reveal data-anim="scale" style="scroll-snap-align:start; flex:0 0 min(88vw,560px); background:#121010; background-image:linear-gradient(to top, rgba(18,16,16,1) 0%, rgba(18,16,16,.9) 50%, rgba(18,16,16,0) 100%), url('img/lakeland.png'); background-size:cover; background-position:center bottom; color:#F7F1E6; border-radius:22px; padding:clamp(30px,4vw,52px); display:flex; flex-direction:column; justify-content:space-between; min-height:70vh; position:relative; overflow:hidden;">
         <div aria-hidden="true" style="position:absolute; inset:0; background:linear-gradient(to bottom, rgba(18,16,16,.5) 0%, rgba(18,16,16,0) 32%); pointer-events:none;"></div>
         <div aria-hidden="true" style="position:absolute; top:-30px; right:-10px; font-family:'Anton',sans-serif; font-size:200px; line-height:.7; color:#F4501E; opacity:.14; font-style:italic;">02</div>
         <div class="fc-story-label" style="position:relative;">
@@ -617,7 +603,7 @@
         <p style="position:relative; margin:0; font-family:'Fraunces',serif; font-weight:400; font-size:clamp(19px,2vw,26px); line-height:1.4; text-wrap:pretty;">Robert Palmer grew up right here in Lakeland, long before anyone knew the name. What he found here wasn't money or luck — <span style="color:#F4501E; font-style:italic; font-size:2em; line-height:1.15; display:inline-block; margin-top:.28em;">it was his own definition of success.</span></p>
       </article>
 
-      <article style="scroll-snap-align:start; flex:0 0 min(88vw,560px); background:#121010; background-image:linear-gradient(to top, rgba(18,16,16,1) 0%, rgba(18,16,16,.9) 50%, rgba(18,16,16,0) 100%), url('img/nasdaq.png'); background-size:cover; background-position:center bottom; color:#F7F1E6; border-radius:22px; padding:clamp(30px,4vw,52px); display:flex; flex-direction:column; justify-content:space-between; min-height:70vh; position:relative; overflow:hidden;">
+      <article data-reveal data-anim="scale" style="scroll-snap-align:start; flex:0 0 min(88vw,560px); background:#121010; background-image:linear-gradient(to top, rgba(18,16,16,1) 0%, rgba(18,16,16,.9) 50%, rgba(18,16,16,0) 100%), url('img/nasdaq.png'); background-size:cover; background-position:center bottom; color:#F7F1E6; border-radius:22px; padding:clamp(30px,4vw,52px); display:flex; flex-direction:column; justify-content:space-between; min-height:70vh; position:relative; overflow:hidden;">
         <div aria-hidden="true" style="position:absolute; inset:0; background:linear-gradient(to bottom, rgba(18,16,16,.5) 0%, rgba(18,16,16,0) 32%); pointer-events:none;"></div>
         <div aria-hidden="true" style="position:absolute; top:-30px; right:-10px; font-family:'Anton',sans-serif; font-size:200px; line-height:.7; color:#F4501E; opacity:.14; font-style:italic;">03</div>
         <div class="fc-story-label" style="position:relative;">
@@ -627,13 +613,13 @@
         <p style="position:relative; margin:0; font-family:'Fraunces',serif; font-weight:400; font-size:clamp(19px,2vw,26px); line-height:1.4; text-wrap:pretty;">That definition became LPT Realty — founded up the same I-4 that runs through Lakeland, now tens of thousands of agents strong. <span style="color:#F4501E; font-style:italic; font-size:2em; line-height:1.15; display:inline-block; margin-top:.28em;">Proof that where you start doesn't set your ceiling.</span></p>
       </article>
 
-      <article style="scroll-snap-align:start; flex:0 0 min(88vw,560px); background:#F4501E; color:#121010; border-radius:22px; padding:clamp(30px,4vw,52px); display:flex; flex-direction:column; justify-content:space-between; min-height:70vh; position:relative; overflow:hidden;">
+      <article data-reveal data-anim="scale" style="scroll-snap-align:start; flex:0 0 min(88vw,560px); background:#F4501E; color:#121010; border-radius:22px; padding:clamp(30px,4vw,52px); display:flex; flex-direction:column; justify-content:space-between; min-height:70vh; position:relative; overflow:hidden;">
         <div aria-hidden="true" style="position:absolute; top:-30px; right:-10px; font-family:'Anton',sans-serif; font-size:200px; line-height:.7; color:#121010; opacity:.12; font-style:italic;">04</div>
         <div style="position:relative;">
           <div style="font-size:12px; font-weight:700; letter-spacing:2.5px; text-transform:uppercase; color:#121010;">04 — The Invitation</div>
           <div style="font-size:12px; letter-spacing:2px; text-transform:uppercase; color:rgba(18,16,16,.6); margin-top:6px;">Homecoming · Lakeland</div>
           <div style="background:#121010; margin:clamp(20px,2.6vw,32px) calc(-1 * clamp(30px,4vw,52px)) 0; padding:clamp(16px,2vw,24px) clamp(30px,4vw,52px); display:flex; align-items:center; justify-content:space-between; gap:16px;">
-            <img src="img/logo.png" alt="FallCon 2026 — Homecoming" style="width:clamp(140px,32%,220px); height:auto; display:block;" />
+            <img src="img/logo_h.png" alt="FallCon 2026 — Homecoming" style="width:clamp(140px,32%,220px); height:auto; display:block;" />
             <div style="text-align:right;">
               <div style="font-family:'Anton',sans-serif; font-size:clamp(17px,1.7vw,23px); line-height:1; text-transform:uppercase; color:#F4501E;">Oct 6–8, 2026</div>
               <div style="margin-top:6px; font-size:11px; font-weight:600; letter-spacing:2px; text-transform:uppercase; color:#F7F1E6; opacity:.75;">Lakeland, FL</div>
@@ -1121,12 +1107,10 @@
 
         <div style="font-size:14px; letter-spacing:2px; text-transform:uppercase; color:#8a8175; margin:10px 0 2px;">Preferred hotels</div>
         <a href="https://www.hyatt.com/hyatt-place/en-US/tpazl-hyatt-place-lakeland-center?src=corp_lclb_google_seo_tpazl&amp;utm_source=google&amp;utm_medium=organic&amp;utm_campaign=lmr" target="_blank" rel="noopener" style="display:flex; justify-content:space-between; align-items:center; gap:14px; background:#141414; border:1px solid rgba(247,241,230,.1); border-radius:14px; padding:18px 22px; color:#F7F1E6; text-decoration:none; transition:border-color .2s, transform .2s;" style-hover="border-color:#F4501E; transform:translateY(-2px);">
-          <div><div style="font-weight:700; font-size:clamp(18px,1.7vw,24px);">Hyatt Place Lakeland Center <span aria-hidden="true" style="color:#F4501E;">↗</span></div><div style="font-size:clamp(15px,1.35vw,18px); color:#8a8175; margin-top:6px;">Ask for the FallCon rate</div></div>
-          <div style="font-family:'Anton',sans-serif; font-size:clamp(48px,5vw,72px); line-height:.9; color:#F4501E; white-space:nowrap;">$159<span style="font-family:'Inter'; font-size:15px; color:#8a8175;">/night</span></div>
+          <div><div style="font-weight:700; font-size:clamp(18px,1.7vw,24px);">Hyatt Place Lakeland Center <span aria-hidden="true" style="color:#F4501E;">↗</span></div><div style="font-size:clamp(15px,1.35vw,18px); color:#8a8175; margin-top:6px;">Literally steps from the venue</div></div>
         </a>
         <a href="https://www.marriott.com/en-us/hotels/tpasl-springhill-suites-lakeland/overview/?scid=f2ae0541-1279-4f24-b197-a979c79310b0" target="_blank" rel="noopener" style="display:flex; justify-content:space-between; align-items:center; gap:14px; background:#141414; border:1px solid rgba(247,241,230,.1); border-radius:14px; padding:18px 22px; color:#F7F1E6; text-decoration:none; transition:border-color .2s, transform .2s;" style-hover="border-color:#F4501E; transform:translateY(-2px);">
           <div><div style="font-weight:700; font-size:clamp(18px,1.7vw,24px);">SpringHill Suites by Marriott <span aria-hidden="true" style="color:#F4501E;">↗</span></div><div style="font-size:clamp(15px,1.35vw,18px); color:#8a8175; margin-top:6px;">Suite-style · 5 min from venue</div></div>
-          <div style="font-family:'Anton',sans-serif; font-size:clamp(48px,5vw,72px); line-height:.9; color:#F4501E; white-space:nowrap;">$189<span style="font-family:'Inter'; font-size:15px; color:#8a8175;">/night</span></div>
         </a>
       </div>
     </div>
@@ -1243,7 +1227,6 @@
     <div style="max-width:1400px; margin:0 auto;">
       <!-- Partner wall · TBA -->
       <div data-reveal data-anim="lift" style="position:relative; background:#121010; color:#F7F1E6; border-radius:26px; overflow:hidden; padding:clamp(88px,12vw,168px) clamp(32px,6vw,96px); text-align:center;">
-        <canvas class="fc-static" id="fc-static-canvas" aria-hidden="true"></canvas>
         <div class="fc-static-lines" aria-hidden="true"></div>
         <div aria-hidden="true" style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; pointer-events:none;">
           <span style="font-family:'Anton',sans-serif; font-style:italic; text-transform:uppercase; font-size:clamp(130px,24vw,380px); line-height:1; color:#F4501E; opacity:.08; white-space:nowrap;">TBA</span>
@@ -1557,8 +1540,6 @@ class Component extends DCLogic {
     // On mobile the hero carries its own logo + countdown, so the bar stays out
     // of the way until the user starts scrolling. CSS handles the hide/show.
     nav.classList.toggle('fc-nav-scrolled', scrolled);
-    // <html> flag lets CSS float the hero CTA to the bottom-right on mobile
-    document.documentElement.classList.toggle('fc-scrolled', scrolled);
   }
 
   setupReveals() {
@@ -2167,78 +2148,6 @@ class Component extends DCLogic {
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape' && !modal.hidden) close();
   });
-})();
-</script>
-<!-- ============ TV STATIC (canvas) ============
-     Adapted from Scottie79's "TV Static" pen: an ImageData buffer viewed as
-     Uint32Array, with a random alpha byte written per pixel, repainted every
-     other frame for ~30fps. Changes made for this page: pixels are white (the
-     card is dark), the canvas tracks the card instead of the window, and the
-     loop only runs while the card is on screen and the tab is visible.
--->
-<script>
-(function () {
-  var canvas = document.getElementById('fc-static-canvas');
-  if (!canvas) return;
-  var ctx = canvas.getContext('2d');
-  var SCALE = 0.5;                       // render at half size, upscale via CSS
-  var running = false, rafId = null, toggle = true;
-
-  function resize() {
-    var r = canvas.getBoundingClientRect();
-    canvas.width  = Math.max(1, Math.floor(r.width  * SCALE));
-    canvas.height = Math.max(1, Math.floor(r.height * SCALE));
-  }
-
-  function noise() {
-    var w = ctx.canvas.width,
-        h = ctx.canvas.height,
-        idata = ctx.createImageData(w, h),
-        buffer32 = new Uint32Array(idata.data.buffer),
-        len = buffer32.length,
-        i = 0;
-    // random alpha in the high byte, RGB forced to white so the grain shows on dark
-    for (; i < len;) buffer32[i++] = (255 * Math.random() | 0) << 24 | 0x00FFFFFF;
-    ctx.putImageData(idata, 0, 0);
-  }
-
-  function loop() {
-    if (!running) return;
-    toggle = !toggle;                    // every other frame => ~30fps
-    if (toggle) { rafId = requestAnimationFrame(loop); return; }
-    noise();
-    rafId = requestAnimationFrame(loop);
-  }
-
-  function start() {
-    if (running) return;
-    running = true;
-    resize();
-    rafId = requestAnimationFrame(loop);
-  }
-  function stop() {
-    running = false;
-    if (rafId) cancelAnimationFrame(rafId);
-    rafId = null;
-  }
-
-  if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    resize(); noise();                   // one static frame, no animation
-    return;
-  }
-
-  // only burn frames while the card is actually visible
-  if ('IntersectionObserver' in window) {
-    new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) { e.isIntersecting ? start() : stop(); });
-    }, { rootMargin: '120px' }).observe(canvas);
-  } else {
-    start();
-  }
-  document.addEventListener('visibilitychange', function () {
-    document.hidden ? stop() : (canvas.getBoundingClientRect().height && start());
-  });
-  addEventListener('resize', function () { if (running) resize(); }, { passive: true });
 })();
 </script>
 </body>

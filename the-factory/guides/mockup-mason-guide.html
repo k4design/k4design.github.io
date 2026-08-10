@@ -352,9 +352,15 @@
      Cancelling wheel events alone does not — Chrome ignores preventDefault on
      a gesture that has already latched — and scroll-behavior must go back to
      auto or every corrective scrollTo animates instead of snapping. */
-  html.scroll-held, html.scroll-held body { overflow: hidden !important;
+  /* The hold locks the document element ONLY. Putting overflow:hidden on the
+     body as well turns the body into its own scroll container sitting at
+     scrollTop 0, which clips everything below the first screen — the page
+     appears to empty out. html alone keeps the scroll position and every
+     pixel of layout exactly where it was. scroll-behavior has to go back to
+     auto or the corrective scrollTo animates instead of snapping. */
+  html.scroll-held { overflow: hidden !important;
+    scroll-behavior: auto !important;
     touch-action: none; overscroll-behavior: none; }
-  html.scroll-held { scroll-behavior: auto !important; }
 
   .ports { position: fixed; inset: 0; z-index: 1; pointer-events: none;
     overflow: hidden; opacity: var(--ports-o, 1);
@@ -2534,7 +2540,8 @@ npm test --workspace @mf/api</code></pre>
           var bar = window.innerWidth - docEl.clientWidth;
           if (bar > 0) document.body.style.paddingRight = bar + 'px';
           docEl.classList.add('scroll-held');
-          docEl.scrollTop = pin.y;
+          var sc = document.scrollingElement || docEl;
+          if (sc.scrollTop !== pin.y) sc.scrollTop = pin.y;
           addEventListener('wheel', eat, { passive: false });
           addEventListener('touchmove', eat, { passive: false });
           addEventListener('scroll', pin, { passive: true });
@@ -2547,7 +2554,8 @@ npm test --workspace @mf/api</code></pre>
           clearTimeout(timer);
           docEl.classList.remove('scroll-held');
           document.body.style.paddingRight = '';
-          docEl.scrollTop = pin.y;          /* overflow toggling can nudge it */
+          var sc2 = document.scrollingElement || docEl;
+          if (sc2.scrollTop !== pin.y) sc2.scrollTop = pin.y;
           removeEventListener('wheel', eat);
           removeEventListener('touchmove', eat);
           removeEventListener('scroll', pin);
