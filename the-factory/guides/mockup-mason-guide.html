@@ -348,6 +348,14 @@
      hardest at the top and bottom, flattening toward the middle. Real paths
      rather than a gradient: no CSS gradient can bow a line. The convergence
      is never seen — the mask has taken everything to zero 20vw in. */
+  /* the four-second hold: overflow is what actually stops the document.
+     Cancelling wheel events alone does not — Chrome ignores preventDefault on
+     a gesture that has already latched — and scroll-behavior must go back to
+     auto or every corrective scrollTo animates instead of snapping. */
+  html.scroll-held, html.scroll-held body { overflow: hidden !important;
+    touch-action: none; overscroll-behavior: none; }
+  html.scroll-held { scroll-behavior: auto !important; }
+
   .ports { position: fixed; inset: 0; z-index: 1; pointer-events: none;
     overflow: hidden; opacity: var(--ports-o, 1);
     -webkit-mask-image: linear-gradient(to right, #000 0%, transparent 20vw,
@@ -705,6 +713,16 @@
     /* on a phone they share one cell, so the block-level rule above must not
        re-assert the desktop stacking */
     .cine .cine-next { opacity: 1; }
+
+    /* The stage is a pinned 100svh box with overflow:hidden, so this copy has
+       to fit a screen or it is silently cut off. At 375px the cinematic
+       heading floors at 66px — proportionally far bigger than the 156px it
+       takes on a desktop — and pushed the block to 793px against an 812px
+       stick, which clips on any shorter handset. Sized to leave real headroom. */
+    .what-copy h2 { font-size: clamp(38px, 10.5vw, 52px); margin-bottom: 16px; }
+    .what-copy h2 .h2num { margin-bottom: 10px; font-size: 12px; }
+    .what-copy .lede { font-size: 17.5px; line-height: 1.55; }
+    .what-copy p { margin-bottom: 14px; font-size: 15px; line-height: 1.6; }
 
     /* the beat title needs air above it on a handset */
     .cine-title--top { padding-top: 10vh; }
@@ -1394,6 +1412,36 @@
   .h2num { vertical-align: .34em; }
   .hero .lede, .hero-sub { font-size: clamp(16px, 1.5vw, 19px); line-height: 1.7; }
   .statement-sub { font-size: 16px; margin-top: 22px; }
+
+  /* ============================================================
+     SHORT HANDSETS (an SE is 667 tall, and browser chrome eats into
+     svh on every phone). The pinned stages clip at 100svh, so any
+     layer taller than the screen loses its bottom silently. Measured
+     at 375x812 the hero came to 711px and the stack-plus-note to
+     770px — both over a 667 screen. Tall phones keep the roomier
+     layout; this tier just compacts what has to fit.
+     Declared last on purpose: the cinematic type block further up also
+     sets .hero h1 and .what-copy h2 at the same specificity, so anything
+     placed before it silently loses.
+     ============================================================ */
+  @media (max-width: 720px) and (max-height: 720px) {
+    .hero-mark { width: 52px; height: 52px; margin-bottom: 14px; }
+    .hero h1 { font-size: clamp(30px, 8vw, 40px); margin-bottom: 14px; }
+    .hero .lede { font-size: 14.5px; line-height: 1.5; }
+    .metarow { gap: 6px; }
+    .metarow .pill { padding: 4px 9px; font-size: 11px; }
+    .hero-ctas { margin-top: 14px; }
+    .scrollcue-mouse { width: 22px; height: 34px; }
+
+    .stack-rig { width: 84vw; aspect-ratio: 4 / 5; }
+    .stack { margin-bottom: 12px; }
+    .what-note .note { padding: 12px 14px; gap: 10px; }
+    .what-note .note p { font-size: 13.5px; line-height: 1.55; }
+
+    .what-copy h2 { font-size: clamp(30px, 8.5vw, 40px); }
+    .what-copy .lede { font-size: 16px; }
+    .what-copy p { font-size: 14px; }
+  }
 
 </style>
 </head>
@@ -2427,9 +2475,110 @@ npm test --workspace @mf/api</code></pre>
         new IntersectionObserver(function (entries) {
           entries.forEach(function (e) {
             stackNote.classList.toggle('play', e.isIntersecting);
+            e.isIntersecting ? holdBeam.start() : holdBeam.stop();
           });
         }, { threshold: 0.12 }).observe(stackNote);
       }
+
+      /* ---- the four-second hold ----
+         When the scan beam reaches the middle of the frame, scrolling is held
+         for four seconds so the pass lands rather than being skimmed past.
+
+         The moment is read off the beam's own animation clock rather than
+         watched for frame by frame: the keyframes put its bright centre level
+         with the middle of the frame at 48.18% of the cycle, so one timer is
+         armed for exactly that point. No per-frame layout read, and it does
+         not depend on requestAnimationFrame — which a hidden tab never gets.
+
+         Taking the scroll away from someone is a hostile thing to do, so this
+         is fenced in on every side:
+           · it fires ONCE per page load, never on a later loop
+           · Escape releases it immediately
+           · a hard timer releases it even if something throws
+           · leaving the tab releases it
+           · it never arms under prefers-reduced-motion
+           · it only arms if the stack really is near the middle of the window */
+      var holdBeam = (function () {
+        var beam = stackNote && stackNote.querySelector('.stack-beam');
+        var rig  = stackNote && stackNote.querySelector('.stack-rig');
+        var quiet = matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (!beam || !rig || quiet || !beam.getAnimations) {
+          return { start: function () {}, stop: function () {} };
+        }
+
+        var CROSS = 0.4818;        /* where the beam is level with the middle */
+        var HOLD_MS = 4000;
+        var fired = false, locked = false, armed = 0, timer = 0;
+
+        function eat(e) { e.preventDefault(); }
+        /* behavior:auto matters — the page sets scroll-behavior:smooth, which
+           would otherwise turn every correction into an animation the reader
+           sees as the page still scrolling */
+        function pin() {
+          if (window.scrollY !== pin.y) window.scrollTo({ top: pin.y, behavior: 'auto' });
+        }
+        function keys(e) {
+          if (e.key === 'Escape') { release(); return; }   /* always a way out */
+          if (e.key === ' ' || e.key === 'Home' || e.key === 'End' ||
+              e.key.indexOf('Arrow') === 0 || e.key.indexOf('Page') === 0) {
+            e.preventDefault();
+          }
+        }
+        var docEl = document.documentElement;
+        function hold() {
+          if (locked || fired) return;
+          locked = true; fired = true;
+          pin.y = window.scrollY;
+          /* the scrollbar disappears with overflow:hidden; hold the width so
+             the page does not jump sideways as it locks */
+          var bar = window.innerWidth - docEl.clientWidth;
+          if (bar > 0) document.body.style.paddingRight = bar + 'px';
+          docEl.classList.add('scroll-held');
+          docEl.scrollTop = pin.y;
+          addEventListener('wheel', eat, { passive: false });
+          addEventListener('touchmove', eat, { passive: false });
+          addEventListener('scroll', pin, { passive: true });
+          addEventListener('keydown', keys, true);
+          timer = setTimeout(release, HOLD_MS);
+        }
+        function release() {
+          if (!locked) return;
+          locked = false;
+          clearTimeout(timer);
+          docEl.classList.remove('scroll-held');
+          document.body.style.paddingRight = '';
+          docEl.scrollTop = pin.y;          /* overflow toggling can nudge it */
+          removeEventListener('wheel', eat);
+          removeEventListener('touchmove', eat);
+          removeEventListener('scroll', pin);
+          removeEventListener('keydown', keys, true);
+        }
+
+        function due() {
+          if (fired) return;
+          /* only if the stack is genuinely the thing being looked at */
+          var r = rig.getBoundingClientRect();
+          if (Math.abs((r.top + r.height / 2) - window.innerHeight / 2)
+              < window.innerHeight * 0.3) { hold(); return; }
+          arm();                    /* not centred yet — try the next loop */
+        }
+        function arm() {
+          stop();
+          if (fired) return;
+          var a = beam.getAnimations()[0];
+          if (!a || a.currentTime === null) { armed = setTimeout(arm, 200); return; }
+          var dur = (a.effect.getTiming().duration) || 11000;
+          var wait = CROSS * dur - (a.currentTime % dur);
+          if (wait < 0) wait += dur;
+          armed = setTimeout(due, wait);
+        }
+        function stop() { if (armed) { clearTimeout(armed); armed = 0; } }
+
+        addEventListener('visibilitychange', function () {
+          if (document.hidden) { release(); stop(); }
+        });
+        return { start: arm, stop: stop };
+      })();
     }
 
     /* printing must always show the real commands, mid-type or not */
