@@ -445,6 +445,15 @@
       repeating-linear-gradient(90deg, rgba(252,156,12,.55) 0 1px, transparent 1px 24px),
       repeating-linear-gradient(0deg,  rgba(252,156,12,.30) 0 1px, transparent 1px 24px),
       repeating-linear-gradient(0deg,  rgba(255,236,196,.10) 0 2px, transparent 2px 5px); }
+  /* The mark rides on top of the orange while the surface is being read and
+     processed, then goes out with the plate. z-index 4 puts it over the plate;
+     sitting before the beam in the DOM at the same level lets the beam sweep
+     across it rather than pass behind. */
+  .stack-logo { position: absolute; left: 50%; top: 50%;
+    width: 100px; height: 100px; margin: -50px 0 0 -50px;
+    z-index: 4; opacity: 0; pointer-events: none;
+    filter: drop-shadow(0 12px 30px rgba(0, 0, 0, .55)); }
+
   .stack-beam { position: absolute; left: 0; right: 0; height: 7%; top: -12%;
     z-index: 4; opacity: 0; pointer-events: none;
     background: linear-gradient(180deg, transparent 0%,
@@ -521,6 +530,13 @@
      showing below it. The cut edge sits directly under the beam's glow, so
      the seam is never visible. It then holds: it is the payoff, and it gets
      the longest single beat in the cycle. */
+  /* in with the lattice, out on exactly the plate's dissolve (55% -> 61%) */
+  @keyframes stackLogo {
+    0%, 35%   { opacity: 0; }
+    39%, 55%  { opacity: 1; }
+    61%, 100% { opacity: 0; }
+  }
+
   @keyframes stackReveal {
     0%, 44.5%   { opacity: 0; clip-path: inset(0 0 100% 0); }
     44.61%      { opacity: 1; clip-path: inset(0 0 100% 0); }
@@ -536,10 +552,10 @@
     51.75%    { opacity: 1; clip-path: inset(0 0 0 0);
                 box-shadow: 0 0 70px 12px rgba(252,156,12,.55),
                             0 0 0 1px rgba(252,156,12,.7) inset; }
-    62%       { opacity: 1; clip-path: inset(0 0 0 0);
+    55%       { opacity: 1; clip-path: inset(0 0 0 0);
                 box-shadow: 0 0 70px 12px rgba(252,156,12,.55),
                             0 0 0 1px rgba(252,156,12,.7) inset; }
-    72%       { opacity: 0; clip-path: inset(0 0 0 0);
+    61%       { opacity: 0; clip-path: inset(0 0 0 0);
                 box-shadow: 0 0 16px 2px rgba(252,156,12,0),
                             0 0 0 1px rgba(252,156,12,0) inset; }
     /* the clip resets while the plate is already invisible */
@@ -564,6 +580,7 @@
                                     showRs      11s linear      infinite; }
   .what-note.play .stack-scan { animation: scanShow 11s linear infinite,
                                            scanGrid 11s linear infinite; }
+  .what-note.play .stack-logo { animation: stackLogo 11s linear infinite; }
   .what-note.play .stack-beam { animation: beamSweep 11s linear infinite; }
   /* linear like the beam — eased, the clip edge sprints ahead of it */
   .what-note.play .l3 { animation: stackReveal 11s linear infinite; }
@@ -844,7 +861,7 @@
     .cyl, .cyl-stage figure, .renders-field img { opacity: 1 !important; transform: none !important; }
     /* the stack never animates here: show the finished render, drop the plate */
     .stack-l { opacity: 1 !important; transform: none !important; }
-    .stack-burn, .stack-scan, .stack-beam { display: none; }
+    .stack-burn, .stack-scan, .stack-beam, .stack-logo { display: none; }
     .ports { display: none; }
     /* unstack the cylinder: three maps in a row, each with its own caption */
     .cyl-3d { position: static; perspective: none; display: contents; }
@@ -1034,7 +1051,7 @@
     .what-copy { pointer-events: auto; padding-bottom: 24px; }
     /* no looping composite — the finished render on top says the same thing */
     .stack-l { opacity: 1 !important; transform: none !important; }
-    .stack-burn, .stack-scan, .stack-beam { display: none; }
+    .stack-burn, .stack-scan, .stack-beam, .stack-logo { display: none; }
     .ports { display: none; }
     .what-note { padding-bottom: 0; }
     .renders-field { position: static; }
@@ -1623,6 +1640,8 @@
               </div>
               <i class="stack-scan"></i>
               <i class="stack-burn"></i>
+              <img class="stack-logo" src="../assets/icons/mockup-mason.png" alt=""
+                   aria-hidden="true" loading="lazy" decoding="async">
               <i class="stack-beam"></i>
             </div>
           </div>

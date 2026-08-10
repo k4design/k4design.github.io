@@ -5,83 +5,57 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>IDOS Card · 1x1</title>
 <!-- ============================================================
-     Standalone recreation of the FallCon IDOS builder share image
-     (1080x1080). Transcribed from the builder's drawCard() canvas
-     renderer. To customise: edit the five .data spans + the headshot
-     <img>, all marked EDIT below. Assets resolve against ./img/.
+     FallCon IDOS share card — 1x1 (1080x1080).
+     Layout + behaviour are shared: idos-card.css / idos-card.js.
+     This file carries only the ratio flag and the five fields.
+     Edit the spans marked EDIT, or pass them in as query params:
+       ?word=LEGACY&statement=...&name=Jessica%20Alvarez&initials=JA&photo=img/headshot.jpg
+     Limits designed to: word <=10 chars, statement <=120, name <=28.
+     Longer copy auto-fits; see idos-card.js for the degradation order.
+     Assets resolve against ./img/.
      ============================================================ -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=Fraunces:ital,opsz,wght@1,9..144,500&family=Inter:wght@500;600;700&display=swap" rel="stylesheet">
-<style>
-  * { margin:0; padding:0; box-sizing:border-box; }
-  html,body { background:#242020; min-height:100%; }
-  body { display:grid; place-items:center; padding:24px; }
-
-  .card { position:relative; width:1080px; height:1080px; overflow:hidden; background:#121010;
-          background-image:linear-gradient(rgba(18,16,16,.55), rgba(18,16,16,.55)), url('img/1x1.png');
-          background-size:cover; background-position:center;
-          font-family:'Inter',sans-serif; color:#F7F1E6; flex:0 0 auto; }
-
-  /* halftone dots, top-right (canvas: 30px pitch, orange, fading with distance) */
-  .dots { position:absolute; top:0; right:0; width:50%; height:42%; pointer-events:none;
-          background-image:radial-gradient(circle, rgba(244,80,30,.6) 3px, transparent 3.4px);
-          background-size:30px 30px;
-          -webkit-mask-image:radial-gradient(120% 120% at 100% 0%, #000 0%, transparent 72%);
-          mask-image:radial-gradient(120% 120% at 100% 0%, #000 0%, transparent 72%); }
-
-  /* ghost 26, sheared like the canvas setTransform(1,0,-.18,1) */
-  .ghost { position:absolute; right:-40px; bottom:-86px; font-family:'Anton',sans-serif;
-           font-size:720px; line-height:1; color:#F4501E; opacity:.06;
-           transform:skewX(-10.2deg); pointer-events:none; }
-
-  .rule { position:absolute; left:96px; top:96px; width:64px; height:6px; background:#F4501E; }
-  .logo { position:absolute; left:96px; top:112px; height:88px; width:auto; }
-
-  .eyebrow { position:absolute; left:96px; top:314px; color:#F4501E; font-weight:700;
-             font-size:26px; letter-spacing:6px; white-space:nowrap; }
-  .means   { position:absolute; left:96px; top:390px; color:#8f8676; font-weight:600;
-             font-size:24px; letter-spacing:3px; }
-
-  .word { position:absolute; left:96px; top:462px; font-family:'Anton',sans-serif;
-          font-size:260px; line-height:.82; color:#F4501E; white-space:nowrap; }
-
-  .statement { position:absolute; left:96px; top:739px; width:888px;
-               font-weight:500; font-size:42px; line-height:56px; color:#F7F1E6; }
-
-  .invite { position:absolute; left:96px; bottom:48px; width:654px; }
-  .invite-line { font-weight:600; font-size:32px; line-height:42px; color:#F7F1E6; }
-  .invite-name { margin-top:14px; font-family:'Fraunces',serif; font-style:italic;
-                 font-weight:500; font-size:30px; color:#8f8676; }
-
-  .headshot { position:absolute; right:96px; bottom:48px; width:190px; height:190px;
-              border-radius:50%; object-fit:cover; border:5px solid #F4501E; }
-</style>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Anton&family=Fraunces:ital,opsz,wght@1,9..144,500&family=Inter:wght@500;600;700&display=block">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Fraunces:ital,opsz,wght@1,9..144,500&family=Inter:wght@500;600;700&display=block">
+<link rel="stylesheet" href="idos-card.css">
 </head>
 <body>
-  <div class="card">
+  <div class="card" data-ratio="1x1">
     <div class="dots" aria-hidden="true"></div>
     <div class="ghost" aria-hidden="true">26</div>
-    <div class="rule" aria-hidden="true"></div>
-    <img class="logo" src="img/logo_h.png" alt="FallCon 2026 — Homecoming">
 
-    <div class="eyebrow">MY INDIVIDUAL DEFINITION OF SUCCESS</div>
-    <div class="means">SUCCESS MEANS —</div>
+    <header class="head">
+      <div class="rule" aria-hidden="true"></div>
+      <img class="logo" src="img/logo_h.png" alt="FallCon 2026 — Homecoming">
+    </header>
 
-    <!-- EDIT: the big word -->
-    <div class="word">LEGACY</div>
+    <div class="body">
+      <div class="eyebrow">MY INDIVIDUAL DEFINITION OF SUCCESS</div>
+      <div class="means">SUCCESS MEANS —</div>
 
-    <!-- EDIT: feeling / number / who -->
-    <div class="statement">To feel freedom, reach 50 deals, for my two kids.</div>
+      <!-- EDIT: the big word -->
+      <div class="word">LEGACY</div>
 
-    <div class="invite">
-      <div class="invite-line">Join me at FallCon 2026 - Homecoming in Lakeland, FL October 6th through the 8th.</div>
-      <!-- EDIT: agent name -->
-      <div class="invite-name">— Jessica Alvarez</div>
+      <!-- EDIT: feeling / number / who -->
+      <p class="statement">To feel freedom, reach 50 deals, for my two kids.</p>
     </div>
 
-    <!-- EDIT: swap for the agent's real headshot (or delete this img entirely) -->
-    <img class="headshot" src="https://randomuser.me/api/portraits/women/44.jpg" alt="Agent headshot">
+    <footer class="foot">
+      <div class="invite">
+        <p class="invite-line">Join me at FallCon 2026 - Homecoming in Lakeland, FL October 6th through the 8th.</p>
+        <!-- EDIT: agent name -->
+        <p class="invite-name">— Jessica Alvarez</p>
+      </div>
+
+      <!-- EDIT: initials are the empty state; drop a local file at img/headshot.jpg
+           (or point the <img> anywhere local) and it takes over automatically.
+           If the file is missing the <img> removes itself and the monogram shows. -->
+      <figure class="headshot" data-initials="JA">
+        <img src="img/headshot.jpg" alt="Agent headshot">
+      </figure>
+    </footer>
   </div>
+  <script src="idos-card.js"></script>
 </body>
 </html>

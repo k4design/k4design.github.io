@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>IDOS cards · acceptance harness</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:#121010;color:#F7F1E6;font-family:'Inter',system-ui,sans-serif;padding:32px;font-size:14px}
+  h1{font-family:'Anton',sans-serif;font-size:34px;letter-spacing:-.01em;text-transform:uppercase}
+  h2{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#F4501E;margin:28px 0 10px}
+  table{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums}
+  th,td{border-bottom:1px solid rgba(247,241,230,.14);padding:7px 10px;text-align:left;font-size:13px}
+  th{color:#8a8175;font-weight:600;font-size:11px;letter-spacing:1.5px;text-transform:uppercase}
+  .ok{color:#7bd08a;font-weight:600}
+  .bad{color:#F4501E;font-weight:700}
+  .frames{display:flex;gap:20px;flex-wrap:wrap;margin-top:12px}
+  .thumb{border:1px solid rgba(247,241,230,.14)}
+  .thumb figcaption{font-size:11px;letter-spacing:1.5px;color:#8a8175;padding:6px 8px;text-transform:uppercase}
+  .shell{position:relative;overflow:hidden}
+  iframe{border:0;transform-origin:0 0}
+  pre{white-space:pre-wrap;color:#C9C2B4;font-size:12px;line-height:1.6}
+</style>
+</head>
+<body>
+<h1>IDOS card acceptance</h1>
+<div id="out"><p>Rendering…</p></div>
+
+<script>
+const H = {'1x1':1080,'3x4':1440,'9x16':1920};
+const CASES = {
+  default: '',
+  long: '?word=INDEPENDENCE&statement=' + encodeURIComponent('To feel completely unhurried on a Tuesday afternoon, to close 120 transactions in a single calendar year, and to do all of it for my wife, my three daughters and the team who bet on me early.') + '&name=' + encodeURIComponent('Maximiliana Featherstonehaugh-Alvarez') + '&initials=MF',
+  extreme: '?word=ACCOUNTABILITYFOREVERMORE&statement=' + encodeURIComponent('To feel the kind of freedom that does not check its phone at dinner, to reach two hundred and fifty closed transactions across three markets, to build a brokerage my children could run without me, and to prove to the girl who started with nothing that she was right all along about every single bit of it.') + '&name=' + encodeURIComponent('Christopher Alexander Montgomery-Featherstone III') + '&initials=CM'
+};
+
+const out = document.getElementById('out');
+out.innerHTML = '';
+
+function load(ratio, query, bust) {
+  return new Promise(res => {
+    const f = document.createElement('iframe');
+    f.width = 1080; f.height = H[ratio];
+    f.src = 'idos-card-' + ratio + '.html' + query + (bust ? (query ? '&' : '?') + 'b=' + bust : '');
+    f.style.position = 'absolute'; f.style.left = '-20000px';
+    document.body.appendChild(f);
+    f.onload = () => f.contentWindow.IDOSCard.ready.then(r => res({ frame: f, report: r }));
+  });
+}
+
+(async () => {
+  const rows = [], thumbs = [];
+  for (const [caseName, query] of Object.entries(CASES)) {
+    for (const ratio of Object.keys(H)) {
+      const a = await load(ratio, query);
+      const b = await load(ratio, query, Date.now());   // second independent load
+      const same = JSON.stringify(a.report.box) === JSON.stringify(b.report.box)
+                && JSON.stringify(a.report.fit) === JSON.stringify(b.report.fit);
+      rows.push({ caseName, ratio, r: a.report, same });
+      b.frame.remove();
+      thumbs.push({ caseName, ratio, frame: a.frame });
+    }
+  }
+
+  const keys = ['eyebrow','word','statement','invite','headshot','logo','rule','means'];
+  let html = '';
+  for (const caseName of Object.keys(CASES)) {
+    html += '<h2>' + caseName + ' copy</h2><table><tr><th>ratio</th><th>card</th>' +
+      keys.map(k => '<th>' + k + ' x1→x2 / y1→y2</th>').join('') +
+      '<th>fit</th><th>2nd load identical</th><th>verdict</th></tr>';
+    for (const row of rows.filter(r => r.caseName === caseName)) {
+      html += '<tr><td>' + row.ratio + '</td><td>' + row.r.card.w + '×' + row.r.card.h + '</td>' +
+        keys.map(k => { const b = row.r.box[k]; return '<td>' + (b ? b.x1 + '→' + b.x2 + ' / ' + b.y1 + '→' + b.y2 : '—') + '</td>'; }).join('') +
+        '<td>w ' + row.r.fit.word + ' · e ' + row.r.fit.eyebrow + ' · s ' + row.r.fit.statement + ' · L' + row.r.fit.statementLines + '</td>' +
+        '<td class="' + (row.same ? 'ok">yes' : 'bad">NO') + '</td>' +
+        '<td class="' + (row.r.pass ? 'ok">PASS' : 'bad">' + row.r.violations.join('; ')) + '</td></tr>';
+    }
+    html += '</table>';
+  }
+  html += '<h2>renders</h2><div class="frames" id="frames"></div>';
+  out.innerHTML = html;
+
+  const wrap = document.getElementById('frames');
+  for (const t of thumbs) {
+    const scale = 250 / 1080;
+    const fig = document.createElement('figure');
+    fig.className = 'thumb';
+    const shell = document.createElement('div');
+    shell.className = 'shell';
+    shell.style.width = '250px';
+    shell.style.height = Math.round(H[t.ratio] * scale) + 'px';
+    t.frame.style.position = 'static';
+    t.frame.style.left = '0';
+    t.frame.style.transform = 'scale(' + scale + ')';
+    shell.appendChild(t.frame);
+    const cap = document.createElement('figcaption');
+    cap.textContent = t.ratio + ' · ' + t.caseName;
+    fig.appendChild(shell); fig.appendChild(cap);
+    wrap.appendChild(fig);
+  }
+})();
+</script>
+</body>
+</html>

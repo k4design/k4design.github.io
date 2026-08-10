@@ -391,12 +391,12 @@
     pointer-events: none; z-index: 0;
     background: linear-gradient(100deg, rgba(247,241,230,0) 0%, rgba(247,241,230,.34) 50%, rgba(247,241,230,0) 100%);
     transform: rotate(14deg) translateX(0);
-    animation: fc-vip-sheen 5.5s cubic-bezier(0.23, 1, 0.32, 1) infinite;
+    animation: fc-vip-sheen 2s cubic-bezier(0.23, 1, 0.32, 1) infinite;
     will-change: transform;
   }
   @keyframes fc-vip-sheen {
-    0%, 62%  { transform: rotate(14deg) translateX(0); opacity: 0; }
-    66%      { opacity: 1; }
+    0%, 52%  { transform: rotate(14deg) translateX(0); opacity: 0; }
+    56%      { opacity: 1; }
     100%     { transform: rotate(14deg) translateX(560%); opacity: 0; }
   }
   @media (prefers-reduced-motion: reduce) { .fc-vip-shine { display: none; } }
@@ -573,7 +573,7 @@
       <div style="max-width:760px;">
         <div style="font-size:12px; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:#C63A11; margin-bottom:14px;">The origin</div>
         <h2 style="margin:0; font-family:'Anton',sans-serif; font-weight:400; text-transform:uppercase; line-height:.92; letter-spacing:-.01em; font-size:clamp(34px,5.5vw,80px); max-width:16ch;">Every definition of success starts <span style="color:#F4501E;">somewhere.</span></h2>
-        <p style="margin:20px 0 0; font-family:'Fraunces',serif; font-size:clamp(17px,1.7vw,23px); line-height:1.42; color:#3a352c; max-width:54ch; text-wrap:pretty;">Robert Palmer shaped his IDOS right here in Lakeland — one honest answer to what success actually meant to him. <span style="font-style:italic; color:#C63A11; font-size:1.35em; line-height:1.3; display:inline-block; margin-top:.3em;">FallCon brings agents back to that same starting line to define their own.</span></p>
+        <p style="margin:20px 0 0; font-family:'Fraunces',serif; font-size:clamp(17px,1.7vw,23px); line-height:1.42; color:#3a352c; max-width:54ch; text-wrap:pretty;">Robert Palmer shaped his individual definition of success right here in Lakeland — one honest answer to what success actually meant to him. <span style="font-style:italic; color:#C63A11; font-size:1.35em; line-height:1.3; display:inline-block; margin-top:.3em;">FallCon brings agents back to that same starting line to define their own.</span></p>
       </div>
       <div style="display:flex; gap:12px;">
         <button type="button" aria-label="Previous slide" onClick="{{ prevSlide }}" style="width:56px; height:56px; border-radius:50%; border:1.5px solid #121010; background:transparent; color:#121010; font-size:22px; cursor:pointer; transition:background .2s, color .2s;" style-hover="background:#121010; color:#F7F1E6;">←</button>
@@ -1736,8 +1736,55 @@ class Component extends DCLogic {
     input.click();
   };
 
+  /* ============================================================
+     CARD SCALE TABLE
+     Mirrors the per-ratio block at the bottom of idos-card.css. The
+     standalone HTML cards and this canvas renderer are two
+     implementations of one layout — change a number here and change
+     it there too. idos-cards-README.md states the contract and
+     _acceptance.html measures it.
+     ============================================================ */
+  cardScale(fmt) {
+    const T = {
+      square:   { key:'1x1',  h:1080, bg:'img/1x1.png',
+                  padX:96, padTop:96, padBottom:48,
+                  ghostSize:720, ghostBottom:-86,
+                  ruleW:64,  ruleH:6,  ruleGap:10, logoH:88,  headGap:100,
+                  eyebrowSize:26, eyebrowTrack:6, gapEyebrow:37,
+                  meansSize:24,   meansTrack:3,   gapMeans:36,
+                  wordSize:260,   gapWord:48,
+                  statementSize:42, statementLh:56, statementLines:3, slackMin:24,
+                  footGap:40, inviteSize:32, inviteLh:42, nameGap:14, nameSize:30,
+                  shot:190 },
+      portrait: { key:'3x4',  h:1440, bg:'img/3x4.png',
+                  padX:96, padTop:96, padBottom:64,
+                  ghostSize:800, ghostBottom:-96,
+                  ruleW:84,  ruleH:8,  ruleGap:12, logoH:110, headGap:150,
+                  eyebrowSize:30, eyebrowTrack:5, gapEyebrow:44,
+                  meansSize:28,   meansTrack:4,   gapMeans:44,
+                  wordSize:320,   gapWord:72,
+                  statementSize:50, statementLh:66, statementLines:3, slackMin:56,
+                  footGap:44, inviteSize:36, inviteLh:48, nameGap:16, nameSize:34,
+                  shot:230 },
+      story:    { key:'9x16', h:1920, bg:'img/9x16.png',
+                  padX:96, padTop:96, padBottom:80,
+                  ghostSize:900, ghostBottom:-108,
+                  ruleW:128, ruleH:12, ruleGap:16, logoH:176, headGap:210,
+                  eyebrowSize:34, eyebrowTrack:4, gapEyebrow:60,
+                  meansSize:44,   meansTrack:6,   gapMeans:60,
+                  wordSize:340,   gapWord:100,
+                  statementSize:72, statementLh:96, statementLines:4, slackMin:72,
+                  footGap:48, inviteSize:44, inviteLh:60, nameGap:14, nameSize:42,
+                  shot:300 }
+    };
+    return T[fmt] || T.square;
+  }
+
+  /* hard caps so pathological input cannot break the fit loops */
+  static HARD = { word: 24, statement: 260, name: 60, initials: 3 };
+
   loadBg(fmt) {
-    const src = fmt === 'story' ? 'img/9x16.png' : 'img/1x1.png';
+    const src = this.cardScale(fmt).bg;
     this._bgP = this._bgP || {};
     if (this._bgP[src]) return this._bgP[src];
     this._bgP[src] = new Promise((res) => {
@@ -1753,25 +1800,77 @@ class Component extends DCLogic {
     const canvas = (this.canvasRef && this.canvasRef.current) || document.getElementById('idosCanvas');
     if (!canvas) return;
     const fmt = this.state.format;
-    const W = 1080, H = fmt === 'story' ? 1920 : (fmt === 'portrait' ? 1440 : 1080);
+    const T = this.cardScale(fmt);
+    const W = 1080, H = T.h;
     canvas.width = W; canvas.height = H;
     const ctx = canvas.getContext('2d');
     const a = this.state.answers;
-    const ink = '#121010', orange = '#F4501E', orangeL = '#FF6A3D', cream = '#F7F1E6', silver = '#DBDBDB', muted = '#8f8676';
+    const ink = '#121010', orange = '#F4501E', cream = '#F7F1E6', silver = '#DBDBDB', muted = '#8f8676';
+    const CAP = this.constructor.HARD || { word: 24, statement: 260, name: 60, initials: 3 };
+    const clip = (s, n) => String(s == null ? '' : s).slice(0, n);
+
     try {
       await Promise.all([
-        document.fonts.load('400 120px "Anton"'),
-        document.fonts.load('700 40px "Inter"'),
-        document.fonts.load('900 40px "Archivo Black"')
+        document.fonts.load('400 340px "Anton"'),
+        document.fonts.load('500 72px "Inter"'),
+        document.fonts.load('600 44px "Inter"'),
+        document.fonts.load('700 34px "Inter"'),
+        document.fonts.load('italic 500 42px "Fraunces"')
       ]);
       await document.fonts.ready;
     } catch (e) {}
 
-    const P = 96;
-    const S = fmt === 'story' ? 2 : 1;   // scale foreground text & images up on the tall 9:16 card
-    ctx.fillStyle = ink; ctx.fillRect(0, 0, W, H);
+    const P = T.padX, CW = W - 2 * P;          /* 888px content column */
+    const track = (v) => { try { ctx.letterSpacing = v + 'px'; } catch (e) {} };
 
-    // background image (bg.png) with a dark overlay for legibility
+    /* ---------- measurement helpers ---------- */
+    /* width of a string INCLUDING the trailing letter-spacing Chrome adds, so
+       a fitted line cannot creep past the column by one space */
+    const widthOf = (s) => ctx.measureText(s).width;
+    const wrap = (text, maxW) => {
+      const words = String(text).split(/\s+/).filter(Boolean);
+      const out = []; let line = '';
+      /* a token wider than the column has no space to break at — split it by
+         character, the way overflow-wrap:anywhere does for the HTML cards */
+      const breakToken = (w) => {
+        let cur = '';
+        for (const ch of w) {
+          if (cur && widthOf(cur + ch) > maxW) { out.push(cur); cur = ch; } else cur += ch;
+        }
+        return cur;
+      };
+      for (const w of words) {
+        if (widthOf(w) > maxW) { if (line) { out.push(line); line = ''; } line = breakToken(w); continue; }
+        const test = line ? line + ' ' + w : w;
+        if (line && widthOf(test) > maxW) { out.push(line); line = w; } else line = test;
+      }
+      if (line) out.push(line);
+      return out.length ? out : [''];
+    };
+    /* one-line fit: shrink to a floor, then clip with an ellipsis */
+    const fitOneLine = (text, font, size, maxW, floor) => {
+      let fs = size, t = text;
+      const set = () => ctx.font = font(fs);
+      set();
+      while (widthOf(t) > maxW && fs > size * floor) { fs -= 1; set(); }
+      if (widthOf(t) > maxW) {
+        while (t.length > 2 && widthOf(t + '…') > maxW) t = t.slice(0, -1);
+        t = t.replace(/[\s,.;:—-]+$/, '') + '…';
+      }
+      return { text: t, size: fs };
+    };
+    /* keep at most `max` lines; the last one gets an ellipsis */
+    const clampLines = (lines, max, maxW) => {
+      if (lines.length <= max) return lines;
+      const kept = lines.slice(0, max);
+      let last = kept[max - 1];
+      while (last.length > 1 && widthOf(last + '…') > maxW) last = last.slice(0, -1);
+      kept[max - 1] = last.replace(/[\s,.;:]+$/, '') + '…';
+      return kept;
+    };
+
+    /* ---------- background ---------- */
+    ctx.fillStyle = ink; ctx.fillRect(0, 0, W, H);
     const bg = await this.loadBg(fmt);
     if (bg && bg.naturalWidth) {
       const s = Math.max(W / bg.naturalWidth, H / bg.naturalHeight);
@@ -1780,7 +1879,7 @@ class Component extends DCLogic {
       ctx.fillStyle = 'rgba(18,16,16,.55)'; ctx.fillRect(0, 0, W, H);
     }
 
-    // halftone dots (top-right)
+    /* halftone dots, top-right */
     ctx.save();
     for (let y = 0; y < H * 0.42; y += 30) {
       for (let x = W * 0.5; x < W; x += 30) {
@@ -1791,132 +1890,219 @@ class Component extends DCLogic {
     }
     ctx.restore();
 
-    // ghost 26
+    /* ghost 26 */
     ctx.save();
     ctx.globalAlpha = 0.06; ctx.fillStyle = orange;
-    ctx.font = '400 ' + (fmt === 'story' ? 900 : 720) + 'px "Anton"';
+    ctx.font = '400 ' + T.ghostSize + 'px "Anton"';
     ctx.textAlign = 'right'; ctx.textBaseline = 'alphabetic';
     ctx.setTransform(1, 0, -0.18, 1, 0, 0);
-    ctx.fillText('26', W + (fmt === 'story' ? 1800 : 1050) * 0.18 + 60, H - 40);
+    ctx.fillText('26', W + T.ghostSize * 0.18 + 60, H - T.ghostBottom * -1);
     ctx.setTransform(1, 0, 0, 1, 0, 0);
     ctx.restore();
 
-    // orange top rule
-    ctx.fillStyle = orange; ctx.fillRect(P, P, 64 * S, 6 * S);
+    ctx.textAlign = 'left';
 
-    // wordmark (nav logo lockup)
+    /* ---------- header band ---------- */
+    ctx.fillStyle = orange;
+    ctx.fillRect(P, T.padTop, T.ruleW, T.ruleH);
+    const logoTop = T.padTop + T.ruleH + T.ruleGap;
     const logo = await this.loadLogo();
     if (logo && logo.naturalWidth) {
-      const lh = 88 * S, lw = lh * (logo.naturalWidth / logo.naturalHeight);
-      ctx.drawImage(logo, P, P + 16 * S, lw, lh);
+      const lw = T.logoH * (logo.naturalWidth / logo.naturalHeight);
+      ctx.drawImage(logo, P, logoTop, lw, T.logoH);
     } else {
-      ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
       ctx.save();
       ctx.transform(1, 0, -0.12, 1, 0, 0);
-      ctx.font = '400 56px "Anton"';
-      const wy = P + 92;
-      ctx.fillStyle = silver; ctx.fillText('FALL', P + 12, wy);
-      const fw = ctx.measureText('FALL').width;
-      ctx.fillStyle = orange; ctx.fillText('CON', P + 12 + fw + 4, wy);
+      ctx.font = '400 ' + Math.round(T.logoH * 0.64) + 'px "Anton"';
+      ctx.textBaseline = 'top';
+      ctx.fillStyle = silver; ctx.fillText('FALL', P + 12, logoTop);
+      ctx.fillStyle = orange; ctx.fillText('CON', P + 12 + ctx.measureText('FALL').width + 4, logoTop);
       ctx.restore();
     }
+    const bodyTop = logoTop + T.logoH + T.headGap;
 
-    // eyebrow (scaled, shrink-to-fit so it never overflows the width)
-    ctx.fillStyle = orange;
-    ctx.letterSpacing = (6 * S) + 'px';
-    let ebFs = 26 * S;
-    ctx.font = '700 ' + ebFs + 'px "Inter"';
-    while (ctx.measureText('MY INDIVIDUAL DEFINITION OF SUCCESS').width > W - 2 * P && ebFs > 12) { ebFs -= 2; ctx.font = '700 ' + ebFs + 'px "Inter"'; }
-    const eyeY = fmt === 'story' ? 560 : 340;
-    ctx.fillText('MY INDIVIDUAL DEFINITION OF SUCCESS', P, eyeY);
-
-    // "success means" label
-    ctx.letterSpacing = (3 * S) + 'px';
-    ctx.font = '600 ' + (24 * S) + 'px "Inter"';
-    ctx.fillStyle = muted;
-    ctx.fillText('SUCCESS MEANS —', P, eyeY + 74 * S);
-
-    // BIG WORD
-    const word = (a.word || 'FREEDOM').toUpperCase();
-    let fs = fmt === 'story' ? 340 : 260;
-    ctx.letterSpacing = '0px';
-    ctx.font = '400 ' + fs + 'px "Anton"';
-    while (ctx.measureText(word).width > W - 2 * P && fs > 70) { fs -= 6; ctx.font = '400 ' + fs + 'px "Anton"'; }
-    const wordTop = eyeY + (74 + 48) * S;      // sit clearly below the "SUCCESS MEANS —" label
-    ctx.textBaseline = 'top';
-    ctx.fillStyle = orange;
-    ctx.fillText(word, P, wordTop);
-    ctx.textBaseline = 'alphabetic';           // restore for the text below
-    const wordBottom = wordTop + fs * 0.82;     // approx cap bottom of Anton
-
-    // statement paragraph
-    ctx.font = '500 ' + (42 * S) + 'px "Inter"';
-    ctx.fillStyle = cream;
-    const feeling = a.feeling || 'Freedom';
-    const who = a.who || 'my family';
-    const statement = 'To feel ' + feeling.toLowerCase() + ', reach ' + this.formattedNumber() + ', for ' + who + '.';
-    const lineH = 56 * S;
-    let py = wordBottom + 64 * S;
-    const words = statement.split(' ');
-    let line = '';
-    for (let i = 0; i < words.length; i++) {
-      const test = line + words[i] + ' ';
-      if (ctx.measureText(test).width > W - 2 * P && line) {
-        ctx.fillText(line.trim(), P, py); py += lineH; line = words[i] + ' ';
-      } else line = test;
-    }
-    if (line.trim()) { ctx.fillText(line.trim(), P, py); py += lineH; }
-
-    // footer: headshot (bottom-right) + invite line (left) — base size on both formats
+    /* ---------- footer, bottom-anchored ----------
+       Built before the body so the body knows how much room is left. */
+    const nameRaw = clip((a.name || '').trim(), CAP.name);
+    const hasName = !!nameRaw;
     const hs = this._headshotImg;
     const hasHS = !!(hs && hs.naturalWidth);
-    const D = fmt === 'story' ? 320 : 190;                 // headshot diameter
-    const BM = 48;                                         // small bottom margin — hug the edge
-    const gap = 44;
-    const hsCx = W - P - D / 2, hsCy = H - BM - D / 2;     // bottom-right, hugging the bottom
-    const textRight = hasHS ? (W - P - D - gap) : (W - P); // sit beside the headshot when present
-    const Fs = fmt === 'story' ? 1.5 : 1;                  // 50% larger invite + signature on 9:16
-
-    // invite line, wrapped into the space left of the headshot
-    ctx.textAlign = 'left';
-    ctx.letterSpacing = '0px';
-    ctx.fillStyle = cream;
-    ctx.font = '600 ' + (32 * Fs) + 'px "Inter"';
     const invite = 'Join me at FallCon 2026 - Homecoming in Lakeland, FL October 6th through the 8th.';
-    const iLineH = 42 * Fs, textW = textRight - P;
-    const iWords = invite.split(' ');
-    const iLines = [];
-    let il = '';
-    for (let i = 0; i < iWords.length; i++) {
-      const t = il + iWords[i] + ' ';
-      if (ctx.measureText(t).width > textW && il) { iLines.push(il.trim()); il = iWords[i] + ' '; }
-      else il = t;
-    }
-    if (il.trim()) iLines.push(il.trim());
-    const hasName = !!(a.name && a.name.trim());
-    const nameGap = 14 * Fs, nameLineH = 40 * Fs;
-    const blockH = iLines.length * iLineH + (hasName ? nameGap + nameLineH : 0);
-    ctx.textBaseline = 'top';
-    let iy = (H - BM) - blockH;                            // bottom-align to the headshot's bottom
-    for (let i = 0; i < iLines.length; i++) { ctx.fillText(iLines[i], P, iy + i * iLineH); }
-    if (hasName) {
-      ctx.font = 'italic 500 ' + (30 * Fs) + 'px "Fraunces"';
-      ctx.fillStyle = muted;
-      ctx.fillText('— ' + a.name.trim(), P, iy + iLines.length * iLineH + nameGap);
-    }
-    ctx.textBaseline = 'alphabetic';
+    const footBottom = H - T.padBottom;
 
-    // headshot, clipped to a circle with an orange ring
+    let rInvite = 1, rShot = 1, foot = null;
+    const layoutFoot = () => {
+      const shot = Math.round(T.shot * rShot);
+      const textW = CW - shot - T.footGap;
+      ctx.font = '600 ' + (T.inviteSize * rInvite) + 'px "Inter"';
+      track(0);
+      const lines = wrap(invite, textW);
+      const lh = T.inviteLh * rInvite;
+      const nameGap = T.nameGap * rInvite;
+      const nameFit = hasName
+        ? fitOneLine('— ' + nameRaw, (px) => 'italic 500 ' + px + 'px "Fraunces"',
+                     T.nameSize * rInvite, textW, 0.62)
+        : { text: '', size: T.nameSize * rInvite };
+      const nameSize = nameFit.size;
+      const blockH = lines.length * lh + (hasName ? nameGap + nameSize * 1.3 : 0);
+      const h = Math.max(blockH, shot);
+      return { shot, textW, lines, lh, nameSize, nameGap, nameText: nameFit.text,
+               blockH, h, top: footBottom - h };
+    };
+    foot = layoutFoot();
+
+    /* ---------- body ---------- */
+    /* eyebrow — shrink type and tracking together, then allow a wrap */
+    let rEyebrow = 1;
+    const eyebrowText = 'MY INDIVIDUAL DEFINITION OF SUCCESS';
+    const fitEyebrow = () => {
+      ctx.font = '700 ' + (T.eyebrowSize * rEyebrow) + 'px "Inter"';
+      track(T.eyebrowTrack * rEyebrow);
+      return widthOf(eyebrowText);
+    };
+    while (fitEyebrow() > CW && rEyebrow > 0.58) rEyebrow -= 0.02;
+    const eyebrowLines = fitEyebrow() > CW ? wrap(eyebrowText, CW) : [eyebrowText];
+    const eyebrowSize = T.eyebrowSize * rEyebrow;
+
+    /* the big word — shrink to the column, then wrap */
+    const word = clip((a.word || 'FREEDOM').toUpperCase(), CAP.word);
+    let rWord = 1;
+    const fitWord = () => { track(0); ctx.font = '400 ' + (T.wordSize * rWord) + 'px "Anton"'; return widthOf(word); };
+    while (fitWord() > CW && rWord > 0.42) rWord -= 0.02;
+    const wordLines = fitWord() > CW ? wrap(word, CW) : [word];
+    let wordSize = T.wordSize * rWord;
+    /* Anton's .82 leading is set for one line; wrapped lines would collide */
+    const wordLh = wordLines.length > 1 ? wordSize * 0.95 : wordSize * 0.82;
+
+    const feeling = a.feeling || 'Freedom';
+    const who = a.who || 'my family';
+    const statement = clip('To feel ' + feeling.toLowerCase() + ', reach ' + this.formattedNumber() + ', for ' + who + '.', CAP.statement);
+
+    /* vertical solve: everything above the footer, in the README's
+       degradation order — invite, then headshot, then statement, then lines */
+    let rStatement = 1, maxLines = T.statementLines, guard = 0;
+    const eyebrowBlockH = eyebrowLines.length * eyebrowSize * 1.25;
+    const meansH = T.meansSize * 1.25;
+    const statementTop = () =>
+      bodyTop + eyebrowBlockH + T.gapEyebrow + meansH + T.gapMeans
+      + wordLines.length * wordLh + T.gapWord;
+    let stLines = [];
+    const solve = () => {
+      ctx.font = '500 ' + (T.statementSize * rStatement) + 'px "Inter"';
+      track(0);
+      stLines = clampLines(wrap(statement, CW), maxLines, CW);
+      const h = stLines.length * (T.statementLh * rStatement);
+      return statementTop() + h - (foot.top - T.slackMin);
+    };
+    while (solve() > 0.5 && guard++ < 80) {
+      if (rInvite > 0.7)        { rInvite -= 0.04; foot = layoutFoot(); }
+      else if (rShot > 0.7)     { rShot   -= 0.05; foot = layoutFoot(); }
+      else if (rStatement > 0.62) rStatement -= 0.04;
+      else if (maxLines > 1)      maxLines -= 1;
+      else break;
+    }
+
+    /* ---------- paint the body ---------- */
+    ctx.textBaseline = 'top';
+    ctx.fillStyle = orange;
+    ctx.font = '700 ' + eyebrowSize + 'px "Inter"';
+    track(T.eyebrowTrack * rEyebrow);
+    eyebrowLines.forEach((l, i) => ctx.fillText(l, P, bodyTop + i * eyebrowSize * 1.25));
+
+    const meansY = bodyTop + eyebrowBlockH + T.gapEyebrow;
+    ctx.font = '600 ' + T.meansSize + 'px "Inter"';
+    track(T.meansTrack);
+    ctx.fillStyle = muted;
+    ctx.fillText('SUCCESS MEANS —', P, meansY);
+
+    const wordY = meansY + meansH + T.gapMeans;
+    track(0);
+    ctx.font = '400 ' + wordSize + 'px "Anton"';
+    ctx.fillStyle = orange;
+    wordLines.forEach((l, i) => ctx.fillText(l, P, wordY + i * wordLh));
+
+    const stTop = statementTop();
+    ctx.font = '500 ' + (T.statementSize * rStatement) + 'px "Inter"';
+    ctx.fillStyle = cream;
+    stLines.forEach((l, i) => ctx.fillText(l, P, stTop + i * (T.statementLh * rStatement)));
+
+    /* ---------- paint the footer ---------- */
+    ctx.fillStyle = cream;
+    ctx.font = '600 ' + (T.inviteSize * rInvite) + 'px "Inter"';
+    const inviteTop = foot.top + (foot.h - foot.blockH) / 2;
+    foot.lines.forEach((l, i) => ctx.fillText(l, P, inviteTop + i * foot.lh));
+    if (hasName) {
+      ctx.font = 'italic 500 ' + foot.nameSize + 'px "Fraunces"';
+      ctx.fillStyle = muted;
+      ctx.fillText(foot.nameText, P, inviteTop + foot.lines.length * foot.lh + foot.nameGap);
+    }
+
+    /* headshot, or the designed monogram when there is no photo */
+    const D = foot.shot, cx = W - P - D / 2, cy = foot.top + foot.h / 2;
+    ctx.textBaseline = 'alphabetic';
     if (hasHS) {
       ctx.save();
-      ctx.beginPath(); ctx.arc(hsCx, hsCy, D / 2, 0, Math.PI * 2); ctx.closePath(); ctx.clip();
-      const cs = Math.max(D / hs.naturalWidth, D / hs.naturalHeight);
-      const cw = hs.naturalWidth * cs, ch = hs.naturalHeight * cs;
-      ctx.drawImage(hs, hsCx - cw / 2, hsCy - ch / 2, cw, ch);
+      ctx.beginPath(); ctx.arc(cx, cy, D / 2, 0, Math.PI * 2); ctx.clip();
+      const s = Math.max(D / hs.naturalWidth, D / hs.naturalHeight);
+      const cw = hs.naturalWidth * s, ch = hs.naturalHeight * s;
+      ctx.drawImage(hs, cx - cw / 2, cy - ch / 2, cw, ch);
       ctx.restore();
-      ctx.beginPath(); ctx.arc(hsCx, hsCy, D / 2, 0, Math.PI * 2);
-      ctx.lineWidth = 5; ctx.strokeStyle = orange; ctx.stroke();
+    } else {
+      const initials = clip((nameRaw.split(/\s+/).filter(Boolean).map(w => w[0]).join('') || 'IDOS').toUpperCase(), CAP.initials);
+      ctx.save();
+      ctx.beginPath(); ctx.arc(cx, cy, D / 2, 0, Math.PI * 2); ctx.clip();
+      ctx.fillStyle = 'rgba(18,16,16,.72)';
+      ctx.fillRect(cx - D / 2, cy - D / 2, D, D);
+      ctx.globalAlpha = 0.5; ctx.fillStyle = orange;
+      for (let y = cy - D / 2; y < cy + D / 2; y += 14) {
+        for (let x = cx - D / 2; x < cx + D / 2; x += 14) {
+          ctx.beginPath(); ctx.arc(x, y, 1.6, 0, 7); ctx.fill();
+        }
+      }
+      ctx.globalAlpha = 1;
+      ctx.restore();
+      ctx.fillStyle = orange;
+      ctx.font = '400 ' + Math.round(D * 0.42) + 'px "Anton"';
+      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillText(initials, cx, cy + D * 0.02);
+      ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
     }
+    ctx.beginPath(); ctx.arc(cx, cy, D / 2, 0, Math.PI * 2);
+    ctx.lineWidth = Math.max(4, Math.round(D * 0.026)); ctx.strokeStyle = orange; ctx.stroke();
+
+    /* what the acceptance harness reads */
+    this._lastCardReport = {
+      ratio: T.key, card: { w: W, h: H },
+      fit: { eyebrow: +rEyebrow.toFixed(2), word: +rWord.toFixed(2),
+             statement: +rStatement.toFixed(2), invite: +rInvite.toFixed(2),
+             shot: +rShot.toFixed(2), statementLines: stLines.length },
+      box: {
+        eyebrow:   { y1: bodyTop, y2: bodyTop + eyebrowBlockH },
+        word:      { y1: wordY,   y2: wordY + wordLines.length * wordLh },
+        statement: { y1: stTop,   y2: stTop + stLines.length * (T.statementLh * rStatement) },
+        foot:      { y1: foot.top, y2: footBottom }
+      },
+      /* widest painted line per block, measured in the font it was drawn in,
+         so the acceptance run can prove nothing crosses the content column */
+      maxW: (function () {
+        var m = {};
+        track(T.eyebrowTrack * rEyebrow); ctx.font = '700 ' + eyebrowSize + 'px "Inter"';
+        m.eyebrow = Math.max.apply(null, eyebrowLines.map(widthOf));
+        track(T.meansTrack); ctx.font = '600 ' + T.meansSize + 'px "Inter"';
+        m.means = widthOf('SUCCESS MEANS —');
+        track(0); ctx.font = '400 ' + wordSize + 'px "Anton"';
+        m.word = Math.max.apply(null, wordLines.map(widthOf));
+        ctx.font = '500 ' + (T.statementSize * rStatement) + 'px "Inter"';
+        m.statement = Math.max.apply(null, stLines.map(widthOf));
+        ctx.font = '600 ' + (T.inviteSize * rInvite) + 'px "Inter"';
+        m.invite = Math.max.apply(null, foot.lines.map(widthOf));
+        ctx.font = 'italic 500 ' + foot.nameSize + 'px "Fraunces"';
+        m.name = hasName ? widthOf(foot.nameText) : 0;
+        m.column = CW; m.inviteColumn = foot.textW;
+        return m;
+      })()
+    };
+    return this._lastCardReport;
   }
 
   chipStyle(selected) {

@@ -1,0 +1,172 @@
+/* ============================================================
+   IDOS share card — shared stylesheet for all three ratios.
+   Structure and every shared value live here; each ratio only
+   overrides the scale variables in its block at the bottom.
+   Colours/type are FallCon 2026 design-system tokens (verbatim).
+   ============================================================ */
+
+:root{
+  --ink:#121010;
+  --ink-soft:#141414;
+  --orange:#F4501E;
+  --cream:#F7F1E6;
+  --taupe-mid:#8f8676;   /* label taupe on ink */
+  --font-display:'Anton', sans-serif;
+  --font-ui:'Inter', system-ui, sans-serif;
+  --font-serif:'Fraunces', serif;
+}
+
+*{ margin:0; padding:0; box-sizing:border-box; }
+html,body{ background:#242020; min-height:100%; }
+body{ display:grid; place-items:center; padding:24px; }
+
+/* Render gate: the card stays invisible until the four webfonts are
+   actually loaded and the auto-fit pass has run, so a screenshot can
+   never catch a fallback typeface or an unfitted line. */
+html:not([data-card-ready]) .card{ visibility:hidden; }
+
+/* ---------- shared card shell ---------- */
+.card{
+  position:relative; overflow:hidden; flex:0 0 auto;
+  width:1080px;
+  background-color:var(--ink);
+  background-image:linear-gradient(rgba(18,16,16,.55), rgba(18,16,16,.55)), var(--bg);
+  background-size:cover; background-position:center;
+  font-family:var(--font-ui); color:var(--cream);
+  display:flex; flex-direction:column;
+  padding:var(--pad-top) var(--pad-x) var(--pad-bottom);
+}
+
+/* halftone dots, top-right (canvas: 30px pitch, orange, fading with distance) */
+.dots{
+  position:absolute; top:0; right:0; width:50%; height:456px; pointer-events:none;
+  background-image:radial-gradient(circle, rgba(244,80,30,.6) 3px, transparent 3.4px);
+  background-size:30px 30px;
+  -webkit-mask-image:radial-gradient(120% 120% at 100% 0%, #000 0%, transparent 72%);
+  mask-image:radial-gradient(120% 120% at 100% 0%, #000 0%, transparent 72%);
+}
+
+/* ghost 26, sheared like the canvas setTransform(1,0,-.18,1) */
+.ghost{
+  position:absolute; right:-40px; bottom:var(--ghost-bottom);
+  font-family:var(--font-display); font-size:var(--ghost-size); line-height:1;
+  color:var(--orange); opacity:.06; transform:skewX(-10.2deg); pointer-events:none;
+}
+
+.head{ display:flex; flex-direction:column; align-items:flex-start; gap:var(--rule-gap); flex:0 0 auto; }
+.rule{ width:var(--rule-w); height:var(--rule-h); background:var(--orange); }
+.logo{ height:var(--logo-h); width:auto; display:block; }
+
+/* the variable-content column: takes the slack, and gives it back
+   (via the auto-fit pass) when the copy runs long */
+.body{ flex:1 1 auto; min-height:0; display:flex; flex-direction:column; margin-top:var(--head-gap); }
+
+.eyebrow{
+  color:var(--orange); font-weight:700; line-height:1.18;
+  font-size:var(--eyebrow-size); letter-spacing:var(--eyebrow-track);
+  margin-bottom:var(--gap-eyebrow);
+}
+.means{
+  color:var(--taupe-mid); font-weight:600; line-height:1.2;
+  font-size:var(--means-size); letter-spacing:var(--means-track);
+  margin-bottom:var(--gap-means);
+}
+.word{
+  font-family:var(--font-display); font-size:var(--word-size); line-height:.82;
+  color:var(--orange); text-transform:uppercase; overflow-wrap:anywhere;
+  margin-bottom:var(--gap-word);
+}
+.statement{
+  font-weight:500; font-size:var(--statement-size); line-height:var(--statement-lh);
+  color:var(--cream); text-wrap:pretty; overflow-wrap:break-word;
+  margin-bottom:auto;               /* slack collects below the statement */
+  display:-webkit-box; -webkit-box-orient:vertical;
+  -webkit-line-clamp:var(--statement-lines); overflow:hidden;
+}
+
+.foot{ flex:0 0 auto; display:flex; align-items:flex-end; gap:var(--foot-gap); }
+.invite{ flex:1 1 auto; min-width:0; }
+.invite-line{
+  font-weight:600; font-size:var(--invite-size); line-height:var(--invite-lh); color:var(--cream);
+  display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:4; overflow:hidden;
+}
+.invite-name{
+  margin-top:var(--name-gap); font-family:var(--font-serif); font-style:italic; font-weight:500;
+  font-size:var(--name-size); line-height:1.25; color:var(--taupe-mid);
+  overflow-wrap:break-word;
+}
+
+/* headshot: local file when the agent has one, designed monogram when not */
+.headshot{
+  flex:0 0 auto; position:relative; overflow:hidden;
+  width:var(--shot); height:var(--shot); border-radius:50%;
+  border:5px solid var(--orange); background:var(--ink-soft);
+  display:grid; place-items:center;
+}
+.headshot::before{                     /* halftone texture inside the empty state */
+  content:""; position:absolute; inset:0;
+  background-image:radial-gradient(circle, rgba(244,80,30,.28) 2px, transparent 2.4px);
+  background-size:18px 18px;
+  -webkit-mask-image:radial-gradient(100% 100% at 30% 0%, #000 0%, transparent 78%);
+  mask-image:radial-gradient(100% 100% at 30% 0%, #000 0%, transparent 78%);
+}
+.headshot::after{
+  content:attr(data-initials); position:relative;
+  font-family:var(--font-display); font-size:calc(var(--shot) * .36); line-height:1;
+  letter-spacing:.03em; color:var(--orange);
+}
+.headshot img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; background:var(--ink-soft); }
+
+/* ============================================================
+   PER-RATIO SCALE — the only place a number differs by ratio.
+   ============================================================ */
+
+/* 1080x1080 — reference composition (matches drawCard() 1:1 output) */
+.card[data-ratio="1x1"]{
+  height:1080px; --bg:url('img/1x1.png');
+  --pad-x:96px; --pad-top:96px; --pad-bottom:48px;
+  --ghost-size:720px; --ghost-bottom:-86px;
+  --rule-w:64px; --rule-h:6px; --rule-gap:10px; --logo-h:88px;
+  --head-gap:100px;
+  --eyebrow-size:26px; --eyebrow-track:6px; --gap-eyebrow:37px;
+  --means-size:24px; --means-track:3px; --gap-means:36px;
+  --word-size:260px; --gap-word:48px;
+  /* 24px: the square is the tightest ratio; the block sits 24px higher than
+     the canvas original to buy that clearance instead of shrinking the type */
+  --statement-size:42px; --statement-lh:56px; --statement-lines:3; --slack-min:24px;
+  --foot-gap:40px;
+  --invite-size:32px; --invite-lh:42px; --name-gap:14px; --name-size:30px;
+  --shot:190px;
+}
+
+/* 1080x1440 — laid out at its own scale, not the square's */
+.card[data-ratio="3x4"]{
+  height:1440px; --bg:url('img/3x4.png');
+  --pad-x:96px; --pad-top:96px; --pad-bottom:64px;
+  --ghost-size:800px; --ghost-bottom:-96px;
+  --rule-w:84px; --rule-h:8px; --rule-gap:12px; --logo-h:110px;
+  --head-gap:150px;
+  --eyebrow-size:30px; --eyebrow-track:5px; --gap-eyebrow:44px;
+  --means-size:28px; --means-track:4px; --gap-means:44px;
+  --word-size:320px; --gap-word:72px;
+  --statement-size:50px; --statement-lh:66px; --statement-lines:3; --slack-min:56px;
+  --foot-gap:44px;
+  --invite-size:36px; --invite-lh:48px; --name-gap:16px; --name-size:34px;
+  --shot:230px;
+}
+
+/* 1080x1920 — tall; eyebrow and word sized to the 888px content width */
+.card[data-ratio="9x16"]{
+  height:1920px; --bg:url('img/9x16.png');
+  --pad-x:96px; --pad-top:96px; --pad-bottom:80px;
+  --ghost-size:900px; --ghost-bottom:-108px;
+  --rule-w:128px; --rule-h:12px; --rule-gap:16px; --logo-h:176px;
+  --head-gap:210px;
+  --eyebrow-size:34px; --eyebrow-track:4px; --gap-eyebrow:60px;
+  --means-size:44px; --means-track:6px; --gap-means:60px;
+  --word-size:340px; --gap-word:100px;
+  --statement-size:72px; --statement-lh:96px; --statement-lines:4; --slack-min:72px;
+  --foot-gap:48px;
+  --invite-size:44px; --invite-lh:60px; --name-gap:14px; --name-size:42px;
+  --shot:300px;
+}
