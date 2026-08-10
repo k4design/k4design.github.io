@@ -344,7 +344,7 @@
 
   /* ============================================================
      THE COMPOSITING STACK
-     One shared 16s timeline so every layer resets together: three layers
+     One shared 11s timeline so every layer resets together: three layers
      fly in from three directions, a wireframe lattice reads the surface,
      then a beam lays an orange colourising pass over the photograph and
      lifts it again to hand back the finished render, which then holds.
@@ -434,36 +434,36 @@
      to surface when the render fades at the end. */
   @keyframes showL {
     0%, 2%    { opacity: 0; }
-    4%, 61%   { opacity: 1; }
-    65%, 100% { opacity: 0; }
+    4%, 55%   { opacity: 1; }
+    59%, 100% { opacity: 0; }
   }
-  @keyframes showT  { 0%, 13% { opacity: 0; } 15%, 61% { opacity: 1; } 65%, 100% { opacity: 0; } }
+  @keyframes showT  { 0%, 13% { opacity: 0; } 15%, 55% { opacity: 1; } 59%, 100% { opacity: 0; } }
   @keyframes showTs { 0%, 13% { opacity: 0; } 15%, 20% { opacity: 1; } 26%, 100% { opacity: 0; } }
-  @keyframes showR  { 0%, 24% { opacity: 0; } 26%, 61% { opacity: 1; } 65%, 100% { opacity: 0; } }
+  @keyframes showR  { 0%, 24% { opacity: 0; } 26%, 55% { opacity: 1; } 59%, 100% { opacity: 0; } }
   @keyframes showRs { 0%, 24% { opacity: 0; } 26%, 31% { opacity: 1; } 37%, 100% { opacity: 0; } }
 
   @keyframes scanShow {
-    0%, 35%   { opacity: 0; }
-    38%, 50%  { opacity: 1; }
-    55%, 100% { opacity: 0; }
+    0%, 34%   { opacity: 0; }
+    36%, 43%  { opacity: 1; }
+    47%, 100% { opacity: 0; }
   }
   @keyframes scanGrid {          /* drawn in without a beam leading it */
-    0%, 36%   { clip-path: inset(0 0 100% 0); }
-    42%, 100% { clip-path: inset(0 0 0 0); }
+    0%, 35%   { clip-path: inset(0 0 100% 0); }
+    41%, 100% { clip-path: inset(0 0 0 0); }
   }
   /* One pass. The beam lays the orange down in its wake on the way past; when
      it reaches the bottom the plate is complete, and the orange then dissolves
      in place rather than being swept off by a second sweep. */
   /* The beam's travel is the clock everything else reads: its bright centre
-     (top + half its 7% height) crosses the frame top at 50.6% and the bottom
-     at 57.75%, and the plate's and render's clip edges are keyed to those
+     (top + half its 7% height) crosses the frame top at 44.61% and the bottom
+     at 51.75%, and the plate's and render's clip edges are keyed to those
      numbers. All three run linear — one eased track among them and the edges
      drift apart mid-pass. */
   @keyframes beamSweep {
-    0%, 50%   { top: -12%; opacity: 0; }
-    50.5%     { top: -5%;  opacity: 1; }
-    58%       { top: 100%; opacity: 1; }
-    58.5%, 100% { top: 100%; opacity: 0; }
+    0%, 44%   { top: -12%; opacity: 0; }
+    44.5%     { top: -5%;  opacity: 1; }
+    52%       { top: 100%; opacity: 1; }
+    52.5%, 100% { top: 100%; opacity: 0; }
   }
 
   /* The render is not cross-faded in behind the plate — it is wiped in by the
@@ -473,46 +473,52 @@
      the seam is never visible. It then holds: it is the payoff, and it gets
      the longest single beat in the cycle. */
   @keyframes stackReveal {
-    0%, 50.5%   { opacity: 0; clip-path: inset(0 0 100% 0); }
-    50.57%      { opacity: 1; clip-path: inset(0 0 100% 0); }
-    57.6%, 95%  { opacity: 1; clip-path: inset(0 0 0 0); }
-    99%, 100%   { opacity: 0; clip-path: inset(0 0 0 0); }
+    0%, 44.5%   { opacity: 0; clip-path: inset(0 0 100% 0); }
+    44.61%      { opacity: 1; clip-path: inset(0 0 100% 0); }
+    51.75%, 94% { opacity: 1; clip-path: inset(0 0 0 0); }
+    98%, 100%   { opacity: 0; clip-path: inset(0 0 0 0); }
   }
   @keyframes stackBurn {
     /* the clip edge is keyed to the beam's bright centre: it crosses the top
-       of the frame at 50.57% and the bottom at 57.6%, so the orange advances
+       of the frame at 44.61% and the bottom at 51.75%, so the orange advances
        exactly at the beam line, never past it */
-    0%, 50.57% { opacity: 1; clip-path: inset(0 0 100% 0);
+    0%, 44.61% { opacity: 1; clip-path: inset(0 0 100% 0);
                 box-shadow: 0 0 0 0 rgba(252,156,12,0); }
-    57.6%     { opacity: 1; clip-path: inset(0 0 0 0);
+    51.75%    { opacity: 1; clip-path: inset(0 0 0 0);
                 box-shadow: 0 0 70px 12px rgba(252,156,12,.55),
                             0 0 0 1px rgba(252,156,12,.7) inset; }
-    68%       { opacity: 1; clip-path: inset(0 0 0 0);
+    62%       { opacity: 1; clip-path: inset(0 0 0 0);
                 box-shadow: 0 0 70px 12px rgba(252,156,12,.55),
                             0 0 0 1px rgba(252,156,12,.7) inset; }
-    78%       { opacity: 0; clip-path: inset(0 0 0 0);
+    72%       { opacity: 0; clip-path: inset(0 0 0 0);
                 box-shadow: 0 0 16px 2px rgba(252,156,12,0),
                             0 0 0 1px rgba(252,156,12,0) inset; }
     /* the clip resets while the plate is already invisible */
     100%      { opacity: 0; clip-path: inset(0 0 100% 0); }
   }
 
-  .what-note.play .l0 { animation: travelLeft  16s var(--ease) infinite,
-                                   showL       16s linear      infinite; }
-  .what-note.play .l1  { animation: travelTop   16s var(--ease) infinite,
-                                    showT       16s linear      infinite; }
-  .what-note.play .l1s { animation: travelTop   16s var(--ease) infinite,
-                                    showTs      16s linear      infinite; }
-  .what-note.play .l2  { animation: travelRight 16s var(--ease) infinite,
-                                    showR       16s linear      infinite; }
-  .what-note.play .l2s { animation: travelRight 16s var(--ease) infinite,
-                                    showRs      16s linear      infinite; }
-  .what-note.play .stack-scan { animation: scanShow 16s linear infinite,
-                                           scanGrid 16s linear infinite; }
-  .what-note.play .stack-beam { animation: beamSweep 16s linear infinite; }
+  /* promoted only while the loop is actually running, so the six layers get
+     their own compositor layers for the animation and give them back after */
+  .what-note.play .stack-l,
+  .what-note.play .stack-beam,
+  .what-note.play .stack-burn { will-change: transform, opacity; }
+
+  .what-note.play .l0 { animation: travelLeft  11s var(--ease) infinite,
+                                   showL       11s linear      infinite; }
+  .what-note.play .l1  { animation: travelTop   11s var(--ease) infinite,
+                                    showT       11s linear      infinite; }
+  .what-note.play .l1s { animation: travelTop   11s var(--ease) infinite,
+                                    showTs      11s linear      infinite; }
+  .what-note.play .l2  { animation: travelRight 11s var(--ease) infinite,
+                                    showR       11s linear      infinite; }
+  .what-note.play .l2s { animation: travelRight 11s var(--ease) infinite,
+                                    showRs      11s linear      infinite; }
+  .what-note.play .stack-scan { animation: scanShow 11s linear infinite,
+                                           scanGrid 11s linear infinite; }
+  .what-note.play .stack-beam { animation: beamSweep 11s linear infinite; }
   /* linear like the beam — eased, the clip edge sprints ahead of it */
-  .what-note.play .l3 { animation: stackReveal 16s linear infinite; }
-  .what-note.play .stack-burn { animation: stackBurn 16s linear infinite; }
+  .what-note.play .l3 { animation: stackReveal 11s linear infinite; }
+  .what-note.play .stack-burn { animation: stackBurn 11s linear infinite; }
 
   @media (max-height: 820px) { .stack-rig { width: min(420px, 64vw); }
     .stack { margin-bottom: 20px; } }
@@ -1046,7 +1052,7 @@
     margin-left: -4.5px; border-right: 2px solid currentColor;
     border-bottom: 2px solid currentColor; transform: rotate(45deg);
     animation: cueChev 1.9s ease-in-out infinite; }
-  .scrollcue-chevrons b:nth-child(2) { top: 6px; animation-delay: .16s; }
+  .scrollcue-chevrons b:nth-child(2) { top: 6px; animation-delay: .11s; }
   @keyframes cueChev { 0%, 100% { opacity: .15; } 45% { opacity: .9; } }
 
   .btn {
@@ -2059,15 +2065,31 @@ npm test --workspace @mf/api</code></pre>
     .map(function (a) { return document.querySelector(a.getAttribute('href')); })
     .filter(Boolean);
   if (sections.length) {
-    var onScroll = function () {
+    /* Offsets are cached and the work is throttled to one frame. Reading
+       offsetTop per section on every scroll event forces a layout flush each
+       time, and scroll events fire far more often than frames. */
+    var tops = [], spyQueued = false, active = -1;
+    var remeasure = function () {
+      tops = sections.map(function (el) { return el.offsetTop; });
+    };
+    var spy = function () {
+      spyQueued = false;
       var y = window.scrollY + 120, current = 0;
-      for (var i = 0; i < sections.length; i++) {
-        if (sections[i].offsetTop <= y) current = i;
-      }
+      for (var i = 0; i < tops.length; i++) { if (tops[i] <= y) current = i; }
+      if (current === active) return;          /* nothing to write */
+      active = current;
       links.forEach(function (a, i) { a.classList.toggle('active', i === current); });
     };
+    var onScroll = function () {
+      if (spyQueued) return;
+      spyQueued = true;
+      requestAnimationFrame(spy);
+    };
+    remeasure();
     window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
+    window.addEventListener('resize', function () { remeasure(); onScroll(); });
+    window.addEventListener('load', function () { remeasure(); onScroll(); });
+    spy();
   }
 
   // Copy buttons on code blocks.
@@ -2110,57 +2132,99 @@ npm test --workspace @mf/api</code></pre>
   (function () {
     var stages = [].slice.call(document.querySelectorAll('.cine'));
     if (!stages.length || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    var queued = false;
 
     var ports = document.querySelector('.ports');
     var install = document.getElementById('install');
+    var root = document.documentElement;
 
-    function paint() {
-      queued = false;
+    /* ---- geometry, measured once instead of every frame ----
+       offsetTop / offsetHeight / scrollHeight each force a layout flush. The
+       old painter read about ten of them per frame, which is the single most
+       expensive thing a scroll handler can do. They only change on resize or
+       reflow, so they are cached and recomputed when that actually happens. */
+    var vh = 0, docSpan = 1, portsSpan = 0, geo = [];
+    function measure() {
       var el = document.scrollingElement || document.documentElement;
-      var top = el.scrollTop;
-      var span0 = el.scrollHeight - window.innerHeight;
-      document.documentElement.style.setProperty('--read',
-        span0 > 0 ? Math.min(1, Math.max(0, top / span0)).toFixed(4) : '0');
-      /* the edge arcs drift against the scroll, and retire before §02 so the
-         reference half of the guide is plain */
+      vh = window.innerHeight;
+      docSpan = Math.max(1, el.scrollHeight - vh);
+      portsSpan = install ? install.offsetTop - vh : 0;
+      geo = stages.map(function (st) {
+        return { top: st.offsetTop, span: st.offsetHeight - vh };
+      });
+    }
+
+    /* ---- one smoothed scroll position drives everything ----
+       Every variable on the page is derived from this single value, so the
+       layers can never drift out of step with each other. Following the real
+       scroll with a short time constant takes the staircase out of wheel and
+       trackpad input without the animation feeling detached from the gesture. */
+    var SMOOTH_MS = 80;
+    var shown = null, rafId = 0, lastT = 0;
+
+    function scrollTop() {
+      return (document.scrollingElement || document.documentElement).scrollTop;
+    }
+
+    function render(top) {
+      var clamp = function (v) { return v < 0 ? 0 : v > 1 ? 1 : v; };
+      root.style.setProperty('--read', clamp(top / docSpan).toFixed(4));
+
       if (ports) {
-        document.documentElement.style.setProperty('--sy', top.toFixed(1));
-        var stop = install ? install.offsetTop : 0;
+        root.style.setProperty('--sy', top.toFixed(1));
         /* a quarter turn, spent exactly over the run up to §02: the span ends
            where the fade does — when Install's top reaches the bottom of the
-           window — so the fan lands on 90 degrees at the moment it disappears */
-        var span = stop - window.innerHeight;
-        var turn = span > 0 ? Math.min(1, Math.max(0, top / span)) : 1;
+           window — so the fan lands on 90 degrees as it disappears */
+        var turn = portsSpan > 0 ? clamp(top / portsSpan) : 1;
         ports.style.setProperty('--rot', (turn * 90).toFixed(2));
-        var fade = stop ? (stop - (top + window.innerHeight)) / (window.innerHeight * .6) : 1;
-        ports.style.setProperty('--ports-o', Math.min(1, Math.max(0, fade)).toFixed(3));
+        var fade = portsSpan > 0 ? (portsSpan - top) / (vh * .6) : 1;
+        ports.style.setProperty('--ports-o', clamp(fade).toFixed(3));
       }
-      stages.forEach(function (stage) {
-        var span = stage.offsetHeight - window.innerHeight;
-        var p = span > 0 ? (top - stage.offsetTop) / span : 1;
-        p = Math.min(1, Math.max(0, p));
+
+      for (var i = 0; i < stages.length; i++) {
+        var g = geo[i], stage = stages[i];
+        var p = g.span > 0 ? clamp((top - g.top) / g.span) : 1;
         stage.style.setProperty('--p', p.toFixed(4));
         /* --pre runs 0 → 1 as the stage rises from the bottom of the viewport
            to the top, i.e. over the scroll *before* --p starts. Content that
            should already be on screen when the stage pins rides this instead,
            which is what keeps the handover between stages from going blank. */
-        var vh = window.innerHeight;
-        var pre = (top + vh - stage.offsetTop) / vh;
-        pre = Math.min(1, Math.max(0, pre));
-        stage.style.setProperty('--pre', pre.toFixed(4));
+        stage.style.setProperty('--pre', clamp((top + vh - g.top) / vh).toFixed(4));
         spinCylinder(stage, p);
-      });
+      }
     }
-    function onScroll() {
-      if (queued) return;
-      if (document.hidden) { paint(); return; }
-      queued = true;
-      requestAnimationFrame(paint);
+
+    function tick(now) {
+      rafId = 0;
+      var target = scrollTop();
+      var dt = lastT ? Math.min(64, now - lastT) : 16.7;
+      lastT = now;
+      /* frame-rate independent: the same easing on a 60Hz and a 120Hz screen */
+      var k = 1 - Math.exp(-dt / SMOOTH_MS);
+      shown += (target - shown) * k;
+      if (Math.abs(target - shown) < 0.4) shown = target;
+      render(shown);
+      if (shown !== target) schedule();
     }
-    addEventListener('scroll', onScroll, { passive: true });
-    addEventListener('resize', onScroll);
-    paint();
+
+    function schedule() {
+      if (rafId) return;
+      /* a hidden tab gets no frames worth easing — snap, so the stage is
+         never stale when it comes forward, and so headless screenshots settle */
+      if (document.hidden) { shown = scrollTop(); render(shown); return; }
+      rafId = requestAnimationFrame(tick);
+    }
+
+    function snap() { lastT = 0; shown = scrollTop(); measure(); render(shown); }
+
+    snap();
+    addEventListener('scroll', schedule, { passive: true });
+    addEventListener('resize', snap);
+    addEventListener('load', snap);
+    /* images and fonts land after first paint and move everything below them */
+    if (window.ResizeObserver) {
+      var ro = new ResizeObserver(function () { measure(); schedule(); });
+      ro.observe(document.body);
+    }
 
     /* Debug/tuning hook: #p=<stage>:<progress> jumps straight to that
        point in a stage, e.g. #p=1:0.55 for beat one at 55%. */
@@ -2178,6 +2242,7 @@ npm test --workspace @mf/api</code></pre>
       spinCylinder(st, +dbg[2]);          /* the cylinder rides --p too */
       /* stop the scroll painter from overwriting the forced value */
       stages = stages.filter(function (x) { return x !== st; });
+      snap();                       /* geometry is cached — rebuild it */
     }
 
     /* ---- the maps cylinder ----
