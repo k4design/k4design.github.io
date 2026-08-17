@@ -1,0 +1,17 @@
+:root{
+--font-serif-display:'Cormorant Garamond',Georgia,serif;
+--font-sans:'Archivo','Helvetica Neue',Arial,sans-serif;
+/* Display serif: headlines, stat numerals. Regular weight, high contrast, italic for the emphasized word. */
+--type-display-xl:400 64px/1.1 var(--font-serif-display);
+--type-display:400 42px/1.15 var(--font-serif-display);
+--type-display-sm:400 30px/1.2 var(--font-serif-display);
+--type-stat:400 72px/1 var(--font-serif-display);
+/* Sans: labels, body, captions */
+--type-body:300 14px/1.65 var(--font-sans);
+--type-body-strong:500 14px/1.5 var(--font-sans);
+--type-caption:300 11.5px/1.6 var(--font-sans);
+--type-label:400 10px/1.4 var(--font-sans);
+/* Letterspaced uppercase label is the brand's signature: */
+--label-tracking:.28em;
+--label-tracking-wide:.4em;
+}

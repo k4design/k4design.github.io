@@ -1,0 +1,6 @@
+/* Aperture Global — fonts.
+   Source PDFs embed subset/outlined fonts; no font binaries were provided.
+   Nearest Google Fonts matches (FLAGGED SUBSTITUTION, see readme.md):
+   - Display serif: Cormorant Garamond (for the high-contrast old-style serif in reports + deck headlines)
+   - Sans: Archivo (for the neutral grotesque used in labels, body captions) */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Archivo:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap');

@@ -1,0 +1,66 @@
+client:
+  name: basic
+  file-system: device-agnostic
+tools: {}
+targets:
+  "PackageStructure": ["<PackageStructure>"]
+  "WebMConverter-arm64-apple-macosx-release.exe": ["<WebMConverter-arm64-apple-macosx-release.exe>"]
+  "WebMConverter-arm64-apple-macosx-release.module": ["<WebMConverter-arm64-apple-macosx-release.module>"]
+  "main": ["<WebMConverter-arm64-apple-macosx-release.exe>","<WebMConverter-arm64-apple-macosx-release.module>"]
+  "test": ["<WebMConverter-arm64-apple-macosx-release.exe>","<WebMConverter-arm64-apple-macosx-release.module>"]
+default: "main"
+nodes:
+  "/Users/kyleforeman/Documents/GitHub/k4design.github.io/webm/Sources/WebMConverter/":
+    is-directory-structure: true
+    content-exclusion-patterns: [".git",".build"]
+commands:
+  "/Users/kyleforeman/Documents/GitHub/k4design.github.io/webm/.build/arm64-apple-macosx/release/WebMConverter.build/sources":
+    tool: write-auxiliary-file
+    inputs: ["<sources-file-list>","/Users/kyleforeman/Documents/GitHub/k4design.github.io/webm/Sources/WebMConverter/ContentView.swift","/Users/kyleforeman/Documents/GitHub/k4design.github.io/webm/Sources/WebMConverter/FFmpegRunner.swift","/Users/kyleforeman/Documents/GitHub/k4design.github.io/webm/Sources/WebMConverter/Models.swift","/Users/kyleforeman/Documents/GitHub/k4design.github.io/webm/Sources/WebMConverter/QueueViewModel.swift","/Users/kyleforeman/Documents/GitHub/k4design.github.io/webm/Sources/WebMConverter/WebMConverterApp.swift"]
+    outputs: ["/Users/kyleforeman/Documents/GitHub/k4design.github.io/webm/.build/arm64-apple-macosx/release/WebMConverter.build/sources"]
+    description: "Write auxiliary file /Users/kyleforeman/Documents/GitHub/k4design.github.io/webm/.build/arm64-apple-macosx/release/WebMConverter.build/sources"
+
+  "/Users/kyleforeman/Documents/GitHub/k4design.github.io/webm/.build/arm64-apple-macosx/release/WebMConverter.product/Objects.LinkFileList":
+    tool: write-auxiliary-file
+    inputs: ["<link-file-list>","/Users/kyleforeman/Documents/GitHub/k4design.github.io/webm/.build/arm64-apple-macosx/release/WebMConverter.build/ContentView.swift.o","/Users/kyleforeman/Documents/GitHub/k4design.github.io/webm/.build/arm64-apple-macosx/release/WebMConverter.build/FFmpegRunner.swift.o","/Users/kyleforeman/Documents/GitHub/k4design.github.io/webm/.build/arm64-apple-macosx/release/WebMConverter.build/Models.swift.o","/Users/kyleforeman/Documents/GitHub/k4design.github.io/webm/.build/arm64-apple-macosx/release/WebMConverter.build/QueueViewModel.swift.o","/Users/kyleforeman/Documents/GitHub/k4design.github.io/webm/.build/arm64-apple-macosx/release/WebMConverter.build/WebMConverterApp.swift.o"]
+    outputs: ["/Users/kyleforeman/Documents/GitHub/k4design.github.io/webm/.build/arm64-apple-macosx/release/WebMConverter.product/Objects.LinkFileList"]
+    description: "Write auxiliary file /Users/kyleforeman/Documents/GitHub/k4design.github.io/webm/.build/arm64-apple-macosx/release/WebMConverter.product/Objects.LinkFileList"
+
+  "/Users/kyleforeman/Documents/GitHub/k4design.github.io/webm/.build/arm64-apple-macosx/release/swift-version--58304C5D6DBC2206.txt":
+    tool: write-auxiliary-file
+    inputs: ["<swift-get-version>","/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"]
+    outputs: ["/Users/kyleforeman/Documents/GitHub/k4design.github.io/webm/.build/arm64-apple-macosx/release/swift-version--58304C5D6DBC2206.txt"]
+    always-out-of-date: "true"
+    description: "Write auxiliary file /Users/kyleforeman/Documents/GitHub/k4design.github.io/webm/.build/arm64-apple-macosx/release/swift-version--58304C5D6DBC2206.txt"
+
+  "<WebMConverter-arm64-apple-macosx-release.exe>":
+    tool: phony
+    inputs: ["/Users/kyleforeman/Documents/GitHub/k4design.github.io/webm/.build/arm64-apple-macosx/release/WebMConverter"]
+    outputs: ["<WebMConverter-arm64-apple-macosx-release.exe>"]
+
+  "<WebMConverter-arm64-apple-macosx-release.module>":
+    tool: phony
+    inputs: ["/Users/kyleforeman/Documents/GitHub/k4design.github.io/webm/.build/arm64-apple-macosx/release/WebMConverter.build/ContentView.swift.o","/Users/kyleforeman/Documents/GitHub/k4design.github.io/webm/.build/arm64-apple-macosx/release/WebMConverter.build/FFmpegRunner.swift.o","/Users/kyleforeman/Documents/GitHub/k4design.github.io/webm/.build/arm64-apple-macosx/release/WebMConverter.build/Models.swift.o","/Users/kyleforeman/Documents/GitHub/k4design.github.io/webm/.build/arm64-apple-macosx/release/WebMConverter.build/QueueViewModel.swift.o","/Users/kyleforeman/Documents/GitHub/k4design.github.io/webm/.build/arm64-apple-macosx/release/WebMConverter.build/WebMConverterApp.swift.o","/Users/kyleforeman/Documents/GitHub/k4design.github.io/webm/.build/arm64-apple-macosx/release/Modules/WebMConverter.swiftmodule"]
+    outputs: ["<WebMConverter-arm64-apple-macosx-release.module>"]
+
+  "C.WebMConverter-arm64-apple-macosx-release.exe":
+    tool: shell
+    inputs: ["/Users/kyleforeman/Documents/GitHub/k4design.github.io/webm/.build/arm64-apple-macosx/release/WebMConverter.build/ContentView.swift.o","/Users/kyleforeman/Documents/GitHub/k4design.github.io/webm/.build/arm64-apple-macosx/release/WebMConverter.build/FFmpegRunner.swift.o","/Users/kyleforeman/Documents/GitHub/k4design.github.io/webm/.build/arm64-apple-macosx/release/WebMConverter.build/Models.swift.o","/Users/kyleforeman/Documents/GitHub/k4design.github.io/webm/.build/arm64-apple-macosx/release/WebMConverter.build/QueueViewModel.swift.o","/Users/kyleforeman/Documents/GitHub/k4design.github.io/webm/.build/arm64-apple-macosx/release/WebMConverter.build/WebMConverterApp.swift.o","/Users/kyleforeman/Documents/GitHub/k4design.github.io/webm/.build/arm64-apple-macosx/release/WebMConverter.product/Objects.LinkFileList"]
+    outputs: ["/Users/kyleforeman/Documents/GitHub/k4design.github.io/webm/.build/arm64-apple-macosx/release/WebMConverter"]
+    description: "Linking ./.build/arm64-apple-macosx/release/WebMConverter"
+    args: ["/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc","-L","/Users/kyleforeman/Documents/GitHub/k4design.github.io/webm/.build/arm64-apple-macosx/release","-o","/Users/kyleforeman/Documents/GitHub/k4design.github.io/webm/.build/arm64-apple-macosx/release/WebMConverter","-module-name","WebMConverter","-Xlinker","-no_warn_duplicate_libraries","-emit-executable","-Xlinker","-dead_strip","-Xlinker","-alias","-Xlinker","_WebMConverter_main","-Xlinker","_main","-Xlinker","-rpath","-Xlinker","@loader_path","@/Users/kyleforeman/Documents/GitHub/k4design.github.io/webm/.build/arm64-apple-macosx/release/WebMConverter.product/Objects.LinkFileList","-Xlinker","-rpath","-Xlinker","/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift-6.2/macosx","-target","arm64-apple-macosx14.0","-plugin-path","/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing","-sdk","/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk","-F","/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks","-I","/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib","-L","/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib","-g"]
+
+  "C.WebMConverter-arm64-apple-macosx-release.module":
+    tool: shell
+    inputs: ["/Users/kyleforeman/Documents/GitHub/k4design.github.io/webm/Sources/WebMConverter/ContentView.swift","/Users/kyleforeman/Documents/GitHub/k4design.github.io/webm/Sources/WebMConverter/FFmpegRunner.swift","/Users/kyleforeman/Documents/GitHub/k4design.github.io/webm/Sources/WebMConverter/Models.swift","/Users/kyleforeman/Documents/GitHub/k4design.github.io/webm/Sources/WebMConverter/QueueViewModel.swift","/Users/kyleforeman/Documents/GitHub/k4design.github.io/webm/Sources/WebMConverter/WebMConverterApp.swift","/Users/kyleforeman/Documents/GitHub/k4design.github.io/webm/.build/arm64-apple-macosx/release/swift-version--58304C5D6DBC2206.txt","/Users/kyleforeman/Documents/GitHub/k4design.github.io/webm/.build/arm64-apple-macosx/release/WebMConverter.build/sources"]
+    outputs: ["/Users/kyleforeman/Documents/GitHub/k4design.github.io/webm/.build/arm64-apple-macosx/release/WebMConverter.build/ContentView.swift.o","/Users/kyleforeman/Documents/GitHub/k4design.github.io/webm/.build/arm64-apple-macosx/release/WebMConverter.build/FFmpegRunner.swift.o","/Users/kyleforeman/Documents/GitHub/k4design.github.io/webm/.build/arm64-apple-macosx/release/WebMConverter.build/Models.swift.o","/Users/kyleforeman/Documents/GitHub/k4design.github.io/webm/.build/arm64-apple-macosx/release/WebMConverter.build/QueueViewModel.swift.o","/Users/kyleforeman/Documents/GitHub/k4design.github.io/webm/.build/arm64-apple-macosx/release/WebMConverter.build/WebMConverterApp.swift.o","/Users/kyleforeman/Documents/GitHub/k4design.github.io/webm/.build/arm64-apple-macosx/release/Modules/WebMConverter.swiftmodule"]
+    description: "Compiling Swift Module 'WebMConverter' (5 sources)"
+    args: ["/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc","-module-name","WebMConverter","-emit-dependencies","-emit-module","-emit-module-path","/Users/kyleforeman/Documents/GitHub/k4design.github.io/webm/.build/arm64-apple-macosx/release/Modules/WebMConverter.swiftmodule","-output-file-map","/Users/kyleforeman/Documents/GitHub/k4design.github.io/webm/.build/arm64-apple-macosx/release/WebMConverter.build/output-file-map.json","-whole-module-optimization","-num-threads","14","-c","@/Users/kyleforeman/Documents/GitHub/k4design.github.io/webm/.build/arm64-apple-macosx/release/WebMConverter.build/sources","-I","/Users/kyleforeman/Documents/GitHub/k4design.github.io/webm/.build/arm64-apple-macosx/release/Modules","-target","arm64-apple-macosx14.0","-whole-module-optimization","-num-threads","14","-serialize-diagnostics","-O","-j14","-DSWIFT_PACKAGE","-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE","-module-cache-path","/Users/kyleforeman/Documents/GitHub/k4design.github.io/webm/.build/arm64-apple-macosx/release/ModuleCache","-parseable-output","-Xfrontend","-entry-point-function-name","-Xfrontend","WebMConverter_main","-swift-version","5","-plugin-path","/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing","-sdk","/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk","-F","/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks","-I","/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib","-L","/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib","-g","-Xcc","-isysroot","-Xcc","/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk","-Xcc","-F","-Xcc","/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks","-Xcc","-fPIC","-Xcc","-g","-package-name","webm"]
+
+  "PackageStructure":
+    tool: package-structure-tool
+    inputs: ["/Users/kyleforeman/Documents/GitHub/k4design.github.io/webm/Sources/WebMConverter/","/Users/kyleforeman/Documents/GitHub/k4design.github.io/webm/Package.swift","/Users/kyleforeman/Documents/GitHub/k4design.github.io/webm/Package.resolved"]
+    outputs: ["<PackageStructure>"]
+    description: "Planning build"
+    allow-missing-inputs: true
+

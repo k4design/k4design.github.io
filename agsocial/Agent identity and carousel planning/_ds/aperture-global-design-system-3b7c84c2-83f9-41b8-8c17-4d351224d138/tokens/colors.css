@@ -1,0 +1,29 @@
+:root{
+/* Base palette — sampled from the campaign/billboard reports and listing presentation */
+--ag-cream:#F4F2EA; /* warm accent surface, used sparingly */
+--ag-cream-deep:#EDEAE0; /* deeper warm tint, sparing */
+--ag-ink:#2B2A25; /* warm near-black ink on cream */
+--ag-charcoal:#0C1115; /* dark report page, charcoal toward navy */
+--ag-black:#0A0A0A; /* listing presentation page black */
+--ag-navy:#020817; /* deep navy quote band (deck) */
+--ag-white:#FFFFFF; /* core light surface */
+--ag-blue:#2285E0; /* deck accent blue */
+--ag-blue-muted:#B9C6D0; /* chart bar blue-gray */
+--ag-gray:#8E959C; /* secondary text on dark */
+--ag-gray-warm:#6E6C64; /* secondary text on cream */
+/* Semantic aliases */
+--surface-page:var(--ag-white);
+--surface-page-dark:var(--ag-charcoal);
+--surface-panel:var(--ag-cream); /* warm tint panel, sparing */
+--surface-panel-deep:var(--ag-cream-deep);
+--surface-cover:var(--ag-black);
+--text-body:var(--ag-ink);
+--text-secondary:var(--ag-gray-warm);
+--text-on-dark:var(--ag-white);
+--text-secondary-on-dark:var(--ag-gray);
+--accent:var(--ag-blue);
+--accent-data:var(--ag-blue-muted);
+--rule:rgba(43,42,37,.25); /* hairline on cream */
+--rule-strong:rgba(43,42,37,.6);
+--rule-on-dark:rgba(255,255,255,.22);
+}

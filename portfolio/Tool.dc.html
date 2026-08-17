@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23101318'/%3E%3Cpath d='M16 5v22M5 16h22' stroke='%23F5F3EE' stroke-width='1.5'/%3E%3Ccircle cx='16' cy='16' r='6' fill='none' stroke='%23F5F3EE' stroke-width='1.5'/%3E%3C/svg%3E" />
+<style>
+  html { background: #101318; }
+  body { margin: 0; background: #101318; color: #F5F3EE; font-family: Archivo, Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+  * { box-sizing: border-box; }
+  a { color: #F5F3EE; text-decoration: none; }
+  a:hover { color: #F5F3EE; }
+  @keyframes tlRise { from { transform: translateY(105%); } to { transform: translateY(0); } }
+  @keyframes tlFade { from { opacity: 0; } to { opacity: 1; } }
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.001s !important; transition-duration: 0.001s !important; } }
+</style>
+</helmet>
+
+<nav style="position: sticky; top: 0; z-index: 20; display: flex; align-items: center; justify-content: space-between; padding: 16px clamp(16px, 4vw, 48px); border-bottom: 1px solid rgba(245, 243, 238, 0.12); background: rgba(16, 19, 24, 0.78); backdrop-filter: blur(8px); font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase">
+  <a href="Kyle Foreman Portfolio.dc.html" style="display: flex; align-items: center; gap: 10px" style-hover="opacity: 0.6">
+    <span style="position: relative; display: inline-block; width: 13px; height: 13px"><span style="position: absolute; left: 50%; top: 0; width: 1px; height: 100%; background: #F5F3EE"></span><span style="position: absolute; top: 50%; left: 0; height: 1px; width: 100%; background: #F5F3EE"></span></span>
+    <span>Kyle Foreman</span>
+  </a>
+  <a href="Kyle Foreman Portfolio.dc.html#factory" style="color: rgba(245, 243, 238, 0.7)" style-hover="color: #F5F3EE" style-focus="outline: 2px solid #8A6BF2; outline-offset: 4px">Back to The Factory</a>
+</nav>
+
+<header style="position: relative; overflow: hidden; padding: clamp(40px, 8vh, 92px) clamp(16px, 4vw, 48px) clamp(30px, 5vh, 56px); border-bottom: 1px solid rgba(245, 243, 238, 0.12)">
+  <span data-crosshair="" style="position: absolute; right: clamp(16px, 4vw, 48px); top: 22px; width: 14px; height: 14px; opacity: 0.45"><span data-cross-v="" style="position: absolute; left: 50%; top: 0; width: 1px; height: 100%; background: #8A6BF2"></span><span data-cross-h="" style="position: absolute; top: 50%; left: 0; height: 1px; width: 100%; background: #8A6BF2"></span></span>
+
+  <span data-eyebrow="" style="display: block; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(138, 107, 242, 0.85); margin-bottom: clamp(22px, 4vh, 40px); animation: tlFade 0.8s 0.1s both">The Factory / Product 01 of 11</span>
+
+  <div data-head="" style="display: grid; grid-template-columns: clamp(84px, 11vw, 124px) minmax(0, 1fr); gap: clamp(20px, 3.4vw, 44px); align-items: center">
+    <img data-icon="" src="uploads/tool/icon-dezzy-magazine.png" alt="" width="224" height="224" decoding="async" style="display: block; width: 100%; height: auto; animation: tlFade 0.9s 0.15s both" />
+    <div style="min-width: 0">
+      <h1 style="margin: 0; font-size: clamp(30px, 6.2vw, 92px); font-weight: 800; letter-spacing: -0.035em; line-height: 0.94">
+        <span style="display: block; overflow: hidden; padding-bottom: 0.04em"><span data-name="" style="display: block; font-stretch: 104%; animation: tlRise 0.9s 0.1s cubic-bezier(0.22, 1, 0.36, 1) both">dezzy Magazine</span></span>
+      </h1>
+      <p data-tagline="" style="margin: 14px 0 0; font-size: clamp(15px, 1.5vw, 21px); line-height: 1.5; color: rgba(245, 243, 238, 0.62); max-width: 52ch; animation: tlFade 0.9s 0.35s both">Tag a luxury property template once, then pour a hundred pages of listing content in one pass.</p>
+    </div>
+  </div>
+
+  <div data-meta="" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 22px; margin-top: clamp(28px, 5vh, 52px); border-top: 1px solid rgba(245, 243, 238, 0.12); padding-top: 20px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; animation: tlFade 0.9s 0.5s both">
+    <span style="display: flex; flex-direction: column; gap: 8px"><span style="color: rgba(245, 243, 238, 0.4)">Platform</span><span data-platform="" style="color: rgba(245, 243, 238, 0.88)">Figma plugin</span></span>
+    <span style="display: flex; flex-direction: column; gap: 8px"><span style="color: rgba(245, 243, 238, 0.4)">Status</span><span data-status="" style="color: #8A6BF2">Shipped</span></span>
+    <span style="display: flex; flex-direction: column; gap: 8px"><span style="color: rgba(245, 243, 238, 0.4)">Category</span><span data-category="" style="color: rgba(245, 243, 238, 0.88)">Listings &amp; Print</span></span>
+    <span style="display: flex; flex-direction: column; gap: 8px"><span style="color: rgba(245, 243, 238, 0.4)">Built for</span><span data-audience="" style="color: rgba(245, 243, 238, 0.88)">My own week</span></span>
+  </div>
+</header>
+
+<section style="padding: clamp(40px, 7vh, 88px) clamp(16px, 4vw, 48px); display: grid; grid-template-columns: minmax(0, 1fr); gap: clamp(40px, 7vh, 88px)">
+
+  <div data-block="" style="display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: clamp(20px, 4vw, 56px); align-items: start">
+    <span style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(245, 243, 238, 0.45); padding-top: 8px">The bottleneck</span>
+    <p data-problem="" style="margin: 0; font-size: clamp(18px, 1.9vw, 27px); font-weight: 500; line-height: 1.4; letter-spacing: -0.015em; text-wrap: pretty; max-width: 52ch">Placeholder.</p>
+  </div>
+
+  <figure data-media-wrap="" style="margin: 0; display: none">
+    <div data-media-frame="" style="position: relative; overflow: hidden; aspect-ratio: 16 / 10; border: 1px solid rgba(138, 107, 242, 0.5); background-color: rgba(138, 107, 242, 0.1); background-image: repeating-linear-gradient(135deg, rgba(245, 243, 238, 0.1) 0 1px, transparent 1px 10px)">
+      <video data-vid="" muted="" loop="" playsinline="" preload="metadata" style="display: none; width: 100%; height: 100%; object-fit: cover"></video>
+      <img data-still="" alt="" style="display: none; width: 100%; height: 100%; object-fit: cover" />
+    </div>
+    <figcaption data-media-cap="" style="margin-top: 12px; font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(245, 243, 238, 0.45)"></figcaption>
+  </figure>
+
+  <div data-block="" style="display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: clamp(20px, 4vw, 56px); align-items: start">
+    <span style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(245, 243, 238, 0.45); padding-top: 8px">What it does</span>
+    <ul data-caps="" style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 2px; width: 100%"></ul>
+  </div>
+
+  <div data-block="" style="display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: clamp(20px, 4vw, 56px); align-items: start">
+    <span style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(245, 243, 238, 0.45); padding-top: 8px">How it runs</span>
+    <ol data-steps="" style="margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: clamp(16px, 2vw, 26px); width: 100%"></ol>
+  </div>
+
+  <div data-shots-wrap="" style="display: none">
+    <div data-shots="" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: clamp(12px, 1.6vw, 22px)"></div>
+  </div>
+
+  <div data-block="" style="display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: clamp(20px, 4vw, 56px); align-items: start">
+    <span style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(245, 243, 238, 0.45); padding-top: 8px">Why it matters</span>
+    <p data-outcome="" style="margin: 0; font-size: clamp(18px, 1.9vw, 27px); font-weight: 500; line-height: 1.4; letter-spacing: -0.015em; text-wrap: pretty; max-width: 52ch">Placeholder.</p>
+  </div>
+</section>
+
+<a data-next="" href="Kyle Foreman Portfolio.dc.html#factory" style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 18px; padding: clamp(34px, 6vh, 76px) clamp(16px, 4vw, 48px); border-top: 1px solid rgba(245, 243, 238, 0.12); transition: background 0.4s ease, color 0.4s ease">
+  <span style="display: flex; align-items: center; gap: clamp(16px, 2.4vw, 30px)">
+    <img data-next-icon="" src="uploads/tool/icon-dezzy-autofill.png" alt="" width="224" height="224" loading="lazy" decoding="async" style="display: block; width: clamp(46px, 5vw, 66px); height: auto" />
+    <span style="display: flex; flex-direction: column; gap: 12px">
+      <span style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; opacity: 0.55">Next product</span>
+      <span data-next-name="" style="font-size: clamp(22px, 4.2vw, 60px); font-weight: 800; font-stretch: 102%; letter-spacing: -0.03em; line-height: 0.98">dezzy AutoFill</span>
+    </span>
+  </span>
+  <span style="display: flex; align-items: center; gap: 14px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase">
+    <span data-next-chip="" style="display: block; width: 20px; height: 20px; background: #8A6BF2"></span>
+    <span>Open</span>
+  </span>
+</a>
+
+<footer style="padding: 26px clamp(16px, 4vw, 48px) 34px; border-top: 1px solid rgba(245, 243, 238, 0.12); display: flex; flex-wrap: wrap; gap: 14px 28px; font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(245, 243, 238, 0.3)">
+  <span>File / KF-2026-Portfolio</span>
+  <span data-footer-slug="">The Factory / dezzy-magazine</span>
+  <span style="margin-left: auto">&#169; 2026 Kyle Foreman</span>
+</footer>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:900}}">
+/* ============================================================
+   One page, every Factory product. ?t=<slug> picks the record.
+
+   Deliberately self-contained: the internal guides under
+   the-factory/guides/ are password gated and noindex, so a
+   portfolio visitor must never be sent there. Everything a
+   visitor needs lives in TOOLS below. Order here is the order
+   the Factory manifest lists them, and `next` walks the ring.
+   ============================================================ */
+const ORDER = [
+  "dezzy-magazine", "dezzy-autofill", "mockup-forge", "mockup-mason", "impose-pro",
+  "csv-importer", "text-replacer-tags", "creative-direction", "frame-to-mp4",
+  "midjourney-prompt-injector", "midjourney-abducter",
+];
+
+const V = "../the-factory/assets/vid/";
+const U = "uploads/tool/";
+
+const TOOLS = {
+  "dezzy-magazine": {
+    name: "dezzy Magazine", icon: "dezzy-magazine",
+    platform: "Figma plugin", status: "Shipped", category: "Listings & Print",
+    audience: "Luxury listing print",
+    tagline: "Tag a luxury property template once, then pour a hundred pages of listing content in one pass.",
+    problem: "A hundred page property magazine was being built by hand, one spread at a time. Every listing meant copying a template, retyping the address, and dragging in twelve photos, and a single late price change meant walking the whole book again.",
+    caps: [
+      "Label the placeholders once and the template becomes a form",
+      "Pours a full book of listing content in a single pass",
+      "Photos land in the slot their position assigns them",
+      "Re-pour after a price change instead of rebuilding spreads",
+    ],
+    steps: [
+      ["01", "Label", "Name the placeholders on one template spread."],
+      ["02", "Upload", "Hand it the listing content and the photo shoot."],
+      ["03", "Pour", "Every page builds itself from the tagged template."],
+    ],
+    outcome: "A book that used to take a week of production now assembles in an afternoon, and a late change is a re-pour rather than a rebuild.",
+  },
+  "dezzy-autofill": {
+    name: "dezzy AutoFill", icon: "dezzy-autofill",
+    platform: "Figma plugin", status: "Shipped", category: "Listings & Print",
+    audience: "Flyers and listing sheets",
+    tagline: "Tag any flyer or listing sheet once, then fill every property from a form and a photo shoot.",
+    problem: "Every new listing meant reopening the same flyer and retyping the same eight fields. The layout was already right; the labour was entirely in refilling it.",
+    caps: [
+      "Tag from the canvas, from layer names, or in bulk",
+      "A tag index shows what is mapped and what is still empty",
+      "Photo slots are assigned by position, not by filename",
+      "Locks layers so a fill cannot disturb the layout",
+      "Reads existing tags back off the canvas to recover state",
+    ],
+    steps: [
+      ["01", "Tag", "Mark the fields and photo slots on the layout."],
+      ["02", "Fill", "Enter the property once, or bring a CSV."],
+      ["03", "Apply", "Content and photography drop into place."],
+    ],
+    outcome: "The design is authored once and reused honestly. A new listing is data entry, not a design task.",
+    shots: [["autofill-tagging", "Tagging the layout"], ["autofill-data", "Content fields"], ["autofill-images", "Photo slots"]],
+  },
+  "mockup-forge": {
+    name: "Mockup Forge", icon: "mockup-forge",
+    platform: "Figma plugin + render service", status: "Beta", category: "Asset Prep",
+    audience: "Presenting work",
+    tagline: "Drop artwork into a frame and get it back photographically warped onto phones, mugs, shirts and billboards.",
+    problem: "Showing work on a real product meant leaving Figma for Photoshop, hunting for a smart object, and hoping the one person who understood the file was around.",
+    caps: [
+      "True perspective transforms, not flat skews",
+      "Cylindrical wrapping for mugs and bottles, fabric displacement for apparel",
+      "Shadows and highlights from the source photo carry onto the artwork",
+      "Drop in an MP4 and the video plays back on the product",
+      "A render only ever swaps the mockup's image fill, so work is never lost",
+    ],
+    steps: [
+      ["01", "Import", "Pull a mockup in from the library."],
+      ["02", "Place", "Drop your artwork into the design frame."],
+      ["03", "Render", "It comes back warped onto the product."],
+      ["04", "Export", "The preview is the export, video included."],
+    ],
+    outcome: "Anyone on the team can present work on a real product without opening Photoshop, and the item library grows without me.",
+    video: "mockup-forge-hero.mp4", videoCap: "Render pipeline / warp and composite",
+    shots: [["forge-tshirt", "Apparel render"]],
+  },
+  "mockup-mason": {
+    name: "Mockup Mason", icon: "mockup-mason",
+    platform: "Photoshop panel", status: "Beta", category: "Asset Prep",
+    audience: "Feeding Mockup Forge",
+    tagline: "Bake displacement, shadow and highlight maps from a real product photo, straight into a Mockup Forge item.",
+    problem: "Mockup Forge can only render products someone has prepared. Preparing one by hand meant separating displacement, shadow and highlight passes and hand-writing the item definition.",
+    caps: [
+      "Bakes displacement, shadow and highlight maps from one photograph",
+      "Click the four corners and the surface is authored",
+      "Writes the item definition Mockup Forge consumes",
+      "Material presets for fabric, ceramic, paper and screen",
+    ],
+    steps: [
+      ["01", "Shoot", "Start from a blank product photograph."],
+      ["02", "Mark", "Click the corners of the printable surface."],
+      ["03", "Bake", "Maps and the item definition are written out."],
+    ],
+    outcome: "The mockup library is no longer a bottleneck with my name on it. A new product goes from photo to renderable item in minutes.",
+    video: "mockupmason.mp4", videoCap: "Baking a surface from a product photo",
+    shots: [["mason-displace", "Displacement map"], ["mason-shadow", "Shadow pass"], ["mason-render", "Finished render"]],
+  },
+  "impose-pro": {
+    name: "Impose Pro", icon: "impose-pro",
+    platform: "Figma plugin", status: "Shipped", category: "Print Production",
+    audience: "Press-ready layouts",
+    tagline: "Imposition tooling that turns a single design into a press ready sheet.",
+    problem: "Getting a design onto a press sheet meant hand-placing repeats, guessing at gutters, and discovering the binding was wrong after the proof came back.",
+    caps: [
+      "Repeat one design or impose a run of unique pieces",
+      "Simplex and duplex, with backs kept in register",
+      "Saddle stitch and perfect bind cut-and-stack booklet orders",
+      "Fit and align to sheet or to cell, with rotation and shift",
+      "Barcode and template frames for production output",
+    ],
+    steps: [
+      ["01", "Load", "Point it at the artwork to impose."],
+      ["02", "Sheet", "Set the sheet size and the grid."],
+      ["03", "Bind", "Choose repeat or unique, simplex or duplex."],
+      ["04", "Impose", "A press ready sheet comes out the other side."],
+    ],
+    outcome: "Imposition stopped being the step where jobs went wrong. The sheet is right before it reaches the printer, not after.",
+    video: "imposepro_bg.mp4", videoCap: "Imposing a sheet",
+  },
+  "csv-importer": {
+    name: "CSV Importer", icon: "csv-importer",
+    platform: "Figma plugin", status: "Shipped", category: "Print Production",
+    audience: "Card and grid layouts",
+    tagline: "Map each CSV column onto a named layer once, then populate every card as the rows run over.",
+    problem: "Any card set, roster, or price grid meant pasting values into dozens of near-identical frames, and the errors only surfaced at proof.",
+    caps: [
+      "Map each column to a named layer once",
+      "Populates every card from the rows in one action",
+      "Extra pages are created automatically as rows run past the layout",
+      "Design stays the source of truth; the data is what changes",
+    ],
+    steps: [
+      ["01", "Select", "Load the frame that holds the design."],
+      ["02", "Map", "Match each CSV column to a named layer."],
+      ["03", "Populate", "Rows fill the cards and pages duplicate to fit."],
+    ],
+    outcome: "Data-driven print stopped being transcription. A hundred-row set populates correctly the first time.",
+    video: "csvimporter.mp4", videoCap: "Mapping columns onto a card layout",
+  },
+  "text-replacer-tags": {
+    name: "Text Replacer + Tags", icon: "",
+    platform: "Figma plugin + Adobe panel", status: "Beta", category: "Asset Prep",
+    audience: "Recurring copy changes",
+    tagline: "Name a layer and it becomes an editable field; tags swap one phrase across dozens of layers.",
+    problem: "A weekly campaign refresh meant hunting the same phrase through dozens of layers across several files, and missing one meant shipping last week's date.",
+    caps: [
+      "Mark a layer from the canvas and it becomes a named field",
+      "Tags replace one phrase inside a paragraph, leaving the rest alone",
+      "Image groups swap alongside the copy they belong to",
+      "Explicit scope, so a change cannot escape the selection",
+      "An Adobe panel edition for InDesign and Illustrator",
+    ],
+    steps: [
+      ["01", "Mark", "Name the layers that change each week."],
+      ["02", "Group", "Link tags to the groups they belong to."],
+      ["03", "Swap", "Update the field once; every instance follows."],
+    ],
+    outcome: "The weekly refresh became a five minute routine with nothing left behind, and it works the same in Figma and in Adobe.",
+  },
+  "creative-direction": {
+    name: "Creative Direction", icon: "creative-direction",
+    platform: "Mac + iPhone app", status: "Beta", category: "Reporting",
+    audience: "Running a design team",
+    tagline: "A creative director's dashboard over monday.com, on a Mac window or a phone screen.",
+    problem: "The board held the truth but not the answer. Working out what was waiting on me, what was already late, and who was overloaded meant reading three boards and doing the arithmetic by hand.",
+    caps: [
+      "Answers what is waiting on me and what is already late",
+      "Ranks by urgency and shows its reasoning rather than a bare score",
+      "Surfaces who is carrying what, so overload is visible",
+      "Flags paid media at the edge of a flight",
+      "Four explicit ways a project opts out of the numbers, including R&D and Back Burner",
+      "One payload, two shapes: a wide instrument panel and a phone triage surface",
+    ],
+    steps: [
+      ["01", "Read", "Pulls the boards that hold the work."],
+      ["02", "Rank", "Scores urgency and explains each result."],
+      ["03", "Triage", "Wide panel at the desk, triage list on the phone."],
+    ],
+    outcome: "The morning question — what needs me today — is answered before I open a board, and the same data reads correctly on a phone.",
+  },
+  "frame-to-mp4": {
+    name: "Frame to MP4", icon: "frametomp4",
+    platform: "Figma plugin", status: "In review", category: "Video & Motion",
+    audience: "Design to video handoff",
+    tagline: "Export a run of frames as one video, embedded videos and audio included, encoded locally.",
+    problem: "Handing motion off meant screen recording the Figma canvas, which lost the embedded video, dropped the audio, and pushed work through someone else's cloud.",
+    caps: [
+      "A run of frames becomes one timeline",
+      "Embedded video plays for real, with its audio",
+      "Encoded entirely on your machine, nothing uploaded",
+      "Three settings with sane defaults",
+    ],
+    steps: [
+      ["01", "Select", "Choose the frames on the canvas."],
+      ["02", "Attach", "Point it at the source files for video frames."],
+      ["03", "Export", "One MP4, encoded locally."],
+    ],
+    outcome: "Motion leaves Figma as real video instead of a screen recording, and nothing about the work leaves the machine.",
+  },
+  "midjourney-prompt-injector": {
+    name: "MidJourney Prompt Injector", icon: "midjourney-prompt-injector",
+    platform: "Chrome extension", status: "Beta", category: "Utilities",
+    audience: "Batch exploration",
+    tagline: "Separate a batch of prompts with a $ and it types every one into the MidJourney prompt bar.",
+    problem: "Exploring forty variations meant sitting at the keyboard pasting prompts one at a time, which is an hour of attention spent on typing.",
+    caps: [
+      "One string becomes many prompts, split on a delimiter",
+      "Shows the count before the run starts",
+      "A delay setting that respects concurrent job limits",
+      "Reports progress so a run can be left alone",
+    ],
+    steps: [
+      ["01", "Write", "Join the prompts with a single delimiter."],
+      ["02", "Set", "Confirm the count and choose a delay."],
+      ["03", "Run", "It types each one and reports as it goes."],
+    ],
+    outcome: "A batch explore is set up in under a minute and runs unattended, so the hour goes into judging results instead of typing.",
+  },
+  "midjourney-abducter": {
+    name: "MidJourney Abducter", icon: "midjourney-abducter",
+    platform: "Chrome extension", status: "Beta", category: "Utilities",
+    audience: "Reference gathering",
+    tagline: "Describe a subject once, then collect matching explore images at full resolution while you do something else.",
+    problem: "Building a reference set meant scrolling a feed, judging each image by eye, and saving the keepers by hand into a folder that made sense only that day.",
+    caps: [
+      "Judges the picture itself rather than trusting the caption",
+      "Looks cheaply, then pulls full resolution only for keepers",
+      "Runs to a stated budget instead of until it is stopped",
+      "Every image gets a recorded verdict",
+      "Files are named after what is actually in them",
+    ],
+    steps: [
+      ["01", "Describe", "State the subject and set the limits."],
+      ["02", "Start", "Leave the tab alone and let it page through."],
+      ["03", "Collect", "Keepers arrive named for their contents."],
+    ],
+    outcome: "A reference set arrives sorted and named, gathered against a budget, without an afternoon of scrolling.",
+    video: "midjourneyabducter_hero.mp4", videoCap: "Judging and collecting explore results",
+  },
+};
+
+class Component extends DCLogic {
+  componentDidMount() {
+    this.apply();
+    [200, 800].forEach((t) => setTimeout(() => this.apply(), t));
+    this._r = () => this.apply();
+    window.addEventListener("resize", this._r);
+  }
+  componentWillUnmount() { window.removeEventListener("resize", this._r); }
+  componentDidUpdate() { this.apply(); }
+
+  apply() {
+    let slug = "";
+    try { slug = new URLSearchParams(window.location.search).get("t") || ""; } catch (e) {}
+    if (!TOOLS[slug]) slug = ORDER[0];
+    const t = TOOLS[slug];
+    const i = ORDER.indexOf(slug);
+    const nextSlug = ORDER[(i + 1) % ORDER.length];
+    const n = TOOLS[nextSlug];
+    const CHIP = "#8A6BF2";
+    const MONO = "'IBM Plex Mono', monospace";
+
+    const q = (s) => document.querySelector(s);
+    const set = (s, v) => { const el = q(s); if (el && v) el.textContent = v; };
+
+    document.title = t.name + " — The Factory — Kyle Foreman";
+    set("[data-name]", t.name);
+    set("[data-tagline]", t.tagline);
+    set("[data-eyebrow]", "The Factory / Product " + String(i + 1).padStart(2, "0") + " of " + ORDER.length);
+    set("[data-platform]", t.platform);
+    set("[data-status]", t.status);
+    set("[data-category]", t.category);
+    set("[data-audience]", t.audience);
+    set("[data-problem]", t.problem);
+    set("[data-outcome]", t.outcome);
+    set("[data-footer-slug]", "The Factory / " + slug);
+
+    // Shipped reads as the accent; anything unfinished stays quiet.
+    const st = q("[data-status]");
+    if (st) st.style.color = t.status === "Shipped" ? CHIP : "rgba(245,243,238,.6)";
+
+    // Text Replacer + Tags has no icon in the manifest; fall back to a monogram.
+    const icon = q("[data-icon]");
+    if (icon) {
+      if (t.icon) { icon.setAttribute("src", U + "icon-" + t.icon + ".png"); icon.style.display = "block"; }
+      else { icon.style.display = "none"; }
+    }
+    const head = q("[data-head]");
+    if (head) head.style.gridTemplateColumns = t.icon ? "clamp(84px, 11vw, 124px) minmax(0, 1fr)" : "minmax(0, 1fr)";
+
+    // Capabilities: a ruled ledger, matching the archive rows on the index.
+    const caps = q("[data-caps]");
+    if (caps) {
+      caps.innerHTML = "";
+      (t.caps || []).forEach((c) => {
+        const li = document.createElement("li");
+        li.setAttribute("style", "display: grid; grid-template-columns: 9px minmax(0, 1fr); gap: 16px; align-items: baseline; padding: 14px 0; border-bottom: 1px solid rgba(245,243,238,.1); font-size: 15px; line-height: 1.5; color: rgba(245,243,238,.82)");
+        li.innerHTML = '<span style="display: block; width: 9px; height: 9px; border: 1px solid ' + CHIP + '; transform: translateY(-2px)"></span><span></span>';
+        li.lastChild.textContent = c;
+        caps.appendChild(li);
+      });
+    }
+
+    const steps = q("[data-steps]");
+    if (steps) {
+      steps.innerHTML = "";
+      (t.steps || []).forEach((s) => {
+        const li = document.createElement("li");
+        li.setAttribute("style", "display: flex; flex-direction: column; gap: 10px; border-top: 1px solid rgba(138,107,242,.35); padding-top: 14px");
+        const num = document.createElement("span");
+        num.setAttribute("style", "font-family: " + MONO + "; font-size: 10px; letter-spacing: .18em; color: " + CHIP);
+        num.textContent = s[0];
+        const h = document.createElement("span");
+        h.setAttribute("style", "font-size: 17px; font-weight: 600; font-stretch: 96%; letter-spacing: -.01em");
+        h.textContent = s[1];
+        const p = document.createElement("span");
+        p.setAttribute("style", "font-size: 14px; line-height: 1.5; color: rgba(245,243,238,.58)");
+        p.textContent = s[2];
+        li.append(num, h, p);
+        steps.appendChild(li);
+      });
+    }
+
+    // Demo loop where one exists, else a still, else the block stays collapsed.
+    const wrap = q("[data-media-wrap]"), vid = q("[data-vid]"), still = q("[data-still]");
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (wrap && vid && still) {
+      if (t.video) {
+        wrap.style.display = "block";
+        still.style.display = "none";
+        vid.style.display = "block";
+        // Set as properties, not attributes: the runtime renders this element
+        // through React, which drops the bare `muted` attribute. Without this
+        // the clip is not actually muted, so autoplay is refused outright.
+        vid.muted = true; vid.loop = true; vid.playsInline = true; vid.autoplay = !reduced;
+        if (vid.getAttribute("src") !== V + t.video) vid.setAttribute("src", V + t.video);
+        if (reduced) {
+          vid.pause();
+        } else {
+          // apply() runs before the clip has data, so the first play() can be
+          // dropped. Re-assert once it is playable rather than racing the runtime.
+          const go = () => { const pr = vid.play(); if (pr && pr.catch) pr.catch(() => {}); };
+          go();
+          if (!vid.dataset.wired) { vid.dataset.wired = "1"; vid.addEventListener("canplay", go); }
+        }
+        set("[data-media-cap]", t.videoCap || "");
+      } else if (t.shots && t.shots.length) {
+        wrap.style.display = "block";
+        vid.style.display = "none";
+        vid.removeAttribute("src");
+        still.style.display = "block";
+        still.setAttribute("src", U + t.shots[0][0] + ".jpg");
+        set("[data-media-cap]", t.shots[0][1]);
+      } else {
+        wrap.style.display = "none";
+        vid.style.display = "none";
+        vid.removeAttribute("src");
+      }
+    }
+
+    // Any still not already used as the lead image becomes a supporting plate.
+    const shotsWrap = q("[data-shots-wrap]"), shots = q("[data-shots]");
+    if (shotsWrap && shots) {
+      const rest = (t.shots || []).slice(t.video ? 0 : 1);
+      shots.innerHTML = "";
+      shotsWrap.style.display = rest.length ? "block" : "none";
+      rest.forEach((s) => {
+        const fig = document.createElement("figure");
+        fig.setAttribute("style", "margin: 0");
+        const frame = document.createElement("div");
+        frame.setAttribute("style", "overflow: hidden; aspect-ratio: 16 / 10; border: 1px solid rgba(245,243,238,.14); background-color: rgba(138,107,242,.08)");
+        const im = document.createElement("img");
+        im.setAttribute("loading", "lazy");
+        im.setAttribute("decoding", "async");
+        im.setAttribute("alt", "");
+        im.setAttribute("style", "display: block; width: 100%; height: 100%; object-fit: cover");
+        im.setAttribute("src", U + s[0] + ".jpg");
+        frame.appendChild(im);
+        const cap = document.createElement("figcaption");
+        cap.setAttribute("style", "margin-top: 10px; font-family: " + MONO + "; font-size: 10px; letter-spacing: .16em; text-transform: uppercase; color: rgba(245,243,238,.45)");
+        cap.textContent = s[1];
+        fig.append(frame, cap);
+        shots.appendChild(fig);
+      });
+    }
+
+    const nx = q("[data-next]");
+    if (nx) {
+      nx.setAttribute("href", "Tool.dc.html?t=" + nextSlug);
+      set("[data-next-name]", n.name);
+      const ni = q("[data-next-icon]");
+      if (ni) {
+        if (n.icon) { ni.setAttribute("src", U + "icon-" + n.icon + ".png"); ni.style.display = "block"; }
+        else ni.style.display = "none";
+      }
+      if (!nx.dataset.wired) {
+        nx.dataset.wired = "1";
+        nx.addEventListener("mouseenter", () => { nx.style.background = CHIP; nx.style.color = "#101318"; });
+        nx.addEventListener("mouseleave", () => { nx.style.background = "transparent"; nx.style.color = "#F5F3EE"; });
+      }
+    }
+
+    const narrow = window.innerWidth < 780;
+    document.querySelectorAll("[data-block]").forEach((b) => {
+      b.style.gridTemplateColumns = narrow ? "minmax(0,1fr)" : "150px minmax(0, 1fr)";
+    });
+    const meta = q("[data-meta]");
+    if (meta) meta.style.gridTemplateColumns = narrow ? "repeat(2, minmax(0,1fr))" : "repeat(auto-fit, minmax(150px, 1fr))";
+  }
+}
+</script>
+</body>
+</html>

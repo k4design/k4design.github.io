@@ -160,6 +160,23 @@ const PLUGINS = [
     guide: 'guides/midjourney-abducter.html',
   },
   {
+    /* Mac app rather than a Figma plugin: a SwiftUI front end over a
+       bundled ffmpeg. Its guide runs the cyberpunk design system rather
+       than the house guide.css, so it is self-contained. */
+    slug: 'webmer',
+    type: 'Mac app',
+    name: 'Webmer',
+    icon: 'assets/icons/webmer.png',
+    tagline: 'Drop video in and get WebM, GIF or animated WebP out — with the file size estimated before you commit.',
+    category: 'Video & Motion',
+    status: 'live',
+    version: '1.0',
+    owner: 'Kyle',
+    updated: '2026-08-17',
+    tags: ['video', 'webm', 'gif', 'webp', 'ffmpeg', 'macos'],
+    guide: 'guides/webmer-guide.html',
+  },
+  {
     slug: 'frame-to-mp4',
     type: 'Figma plugin',
     name: 'Frame to MP4',

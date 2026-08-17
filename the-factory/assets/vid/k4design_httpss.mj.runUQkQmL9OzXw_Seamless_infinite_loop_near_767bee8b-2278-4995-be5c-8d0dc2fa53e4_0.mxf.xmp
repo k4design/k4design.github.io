@@ -1,0 +1,124 @@
+<x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="Adobe XMP Core 10.0-c000 26.GD02.7bdc8c5, 2026/02/11-15:24:47        ">
+ <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+  <rdf:Description rdf:about=""
+    xmlns:dc="http://purl.org/dc/elements/1.1/"
+    xmlns:xmpMM="http://ns.adobe.com/xap/1.0/mm/"
+    xmlns:stEvt="http://ns.adobe.com/xap/1.0/sType/ResourceEvent#"
+    xmlns:stRef="http://ns.adobe.com/xap/1.0/sType/ResourceRef#"
+    xmlns:xmp="http://ns.adobe.com/xap/1.0/"
+    xmlns:tiff="http://ns.adobe.com/tiff/1.0/"
+    xmlns:xmpDM="http://ns.adobe.com/xmp/1.0/DynamicMedia/"
+    xmlns:stDim="http://ns.adobe.com/xap/1.0/sType/Dimensions#"
+    xmlns:creatorAtom="http://ns.adobe.com/creatorAtom/1.0/"
+   dc:identifier="060A2B340101010501010D1113000000D02F8E0369120685A926EA258241354F"
+   dc:format="Apple ProRes MXF OP1a"
+   xmpMM:InstanceID="xmp.iid:57db3d3e-6bfc-43f5-9978-b69e10c2c288"
+   xmpMM:DocumentID="87c29d4f-3f55-52b8-418f-edb9000000fb"
+   xmpMM:OriginalDocumentID="xmp.did:962a84a7-5503-4c28-a202-c647f92acbca"
+   xmp:MetadataDate="2026-08-17T12:34:10-04:00"
+   xmp:ModifyDate="2026-08-17T12:34:10-04:00"
+   xmp:CreatorTool="Adobe Adobe Media Encoder 2026.0 (Macintosh)"
+   xmp:CreateDate="2026-08-17T12:33:39-04:00"
+   xmpDM:videoFrameRate="24.000000"
+   xmpDM:videoFieldOrder="Progressive"
+   xmpDM:videoPixelAspectRatio="1/1"
+   xmpDM:audioSampleRate="48000"
+   xmpDM:audioSampleType="16Int"
+   xmpDM:audioChannelType="Stereo"
+   xmpDM:startTimeScale="24"
+   xmpDM:startTimeSampleSize="1">
+   <xmpMM:History>
+    <rdf:Seq>
+     <rdf:li
+      stEvt:action="saved"
+      stEvt:instanceID="ec6452dd-e66c-a8f2-315d-d66700000128"
+      stEvt:when="2026-08-17T12:34:10-04:00"
+      stEvt:softwareAgent="Adobe Adobe Media Encoder 2026.0 (Macintosh)"
+      stEvt:changed="/"/>
+     <rdf:li
+      stEvt:action="created"
+      stEvt:instanceID="xmp.iid:12999b25-e845-4cec-bb59-6a48faf7a254"
+      stEvt:when="2026-08-17T12:32:02-04:00"
+      stEvt:softwareAgent="Adobe Adobe Media Encoder 2026.0 (Macintosh)"/>
+     <rdf:li
+      stEvt:action="saved"
+      stEvt:instanceID="xmp.iid:09f57567-ad56-4bf5-950e-fdd3ac4982fa"
+      stEvt:when="2026-08-17T12:34:10-04:00"
+      stEvt:softwareAgent="Adobe Adobe Media Encoder 2026.0 (Macintosh)"
+      stEvt:changed="/"/>
+     <rdf:li
+      stEvt:action="saved"
+      stEvt:instanceID="xmp.iid:57db3d3e-6bfc-43f5-9978-b69e10c2c288"
+      stEvt:when="2026-08-17T12:34:10-04:00"
+      stEvt:softwareAgent="Adobe Adobe Media Encoder 2026.0 (Macintosh)"
+      stEvt:changed="/metadata"/>
+    </rdf:Seq>
+   </xmpMM:History>
+   <xmpMM:Ingredients>
+    <rdf:Bag>
+     <rdf:li
+      stRef:instanceID="18c34c3b-36a3-5580-891a-4f0a00000128"
+      stRef:documentID="0e0f798e-205e-de14-8a38-a6ef000000fb"
+      stRef:fromPart="time:0d1323000000000f254016000000"
+      stRef:toPart="time:0d1323000000000f254016000000"
+      stRef:filePath="k4design_httpss.mj.runUQkQmL9OzXw_Seamless_infinite_loop_near_767bee8b-2278-4995-be5c-8d0dc2fa53e4_0.mp4"
+      stRef:maskMarkers="None"/>
+    </rdf:Bag>
+   </xmpMM:Ingredients>
+   <xmpMM:Pantry>
+    <rdf:Bag>
+     <rdf:li>
+      <rdf:Description
+       xmp:CreateDate="1904-01-01T00:00:00Z"
+       xmp:ModifyDate="2026-08-17T12:31:58-04:00"
+       xmp:MetadataDate="2026-08-17T12:31:58-04:00"
+       tiff:Orientation="1"
+       xmpMM:InstanceID="18c34c3b-36a3-5580-891a-4f0a00000128"
+       xmpMM:DocumentID="0e0f798e-205e-de14-8a38-a6ef000000fb"
+       xmpMM:OriginalDocumentID="xmp.did:43678cd8-a479-492e-aaad-82fa71dd6ba7">
+      <xmpDM:duration
+       xmpDM:value="5209"
+       xmpDM:scale="1/1000"/>
+      <xmpMM:History>
+       <rdf:Seq>
+        <rdf:li
+         stEvt:action="saved"
+         stEvt:instanceID="18c34c3b-36a3-5580-891a-4f0a00000128"
+         stEvt:when="2026-08-17T12:31:58-04:00"
+         stEvt:softwareAgent="Adobe Adobe Media Encoder 2026.0 (Macintosh)"
+         stEvt:changed="/"/>
+       </rdf:Seq>
+      </xmpMM:History>
+      </rdf:Description>
+     </rdf:li>
+    </rdf:Bag>
+   </xmpMM:Pantry>
+   <xmpMM:DerivedFrom
+    stRef:instanceID="xmp.iid:12999b25-e845-4cec-bb59-6a48faf7a254"
+    stRef:documentID="xmp.did:12999b25-e845-4cec-bb59-6a48faf7a254"
+    stRef:originalDocumentID="xmp.did:12999b25-e845-4cec-bb59-6a48faf7a254"/>
+   <xmpDM:projectRef
+    xmpDM:type="movie"/>
+   <xmpDM:startTimecode
+    xmpDM:timeFormat="24Timecode"
+    xmpDM:timeValue="00:00:00:00"/>
+   <xmpDM:videoFrameSize
+    stDim:w="848"
+    stDim:h="464"
+    stDim:unit="pixel"/>
+   <xmpDM:duration
+    xmpDM:value="125"
+    xmpDM:scale="1/24"/>
+   <xmpDM:altTimecode
+    xmpDM:timeValue="00:00:00:00"
+    xmpDM:timeFormat="24Timecode"/>
+   <creatorAtom:windowsAtom
+    creatorAtom:extension=".prproj"
+    creatorAtom:invocationFlags="/L"/>
+   <creatorAtom:macAtom
+    creatorAtom:applicationCode="1347449455"
+    creatorAtom:invocationAppleEvent="1129468018"
+    creatorAtom:posixProjectPath="/var/folders/8q/z1r0f2t90m354_j765pl7k3r0000gn/T/keytest.prproj"/>
+  </rdf:Description>
+ </rdf:RDF>
+</x:xmpmeta>

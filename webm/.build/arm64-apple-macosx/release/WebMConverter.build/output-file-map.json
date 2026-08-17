@@ -1,0 +1,37 @@
+{
+  "": {
+    "dependencies": "/Users/kyleforeman/Documents/GitHub/k4design.github.io/webm/.build/arm64-apple-macosx/release/WebMConverter.build/WebMConverter.d",
+    "object": "/Users/kyleforeman/Documents/GitHub/k4design.github.io/webm/.build/arm64-apple-macosx/release/WebMConverter.build/WebMConverter.o",
+    "swift-dependencies": "/Users/kyleforeman/Documents/GitHub/k4design.github.io/webm/.build/arm64-apple-macosx/release/WebMConverter.build/primary.swiftdeps"
+  },
+  "/Users/kyleforeman/Documents/GitHub/k4design.github.io/webm/Sources/WebMConverter/ContentView.swift": {
+    "object": "/Users/kyleforeman/Documents/GitHub/k4design.github.io/webm/.build/arm64-apple-macosx/release/WebMConverter.build/ContentView.swift.o",
+    "swiftmodule": "/Users/kyleforeman/Documents/GitHub/k4design.github.io/webm/.build/arm64-apple-macosx/release/WebMConverter.build/ContentView~partial.swiftmodule",
+    "swift-dependencies": "/Users/kyleforeman/Documents/GitHub/k4design.github.io/webm/.build/arm64-apple-macosx/release/WebMConverter.build/ContentView.swiftdeps",
+    "diagnostics": "/Users/kyleforeman/Documents/GitHub/k4design.github.io/webm/.build/arm64-apple-macosx/release/WebMConverter.build/ContentView.dia"
+  },
+  "/Users/kyleforeman/Documents/GitHub/k4design.github.io/webm/Sources/WebMConverter/FFmpegRunner.swift": {
+    "object": "/Users/kyleforeman/Documents/GitHub/k4design.github.io/webm/.build/arm64-apple-macosx/release/WebMConverter.build/FFmpegRunner.swift.o",
+    "swiftmodule": "/Users/kyleforeman/Documents/GitHub/k4design.github.io/webm/.build/arm64-apple-macosx/release/WebMConverter.build/FFmpegRunner~partial.swiftmodule",
+    "swift-dependencies": "/Users/kyleforeman/Documents/GitHub/k4design.github.io/webm/.build/arm64-apple-macosx/release/WebMConverter.build/FFmpegRunner.swiftdeps",
+    "diagnostics": "/Users/kyleforeman/Documents/GitHub/k4design.github.io/webm/.build/arm64-apple-macosx/release/WebMConverter.build/FFmpegRunner.dia"
+  },
+  "/Users/kyleforeman/Documents/GitHub/k4design.github.io/webm/Sources/WebMConverter/Models.swift": {
+    "object": "/Users/kyleforeman/Documents/GitHub/k4design.github.io/webm/.build/arm64-apple-macosx/release/WebMConverter.build/Models.swift.o",
+    "swiftmodule": "/Users/kyleforeman/Documents/GitHub/k4design.github.io/webm/.build/arm64-apple-macosx/release/WebMConverter.build/Models~partial.swiftmodule",
+    "swift-dependencies": "/Users/kyleforeman/Documents/GitHub/k4design.github.io/webm/.build/arm64-apple-macosx/release/WebMConverter.build/Models.swiftdeps",
+    "diagnostics": "/Users/kyleforeman/Documents/GitHub/k4design.github.io/webm/.build/arm64-apple-macosx/release/WebMConverter.build/Models.dia"
+  },
+  "/Users/kyleforeman/Documents/GitHub/k4design.github.io/webm/Sources/WebMConverter/QueueViewModel.swift": {
+    "object": "/Users/kyleforeman/Documents/GitHub/k4design.github.io/webm/.build/arm64-apple-macosx/release/WebMConverter.build/QueueViewModel.swift.o",
+    "swiftmodule": "/Users/kyleforeman/Documents/GitHub/k4design.github.io/webm/.build/arm64-apple-macosx/release/WebMConverter.build/QueueViewModel~partial.swiftmodule",
+    "swift-dependencies": "/Users/kyleforeman/Documents/GitHub/k4design.github.io/webm/.build/arm64-apple-macosx/release/WebMConverter.build/QueueViewModel.swiftdeps",
+    "diagnostics": "/Users/kyleforeman/Documents/GitHub/k4design.github.io/webm/.build/arm64-apple-macosx/release/WebMConverter.build/QueueViewModel.dia"
+  },
+  "/Users/kyleforeman/Documents/GitHub/k4design.github.io/webm/Sources/WebMConverter/WebMConverterApp.swift": {
+    "object": "/Users/kyleforeman/Documents/GitHub/k4design.github.io/webm/.build/arm64-apple-macosx/release/WebMConverter.build/WebMConverterApp.swift.o",
+    "swiftmodule": "/Users/kyleforeman/Documents/GitHub/k4design.github.io/webm/.build/arm64-apple-macosx/release/WebMConverter.build/WebMConverterApp~partial.swiftmodule",
+    "swift-dependencies": "/Users/kyleforeman/Documents/GitHub/k4design.github.io/webm/.build/arm64-apple-macosx/release/WebMConverter.build/WebMConverterApp.swiftdeps",
+    "diagnostics": "/Users/kyleforeman/Documents/GitHub/k4design.github.io/webm/.build/arm64-apple-macosx/release/WebMConverter.build/WebMConverterApp.dia"
+  }
+}
