@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Campaign Spec Automation — Operator's Guide</title>
+<link rel="stylesheet" href="../assets/guide.css">
+<script src="../assets/gate.js"></script>
+<script>requireUnlock();</script>
+<style>
+  /* Accent: StackAdapt-adjacent teal, carries on near-black. */
+  :root { --accent: #2dd4bf; --accent-soft: rgba(45,212,191,.14); }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+<nav>
+  <span class="nav-brand"><span class="nav-mark">⚙️</span> Campaign Spec Automation</span>
+  <a class="nav-back" href="../index.html" target="_top">← The Factory</a>
+  <div class="nav-links">
+    <a href="#run">Trigger it</a>
+    <a href="#reads">Reading the update</a>
+    <a href="#reference">Reference</a>
+    <a href="#trouble">Troubleshooting</a>
+  </div>
+</nav>
+
+<h1 class="sr-only">Campaign Spec Automation — operator's guide covering how a monday.com Design Approved flip becomes a written StackAdapt build spec and a paused, pre-configured campaign.</h1>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div class="hero-mark">⚙️</div>
+    <div class="pill"><span class="dot"></span> Serverless automation · monday → Claude → StackAdapt</div>
+    <h1>Flip one label.<br><span class="grad">Get a built campaign.</span></h1>
+    <p class="hero-sub">When a listing order hits Design Approved, this automation writes the full StackAdapt build spec, clones the reference campaign, renames it, sets the flight, strips the audience, resolves the geo, and posts it all back to the monday task. Paused. Always paused.</p>
+    <div class="hero-ctas">
+      <a class="btn btn-primary" href="#run">See the workflow ↓</a>
+      <a class="btn btn-ghost" href="#reads">Read an update</a>
+    </div>
+  </div>
+</header>
+
+<main class="page">
+
+  <!-- HOW IT WORKS -->
+  <section>
+    <span class="kicker">How it works</span>
+    <p class="lede">Building a listing campaign by hand means opening the reference, duplicating it, renaming, re-dating, re-grouping, stripping eight audience segments one by one, and retyping the geography — twenty minutes of clicking where one slip targets the wrong market. This automation does all of it in about thirty seconds, <span class="accent">then a human checks it and presses the only button that matters</span>.</p>
+
+    <div class="grid">
+      <div class="feature">
+        <div class="ico">◆</div>
+        <h3>The spec is written for you</h3>
+        <p>Claude reads the order and writes the full build spec — budget with reasoning, feeder-market geography, verbatim audience lists — as a monday update.</p>
+      </div>
+      <div class="feature">
+        <div class="ico">◆</div>
+        <h3>The campaign is built for you</h3>
+        <p>The reference campaign is cloned via the StackAdapt API, renamed, flighted for 30 days, dropped into the right tier group, audience stripped, geo set.</p>
+      </div>
+      <div class="feature">
+        <div class="ico">◆</div>
+        <h3>Activation stays human</h3>
+        <p>The automation cannot activate, resume, or delete anything. Every campaign lands inactive and waits for a person to QA it and click go.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- THE PIPELINE -->
+  <section id="pipeline">
+    <span class="kicker">Under the hood</span>
+    <h2>The pipeline</h2>
+    <p class="section-sub">One Vercel function, two routes — <code>/api/spec/display</code> and <code>/api/spec/billboard</code> — fired by monday webhooks on the Listing Orders board.</p>
+
+    <div class="steps">
+      <div class="step">
+        <span class="num">1</span>
+        <div>
+          <h3>monday fires the webhook</h3>
+          <p>A status column on the Listing Orders board flips to <span class="path">Design Approved</span>. monday calls the function for that channel. Duplicate flips within ten minutes are ignored.</p>
+        </div>
+      </div>
+      <div class="step">
+        <span class="num">2</span>
+        <div>
+          <h3>The order is pulled</h3>
+          <p>Property address, tier, agent, price, Air asset link, and the property-page click destination come off the monday item. The matching reference campaign is read from StackAdapt.</p>
+        </div>
+      </div>
+      <div class="step">
+        <span class="num">3</span>
+        <div>
+          <h3>Claude writes the spec</h3>
+          <p>A locked-down prompt produces the build spec: naming, 30-day flight, budget with stated reasoning, feeder-market geography, and the keep/strip audience lists written out verbatim — the model is forbidden from inventing segment names.</p>
+        </div>
+      </div>
+      <div class="step">
+        <span class="num">4</span>
+        <div>
+          <h3>StackAdapt builds the campaign</h3>
+          <p>The reference is cloned with <code>copyCampaigns</code> straight into the tier's campaign group. One <code>upsertCampaign</code> call then renames it, sets the flight dates, strips the audience (by IDs read off the clone itself), and applies the geography resolved from the spec.</p>
+        </div>
+      </div>
+      <div class="step">
+        <span class="num">5</span>
+        <div>
+          <h3>Everything posts back to monday</h3>
+          <p>The spec, the build log, and a numbered "remaining by hand" list land as an update on the original task. If any step failed, the update says exactly which piece needs hand-finishing.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout warn"><span>⚠</span><span><strong>The hard rules.</strong>
+      The code physically cannot activate, resume, unpause, delete, or archive anything in StackAdapt. It also refuses to create a campaign whose name already exists. These are load-bearing — no future edit removes them.</span></div>
+  </section>
+
+  <!-- RUN IT -->
+  <section id="run">
+    <span class="kicker">Every listing</span>
+    <h2>Trigger it</h2>
+    <p class="section-sub">There is no app to open. The trigger is the board you already use.</p>
+
+    <div class="steps">
+      <div class="step">
+        <span class="num">1</span>
+        <div>
+          <h3>Fill the order like normal</h3>
+          <p>Tier, price, agent, Air link, and property page link on the Listing Orders item. The automation flags anything missing or ambiguous at the top of the spec instead of guessing.</p>
+        </div>
+      </div>
+      <div class="step">
+        <span class="num">2</span>
+        <div>
+          <h3>Flip the channel's status to Design Approved</h3>
+          <p>The <span class="path">Digital Ads</span> and <span class="path">Billboard</span> columns each have their own automation — flip one or both. About thirty seconds later the update appears on the item.</p>
+        </div>
+      </div>
+      <div class="step">
+        <span class="num">3</span>
+        <div>
+          <h3>Work the "remaining by hand" list</h3>
+          <p>Open the new campaign in StackAdapt, upload the creative from the Air link, QA everything against the spec in the update, then activate. That final click is always yours.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- READING THE UPDATE -->
+  <section id="reads">
+    <span class="kicker">What comes back</span>
+    <h2>Reading the update</h2>
+    <p class="section-sub">Every update has the same three layers. Read top to bottom.</p>
+
+    <div class="grid">
+      <div class="card">
+        <span class="num">01</span>
+        <h3>Flags first</h3>
+        <p>Ambiguous price, missing tier, absent links — anything the automation refused to guess sits in bold at the very top. Resolve these before trusting the numbers below them.</p>
+      </div>
+      <div class="card">
+        <span class="num">02</span>
+        <h3>The spec</h3>
+        <p>The complete build document: clone source, name, flight, budget with reasoning, geography with reasoning, and the full keep/strip audience lists. This is the QA checklist for the built campaign.</p>
+      </div>
+      <div class="card">
+        <span class="num">03</span>
+        <h3>The build report</h3>
+        <p>What actually happened in StackAdapt: the new campaign ID, what was set automatically, what fell back to by-hand, and the numbered remaining list. "CAMPAIGN CREATED, NOT ACTIVE" is the success line.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- REFERENCE -->
+  <section id="reference">
+    <span class="kicker">Worth knowing</span>
+    <h2>Reference</h2>
+    <p class="section-sub">The behaviour that surprises people.</p>
+
+    <div class="grid">
+      <div class="card">
+        <span class="num">01</span>
+        <h3>Everything degrades to by-hand</h3>
+        <p>If the audience read, geo lookup, or flight read fails, that one piece is left for a human and the update says so plainly. A partial failure never kills the build or sends a half-payload.</p>
+      </div>
+      <div class="card">
+        <span class="num">02</span>
+        <h3>Audience strips by ID, not by name</h3>
+        <p>The strip list is matched against segments read off the clone itself, and survivors are echoed back by ID. Invented or paraphrased segment names are structurally impossible.</p>
+      </div>
+      <div class="card">
+        <span class="num">03</span>
+        <h3>Duplicates are refused</h3>
+        <p>Re-flipping a label for a property that already has a campaign posts "CAMPAIGN ALREADY EXISTS" and touches nothing. Rename or archive the old one by hand first if a rebuild is intended.</p>
+      </div>
+    </div>
+
+    <table class="settings-table">
+      <thead><tr><th>Setting (Vercel env)</th><th>Safe value</th><th>What it does</th></tr></thead>
+      <tbody>
+        <tr><td><code>STACKADAPT_WRITE_ENABLED</code></td><td><code>true</code></td><td>Master switch for the build step. Off, the automation only writes specs.</td></tr>
+        <tr><td><code>DRY_RUN</code></td><td><code>true</code></td><td>Posts the exact mutations it <em>would</em> run instead of running them. Only the literal string <code>false</code> arms the write path — a typo fails safe.</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- TROUBLESHOOTING -->
+  <section id="trouble">
+    <span class="kicker">When something's off</span>
+    <h2>Troubleshooting</h2>
+    <p class="section-sub">Symptom, then cause and cure.</p>
+
+    <details>
+      <summary>The label flipped but no update appeared?</summary>
+      <p>Either the flip was a duplicate within ten minutes (ignored by design), or the monday webhook is pointed at a stale URL. Check the board's automations and the Vercel deployment logs.</p>
+    </details>
+    <details>
+      <summary>The update has a spec but no build section?</summary>
+      <p><code>STACKADAPT_WRITE_ENABLED</code> isn't the exact string <code>true</code> in Vercel, or the env var changed without a redeploy. Env changes only apply after redeploying.</p>
+    </details>
+    <details>
+      <summary>It says "GEO NOT SET - set by hand"?</summary>
+      <p>The market name in the spec didn't resolve to exactly one StackAdapt location — usually a naming mismatch. Set the geography manually per the spec; the rest of the build is unaffected.</p>
+    </details>
+    <details>
+      <summary>It says "CAMPAIGN ALREADY EXISTS"?</summary>
+      <p>A campaign with this property's name is already in StackAdapt, likely from an earlier flip. If a rebuild is intended, rename or archive the existing one by hand, then flip the label again.</p>
+    </details>
+    <details>
+      <summary>It says "AUTOMATION ERROR"?</summary>
+      <p>Something failed mid-build. Nothing was activated. Check StackAdapt for a partially-configured copy of the reference (it may need hand-archiving), read the error in the update, and flag Kyle.</p>
+    </details>
+  </section>
+
+  <!-- RECAP -->
+  <section class="cheat" id="recap">
+    <span class="kicker">The 30-second version</span>
+    <h2>The whole thing</h2>
+    <div class="cheat-row">
+      <span class="lbl">Per / listing</span>
+      <span class="flow"><b>Fill the order</b><span class="arrow">→</span><b>Flip Design Approved</b><span class="arrow">→</span>read the update</span>
+    </div>
+    <div class="cheat-row">
+      <span class="lbl">Then / QA</span>
+      <span class="flow"><b>Upload creative</b><span class="arrow">→</span><b>QA against the spec</b><span class="arrow">→</span>activate (the human click)</span>
+    </div>
+  </section>
+
+  <footer>
+    <span>Campaign Spec Automation · Operator's Guide</span>
+    <span>Flip one label. Get a built campaign.</span>
+  </footer>
+</main>
+
+</div>
+
+</body>
+</html>

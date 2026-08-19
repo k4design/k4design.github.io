@@ -443,9 +443,13 @@ header{
          sepia(.35) hue-rotate(175deg) saturate(1.5);
 }
 .hero-photo .video-wrap{position:relative;display:inline-flex;flex:none}
-/* z-index on the parent would isolate the blend group and defeat the key-out;
-   the video still paints under .float (z-index 4) without it */
+/* z-index on the photo wrapper would isolate the blend group and defeat the
+   key-out, so it stays auto. Isolating at .hero instead scopes the stacking
+   context to the section — the video still blends against the hero's own
+   background, and a negative z-index can push a card behind the video. */
+.hero{isolation:isolate}
 .hero-photo{z-index:auto}
+.float-cash{z-index:-1}
 .hero-photo .video-wrap{width:92%;transform:translateX(9%)}
 .hero-photo video{width:100%;height:auto}
 /* the video is portrait, so let it size the column instead of a fixed
@@ -459,6 +463,9 @@ header{
   .hero-copy{padding-bottom:0}
   .hero-photo .video-wrap{width:92%;transform:translateX(6%)}
   .hero-photo video{width:100%;height:auto}
+  /* the video is shorter than the column here, so bottom-anchor it to sit
+     flush with the section edge instead of floating mid-air */
+  .hero-photo{align-items:flex-end}
 }
 
 /* --- feature cards --- */

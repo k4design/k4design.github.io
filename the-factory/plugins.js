@@ -26,10 +26,24 @@ const CATEGORIES = [
   'Video & Motion',
   'Asset Prep',
   'Reporting',
+  'Automation',
   'Utilities',
 ];
 
 const PLUGINS = [
+  {
+    slug: 'campaign-spec-automation',
+    type: 'Serverless automation',
+    name: 'Campaign Spec Automation',
+    tagline: 'Flip a listing order to Design Approved and get a written StackAdapt build spec plus a cloned, configured, paused campaign back on the monday task.',
+    category: 'Automation',
+    icon: '⚙️',
+    status: 'beta',
+    owner: 'Kyle',
+    updated: '2026-08-19',
+    tags: ['monday', 'stackadapt', 'claude', 'listings'],
+    guide: 'guides/campaign-spec-automation.html',
+  },
   {
     slug: 'dezzy-magazine',
     type: 'Figma plugin',
