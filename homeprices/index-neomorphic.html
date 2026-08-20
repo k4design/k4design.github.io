@@ -459,6 +459,7 @@ header{
    bottom edge rather than cutting off the subject's face */
 .hero-photo{position:absolute;inset:0;align-items:flex-start;justify-content:flex-start}
 .hero-copy{padding-bottom:110px}
+.hero-logo{display:none}
 @media(max-width:900px){
   .hero-copy{padding-bottom:0}
   .hero-photo .video-wrap{width:150%;transform:translateX(6%)}
@@ -682,9 +683,23 @@ footer{margin-top:0}
   .hero-visual{display:none}
   /* address field and submit stack on their own rows */
   .hero-form{flex-direction:column}
-  .hero-form input,.hero-form button{width:100%}
+  .hero-form input,.hero-form button{width:80%;text-align:center}
   /* the video used to fill the bottom edge; restore padding without it */
   .hero{padding-bottom:72px}
+  .hero h1{font-size:50px}
+  /* header stays out of the way until the user scrolls; fixed rather than
+     sticky so the hidden bar reserves no space at the top of the page */
+  header{
+    position:fixed;left:0;right:0;top:0;
+    transform:translateY(-100%);
+    transition:transform .28s ease;
+  }
+  body.is-scrolled header{transform:translateY(0)}
+  /* centered stack with the logo above the headline */
+  .hero-copy{text-align:center}
+  .hero-logo{display:block;width:170px;margin:0 auto 28px}
+  .hero-sub{margin-left:auto;margin-right:auto}
+  .hero-form{align-items:center}
   /* #final breaks out of the wrap + bento padding to run edge to edge */
   #two-prices .cta{
     margin-left:calc(50% - 50vw);
@@ -702,7 +717,12 @@ footer{margin-top:0}
   /* the section's own bottom padding was leaving a strip under the full-bleed
      card before the footer */
   #two-prices{padding-bottom:0}
-  #two-prices .bento-bg{padding-bottom:0}
+  /* tighter container, larger type in the steps */
+  .bento-bg{padding:40px 20px 0}
+  #two-prices .lede{font-size:22px;line-height:1.5}
+  .step h3{font-size:26px}
+  .step p{font-size:20px;line-height:1.5}
+  .step-num{width:104px;height:104px}
   /* field and button on their own rows */
   .cta-form{flex-direction:column}
   .cta-form input,.cta-form button{width:100%}
@@ -743,6 +763,7 @@ footer{margin-top:0}
     <div class="wrap">
       <div class="hero-grid">
         <div class="hero-copy">
+          <img class="hero-logo" src="homeprices_logo_v.svg" alt="HomePrices"/>
           <h1 id="landing-h1"><span class="accent">Your home has two prices.</span><br/>Know both before you decide</h1>
           <p class="hero-sub">A guaranteed cash offer and an open-market listing price — real numbers, side by side, from one no-obligation conversation.</p>
           <form class="hero-form" onsubmit="event.preventDefault()">
@@ -1045,6 +1066,27 @@ footer{margin-top:0}
     });
     window.addEventListener('resize', function(){ if(!panel.hidden) place(); });
   });
+})();
+</script>
+<script>
+/* Mobile: the hero carries its own logo, so the sticky header stays hidden
+   until the user starts scrolling. */
+(function(){
+  var mq = window.matchMedia('(max-width:900px)');
+  function onScroll(){
+    document.body.classList.toggle('is-scrolled', window.scrollY > 24);
+  }
+  function sync(){
+    if(mq.matches){
+      onScroll();
+      window.addEventListener('scroll', onScroll, {passive:true});
+    } else {
+      window.removeEventListener('scroll', onScroll);
+      document.body.classList.remove('is-scrolled');
+    }
+  }
+  mq.addEventListener ? mq.addEventListener('change', sync) : mq.addListener(sync);
+  sync();
 })();
 </script>
 </body>
