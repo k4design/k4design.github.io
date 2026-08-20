@@ -676,6 +676,16 @@ footer{margin-top:0}
   .nav .btn-dark{display:none}
 }
 
+@media(max-width:900px){
+  /* hide the model video and the floating price cards for now */
+  .hero-visual{display:none}
+  /* address field and submit stack on their own rows */
+  .hero-form{flex-direction:column}
+  .hero-form input,.hero-form button{width:100%}
+  /* the video used to fill the bottom edge; restore padding without it */
+  .hero{padding-bottom:72px}
+}
+
 /* rule line dividing the feature cards from the gap section */
 #gap .gap-layout{
   border-top:1px solid rgba(0,39,60,.14);
