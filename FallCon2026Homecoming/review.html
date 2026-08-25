@@ -580,7 +580,7 @@
       </div>
      </div>
 
-     <img class="fc-hero-logo" data-reveal data-anim="right" data-delay="180" src="img/logo_big.png" alt="FallCon 2026 — Homecoming" style="justify-self:center; width:max(40vw, min(44vw, 620px)); max-width:100%; height:auto; display:block; margin-bottom:6vh;" />
+     <img class="fc-hero-logo" data-reveal data-anim="right" data-delay="180" src="img/logo_big.png?v=2" alt="FallCon 2026 — Homecoming" style="justify-self:center; width:max(40vw, min(44vw, 620px)); max-width:100%; height:auto; display:block; margin-bottom:6vh;" />
     </div>
     
     <div class="fc-hero-bar" style="position:absolute; bottom:0; left:0; right:0; z-index:3; border-top:1px solid rgba(247,241,230,.18); background:rgba(18,16,16,.42); backdrop-filter:blur(6px); padding:16px clamp(16px,4vw,48px);">
@@ -2441,6 +2441,23 @@ class Component extends DCLogic {
   .fcc-where { font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: #8a8175; }
   .fcc-text { font-size: 14px; line-height: 1.45; margin: 3px 0 4px; overflow-wrap: anywhere; }
   .fcc-who { font-size: 12px; color: #8a8175; font-style: italic; }
+  .fcc-pop-head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin-bottom: 10px; }
+  .fcc-pop-head label { margin: 0; }
+  .fcc-thread { max-height: min(46vh, 380px); overflow-y: auto; margin: 0 -4px 12px; padding: 0 4px; }
+  .fcc-entry { border-top: 1px solid rgba(247,241,230,.12); padding: 10px 0; }
+  .fcc-entry:first-child { border-top: 0; padding-top: 0; }
+  .fcc-entry.is-reply { margin-left: 14px; padding-left: 12px;
+                        border-left: 2px solid rgba(244,80,30,.5); border-top: 0; }
+  .fcc-entry.is-editing { padding-bottom: 0; }
+  .fcc-composer { border-top: 1px solid rgba(247,241,230,.12); padding-top: 12px; }
+  .fcc-entry .fcc-text { font-size: 14px; }
+  .fcc-replies { font-size: 12px; color: #F4501E; font-weight: 600; margin: 2px 0 4px; }
+  .fcc-rc { position: absolute; top: -7px; right: -9px; rotate: 45deg; background: #121010; color: #F7F1E6;
+            font: 700 10px/14px 'Inter', system-ui, sans-serif; font-style: normal;
+            min-width: 14px; height: 14px; border-radius: 999px; text-align: center; padding: 0 3px; }
+  .fcc-live { color: #7bd88f; }
+  .fcc-warn { color: #FF6A3D; }
+  .fcc-pin.is-theirs { background: #F7F1E6; }
   .fcc-empty { color: #8a8175; font-size: 14px; line-height: 1.5; }
   #fcc-panel h2 { font: 700 15px 'Inter', system-ui, sans-serif; margin: 0 0 4px; letter-spacing: .2px; }
   #fcc-panel .fcc-sub { font-size: 12.5px; color: #8a8175; margin: 0 0 12px; line-height: 1.45; }
@@ -2456,20 +2473,108 @@ class Component extends DCLogic {
 </style>
 <script>
 (function () {
-  /* ---- paste a form endpoint here to collect submissions automatically ---- */
-  var ENDPOINT = '';               /* e.g. 'https://formspree.io/f/xxxxxxx' */
-  /* the address comments are emailed to. Deliberately the shared inbox the page
-     already publishes -- this file goes on a public URL, so a personal address
-     here would be newly scrapeable. Change it if you want them sent to you. */
-  var MAILTO   = 'fallcon@lptrealty.com';
+  /* Comments are stored server-side by netlify/functions/comments.mjs so every
+     reviewer sees the same set. If that function is not reachable -- the page
+     opened from GitHub Pages, file://, or a Netlify deploy without functions --
+     the layer falls back to this browser only and says so in the panel. */
+  var API   = '/.netlify/functions/comments';
+  var PAGE  = (location.pathname.split('/').pop() || 'review').replace(/\.html?$/, '') || 'review';
+  var CACHE = 'fallcon-review-cache-v2';
+  var MINE  = 'fallcon-review-mine-v2';
+  var WHO   = 'fallcon-review-name';
+  var MAILTO = 'fallcon@lptrealty.com';
 
-  var KEY  = 'fallcon-review-notes-v1';
-  var WHO  = 'fallcon-review-name';
-  var notes = [];
-  var placing = false, activeId = null;
+  var notes = [], mine = [], shared = null, placing = false, activeId = null, lastError = '';
+  var openThreadId = null, openAt = null;
 
-  try { notes = JSON.parse(localStorage.getItem(KEY) || '[]'); } catch (e) { notes = []; }
-  var save = function () { try { localStorage.setItem(KEY, JSON.stringify(notes)); } catch (e) {} };
+  function readLocal(k, d) { try { return JSON.parse(localStorage.getItem(k)) || d; } catch (e) { return d; } }
+  function writeLocal(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+  notes = readLocal(CACHE, []);
+  notes.forEach(function (n) { if (!Array.isArray(n.replies)) n.replies = []; });
+  mine  = readLocal(MINE, []);
+
+  function api(method, body, qs) {
+    var ctrl = new AbortController();
+    var t = setTimeout(function () { ctrl.abort(); }, 8000);
+    return fetch(API + (qs || ''), {
+      method: method, signal: ctrl.signal,
+      headers: body ? { 'content-type': 'application/json' } : undefined,
+      body: body ? JSON.stringify(body) : undefined
+    }).then(function (r) {
+      clearTimeout(t);
+      if (!r.ok) return r.json().catch(function () { return {}; }).then(function (j) {
+        throw new Error(j.error || ('Server said ' + r.status));
+      });
+      return r.json();
+    }, function (e) { clearTimeout(t); throw e; });
+  }
+  function adopt(data) {
+    shared = true; lastError = '';
+    notes = (data && data.comments) || [];
+    notes.forEach(function (n) { if (!Array.isArray(n.replies)) n.replies = []; });
+    writeLocal(CACHE, notes);
+    draw(); renderPanel();
+    if (openThreadId) {                       /* keep an open discussion current */
+      var t = byId(openThreadId);
+      if (t) reopen(t); else closePop();
+    }
+  }
+  function offline(err) {
+    if (shared === null) shared = false;          /* first probe decides the mode */
+    lastError = (err && err.message) || 'unreachable';
+    draw(); renderPanel();
+  }
+  function pull() { api('GET', null, '?page=' + encodeURIComponent(PAGE)).then(adopt, offline); }
+
+  function persist(note) {
+    if (shared) {
+      api('POST', { page: PAGE, note: note }).then(adopt, function (e) {
+        localMerge(note); offline(e);
+      });
+    } else { localMerge(note); }
+  }
+  function persistReply(thread, reply) {
+    if (shared) {
+      api('POST', { page: PAGE, threadId: thread.id, reply: reply }).then(adopt, function (e) {
+        localReply(thread, reply); offline(e);
+      });
+    } else { localReply(thread, reply); }
+  }
+  function localReply(thread, reply) {
+    thread.replies = thread.replies || [];
+    var i = -1; thread.replies.forEach(function (x, k) { if (x.id === reply.id) i = k; });
+    if (i >= 0) thread.replies[i] = reply; else thread.replies.push(reply);
+    writeLocal(CACHE, notes); draw(); renderPanel(); reopen(thread);
+  }
+  function removeReply(thread, reply) {
+    if (shared) {
+      api('DELETE', { page: PAGE, threadId: thread.id, replyId: reply.id })
+        .then(adopt, function (e) { localRemoveReply(thread, reply); offline(e); });
+    } else { localRemoveReply(thread, reply); }
+  }
+  function localRemoveReply(thread, reply) {
+    thread.replies = (thread.replies || []).filter(function (x) { return x.id !== reply.id; });
+    writeLocal(CACHE, notes); draw(); renderPanel(); reopen(thread);
+  }
+  function localMerge(note) {
+    var i = -1; notes.forEach(function (n, k) { if (n.id === note.id) i = k; });
+    if (i >= 0) notes[i] = note; else notes.push(note);
+    notes.sort(function (a, b) { return (a.anchor.pageY || 0) - (b.anchor.pageY || 0); });
+    writeLocal(CACHE, notes); draw(); renderPanel();
+  }
+  function remove(note) {
+    if (shared) {
+      api('DELETE', { page: PAGE, id: note.id }).then(adopt, function (e) { localRemove(note); offline(e); });
+    } else { localRemove(note); }
+  }
+  function localRemove(note) {
+    notes = notes.filter(function (n) { return n.id !== note.id; });
+    writeLocal(CACHE, notes); draw(); renderPanel();
+  }
+  var isMine = function (n) { return mine.indexOf(n.id) !== -1; };
+  /* Authorship is recorded only when an entry is CREATED. Editing someone
+     else's words does not make them yours, so the byline stays honest. */
+  function claim(id) { if (mine.indexOf(id) === -1) { mine.push(id); writeLocal(MINE, mine); } }
 
   /* ---------- mount, outside #dc-root so the runtime cannot wipe it ---------- */
   var layer = document.createElement('div'); layer.id = 'fcc-layer';
@@ -2479,19 +2584,13 @@ class Component extends DCLogic {
     '<button type="button" class="fcc-btn" id="fcc-add">+ Add a comment</button>';
   document.body.appendChild(layer);
   document.body.appendChild(bar);
-  /* the runtime re-renders on prop changes; if it ever detaches us, go back in */
   setInterval(function () {
     if (!layer.isConnected) document.body.appendChild(layer);
     if (!bar.isConnected)   document.body.appendChild(bar);
-    /* self-heal: if the document grew or shrank since the last paint, the pins
-       are pointing at the wrong places */
     if (Math.abs(parseInt(layer.style.height || 0, 10) - document.documentElement.scrollHeight) > 2) draw();
   }, 1500);
 
-  /* ---------- anchoring ----------
-     A pin remembers the nearest element with an id and its position as a
-     percentage of that element's box, so notes stay attached to the thing
-     they are about when the page reflows or the window changes width. */
+  /* ---------- anchoring ---------- */
   function anchorFor(el, pageX, pageY) {
     var host = el && el.closest ? el.closest('[id]:not(#dc-root)') : null;
     if (!host) host = document.body;
@@ -2529,76 +2628,180 @@ class Component extends DCLogic {
     notes.forEach(function (n, i) {
       var p = resolve(n.anchor);
       var b = document.createElement('button');
-      b.type = 'button'; b.className = 'fcc-pin' + (n.id === activeId ? ' is-active' : '');
+      b.type = 'button'; b.className = 'fcc-pin' + (n.id === activeId ? ' is-active' : '') + (isMine(n) ? '' : ' is-theirs');
       b.style.left = p.x + 'px'; b.style.top = p.y + 'px';
-      b.setAttribute('aria-label', 'Comment ' + (i + 1) + ': ' + n.text.slice(0, 60));
-      b.innerHTML = '<span>' + (i + 1) + '</span>';
-      b.addEventListener('click', function (e) { e.stopPropagation(); openEditor(n, p); });
+      b.setAttribute('aria-label', 'Comment ' + (i + 1) + ': ' + String(n.text).slice(0, 60));
+      var rc = (n.replies || []).length;
+      b.innerHTML = '<span>' + (i + 1) + '</span>' + (rc ? '<i class="fcc-rc">' + rc + '</i>' : '');
+      b.addEventListener('click', function (e) { e.stopPropagation(); openThread(n, p, null); });
       layer.appendChild(b);
     });
-    document.getElementById('fcc-count').textContent = notes.length;
+    var c = document.getElementById('fcc-count');
+    if (c) c.textContent = notes.length;
   }
-  /* Debounced with a timer, NOT requestAnimationFrame: rAF is throttled to a
-     standstill in background tabs, which left pins holding stale coordinates
-     after a reflow. A timeout still fires there. */
   var redrawTimer = null;
-  function redraw() {
-    clearTimeout(redrawTimer);
-    redrawTimer = setTimeout(draw, 120);
-  }
+  function redraw() { clearTimeout(redrawTimer); redrawTimer = setTimeout(draw, 120); }
   addEventListener('resize', redraw);
   addEventListener('load', redraw);
   addEventListener('orientationchange', redraw);
-  /* Any reflow at all -- fonts landing, images decoding, the carousel moving --
-     changes where the anchors are, so watch the document box itself. */
   if (window.ResizeObserver) new ResizeObserver(redraw).observe(document.body);
 
-  /* ---------- editor ---------- */
-  function closePop() { var p = document.getElementById('fcc-pop'); if (p) p.remove(); activeId = null; draw(); }
-  function openEditor(note, at) {
-    closePop();
-    activeId = note.id;
-    var pop = document.createElement('div'); pop.id = 'fcc-pop';
-    pop.setAttribute('role', 'dialog'); pop.setAttribute('aria-label', 'Comment');
-    pop.innerHTML =
-      '<label for="fcc-t">Comment &mdash; ' + esc(note.anchor.label) + '</label>' +
-      '<textarea id="fcc-t" placeholder="What should change here?"></textarea>' +
-      '<label for="fcc-n">Your name</label><input id="fcc-n" placeholder="Optional" />' +
-      '<div class="fcc-row">' +
-        (note.text ? '<button type="button" class="fcc-link" id="fcc-del">Delete</button>' : '') +
-        '<button type="button" class="fcc-link" id="fcc-x">Cancel</button>' +
-        '<button type="button" class="fcc-btn" id="fcc-ok">Save</button>' +
-      '</div>';
+  /* ---------- threads ----------
+     Anyone can edit or delete anything here, including other people's words:
+     that is what was asked for, so there is no ownership check. `mine` is only
+     used to label your own entries. */
+  function closePop() {
+    var p = document.getElementById('fcc-pop'); if (p) p.remove();
+    activeId = null; openThreadId = null; draw();
+  }
+  function reopen(thread) { if (openThreadId === thread.id) openThread(thread, openAt, null); }
+  var when = function (iso) {
+    try { return new Date(iso).toLocaleString([], { month: 'short', day: 'numeric',
+                                                   hour: 'numeric', minute: '2-digit' }); }
+    catch (e) { return ''; }
+  };
+  var byline = function (e) {
+    return esc(e.name || 'Anonymous') + (isMine(e) ? ' (you)' : '') +
+           (e.created ? ' &middot; ' + esc(when(e.created)) : '');
+  };
+
+  /* draft = a pin that has been placed but never saved */
+  function openDraft(note, at) {
+    closePop(); activeId = note.id; openAt = at;
+    var pop = shell('Comment &mdash; ' + esc(note.anchor.label));
+    pop.innerHTML += composer('Save', '', '');
+    document.body.appendChild(pop); place(pop, at);
+    wireComposer(pop, function (text, name) {
+      note.text = text; note.name = name;
+      claim(note.id);
+      closePop(); persist(note);
+    });
+  }
+
+  function openThread(thread, at, editEntry) {
+    var scroll = null;
+    var prev = document.getElementById('fcc-pop');
+    if (prev) { var b = prev.querySelector('.fcc-thread'); if (b) scroll = b.scrollTop; prev.remove(); }
+    activeId = thread.id; openThreadId = thread.id; openAt = at;
+
+    var pop = shell(esc(thread.anchor.label));
+    var body = '<div class="fcc-thread">';
+    body += entryHtml(thread, thread, true, editEntry);
+    (thread.replies || []).forEach(function (rep) {
+      body += entryHtml(thread, rep, false, editEntry);
+    });
+    body += '</div>';
+    pop.innerHTML += body;
+    if (!editEntry) pop.innerHTML += composer('Reply', '', '');
     document.body.appendChild(pop);
-    /* keep the popover on screen next to the pin */
+    place(pop, at);
+
+    var box = pop.querySelector('.fcc-thread');
+    if (box && scroll != null) box.scrollTop = scroll;
+
+    /* edit / delete on any entry, yours or not */
+    pop.querySelectorAll('[data-edit-entry]').forEach(function (b) {
+      b.addEventListener('click', function () {
+        openThread(thread, at, b.getAttribute('data-edit-entry'));
+      });
+    });
+    pop.querySelectorAll('[data-del-entry]').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var id = b.getAttribute('data-del-entry');
+        if (id === thread.id) {
+          if (!confirm('Delete this comment and its ' + (thread.replies || []).length + ' repl' +
+                       ((thread.replies || []).length === 1 ? 'y' : 'ies') + '? Everyone loses it.')) return;
+          closePop(); remove(thread);
+        } else {
+          var rep = (thread.replies || []).filter(function (x) { return x.id === id; })[0];
+          if (!rep) return;
+          if (!confirm('Delete this reply? Everyone loses it.')) return;
+          removeReply(thread, rep);
+        }
+      });
+    });
+
+    if (editEntry) {
+      var target = editEntry === thread.id ? thread
+                 : (thread.replies || []).filter(function (x) { return x.id === editEntry; })[0];
+      if (!target) { openThread(thread, at, null); return; }
+      wireComposer(pop, function (text, name) {
+        target.text = text; target.name = name;
+        if (target === thread) { openThread(thread, at, null); persist(thread); }
+        else { openThread(thread, at, null); persistReply(thread, target); }
+      }, function () { openThread(thread, at, null); });
+    } else {
+      wireComposer(pop, function (text, name) {
+        var rep = { id: 'r' + Date.now() + Math.random().toString(36).slice(2, 6),
+                    text: text, name: name, created: new Date().toISOString() };
+        claim(rep.id);
+        persistReply(thread, rep);
+      });
+    }
+  }
+
+  function entryHtml(thread, e, isRoot, editEntry) {
+    if (editEntry === e.id) {
+      return '<div class="fcc-entry' + (isRoot ? '' : ' is-reply') + ' is-editing">' +
+             composer('Save changes', e.text, e.name) + '</div>';
+    }
+    return '<div class="fcc-entry' + (isRoot ? '' : ' is-reply') + '">' +
+             '<div class="fcc-text">' + esc(e.text) + '</div>' +
+             '<div class="fcc-who">' + byline(e) + '</div>' +
+             '<div class="fcc-row" style="justify-content:flex-start">' +
+               '<button type="button" class="fcc-link" data-edit-entry="' + e.id + '">Edit</button>' +
+               '<button type="button" class="fcc-link" data-del-entry="' + e.id + '">Delete</button>' +
+             '</div>' +
+           '</div>';
+  }
+
+  function shell(title) {
+    var pop = document.createElement('div'); pop.id = 'fcc-pop';
+    pop.setAttribute('role', 'dialog'); pop.setAttribute('aria-label', 'Comment thread');
+    pop.innerHTML = '<div class="fcc-pop-head"><label>' + title + '</label>' +
+                    '<button type="button" class="fcc-link" id="fcc-x" aria-label="Close">Close</button></div>';
+    return pop;
+  }
+  function composer(action, text, name) {
+    return '<div class="fcc-composer">' +
+             '<textarea id="fcc-t" placeholder="' + (action === 'Reply' ? 'Add to the discussion...' : 'What should change here?') + '"></textarea>' +
+             '<input id="fcc-n" placeholder="Your name (optional)" />' +
+             '<div class="fcc-row">' +
+               '<button type="button" class="fcc-link" id="fcc-cancel">Cancel</button>' +
+               '<button type="button" class="fcc-btn" id="fcc-ok">' + action + '</button>' +
+             '</div>' +
+             '<textarea class="fcc-seed" hidden>' + esc(text || '') + '</textarea>' +
+             '<input class="fcc-seed-name" type="hidden" value="' + esc(name || '') + '" />' +
+           '</div>';
+  }
+  function wireComposer(pop, onSave, onCancel) {
+    var t = pop.querySelector('#fcc-t'), nm = pop.querySelector('#fcc-n');
+    var seed = pop.querySelector('.fcc-seed'), seedName = pop.querySelector('.fcc-seed-name');
+    if (!t) return;
+    t.value = seed ? seed.value : '';
+    nm.value = (seedName && seedName.value) || localStorage.getItem(WHO) || '';
+    t.focus(); t.setSelectionRange(t.value.length, t.value.length);
+    var save = function () {
+      var text = t.value.trim(); if (!text) { t.focus(); return; }
+      var name = nm.value.trim();
+      try { localStorage.setItem(WHO, name); } catch (e) {}
+      onSave(text, name);
+    };
+    pop.querySelector('#fcc-ok').addEventListener('click', save);
+    pop.querySelector('#fcc-cancel').addEventListener('click', function () {
+      if (onCancel) onCancel(); else closePop();
+    });
+    pop.querySelector('#fcc-x').addEventListener('click', closePop);
+    pop.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') closePop();
+      if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) save();
+    });
+  }
+  function place(pop, at) {
     var vx = at.x - window.scrollX, vy = at.y - window.scrollY;
     var w = pop.offsetWidth, h = pop.offsetHeight;
     pop.style.left = Math.max(12, Math.min(vx - w / 2, window.innerWidth  - w - 12)) + 'px';
     pop.style.top  = Math.max(12, Math.min(vy + 14,    window.innerHeight - h - 12)) + 'px';
-
-    var t = pop.querySelector('#fcc-t'), nm = pop.querySelector('#fcc-n');
-    t.value = note.text || '';
-    nm.value = note.name || localStorage.getItem(WHO) || '';
-    t.focus();
-    pop.querySelector('#fcc-ok').addEventListener('click', function () {
-      var text = t.value.trim();
-      if (!text) { t.focus(); return; }
-      note.text = text; note.name = nm.value.trim();
-      try { localStorage.setItem(WHO, note.name); } catch (e) {}
-      if (notes.indexOf(note) === -1) notes.push(note);
-      notes.sort(function (a, b) { return (a.anchor.pageY || 0) - (b.anchor.pageY || 0); });
-      save(); closePop(); renderPanel();
-    });
-    pop.querySelector('#fcc-x').addEventListener('click', function () { closePop(); });
-    var del = pop.querySelector('#fcc-del');
-    if (del) del.addEventListener('click', function () {
-      notes = notes.filter(function (x) { return x !== note; });
-      save(); closePop(); renderPanel();
-    });
-    pop.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape') closePop();
-      if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) pop.querySelector('#fcc-ok').click();
-    });
   }
 
   /* ---------- placing ---------- */
@@ -2624,20 +2827,24 @@ class Component extends DCLogic {
     if (e.target.closest('#fcc-bar, #fcc-pop, #fcc-panel')) return;
     e.preventDefault(); e.stopPropagation();
     var pageX = e.pageX, pageY = e.pageY;
-    var note = { id: 'n' + Date.now(), text: '', name: '',
-                 created: new Date().toISOString(),
+    var note = { id: 'n' + Date.now() + Math.random().toString(36).slice(2, 7),
+                 text: '', name: '', created: new Date().toISOString(), replies: [],
                  anchor: anchorFor(e.target, pageX, pageY) };
-    stopPlacing();
-    draw();
-    openEditor(note, { x: pageX, y: pageY });
+    stopPlacing(); draw();
+    openDraft(note, { x: pageX, y: pageY });
   }, true);
 
   /* ---------- panel ---------- */
+  function statusLine() {
+    if (shared) return '<p class="fcc-sub"><b class="fcc-live">Shared</b> &mdash; everyone reviewing this page sees these, and new comments appear here within a few seconds.</p>';
+    return '<p class="fcc-sub"><b class="fcc-warn">This browser only</b> &mdash; the comment server is not reachable from this URL' +
+           (lastError ? ' (' + esc(lastError) + ')' : '') +
+           ', so these stay on this machine. Use <b>Copy all</b> or <b>Email</b> to send them.</p>';
+  }
   function renderPanel() {
     var p = document.getElementById('fcc-panel');
     if (!p) { draw(); return; }
-    var html = '<h2>Comments on this page</h2>' +
-      '<p class="fcc-sub">Saved in your browser only. When you are done, use <b>Copy all</b> or <b>Email</b> to send them over &mdash; nothing is submitted automatically.</p>';
+    var html = '<h2>Comments on this page</h2>' + statusLine();
     if (!notes.length) {
       html += '<p class="fcc-empty">No comments yet. Hit <b>+ Add a comment</b>, then click the part of the page you want to talk about.</p>';
     } else {
@@ -2645,17 +2852,21 @@ class Component extends DCLogic {
         html += '<div class="fcc-item"><div class="fcc-num">' + (i + 1) + '</div><div class="fcc-body">' +
                 '<div class="fcc-where">' + esc(n.anchor.label) + '</div>' +
                 '<div class="fcc-text">' + esc(n.text) + '</div>' +
-                (n.name ? '<div class="fcc-who">' + esc(n.name) + '</div>' : '') +
+                (n.name ? '<div class="fcc-who">' + esc(n.name) + (isMine(n) ? ' (you)' : '') + '</div>'
+                        : (isMine(n) ? '<div class="fcc-who">(you)</div>' : '')) +
+                ((n.replies || []).length ? '<div class="fcc-replies">' +
+                    (n.replies || []).length + ' repl' + ((n.replies || []).length === 1 ? 'y' : 'ies') + '</div>' : '') +
                 '<div class="fcc-row" style="justify-content:flex-start">' +
                   '<button type="button" class="fcc-link" data-go="' + n.id + '">Show me</button>' +
-                  '<button type="button" class="fcc-link" data-edit="' + n.id + '">Edit</button>' +
+                  '<button type="button" class="fcc-link" data-open="' + n.id + '">' +
+                    ((n.replies || []).length ? 'Open discussion' : 'Reply') + '</button>' +
                 '</div></div></div>';
       });
     }
     html += '<div class="fcc-actions">' +
-              '<button type="button" class="fcc-btn" id="fcc-send">' + (ENDPOINT ? 'Send comments' : 'Email comments') + '</button>' +
               '<button type="button" class="fcc-btn is-ghost" id="fcc-copy">Copy all</button>' +
-              (notes.length ? '<button type="button" class="fcc-link" id="fcc-clear">Clear all</button>' : '') +
+              '<button type="button" class="fcc-link" id="fcc-mail">Email instead</button>' +
+              (shared ? '<button type="button" class="fcc-link" id="fcc-refresh">Refresh</button>' : '') +
             '</div>';
     p.innerHTML = html;
 
@@ -2667,35 +2878,38 @@ class Component extends DCLogic {
         activeId = n.id; draw();
       });
     });
-    p.querySelectorAll('[data-edit]').forEach(function (b) {
+    p.querySelectorAll('[data-open]').forEach(function (b) {
       b.addEventListener('click', function () {
-        var n = byId(b.getAttribute('data-edit')); if (!n) return;
-        openEditor(n, resolve(n.anchor));
+        var n = byId(b.getAttribute('data-open')); if (!n) return;
+        var pos = resolve(n.anchor);
+        scrollTo({ top: Math.max(0, pos.y - window.innerHeight * 0.4), behavior: 'smooth' });
+        openThread(n, pos, null);
       });
     });
     p.querySelector('#fcc-copy').addEventListener('click', function () {
       var btn = p.querySelector('#fcc-copy');
-      copy(asText()).then(function (ok) { btn.textContent = ok ? 'Copied' : 'Press Cmd+C'; 
-        setTimeout(function () { btn.textContent = 'Copy all'; }, 1800); });
+      copy(asText()).then(function (ok) {
+        btn.textContent = ok ? 'Copied' : 'Press Cmd+C';
+        setTimeout(function () { btn.textContent = 'Copy all'; }, 1800);
+      });
     });
-    p.querySelector('#fcc-send').addEventListener('click', submit);
-    var cl = p.querySelector('#fcc-clear');
-    if (cl) cl.addEventListener('click', function () {
-      if (!confirm('Delete all ' + notes.length + ' of your comments? This cannot be undone.')) return;
-      notes = []; save(); renderPanel();
-    });
+    p.querySelector('#fcc-mail').addEventListener('click', mailAll);
+    var rf = p.querySelector('#fcc-refresh');
+    if (rf) rf.addEventListener('click', function () { rf.textContent = 'Refreshing...'; pull(); });
     draw();
   }
-  function byId(id) { return notes.filter(function (n) { return n.id === id; })[0]; }
+  function byId(id) { var f = notes.filter(function (n) { return n.id === id; }); return f[0]; }
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) {
     return ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;' })[c]; }); }
 
   function asText() {
-    var who = localStorage.getItem(WHO) || '';
-    var out = 'FallCon 2026 page comments' + (who ? ' from ' + who : '') + '\n' +
-              new Date().toLocaleString() + '\n\n';
+    var out = 'FallCon 2026 page comments\n' + new Date().toLocaleString() + '\n\n';
     notes.forEach(function (n, i) {
-      out += (i + 1) + '. [' + n.anchor.label + '] ' + n.text + (n.name ? '  -- ' + n.name : '') + '\n\n';
+      out += (i + 1) + '. [' + n.anchor.label + '] ' + n.text + (n.name ? '  -- ' + n.name : '') + '\n';
+      (n.replies || []).forEach(function (rep) {
+        out += '      > ' + rep.text + (rep.name ? '  -- ' + rep.name : '') + '\n';
+      });
+      out += '\n';
     });
     return out;
   }
@@ -2710,30 +2924,14 @@ class Component extends DCLogic {
     ta.remove();
     return Promise.resolve(ok);
   }
-  function submit() {
+  function mailAll() {
     if (!notes.length) return;
-    var btn = document.getElementById('fcc-send');
-    if (ENDPOINT) {
-      btn.textContent = 'Sending...';
-      fetch(ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ page: location.href, name: localStorage.getItem(WHO) || '',
-                               comments: notes, text: asText() }) })
-        .then(function (r) { btn.textContent = r.ok ? 'Sent, thank you' : 'Could not send'; })
-        .catch(function () { btn.textContent = 'Could not send'; });
-      return;
-    }
-    /* no endpoint configured: hand the text to their mail client, and put it on
-       the clipboard too, since long bodies get truncated by some mail apps */
     copy(asText());
-    var url = 'mailto:' + MAILTO +
-              '?subject=' + encodeURIComponent('FallCon 2026 page comments') +
+    var url = 'mailto:' + MAILTO + '?subject=' + encodeURIComponent('FallCon 2026 page comments') +
               '&body=' + encodeURIComponent(asText());
     if (url.length > 1900) {
-      btn.textContent = 'Copied - paste into email';
-      setTimeout(function () { btn.textContent = 'Email comments'; }, 2600);
-      location.href = 'mailto:' + MAILTO + '?subject=' + encodeURIComponent('FallCon 2026 page comments') +
-                      '&body=' + encodeURIComponent('My comments are on the clipboard - pasting below.\n\n');
-      return;
+      url = 'mailto:' + MAILTO + '?subject=' + encodeURIComponent('FallCon 2026 page comments') +
+            '&body=' + encodeURIComponent('My comments are on the clipboard - pasting below.\n\n');
     }
     location.href = url;
   }
@@ -2745,10 +2943,20 @@ class Component extends DCLogic {
     p.setAttribute('role', 'region'); p.setAttribute('aria-label', 'Page comments');
     document.body.appendChild(p);
     renderPanel();
+    if (shared) pull();
   });
 
+  /* ---------- boot + keep in sync ---------- */
   draw();
-  setTimeout(draw, 800);          /* after fonts/images settle the anchors move */
+  pull();
+  setInterval(function () {
+    if (!shared || document.hidden) return;
+    var t = document.querySelector('#fcc-pop #fcc-t');
+    if (t && t.value.trim()) return;      /* someone is mid-sentence */
+    pull();
+  }, 15000);
+  document.addEventListener('visibilitychange', function () { if (!document.hidden && shared) pull(); });
+  setTimeout(draw, 800);
   setTimeout(draw, 2500);
 })();
 </script>

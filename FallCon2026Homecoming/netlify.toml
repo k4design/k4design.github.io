@@ -1,0 +1,10 @@
+# Netlify build settings for the FallCon review site.
+# `npm install` is what pulls in @netlify/blobs for the comments function;
+# without it the function cannot start.
+[build]
+  command = "npm install"
+  publish = "."
+  functions = "netlify/functions"
+
+[functions]
+  node_bundler = "esbuild"
