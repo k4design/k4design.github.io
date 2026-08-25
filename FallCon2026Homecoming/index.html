@@ -283,8 +283,15 @@
     #top .fc-hero-h1 { font-size: 15vw !important; }
     #top p { font-size: 24px !important; line-height: 1.4 !important; }
     #top .fc-hero-cta > a { font-size: 20px !important; padding: 18px 24px !important; }
-    .fc-fact-key { font-size: 16px !important; }
-    .fc-fact span:last-child { font-size: 22px !important; }
+    /* Stacked bar: sized so the longest value ("Agent Growth Conference")
+       fits one line at 375px. white-space:normal is the safety net — on
+       narrower phones it wraps instead of running off the edge, since the
+       spans carry white-space:nowrap inline. */
+    .fc-fact-key,
+    .fc-fact span:last-child { font-size: 16px !important; }
+    .fc-fact span:last-child { white-space: normal !important; }
+    .fc-fact { gap: .55em !important; }
+    .fc-fact { align-items: flex-start !important; }
 
     /* --- generic section headers (eyebrow / h2 / lede) --- */
     #story h2, #video h2, #certs h2, #idos h2, #speakers h2, #schedule h2,
@@ -426,23 +433,40 @@
   }
   /* Countdown lives in the nav on desktop and above the hero headline on mobile */
   .fc-hero-cd { display: none; }
-  @media (max-width: 900px) {
+  /* One breakpoint hands the countdown off, so it is always in exactly one
+     place: in the nav above 1340px, above the hero headline at or below it.
+     (Previously the two rules were at 900px and 768px, which left the
+     countdown rendering nowhere at all between 769px and 900px.) */
+  @media (max-width: 1340px) {
     .fc-nav-cd, .fc-nav-cd-divider { display: none !important; }
-  }
-  @media (max-width: 768px) {
     .fc-hero-cd { display: block !important; }
   }
-  /* Hero bar: one line at every width. Content is shed in order of
-     importance as space tightens, so nothing ever wraps or squeezes. */
+  /* Hero bar: every fact stays on the line down to the mobile breakpoint —
+     the type adapts instead of the content being shed. One size for labels
+     and values alike, at a vw rate deliberately shallower than the bar's own
+     growth: the bar tracks the viewport 1:1, so type scaled at the same rate
+     would never gain slack and would sit permanently on the edge of clipping.
+     Inline font sizes on the spans mean these need !important.
+
+     Every gap is expressed in em against that same size, so the horizontal
+     rhythm is identical at every viewport — the spacing scales with the type
+     rather than drifting against it. The facts are one left-aligned group
+     (not space-between) because space-between makes the WHEN-to-WHERE gap a
+     leftover, which swung from ~124px to ~409px across the range. */
   .fc-bar-row { min-width: 0; }
-  @media (max-width: 1450px) {
-    .fc-fact-what, .fc-bar-dot-2 { display: none !important; }
-  }
-  @media (max-width: 1150px) {
-    .fc-fact-key { display: none !important; }
-  }
-  @media (max-width: 900px) {
-    .fc-fact-where { display: none !important; }
+  @media (min-width: 769px) {
+    .fc-fact-key,
+    .fc-fact span:last-child,
+    .fc-bar-row, .fc-bar-left, .fc-bar-facts { font-size: clamp(12px, 1.35vw, 26px) !important; }
+    .fc-bar-row   { justify-content: flex-start !important; gap: 2.2em !important; }
+    .fc-bar-left  { flex: 0 0 auto !important; gap: 2.2em !important; }
+    .fc-bar-facts { flex: 0 0 auto !important; justify-content: flex-start !important;
+                    gap: 2.2em !important; overflow: visible !important; }
+    .fc-fact      { gap: .55em !important; }
+    /* The lone separator sat between WHERE and WHAT but not between WHEN and
+       WHERE, making that gap 4.7em against the other's 2.2em. Dropping it
+       leaves one uniform gap between all three facts. */
+    .fc-bar-dot   { display: none !important; }
   }
   /* mobile: the nav slides away until the user scrolls; the hero shows the logo instead */
   @media (max-width: 768px) {
@@ -457,7 +481,9 @@
     #top p { margin-top: clamp(18px,4.5vw,26px) !important; }
     .fc-hero-cta { margin-top: clamp(22px,5.5vw,32px) !important; }
     /* clear the fixed nav (~84px tall) now that it is visible from the start */
-    #top { padding-top: clamp(86px,22vw,108px) !important; padding-bottom: 128px !important; }
+    /* padding-bottom clears the absolutely-positioned hero bar, which is now
+       three stacked rows tall (~127px) instead of one line. */
+    #top { padding-top: clamp(86px,22vw,108px) !important; padding-bottom: 156px !important; }
   }
   @media (prefers-reduced-motion: reduce) { .fc-nav { transition: none; } }
   @media (max-width: 768px) {
@@ -475,9 +501,16 @@
     .fc-hero-h1 { font-size: 13vw !important; }
     .fc-hero-cta { flex-direction: column !important; }
     .fc-hero-cta > a { flex: none !important; width: 100%; }
-    .fc-bar-row { flex-wrap: wrap !important; justify-content: center !important; row-gap: 12px !important; }
-    .fc-bar-facts { justify-content: center !important; flex: 1 1 100% !important; }
-    .fc-bar-left { flex-wrap: wrap !important; justify-content: center !important; flex: 1 1 100% !important; }
+    /* Stack WHEN / WHERE / WHAT one per line so nothing has to be dropped.
+       Left-aligned to match the hero headline, lede and CTA above it. */
+    .fc-bar-row { flex-direction: column !important; flex-wrap: nowrap !important;
+                  align-items: flex-start !important; row-gap: 8px !important; }
+    .fc-bar-left, .fc-bar-facts { flex: 0 0 auto !important; width: 100% !important;
+                                  justify-content: flex-start !important; }
+    .fc-bar-facts { flex-direction: column !important; align-items: flex-start !important;
+                    row-gap: 8px !important; overflow: visible !important; }
+    .fc-bar-dot-2 { display: none !important; }   /* separators are meaningless stacked */
+    .fc-fact { width: 100%; justify-content: flex-start !important; }
     .fc-intro-h { font-size: clamp(30px,7.6vw,42px) !important; }
     .fc-intro-p { font-size: 17px !important; }
     .fc-intro-btn { font-size: 17px !important; padding: 16px 30px !important; }
@@ -508,8 +541,6 @@
       <img class="fc-nav-logo" src="img/logo_h.png" alt="FallCon 2026" style="height:80px; width:auto; display:block;" />
     </a><div class="fc-nav-cd-divider" aria-hidden="true" style="width:1px; height:44px; background:rgba(247,241,230,.22); flex:0 0 auto;"></div><div class="fc-nav-cd" style="display:flex; align-items:flex-start; gap:clamp(5px,.6vw,9px); flex:0 0 auto;"><div style="display:flex; flex-direction:column; align-items:center;"><div data-cd="days" style="font-family:'Anton',sans-serif; font-size:clamp(20px,1.9vw,28px); line-height:.9; color:#F7F1E6;">--</div><div style="font-size:8px; letter-spacing:1.5px; text-transform:uppercase; color:#8a8175; margin-top:3px; white-space:nowrap;">Days</div></div><div aria-hidden="true" style="font-family:'Anton',sans-serif; font-size:clamp(15px,1.5vw,22px); line-height:.9; color:#F4501E; opacity:.5; align-self:flex-start;">:</div><div style="display:flex; flex-direction:column; align-items:center;"><div data-cd="hours" style="font-family:'Anton',sans-serif; font-size:clamp(20px,1.9vw,28px); line-height:.9; color:#F7F1E6;">--</div><div style="font-size:8px; letter-spacing:1.5px; text-transform:uppercase; color:#8a8175; margin-top:3px; white-space:nowrap;">Hrs</div></div><div aria-hidden="true" style="font-family:'Anton',sans-serif; font-size:clamp(15px,1.5vw,22px); line-height:.9; color:#F4501E; opacity:.5; align-self:flex-start;">:</div><div style="display:flex; flex-direction:column; align-items:center;"><div data-cd="mins" style="font-family:'Anton',sans-serif; font-size:clamp(20px,1.9vw,28px); line-height:.9; color:#F7F1E6;">--</div><div style="font-size:8px; letter-spacing:1.5px; text-transform:uppercase; color:#8a8175; margin-top:3px; white-space:nowrap;">Min</div></div><div aria-hidden="true" style="font-family:'Anton',sans-serif; font-size:clamp(15px,1.5vw,22px); line-height:.9; color:#F4501E; opacity:.5; align-self:flex-start;">:</div><div style="display:flex; flex-direction:column; align-items:center;"><div data-cd="secs" style="font-family:'Anton',sans-serif; font-size:clamp(20px,1.9vw,28px); line-height:.9; color:#F4501E;">--</div><div style="font-size:8px; letter-spacing:1.5px; text-transform:uppercase; color:#8a8175; margin-top:3px; white-space:nowrap;">Sec</div></div></div></div>
     <nav aria-label="Primary" style="display:flex; align-items:center; gap:clamp(14px,2vw,30px);">
-      <a href="#story" data-navlink="1" style="display:none; color:#F7F1E6; text-decoration:none; font-size:13px; font-weight:600; letter-spacing:1.5px; text-transform:uppercase; opacity:.82; transition:opacity .2s, color .2s;" style-hover="opacity:1 !important; color:#F4501E !important;">The Story</a>
-      <a href="#video" data-navlink="1" style="display:none; color:#F7F1E6; text-decoration:none; font-size:13px; font-weight:600; letter-spacing:1.5px; text-transform:uppercase; opacity:.82; transition:opacity .2s, color .2s;" style-hover="opacity:1 !important; color:#F4501E !important;">Last Year</a>
       <a href="#certs" data-navlink="1" style="display:none; color:#F7F1E6; text-decoration:none; font-size:13px; font-weight:600; letter-spacing:1.5px; text-transform:uppercase; opacity:.82; transition:opacity .2s, color .2s;" style-hover="opacity:1 !important; color:#F4501E !important;">Certifications</a>
       <a href="#speakers" data-navlink="1" style="display:none; color:#F7F1E6; text-decoration:none; font-size:13px; font-weight:600; letter-spacing:1.5px; text-transform:uppercase; opacity:.82; transition:opacity .2s, color .2s;" style-hover="opacity:1 !important; color:#F4501E !important;">Speakers</a>
       <a href="#schedule" data-navlink="1" style="display:none; color:#F7F1E6; text-decoration:none; font-size:13px; font-weight:600; letter-spacing:1.5px; text-transform:uppercase; opacity:.82; transition:opacity .2s, color .2s;" style-hover="opacity:1 !important; color:#F4501E !important;">Schedule</a>
@@ -522,7 +553,10 @@
   <!-- ================= 1 · HERO ================= -->
   <section id="top" style="position:relative; min-height:100svh; display:flex; flex-direction:column; justify-content:center; padding:120px clamp(16px,4vw,48px) 64px; background:radial-gradient(120% 90% at 80% -10%, #1c0d06 0%, #121010 55%);">
     <video id="fc-hero-bg" autoplay muted loop playsinline preload="auto" poster="img/stage.png" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:0; filter:grayscale(1) contrast(1.06) brightness(.9);">
-      <source src="img/stage.mp4" type="video/mp4" />
+      <source src="img/stage2.webm" type="video/webm" />
+      <!-- mp4 fallback: WebM is unsupported on older Safari/iOS, which would
+           otherwise leave the hero on its poster frame with no video. -->
+      <source src="img/stage2.mp4" type="video/mp4" />
     </video>
     <div aria-hidden="true" style="position:absolute; inset:0; z-index:1; background:#F4501E; mix-blend-mode:color; opacity:.9; pointer-events:none;"></div>
     <div aria-hidden="true" style="position:absolute; inset:0; z-index:1; background-image:url('img/bg.png'); background-size:cover; background-position:center; mix-blend-mode:normal; -webkit-mask-image:radial-gradient(farthest-corner at center, transparent 0%, rgba(0,0,0,.45) 45%, #000 75%); mask-image:radial-gradient(farthest-corner at center, transparent 0%, rgba(0,0,0,.45) 45%, #000 75%); pointer-events:none;"></div>
@@ -551,8 +585,8 @@
     
     <div class="fc-hero-bar" style="position:absolute; bottom:0; left:0; right:0; z-index:3; border-top:1px solid rgba(247,241,230,.18); background:rgba(18,16,16,.42); backdrop-filter:blur(6px); padding:16px clamp(16px,4vw,48px);">
       <div class="fc-bar-row" style="max-width:1400px; margin:0 auto; display:flex; flex-wrap:nowrap; align-items:center; justify-content:space-between; gap:clamp(12px,2.5vw,44px); font-weight:400; text-transform:uppercase; color:#F7F1E6;">
-        <div class="fc-bar-left" style="display:flex; align-items:center; gap:clamp(14px,2vw,32px); flex:0 0 auto; min-width:0;"><div class="fc-fact fc-fact-when" style="display:flex; align-items:baseline; gap:clamp(5px,.6vw,10px); min-width:0;"><span class="fc-fact-key" style="opacity:.55; font-size:clamp(18px,1.7vw,24px); letter-spacing:1.5px; white-space:nowrap;">WHEN</span><span style="color:#F4501E; font-family:'Archivo Black',sans-serif; font-size:clamp(22px,2.1vw,32px); letter-spacing:1px; white-space:nowrap;">10.06–10.08 / 26</span></div></div>
-        <div class="fc-bar-facts" style="display:flex; align-items:center; justify-content:flex-end; gap:clamp(10px,1.6vw,28px); flex:0 1 auto; min-width:0; overflow:hidden;"><div class="fc-fact fc-fact-where" style="display:flex; align-items:baseline; gap:clamp(5px,.6vw,10px); min-width:0;"><span class="fc-fact-key" style="opacity:.55; font-size:clamp(18px,1.7vw,24px); letter-spacing:1.5px; white-space:nowrap;">WHERE</span><span style=" font-size:clamp(22px,2.1vw,32px); letter-spacing:1px; white-space:nowrap;">Lakeland, FL</span></div><span class="fc-bar-dot fc-bar-dot-2" aria-hidden="true" style="opacity:.22; flex:0 0 auto;">·</span><div class="fc-fact fc-fact-what" style="display:flex; align-items:baseline; gap:clamp(5px,.6vw,10px); min-width:0;"><span class="fc-fact-key" style="opacity:.55; font-size:clamp(18px,1.7vw,24px); letter-spacing:1.5px; white-space:nowrap;">WHAT</span><span style=" font-size:clamp(22px,2.1vw,32px); letter-spacing:1px; white-space:nowrap;">Agent Growth Conference</span></div></div>
+        <div class="fc-bar-left" style="display:flex; align-items:center; gap:clamp(14px,2vw,32px); flex:0 0 auto; min-width:0;"><div class="fc-fact fc-fact-when" style="display:flex; align-items:baseline; gap:clamp(5px,.6vw,10px); min-width:0;"><span class="fc-fact-key" style="opacity:.55; font-size:clamp(18px,1.7vw,24px); letter-spacing:1.5px; white-space:nowrap;">WHEN:</span><span style="color:#F4501E; font-family:'Archivo Black',sans-serif; font-size:clamp(22px,2.1vw,32px); letter-spacing:1px; white-space:nowrap;">10.06–10.08 / 26</span></div></div>
+        <div class="fc-bar-facts" style="display:flex; align-items:center; justify-content:flex-end; gap:clamp(10px,1.6vw,28px); flex:0 1 auto; min-width:0; overflow:hidden;"><div class="fc-fact fc-fact-where" style="display:flex; align-items:baseline; gap:clamp(5px,.6vw,10px); min-width:0;"><span class="fc-fact-key" style="opacity:.55; font-size:clamp(18px,1.7vw,24px); letter-spacing:1.5px; white-space:nowrap;">WHERE:</span><span style=" font-size:clamp(22px,2.1vw,32px); letter-spacing:1px; white-space:nowrap;">Lakeland, FL</span></div><span class="fc-bar-dot fc-bar-dot-2" aria-hidden="true" style="opacity:.22; flex:0 0 auto;">·</span><div class="fc-fact fc-fact-what" style="display:flex; align-items:baseline; gap:clamp(5px,.6vw,10px); min-width:0;"><span class="fc-fact-key" style="opacity:.55; font-size:clamp(18px,1.7vw,24px); letter-spacing:1.5px; white-space:nowrap;">WHAT:</span><span style=" font-size:clamp(22px,2.1vw,32px); letter-spacing:1px; white-space:nowrap;">Agent Growth Conference</span></div></div>
       </div>
     </div>
   </section>
@@ -638,8 +672,8 @@
   <!-- ================= 3 · MARQUEE ================= -->
   <div aria-hidden="true" style="background:#F4501E; color:#121010; padding:18px 0; overflow:hidden; border-top:2px solid #121010; border-bottom:2px solid #121010;">
     <div ref="{{ marqueeRef }}" style="display:flex; width:max-content; white-space:nowrap; animation:fc-marquee 32s linear infinite; font-family:'Anton',sans-serif; font-size:clamp(22px,3vw,40px); font-style:italic; text-transform:uppercase; letter-spacing:.5px;">
-      <span style="display:flex; gap:34px; padding-right:34px;"><span>Homecoming</span><span style="color:#121010; opacity:.4;">·</span><span>Build your own future</span><span style="opacity:.4;">·</span><span>Define success on your terms</span><span style="opacity:.4;">·</span><span>Lakeland</span><span style="opacity:.4;">·</span><span>FL</span><span style="opacity:.4;">·</span></span>
-      <span style="display:flex; gap:34px; padding-right:34px;"><span>Homecoming</span><span style="color:#121010; opacity:.4;">·</span><span>Build your own future</span><span style="opacity:.4;">·</span><span>Define success on your terms</span><span style="opacity:.4;">·</span><span>Lakeland</span><span style="opacity:.4;">·</span><span>FL</span><span style="opacity:.4;">·</span></span>
+      <span style="display:flex; gap:34px; padding-right:34px;"><span>Build your own future</span><span style="opacity:.4;">·</span><span>Define success on your terms</span><span style="opacity:.4;">·</span><span>Lakeland</span><span style="opacity:.4;">·</span><span>FL</span><span style="opacity:.4;">·</span></span>
+      <span style="display:flex; gap:34px; padding-right:34px;"><span>Build your own future</span><span style="opacity:.4;">·</span><span>Define success on your terms</span><span style="opacity:.4;">·</span><span>Lakeland</span><span style="opacity:.4;">·</span><span>FL</span><span style="opacity:.4;">·</span></span>
     </div>
   </div>
 
