@@ -9,6 +9,7 @@
  * POST   /.netlify/functions/comments             -> { comments: [...] }
  *        body: { page, note:  { id, text, name, anchor, created } }   upsert thread
  *        body: { page, threadId, reply: { id, text, name, created } } upsert reply
+ *        body: { page, threadId, resolved: true|false, by }           resolve / reopen
  * DELETE /.netlify/functions/comments             -> { comments: [...] }
  *        body: { page, id }                        delete a whole thread
  *        body: { page, threadId, replyId }         delete one reply
@@ -55,7 +56,9 @@ export default async (req) => {
   let body = {};
   if (req.method !== 'GET') {
     body = await req.json().catch(() => ({}));
-    if (req.method === 'POST') {
+    if (req.method === 'POST' && typeof body.resolved === 'boolean') {
+      if (!body.threadId) return json(400, { error: 'Resolving needs the thread it applies to.' });
+    } else if (req.method === 'POST') {
       const n = body.note || body.reply || {};
       if (!n.id || !clean(n.text, MAX_TEXT).trim()) return json(400, { error: 'A comment needs an id and some text.' });
       if (body.reply && !body.threadId) return json(400, { error: 'A reply needs the thread it belongs to.' });
@@ -84,7 +87,13 @@ export default async (req) => {
       updated: new Date().toISOString()
     });
 
-    if (req.method === 'POST' && body.reply) {
+    if (req.method === 'POST' && typeof body.resolved === 'boolean') {
+      const t = notes.find((x) => x.id === clean(body.threadId, 40));
+      if (!t) return json(404, { error: 'That comment thread no longer exists.' });
+      t.resolved = body.resolved;
+      t.resolvedAt = body.resolved ? new Date().toISOString() : '';
+      t.resolvedBy = body.resolved ? clean(body.by, MAX_NAME) : '';
+    } else if (req.method === 'POST' && body.reply) {
       const t = notes.find((x) => x.id === clean(body.threadId, 40));
       if (!t) return json(404, { error: 'That comment thread no longer exists.' });
       const reply = asEntry(body.reply);
@@ -103,8 +112,11 @@ export default async (req) => {
           yPct:  Number(n.anchor?.yPct) || 0,
           pageY: Number(n.anchor?.pageY) || 0
         },
-        /* an edit must not wipe the discussion hanging off the thread */
-        replies: (i >= 0 && Array.isArray(notes[i].replies)) ? notes[i].replies : []
+        /* an edit must not wipe the discussion, nor flip the resolved state */
+        replies:    (i >= 0 && Array.isArray(notes[i].replies)) ? notes[i].replies : [],
+        resolved:   i >= 0 ? !!notes[i].resolved   : false,
+        resolvedAt: i >= 0 ? (notes[i].resolvedAt || '') : '',
+        resolvedBy: i >= 0 ? (notes[i].resolvedBy || '') : ''
       });
       if (i >= 0) notes[i] = note; else notes.push(note);
       if (notes.length > MAX_NOTES) notes = notes.slice(-MAX_NOTES);
@@ -117,8 +129,11 @@ export default async (req) => {
       notes = notes.filter((x) => x.id !== clean(body.id, 40));   // whole thread
     }
 
-    /* older records predate threads */
-    notes.forEach((n) => { if (!Array.isArray(n.replies)) n.replies = []; });
+    /* older records predate threads and the resolved flag */
+    notes.forEach((n) => {
+      if (!Array.isArray(n.replies)) n.replies = [];
+      if (typeof n.resolved !== 'boolean') n.resolved = false;
+    });
 
     notes.sort((a, b) => (a.anchor?.pageY || 0) - (b.anchor?.pageY || 0));
     await store.setJSON(key, notes);

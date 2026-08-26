@@ -2455,9 +2455,27 @@ class Component extends DCLogic {
   .fcc-rc { position: absolute; top: -7px; right: -9px; rotate: 45deg; background: #121010; color: #F7F1E6;
             font: 700 10px/14px 'Inter', system-ui, sans-serif; font-style: normal;
             min-width: 14px; height: 14px; border-radius: 999px; text-align: center; padding: 0 3px; }
+  .fcc-btn.is-resolve { background: #7bd88f; color: #10281a; }
+  .fcc-btn.is-resolve:hover { background: #94e6a5; }
+  .fcc-resolve-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+                     border-top: 1px solid rgba(247,241,230,.12); padding-top: 12px; margin-bottom: 12px; }
+  .fcc-resolved-note { font-size: 12px; color: #8a8175; }
+  .fcc-tag { display: inline-block; background: rgba(123,216,143,.16); color: #7bd88f;
+             border: 1px solid rgba(123,216,143,.4); border-radius: 999px;
+             font: 700 10px/1 'Inter', system-ui, sans-serif; letter-spacing: 1px;
+             text-transform: uppercase; padding: 4px 8px; vertical-align: 2px; }
+  .fcc-item.is-resolved .fcc-text { color: #8a8175; }
+  .fcc-item.is-resolved .fcc-num { background: #7bd88f; color: #10281a; }
+  .fcc-filter { display: flex; align-items: center; gap: 8px; font-size: 12.5px; color: #8a8175;
+                margin: 0 0 12px; cursor: pointer; }
+  .fcc-filter input { accent-color: #F4501E; width: 15px; height: 15px; }
   .fcc-live { color: #7bd88f; }
   .fcc-warn { color: #FF6A3D; }
   .fcc-pin.is-theirs { background: #F7F1E6; }
+  /* after .is-theirs / .is-active on purpose: same specificity, so source order
+     decides, and a resolved pin should read as resolved whoever wrote it */
+  .fcc-pin.is-resolved { background: #7bd88f; border-color: #10281a; }
+  .fcc-pin.is-resolved:hover { background: #94e6a5; }
   .fcc-empty { color: #8a8175; font-size: 14px; line-height: 1.5; }
   #fcc-panel h2 { font: 700 15px 'Inter', system-ui, sans-serif; margin: 0 0 4px; letter-spacing: .2px; }
   #fcc-panel .fcc-sub { font-size: 12.5px; color: #8a8175; margin: 0 0 12px; line-height: 1.45; }
@@ -2486,12 +2504,19 @@ class Component extends DCLogic {
 
   var notes = [], mine = [], shared = null, placing = false, activeId = null, lastError = '';
   var openThreadId = null, openAt = null;
+  var HIDE = 'fallcon-review-hide-resolved';
+  var hideResolved = false;
 
+  function normalise(n) {
+    if (!Array.isArray(n.replies)) n.replies = [];
+    if (typeof n.resolved !== 'boolean') n.resolved = false;
+  }
   function readLocal(k, d) { try { return JSON.parse(localStorage.getItem(k)) || d; } catch (e) { return d; } }
   function writeLocal(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
   notes = readLocal(CACHE, []);
-  notes.forEach(function (n) { if (!Array.isArray(n.replies)) n.replies = []; });
+  notes.forEach(normalise);
   mine  = readLocal(MINE, []);
+  hideResolved = readLocal(HIDE, false) === true;
 
   function api(method, body, qs) {
     var ctrl = new AbortController();
@@ -2511,7 +2536,7 @@ class Component extends DCLogic {
   function adopt(data) {
     shared = true; lastError = '';
     notes = (data && data.comments) || [];
-    notes.forEach(function (n) { if (!Array.isArray(n.replies)) n.replies = []; });
+    notes.forEach(normalise);
     writeLocal(CACHE, notes);
     draw(); renderPanel();
     if (openThreadId) {                       /* keep an open discussion current */
@@ -2545,6 +2570,15 @@ class Component extends DCLogic {
     var i = -1; thread.replies.forEach(function (x, k) { if (x.id === reply.id) i = k; });
     if (i >= 0) thread.replies[i] = reply; else thread.replies.push(reply);
     writeLocal(CACHE, notes); draw(); renderPanel(); reopen(thread);
+  }
+  function setResolved(thread, value) {
+    thread.resolved = value;
+    thread.resolvedAt = value ? new Date().toISOString() : '';
+    thread.resolvedBy = value ? (localStorage.getItem(WHO) || '') : '';
+    if (shared) {
+      api('POST', { page: PAGE, threadId: thread.id, resolved: value, by: thread.resolvedBy })
+        .then(adopt, function (e) { writeLocal(CACHE, notes); draw(); renderPanel(); reopen(thread); offline(e); });
+    } else { writeLocal(CACHE, notes); draw(); renderPanel(); reopen(thread); }
   }
   function removeReply(thread, reply) {
     if (shared) {
@@ -2628,16 +2662,23 @@ class Component extends DCLogic {
     notes.forEach(function (n, i) {
       var p = resolve(n.anchor);
       var b = document.createElement('button');
-      b.type = 'button'; b.className = 'fcc-pin' + (n.id === activeId ? ' is-active' : '') + (isMine(n) ? '' : ' is-theirs');
+      b.type = 'button';
+      b.className = 'fcc-pin' + (n.id === activeId ? ' is-active' : '') +
+                    (isMine(n) ? '' : ' is-theirs') + (n.resolved ? ' is-resolved' : '');
       b.style.left = p.x + 'px'; b.style.top = p.y + 'px';
-      b.setAttribute('aria-label', 'Comment ' + (i + 1) + ': ' + String(n.text).slice(0, 60));
+      b.setAttribute('aria-label', (n.resolved ? 'Resolved comment ' : 'Comment ') + (i + 1) + ': ' + String(n.text).slice(0, 60));
       var rc = (n.replies || []).length;
-      b.innerHTML = '<span>' + (i + 1) + '</span>' + (rc ? '<i class="fcc-rc">' + rc + '</i>' : '');
+      b.innerHTML = '<span>' + (n.resolved ? '\u2713' : (i + 1)) + '</span>' +
+                    (rc ? '<i class="fcc-rc">' + rc + '</i>' : '');
       b.addEventListener('click', function (e) { e.stopPropagation(); openThread(n, p, null); });
       layer.appendChild(b);
     });
+    var open = notes.filter(function (n) { return !n.resolved; }).length;
     var c = document.getElementById('fcc-count');
-    if (c) c.textContent = notes.length;
+    if (c) {
+      c.textContent = open;
+      c.title = open + ' open, ' + (notes.length - open) + ' resolved';
+    }
   }
   var redrawTimer = null;
   function redraw() { clearTimeout(redrawTimer); redrawTimer = setTimeout(draw, 120); }
@@ -2684,7 +2725,7 @@ class Component extends DCLogic {
     if (prev) { var b = prev.querySelector('.fcc-thread'); if (b) scroll = b.scrollTop; prev.remove(); }
     activeId = thread.id; openThreadId = thread.id; openAt = at;
 
-    var pop = shell(esc(thread.anchor.label));
+    var pop = shell(esc(thread.anchor.label) + (thread.resolved ? ' <span class="fcc-tag">Resolved</span>' : ''));
     var body = '<div class="fcc-thread">';
     body += entryHtml(thread, thread, true, editEntry);
     (thread.replies || []).forEach(function (rep) {
@@ -2692,12 +2733,27 @@ class Component extends DCLogic {
     });
     body += '</div>';
     pop.innerHTML += body;
-    if (!editEntry) pop.innerHTML += composer('Reply', '', '');
+    if (!editEntry) {
+      pop.innerHTML +=
+        '<div class="fcc-resolve-row">' +
+          '<button type="button" class="fcc-btn ' + (thread.resolved ? 'is-ghost' : 'is-resolve') + '" id="fcc-resolve">' +
+            (thread.resolved ? 'Reopen' : '\u2713 Mark resolved') +
+          '</button>' +
+          (thread.resolved && thread.resolvedAt
+            ? '<span class="fcc-resolved-note">Resolved' + (thread.resolvedBy ? ' by ' + esc(thread.resolvedBy) : '') +
+              ' &middot; ' + esc(when(thread.resolvedAt)) + '</span>'
+            : '') +
+        '</div>';
+      pop.innerHTML += composer('Reply', '', '');
+    }
     document.body.appendChild(pop);
     place(pop, at);
 
     var box = pop.querySelector('.fcc-thread');
     if (box && scroll != null) box.scrollTop = scroll;
+
+    var rb = pop.querySelector('#fcc-resolve');
+    if (rb) rb.addEventListener('click', function () { setResolved(thread, !thread.resolved); });
 
     /* edit / delete on any entry, yours or not */
     pop.querySelectorAll('[data-edit-entry]').forEach(function (b) {
@@ -2844,13 +2900,24 @@ class Component extends DCLogic {
   function renderPanel() {
     var p = document.getElementById('fcc-panel');
     if (!p) { draw(); return; }
+    var openCount = notes.filter(function (n) { return !n.resolved; }).length;
+    var doneCount = notes.length - openCount;
     var html = '<h2>Comments on this page</h2>' + statusLine();
+    if (doneCount) {
+      html += '<label class="fcc-filter"><input type="checkbox" id="fcc-hide-done"' +
+              (hideResolved ? ' checked' : '') + ' /> Hide the ' + doneCount + ' resolved</label>';
+    }
     if (!notes.length) {
       html += '<p class="fcc-empty">No comments yet. Hit <b>+ Add a comment</b>, then click the part of the page you want to talk about.</p>';
     } else {
+      var shown = 0;
       notes.forEach(function (n, i) {
-        html += '<div class="fcc-item"><div class="fcc-num">' + (i + 1) + '</div><div class="fcc-body">' +
-                '<div class="fcc-where">' + esc(n.anchor.label) + '</div>' +
+        if (hideResolved && n.resolved) return;
+        shown++;
+        html += '<div class="fcc-item' + (n.resolved ? ' is-resolved' : '') + '">' +
+                '<div class="fcc-num">' + (n.resolved ? '\u2713' : (i + 1)) + '</div><div class="fcc-body">' +
+                '<div class="fcc-where">' + esc(n.anchor.label) +
+                  (n.resolved ? ' <span class="fcc-tag">Resolved</span>' : '') + '</div>' +
                 '<div class="fcc-text">' + esc(n.text) + '</div>' +
                 (n.name ? '<div class="fcc-who">' + esc(n.name) + (isMine(n) ? ' (you)' : '') + '</div>'
                         : (isMine(n) ? '<div class="fcc-who">(you)</div>' : '')) +
@@ -2860,8 +2927,11 @@ class Component extends DCLogic {
                   '<button type="button" class="fcc-link" data-go="' + n.id + '">Show me</button>' +
                   '<button type="button" class="fcc-link" data-open="' + n.id + '">' +
                     ((n.replies || []).length ? 'Open discussion' : 'Reply') + '</button>' +
+                  '<button type="button" class="fcc-link" data-resolve="' + n.id + '">' +
+                    (n.resolved ? 'Reopen' : 'Resolve') + '</button>' +
                 '</div></div></div>';
       });
+      if (!shown) html += '<p class="fcc-empty">Everything here is resolved. Untick the box above to see it.</p>';
     }
     html += '<div class="fcc-actions">' +
               '<button type="button" class="fcc-btn is-ghost" id="fcc-copy">Copy all</button>' +
@@ -2876,6 +2946,16 @@ class Component extends DCLogic {
         var pos = resolve(n.anchor);
         scrollTo({ top: Math.max(0, pos.y - window.innerHeight * 0.4), behavior: 'smooth' });
         activeId = n.id; draw();
+      });
+    });
+    var hd = p.querySelector('#fcc-hide-done');
+    if (hd) hd.addEventListener('change', function () {
+      hideResolved = hd.checked; writeLocal(HIDE, hideResolved); renderPanel();
+    });
+    p.querySelectorAll('[data-resolve]').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var n = byId(b.getAttribute('data-resolve')); if (!n) return;
+        setResolved(n, !n.resolved);
       });
     });
     p.querySelectorAll('[data-open]').forEach(function (b) {
@@ -2905,7 +2985,8 @@ class Component extends DCLogic {
   function asText() {
     var out = 'FallCon 2026 page comments\n' + new Date().toLocaleString() + '\n\n';
     notes.forEach(function (n, i) {
-      out += (i + 1) + '. [' + n.anchor.label + '] ' + n.text + (n.name ? '  -- ' + n.name : '') + '\n';
+      out += (i + 1) + '. [' + n.anchor.label + ']' + (n.resolved ? ' [RESOLVED]' : '') + ' ' +
+             n.text + (n.name ? '  -- ' + n.name : '') + '\n';
       (n.replies || []).forEach(function (rep) {
         out += '      > ' + rep.text + (rep.name ? '  -- ' + rep.name : '') + '\n';
       });
