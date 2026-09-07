@@ -10,7 +10,8 @@ lite/       StackAdapt / DV360 - index.html + bg-728x90.mp4 + bg-728x90-still.jp
             Footage: cut from the 1280x720 couple master (not bg.mp4, whose field
             of view is too tight to show the laptop) - cover-fit into 186x90, centred
             band, 10 s stretched to 15 s (225 samples at 15 fps). Faces and laptop
-            both in frame.
+            both in frame. No pan on this version: the strip shows the asset centred
+            (the animation is kept as a no-op so the 15 s re-sync still fires).
             Click-through: standard `clickTag` variable in <head>; the default URL
             is a placeholder - set it in the ad server or edit the one line. A
             ?clickTag=... query parameter is also honoured.

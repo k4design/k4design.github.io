@@ -38,16 +38,18 @@
   #photo video,
   #photo #bgstill {
     position: absolute;
-    left: -29px; top: 0;
+    left: -14px; top: 0;            /* 186px asset centred in the 157px strip */
     width: 186px; height: 90px;
     object-fit: cover;
     display: block;
     will-change: transform;
     animation: kf_bg_pan 15.0s linear infinite;
   }
+  /* No pan on this version. The keyframes stay (as a no-op) because the loop
+     re-sync listens for this animation's iteration every 15 s. */
   @keyframes kf_bg_pan {
     0%   { transform: translateX(0px); }
-    100% { transform: translateX(29px); }
+    100% { transform: translateX(0px); }
   }
 
   #ad g[id] { will-change: transform, opacity; }
