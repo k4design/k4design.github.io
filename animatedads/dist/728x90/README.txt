@@ -7,6 +7,10 @@ lite/       StackAdapt / DV360 - index.html + bg-728x90.mp4 + bg-728x90-still.jp
             re-syncs to frame 0 on every wrap. The still is frame 0 of the video and
             sits under it; if autoplay is refused (iOS Low Power Mode, Safari "Never
             Auto-Play") the video stays hidden and the still carries the ad.
+            Footage: cut from the 1280x720 couple master (not bg.mp4, whose field
+            of view is too tight to show the laptop) - cover-fit into 186x90, centred
+            band, 10 s stretched to 15 s (225 samples at 15 fps). Faces and laptop
+            both in frame.
             Click-through: standard `clickTag` variable in <head>; the default URL
             is a placeholder - set it in the ad server or edit the one line. A
             ?clickTag=... query parameter is also honoured.
