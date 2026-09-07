@@ -53,6 +53,13 @@ googleads/  Google Ads (HTML5 upload)
             ad clickable itself, so the background is a still frame with the
             same slow pan. Zip is well under the 600 KB / 40-file limits.
 
+lite-house/ Same as lite/, with house_bg.webm as the footage (index.html + bg-300x250.mp4 + bg-300x250-still.jpg; the lite/ layout and edit, 60 kbps).
+            house_bg.webm is 832x464, silent, 5.2 s. To fill the 15 s loop without a
+            cut it is played as a ping-pong: 113 frames sampled forward (stretched to
+            7.5 s, ~0.69x speed), then the same frames in reverse, so the push-in
+            becomes a pull-out and the loop closes on frame 0. Encoded silent H.264
+            at the strip the ad actually reveals. Backup: backup-300x250-lite-house.jpg.
+
 backup-300x250.jpg / backup-300x250-webm.jpg / backup-300x250-lite.jpg
             Static fallbacks (one per cut). Upload it separately where the platform asks for
             a backup image (DV360 / CM360 / StackAdapt). It is deliberately
