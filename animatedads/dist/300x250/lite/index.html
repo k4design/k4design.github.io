@@ -35,8 +35,9 @@
     animation: kf_bg_pan 15s linear infinite;
   }
   @keyframes kf_bg_pan {
-    0%   { transform: translateX(0px); }
-    100% { transform: translateX(90px); }
+    0%   { transform: translateX(0px); animation-timing-function: linear; }
+    60%  { transform: translateX(90px); animation-timing-function: ease-in-out; }   /* 9 s: full pan */
+    100% { transform: translateX(45.6px); }                                         /* eases back to the 7.6 s position and rests there */
   }
   /* Safari refuses autoplay in Low Power Mode / 'Never Auto-Play'; when play()
      is rejected we hide the video and the still underneath keeps panning. */
@@ -71,7 +72,7 @@
 
 <g id="_300x250_-_Animation" clip-path="url(#clip0_6_780)">
 
-<rect id="Rectangle_1" transform="matrix(1 0 0 -1 0 250)" width="300" height="250" fill="url(#paint0_linear_6_780)"/>
+<rect id="Rectangle_1" transform="matrix(1 0 0 -1 0 250)" width="300" height="250" fill="url(#paint0_linear_6_780)" fill-opacity="0.5"/>
 <g id="Rectangle_2" transform="matrix(1 0 0 -1 0 250)">
 <rect width="300" height="250" fill="url(#paint1_linear_6_780)" fill-opacity="0.66" style="mix-blend-mode:multiply"/>
 </g>

@@ -33,3 +33,11 @@ buymyhouse_728x90_lite.zip
 
 Specs met: <meta name="ad.size" content="width=728,height=90">, no external
 requests (logo inline), no local/session storage, muted autoplay only.
+
+HD builds (up to 700 KB zipped) - hd/, hd-house/
+            Same index.html as lite/ and lite-house/ with the strip video at 2x: 372x180 (rendered in
+            the 186x90 slot), single-pass H.264 at 200 kbps, 15 fps, same centred cover crop.
+            Zips: buymyhouse_728x90_hd*.zip (~450-470 KB). Backups: backup-728x90-hd*.jpg.
+
+Change: the thin vertical rule beside the step copy (chrome_rule) is removed from the step frames in all four
+builds; the only vertical rule left is the one in the end card (e_rule).

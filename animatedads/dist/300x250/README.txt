@@ -75,3 +75,15 @@ folder. The two .zip files here are already built that way. To rebuild:
 
 Specs met: <meta name="ad.size" content="width=300,height=250">, no external
 requests (logo is inline), no local/session storage, muted autoplay only.
+lite-couple2/ Same as lite/, with couple_2.webm as the footage (index.html + bg-300x250.mp4 + bg-300x250-still.jpg).
+            832x464 source decoded in Chromium, cover-cropped to 390x250 (the pan region) with a light contrast/saturation
+            lift (1.06 / 1.05), flipped horizontally, 5.2 s clip as a 15 s ping-pong (224 frames @ 15 fps, single-pass H.264 64 kbps).
+            Zip: buymyhouse_300x250_lite-couple2.zip. Backup: backup-300x250-lite-couple2.jpg.
+
+HD builds (up to 700 KB zipped) - hd/, hd-couple2/, hd-house/
+            The same index.html as lite/, lite-couple2/ and lite-house/ (same layout, edit, pan and
+            fallback logic) with the video re-encoded at 2x resolution: 780x500 (the ad renders it in
+            the 390x250 pan region, so it is retina-sharp), single-pass H.264 at 300 kbps, 15 fps,
+            frames decoded straight from the WebM/1280x720 sources with the same cover crop as lite.
+            Stills are 780x500 JPEGs. Zips: buymyhouse_300x250_hd*.zip (~670-690 KB).
+            Backups: backup-300x250-hd*.jpg.
