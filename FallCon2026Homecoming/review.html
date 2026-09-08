@@ -554,9 +554,6 @@
   <section id="top" style="position:relative; min-height:100svh; display:flex; flex-direction:column; justify-content:center; padding:120px clamp(16px,4vw,48px) 64px; background:radial-gradient(120% 90% at 80% -10%, #1c0d06 0%, #121010 55%);">
     <video id="fc-hero-bg" autoplay muted loop playsinline preload="auto" poster="img/stage.png" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:0; filter:grayscale(1) contrast(1.06) brightness(.9);">
       <source src="img/stage2.webm" type="video/webm" />
-      <!-- mp4 fallback: WebM is unsupported on older Safari/iOS, which would
-           otherwise leave the hero on its poster frame with no video. -->
-      <source src="img/stage2.mp4" type="video/mp4" />
     </video>
     <div aria-hidden="true" style="position:absolute; inset:0; z-index:1; background:#F4501E; mix-blend-mode:color; opacity:.9; pointer-events:none;"></div>
     <div aria-hidden="true" style="position:absolute; inset:0; z-index:1; background-image:url('img/bg.png'); background-size:cover; background-position:center; mix-blend-mode:normal; -webkit-mask-image:radial-gradient(farthest-corner at center, transparent 0%, rgba(0,0,0,.45) 45%, #000 75%); mask-image:radial-gradient(farthest-corner at center, transparent 0%, rgba(0,0,0,.45) 45%, #000 75%); pointer-events:none;"></div>
