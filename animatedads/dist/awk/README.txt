@@ -100,7 +100,7 @@ the risk for ~2% of file size. Do not re-encode with performsMultiPassEncodingIf
 Layout: 74 px video strip (reuses the 728 asset 200x90, CSS cover-cropped, 16 px pan), 2 px gold rule,
 copy column 84-240 auto-fit (question ~12.9 px, resolution ~12 px), CTA 62x18 right.
 Frames: question (0.4-6 s) -> resolution (6-10 s) -> end card (10.0-10.6 s, held): the navy panel and gold
-rule slide left over the video strip; stacked logo 28 px tall at left (8 px), the question centred between
+rule slide left over the video strip; question left-aligned (x 8), CTA slides to the middle, stacked logo 21 px tall at right; question fits between
 logo and CTA (~10 px, two lines), CTA stays at right. Logo is not persistent (no room); it lives in the end card.
 
 HD builds (up to 700 KB zipped) - every unit above also exists as <folder>_HD (+ .zip, + _backup.jpg)
@@ -111,3 +111,22 @@ Same index.html (layout, edit, loop cap, fallback) with the video re-encoded at 
 v3 / v2c final frame (and their _HD twins): at 12.0-12.6 s the 75 % navy veil and the gold rule scroll to the top of the
 frame (full-height overlay); the composite is re-set on three lines at ~23 px (question) + ~14 px (body), centred
 between the top and the CTA row. v2 keeps the 75 % panel end frame.
+
+kitchen.webm versions (832x464, 5.2 s, silent, no people - a bright kitchen interior):
+  AWK_NC_CC_EXT_300x250_v1k (v1 single-frame layout, 340x118 band, 40 px pan)
+  AWK_NC_CC_EXT_300x250_v2k (v2 five-frame cut, 340x250, 40 px pan, full-height end frame as v3/v2c)
+  AWK_NC_CC_EXT_728x90_v5 and AWK_NC_CC_EXT_320x50_v5 (200x90 strip)
+  each + .zip + _backup.jpg, and _HD twins (680x236 / 680x500 / 400x180). All 15 s ping-pong.
+(v2/v3-template veil: vertical gradient navy 0.66 at the top -> 0.95 at the bottom, replacing the flat 0.75; v2, v3, v2c, v2k + HD twins)
+(300x250 end frames: on the full-height frames (v3, v2c, v2k) the body is +50% (~20 px) on two lines; v1, v1c, v1k and v2 keep the 11 px single-line body. "new construction." is Helvetica Neue Italic on all.)
+(300x250: the 'New construction has it all.' category line is removed from every unit - v1 template overlay and the v2-template frame 1; frame 1 is now the footage alone for 3 s.)
+(v3 end frame: question ~23 px on four lines - Wondering which / builders are / paying closing costs / this month? - 1.5 px gold rule, then the ~17 px two-line body. AWK_Q_STYLE=accent. v2c and v2k use the same end-frame layout.)
+(v2-template timeline, after the category line was removed: panel rises 0.3-0.9 s, CTA+logo 0.6-1.2 s, question 0.9-4.4 s, closing costs 4.4-7.9 s, resolution 7.9-11.4 s, composite in 11.4-12.0 s and held to 15 s. Each frame ~3.5 s, no empty opener.)
+(300x250: CTA + logo row at y 207-233 (5 px below the original 202); copy positions unchanged.)
+
+Equal Housing Opportunity logo (equal-housing-opportunity.svg, white, 20x20):
+  300x250 v1/v1c/v1k - fades in 0-0.6 s, top right over the video band, stays through the loop (x 272, y 8).
+  300x250 v2/v3/v2c/v2k - same spot, drawn above the veil, fades in with the final frame (11.4-12.0 s) and stays.
+  728x90 (all) - static, bottom left of the video strip (x 8, y 62). 320x50 not marked.
+(300x250 body: "new construction." is Helvetica Neue Medium Italic - one weight above the Regular sentence.)
+(v1k: Equal Housing mark in gold #c8861a instead of white - AWK_EHL_COLOR.)

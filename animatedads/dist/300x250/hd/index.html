@@ -35,9 +35,10 @@
     animation: kf_bg_pan 15s linear infinite;
   }
   @keyframes kf_bg_pan {
-    0%   { transform: translateX(0px); animation-timing-function: linear; }
-    60%  { transform: translateX(90px); animation-timing-function: ease-in-out; }   /* 9 s: full pan */
-    100% { transform: translateX(45.6px); }                                         /* eases back to the 7.6 s position and rests there */
+    0%      { transform: translateX(0px); animation-timing-function: linear; }
+    60%     { transform: translateX(90px); animation-timing-function: ease-in-out; }   /* 9 s: full pan */
+    69.333% { transform: translateX(85px); }                                           /* 10.4 s: settles here ... */
+    100%    { transform: translateX(85px); }                                           /* ... and rests for the end card */
   }
   /* Safari refuses autoplay in Low Power Mode / 'Never Auto-Play'; when play()
      is rejected we hide the video and the still underneath keeps panning. */

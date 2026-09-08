@@ -4,18 +4,24 @@
 import os, re, html, shutil, subprocess
 def kb(p): return f"{os.path.getsize(p)/1024:.0f} KB"
 ADS=[("AWK_NC_CC_EXT_300x250_v1", "v1 · single frame · house exterior",      "House-exterior footage (no people) in a top band; one held composition: question, resolution, CTA, logo.", None),
-     ("AWK_NC_CC_EXT_300x250_v2", "v2 · five frames · construction_ext",     "Full-bleed opener → question in two frames → resolution → held composite. Panel 75 %, video fixed.", "people in footage – brief §6"),
-     ("AWK_NC_CC_EXT_300x250_v3", "v3 · five frames · newconstruction_2",    "Same cut, framed-house footage (no people). Video 340×250 centred and fixed.", None),
      ("AWK_NC_CC_EXT_300x250_v1c","v1c · single frame · agentwhoknows_c",    "v1 layout with the agentwhoknows_c footage in the top band.", None),
+     ("AWK_NC_CC_EXT_300x250_v1k","v1k · single frame · kitchen",           "v1 layout with the kitchen footage in the top band.", None),
+     ("AWK_NC_CC_EXT_300x250_v2", "v2 · five frames · construction_ext",     "Full-bleed opener → question in two frames → resolution → held composite. Panel 75 %, video fixed.", "people in footage – brief §6"),
      ("AWK_NC_CC_EXT_300x250_v2c","v2c · five frames · agentwhoknows_c",     "v2 cut with the agentwhoknows_c footage (15 s ping-pong).", None),
+     ("AWK_NC_CC_EXT_300x250_v2k","v2k · five frames · kitchen",            "v2 cut with the kitchen footage (15 s ping-pong); full-height end frame as v3/v2c.", None),
+     ("AWK_NC_CC_EXT_300x250_v3", "v3 · five frames · newconstruction_2",    "Same cut, framed-house footage (no people). Video 340×250 centred and fixed.", None),
      ("AWK_NC_CC_EXT_728x90_v1", "728 · v1 · house exterior",              "Leaderboard: short question → resolution → held composite. 160 px strip, 30 px pan.", None),
      ("AWK_NC_CC_EXT_728x90_v2", "728 · v2 · construction_ext",            "Same cut, construction_ext strip.", "people in footage – brief §6"),
      ("AWK_NC_CC_EXT_728x90_v3", "728 · v3 · newconstruction_2",           "Same cut, framed-house strip (Lanczos from 1080p).", None),
      ("AWK_NC_CC_EXT_728x90_v4", "728 · v4 · agentwhoknows_c",             "Same cut, streetscape strip.", None),
+     ("AWK_NC_CC_EXT_728x90_v5", "728 · v5 · kitchen",                     "Same cut, kitchen strip.", None),
      ("AWK_NC_CC_EXT_320x50_v1", "320 · v1 · house exterior",              "Mobile banner: question → resolution → end card: panel slides over the strip, stacked logo left, question centred, CTA right. Reuses the 728 video.", None),
      ("AWK_NC_CC_EXT_320x50_v2", "320 · v2 · construction_ext",            "Same cut, construction_ext strip.", "people in footage – brief §6"),
      ("AWK_NC_CC_EXT_320x50_v3", "320 · v3 · newconstruction_2",           "Same cut, framed-house strip.", None),
-     ("AWK_NC_CC_EXT_320x50_v4", "320 · v4 · agentwhoknows_c",             "Same cut, streetscape strip.", None)]
+     ("AWK_NC_CC_EXT_320x50_v4", "320 · v4 · agentwhoknows_c",             "Same cut, streetscape strip.", None),
+     ("AWK_NC_CC_EXT_320x50_v5", "320 · v5 · kitchen",                     "Same cut, kitchen strip.", None)]
+HIDDEN={"AWK_NC_CC_EXT_300x250_v2","AWK_NC_CC_EXT_728x90_v2","AWK_NC_CC_EXT_320x50_v2"}   # v2 (construction_ext footage) hidden from the preview for now; folders + zips untouched
+ADS=[a for a in ADS if a[0] not in HIDDEN]
 ADS=ADS+[(f+"_HD", l+" · HD", "HD build: same unit, video at 2× resolution (up to 700 KB zipped).", fl) for f,l,n,fl in ADS]
 ADS=[a for a in ADS if os.path.isdir(a[0])]
 def tier(f): return "HD · up to 700 KB zipped" if f.endswith("_HD") else "Lite · under 200 KB zipped"
@@ -66,7 +72,7 @@ def page(site):
   :root {{ --bg:#0d1020; --panel:#141b33; --line:#27304f; --ink:#eef0f6; --muted:#9aa3bd; --gold:#c8861a; }}
   * {{ box-sizing:border-box; }}
   html,body {{ margin:0; background:var(--bg); color:var(--ink); font:14px/1.45 -apple-system,"Segoe UI",Inter,Helvetica,Arial,sans-serif; }}
-  header {{ display:flex; align-items:baseline; justify-content:space-between; gap:16px; padding:22px 28px 6px; flex-wrap:wrap; }}
+  header {{ position:sticky; top:0; z-index:20; background:var(--bg); display:flex; align-items:center; justify-content:space-between; gap:16px; padding:14px 28px 12px; flex-wrap:wrap; border-bottom:1px solid var(--line); box-shadow:0 6px 18px rgba(0,0,0,.35); }}
   h1 {{ font-size:18px; font-weight:600; margin:0; }} h1 span {{ color:var(--muted); font-weight:400; }}
   .global {{ display:flex; gap:10px; align-items:center; color:var(--muted); font-size:13px; }}
   button {{ background:var(--panel); color:var(--ink); border:1px solid var(--line); border-radius:8px; padding:6px 11px; font:inherit; cursor:pointer; }}
@@ -90,7 +96,7 @@ def page(site):
 <body>
 <header>
   <h1>AgentWhoKnows <span>· New Construction · 300×250 · 728×90 · 320×50</span></h1>
-  <div class="global"><span>Each ad plays twice, then holds its final frame.</span><button id="replayAll" type="button">↺ Replay all</button></div>
+  <div class="global"><span>Each ad plays twice, then holds its final frame.</span><button id="replayAll" type="button">↺ Replay all</button><button id="lastAll" type="button">⏭ Last frame</button></div>
 </header>
 <main>{cards}
 </main>

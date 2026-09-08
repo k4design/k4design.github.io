@@ -71,7 +71,7 @@ html_out=f"""<!DOCTYPE html>
   :root {{ color-scheme: dark; --bg:#0f1210; --panel:#161a17; --line:#262c28; --ink:#e6e9e4; --muted:#9aa39c; --green:#2CC679; }}
   * {{ box-sizing:border-box; }}
   html,body {{ margin:0; background:var(--bg); color:var(--ink); font:14px/1.45 -apple-system, "Segoe UI", Inter, Helvetica, Arial, sans-serif; }}
-  header {{ display:flex; align-items:baseline; justify-content:space-between; gap:16px; padding:22px 28px 6px; flex-wrap:wrap; }}
+  header {{ position:sticky; top:0; z-index:20; background:var(--bg); display:flex; align-items:center; justify-content:space-between; gap:16px; padding:14px 28px 12px; flex-wrap:wrap; border-bottom:1px solid var(--line); box-shadow:0 6px 18px rgba(0,0,0,.35); }}
   h1 {{ font-size:18px; font-weight:600; margin:0; letter-spacing:.01em; }} h1 span {{ color:var(--muted); font-weight:400; }}
   .controls {{ display:flex; gap:10px; align-items:center; color:var(--muted); font-size:13px; }}
   button {{ background:var(--panel); color:var(--ink); border:1px solid var(--line); border-radius:8px; padding:6px 11px; font:inherit; cursor:pointer; }}
@@ -99,7 +99,7 @@ html_out=f"""<!DOCTYPE html>
 <body>
 <header>
   <h1>buymyhouse <span>· HTML5 builds · lite &amp; HD</span></h1>
-  <div class="controls"><span>Each ad plays twice, then holds its final frame.</span><button id="replayAll" type="button">↺ Replay all</button></div>
+  <div class="controls"><span>Each ad plays twice, then holds its final frame.</span><button id="replayAll" type="button">↺ Replay all</button><button id="lastAll" type="button">⏭ Last frame</button></div>
 </header>
 <main>{sections}
 </main>
