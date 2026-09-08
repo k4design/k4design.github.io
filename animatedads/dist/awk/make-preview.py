@@ -19,7 +19,23 @@ ADS=[("AWK_NC_CC_EXT_300x250_v1", "v1 · single frame · house exterior",      "
      ("AWK_NC_CC_EXT_320x50_v2", "320 · v2 · construction_ext",            "Same cut, construction_ext strip.", "people in footage – brief §6"),
      ("AWK_NC_CC_EXT_320x50_v3", "320 · v3 · newconstruction_2",           "Same cut, framed-house strip.", None),
      ("AWK_NC_CC_EXT_320x50_v4", "320 · v4 · agentwhoknows_c",             "Same cut, streetscape strip.", None),
-     ("AWK_NC_CC_EXT_320x50_v5", "320 · v5 · kitchen",                     "Same cut, kitchen strip.", None)]
+     ("AWK_NC_CC_EXT_320x50_v5", "320 · v5 · kitchen",                     "Same cut, kitchen strip.", None),
+     ("AWK_NC_CC_EXT_160x600_v1_HD", "160x600 · v1 · house exterior · HD", "Skyscraper: video band on top (200x270 asset, 40 px pan), single-frame panel - five-line question, body, CTA, stacked logo. HD only.", None),
+     ("AWK_NC_CC_EXT_160x600_v3_HD", "160x600 · v3 · newconstruction_2 · HD", "Skyscraper: video band on top (200x270 asset, 40 px pan), single-frame panel - five-line question, body, CTA, stacked logo. HD only.", None),
+     ("AWK_NC_CC_EXT_160x600_v4_HD", "160x600 · v4 · agentwhoknows_c · HD", "Skyscraper: video band on top (200x270 asset, 40 px pan), single-frame panel - five-line question, body, CTA, stacked logo. HD only.", None),
+     ("AWK_NC_CC_EXT_160x600_v5_HD", "160x600 · v5 · kitchen · HD", "Skyscraper: video band on top (200x270 asset, 40 px pan), single-frame panel - five-line question, body, CTA, stacked logo. HD only.", None),
+     ("AWK_NC_CC_EXT_300x600_v1_HD", "300x600 · v1 · house exterior · HD", "Half page: video band on top (340x270 asset, 40 px pan), single-frame panel - four-line question, body, CTA + stacked logo. HD only.", None),
+     ("AWK_NC_CC_EXT_300x600_v3_HD", "300x600 · v3 · newconstruction_2 · HD", "Half page: video band on top (340x270 asset, 40 px pan), single-frame panel - four-line question, body, CTA + stacked logo. HD only.", None),
+     ("AWK_NC_CC_EXT_300x600_v4_HD", "300x600 · v4 · agentwhoknows_c · HD", "Half page: video band on top (340x270 asset, 40 px pan), single-frame panel - four-line question, body, CTA + stacked logo. HD only.", None),
+     ("AWK_NC_CC_EXT_300x600_v5_HD", "300x600 · v5 · kitchen · HD", "Half page: video band on top (340x270 asset, 40 px pan), single-frame panel - four-line question, body, CTA + stacked logo. HD only.", None),
+     ("AWK_NC_CC_EXT_970x250_v1_HD", "970x250 · v1 · house exterior · HD", "Billboard: 400 px video strip left (440x250 asset, 40 px pan), single-frame panel right. HD only.", None),
+     ("AWK_NC_CC_EXT_970x250_v3_HD", "970x250 · v3 · newconstruction_2 · HD", "Billboard: 400 px video strip left (440x250 asset, 40 px pan), single-frame panel right. HD only.", None),
+     ("AWK_NC_CC_EXT_970x250_v4_HD", "970x250 · v4 · agentwhoknows_c · HD", "Billboard: 400 px video strip left (440x250 asset, 40 px pan), single-frame panel right. HD only.", None),
+     ("AWK_NC_CC_EXT_970x250_v5_HD", "970x250 · v5 · kitchen · HD", "Billboard: 400 px video strip left (440x250 asset, 40 px pan), single-frame panel right. HD only.", None),
+     ("AWK_NC_CC_EXT_970x90_v1_HD", "970x90 · v1 · house exterior · HD", "Super leaderboard: the 728 cut on a 220 px strip (250x90 asset), copy capped at 26 px. HD only.", None),
+     ("AWK_NC_CC_EXT_970x90_v3_HD", "970x90 · v3 · newconstruction_2 · HD", "Super leaderboard: the 728 cut on a 220 px strip (250x90 asset), copy capped at 26 px. HD only.", None),
+     ("AWK_NC_CC_EXT_970x90_v4_HD", "970x90 · v4 · agentwhoknows_c · HD", "Super leaderboard: the 728 cut on a 220 px strip (250x90 asset), copy capped at 26 px. HD only.", None),
+     ("AWK_NC_CC_EXT_970x90_v5_HD", "970x90 · v5 · kitchen · HD", "Super leaderboard: the 728 cut on a 220 px strip (250x90 asset), copy capped at 26 px. HD only.", None)]
 HIDDEN={"AWK_NC_CC_EXT_300x250_v2","AWK_NC_CC_EXT_728x90_v2","AWK_NC_CC_EXT_320x50_v2"}   # v2 (construction_ext footage) hidden from the preview for now; folders + zips untouched
 ADS=[a for a in ADS if a[0] not in HIDDEN]
 ADS=ADS+[(f+"_HD", l+" · HD", "HD build: same unit, video at 2× resolution (up to 700 KB zipped).", fl) for f,l,n,fl in ADS]

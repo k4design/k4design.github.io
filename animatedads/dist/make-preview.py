@@ -26,6 +26,14 @@ builds = [
    "Same unit as House with a 2× strip video at 200 kbps. Zip ≤ 700 KB."),
   ("320x50", "320x50/lite",        "No video","HTML only",                    "320x50/buymyhouse_320x50_lite.zip",
    "Video removed, layout re-spaced. Step icons fade with each step. End card: 3 steps · Fast, simple, stress-free · CTA · logo."),
+  ("970x250","970x250/hd",         "Couple HD","Couple master, 780×500 video (300x250 HD asset)", "970x250/buymyhouse_970x250_hd.zip",
+   "Billboard. 360 px strip left with a 30 px pan, copy at 1.65×, logo bottom right. End card on two rows: 3 steps | tag, then the CTA."),
+  ("970x90", "970x90/hd",          "Couple HD","Couple master, 372×180 video (728x90 HD asset)",  "970x90/buymyhouse_970x90_hd.zip",
+   "Super leaderboard. The 728x90 layout re-spaced across 970: 186 px strip, copy at 1.25×, end card at 1.25×, logo right."),
+  ("300x600","300x600/hd",         "Couple HD","Couple master, 780×500 video (300x250 HD asset)", "300x600/buymyhouse_300x600_hd.zip",
+   "Half page. 320 px video band fading into the panel, copy at 0.85×, CTA and logo persistent. End card: 3 steps at 1.5× + tag."),
+  ("160x600","160x600/hd",         "Couple HD","Couple master, 780×500 video (300x250 HD asset)", "160x600/buymyhouse_160x600_hd.zip",
+   "Skyscraper. 220 px video band, headlines on two lines (white, then green), CTA and logo persistent. End card: 3 steps + tag stacked."),
 ]
 def embed(folder):
     s=open(f"{folder}/index.html").read()
@@ -98,7 +106,7 @@ html_out=f"""<!DOCTYPE html>
 </head>
 <body>
 <header>
-  <h1>buymyhouse <span>· HTML5 builds · lite &amp; HD</span></h1>
+  <h1>buymyhouse <span>· HTML5 builds · lite &amp; HD · 300×250 · 728×90 · 320×50 · 970×250 · 970×90 · 300×600 · 160×600</span></h1>
   <div class="controls"><span>Each ad plays twice, then holds its final frame.</span><button id="replayAll" type="button">↺ Replay all</button><button id="lastAll" type="button">⏭ Last frame</button></div>
 </header>
 <main>{sections}

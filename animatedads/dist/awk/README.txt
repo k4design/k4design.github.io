@@ -130,3 +130,19 @@ Equal Housing Opportunity logo (equal-housing-opportunity.svg, white, 20x20):
   728x90 (all) - static, bottom left of the video strip (x 8, y 62). 320x50 not marked.
 (300x250 body: "new construction." is Helvetica Neue Medium Italic - one weight above the Regular sentence.)
 (v1k: Equal Housing mark in gold #c8861a instead of white - AWK_EHL_COLOR.)
+
+Large sizes (HD only, up to 700 KB zipped) - v1 house exterior, v3 newconstruction_2, v4 agentwhoknows_c, v5 kitchen:
+  AWK_NC_CC_EXT_160x600_v*_HD  skyscraper: the 300x600 layout at 160 - 230 px band, stacked logo 100 px under the rule, five-line question (gold pair in Cormorant Garamond Bold Italic), short rule, body, CTA 120x32, elliptical panel corner, EHL top right.
+  AWK_NC_CC_EXT_300x600_v*_HD  half page: 230 px band (340x270 asset, cover-cropped), stacked logo 120 px under the rule, four-line question (~27 px, 'paying closing costs' in Cormorant Garamond Bold Italic sized to match x-height), short gold rule, body, CTA 130x34 bottom left, EHL top right. Panel top-right corner rounded with an elliptical curve (80 wide x 54 tall, straightening level with the logo bottom).
+  AWK_NC_CC_EXT_970x250_v*_HD  billboard: 400 px strip left (440x250 -> 880x500, 40 px pan), question 30 px on two lines, body 18 px,
+                               stacked logo 170 px bottom left of the panel, CTA 110x30 bottom right, EHL bottom left of the strip.
+  AWK_NC_CC_EXT_970x90_v*_HD   super leaderboard: the 728 three-frame cut on a 220 px strip (250x90 -> 500x180), copy capped at 26 px,
+                               end frame question capped at 20 px. EHL bottom left of the strip.
+  Single-frame sizes use the v1 motion (question 0.6-1.2 s, body 1.5-2.1 s, CTA 2.4-2.9 s, logo/EHL 0-0.6 s), 3 loops then hold.
+(All AWK units: accent TEXT runs use #FFAE2B; rule, CTA, panel edges and logo stay #c8861a.)
+(All AWK CTA pills: #FFAE2B. v1/v1c/v1k 300x250 panel: horizontal gradient #1b1f30 (left, low saturation) -> #0f1b4f (right, high saturation).)
+(300x600 v1/v3/v4/v5 + HD: 'paying closing costs' one weight heavier - Cormorant Garamond Bold Italic is the family's top weight, so the
+ outline carries a same-colour 1.2 px stroke; line width unchanged. tools/retext-tall.py.)
+(160x600 v1/v3/v4/v5 HD: copy re-set larger - question 19 px Avenir Next Demi Bold / 25 px Cormorant (was 16 / ~21) on five lines:
+ Wondering / which builders / are paying / closing costs / this month?; body 11.5 px Helvetica Neue (was 9.5) on three lines,
+ 'new construction.' Medium Italic; gold lines carry the same +0.8 px stroke. Text outlined with CoreText: tools/outline.swift.)
