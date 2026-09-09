@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Curaytor — You aren't just another face on a website</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:ital,wght@0,500;0,600;0,700;1,400&family=Inter:wght@400;500;600;700&family=Quicksand:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --red:#B3282D; --red-dark:#8F1F24; --red-light:#C8393E;
+  --ink:#2B2B2B; --ink-soft:#4A4A4A; --muted:#8A8A8A; --line:#E6E3E3;
+  --bg:#F4F3F3; --white:#FFFFFF;
+  --serif:'Zilla Slab', Georgia, serif;
+  --sans:'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --round:'Quicksand', var(--sans);
+  --shadow:0 20px 50px rgba(30,20,20,.10), 0 4px 14px rgba(30,20,20,.06);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);color:var(--ink);background:var(--bg);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+.wrap{width:min(1180px,92vw);margin:0 auto}
+
+/* ---------- Logo ---------- */
+.logo{font-family:var(--sans);font-weight:700;letter-spacing:.22em;font-size:1.05rem;color:var(--ink);display:inline-flex;align-items:center;text-transform:uppercase}
+.logo .c{color:var(--red);font-size:1.45em;line-height:1;margin-right:-.06em;font-weight:800;position:relative;top:-.02em}
+
+/* ---------- Buttons ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;font-family:var(--round);font-weight:600;font-size:.82rem;letter-spacing:.02em;padding:.6rem 1.6rem;border-radius:999px;border:1.5px solid var(--ink);background:transparent;color:var(--ink);cursor:pointer;transition:all .25s ease}
+.btn:hover{background:var(--ink);color:#fff;transform:translateY(-1px)}
+.btn.red{background:var(--red);border-color:var(--red);color:#fff;box-shadow:0 8px 20px rgba(179,40,45,.25)}
+.btn.red:hover{background:var(--red-dark);border-color:var(--red-dark);box-shadow:0 10px 26px rgba(179,40,45,.35)}
+.btn.sm{padding:.45rem 1.3rem;font-size:.75rem}
+
+/* ---------- Header ---------- */
+header{position:absolute;top:0;left:0;right:0;z-index:20}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:2rem 0}
+.nav ul{display:none;gap:2.2rem;list-style:none;font-size:.85rem;font-weight:500;color:rgba(255,255,255,.85)}
+.nav ul a{position:relative;transition:color .2s}
+.nav ul a:after{content:'';position:absolute;left:0;right:100%;bottom:-4px;height:1.5px;background:#fff;transition:right .25s}
+.nav ul a:hover{color:#fff}
+.nav ul a:hover:after{right:0}
+@media(min-width:900px){.nav ul{display:flex}}
+
+/* ---------- Hero ---------- */
+.hero{position:relative;min-height:100vh;display:grid;grid-template-columns:1fr;background:var(--white);overflow:hidden}
+.hero-red{position:absolute;top:0;right:0;bottom:0;width:48%;background:var(--red);clip-path:polygon(0 0,100% 0,100% 100%,0 100%);overflow:hidden}
+.hero-red:before{content:'';position:absolute;inset:0;background:
+  radial-gradient(ellipse at 30% 40%, rgba(255,255,255,.18), transparent 55%),
+  linear-gradient(160deg, rgba(0,0,0,.05), rgba(0,0,0,.18));}
+.hero-red svg{position:absolute;inset:-5% -5% -5% -5%;width:110%;height:110%;opacity:.28;animation:drift 40s linear infinite alternate}
+@keyframes drift{from{transform:translate(0,0) scale(1)}to{transform:translate(-2%,-1.5%) scale(1.06)}}
+.hero-grid{position:relative;z-index:2;display:grid;grid-template-columns:1fr;align-items:center;min-height:100vh;padding-top:6rem;padding-bottom:3rem}
+.hero-copy{max-width:520px}
+.hero h1{font-family:var(--serif);font-weight:600;font-size:clamp(2.4rem,4.6vw,3.9rem);line-height:1.05;letter-spacing:-.01em;color:var(--ink)}
+.hero h1 em{font-style:normal;color:var(--red)}
+.hero p{margin:1.6rem 0 2rem;color:var(--ink-soft);font-size:.95rem;max-width:440px}
+.hero-visual{position:relative;height:520px}
+.laptop{position:absolute;left:0;right:6%;bottom:14%;aspect-ratio:16/10;background:#1f1f22;border-radius:14px 14px 4px 4px;padding:12px 12px 22px;box-shadow:0 30px 60px rgba(0,0,0,.35)}
+.laptop .screen{width:100%;height:100%;background:#fff;border-radius:6px;overflow:hidden;position:relative}
+.laptop .screen .ui{padding:6% 7%;font-size:.55rem;color:#999}
+.laptop .screen .ui .bar{height:8px;background:#eee;border-radius:4px;margin-bottom:8px}
+.laptop .screen .ui .bar.w40{width:40%;background:#ddd}.ui .bar.w70{width:70%}
+.laptop .screen .ui .row{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:10px}
+.laptop .screen .ui .row div{aspect-ratio:4/3;background:linear-gradient(135deg,#f3e9e9,#e9d5d5);border-radius:4px}
+.laptop .screen img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.9}
+.laptop .base{position:absolute;left:-6%;right:-6%;bottom:-16px;height:18px;background:linear-gradient(#e6e6e8,#bdbdc2);border-radius:0 0 14px 14px}
+.laptop .base:after{content:'';position:absolute;left:44%;right:44%;top:0;height:5px;background:#a5a5aa;border-radius:0 0 6px 6px}
+.people{position:absolute;right:0;bottom:0;width:56%;height:112%;object-fit:cover;object-position:center top;border-radius:2px;-webkit-mask-image:linear-gradient(to bottom,#000 88%,transparent 100%);mask-image:linear-gradient(to bottom,#000 88%,transparent 100%);filter:drop-shadow(0 20px 30px rgba(0,0,0,.25))}
+.scroll-hint{position:absolute;left:0;bottom:2rem;display:flex;align-items:center;gap:.6rem;font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+.scroll-hint span{width:36px;height:1px;background:var(--muted);display:block;position:relative;overflow:hidden}
+.scroll-hint span:after{content:'';position:absolute;left:-100%;top:0;width:100%;height:100%;background:var(--red);animation:slide 2s ease-in-out infinite}
+@keyframes slide{to{left:100%}}
+@media(min-width:900px){
+  .hero-grid{grid-template-columns:1fr 1.15fr;gap:3rem;padding-top:8rem}
+  .hero-red{width:46%}
+}
+@media(max-width:899px){
+  .hero-red{position:absolute;width:100%;height:46%;bottom:0;top:auto}
+  .hero-visual{height:380px;margin-top:2rem}
+  .hero{min-height:auto}
+  .hero-grid{min-height:auto}
+}
+
+/* ---------- Connections ---------- */
+.connect{position:relative;background:var(--bg);padding:6rem 0 5rem;overflow:hidden}
+.connect .map{position:absolute;right:-5%;top:0;width:60%;height:100%;opacity:.55;pointer-events:none}
+.connect-grid{position:relative;display:grid;grid-template-columns:1fr;gap:3rem}
+@media(min-width:900px){.connect-grid{grid-template-columns:1fr 1fr;gap:0}}
+.cards{position:relative;display:flex;flex-direction:column;gap:3.5rem;padding:1rem 3rem 1rem 0}
+.cards:after{content:'';position:absolute;top:0;bottom:0;right:0;border-left:2px dashed #c9c5c5}
+@media(max-width:899px){.cards{padding-right:0}.cards:after{display:none}}
+.card{position:relative;background:var(--white);border-radius:2px 2px 60px 2px;padding:1.6rem 1.6rem 2rem;width:min(360px,100%);box-shadow:var(--shadow);opacity:0;transform:translateY(40px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.7,.2,1)}
+.card.in{opacity:1;transform:none}
+.card:nth-child(even){align-self:flex-end}
+.card .connector{position:absolute;top:44%;right:-3rem;width:3rem;border-top:2px dashed #c9c5c5}
+.card .connector:after{content:'';position:absolute;right:-5px;top:-5px;width:8px;height:8px;border-radius:50%;background:var(--red)}
+@media(max-width:899px){.card .connector{display:none}.card:nth-child(even){align-self:flex-start}}
+.card figure{position:relative;margin:0 0 1.2rem;aspect-ratio:4/3;overflow:hidden;background:#e7e0e0}
+.card figure img{width:100%;height:100%;object-fit:cover;transition:transform .6s}
+.card:hover figure img{transform:scale(1.04)}
+.card figure:after{content:'';position:absolute;inset:.6rem;border:1.5px solid rgba(255,255,255,.7);pointer-events:none}
+.card h3{font-family:var(--round);font-weight:600;font-size:1.05rem;text-align:center;color:var(--ink);margin-bottom:.6rem}
+.card h3 b{color:var(--red);font-weight:600}
+.card p{font-size:.8rem;color:var(--ink-soft);text-align:center;line-height:1.7;margin-bottom:1.2rem}
+.card .btn{display:flex;width:max-content;margin:0 auto}
+.sticky{position:sticky;top:22vh;height:max-content;padding-left:3rem}
+@media(max-width:899px){.sticky{position:static;padding-left:0}}
+.sticky h2{font-family:var(--serif);font-weight:600;font-size:clamp(2rem,3.6vw,3rem);line-height:1.1;display:flex;align-items:flex-end;gap:1.4rem}
+.sticky h2 span:first-child{color:var(--red);display:block}
+.sticky h2 span.dark{color:var(--ink)}
+.sticky .icon{width:64px;flex:none;color:var(--ink);opacity:.85}
+.sticky p{margin-top:1.6rem;max-width:420px;font-size:.88rem;color:var(--ink-soft)}
+
+/* ---------- Success ---------- */
+.success{background:var(--bg);padding:2rem 0 6rem}
+.success-card{position:relative;background:var(--white);border-radius:2px 2px 70px 2px;padding:4rem 3.5rem 3rem;box-shadow:var(--shadow);overflow:visible;display:grid;grid-template-columns:1fr;gap:2rem}
+@media(min-width:900px){.success-card{grid-template-columns:1.2fr .8fr;padding-right:0}}
+.success h2{font-family:var(--serif);font-weight:600;font-size:clamp(2rem,3.6vw,3rem);line-height:1.1;color:var(--ink)}
+.success h2 em{font-style:normal;color:var(--red)}
+.quote{position:relative;margin:2rem 0 2.5rem;padding:0 2.4rem;font-style:italic;font-size:.9rem;color:var(--ink-soft);max-width:520px}
+.quote:before,.quote:after{font-family:var(--serif);font-style:normal;font-size:3.4rem;line-height:1;color:var(--red);position:absolute}
+.quote:before{content:'\201C';left:0;top:-.6rem}
+.quote:after{content:'\201D';right:0;bottom:-1.6rem}
+.logos{display:flex;flex-wrap:wrap;gap:2.2rem 3rem;align-items:center;filter:grayscale(1);opacity:.6}
+.logos span{font-family:var(--serif);font-weight:700;font-size:.9rem;letter-spacing:.12em;color:var(--ink);display:inline-flex;align-items:center;gap:.5rem}
+.logos span i{display:inline-block;width:18px;height:18px;border:2px solid currentColor;border-radius:50%}
+.logos span:nth-child(2) i{border-radius:2px;transform:rotate(45deg);width:14px;height:14px}
+.logos span:nth-child(3) i{border-radius:2px 8px}
+.logos span:nth-child(4) i{border-radius:0;border-width:3px 0}
+.success-photo{position:relative;min-height:340px}
+.success-photo img{position:absolute;right:2rem;bottom:0;height:118%;width:auto;max-width:none;object-fit:contain;filter:drop-shadow(0 20px 30px rgba(0,0,0,.18))}
+@media(max-width:899px){.success-card{padding:3rem 1.6rem 2rem}.success-photo{min-height:260px}.success-photo img{height:110%;right:0}}
+
+/* ---------- Help ---------- */
+.help{background:var(--bg);padding:2rem 0 6rem;text-align:center}
+.help .kicker{font-size:.85rem;color:var(--ink-soft);margin-bottom:1.2rem}
+.help .sentence{display:flex;flex-direction:column;align-items:center;gap:.6rem;font-family:var(--round);font-size:clamp(1.4rem,2.6vw,2rem);color:var(--ink-soft);font-weight:400}
+.help .line{display:flex;align-items:baseline;gap:.8rem;flex-wrap:wrap;justify-content:center}
+.pick{position:relative;display:inline-block}
+.pick select{appearance:none;-webkit-appearance:none;border:0;border-bottom:1.5px solid var(--red);background:transparent;font-family:var(--serif);font-weight:600;font-size:1.05em;color:var(--red);padding:0 1.4rem 0 .4rem;cursor:pointer;outline:none;transition:border-color .2s}
+.pick select:focus{border-bottom-color:var(--ink)}
+.pick:after{content:'';position:absolute;right:.45rem;top:50%;width:0;height:0;border-left:4px solid transparent;border-right:4px solid transparent;border-top:5px solid var(--ink);transform:translateY(-30%);pointer-events:none}
+.help .btn{margin-top:1.8rem}
+
+/* ---------- Footer ---------- */
+footer{background:var(--bg);padding:3rem 0 2rem;position:relative}
+footer:before{content:'';position:absolute;left:4%;right:4%;top:0;height:1px;background:var(--line)}
+.foot-grid{display:grid;grid-template-columns:1fr;gap:2.4rem;margin-top:2.4rem;font-size:.78rem;color:var(--ink-soft)}
+@media(min-width:800px){.foot-grid{grid-template-columns:1.1fr 1.4fr 1.4fr}}
+.foot-grid h4{font-family:var(--serif);font-weight:600;font-size:1.15rem;color:var(--ink);margin-bottom:.6rem}
+.foot-grid h5{font-size:.72rem;font-weight:700;letter-spacing:.04em;color:var(--ink);margin-bottom:.8rem}
+.foot-grid ul{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:.55rem 1.5rem}
+.foot-grid ul a:hover{color:var(--red)}
+.social{display:flex;gap:.9rem;margin-top:1.2rem}
+.social a{width:22px;height:22px;border-radius:50%;border:1.5px solid var(--ink);display:grid;place-items:center;font-size:.6rem;font-weight:700;transition:all .2s}
+.social a:hover{background:var(--red);border-color:var(--red);color:#fff}
+.newsletter form{display:flex;gap:.5rem;margin:1rem 0 .7rem;max-width:380px}
+.newsletter input{flex:1;border:1px solid #d9d4d4;border-radius:999px;padding:.55rem 1rem;font:inherit;font-size:.78rem;background:#fff;outline:none}
+.newsletter input:focus{border-color:var(--red)}
+.newsletter p.tiny{font-size:.68rem;color:var(--muted)}
+.foot-bottom{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;margin-top:3rem;padding-top:1.4rem;border-top:1px solid var(--line);font-size:.68rem;color:var(--muted)}
+.foot-bottom .links a{margin-right:1.2rem}
+.foot-bottom .links a:hover{color:var(--red)}
+
+/* ---------- Reveal ---------- */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .9s ease,transform .9s cubic-bezier(.2,.7,.2,1)}
+.reveal.in{opacity:1;transform:none}
+.d1{transition-delay:.1s}.d2{transition-delay:.25s}.d3{transition-delay:.4s}
+@media(prefers-reduced-motion:reduce){.reveal,.card{opacity:1;transform:none;transition:none}.hero-red svg{animation:none}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a href="#" class="logo" aria-label="Curaytor home"><span class="c">C</span>URAYTOR</a>
+    <ul>
+      <li><a href="#connect">Our Platform</a></li>
+      <li><a href="#success">Results</a></li>
+      <li><a href="#help">Community</a></li>
+      <li><a href="#help">Check Availability</a></li>
+    </ul>
+  </div>
+</header>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div class="hero-red" aria-hidden="true">
+    <svg viewBox="0 0 800 800" preserveAspectRatio="xMidYMid slice" fill="none" stroke="#fff" stroke-width="1.2">
+      <path d="M0 120 L800 120 M0 260 L800 260 M0 420 L800 420 M0 600 L800 600 M150 0 L150 800 M330 0 L330 800 M520 0 L520 800 M690 0 L690 800"/>
+      <path d="M0 340 C150 300 300 380 450 330 S700 260 800 300" stroke-width="3"/>
+      <path d="M100 0 C120 200 60 400 140 600 S110 760 130 800" stroke-width="2"/>
+      <g stroke-width="1">
+        <rect x="40" y="140" width="80" height="90"/><rect x="180" y="140" width="120" height="90"/><rect x="360" y="140" width="130" height="90"/><rect x="560" y="140" width="100" height="90"/>
+        <rect x="40" y="440" width="80" height="120"/><rect x="180" y="440" width="120" height="120"/><rect x="360" y="440" width="130" height="120"/><rect x="560" y="440" width="100" height="120"/>
+        <rect x="180" y="640" width="120" height="120"/><rect x="360" y="640" width="130" height="120"/><rect x="560" y="640" width="100" height="120"/>
+        <circle cx="400" cy="330" r="60" stroke-dasharray="4 6"/><circle cx="400" cy="330" r="110" stroke-dasharray="2 8"/>
+      </g>
+      <g fill="#fff" stroke="none" opacity=".9">
+        <circle cx="400" cy="330" r="5"/><circle cx="150" cy="120" r="4"/><circle cx="690" cy="600" r="4"/><circle cx="330" cy="600" r="4"/><circle cx="520" cy="260" r="4"/>
+      </g>
+    </svg>
+  </div>
+
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <h1 class="reveal">You aren't<br>just <em>another face</em><br>on a website.</h1>
+      <p class="reveal d1">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam et sapien laoreet, sollicitudin augue vel, imperdiet enim. Sed nec lorem a lacus laoreet vehicula. Pellentesque lorem tellus.</p>
+      <a href="#connect" class="btn reveal d2">button ipsum</a>
+    </div>
+
+    <div class="hero-visual reveal d1">
+      <div class="laptop">
+        <div class="screen">
+          <div class="ui">
+            <div class="bar w40"></div><div class="bar w70"></div><div class="bar"></div>
+            <div class="row"><div></div><div></div><div></div></div>
+            <div class="row"><div></div><div></div><div></div></div>
+          </div>
+          <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=1200&q=70" alt="" loading="lazy" onerror="this.remove()">
+        </div>
+        <div class="base"></div>
+      </div>
+      <img class="people" src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=800&h=1100&q=75" alt="Two real estate agents sharing a laugh over coffee" onerror="this.style.display='none'">
+    </div>
+
+    <div class="scroll-hint"><span></span>Scroll</div>
+  </div>
+</section>
+
+<!-- ===== CONNECTIONS ===== -->
+<section class="connect" id="connect">
+  <svg class="map" viewBox="0 0 600 900" fill="none" stroke="#d9d3d3" stroke-width="1.4" aria-hidden="true">
+    <path d="M60 40 C140 120 90 260 190 330 S380 420 330 560 S120 700 220 860"/>
+    <path d="M380 20 C300 150 470 240 420 380 S560 520 500 660 S420 820 560 890"/>
+    <path d="M0 500 C120 470 200 560 330 520 S520 470 600 520" stroke-dasharray="6 6"/>
+    <path d="M150 0 L150 900 M450 0 L450 900" stroke-dasharray="2 10" opacity=".7"/>
+    <circle cx="190" cy="330" r="4" fill="#d9d3d3" stroke="none"/><circle cx="420" cy="380" r="4" fill="#d9d3d3" stroke="none"/><circle cx="330" cy="520" r="4" fill="#d9d3d3" stroke="none"/>
+  </svg>
+
+  <div class="wrap connect-grid">
+    <div class="cards">
+      <article class="card">
+        <span class="connector"></span>
+        <figure><img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=800&q=70" alt="Team gathered around a table in a bright café" loading="lazy"></figure>
+        <h3>you are <b>local</b></h3>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam et sapien laoreet, sollicitudin augue vel, imperdiet enim. Sed nec lorem a lacus laoreet vehicula. Pellentesque lorem tellus, volutpat sit amet risus sit amet.</p>
+        <a href="#help" class="btn sm">button ipsum</a>
+      </article>
+
+      <article class="card">
+        <span class="connector"></span>
+        <figure><img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&w=800&q=70" alt="Agent welcoming a client with a handshake" loading="lazy"></figure>
+        <h3>you are <b>human</b></h3>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam et sapien laoreet, sollicitudin augue vel, imperdiet enim. Sed nec lorem a lacus laoreet vehicula. Pellentesque lorem tellus, volutpat sit amet risus sit amet.</p>
+        <a href="#help" class="btn sm">button ipsum</a>
+      </article>
+
+      <article class="card">
+        <span class="connector"></span>
+        <figure><img src="https://images.unsplash.com/photo-1543269865-cbf427effbad?auto=format&fit=crop&w=800&q=70" alt="Colleagues collaborating at a shared workspace" loading="lazy"></figure>
+        <h3>you are <b>trusted</b></h3>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam et sapien laoreet, sollicitudin augue vel, imperdiet enim. Sed nec lorem a lacus laoreet vehicula. Pellentesque lorem tellus, volutpat sit amet risus sit amet.</p>
+        <a href="#help" class="btn sm">button ipsum</a>
+      </article>
+    </div>
+
+    <div class="sticky">
+      <h2 class="reveal">
+        <span><span>Connections</span><span class="dark">over algorithms</span></span>
+        <svg class="icon" viewBox="0 0 64 56" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="32" cy="9" r="6" stroke="#B3282D"/><path d="M22 27c0-6 4-9 10-9s10 3 10 9" stroke="#B3282D"/>
+          <circle cx="12" cy="33" r="5.5"/><path d="M3 50c0-5.5 3.6-8.5 9-8.5s9 3 9 8.5"/>
+          <circle cx="32" cy="33" r="5.5"/><path d="M23 50c0-5.5 3.6-8.5 9-8.5s9 3 9 8.5"/>
+          <circle cx="52" cy="33" r="5.5"/><path d="M43 50c0-5.5 3.6-8.5 9-8.5s9 3 9 8.5"/>
+        </svg>
+      </h2>
+      <p class="reveal d1">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam et sapien laoreet, sollicitudin augue vel, imperdiet enim. Sed nec lorem a lacus laoreet vehicula. Pellentesque lorem tellus, volutpat sit amet risus sit amet, elementum fermentum nulla. Mauris non laoreet justo, nec blandit turpis.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SUCCESS ===== -->
+<section class="success" id="success">
+  <div class="wrap">
+    <div class="success-card reveal">
+      <div>
+        <h2>Their <em>success</em> says it all</h2>
+        <blockquote class="quote">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam et sapien laoreet, sollicitudin augue vel, imperdiet enim. Sed nec lorem a lacus laoreet vehicula. Pellentesque lorem tellus, volutpat sit amet risus sit amet, elementum fermentum nulla. Mauris non laoreet justo, nec blandit turpis.</blockquote>
+        <div class="logos" aria-label="Featured clients">
+          <span><i></i>RK</span>
+          <span><i></i>HILTON &amp; HYLAND</span>
+          <span><i></i>GRAY REALTY</span>
+          <span><i></i>SPINOSO</span>
+        </div>
+      </div>
+      <div class="success-photo">
+        <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=700&q=75" alt="Agent reviewing listings on a tablet" loading="lazy" onerror="this.style.display='none'">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== HELP ===== -->
+<section class="help" id="help">
+  <div class="wrap reveal">
+    <p class="kicker">How can we help?</p>
+    <div class="sentence">
+      <div class="line">I want to
+        <label class="pick"><span class="sr" hidden>Goal</span>
+          <select id="goal">
+            <option>increase leads</option>
+            <option>grow my brand</option>
+            <option>convert more buyers</option>
+            <option>win more listings</option>
+          </select>
+        </label>
+      </div>
+      <div class="line">so that I can
+        <label class="pick">
+          <select id="outcome">
+            <option>lorem ipsum</option>
+            <option>close more deals</option>
+            <option>spend less on ads</option>
+            <option>build lasting relationships</option>
+          </select>
+        </label>
+      </div>
+    </div>
+    <a href="#" class="btn red" id="helpBtn">button ipsum</a>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="wrap">
+    <a href="#" class="logo"><span class="c">C</span>URAYTOR</a>
+    <div class="foot-grid">
+      <div>
+        <h4>Working For You</h4>
+        <p>Curaytor partners with the best real estate agents and teams to grow their business through marketing that puts people first.</p>
+        <div class="social">
+          <a href="#" aria-label="Facebook">f</a><a href="#" aria-label="Twitter">t</a><a href="#" aria-label="Instagram">ig</a><a href="#" aria-label="YouTube">yt</a><a href="#" aria-label="LinkedIn">in</a>
+        </div>
+      </div>
+      <div>
+        <h5>Curaytor</h5>
+        <ul>
+          <li><a href="#">Check Availability</a></li><li><a href="#">Our Community</a></li>
+          <li><a href="#">Recent Books</a></li><li><a href="#">Blog</a></li>
+          <li><a href="#">Our Platform</a></li><li><a href="#">Hashtags</a></li>
+        </ul>
+      </div>
+      <div class="newsletter">
+        <h5>Get Free Access To Our Latest Advice</h5>
+        <p>Join 30,000+ People Getting Our Emails</p>
+        <form onsubmit="event.preventDefault();this.querySelector('input').value='';this.nextElementSibling.textContent='Thanks — check your inbox.'">
+          <input type="email" placeholder="Enter your email" required aria-label="Email address">
+          <button class="btn red sm" type="submit">Subscribe</button>
+        </form>
+        <p class="tiny">We respect your inbox. We only send interesting and relevant emails.</p>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <div class="links"><a href="#">Privacy Policy</a><a href="#">Terms of Service</a></div>
+      <div>&copy; <span id="yr"></span> Curaytor. All rights reserved.</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+document.getElementById('yr').textContent=new Date().getFullYear();
+
+// Scroll reveal
+const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.15,rootMargin:'0px 0px -8% 0px'});
+document.querySelectorAll('.reveal,.card').forEach(el=>io.observe(el));
+
+// Auto-size the selects to their chosen option
+function fit(sel){const m=document.createElement('span');m.style.cssText='position:absolute;visibility:hidden;white-space:nowrap;font:'+getComputedStyle(sel).font;m.textContent=sel.options[sel.selectedIndex].text;document.body.appendChild(m);sel.style.width=(m.offsetWidth+34)+'px';m.remove()}
+document.querySelectorAll('.pick select').forEach(s=>{fit(s);s.addEventListener('change',()=>fit(s))});
+document.fonts&&document.fonts.ready.then(()=>document.querySelectorAll('.pick select').forEach(fit));
+
+// CTA reflects the chosen sentence
+document.getElementById('helpBtn').addEventListener('click',e=>{e.preventDefault();const g=goal.value,o=outcome.value;alert(`Great — let's help you ${g} so you can ${o}.`)});
+
+// Subtle parallax on hero red panel pattern
+const red=document.querySelector('.hero-red svg');
+addEventListener('scroll',()=>{const y=scrollY;if(y<innerHeight)red.style.translate=`0 ${y*.12}px`},{passive:true});
+</script>
+</body>
+</html>

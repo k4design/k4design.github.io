@@ -14,11 +14,11 @@
       // Power Mode, Safari 'Never Auto-Play') the class is never added and the ad's still-frame fallback behaves as shipped.
       if (st.video && !d.getElementById('pv_style')) { var s = d.createElement('style'); s.id = 'pv_style'; d.head.appendChild(s); st.video.addEventListener('playing', function () { st.played = true; }); if (!st.video.paused) st.played = true; }
       if (!st.anims.length) { fail('ad not ready'); return false; }
-      st.anims.forEach(function (a) { var t = a.effect.getTiming(); if (a.animationName !== 'kf_cta_bob') a.effect.updateTiming({ iterations: LOOPS, fill: 'forwards' }); else a.effect.updateTiming({ iterations: Math.ceil(LOOPS * LOOP / t.duration), fill: 'forwards' }); });
+      st.anims.forEach(function (a) { var t = a.effect.getTiming(); if (a.animationName === 'kf_cta_bob') a.effect.updateTiming({ iterations: Math.ceil(LOOPS * LOOP / t.duration), fill: 'forwards' }); else if (t.duration >= 5000) a.effect.updateTiming({ iterations: LOOPS * (LOOP / t.duration), fill: 'forwards' }); });   // one-shot intros (short) keep their single run; timeline animations get LOOPS x 15 s
       st.anims.forEach(function (a) { seen.add(a); });
       st.ok = true; [playBtn, replayBtn, scrub].forEach(function (el) { el.disabled = false; }); return true;
     }
-    function main() { return st.anims.find(function (a) { return a.animationName === 'kf_bg_pan'; }) || st.anims[0]; }
+    function main() { var m = st.anims.find(function (a) { return a.animationName === 'kf_bg_pan'; }); if (m) return m; var best = null; st.anims.forEach(function (a) { var d = a.effect.getTiming().duration; if (a.animationName === 'kf_cta_bob') return; if (!best || d > best.effect.getTiming().duration) best = a; }); return best || st.anims[0]; }   // no video: follow the longest timeline animation
     // Seeks are queued: while the decoder is still landing one seek, only the latest requested time is kept,
     // so a fast drag keeps repainting at the decoder's own pace instead of piling up stale seeks.
     function seekVideo(ms) {
@@ -38,8 +38,8 @@
     var seen = new Set(), lastScan = 0;
     function adopt(a) {                                   // an animation created after the first scan (e.g. the video's own pan, once it starts playing)
       var t = a.effect.getTiming();
-      if (a.animationName !== 'kf_cta_bob') a.effect.updateTiming({ iterations: LOOPS, fill: 'forwards' });
-      else a.effect.updateTiming({ iterations: Math.ceil(LOOPS * LOOP / t.duration), fill: 'forwards' });
+      if (a.animationName === 'kf_cta_bob') a.effect.updateTiming({ iterations: Math.ceil(LOOPS * LOOP / t.duration), fill: 'forwards' });
+      else if (t.duration >= 5000) a.effect.updateTiming({ iterations: LOOPS * (LOOP / t.duration), fill: 'forwards' });
       var m = main(); if (m && m !== a) { a.currentTime = m.currentTime; if (m.playState === 'paused' || m.playState === 'finished') a.pause(); }
       st.anims.push(a); seen.add(a);
     }
