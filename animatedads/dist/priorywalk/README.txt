@@ -24,3 +24,4 @@ Swipe hint: an animated hand + arrows icon (176x110 px, 128x80 on the small size
 970x250 story frame 1: the Aperture icon beside a stacked "Exclusive" \/ "Offer" (icon height matched to the two-line stack), centred vertically and horizontally in the space above the CTA.
 Row layout (1024x768, 480x320) standard: the logo + rule + text group is scaled by one factor until it fits left of the CTA with the layout's gap, so it can never overlap the button.
 CTA hover (desktop): the button lifts 3 px, the label and underline both turn #8cc4ff (the underline also thickens), and a soft blue glow appears; the idle bob pauses while hovered. Driven from #clickthrough (the pointer target) via a sibling selector, so it never fires on touch.
+Fallback watchdog: only judges while the page is visible and the ad is on screen (IntersectionObserver); a hidden tab or lazy slot is never mistaken for Low Power Mode.

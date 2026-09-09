@@ -180,11 +180,11 @@
     document.addEventListener('visibilitychange', function () { if (!document.hidden) play(); });
     if (v.readyState >= 1) play();
     setTimeout(function () { if (v.paused) ad.className = 'no-autoplay'; }, 4000);
-    // Fallback watchdog. iOS Low Power Mode can report the video as playing (paused === false, currentTime even advancing)
-    // while it never PAINTS a frame. So we count presented frames - requestVideoFrameCallback where available, else the
-    // decoded-frame counters - and if nothing has been painted for ~2 s while "playing", the carousel takes over.
-    // If frames start arriving again (user tapped, mode changed) the video comes back.
-    var frames = 0, lastFrames = 0, stuck = 0, hasRVFC = typeof v.requestVideoFrameCallback === 'function';
+    // Fallback watchdog. iOS Low Power Mode can report the video as playing (paused === false, currentTime even
+    // advancing) while it never PAINTS a frame, so we count presented frames rather than trusting the clock.
+    // It only arms after the first 'playing' event - before that the video is still hidden behind the fallback and
+    // would present no frames, which used to trip a false positive - and the decision is final for the impression.
+    var frames = 0, hasRVFC = typeof v.requestVideoFrameCallback === 'function', watch = null;
     function onFrame() { frames++; if (hasRVFC) v.requestVideoFrameCallback(onFrame); }
     if (hasRVFC) v.requestVideoFrameCallback(onFrame);
     function painted() {
@@ -193,13 +193,22 @@
       if (typeof v.webkitDecodedFrameCount === 'number') return v.webkitDecodedFrameCount;
       return Math.round(v.currentTime * 15);                              // last resort: time-based
     }
-    setInterval(function () {
-      if (v.paused) { lastFrames = painted(); return; }
-      var f = painted();
-      if (f <= lastFrames) { if (++stuck >= 2) ad.className = 'no-autoplay'; }
-      else { stuck = 0; if (ad.className === 'no-autoplay') ad.className = ''; }
-      lastFrames = f;
-    }, 1000);
+    // Only judge while the ad is genuinely on screen: a hidden tab or an off-screen (lazy) slot stops the video
+    // decoding too, and that must not be mistaken for Low Power Mode.
+    var onScreen = true;
+    if (window.IntersectionObserver) { try { new IntersectionObserver(function (es) { onScreen = es[es.length - 1].isIntersecting; }, { threshold: 0.1 }).observe(ad); } catch (e) {} }
+    function armWatch() {
+      if (watch) return;
+      var last = painted(), stuck = 0;
+      watch = setInterval(function () {
+        if (v.paused || document.hidden || !onScreen) { last = painted(); stuck = 0; return; }
+        var f = painted();
+        if (f <= last) { if (++stuck >= 2) { ad.className = 'no-autoplay'; clearInterval(watch); } }   // playing but never painting: hand over to the carousel
+        else { stuck = 0; if (f > last + 4) clearInterval(watch); }                                     // genuinely painting: stop watching
+        last = f;
+      }, 1000);
+    }
+    v.addEventListener('playing', armWatch);
   })();
 </script>
 </script>
