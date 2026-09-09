@@ -23,5 +23,10 @@ aperture/aperture_packitems_Folder/Links/TLG_6486.jpg
 aperture/aperture_packitems_Folder/Links/TLG_6569.jpg
 aperture/aperture_packitems_Folder/Links/TLG_6696.jpg
 node_modules/
-dist/
+# build output only (was a bare `dist/`, which also swallowed animatedads/dist)
+/displacementmap/dist/
+/FallCon2026Homecoming/dist/
+/dezzy_magazine_plugin/dist/
+/videoexport/**/dist/
+/mockupplugin/**/dist/
 fallcon2026-site.zip
