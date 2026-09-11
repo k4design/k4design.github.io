@@ -21,18 +21,28 @@ WORDPATH = os.environ.get("AD_WORDPATH") or os.path.join(HERE, "..", "bin", "wor
 # Type specs, derived from the Priory Walk fragments (see --calibrate).
 # font, size, tracking in em, baseline y, nominal box top/bottom
 SPEC = {
-    "headline": ("CormorantGaramond-Regular", 89.02, 0.000, 779.0, 723.0, 801.4),
-    "sub1":     ("Avenir-Book",               33.58, 0.108, 853.0, 827.0, 861.0),
-    "sub3":     ("Avenir-Book",               33.58, 0.108, 853.0, 827.0, 861.0),
-    "sub4":     ("Avenir-Book",               33.58, 0.108, 853.0, 827.0, 861.0),
-    "cta":      ("Avenir-Medium",             26.47, 0.082, 948.0, 928.0, 973.9),
+    "headline": ("CormorantGaramond-Regular", 89.69, 0.000, 779.0, 723.0, 801.4),
+    "sub1":     ("Avenir-Book",               33.62, 0.108, 853.0, 827.0, 861.0),
+    "sub3":     ("Avenir-Book",               33.62, 0.108, 853.0, 827.0, 861.0),
+    "sub4":     ("Avenir-Book",               33.62, 0.108, 853.0, 827.0, 861.0),
+    "cta":      ("Avenir-Medium",             26.44, 0.083, 948.0, 928.0, 973.9),
 }
-HERO = ("CormorantGaramond-MediumItalic", 80.07, 0.0)   # the stacked "Exclusive / Offer" hero
+HERO = ("CormorantGaramond-MediumItalic", 80.07, 0.0)   # the stacked hero, e.g. "Exclusive / Offer"
+HEADER1 = ("CormorantGaramond-MediumItalic", 80.07, 0.0, 121.97, 214.18)  # icon lockup: font, size, track, baseline, text x
 FILL = "#F3F3F3"
 CTA_RULE = '<line x1="209" y1="972.368" x2="559" y2="559" stroke="#0099FF" stroke-width="3"/>'
 CTA_RULE = '<line x1="209" y1="972.368" x2="559" y2="972.368" stroke="#0099FF" stroke-width="3"/>'
 CENTRE = 384.0
-SPACE_EM = 0.28          # wordpath reports no space glyph; this matches the source artwork
+_SPACE = {}
+def space_em(font):
+    """wordpath reports no space glyph, so measure it: advance("n n") - advance("nn")."""
+    if font not in _SPACE:
+        def adv(t):
+            d = json.loads(subprocess.run([WORDPATH, font, "100", t],
+                                          capture_output=True, text=True).stdout)
+            return d["words"][0]["advance"]
+        _SPACE[font] = (adv("n n") - adv("nn")) / 100.0
+    return _SPACE[font]
 
 def glyphs(font, size, text):
     uniq = sorted(set(c for c in text if c != " "))
@@ -45,10 +55,11 @@ def glyphs(font, size, text):
 def lay_out(font, size, text, track):
     """Return (glyph placements, advance width, ink box) with the run starting at x=0, baseline y=0."""
     G, _ = glyphs(font, size, text)
+    sp = space_em(font) * size
     x = 0.0; put = []; ink = [1e9, 1e9, -1e9, -1e9]
     for c in text:
         if c == " ":
-            x += size * SPACE_EM + track * size
+            x += sp + track * size
             continue
         g = G[c]; b = g["bbox"]
         put.append((c, x, g["d"]))
@@ -107,6 +118,21 @@ def bake_hero(lines):
     box = [ix_off, top, stackW, bot]
     return icon_g + text, box
 
+def bake_header1(setkey, text, src=None):
+    """The icon lockup: the set's existing icon paths, plus a fresh one-line phrase beside it.
+    The icon, the text's left edge and the baseline all stay put, so only the wording changes."""
+    frag = open(os.path.join(ASSETS, f"{src or setkey}_header1.svgfrag")).read()
+    paths = re.findall(r'<path d="[^"]+" fill="[^"]+"/>', frag)
+    icon = "".join(paths[:-1])                                # the trailing path is the old wordmark
+    pts = re.findall(r'(-?\d+\.?\d*) (-?\d+\.?\d*)', icon)
+    ix = [float(a) for a, _ in pts]; iy = [float(b) for _, b in pts]
+    font, size, track, base, tx = HEADER1
+    put, adv, ink = lay_out(font, size, text, track)
+    svg = icon + run_svg(put, tx, base, "white")
+    box = [min(ix), min(iy), max(max(ix), tx + ink[2]), max(iy)]
+    return svg, box
+
+
 def calibrate():
     """Re-derive SPEC by fitting each pw fragment's measured ink box."""
     def frag_ink(name):
@@ -139,7 +165,10 @@ if __name__ == "__main__":
     boxes_path = os.path.join(ASSETS, f"{setkey}_bboxes.json")
     boxes = json.load(open(boxes_path)) if os.path.exists(boxes_path) else {}
     for key, text in spec.items():
-        if key == "hero1":
+        if key == "header1":
+            svg, box = bake_header1(setkey, text, os.environ.get("AP_ICON_FROM"))
+            info = ""
+        elif key == "hero1":
             svg, box = bake_hero(text)
             info = ""
         else:

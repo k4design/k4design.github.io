@@ -11,7 +11,7 @@ def embed(folder):
     s=open(f"{folder}/index.html").read()
     s=re.sub(r'url\((bg\.jpg)\)', lambda m: f'url({folder}/{m.group(1)})', s)
     s=re.sub(r'src="(photo\d\.jpg)"', lambda m: f'src="{folder}/{m.group(1)}"', s)
-    s=re.sub(r'(src|poster)="(video[^"]*)"', lambda m: f'{m.group(1)}="{folder}/{m.group(2)}"', s)
+    s=re.sub(r'(src|poster)="(video[^"]*|photo\d\.jpg)"', lambda m: f'{m.group(1)}="{folder}/{m.group(2)}"', s)
     return html.escape(s, quote=True)
 import sys, shutil, subprocess
 SITE = len(sys.argv)>1 and sys.argv[1]=='--site'
