@@ -1,17 +1,23 @@
 import WebKit
 import AppKit
-// snapwh <url> <out.jpg> <freezeAtMs> <jpegQuality> <W> <H>
+// snapwh <url> <out.jpg> <freezeAtMs> <jpegQuality> <W> <H> [openplan]\n// a 7th argument clicks #planopen before the snapshot, to capture the modal open
 // snap.swift generalised to any unit size: same animation freeze (every CSS animation
 // paused and set to freezeAtMs, the video seeked to the matching frame), arbitrary WxH.
 // A plain WKWebView snapshot captures animations at time 0 - that is why this freeze exists.
 let a = CommandLine.arguments
 let url = URL(string: a[1])!, out = a[2], freeze = a[3], q = Double(a[4])!
 let SW = Int(a[5])!, SH = Int(a[6])!
+let OPENPLAN = a.count > 7
 let app = NSApplication.shared
 app.setActivationPolicy(.prohibited)                       // never steals focus
 
 let cfg = WKWebViewConfiguration()
-cfg.mediaTypesRequiringUserActionForPlayback = []          // let the muted video start
+cfg.mediaTypesRequiringUserActionForPlayback = []
+if OPENPLAN {
+  // click early, so the modal CSS transition finishes before the freeze pauses it
+  let c = WKUserScript(source: "document.addEventListener('DOMContentLoaded',function(){setTimeout(function(){var o=document.getElementById('planopen');if(o)o.click();},250);});", injectionTime: .atDocumentEnd, forMainFrameOnly: true)
+  cfg.userContentController.addUserScript(c)
+}          // let the muted video start
 let web = WKWebView(frame: NSRect(x: 0, y: 0, width: SW, height: SH), configuration: cfg)
 let win = NSWindow(contentRect: NSRect(x: -20000, y: -20000, width: SW, height: SH),
                    styleMask: .borderless, backing: .buffered, defer: false)
