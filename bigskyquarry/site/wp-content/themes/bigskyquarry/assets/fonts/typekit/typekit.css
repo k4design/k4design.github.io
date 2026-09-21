@@ -1,0 +1,59 @@
+/*
+ * The Typekit service used to deliver this font or fonts for use on websites
+ * is provided by Adobe and is subject to these Terms of Use
+ * http://www.adobe.com/products/eulas/tou_typekit. For font license
+ * information, see the list below.
+ *
+ * legitima:
+ *   - http://typekit.com/eulas/00000000000000007735986c
+ *   - http://typekit.com/eulas/000000000000000077359871
+ * oswald:
+ *   - http://typekit.com/eulas/00000000000000007735a0e3
+ *   - http://typekit.com/eulas/00000000000000007735a0e8
+ *   - http://typekit.com/eulas/00000000000000007735a0ec
+ *   - http://typekit.com/eulas/00000000000000007735a0f4
+ *
+ * © 2009-2026 Adobe Systems Incorporated. All Rights Reserved.
+ */
+/*{"last_published":"2025-08-25 17:17:27 UTC"}*/
+
+@import url("https://p.typekit.net/p.css?s=1&k=xga3pog&ht=tk&f=1407.44187.15815.15817.15818.37504&a=86723194&app=typekit&e=css");
+
+@font-face {
+font-family:"legitima";
+src:url("b9b8b45bdd.woff2") format("woff2"),url("f79700c552.woff") format("woff"),url("ee3561f768.otf") format("opentype");
+font-display:auto;font-style:normal;font-weight:500;font-stretch:normal;
+}
+
+@font-face {
+font-family:"legitima";
+src:url("45f3f1bd49.woff2") format("woff2"),url("8e344ec5fa.woff") format("woff"),url("58dbecd75c.otf") format("opentype");
+font-display:auto;font-style:italic;font-weight:500;font-stretch:normal;
+}
+
+@font-face {
+font-family:"oswald";
+src:url("1b13424904.woff2") format("woff2"),url("cc6117055a.woff") format("woff"),url("02c6fe6d80.otf") format("opentype");
+font-display:auto;font-style:normal;font-weight:400;font-stretch:normal;
+}
+
+@font-face {
+font-family:"oswald";
+src:url("fb59e5cec0.woff2") format("woff2"),url("9a8d0e660c.woff") format("woff"),url("0c49f0ad6c.otf") format("opentype");
+font-display:auto;font-style:normal;font-weight:300;font-stretch:normal;
+}
+
+@font-face {
+font-family:"oswald";
+src:url("0dcc86861b.woff2") format("woff2"),url("34db041a1b.woff") format("woff"),url("ffaaa5d88b.otf") format("opentype");
+font-display:auto;font-style:normal;font-weight:700;font-stretch:normal;
+}
+
+@font-face {
+font-family:"oswald";
+src:url("9f6f3b9404.woff2") format("woff2"),url("9846372923.woff") format("woff"),url("b78cf6c4a5.otf") format("opentype");
+font-display:auto;font-style:normal;font-weight:500;font-stretch:normal;
+}
+
+.tk-legitima { font-family: "legitima",serif; }
+.tk-oswald { font-family: "oswald",sans-serif; }
